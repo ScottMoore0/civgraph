@@ -339,6 +339,7 @@ function encodeCanvas(canvas, mime) {
 
 function buildSpatialLookup(spatial) {
   const byMap = new Map();
+  let index = 0;
   for (const feature of spatial.features || []) {
     const mapId = String(feature.mapId || '');
     const name = normaliseName(feature.name || '');
@@ -347,14 +348,70 @@ function buildSpatialLookup(spatial) {
     const mapLookup = byMap.get(mapId);
     const key = matchKey(name);
     if (!mapLookup.has(key)) mapLookup.set(key, []);
-    mapLookup.get(key).push(feature);
+    mapLookup.get(key).push({
+      ...feature,
+      __thumbnailSpatialKey: `${mapId}|${key}|${bboxKey(feature.bbox)}|${index}`
+    });
+    index += 1;
   }
   return byMap;
 }
 
-function resolveSpatialFeature(spatialLookup, mapId, name) {
-  const entries = spatialLookup.get(mapId)?.get(matchKey(name));
-  return entries?.[0] || null;
+function spatialFeatureCount(spatialLookup, mapId) {
+  let count = 0;
+  const lookup = spatialLookup.get(mapId);
+  if (!lookup) return count;
+  for (const entries of lookup.values()) count += entries.length;
+  return count;
+}
+
+function bboxAreaValue(bbox) {
+  if (!Array.isArray(bbox) || bbox.length !== 4) return 0;
+  return Math.max(0, Number(bbox[2]) - Number(bbox[0])) * Math.max(0, Number(bbox[3]) - Number(bbox[1]));
+}
+
+function bboxIntersectionArea(a, b) {
+  if (!Array.isArray(a) || !Array.isArray(b)) return 0;
+  const minX = Math.max(Number(a[0]), Number(b[0]));
+  const minY = Math.max(Number(a[1]), Number(b[1]));
+  const maxX = Math.min(Number(a[2]), Number(b[2]));
+  const maxY = Math.min(Number(a[3]), Number(b[3]));
+  return Math.max(0, maxX - minX) * Math.max(0, maxY - minY);
+}
+
+function bboxCenterDistance(a, b) {
+  if (!Array.isArray(a) || !Array.isArray(b)) return Number.POSITIVE_INFINITY;
+  const ax = (Number(a[0]) + Number(a[2])) / 2;
+  const ay = (Number(a[1]) + Number(a[3])) / 2;
+  const bx = (Number(b[0]) + Number(b[2])) / 2;
+  const by = (Number(b[1]) + Number(b[3])) / 2;
+  return Math.hypot(ax - bx, ay - by);
+}
+
+function spatialMatchScore(spatialFeature, sourceBbox) {
+  const targetBbox = spatialFeature?.bbox;
+  const intersection = bboxIntersectionArea(targetBbox, sourceBbox);
+  const union = bboxAreaValue(targetBbox) + bboxAreaValue(sourceBbox) - intersection;
+  const iou = union > 0 ? intersection / union : 0;
+  return {
+    iou,
+    distance: bboxCenterDistance(targetBbox, sourceBbox)
+  };
+}
+
+function resolveSpatialFeature(spatialLookup, claimedSpatialIds, mapId, name, sourceBbox) {
+  const entries = spatialLookup.get(mapId)?.get(matchKey(name)) || [];
+  const candidates = entries.filter((entry) => !claimedSpatialIds.has(entry.__thumbnailSpatialKey));
+  if (!candidates.length) return null;
+  candidates.sort((a, b) => {
+    const scoreA = spatialMatchScore(a, sourceBbox);
+    const scoreB = spatialMatchScore(b, sourceBbox);
+    if (scoreB.iou !== scoreA.iou) return scoreB.iou - scoreA.iou;
+    return scoreA.distance - scoreB.distance;
+  });
+  const selected = candidates[0];
+  claimedSpatialIds.add(selected.__thumbnailSpatialKey);
+  return selected;
 }
 
 function featureNameFromProperties(map, properties) {
@@ -374,18 +431,25 @@ function applyLabelCleanup(map, name) {
 async function renderMap(map, context) {
   const { mapById, spatialLookup, outputRoot, mime, extension, force, limitState } = context;
   const source = resolveSourceFile(map, mapById);
+  const targetFeatureCount = spatialFeatureCount(spatialLookup, map.id);
   const result = {
     mapId: map.id,
     name: map.name || map.id,
     source: source ? path.relative(ROOT, source.path).replace(/\\/g, '/') : null,
     sourceQuality: source?.quality || null,
+    targetFeatureCount,
     generated: 0,
     existing: 0,
     skipped: 0,
     unmatched: 0,
     errors: []
   };
+  if (!targetFeatureCount) {
+    result.errors.push('No searchable spatial-index features found.');
+    return result;
+  }
   if (!source) {
+    result.unmatched = targetFeatureCount;
     result.errors.push('No local FlatGeobuf source found.');
     return result;
   }
@@ -397,7 +461,7 @@ async function renderMap(map, context) {
   const mapOutputDir = path.join(outputRoot, safePathSegment(map.id));
   fs.mkdirSync(mapOutputDir, { recursive: true });
   const colour = mapColour(map);
-  const seenNames = new Set();
+  const claimedSpatialIds = new Set();
   const buffer = new Uint8Array(fs.readFileSync(source.path));
 
   for await (const feature of deserialize(buffer)) {
@@ -408,15 +472,13 @@ async function renderMap(map, context) {
       result.skipped += 1;
       continue;
     }
-    const duplicateKey = matchKey(featureName);
-    if (seenNames.has(duplicateKey)) {
+    const sourceBbox = computeBbox(feature.geometry);
+    const spatialFeature = resolveSpatialFeature(spatialLookup, claimedSpatialIds, map.id, featureName, sourceBbox);
+    if (!spatialFeature) {
       result.skipped += 1;
       continue;
     }
-    seenNames.add(duplicateKey);
-    const spatialFeature = resolveSpatialFeature(spatialLookup, map.id, featureName);
-    if (!spatialFeature) result.unmatched += 1;
-    const bbox = spatialFeature?.bbox || computeBbox(feature.geometry);
+    const bbox = spatialFeature.bbox || sourceBbox;
     const thumbnailId = thumbnailIdFor(map.id, featureName, bbox);
     const outPath = path.join(mapOutputDir, `${thumbnailId}.${extension}`);
     if (!force && fs.existsSync(outPath)) {
@@ -429,15 +491,18 @@ async function renderMap(map, context) {
     result.generated += 1;
     limitState.remaining -= 1;
   }
+  result.unmatched = Math.max(0, targetFeatureCount - claimedSpatialIds.size);
   return result;
 }
 
-function selectMaps(args, maps) {
+function selectMaps(args, maps, spatialLookup) {
   const mapById = new Map(maps.map((map) => [String(map.id), map]));
   if (args.mapIds.length) {
     return args.mapIds.map((id) => mapById.get(id)).filter(Boolean);
   }
-  if (args.all) return maps.filter((map) => map.files?.fgb || map.cloneOf);
+  if (args.all) {
+    return maps.filter((map) => (map.files?.fgb || map.cloneOf) && spatialFeatureCount(spatialLookup, map.id) > 0);
+  }
   throw new Error('Refusing to render every feature implicitly. Pass --map <id> for targeted rendering or --all for the full corpus.');
 }
 
@@ -453,11 +518,12 @@ async function main() {
   const spatial = readJson(SPATIAL_INDEX_PATH);
   const maps = mapsDb.maps || [];
   const mapById = new Map(maps.map((map) => [String(map.id), map]));
-  const selectedMaps = selectMaps(args, maps);
+  const spatialLookup = buildSpatialLookup(spatial);
+  const selectedMaps = selectMaps(args, maps, spatialLookup);
   fs.mkdirSync(args.output, { recursive: true });
   const context = {
     mapById,
-    spatialLookup: buildSpatialLookup(spatial),
+    spatialLookup,
     outputRoot: args.output,
     mime,
     extension,

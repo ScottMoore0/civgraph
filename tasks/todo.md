@@ -1,3 +1,23 @@
+# Publish Rendered Feature Thumbnails To CDN
+
+- [x] Render the full feature-thumbnail corpus.
+  - Task: generate rendered image thumbnails for every feature where local geometry is available, keeping bitmap output outside the Pages deploy tree.
+  - Completed: rendered 47,521 PNG feature thumbnails into ignored local staging under `tmp/feature-thumbnails-rendered/`; the bitmap corpus was not committed to Git.
+- [x] Review the full render report.
+  - Task: confirm rendered/skipped/error counts, final image format, total disk size, and any maps that remain on fallback thumbnails.
+  - Completed: reviewed `tmp/feature-thumbnails-rendered/_render-report.json`; final totals were 47,521 generated, 1,645 skipped, 15,322 unmatched source rows skipped because they did not match spatial-index search features, and 5 maps remaining on fallback thumbnails because local FlatGeobuf source geometry was unavailable.
+  - Remaining fallback maps: `east-west-bann`, `settlements-2015-craigavon`, `census-grid-2021`, `railways-network`, and `catholic-dioceses`.
+- [x] Upload rendered thumbnails to R2/CDN.
+  - Task: publish generated images under `data/thumbnails/features/` in the `boundaries-data` R2 bucket without committing the bitmap corpus.
+  - Completed: uploaded 47,521 PNG thumbnails to `boundaries-data/data/thumbnails/features/` via the resumable R2 uploader with 0 failures.
+- [x] Commit the rendered asset registry and rebuild the feature-thumbnail manifest.
+  - Task: commit compact registry/manifest metadata only, using CDN URLs so search results load rendered thumbnails without missing-request churn.
+  - Completed: wrote `data/database/feature-thumbnails/rendered-assets.json` and rebuilt `data/database/feature-thumbnails/_manifest.json` with `renderedAssetPublicBase` set to `https://data.civgraph.net/data/thumbnails/features`.
+- [x] Verify and push.
+  - Task: validate manifest totals, spot-check CDN URLs, run production checks, commit only relevant files, and push live.
+  - Verification: manifest rebuild reported 121 maps, 63,874 feature records, and 47,521 rendered assets with no further changes; sampled CDN URLs returned `200 image/png`; `node --check` passed for the renderer, manifest builder, and uploader; `npm run check:pages-assets` and `npm run check:root` passed.
+  - Note: unrelated dirty generated/provider-audit files were left unstaged.
+
 # Rendered Feature Thumbnail Pipeline
 
 - [x] Add a build-side renderer that reads local map geometry and creates exact per-feature thumbnail assets using the same IDs as search results.

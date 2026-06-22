@@ -54,7 +54,8 @@
     "build:timeline-transitions": "python scripts/build_all_timeline_transition_sidecars.py && node scripts/build-timeline-transition-runtime-overlays.mjs && node scripts/validate-timeline-transition-overlays.mjs",
     "check:timeline-transitions": "node scripts/validate-timeline-transition-overlays.mjs",
     "build:feature-thumbnails": "node scripts/render-feature-thumbnails.mjs --all",
-    "build:feature-thumbnails:sample": "node scripts/render-feature-thumbnails.mjs --map counties-ireland --limit 3 --force"
+    "build:feature-thumbnails:sample": "node scripts/render-feature-thumbnails.mjs --map counties-ireland --limit 3 --force",
+    "deploy:feature-thumbnails:r2": "node scripts/upload-feature-thumbnails-r2.mjs --skip-check --concurrency 3"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.3",
