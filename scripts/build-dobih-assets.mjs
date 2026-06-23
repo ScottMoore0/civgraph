@@ -35,9 +35,17 @@ const PORT_PLAN_PATH = resolve(ROOT, 'test/metadata/main-site-port-plan.json');
 const SPATIAL_INDEX_PATH = resolve(ROOT, 'data/database/spatial-index.json');
 const EXTERNAL_SOURCES_PATH = resolve(ROOT, 'data/database/external-sources.json');
 const FEATURE_INDEX_DIR = resolve(ROOT, 'test/metadata/feature-indexes');
+const CDN_RANGE_REPORT_PATH = resolve(ROOT, 'test/metadata/cdn-range-report.json');
 
 const DATASET_ID = 'dobih-v18-4';
 const DATASET_NAME = 'Database of British and Irish Hills v18.4';
+const CATALOGUE_NAME = 'Hills and Mountains';
+const CATALOGUE_CATEGORY_ID = 'hills-and-mountains';
+const CATALOGUE_CATEGORY_NAME = 'Hills and Mountains';
+const CATALOGUE_GROUP_NAME = 'Physical Geography';
+const CATALOGUE_FLAT_SUBHEADING = 'Environment, Water and Geology';
+const CATALOGUE_CLASS_ID = 'dobih-hills-and-mountains';
+const CATALOGUE_C1_ID = 'hills-and-mountains-c1';
 const DATASET_VERSION = '18.4';
 const DATASET_DATE = '2026-06-22';
 const DOBIH_DOWNLOADS_URL = 'https://www.hill-bagging.co.uk/DoBIH/downloads.php';
@@ -415,22 +423,33 @@ function updateMapsJson(datasets, sourceInventory) {
   mapsData.c1s = mapsData.c1s || [];
   mapsData.maps = mapsData.maps || [];
 
+  upsert(mapsData.categories, {
+    id: CATALOGUE_CATEGORY_ID,
+    name: CATALOGUE_CATEGORY_NAME,
+    icon: '[map]',
+    description: 'Hill and mountain summit datasets, lists, and classifications.',
+    group: CATALOGUE_GROUP_NAME
+  });
+
+  mapsData.classes = mapsData.classes.filter((item) => item.id !== 'dobih-hill-classifications');
+  mapsData.c1s = mapsData.c1s.filter((item) => item.id !== 'hill-classifications-c1');
+
   upsert(mapsData.classes, {
-    id: 'dobih-hill-classifications',
-    name: 'Hill Classifications',
+    id: CATALOGUE_CLASS_ID,
+    name: CATALOGUE_NAME,
     scope: 'British and Irish Isles',
-    category: 'physical-geography',
+    category: CATALOGUE_CATEGORY_ID,
     maps: datasets.map((dataset) => dataset.id)
   });
 
   upsert(mapsData.c1s, {
-    id: 'hill-classifications-c1',
-    name: 'Hill Classifications',
-    category: 'physical-geography',
+    id: CATALOGUE_C1_ID,
+    name: CATALOGUE_NAME,
+    category: CATALOGUE_CATEGORY_ID,
     layout: 'mixed',
     sections: [
       {
-        classId: 'dobih-hill-classifications',
+        classId: CATALOGUE_CLASS_ID,
         width: 'full'
       }
     ]
@@ -455,9 +474,9 @@ function updateMapsJson(datasets, sourceInventory) {
     const isParent = dataset.id === DATASET_ID;
     mapsData.maps.push(compactObject({
       id: dataset.id,
-      name: isParent ? 'Database of British and Irish Hills' : dataset.name,
+      name: isParent ? CATALOGUE_NAME : dataset.name,
       slug: dataset.id,
-      category: 'physical-geography',
+      category: CATALOGUE_CATEGORY_ID,
       provider: ['Database of British and Irish Hills', 'Hill Bagging'],
       description: isParent
         ? 'Point dataset of summits in Britain, Ireland and nearby islands from the Database of British and Irish Hills v18.4.'
@@ -482,6 +501,8 @@ function updateMapsJson(datasets, sourceInventory) {
         'summits',
         'hills',
         'mountains',
+        CATALOGUE_NAME,
+        CATALOGUE_FLAT_SUBHEADING,
         'Britain',
         'Ireland',
         'point data',
@@ -506,6 +527,13 @@ function updateMapsJson(datasets, sourceInventory) {
 function updateMapLibreMetadata(datasets, sourceInventory) {
   const metadata = readJson(MAPLIBRE_PATH);
   metadata.layers = metadata.layers || [];
+  metadata.categories = metadata.categories || [];
+  upsert(metadata.categories, {
+    id: CATALOGUE_CATEGORY_ID,
+    name: CATALOGUE_CATEGORY_NAME,
+    group: CATALOGUE_GROUP_NAME,
+    description: 'Hill and mountain summit datasets, lists, and classifications.'
+  });
   metadata.layers = metadata.layers.filter((layer) => !String(layer.sourceMapId || layer.id || '').startsWith(DATASET_ID));
   const references = [
     { label: 'Hill Bagging - DoBIH downloads', url: DOBIH_DOWNLOADS_URL, note: 'Source download page for DoBIH v18.4 and companion files.' },
@@ -514,15 +542,20 @@ function updateMapLibreMetadata(datasets, sourceInventory) {
   const sourceDownloads = sourceInventory
     .filter((item) => isCoreDobihData(item.name))
     .map((item) => ({ label: item.name, url: item.url, bytes: item.bytes, sha256: item.sha256 }));
+  const rangeReport = existsSync(CDN_RANGE_REPORT_PATH) ? readJson(CDN_RANGE_REPORT_PATH) : null;
+  const rangeVerifiedByLayer = new Map((rangeReport?.results || [])
+    .filter((item) => item?.ok && item.layerId)
+    .map((item) => [item.layerId, item]));
 
   for (const dataset of datasets) {
     const layerId = `${dataset.id}-vector-test`;
+    const rangeVerified = rangeVerifiedByLayer.get(layerId);
     metadata.layers.push(compactObject({
       id: layerId,
       sourceMapId: dataset.id,
-      name: dataset.id === DATASET_ID ? 'Database of British and Irish Hills' : dataset.name,
-      category: 'Physical Geography',
-      group: 'Physical Geography',
+      name: dataset.id === DATASET_ID ? CATALOGUE_NAME : dataset.name,
+      category: CATALOGUE_CATEGORY_NAME,
+      group: CATALOGUE_GROUP_NAME,
       date: DATASET_DATE,
       provider: ['Database of British and Irish Hills', 'Hill Bagging'],
       description: dataset.description,
@@ -555,9 +588,11 @@ function updateMapLibreMetadata(datasets, sourceInventory) {
         'summits',
         'hills',
         'mountains',
+        CATALOGUE_NAME,
+        CATALOGUE_FLAT_SUBHEADING,
         dataset.name,
         dataset.classification?.name,
-        'Physical Geography',
+        CATALOGUE_GROUP_NAME,
         'maplibre',
         'vector tiles'
       ].filter(Boolean)),
@@ -626,7 +661,9 @@ function updateMapLibreMetadata(datasets, sourceInventory) {
         fallback: `/test/tiles/generated/${dataset.id}/{z}/{x}/{y}.pbf`,
         serving: 'cdn',
         cdnUrl: `${TEST_PM_BASE}/${layerId}.pmtiles`,
-        r2Key: `data/maps/test/pmtiles/generated/${layerId}.pmtiles`
+        r2Key: `data/maps/test/pmtiles/generated/${layerId}.pmtiles`,
+        localUrl: `/test/pmtiles/generated/${layerId}.pmtiles`,
+        byteRangeVerifiedAt: rangeVerified ? rangeReport.generatedAt : undefined
       }
     }));
   }
@@ -664,10 +701,10 @@ function updateMainSitePortPlan(datasets, sourceInventory) {
       sourceMapId: dataset.id,
       cloneOf: null,
       parentId: isParent ? null : DATASET_ID,
-      name: isParent ? 'Database of British and Irish Hills' : dataset.name,
-      category: 'Physical Geography',
-      categoryId: 'physical-geography',
-      group: 'Physical Geography',
+      name: isParent ? CATALOGUE_NAME : dataset.name,
+      category: CATALOGUE_CATEGORY_NAME,
+      categoryId: CATALOGUE_CATEGORY_ID,
+      group: CATALOGUE_GROUP_NAME,
       date: DATASET_DATE,
       dateAdded: DATASET_DATE,
       dateEffective: DATASET_DATE,
@@ -713,9 +750,9 @@ function updateSpatialIndex(datasets) {
   for (const dataset of datasets) {
     spatial.maps.push({
       id: dataset.id,
-      name: dataset.id === DATASET_ID ? 'Database of British and Irish Hills' : dataset.name,
+      name: dataset.id === DATASET_ID ? CATALOGUE_NAME : dataset.name,
       file: relativePath(dataset.fgbPath),
-      category: 'physical-geography',
+      category: CATALOGUE_CATEGORY_ID,
       featureCount: dataset.featureCount,
       bounds: dataset.bounds
     });

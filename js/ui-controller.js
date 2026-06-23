@@ -3741,6 +3741,14 @@ class UIController {
                 ]
             },
             {
+                id: 'flat-hills-mountains',
+                name: 'Hills and Mountains',
+                years: '2026',
+                extent: 'Britain and Ireland',
+                classIds: ['dobih-hills-and-mountains'],
+                thumbMapId: 'dobih-v18-4'
+            },
+            {
                 id: 'flat-habitat-networks', name: 'Habitat Networks (Ulster Wildlife)', years: '2020-2021', extent: 'Northern Ireland',
                 mapIds: [
                     'habitat-coastal-grouped',
@@ -4436,7 +4444,7 @@ class UIController {
             {
                 heading: 'Environment, Water & Geology',
                 members: [
-                    'Designated & Protected Sites', 'Habitat Networks',
+                    'Designated & Protected Sites', 'Hills and Mountains', 'Habitat Networks',
                     'NIEA Catchments, Waste & Water Bodies',
                     'NI Mineral & Mining Licences', 'NI Livestock Density',
                     'Water Quality and Hydrology',

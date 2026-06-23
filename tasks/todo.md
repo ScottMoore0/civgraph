@@ -1,3 +1,16 @@
+# Hills and Mountains Catalogue Hierarchy
+
+- [x] Add a dedicated Hills and Mountains ToC item and catalogue card.
+  - Task: expose the DoBIH hill/mountain dataset as a first-class catalogue card named `Hills and Mountains`, placed under the `Environment, Water and Geology` map subheading.
+  - Required shape: parent card `Hills and Mountains`, parent map layer `Hills and Mountains`, and child/subentry map layers for the DoBIH classification lists.
+  - Completed: added the visible `Hills and Mountains` flat catalogue card to the environment/water/geology section and kept the parent map layer named `Hills and Mountains`.
+- [x] Make the hierarchy reproducible from the DoBIH generator.
+  - Task: update `scripts/build-dobih-assets.mjs` so regenerated database, Browse, MapLibre, port-plan, and spatial-index metadata keep the same hierarchy and naming.
+  - Completed: the DoBIH generator now writes the `hills-and-mountains` category, `dobih-hills-and-mountains` class, `hills-and-mountains-c1` hierarchy entry, parent map, child maps, Browse records, MapLibre runtime layers, port-plan rows, and spatial-index rows.
+- [x] Verify the catalogue/runtime outputs.
+  - Task: regenerate affected metadata and assert that the ToC card, parent map, subentries, category, Browse records, and MapLibre layers are present and correctly grouped.
+  - Verification: regenerated DoBIH assets and Browse indexes; structural verification confirmed 23 child maps, 24 MapLibre runtime layers, and 23 Browse child entries under `Hills and Mountains`; `node --check` passed for the generator and UI controller; Pages file budget passed at 8,126/18,500 deployable files; CDN manifest validation passed with 0 warnings and 0 errors.
+
 # DoBIH / Hill Bagging Publication Prep
 
 - [x] Add DoBIH v18.4 as a Civgraph map/source dataset.
