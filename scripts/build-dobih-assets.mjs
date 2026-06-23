@@ -81,7 +81,7 @@ const CLASSIFICATIONS = [
   { id: 'carns', name: 'Carns', field: 'Ca', color: '#34d399', description: 'Irish Carn hills in DoBIH v18.4.' },
   { id: 'binnions', name: 'Binnions', field: 'Bin', color: '#6ee7b7', description: 'Irish Binnion hills in DoBIH v18.4.' },
   { id: 'county-tops', name: 'County Tops', fields: ['CoH', 'CoU', 'CoA', 'CoL', 'CT'], color: '#dc2626', description: 'County and county-equivalent tops recorded in DoBIH v18.4.' },
-  { id: 'significant-islands', name: 'Significant Islands of Britain', field: 'SIB', color: '#0891b2', description: 'Significant Islands of Britain summits in DoBIH v18.4.' }
+  { id: 'significant-islands', name: 'Significant Islands of Britain and Ireland', field: 'SIB', color: '#0891b2', description: 'Significant Islands of Britain and Ireland summits in DoBIH v18.4.' }
 ];
 
 const CORE_SOURCE_FILES = new Set([

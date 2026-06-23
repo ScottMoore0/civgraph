@@ -1,3 +1,9 @@
+# Significant Islands Terminology
+
+- [x] Rename DoBIH Significant Islands terminology.
+  - Task: change the shorter DoBIH Significant Islands label to `Significant Islands of Britain and Ireland` everywhere it currently appears, without changing stable IDs, slugs, URLs, or tile paths.
+  - Completed: updated the DoBIH generator, Browse map/source/detail indexes, database map metadata, spatial index display name, and test metadata references.
+
 # Worktree Cleanup And Generated Artifact Guardrails
 
 - [x] Classify current tracked and untracked worktree changes.
