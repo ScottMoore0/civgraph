@@ -49,6 +49,12 @@ function isValidBounds(bounds, layer = null) {
   if (![south, west, north, east].every(Number.isFinite) || south >= north || west >= east) return false;
   const nearNullIsland = Math.max(Math.abs(south), Math.abs(west), Math.abs(north), Math.abs(east)) < 1;
   if (nearNullIsland) return false;
+  if (String(layer?.sourceMapId || layer?.id || '').startsWith('dobih-v18-4')) {
+    return south >= 49
+      && north <= 61
+      && west >= -11
+      && east <= 2;
+  }
   if (layer?.sourceMapId === 'britain-ireland-seas') {
     return south >= 45
       && north <= 63

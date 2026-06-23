@@ -1,3 +1,45 @@
+# DoBIH / Hill Bagging Publication Prep
+
+- [x] Add DoBIH v18.4 as a Civgraph map/source dataset.
+  - Task: use the scraped Hill Bagging/DoBIH downloads to generate a compact point-map bundle, catalogue metadata, Browse/source records, feature-search indexing, and classification child/filter entries for major hill lists.
+  - Constraints: do not commit raw Hill Bagging downloads or large generated point bundles into Pages; store source metadata in the repo, mirror raw files on Internet Archive where credentials/licensing allow, and publish cleaned queryable/map-ready bundles to R2/CDN where credentials are available.
+  - Attribution: credit the Database of British and Irish Hills editors/authors and Hill Bagging, record DoBIH CC BY 4.0 licensing, and record document/PDF attribution/licensing separately where each source file supports it.
+  - Completed: added `scripts/build-dobih-assets.mjs`, generated 24 DoBIH MapLibre point layers/classification child entries, wrote Browse map/source records, wrote feature-search indexes, mirrored raw source files to the Internet Archive item `civgraph-dobih-v18-4-source-files`, uploaded the PMTiles to R2/CDN, and updated the port-plan generator so DoBIH rows are reproducible.
+  - Verification: generator produced 21,572 summit records and 24 FGB/PMTiles-backed layers; Internet Archive metadata shows the source mirror item with uploaded files; all 24 DoBIH PMTiles have CDN byte-range verification; CDN manifest validation passed; Pages file budget passed at 8,076/18,500 deployable files; tile budget validation passed with one unrelated DFI warning; external source validation passed. `validate-test-app` still has unrelated pre-existing ED/alias port-plan and feature-index errors, but DoBIH has 24 runtime layers, 24 port-plan rows, and 24 byte-range-verified CDN PMTiles.
+
+# Interactive Zoom Limit And Dail 1959/1961/1969 Maps
+
+- [x] Raise the MapLibre interactive map zoom ceiling without changing default Ireland framing.
+  - Task: locate the runtime zoom cap and adjust the controller-level maximum so users can zoom further in manually.
+  - Completed: raised the MapLibre max zoom from 16 to 22 in the source controller and production bundle.
+- [x] Extract and inspect the supplied Dail constituency FlatGeobuf files.
+  - Task: extract only the 1959, 1961 and 1969 Dail files and relevant context from the local ZIP.
+  - Completed: extracted the local ZIP, inspected the workbook context, and verified the three FlatGeobuf files have 39, 38, and 42 constituency features respectively.
+- [x] Add loadable Dail 1959, 1961 and 1969 map entries.
+  - Task: update the catalogue source data so 1961/1969 are no longer placeholders and 1959 appears in the Dail time series.
+  - Completed: added Dail 1959, 1961 and 1969 map records, thumbnails, Browse details, feature indexes, MapLibre PMTiles metadata, and Dail election geography mappings for 1961/1965 and 1969/1973.
+- [x] Publish required map assets to the existing map-data bucket.
+  - Task: upload the three FlatGeobuf files to the existing `data/maps/parliamentary/` CDN path rather than committing large binaries into Pages.
+  - Completed: uploaded the three PMTiles packages and the raw FlatGeobuf files, including gzip sidecars, to R2/CDN paths.
+- [x] Verify and push.
+  - Task: run focused checks, verify metadata and remote map assets, then commit/push only files relevant to this task.
+  - Verification: Pages file budget passed at 8060/18500 deployable files; PMTiles/CDN metadata validation passed; all three new layers have CDN PMTiles URLs and CON_NAME labels; raw FGB range checks returned HTTP 206 with expected byte ranges.
+
+# AGI NI 2026 Poster Data-Rendered Assets
+
+- [x] Identify local Civgraph vector sources suitable for filling poster placeholders.
+  - Completed: selected local FlatGeobuf sources for counties, wards, DEAs, local government districts, parliamentary/Assembly constituencies, census/statistical areas, and provinces.
+- [x] Add a reproducible poster asset renderer.
+  - Completed: added `scripts/render-poster-assets.mjs`, which renders poster PNG panels directly from local Civgraph vector data using Canvas and FlatGeobuf, without AI image generation or website screenshots.
+- [x] Generate poster-ready image assets and provenance manifest.
+  - Completed: generated six panel PNGs, one contact sheet, and `poster-assets-manifest.json` under `assets/poster/agi-ni-2026/`.
+- [x] Verify generated outputs.
+  - Verification: `node --check scripts\render-poster-assets.mjs` passed; `node scripts\render-poster-assets.mjs` completed; generated PNG dimensions were checked with Canvas image loading.
+
+- [x] Fix apparent missing features in poster panels 1 and 4.
+  - Completed: panel 1 now uses SOA 2011 as the dense coverage fill and draws wards, DEAs, constituencies, and councils as boundary linework; panel 4 now uses Data Zones 2021 as the dense coverage fill and draws SOAs as linework.
+  - Verification: `node --check scripts\render-poster-assets.mjs` passed; `node scripts\render-poster-assets.mjs` regenerated the six poster panels; the manifest records panel 1 SOA coverage as 331/331 intersecting features and panel 4 Data Zone coverage as 1201/1201 intersecting features.
+
 # Publish Rendered Feature Thumbnails To CDN
 
 - [x] Render the full feature-thumbnail corpus.
@@ -7059,3 +7101,68 @@ Review:
 - Root cause: the first runtime pipeline assumed one deployable GeoJSON per transition and carried verbose source properties into browser overlays.
 - Permanent prevention action: runtime overlay generation now strips verbose properties, shards large transitions, emits a manifest with `runtimePaths`, and validation fails on missing shards, oversized shards, and verbose properties.
 - Verification evidence: `npm run check:timeline-transitions` validated `136` runtime overlays and every shard is below the configured size cap.
+
+# Fix AGI NI 2026 poster rendered panels
+- [x] Locate the 2022 Northern Ireland Assembly election result bundle and geometry.
+  - Completed: found `test/metadata/elections-test2/northern-ireland-assembly__2022-05-05.json` and `assembly-areas-2008`, backed by `pc-2008` geometry.
+- [x] Revise the poster renderer output.
+  - Completed: replaced synthetic election dots with data-backed seat dots, recoloured Assembly constituency fills from election results, added a real 2022 Assembly legend, and reworked the CTA panel to avoid text overlap.
+- [x] Regenerate poster assets.
+  - Completed: regenerated all six PNG panels, the contact sheet, and `poster-assets-manifest.json` under `assets/poster/agi-ni-2026/`.
+- [x] Verify generated assets.
+  - Completed: `node --check scripts\render-poster-assets.mjs`; `node scripts\render-poster-assets.mjs`; Canvas dimension check for all panel PNGs and contact sheet.
+
+## Recurring issue: poster assets must use specified real datasets
+- Symptom: a poster panel can look plausible while using illustrative/synthetic content instead of the exact dataset the user requested.
+- Root cause: the renderer originally drew synthetic election dots rather than reading a named election result bundle.
+- Permanent prevention action: poster panels that imply a specific election must name and load that election bundle, and the manifest must record the source file.
+- Verification evidence: manifest reports the election panel used `test/metadata/elections-test2/northern-ireland-assembly__2022-05-05.json`, matched `18` constituencies, and rendered `90` seat dots.
+
+## Review: AGI NI 2026 poster rendered panels
+- Election panel now uses real 2022 Northern Ireland Assembly election results and 2008 Assembly constituency geometry instead of synthetic illustrative dots.
+- CTA panel text was re-laid out so `civgraph.net` no longer collides with the call-to-action copy.
+- Generated outputs remain local data-rendered PNGs; no AI image generation or browser screenshots were used.
+- Verification evidence: all expected image dimensions were confirmed, and `poster-assets-manifest.json` records the source maps plus the 2022 Assembly election result bundle.
+
+# AGI Poster Panel Correction
+
+- [x] Align election graphic seat circles with the live site.
+  - Completed: updated the poster renderer to use the site's election-domain seat layout, 12px dot size, 13px spacing, black inner outline, and white outer halo.
+- [x] Fix partial map coverage in the civic-stack, election, and census panels.
+  - Completed: removed feature truncation from the relevant dense layers and adjusted panel bounds/padding so rendered/intersecting feature counts match in the manifest.
+- [x] Move key panels so they do not obscure the cartographic evidence.
+  - Completed: moved legends/captions/source cards into reserved bottom/compact placements and passed annotation placement through the renderer.
+- [x] Regenerate and verify outputs.
+  - Verification: `node --check scripts\render-poster-assets.mjs` passed; `node scripts\render-poster-assets.mjs` regenerated all six poster panels and the contact sheet; manifest checks confirm expected dimensions and matched/rendered counts, including 18 Assembly constituencies and 90 seat dots.
+
+# AGI Poster Dense Geography Visibility Correction
+
+- [x] Make first-panel dense geography layers visible inside the crop.
+  - Completed: reduced competing fill opacity for council/DEA/ward/constituency layers and strengthened the Super Output Area stroke/fill so visible in-crop features do not disappear at poster scale.
+- [x] Make fourth-panel census/statistical layers visible inside the crop.
+  - Completed: strengthened Super Output Area and Data Zone strokes, added subtle fills, and retained full intersecting feature coverage.
+- [x] Regenerate and verify the poster outputs.
+  - Verification: `node --check scripts\render-poster-assets.mjs` passed; `node scripts\render-poster-assets.mjs` regenerated all six panels; manifest coverage checks still show rendered/intersecting counts match for all panels.
+
+
+# AGI Poster Visible Layer Correction
+
+- [x] Restore visible feature rendering for all intended layers in panels 1 and 4.
+  - Completed: added poster-scale stroke halos to polygon rendering, restored low-alpha fills for each intended boundary/census layer, and strengthened strokes so all listed layers remain visible rather than only the coverage-base layer.
+  - Verification: `node --check scripts\render-poster-assets.mjs` passed; `node scripts\render-poster-assets.mjs` regenerated the six panels; manifest counts still match intersecting features; pixel checks found expected layer-colour presence in panel 1 for SOA, ward, DEA, constituency, and council strokes, and in panel 4 for Data Zone and SOA strokes.
+
+# AGI Poster False Context Fill Correction
+
+- [x] Remove misleading county/context fill from panels 1 and 4.
+  - Completed: changed the counties layer in both panels from filled context land to faint outline-only context, so lough/sea/edge areas are no longer painted as land that appears to be missing detailed geography features.
+  - Verification: `node --check scripts\render-poster-assets.mjs` passed; `node scripts\render-poster-assets.mjs` regenerated all six panels; manifest counts and pixel colour checks confirm intended layer rendering remains present.
+# Hill Bagging downloads scrape
+
+- [x] Scrape `hill-bagging.co.uk` for public downloadable files.
+  - Task: crawl the public site conservatively, identify download links, download reasonable public files into an isolated local scratch mirror, and produce an inventory/checksum report.
+  - Constraints: do not stage or publish third-party data; keep output under `tmp/`; avoid disturbing the existing dirty worktree.
+  - Completed: respected the site's `robots.txt` by avoiding a broad crawler, inspected sitemap-listed/public download pages directly, inventoried 48 download candidates, downloaded 45 same-site files, and recorded 3 external references as inventory-only.
+  - Verification: `tmp/hill-bagging/download-summary.json` reports 45 downloaded files, 75,904,204 bytes, and 0 errors; `tmp/hill-bagging/download-inventory.csv` records local paths, HTTP status, content type, byte count, and SHA-256 for downloaded files.
+- [x] Download the three external references found during the Hill Bagging scrape.
+  - Completed: downloaded the RHB survey PDF, Historic Counties Standard PDF, and Ordnance Survey coordinate systems guide into `tmp/hill-bagging/downloads/external/`.
+  - Verification: `tmp/hill-bagging/download-summary.json` now reports 48 total downloaded files including external references, 79,922,358 bytes total, and SHA-256 hashes in `tmp/hill-bagging/download-inventory.csv`.
