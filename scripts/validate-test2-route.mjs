@@ -160,6 +160,12 @@ function assertCatalogueMetadata() {
   assert(findMap('tailte-built-up-1m')?.labelProperty === 'F_CODE', 'Tailte Built-Up Areas polygon map must label with F_CODE');
   assert(findMap('tailte-built-up-points-250k')?.labelProperty === 'NAMN1', 'Tailte Built-Up Areas point map must label with NAMN1');
   assert(findMap('cso-urban-areas-2022')?.date === 2022, 'CSO Urban Areas 2022 must have date metadata so catalogue display derives 2022');
+  const roiDailClass = mapsDb.classes?.find((item) => item.id === 'roi-dail');
+  const dail1959Browse = browseMapsIndex.items?.find((item) => item.id === 'dail-1959');
+  const dail1959Layer = testMetadata.layers?.find((item) => item.sourceMapId === 'dail-1959');
+  assert(roiDailClass?.maps?.includes('dail-1959'), 'Dail 1959 must be included in the roi-dail catalogue class so it appears in the Dail card.');
+  assert(dail1959Browse?.loadable === true, 'Dail 1959 must remain loadable in the Browse maps index.');
+  assert(dail1959Layer?.sourceType === 'pmtiles' && dail1959Layer?.tileUrl, 'Dail 1959 must have a converted PMTiles layer for the MapLibre route.');
   assert(uiControllerSource.includes("name: 'TÉ Built-Up Areas'") || uiControllerSource.includes("name: 'TE Built-Up Areas'"), 'Catalogue must title Tailte built-up areas as Tailte Built-Up Areas');
   assert(uiControllerSource.includes("name: 'Heritage Sites'"), 'Catalogue must title NI HED heritage card as Heritage Sites');
   assert(uiControllerSource.includes("map.id === 'cso-urban-areas-2022'") && uiControllerSource.includes("displayName = '2022'"), 'Catalogue must display CSO Urban Areas 2022 using derived name 2022');
