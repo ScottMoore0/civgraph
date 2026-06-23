@@ -10,6 +10,7 @@ const EXCLUDED_PREFIXES = [
   'archive/',
   'boundary-gazette/',
   'data/census/',
+  'data/provider-mirror-audit/',
   'data/timeline-transitions/',
   'docs/',
   'election-viewer-package/data/elections/',

@@ -1,5 +1,37 @@
 # Lessons Log
 
+### 195) Dataset publication needs an explicit catalogue hierarchy contract
+- Mistake pattern: Adding a dataset as loadable runtime/map records but leaving it in a generic catalogue bucket without the requested ToC item, parent card, and child-entry structure.
+- Impact: the data exists, but users cannot find it in the intended browsing hierarchy and the catalogue does not reflect the editorial concept.
+- Guardrail:
+  1) every new parent/child dataset must define its visible ToC label, parent card name, parent layer name, subentry count, and flat-catalogue subheading,
+  2) the generator must own category/class/C1/runtime/Browse naming so regenerations cannot drift,
+  3) verification must assert the visible card and child rows, not only the existence of loadable MapLibre layers.
+
+### 188) Poster context fills can create false missing-feature defects
+- Mistake pattern: Using a broad filled county/context underlay behind detailed geography layers in a cropped poster panel.
+- Impact: loughs, water, administrative edge areas, or source-coverage gaps look like land where detailed map-layer features are missing.
+- Guardrail:
+  1) in dense poster panels, context geography should be outline-only unless it is the subject of the panel,
+  2) filled coverage should come from the actual detailed layer being communicated,
+  3) visual review must check whether background fills are implying false coverage before calling the panel fixed.
+
+### 187) Poster layer visibility requires pixel evidence, not only feature counts
+- Mistake pattern: Marking poster panel fixes complete after manifest feature counts match, while some intended layers remain visually faint or effectively invisible.
+- Impact: users see missing map features even though the renderer technically selected all intersecting features.
+- Guardrail:
+  1) poster verification must include rendered-pixel evidence for each intended layer colour,
+  2) dense composite panels need poster-scale stroke halos and explicit low-alpha fills for every visible layer,
+  3) do not reduce non-base layers to faint linework when the panel is meant to communicate several map layers at once.
+
+### 186) Poster map panels need coverage-base rendering, not stacked translucent fills
+- Mistake pattern: Treating feature-count parity as sufficient when a poster panel visually reads as missing features.
+- Impact: a broad land/context underlay can show through faint, stacked boundary overlays, making complete source layers look incomplete even when every intersecting feature is rendered.
+- Guardrail:
+  1) dense geography panels should use one intended coverage layer as a filled base,
+  2) other boundary systems should be drawn as linework/context unless they are the subject of the panel,
+  3) generated manifests should mark the coverage-base layer so verification checks the right visual contract, not only raw intersecting feature counts.
+
 ### 185) Catalogue feature search actions must use partial-feature state
 - Mistake pattern: Treating a feature search result like a map result by loading the whole parent layer, or deduping all feature results by parent map id.
 - Impact: selecting one feature from search expands the full layer, makes feature-specific buttons misleading, and can hide other same-layer feature results.
@@ -2540,3 +2572,38 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
 - Mistake pattern: treating search as autocomplete or as a filter over the existing table of contents/cards.
 - Impact: the catalogue pane stays cluttered while searching and does not present ranked mixed results across maps, elections, features, people, parties, and sources.
 - Guardrail: when the search input has a query, render a dedicated catalogue-body search view; keep the default TOC/cards only for the empty-query state, and verify the rendered row classes/styles directly.
+
+### 192) Poster image panels must not use synthetic substitutes for named data
+- Mistake pattern: Filling a poster placeholder with plausible generic map symbology when the panel is meant to communicate a specific real dataset.
+- Impact: the image can look polished but be misleading or less defensible, especially for conference material.
+- Guardrail:
+  1) when a poster panel names or implies a specific map/election/source, the renderer must load that exact local bundle or source file,
+  2) synthetic/demo marks should be avoided unless explicitly labelled as illustrative,
+  3) generated manifests should record the source map IDs and election result bundle paths used for every panel.
+
+### 193) Poster overlays must not hide the cartographic evidence
+- Mistake pattern: Rendering polished poster legends/cards directly over dense map content and using generic election dots instead of the live site's seat-circle contract.
+- Impact: poster panels can look unlike Civgraph, obscure the mapped data, or imply partial coverage where the site has full visible data.
+- Guardrail:
+  1) poster election dots must use `seatPositions`, 12px dots, 13px spacing, black outline, and white halo from the live site,
+  2) legends, captions, and source cards should sit in reserved panel padding or compact strips rather than covering dense map content,
+  3) poster vector layers must not use `maxFeatures` truncation where full visible coverage is required,
+  4) regenerated manifests must record rendered versus intersecting feature counts for coverage checks.
+
+### 194) Poster feature coverage checks must include visual salience
+- Mistake pattern: Treating matching rendered/intersecting feature counts as sufficient proof that dense geography layers are visually present.
+- Impact: features can be technically rendered but still look missing because strokes are too thin, opacity is too low, or competing layer fills bury the dense linework at poster scale.
+- Guardrail:
+  1) dense poster layers need explicit poster-scale stroke widths and stroke opacity, not web-map defaults,
+  2) verification should distinguish data inclusion from visual salience,
+  3) competing layers in stacked-map panels should use lower fill opacity when dense geography linework is the evidence being communicated,
+  4) contact-sheet review is required after any renderer style change.
+
+### 195) Scratch-directory cleanup must distinguish tracked curated files from untracked output
+- Mistake pattern: Moving or ignoring a whole scratch-looking directory because most of it is generated, without first checking whether Git already tracks curated review files inside it.
+- Impact: useful curated audit/review files can appear as deleted in the worktree even though the intent was only to remove untracked local output.
+- Guardrail:
+  1) before moving any directory out of the repo, run `git ls-files -- <dir>` and archive an inventory,
+  2) move untracked scratch output only after preserving a tracked-diff patch,
+  3) restore tracked curated files immediately if a wholesale move catches them,
+  4) keep deploy cleaners and file-budget validators aligned so tracked review records do not become Pages assets.

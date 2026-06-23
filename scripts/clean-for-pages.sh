@@ -47,6 +47,10 @@ remove_path "tests"
 # deployed as individual Pages assets.
 remove_path "data/census"
 
+# Provider mirror audits are local review/source-intake records. They are useful
+# in Git when curated, but not part of the static runtime.
+remove_path "data/provider-mirror-audit"
+
 # Legacy/source election JSON is transformed into /test/metadata/elections-test2
 # bundles during the build. The browser no longer fetches these raw source
 # records directly, and deploying them costs several thousand Pages files.

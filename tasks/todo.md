@@ -1,3 +1,26 @@
+# Worktree Cleanup And Generated Artifact Guardrails
+
+- [x] Classify current tracked and untracked worktree changes.
+  - Task: separate intentional site/data work from generated validation churn and local scratch/audit output.
+  - Constraint: do not delete anything that may be useful; preserve patches or move files to an external archive before removing them from the repository working tree.
+  - Completed: classified ED child `cloneOf` metadata, DoBIH Browse feature-index additions, and root cache-bust files as legitimate changes; classified test/CDN/audit report rewrites, thumbnail-manifest timestamp-only churn, and Dail detail timestamp/text regressions as generated/noise.
+- [x] Archive untracked scratch output outside the repository.
+  - Task: move untracked provider-audit/poster/scratch scripts out of `C:\Users\scomo\boundaries-website` into a dated external archive folder.
+  - Constraint: keep the archive outside the repo so Cloudflare Pages and Git are not polluted by large/local-only output.
+  - Completed: moved untracked provider-audit/poster/scratch scripts to `C:\Users\scomo\boundaries-worktree-archives\2026-06-23-worktree-cleanup` and wrote an inventory CSV there.
+- [x] Preserve and clean generated tracked churn.
+  - Task: save a patch/archive for generated reports, then restore report files that should not stay dirty.
+  - Completed: saved `generated-report-churn.patch` in the archive folder, restored generated tracked reports/metadata, restored the Dail 1959/1961/1969 detail regressions, and restored tracked curated provider-audit files that were mixed into the scratch directory.
+- [x] Keep or commit legitimate site/data changes only.
+  - Task: review Dail/ED map metadata, app shell files, thumbnail metadata, lesson/task edits, and decide what belongs in a commit.
+  - Completed: retained only the ED child `cloneOf` fixes, DoBIH feature index additions, root app/CSS cache-bust updates, task log updates, and lessons.
+- [x] Add guardrails.
+  - Task: add ignore/check rules or documentation so local provider-audit/poster/generated scratch does not recur as worktree noise.
+  - Completed: added ignore rules for local provider-audit/poster/scratch scripts, excluded provider mirror audits from the Pages cleaner and local file-budget validator, and recorded a cleanup-specific lesson.
+- [x] Verify and report.
+  - Task: run focused status/check commands, commit/push safe cleanup changes where appropriate, and list anything still requiring a user decision.
+  - Completed: verified ED child `cloneOf` metadata and DoBIH Browse feature entries, ran `node scripts/validate-pages-file-budget.mjs`, `node scripts/validate-maplibre-root-promotion.mjs`, and full `npm run check`.
+
 # Hills and Mountains Catalogue Hierarchy
 
 - [x] Add a dedicated Hills and Mountains ToC item and catalogue card.
