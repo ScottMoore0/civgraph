@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-06T14:20:26.035Z",
+  "generatedAt": "2026-06-22T00:00:00.000Z",
   "item": {
     "id": "dail-1961",
     "slug": "dail-1961",
@@ -10,29 +10,47 @@
     "categoryId": "dail",
     "category": "Dáil Eireann Constituencies",
     "group": "Elections and Government",
-    "description": "Republic of Ireland parliamentary constituencies",
+    "description": "Republic of Ireland parliamentary constituencies used for the 1961 and 1965 Dail elections.",
     "date": 1961,
     "years": [
       1961
     ],
+    "provider": [
+      "Phelim Birch"
+    ],
     "keywords": [
       "Dáil",
-      "Dáil",
+      "Dail",
       "constituency",
       "1961",
       "1965",
       "ROI",
       "ireland"
     ],
-    "status": "not yet converted",
-    "featured": false,
-    "loadable": false,
+    "status": "available",
+    "featured": true,
+    "loadable": true,
+    "labelProperty": "CON_NAME",
     "parentCard": "Dáil Eireann",
     "thumbnail": {
-      "kind": "placeholder",
-      "label": "1",
-      "type": "map"
+      "kind": "asset",
+      "id": "dail-1961",
+      "url": "/assets/thumbnails/dail-1961.webp",
+      "smallUrl": "/assets/thumbnails/dail-1961-60.webp",
+      "alt": "1961"
     },
+    "sourceFiles": [
+      {
+        "label": "fgb",
+        "url": "https://data.civgraph.net/data/maps/parliamentary/1961_Dail.fgb"
+      }
+    ],
+    "downloads": [
+      {
+        "label": "fgb",
+        "url": "https://data.civgraph.net/data/maps/parliamentary/1961_Dail.fgb"
+      }
+    ],
     "interactiveUrl": "/#layers=dail-1961",
     "browseUrl": "/browse/maps/dail-1961",
     "rawMetadata": {
@@ -40,21 +58,29 @@
       "name": "1961",
       "slug": "dail-1961",
       "category": "dail",
-      "placeholder": true,
+      "featured": true,
+      "provider": [
+        "Phelim Birch"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/parliamentary/1961_Dail.fgb"
+      },
       "date": 1961,
       "style": {
         "color": "#43A047",
         "weight": 2
       },
+      "labelProperty": "CON_NAME",
       "keywords": [
         "Dáil",
-        "Dáil",
+        "Dail",
         "constituency",
         "1961",
         "1965",
         "ROI",
         "ireland"
-      ]
+      ],
+      "useLOD": true
     }
   }
 }

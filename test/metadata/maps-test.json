@@ -169278,6 +169278,593 @@
       "aliasOf": "eds-ulster-1921",
       "cloneOf": "eds-ulster-1921",
       "aliasTargetLayerId": "eds-ulster-1921-vector-test"
+    },
+    {
+      "id": "dail-1959-vector-test",
+      "sourceMapId": "dail-1959",
+      "name": "1959",
+      "category": "Dáil Eireann Constituencies",
+      "group": "Elections and Government",
+      "date": 1959,
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Phelim Birch"
+      ],
+      "description": "Republic of Ireland parliamentary constituencies. These boundaries were struck down and were not used for a Dail general election.",
+      "renderer": "maplibre",
+      "sourceType": "pmtiles",
+      "geometryType": "polygon",
+      "tiles": "/test/tiles/generated/dail-1959/{z}/{x}/{y}.pbf",
+      "metadataUrl": "/test/tiles/generated/dail-1959/metadata.json",
+      "sourceLayer": "dail_1959",
+      "promoteId": "CON_ID",
+      "minzoom": 0,
+      "maxzoom": 12,
+      "bounds": [
+        [
+          51.4198973,
+          -10.6629709
+        ],
+        [
+          55.4465803,
+          -5.9962778
+        ]
+      ],
+      "style": {
+        "color": "#43A047",
+        "fillColor": "#43A047",
+        "fillOpacity": 0.18,
+        "weight": 2
+      },
+      "references": [],
+      "sourceDownloads": [
+        {
+          "label": "Source file used for /test conversion",
+          "file": "test/source-cache/vector-intake/dail-1959.fgb"
+        }
+      ],
+      "sourceCredits": [
+        "Phelim Birch"
+      ],
+      "keywords": [
+        "Dáil",
+        "Dail",
+        "constituency",
+        "1959",
+        "ROI",
+        "ireland",
+        "Dáil Eireann Constituencies",
+        "Elections and Government",
+        "maplibre",
+        "vector tiles"
+      ],
+      "labelProperty": "CON_NAME",
+      "labelPropertyFallbacks": [],
+      "labelMinZoom": 0,
+      "labelMaxZoom": null,
+      "labelStyle": {
+        "color": "#43A047",
+        "hoverColor": "#ff7a1a",
+        "selectedColor": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.2,
+        "haloBlur": 0,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "maxWidth": 14,
+        "lineHeight": 1.25
+      },
+      "featureIndexUrl": "/test/metadata/feature-indexes/dail-1959-vector-test.json",
+      "sourceFile": "test/source-cache/vector-intake/dail-1959.fgb",
+      "sourceDatasetLayer": "1959",
+      "idProperty": "CON_ID",
+      "popupProperties": [
+        "CON_NAME",
+        "CON_ID",
+        "NO_MEMBERS",
+        "CON_NAME_G",
+        "CON_TYPE"
+      ],
+      "numericProperties": [
+        "CON_ID",
+        "NO_MEMBERS"
+      ],
+      "categoricalProperties": [
+        "CON_NAME",
+        "CON_NAME_G",
+        "CON_TYPE"
+      ],
+      "categoricalValues": {
+        "CON_NAME": [
+          "Cavan",
+          "Clare",
+          "Cork",
+          "Dublin",
+          "Kildare",
+          "Louth",
+          "Meath",
+          "Mid-Cork",
+          "Monaghan",
+          "Wexford",
+          "Wicklow",
+          "Carlow-Kilkenny",
+          "Dublin North (Central)",
+          "Dublin North (East)",
+          "Dublin North (West)",
+          "Dublin South (Central)",
+          "Dublin South (East)",
+          "Dublin South (West)",
+          "Dún Laoghaire and Rathdown",
+          "East Cork",
+          "East Donegal",
+          "East Limerick",
+          "Laoighis-Offaly",
+          "Longford-Westmeath",
+          "North Galway",
+          "North Kerry",
+          "North Mayo",
+          "North Tipperary",
+          "Roscommon",
+          "Sligo-Leitrim",
+          "South Galway",
+          "South Kerry"
+        ],
+        "CON_NAME_G": [
+          "An Clár",
+          "An Mhí",
+          "Corcaigh",
+          "Lúbhadh",
+          "An Cabhán",
+          "Baile Átha Cliath",
+          "Baile Átha Cliath Theas (Lár)",
+          "Baile Átha Cliath Theas (Thiar)",
+          "Baile Átha Cliath Theas (Thoir)",
+          "Baile Átha Cliath Thuaidh (Lár)",
+          "Baile Átha Cliath Thuaidh (Thiar)",
+          "Baile Átha Cliath Thuaidh (Thoir)",
+          "Ceatharlach-Cill Chainnigh",
+          "Ciarraí Theas",
+          "Ciarraí Thuaidh",
+          "Cill Dara",
+          "Cill Mantáin",
+          "Corcaigh Láir",
+          "Corcaigh Thiar",
+          "Corcaigh Thoir",
+          "Dún Laoghaire agus Ráth an Dúin",
+          "Dún na nGall Thiar",
+          "Dún na nGall Thoir",
+          "Gaillimh Theas",
+          "Gaillimh Thiar",
+          "Gaillimh Thuaidh",
+          "Laoighis-Ua bhFáilí",
+          "Loch Garman",
+          "Longfort-An Iarmhí",
+          "Luimneach Thiar",
+          "Luimneach Thoir",
+          "Maigh Eo Theas"
+        ],
+        "CON_TYPE": [
+          "BOROUGH",
+          "COUNTY"
+        ]
+      },
+      "status": "converted",
+      "notes": "Generated from test/source-cache/vector-intake/dail-1959.fgb with GDAL MVT output.",
+      "generatedFrom": {
+        "pipeline": "build-test-vector-batch",
+        "sourceFile": "test/source-cache/vector-intake/dail-1959.fgb",
+        "bytes": 6813547,
+        "files": 3329,
+        "pbfFiles": 3328,
+        "maxTileBytes": 46641
+      },
+      "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dail-1959-vector-test.pmtiles",
+      "tilesFallback": "/test/tiles/generated/dail-1959/{z}/{x}/{y}.pbf",
+      "tilePackage": {
+        "preferred": true,
+        "localPath": "test/pmtiles/generated/dail-1959-vector-test.pmtiles",
+        "url": "/test/pmtiles/generated/dail-1959-vector-test.pmtiles",
+        "bytes": 4299294,
+        "maxGithubBytes": 99614720,
+        "generatedAt": "2026-06-22T23:43:07.587Z",
+        "fallback": "/test/tiles/generated/dail-1959/{z}/{x}/{y}.pbf",
+        "serving": "cdn",
+        "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dail-1959-vector-test.pmtiles",
+        "r2Key": "data/maps/test/pmtiles/generated/dail-1959-vector-test.pmtiles",
+        "localUrl": "/test/pmtiles/generated/dail-1959-vector-test.pmtiles",
+        "byteRangeVerifiedAt": "2026-06-22T23:49:45.669Z"
+      }
+    },
+    {
+      "id": "dail-1961-vector-test",
+      "sourceMapId": "dail-1961",
+      "name": "1961",
+      "category": "Dáil Eireann Constituencies",
+      "group": "Elections and Government",
+      "date": 1961,
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Phelim Birch"
+      ],
+      "description": "Republic of Ireland parliamentary constituencies used for the 1961 and 1965 Dail elections.",
+      "renderer": "maplibre",
+      "sourceType": "pmtiles",
+      "geometryType": "polygon",
+      "tiles": "/test/tiles/generated/dail-1961/{z}/{x}/{y}.pbf",
+      "metadataUrl": "/test/tiles/generated/dail-1961/metadata.json",
+      "sourceLayer": "dail_1961",
+      "promoteId": "CON_ID",
+      "minzoom": 0,
+      "maxzoom": 12,
+      "bounds": [
+        [
+          51.4198973,
+          -10.6629709
+        ],
+        [
+          55.4465803,
+          -5.9962778
+        ]
+      ],
+      "style": {
+        "color": "#43A047",
+        "fillColor": "#43A047",
+        "fillOpacity": 0.18,
+        "weight": 2
+      },
+      "references": [],
+      "sourceDownloads": [
+        {
+          "label": "Source file used for /test conversion",
+          "file": "test/source-cache/vector-intake/dail-1961.fgb"
+        }
+      ],
+      "sourceCredits": [
+        "Phelim Birch"
+      ],
+      "keywords": [
+        "Dáil",
+        "Dail",
+        "constituency",
+        "1961",
+        "1965",
+        "ROI",
+        "ireland",
+        "Dáil Eireann Constituencies",
+        "Elections and Government",
+        "maplibre",
+        "vector tiles"
+      ],
+      "labelProperty": "CON_NAME",
+      "labelPropertyFallbacks": [],
+      "labelMinZoom": 0,
+      "labelMaxZoom": null,
+      "labelStyle": {
+        "color": "#43A047",
+        "hoverColor": "#ff7a1a",
+        "selectedColor": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.2,
+        "haloBlur": 0,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "maxWidth": 14,
+        "lineHeight": 1.25
+      },
+      "featureIndexUrl": "/test/metadata/feature-indexes/dail-1961-vector-test.json",
+      "sourceFile": "test/source-cache/vector-intake/dail-1961.fgb",
+      "sourceDatasetLayer": "1961",
+      "idProperty": "CON_ID",
+      "popupProperties": [
+        "CON_NAME",
+        "CON_ID",
+        "NO_MEMBERS",
+        "CON_NAME_G",
+        "CON_TYPE"
+      ],
+      "numericProperties": [
+        "CON_ID",
+        "NO_MEMBERS"
+      ],
+      "categoricalProperties": [
+        "CON_NAME",
+        "CON_NAME_G",
+        "CON_TYPE"
+      ],
+      "categoricalValues": {
+        "CON_NAME": [
+          "Cavan",
+          "Clare",
+          "Cork",
+          "Dublin",
+          "Kildare",
+          "Louth",
+          "Meath",
+          "Mid-Cork",
+          "Monaghan",
+          "Wexford",
+          "Wicklow",
+          "Carlow-Kilkenny",
+          "Dublin North-Central",
+          "Dublin North-East",
+          "Dublin North-West",
+          "Dublin South-Central",
+          "Dublin South-East",
+          "Dublin South-West",
+          "Dún Laoghaire and Rathdown",
+          "East Galway",
+          "East Limerick",
+          "Laoighis-Offaly",
+          "Longford-Westmeath",
+          "North Kerry",
+          "North Mayo",
+          "North Tipperary",
+          "North-East Cork",
+          "North-East Donegal",
+          "Roscommon",
+          "Sligo-Leitrim",
+          "South Kerry",
+          "South Mayo"
+        ],
+        "CON_NAME_G": [
+          "An Clár",
+          "An Mhí",
+          "Corcaigh",
+          "Lúbhadh",
+          "An Cabhán",
+          "Baile Átha Cliath",
+          "Baile Átha Cliath Theas-Lár",
+          "Baile Átha Cliath Thiar Theas",
+          "Baile Átha Cliath Thiar Thuaidh",
+          "Baile Átha Cliath Thoir Theas",
+          "Baile Átha Cliath Thoir Thuaidh",
+          "Baile Átha Cliath Thuaidh-Lár",
+          "Ceatharlach-Cill Chainnigh",
+          "Ciarraí Theas",
+          "Ciarraí Thuaidh",
+          "Cill Dara",
+          "Cill Mantáin",
+          "Corcaigh Láir",
+          "Corcaigh Thiar Theas",
+          "Corcaigh Thoir Thuaidh",
+          "Dún Laoghaire agus Ráth an Dúin",
+          "Dún na nGall Thiar Theas",
+          "Dún na nGall Thoir Thuaidh",
+          "Gaillimh Thiar",
+          "Gaillimh Thoir",
+          "Laoighis-Ua bhFailí",
+          "Loch Garman",
+          "Longfort-An Iarmhí",
+          "Luimneach Thiar",
+          "Luimneach Thoir",
+          "Maigh Eo Theas",
+          "Maigh Eo Thuaidh"
+        ],
+        "CON_TYPE": [
+          "BOROUGH",
+          "COUNTY"
+        ]
+      },
+      "status": "converted",
+      "notes": "Generated from test/source-cache/vector-intake/dail-1961.fgb with GDAL MVT output.",
+      "generatedFrom": {
+        "pipeline": "build-test-vector-batch",
+        "sourceFile": "test/source-cache/vector-intake/dail-1961.fgb",
+        "bytes": 6923264,
+        "files": 3329,
+        "pbfFiles": 3328,
+        "maxTileBytes": 47418
+      },
+      "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dail-1961-vector-test.pmtiles",
+      "tilesFallback": "/test/tiles/generated/dail-1961/{z}/{x}/{y}.pbf",
+      "tilePackage": {
+        "preferred": true,
+        "localPath": "test/pmtiles/generated/dail-1961-vector-test.pmtiles",
+        "url": "/test/pmtiles/generated/dail-1961-vector-test.pmtiles",
+        "bytes": 4382134,
+        "maxGithubBytes": 99614720,
+        "generatedAt": "2026-06-22T23:43:07.587Z",
+        "fallback": "/test/tiles/generated/dail-1961/{z}/{x}/{y}.pbf",
+        "serving": "cdn",
+        "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dail-1961-vector-test.pmtiles",
+        "r2Key": "data/maps/test/pmtiles/generated/dail-1961-vector-test.pmtiles",
+        "localUrl": "/test/pmtiles/generated/dail-1961-vector-test.pmtiles",
+        "byteRangeVerifiedAt": "2026-06-22T23:49:45.669Z"
+      }
+    },
+    {
+      "id": "dail-1969-vector-test",
+      "sourceMapId": "dail-1969",
+      "name": "1969",
+      "category": "Dáil Eireann Constituencies",
+      "group": "Elections and Government",
+      "date": 1969,
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Phelim Birch"
+      ],
+      "description": "Republic of Ireland parliamentary constituencies used for the 1969 and 1973 Dail elections.",
+      "renderer": "maplibre",
+      "sourceType": "pmtiles",
+      "geometryType": "polygon",
+      "tiles": "/test/tiles/generated/dail-1969/{z}/{x}/{y}.pbf",
+      "metadataUrl": "/test/tiles/generated/dail-1969/metadata.json",
+      "sourceLayer": "dail_1969",
+      "promoteId": "CON_ID",
+      "minzoom": 0,
+      "maxzoom": 12,
+      "bounds": [
+        [
+          51.4198973,
+          -10.6629709
+        ],
+        [
+          55.4465803,
+          -5.9962778
+        ]
+      ],
+      "style": {
+        "color": "#43A047",
+        "fillColor": "#43A047",
+        "fillOpacity": 0.18,
+        "weight": 2
+      },
+      "references": [],
+      "sourceDownloads": [
+        {
+          "label": "Source file used for /test conversion",
+          "file": "test/source-cache/vector-intake/dail-1969.fgb"
+        }
+      ],
+      "sourceCredits": [
+        "Phelim Birch"
+      ],
+      "keywords": [
+        "Dáil",
+        "Dail",
+        "constituency",
+        "1969",
+        "1973",
+        "ROI",
+        "ireland",
+        "Dáil Eireann Constituencies",
+        "Elections and Government",
+        "maplibre",
+        "vector tiles"
+      ],
+      "labelProperty": "CON_NAME",
+      "labelPropertyFallbacks": [],
+      "labelMinZoom": 0,
+      "labelMaxZoom": null,
+      "labelStyle": {
+        "color": "#43A047",
+        "hoverColor": "#ff7a1a",
+        "selectedColor": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.2,
+        "haloBlur": 0,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "maxWidth": 14,
+        "lineHeight": 1.25
+      },
+      "featureIndexUrl": "/test/metadata/feature-indexes/dail-1969-vector-test.json",
+      "sourceFile": "test/source-cache/vector-intake/dail-1969.fgb",
+      "sourceDatasetLayer": "1969",
+      "idProperty": "CON_ID",
+      "popupProperties": [
+        "CON_NAME",
+        "CON_ID",
+        "NO_MEMBERS",
+        "CON_NAME_G"
+      ],
+      "numericProperties": [
+        "CON_ID",
+        "NO_MEMBERS"
+      ],
+      "categoricalProperties": [
+        "CON_NAME",
+        "CON_NAME_G"
+      ],
+      "categoricalValues": {
+        "CON_NAME": [
+          "Cavan",
+          "Clare",
+          "Kildare",
+          "Louth",
+          "Meath",
+          "Mid-Cork",
+          "Monaghan",
+          "Wexford",
+          "Wicklow",
+          "Carlow-Kilkenny",
+          "Clare-South Galway",
+          "Cork North-West",
+          "Cork South-East",
+          "Donegal-Leitrim",
+          "Dublin Central",
+          "Dublin North-Central",
+          "Dublin North-East",
+          "Dublin North-West",
+          "Dublin South-Central",
+          "Dublin South-East",
+          "Dublin South-West",
+          "Dún Laoghaire and Rathdown",
+          "East Limerick",
+          "East Mayo",
+          "Laoighis-Offaly",
+          "Longford-Westmeath",
+          "North County Dublin",
+          "North Kerry",
+          "North Tipperary",
+          "North-East Cork",
+          "North-East Donegal",
+          "North-East Galway"
+        ],
+        "CON_NAME_G": [
+          "An Clár",
+          "An Mhí",
+          "Lú",
+          "An Cabhán",
+          "An Clár-Gaillimh Theas",
+          "An Longfort-An Iarmhí",
+          "Baile Átha Cliath Láir",
+          "Baile Átha Cliath Theas-Lár",
+          "Baile Átha Cliath Thiar Theas",
+          "Baile Átha Cliath Thiar Thuaidh",
+          "Baile Átha Cliath Thoir Theas",
+          "Baile Átha Cliath Thoir Thuaidh",
+          "Baile Átha Cliath Thuaidh-Lár",
+          "Cathair Chorcaí (Thiar Thuaidh)",
+          "Cathair Chorcaí (Thoir Theas)",
+          "Ceatharlach-Cill Chainnigh",
+          "Ciarraí Theas",
+          "Ciarraí Thuaidh",
+          "Cill Dara",
+          "Cill Mhantáin",
+          "Contae Bhaile Átha Cliath Theas",
+          "Contae Bhaile Átha Cliath Thuaidh",
+          "Corcaigh Láir",
+          "Corcaigh Thiar Theas",
+          "Corcaigh Thoir Thuaidh",
+          "Dún Laoghaire agus Ráth an Dúin",
+          "Dún na nGall Thoir Thuaidh",
+          "Dún na nGall-Liatroim",
+          "Gaillimh Thiar",
+          "Gaillimh Thoir Thuaidh",
+          "Laois-Uíbh Fhailí",
+          "Loch Garman"
+        ]
+      },
+      "status": "converted",
+      "notes": "Generated from test/source-cache/vector-intake/dail-1969.fgb with GDAL MVT output.",
+      "generatedFrom": {
+        "pipeline": "build-test-vector-batch",
+        "sourceFile": "test/source-cache/vector-intake/dail-1969.fgb",
+        "bytes": 7141470,
+        "files": 3329,
+        "pbfFiles": 3328,
+        "maxTileBytes": 50633
+      },
+      "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dail-1969-vector-test.pmtiles",
+      "tilesFallback": "/test/tiles/generated/dail-1969/{z}/{x}/{y}.pbf",
+      "tilePackage": {
+        "preferred": true,
+        "localPath": "test/pmtiles/generated/dail-1969-vector-test.pmtiles",
+        "url": "/test/pmtiles/generated/dail-1969-vector-test.pmtiles",
+        "bytes": 4550828,
+        "maxGithubBytes": 99614720,
+        "generatedAt": "2026-06-22T23:43:07.587Z",
+        "fallback": "/test/tiles/generated/dail-1969/{z}/{x}/{y}.pbf",
+        "serving": "cdn",
+        "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dail-1969-vector-test.pmtiles",
+        "r2Key": "data/maps/test/pmtiles/generated/dail-1969-vector-test.pmtiles",
+        "localUrl": "/test/pmtiles/generated/dail-1969-vector-test.pmtiles",
+        "byteRangeVerifiedAt": "2026-06-22T23:49:45.669Z"
+      }
     }
   ]
 }

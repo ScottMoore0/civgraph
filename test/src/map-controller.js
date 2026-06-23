@@ -211,7 +211,7 @@ export class TestMapLibreController {
       center: [-8.05, 53.4],
       zoom: 5.8,
       minZoom: 4,
-      maxZoom: 16,
+      maxZoom: 22,
       attributionControl: true,
       fadeDuration: this.runtimeProfile.fadeDuration,
       maxTileCacheSize: this.runtimeProfile.maxTileCacheSize,

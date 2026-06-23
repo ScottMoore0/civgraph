@@ -196,11 +196,14 @@ class ElectionController {
         //   1983 Act — used 1987 (25th) and 1989 (26th) elections
         //   1980 Act — used 1981 (22nd), Feb 1982 (23rd), Nov 1982 (24th) elections
         //   1974 Act — used 1977 (21st) election
-        //   (1969 Act — used Mar 1973 (20th) election; FGB not yet sourced)
+        //   1969 Act — used 1969 (19th) and Mar 1973 (20th) elections
+        //   1961 Act — used 1961 (17th) and 1965 (18th) elections
         { body: 'Dáil Éireann', dateFrom: '1992-01-01', dateUntil: '1997-06-06', fgb: 'data/maps/parliamentary/1990_Dail.fgb', nameAttr: 'CON_NAME' },
         { body: 'Dáil Éireann', dateFrom: '1987-01-01', dateUntil: '1991-12-31', fgb: 'data/maps/parliamentary/1983_Dail.fgb', nameAttr: 'CON_NAME' },
         { body: 'Dáil Éireann', dateFrom: '1981-01-01', dateUntil: '1986-12-31', fgb: 'data/maps/parliamentary/1980_Dail.fgb', nameAttr: 'CON_NAME' },
         { body: 'Dáil Éireann', dateFrom: '1977-01-01', dateUntil: '1980-12-31', fgb: 'data/maps/parliamentary/1974_Dail.fgb', nameAttr: 'CON_NAME' },
+        { body: 'Dáil Éireann', dateFrom: '1969-01-01', dateUntil: '1976-12-31', fgb: 'data/maps/parliamentary/1969_Dail.fgb', nameAttr: 'CON_NAME' },
+        { body: 'Dáil Éireann', dateFrom: '1961-01-01', dateUntil: '1968-12-31', fgb: 'data/maps/parliamentary/1961_Dail.fgb', nameAttr: 'CON_NAME' },
 
         // Dáil 1 (1918) — pre-partition all-Ireland 1918 redistribution.
         // FGB has 107 features against 103 scraper entries: 28 match directly,
@@ -237,7 +240,7 @@ class ElectionController {
         },
         // 1921 (Dáil 2) used Government of Ireland Act 1920 aggregate constituencies that
         // don't match PC_1918 boundaries; wiring deferred until those FGBs are sourced.
-        // 1922-1969 Dáil eras paused per user direction; need OSi/National Archives FGBs.
+        // 1922-1960 Dáil eras paused per user direction; need OSi/National Archives FGBs.
 
         // ROI national-fill bodies (President + Referendum (Ireland) without
         // per-constituency data). For referendums the rules below override
