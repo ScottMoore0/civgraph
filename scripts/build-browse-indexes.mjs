@@ -36,6 +36,7 @@ function main() {
   const booksData = readJson('data/database/books.json', { categories: [], books: [] });
   const externalSourcesData = readJson('data/database/external-sources.json', { sources: [] });
   const approvedPublicationSourcesData = readJson('data/database/approved-publication-sources.json', { sources: [] });
+  const alreadyOnSiteEnrichmentsData = readJson('data/database/already-on-site-enrichments.json', { targets: [], reviewRows: [] });
   const browseSourceInputs = {
     sources: [
       ...normalizeArray(externalSourcesData.sources || externalSourcesData.items),
@@ -70,7 +71,7 @@ function main() {
   const featureGroups = buildFeatureGroups(spatialIndex, maps, parentElections);
   const { parties, partyDetails } = buildParties(partyIds, electionDetails);
   const { persons, personDetails } = buildPersons(electionDetails);
-  const sources = buildSources(booksData, dataEntriesData, maps, parentElections, thumbnailIds, browseSourceInputs);
+  const sources = buildSources(booksData, dataEntriesData, maps, parentElections, thumbnailIds, browseSourceInputs, alreadyOnSiteEnrichmentsData);
   const rawMapsById = new Map((mapsData.maps || []).map((map) => [map.id, map]));
   const rawDataEntriesById = new Map(normalizeArray(dataEntriesData.dataEntries || dataEntriesData.entries).map((entry) => [entry.id || entry.slug || slugify(entry.name || entry.title), entry]));
   const rawElectionsByKey = new Map(normalizeArray(electionManifest.elections).map((entry) => [entry.key, entry]));
@@ -1118,7 +1119,7 @@ function buildPersons(electionDetails) {
   return { persons: items, personDetails: details };
 }
 
-function buildSources(booksData, dataEntriesData, maps, elections, thumbnailIds, externalSourcesData = {}) {
+function buildSources(booksData, dataEntriesData, maps, elections, thumbnailIds, externalSourcesData = {}, alreadyOnSiteEnrichmentsData = {}) {
   const sources = [];
   const bookCategories = new Map((booksData.categories || []).map((category) => [category.id, category]));
   for (const book of normalizeArray(booksData.books || booksData.items)) {
@@ -1235,7 +1236,150 @@ function buildSources(booksData, dataEntriesData, maps, elections, thumbnailIds,
       browseUrl: `/browse/sources/${encodeURIComponent(slug)}`
     }));
   }
+  applyAlreadyOnSiteEnrichments(sources, alreadyOnSiteEnrichmentsData);
   return sources.sort(sortByTitle);
+}
+
+function applyAlreadyOnSiteEnrichments(sources, alreadyOnSiteEnrichmentsData = {}) {
+  const targets = normalizeArray(alreadyOnSiteEnrichmentsData.targets);
+  if (!targets.length) return;
+
+  const byId = new Map(sources.map((source) => [String(source.id || ''), source]));
+  for (const target of targets) {
+    const sourceTargetId = cleanText(target.sourceTargetId || '');
+    if (!sourceTargetId) continue;
+    const sourceItems = normalizeArray(target.sourceItems);
+    if (!sourceItems.length) continue;
+
+    const existing = byId.get(sourceTargetId);
+    const enrichment = compactObject({
+      sourceTargetId,
+      targetEntityKind: target.targetEntityKind,
+      targetEntityId: target.targetEntityId,
+      targetTitle: target.targetTitle,
+      targetBrowseUrl: target.targetBrowseUrl,
+      sourceItemCount: target.sourceItemCount || sourceItems.length,
+      confidence: target.confidence,
+      safetyClasses: normalizeArray(target.safetyClasses),
+      formats: normalizeArray(target.formats),
+      providers: normalizeArray(target.providers),
+      categories: normalizeArray(target.categories),
+      enrichmentTypes: normalizeArray(target.enrichmentTypes),
+      sourceItems,
+      evidence: normalizeArray(target.evidence)
+    });
+
+    if (existing) {
+      existing.alreadyOnSiteEnrichments = [...normalizeArray(existing.alreadyOnSiteEnrichments), enrichment];
+      existing.sourceItems = mergeSourceItems(existing.sourceItems, sourceItems);
+      existing.references = dedupeReferences([
+        ...normalizeReferences(existing.references),
+        ...sourceEnrichmentReferences(target)
+      ]);
+      existing.keywords = mergeKeywordLists(existing.keywords, [
+        'already-on-site-enrichment',
+        'duplicate-source-match',
+        ...normalizeArray(target.enrichmentTypes)
+      ]);
+      existing.description = appendSentence(
+        existing.description,
+        `${sourceItems.length} additional already-on-site duplicate-match source ${sourceItems.length === 1 ? 'row is' : 'rows are'} staged as metadata/provenance enrichment for this existing record.`
+      );
+      existing.publicationStatus = existing.publicationStatus || 'enriched';
+      continue;
+    }
+
+    const title = cleanText(target.targetTitle || sourceTargetId);
+    const id = `already-on-site-enrichment:${slugify(sourceTargetId)}`;
+    sources.push(compactObject({
+      id,
+      slug: slugify(id),
+      type: 'already-on-site-enrichment-source',
+      title: `${title} source/provenance enrichment`,
+      subtitle: compactJoin([
+        `${sourceItems.length} duplicate-match source ${sourceItems.length === 1 ? 'row' : 'rows'}`,
+        normalizeArray(target.providers).join(', '),
+        normalizeArray(target.formats).join(', ')
+      ]),
+      category: 'Already-on-site source enrichments',
+      provider: normalizeArray(target.providers),
+      description: `Additional source/provenance metadata for an existing Civgraph record. This does not create a duplicate map or data parent record.`,
+      references: sourceEnrichmentReferences(target),
+      downloads: [],
+      sourceItems,
+      alreadyOnSiteEnrichments: [enrichment],
+      publicationStatus: 'enrichment-staged',
+      proposedBrowsePath: 'Books / Tables / Sources > Already-on-site source enrichments',
+      parentId: target.targetEntityId || sourceTargetId,
+      parentTitle: title,
+      relationship: 'metadata-enrichment',
+      approval: compactObject({
+        recommendedAction: 'enrich existing record; do not create duplicate parent',
+        stagingId: sourceTargetId,
+        confidence: target.confidence,
+        sourceType: 'already-on-site duplicate match',
+        provider: normalizeArray(target.providers).join('; ')
+      }),
+      keywords: mergeKeywordLists(['already-on-site-enrichment', 'duplicate-source-match'], normalizeArray(target.enrichmentTypes)),
+      browseUrl: `/browse/sources/${encodeURIComponent(slugify(id))}`
+    }));
+  }
+}
+
+function mergeSourceItems(existing, additions) {
+  const out = [];
+  const seen = new Set();
+  for (const item of [...normalizeArray(existing), ...normalizeArray(additions)]) {
+    const key = JSON.stringify([
+      item.auditRowNumber || '',
+      item.title || '',
+      normalizeArray(item.formats).join('|')
+    ]);
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(item);
+  }
+  return out;
+}
+
+function sourceEnrichmentReferences(target) {
+  const refs = [];
+  if (target.targetBrowseUrl) {
+    refs.push(compactObject({
+      label: `Existing Civgraph record: ${cleanText(target.targetTitle || target.targetEntityId || target.sourceTargetId)}`,
+      url: target.targetBrowseUrl,
+      source: 'Civgraph',
+      role: 'matched-existing-record'
+    }));
+  }
+  if (target.sourceRecordBrowseUrl) {
+    refs.push(compactObject({
+      label: `Existing Civgraph source record: ${cleanText(target.sourceTargetId)}`,
+      url: target.sourceRecordBrowseUrl,
+      source: 'Civgraph',
+      role: 'matched-source-record'
+    }));
+  }
+  return refs;
+}
+
+function mergeKeywordLists(...lists) {
+  const out = [];
+  for (const list of lists) {
+    for (const value of normalizeArray(list)) {
+      const clean = cleanText(value);
+      if (!clean || out.includes(clean)) continue;
+      out.push(clean);
+    }
+  }
+  return out;
+}
+
+function appendSentence(value, sentence) {
+  const base = cleanText(value || '');
+  const addition = cleanText(sentence || '');
+  if (!addition || base.includes(addition)) return base;
+  return base ? `${base} ${addition}` : addition;
 }
 
 function writeDetailFiles(kind, records, enhance = null, options = {}) {

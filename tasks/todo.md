@@ -1,3 +1,28 @@
+# D Drive Full Content Blocker And Duplicate Review
+
+- [x] Apply already-on-site duplicate-match enrichment to existing records.
+  - Task: use the exact/high-confidence duplicate-match audit to enrich existing Civgraph records with source/provenance/download/format/version metadata while avoiding duplicate parent records.
+  - Constraints: do not create duplicate map/election/source parent entries; broader family/context rows must remain review-backed rather than auto-applied as facts.
+  - Verification: generated enrichment records must validate against existing target IDs and preserve website/runtime data integrity.
+  - Completed: added a generated `already-on-site-enrichments` database sidecar, wired Browse source generation to merge direct safe/high-confidence duplicate-match metadata into existing source records, and kept broader variant/context/weak rows as review-only metadata rather than duplicate public facts.
+  - Verification evidence: `node --check scripts/build-already-on-site-enrichment-records.mjs`; `node --check scripts/build-browse-indexes.mjs`; `node --check scripts/validate-already-on-site-enrichments.mjs`; `node scripts/build-already-on-site-enrichment-records.mjs`; `node scripts/build-browse-indexes.mjs`; `node scripts/validate-already-on-site-enrichments.mjs`; `npm run check:external-sources`. The enrichment validator confirmed 89 generated source details, 91 applied source rows, 1,022 review-only rows, and no local filesystem paths in public enrichment output.
+
+- [x] Research enrichment opportunities from already-on-site / strong duplicate matches.
+  - Task: inspect the already-on-site review queue and matching evidence to determine what source, provenance, format, geometry, attribution, date/version, download, IA, and metadata enrichment can be extracted without creating duplicate site records.
+  - Constraints: research-only; do not publish website records, upload to IA/R2/CDN, or edit public catalogue/runtime records without explicit approval.
+  - Required output: report and review CSVs listing enrichment type, matched site evidence, safe action, and any decision needed.
+  - Completed: added a research-only enrichment classifier for the already-on-site queue, separating exact safe metadata enrichment, high-confidence target-check enrichment, variant/source review, context-overlap review-only rows, and weak feature-family matches.
+  - Verification: `node --check scripts\build-already-on-site-enrichment-review.mjs`; `node scripts\build-already-on-site-enrichment-review.mjs`; native `Import-Csv` checks over safety class and sample target evidence.
+  - Outputs: `tasks/already-on-site-enrichment-review-2026-06-24.md`, `tasks/already-on-site-enrichment-review-2026-06-24.csv`, and `tasks/already-on-site-enrichment-summary-2026-06-24.json`.
+
+- [x] Review all D: drive content groups previously ranked 1-10 and identify what blocks site integration.
+  - Task: consolidate D-drive/provider audit outputs, current site manifests, source records, and publication recommendations into a blocker/duplicate/geography/comparability review.
+  - Constraints: do not publish anything to the website, do not upload to IA/R2/CDN, and do not add public catalogue/runtime records without explicit user approval.
+  - Required output: report and review CSVs listing blockers, likely duplicates/already-on-site content, variant candidates, geography matching recommendations, comparability recommendations, source-placement recommendations, and decisions requiring user approval.
+  - Completed: added a research-only blocker classifier and generated row-level review, duplicate/variant review, already-on-site review, user-decision, geography/comparability, Markdown summary, and machine-readable summary outputs under `tasks/`.
+  - Verification: `node --check scripts/build-d-drive-blocker-review.mjs`; `node scripts/build-d-drive-blocker-review.mjs`; native `Import-Csv` aggregation checks over the generated review queues.
+  - Outputs: `tasks/d-drive-content-blocker-review-2026-06-24.md`, `tasks/d-drive-content-blocker-review-2026-06-24.csv`, `tasks/d-drive-duplicate-variant-review-2026-06-24.csv`, `tasks/d-drive-already-on-site-review-2026-06-24.csv`, `tasks/d-drive-user-decisions-2026-06-24.csv`, `tasks/d-drive-geography-comparability-review-2026-06-24.csv`, and `tasks/d-drive-content-blocker-summary-2026-06-24.json`.
+
 # D Drive Not-On-Site Content ROI Review
 
 - [x] Explain what content exists on the D: drive but has not yet been put on Civgraph.

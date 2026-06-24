@@ -1,10 +1,251 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-23T20:57:59.186Z",
+  "generatedAt": "2026-06-24T22:22:27.632Z",
   "kind": "sources",
   "shard": "sources-038.json",
   "total": 200,
   "items": [
+    {
+      "id": "map-source:osni-benchmarks",
+      "slug": "map-source-osni-benchmarks",
+      "type": "map-source",
+      "title": "OSNI Benchmarks (Height Reference Points) source files",
+      "subtitle": "OSNI Reference Layers / OSNI",
+      "category": "Map sources",
+      "provider": [
+        "OSNI"
+      ],
+      "description": "Historic OSNI benchmarks — small brass plates or chiselled grooves set into permanent features (bridges, walls, milestones) whose heights above Ordnance Datum were precisely determined by levelling surveys. Used by surveyors as known reference points before GPS. ~10,000 points across Northern Ireland, each attributed with its height in metres.",
+      "sourceMapId": "osni-benchmarks",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "OB",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "OSNI Open Data - BenchMarks - Height",
+          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-benchmarks-height"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "label",
+          "url": "GeoJSON"
+        },
+        {
+          "label": "file",
+          "url": "https://admin.opendatani.gov.uk/dataset/d2353369-da97-473d-9a10-9ecb7b598f40/resource/3c5df17a-e28d-439b-9164-c2e6e0830b31/download/osni_open_data_benchmarks_height.geojson"
+        },
+        {
+          "label": "label",
+          "url": "ESRI Shapefile (ZIP)"
+        },
+        {
+          "label": "file",
+          "url": "https://admin.opendatani.gov.uk/dataset/d2353369-da97-473d-9a10-9ecb7b598f40/resource/4214da40-17a5-4af7-8f22-3d84706f774a/download/osni_open_data_benchmarks_height.zip"
+        },
+        {
+          "label": "label",
+          "url": "KML"
+        },
+        {
+          "label": "file",
+          "url": "https://admin.opendatani.gov.uk/dataset/d2353369-da97-473d-9a10-9ecb7b598f40/resource/1f593808-f938-43dc-8f82-f6391905a79f/download/osni_open_data_benchmarks_height.kml"
+        },
+        {
+          "label": "label",
+          "url": "CSV"
+        },
+        {
+          "label": "file",
+          "url": "https://admin.opendatani.gov.uk/dataset/d2353369-da97-473d-9a10-9ecb7b598f40/resource/5f6a8d59-cef0-4d48-9f5a-79c8dfc000f5/download/osni_open_data_benchmarks_height.csv"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/osni-reference/benchmarks.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=osni-benchmarks",
+      "browseUrl": "/browse/sources/map-source-osni-benchmarks",
+      "rawMetadata": {
+        "id": "osni-benchmarks",
+        "name": "OSNI Benchmarks (Height Reference Points)",
+        "slug": "osni-benchmarks",
+        "category": "osni-reference",
+        "provider": [
+          "OSNI"
+        ],
+        "description": "Historic OSNI benchmarks — small brass plates or chiselled grooves set into permanent features (bridges, walls, milestones) whose heights above Ordnance Datum were precisely determined by levelling surveys. Used by surveyors as known reference points before GPS. ~10,000 points across Northern Ireland, each attributed with its height in metres.",
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/osni-reference/benchmarks.fgb"
+        },
+        "style": {
+          "color": "#b87333",
+          "weight": 1,
+          "radius": 3,
+          "fillOpacity": 0.8
+        },
+        "labelProperty": "BM_Height",
+        "keywords": [
+          "osni",
+          "benchmark",
+          "bench mark",
+          "height",
+          "datum",
+          "levelling",
+          "survey",
+          "trigonometric"
+        ],
+        "useLOD": false,
+        "references": [
+          {
+            "label": "OSNI Open Data - BenchMarks - Height",
+            "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-benchmarks-height",
+            "note": ""
+          }
+        ],
+        "sourceDownloads": [
+          {
+            "label": "GeoJSON",
+            "file": "https://admin.opendatani.gov.uk/dataset/d2353369-da97-473d-9a10-9ecb7b598f40/resource/3c5df17a-e28d-439b-9164-c2e6e0830b31/download/osni_open_data_benchmarks_height.geojson"
+          },
+          {
+            "label": "ESRI Shapefile (ZIP)",
+            "file": "https://admin.opendatani.gov.uk/dataset/d2353369-da97-473d-9a10-9ecb7b598f40/resource/4214da40-17a5-4af7-8f22-3d84706f774a/download/osni_open_data_benchmarks_height.zip"
+          },
+          {
+            "label": "KML",
+            "file": "https://admin.opendatani.gov.uk/dataset/d2353369-da97-473d-9a10-9ecb7b598f40/resource/1f593808-f938-43dc-8f82-f6391905a79f/download/osni_open_data_benchmarks_height.kml"
+          },
+          {
+            "label": "CSV",
+            "file": "https://admin.opendatani.gov.uk/dataset/d2353369-da97-473d-9a10-9ecb7b598f40/resource/5f6a8d59-cef0-4d48-9f5a-79c8dfc000f5/download/osni_open_data_benchmarks_height.csv"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-source:osni-coverage-grid-10k",
+      "slug": "map-source-osni-coverage-grid-10k",
+      "type": "map-source",
+      "title": "OSNI Map Sheet Coverage Grid — 1:10,000 source files",
+      "subtitle": "OSNI Reference Layers / OSNI",
+      "category": "Map sources",
+      "provider": [
+        "OSNI"
+      ],
+      "description": "Polygonal overlay of Ordnance Survey of Northern Ireland 1:10,000-scale printed-map tile footprints, labelled by sheet name. Useful for locating which historic / current OSNI sheet covers a site.",
+      "sourceMapId": "osni-coverage-grid-10k",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "osni-coverage-grid-10k",
+        "url": "/assets/thumbnails/osni-coverage-grid-10k.webp",
+        "smallUrl": "/assets/thumbnails/osni-coverage-grid-10k-60.webp",
+        "alt": "OSNI Map Sheet Coverage Grid — 1:10,000"
+      },
+      "references": [
+        {
+          "label": "OSNI Open Data - Coverage Grid - 10K",
+          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-coverage-grid-10k"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "label",
+          "url": "GeoJSON"
+        },
+        {
+          "label": "file",
+          "url": "https://admin.opendatani.gov.uk/dataset/18a0c1f3-0e2a-406f-9d5f-ce190a166895/resource/3400824a-ae20-483d-b633-a936d8f45f8b/download/osni_open_data_coverage_grid_10k.geojson"
+        },
+        {
+          "label": "label",
+          "url": "ESRI Shapefile (ZIP)"
+        },
+        {
+          "label": "file",
+          "url": "https://admin.opendatani.gov.uk/dataset/18a0c1f3-0e2a-406f-9d5f-ce190a166895/resource/6fdf1a41-1f4a-4905-88f5-57c06a7cd5fb/download/osni_open_data_coverage_grid_10k.zip"
+        },
+        {
+          "label": "label",
+          "url": "KML"
+        },
+        {
+          "label": "file",
+          "url": "https://admin.opendatani.gov.uk/dataset/18a0c1f3-0e2a-406f-9d5f-ce190a166895/resource/19fa57b5-5f62-4e0a-a40b-5f6fc3485f6f/download/osni_open_data_coverage_grid_10k.kml"
+        },
+        {
+          "label": "label",
+          "url": "CSV"
+        },
+        {
+          "label": "file",
+          "url": "https://admin.opendatani.gov.uk/dataset/18a0c1f3-0e2a-406f-9d5f-ce190a166895/resource/cdfe704d-8281-400c-a06d-d50f9fe43fc3/download/osni_open_data_coverage_grid_10k.csv"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/osni-reference/coverage-grid-10k.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=osni-coverage-grid-10k",
+      "browseUrl": "/browse/sources/map-source-osni-coverage-grid-10k",
+      "rawMetadata": {
+        "id": "osni-coverage-grid-10k",
+        "name": "OSNI Map Sheet Coverage Grid — 1:10,000",
+        "slug": "osni-coverage-grid-10k",
+        "category": "osni-reference",
+        "provider": [
+          "OSNI"
+        ],
+        "description": "Polygonal overlay of Ordnance Survey of Northern Ireland 1:10,000-scale printed-map tile footprints, labelled by sheet name. Useful for locating which historic / current OSNI sheet covers a site.",
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/osni-reference/coverage-grid-10k.fgb"
+        },
+        "style": {
+          "color": "#888888",
+          "weight": 1,
+          "fillOpacity": 0
+        },
+        "labelProperty": "NAME",
+        "keywords": [
+          "osni",
+          "coverage",
+          "grid",
+          "sheet",
+          "index",
+          "1:10000",
+          "10k",
+          "tile"
+        ],
+        "useLOD": true,
+        "references": [
+          {
+            "label": "OSNI Open Data - Coverage Grid - 10K",
+            "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-coverage-grid-10k",
+            "note": ""
+          }
+        ],
+        "sourceDownloads": [
+          {
+            "label": "GeoJSON",
+            "file": "https://admin.opendatani.gov.uk/dataset/18a0c1f3-0e2a-406f-9d5f-ce190a166895/resource/3400824a-ae20-483d-b633-a936d8f45f8b/download/osni_open_data_coverage_grid_10k.geojson"
+          },
+          {
+            "label": "ESRI Shapefile (ZIP)",
+            "file": "https://admin.opendatani.gov.uk/dataset/18a0c1f3-0e2a-406f-9d5f-ce190a166895/resource/6fdf1a41-1f4a-4905-88f5-57c06a7cd5fb/download/osni_open_data_coverage_grid_10k.zip"
+          },
+          {
+            "label": "KML",
+            "file": "https://admin.opendatani.gov.uk/dataset/18a0c1f3-0e2a-406f-9d5f-ce190a166895/resource/19fa57b5-5f62-4e0a-a40b-5f6fc3485f6f/download/osni_open_data_coverage_grid_10k.kml"
+          },
+          {
+            "label": "CSV",
+            "file": "https://admin.opendatani.gov.uk/dataset/18a0c1f3-0e2a-406f-9d5f-ce190a166895/resource/cdfe704d-8281-400c-a06d-d50f9fe43fc3/download/osni_open_data_coverage_grid_10k.csv"
+          }
+        ]
+      }
+    },
     {
       "id": "map-source:osni-coverage-grid-50k",
       "slug": "map-source-osni-coverage-grid-50k",
@@ -3004,7 +3245,7 @@
       "provider": [
         "DAERA"
       ],
-      "description": "Rivers, watersheds, seas, and natural boundaries",
+      "description": "Rivers, watersheds, seas, and natural boundaries 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "sourceMapId": "river-basin-districts",
       "thumbnail": {
         "kind": "asset",
@@ -3025,6 +3266,161 @@
       ],
       "interactiveUrl": "/#layers=river-basin-districts",
       "browseUrl": "/browse/sources/map-source-river-basin-districts",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:river-basin-districts",
+          "targetEntityKind": "map",
+          "targetEntityId": "river-basin-districts",
+          "targetTitle": "River Basin Districts 2016 source files",
+          "targetBrowseUrl": "/browse/maps/river-basin-districts",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "ARCGIS GEOSERVICES REST API",
+            "CSV",
+            "GEOJSON",
+            "HTML",
+            "KML",
+            "ZIP"
+          ],
+          "providers": [
+            "data.gov.ie"
+          ],
+          "categories": [
+            "spatial"
+          ],
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "raw-source viewport candidate metadata",
+            "schema/table/attribute metadata",
+            "source/provenance metadata"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 548,
+              "title": "River Basin Districts",
+              "provider": "data.gov.ie",
+              "category": "spatial",
+              "formats": [
+                "ARCGIS GEOSERVICES REST API",
+                "CSV",
+                "GEOJSON",
+                "HTML",
+                "KML",
+                "ZIP"
+              ],
+              "safetyClass": "safe metadata enrichment candidate",
+              "recommendedAction": "Do not publish as new; enrich existing record only if source/provenance is missing.",
+              "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews.",
+              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+              "enrichmentTypes": [
+                "alternate-format metadata",
+                "download/source-file metadata",
+                "geospatial source-format metadata",
+                "raw-source viewport candidate metadata",
+                "schema/table/attribute metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "rivers-water-flood",
+                "habitat-protected-sites"
+              ],
+              "siteFamiliesPresent": [
+                "rivers-water-flood",
+                "habitat-protected-sites"
+              ],
+              "refinedStatus": "already represented or very strong exact match"
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "browse-feature",
+              "id": "river-basin-districts",
+              "title": "River Basin Districts 2016",
+              "score": 1.3
+            },
+            {
+              "kind": "database-map",
+              "id": "river-basin-districts",
+              "title": "River Basin Districts 2016",
+              "score": 1.2
+            },
+            {
+              "kind": "browse-source",
+              "id": "map-source:river-basin-districts",
+              "title": "River Basin Districts 2016 source files",
+              "score": 1.2
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 548,
+          "title": "River Basin Districts",
+          "provider": "data.gov.ie",
+          "category": "spatial",
+          "formats": [
+            "ARCGIS GEOSERVICES REST API",
+            "CSV",
+            "GEOJSON",
+            "HTML",
+            "KML",
+            "ZIP"
+          ],
+          "safetyClass": "safe metadata enrichment candidate",
+          "recommendedAction": "Do not publish as new; enrich existing record only if source/provenance is missing.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "raw-source viewport candidate metadata",
+            "schema/table/attribute metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "rivers-water-flood",
+            "habitat-protected-sites"
+          ],
+          "siteFamiliesPresent": [
+            "rivers-water-flood",
+            "habitat-protected-sites"
+          ],
+          "refinedStatus": "already represented or very strong exact match"
+        }
+      ],
+      "references": [
+        {
+          "label": "Existing Civgraph record: River Basin Districts 2016 source files",
+          "url": "/browse/maps/river-basin-districts",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:river-basin-districts",
+          "url": "/browse/sources/map-source-river-basin-districts",
+          "source": "Civgraph",
+          "role": "matched-source-record"
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "alternate-format metadata",
+        "download/source-file metadata",
+        "geospatial source-format metadata",
+        "raw-source viewport candidate metadata",
+        "schema/table/attribute metadata",
+        "source/provenance metadata"
+      ],
+      "publicationStatus": "enriched",
       "rawMetadata": {
         "id": "river-basin-districts",
         "name": "River Basin Districts 2016",
@@ -3240,7 +3636,7 @@
       "provider": [
         "Department for Infrastructure - Roads"
       ],
-      "description": "Border crossings between Northern Ireland and the Republic of Ireland (2018 mapping). Points (crossing locations) and lines (route segments) variants both available.",
+      "description": "Border crossings between Northern Ireland and the Republic of Ireland (2018 mapping). Points (crossing locations) and lines (route segments) variants both available. 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "sourceMapId": "roads-border-crossings-2018",
       "thumbnail": {
         "kind": "asset",
@@ -3261,6 +3657,145 @@
       ],
       "interactiveUrl": "/#layers=roads-border-crossings-2018",
       "browseUrl": "/browse/sources/map-source-roads-border-crossings-2018",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:roads-border-crossings-2018",
+          "targetEntityKind": "map",
+          "targetEntityId": "roads-border-crossings-2018",
+          "targetTitle": "Border Crossings 2018",
+          "targetBrowseUrl": "/browse/maps/roads-border-crossings-2018",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "GEOJSON",
+            "ZIP"
+          ],
+          "providers": [
+            "Open Data NI"
+          ],
+          "categories": [
+            "spatial"
+          ],
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "date/version metadata",
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "source/provenance metadata"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 278,
+              "title": "Border Crossings 2018",
+              "provider": "Open Data NI",
+              "category": "spatial",
+              "formats": [
+                "GEOJSON",
+                "ZIP"
+              ],
+              "safetyClass": "safe metadata enrichment candidate",
+              "recommendedAction": "Do not publish as new; enrich existing record only if source/provenance is missing.",
+              "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews.",
+              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+              "enrichmentTypes": [
+                "alternate-format metadata",
+                "date/version metadata",
+                "download/source-file metadata",
+                "geospatial source-format metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "habitat-protected-sites",
+                "transport-roads"
+              ],
+              "siteFamiliesPresent": [
+                "habitat-protected-sites",
+                "transport-roads"
+              ],
+              "refinedStatus": "already represented or very strong exact match"
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "database-map",
+              "id": "roads-border-crossings-2018",
+              "title": "Border Crossings 2018",
+              "score": 1.75
+            },
+            {
+              "kind": "browse-map",
+              "id": "roads-border-crossings-2018",
+              "title": "Border Crossings 2018",
+              "score": 1.75
+            },
+            {
+              "kind": "database-map",
+              "id": "dfi-border-crossings-2018-lines",
+              "title": "NI Border Crossings 2018 (Lines)",
+              "score": 0.88
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 278,
+          "title": "Border Crossings 2018",
+          "provider": "Open Data NI",
+          "category": "spatial",
+          "formats": [
+            "GEOJSON",
+            "ZIP"
+          ],
+          "safetyClass": "safe metadata enrichment candidate",
+          "recommendedAction": "Do not publish as new; enrich existing record only if source/provenance is missing.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "date/version metadata",
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "habitat-protected-sites",
+            "transport-roads"
+          ],
+          "siteFamiliesPresent": [
+            "habitat-protected-sites",
+            "transport-roads"
+          ],
+          "refinedStatus": "already represented or very strong exact match"
+        }
+      ],
+      "references": [
+        {
+          "label": "Existing Civgraph record: Border Crossings 2018",
+          "url": "/browse/maps/roads-border-crossings-2018",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:roads-border-crossings-2018",
+          "url": "/browse/sources/map-source-roads-border-crossings-2018",
+          "source": "Civgraph",
+          "role": "matched-source-record"
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "alternate-format metadata",
+        "date/version metadata",
+        "download/source-file metadata",
+        "geospatial source-format metadata",
+        "source/provenance metadata"
+      ],
+      "publicationStatus": "enriched",
       "rawMetadata": {
         "id": "roads-border-crossings-2018",
         "name": "Border Crossings 2018",
@@ -3294,7 +3829,7 @@
       "provider": [
         "Department for Infrastructure - Roads"
       ],
-      "description": "Locations of pedestrian crossings across Northern Ireland (DfI Roads).",
+      "description": "Locations of pedestrian crossings across Northern Ireland (DfI Roads). 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "sourceMapId": "roads-pedestrian-crossings",
       "thumbnail": {
         "kind": "asset",
@@ -3315,6 +3850,152 @@
       ],
       "interactiveUrl": "/#layers=roads-pedestrian-crossings",
       "browseUrl": "/browse/sources/map-source-roads-pedestrian-crossings",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:roads-pedestrian-crossings",
+          "targetEntityKind": "map",
+          "targetEntityId": "roads-pedestrian-crossings",
+          "targetTitle": "Pedestrian Crossings",
+          "targetBrowseUrl": "/browse/maps/roads-pedestrian-crossings",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "CSV",
+            "GEOJSON",
+            "XML"
+          ],
+          "providers": [
+            "Open Data NI"
+          ],
+          "categories": [
+            "spatial"
+          ],
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "raw-source viewport candidate metadata",
+            "schema/table/attribute metadata",
+            "source/provenance metadata"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 282,
+              "title": "Pedestrian Crossings",
+              "provider": "Open Data NI",
+              "category": "spatial",
+              "formats": [
+                "CSV",
+                "GEOJSON",
+                "XML"
+              ],
+              "safetyClass": "safe metadata enrichment candidate",
+              "recommendedAction": "Do not publish as new; enrich existing record only if source/provenance is missing.",
+              "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+              "enrichmentTypes": [
+                "alternate-format metadata",
+                "download/source-file metadata",
+                "geospatial source-format metadata",
+                "raw-source viewport candidate metadata",
+                "schema/table/attribute metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "habitat-protected-sites",
+                "transport-roads"
+              ],
+              "siteFamiliesPresent": [
+                "habitat-protected-sites",
+                "transport-roads"
+              ],
+              "refinedStatus": "already represented or very strong exact match"
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "database-map",
+              "id": "roads-pedestrian-crossings",
+              "title": "Pedestrian Crossings",
+              "score": 1.56
+            },
+            {
+              "kind": "browse-map",
+              "id": "roads-pedestrian-crossings",
+              "title": "Pedestrian Crossings",
+              "score": 1.56
+            },
+            {
+              "kind": "database-map",
+              "id": "dfi-pedestrian-crossings",
+              "title": "NI Pedestrian Crossings",
+              "score": 0.78
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 282,
+          "title": "Pedestrian Crossings",
+          "provider": "Open Data NI",
+          "category": "spatial",
+          "formats": [
+            "CSV",
+            "GEOJSON",
+            "XML"
+          ],
+          "safetyClass": "safe metadata enrichment candidate",
+          "recommendedAction": "Do not publish as new; enrich existing record only if source/provenance is missing.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "raw-source viewport candidate metadata",
+            "schema/table/attribute metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "habitat-protected-sites",
+            "transport-roads"
+          ],
+          "siteFamiliesPresent": [
+            "habitat-protected-sites",
+            "transport-roads"
+          ],
+          "refinedStatus": "already represented or very strong exact match"
+        }
+      ],
+      "references": [
+        {
+          "label": "Existing Civgraph record: Pedestrian Crossings",
+          "url": "/browse/maps/roads-pedestrian-crossings",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:roads-pedestrian-crossings",
+          "url": "/browse/sources/map-source-roads-pedestrian-crossings",
+          "source": "Civgraph",
+          "role": "matched-source-record"
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "alternate-format metadata",
+        "download/source-file metadata",
+        "geospatial source-format metadata",
+        "raw-source viewport candidate metadata",
+        "schema/table/attribute metadata",
+        "source/provenance metadata"
+      ],
+      "publicationStatus": "enriched",
       "rawMetadata": {
         "id": "roads-pedestrian-crossings",
         "name": "Pedestrian Crossings",
@@ -3348,7 +4029,7 @@
       "provider": [
         "Department for Infrastructure - Roads"
       ],
-      "description": "Pothole reports submitted to DfI Roads — point dataset showing locations of public reports per year (selected: latest available 2025–2026).",
+      "description": "Pothole reports submitted to DfI Roads — point dataset showing locations of public reports per year (selected: latest available 2025–2026). 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "sourceMapId": "roads-pothole-enquiries",
       "thumbnail": {
         "kind": "asset",
@@ -3369,6 +4050,155 @@
       ],
       "interactiveUrl": "/#layers=roads-pothole-enquiries",
       "browseUrl": "/browse/sources/map-source-roads-pothole-enquiries",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:roads-pothole-enquiries",
+          "targetEntityKind": "map",
+          "targetEntityId": "roads-pothole-enquiries",
+          "targetTitle": "Pothole Enquiries",
+          "targetBrowseUrl": "/browse/maps/roads-pothole-enquiries",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "CSV",
+            "CSV.",
+            "GEOJSON",
+            "XML"
+          ],
+          "providers": [
+            "Open Data NI"
+          ],
+          "categories": [
+            "spatial"
+          ],
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "raw-source viewport candidate metadata",
+            "schema/table/attribute metadata",
+            "source/provenance metadata"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 289,
+              "title": "Pothole Enquiries",
+              "provider": "Open Data NI",
+              "category": "spatial",
+              "formats": [
+                "CSV",
+                "CSV.",
+                "GEOJSON",
+                "XML"
+              ],
+              "safetyClass": "safe metadata enrichment candidate",
+              "recommendedAction": "Do not publish as new; enrich existing record only if source/provenance is missing.",
+              "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+              "enrichmentTypes": [
+                "alternate-format metadata",
+                "download/source-file metadata",
+                "geospatial source-format metadata",
+                "raw-source viewport candidate metadata",
+                "schema/table/attribute metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "habitat-protected-sites",
+                "transport-roads"
+              ],
+              "siteFamiliesPresent": [
+                "habitat-protected-sites",
+                "transport-roads"
+              ],
+              "refinedStatus": "already represented or very strong exact match"
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "database-map",
+              "id": "roads-pothole-enquiries",
+              "title": "Pothole Enquiries",
+              "score": 1.71
+            },
+            {
+              "kind": "browse-map",
+              "id": "roads-pothole-enquiries",
+              "title": "Pothole Enquiries",
+              "score": 1.71
+            },
+            {
+              "kind": "database-map",
+              "id": "dfi-pothole-enquiries-2021",
+              "title": "NI Pothole Enquiries 2021",
+              "score": 0.86
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 289,
+          "title": "Pothole Enquiries",
+          "provider": "Open Data NI",
+          "category": "spatial",
+          "formats": [
+            "CSV",
+            "CSV.",
+            "GEOJSON",
+            "XML"
+          ],
+          "safetyClass": "safe metadata enrichment candidate",
+          "recommendedAction": "Do not publish as new; enrich existing record only if source/provenance is missing.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "raw-source viewport candidate metadata",
+            "schema/table/attribute metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "habitat-protected-sites",
+            "transport-roads"
+          ],
+          "siteFamiliesPresent": [
+            "habitat-protected-sites",
+            "transport-roads"
+          ],
+          "refinedStatus": "already represented or very strong exact match"
+        }
+      ],
+      "references": [
+        {
+          "label": "Existing Civgraph record: Pothole Enquiries",
+          "url": "/browse/maps/roads-pothole-enquiries",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:roads-pothole-enquiries",
+          "url": "/browse/sources/map-source-roads-pothole-enquiries",
+          "source": "Civgraph",
+          "role": "matched-source-record"
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "alternate-format metadata",
+        "download/source-file metadata",
+        "geospatial source-format metadata",
+        "raw-source viewport candidate metadata",
+        "schema/table/attribute metadata",
+        "source/provenance metadata"
+      ],
+      "publicationStatus": "enriched",
       "rawMetadata": {
         "id": "roads-pothole-enquiries",
         "name": "Pothole Enquiries",
@@ -5798,7 +6628,7 @@
       "provider": [
         "NISRA"
       ],
-      "description": "Statistical geography for census data",
+      "description": "Statistical geography for census data 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "sourceMapId": "sa-2011",
       "thumbnail": {
         "kind": "asset",
@@ -5823,6 +6653,18 @@
         {
           "label": "Small Area 2011 — MapInfo (ZIP) download",
           "url": "https://www.nisra.gov.uk/files/nisra/publications/SA2011_MapInfo_Tab_0.zip"
+        },
+        {
+          "label": "Existing Civgraph record: Small Area 2011 source files",
+          "url": "/browse/maps/sa-2011",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:sa-2011",
+          "url": "/browse/sources/map-source-sa-2011",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -5849,6 +6691,164 @@
       ],
       "interactiveUrl": "/#layers=sa-2011",
       "browseUrl": "/browse/sources/map-source-sa-2011",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:sa-2011",
+          "targetEntityKind": "map",
+          "targetEntityId": "sa-2011",
+          "targetTitle": "Small Area 2011 source files",
+          "targetBrowseUrl": "/browse/maps/sa-2011",
+          "sourceItemCount": 1,
+          "confidence": "high-confidence",
+          "safetyClasses": [
+            "high-confidence enrichment candidate"
+          ],
+          "formats": [
+            "GEOJSON",
+            "MAPINFO",
+            "PDF",
+            "SHP",
+            "XLSX"
+          ],
+          "providers": [
+            "Open Data NI"
+          ],
+          "categories": [
+            "spatial"
+          ],
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "census/statistical provenance and concept context",
+            "date/version metadata",
+            "download/source-file metadata",
+            "geometry lineage and boundary-version metadata",
+            "geospatial source-format metadata",
+            "raw-source viewport candidate metadata",
+            "scale/generalisation/edition metadata",
+            "schema/table/attribute metadata",
+            "source/provenance metadata"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 8,
+              "title": "NISRA Open Data Boundaries - Small Areas 2011",
+              "provider": "Open Data NI",
+              "category": "spatial",
+              "formats": [
+                "GEOJSON",
+                "MAPINFO",
+                "PDF",
+                "SHP",
+                "XLSX"
+              ],
+              "safetyClass": "high-confidence enrichment candidate",
+              "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+              "sourcePlacement": "Metadata in repo; cleaned fact bundles in R2/CDN only after approval; raw provider files via IA/source pages.",
+              "geographyRecommendation": "Match census small-area/OA/SOA generation exactly; concept facts should not be visible on approximate geography matches by default.",
+              "enrichmentTypes": [
+                "alternate-format metadata",
+                "census/statistical provenance and concept context",
+                "date/version metadata",
+                "download/source-file metadata",
+                "geometry lineage and boundary-version metadata",
+                "geospatial source-format metadata",
+                "raw-source viewport candidate metadata",
+                "scale/generalisation/edition metadata",
+                "schema/table/attribute metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "census-output-areas",
+                "habitat-protected-sites",
+                "source-documents-books"
+              ],
+              "siteFamiliesPresent": [
+                "census-output-areas",
+                "habitat-protected-sites",
+                "source-documents-books"
+              ],
+              "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "database-map",
+              "id": "sa-2011",
+              "title": "Small Area 2011",
+              "score": 0.8
+            },
+            {
+              "kind": "browse-source",
+              "id": "map-source:sa-2011",
+              "title": "Small Area 2011 source files",
+              "score": 0.8
+            },
+            {
+              "kind": "browse-map",
+              "id": "sa-2011",
+              "title": "Small Area 2011",
+              "score": 0.8
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 8,
+          "title": "NISRA Open Data Boundaries - Small Areas 2011",
+          "provider": "Open Data NI",
+          "category": "spatial",
+          "formats": [
+            "GEOJSON",
+            "MAPINFO",
+            "PDF",
+            "SHP",
+            "XLSX"
+          ],
+          "safetyClass": "high-confidence enrichment candidate",
+          "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "sourcePlacement": "Metadata in repo; cleaned fact bundles in R2/CDN only after approval; raw provider files via IA/source pages.",
+          "geographyRecommendation": "Match census small-area/OA/SOA generation exactly; concept facts should not be visible on approximate geography matches by default.",
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "census/statistical provenance and concept context",
+            "date/version metadata",
+            "download/source-file metadata",
+            "geometry lineage and boundary-version metadata",
+            "geospatial source-format metadata",
+            "raw-source viewport candidate metadata",
+            "scale/generalisation/edition metadata",
+            "schema/table/attribute metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "census-output-areas",
+            "habitat-protected-sites",
+            "source-documents-books"
+          ],
+          "siteFamiliesPresent": [
+            "census-output-areas",
+            "habitat-protected-sites",
+            "source-documents-books"
+          ],
+          "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "alternate-format metadata",
+        "census/statistical provenance and concept context",
+        "date/version metadata",
+        "download/source-file metadata",
+        "geometry lineage and boundary-version metadata",
+        "geospatial source-format metadata",
+        "raw-source viewport candidate metadata",
+        "scale/generalisation/edition metadata",
+        "schema/table/attribute metadata",
+        "source/provenance metadata"
+      ],
+      "publicationStatus": "enriched",
       "rawMetadata": {
         "id": "sa-2011",
         "name": "Small Area 2011",
@@ -5929,7 +6929,7 @@
       "provider": [
         "South Dublin County Council"
       ],
-      "description": "Bicycle Parking Stands (SDCC) — published by South Dublin County Council.",
+      "description": "Bicycle Parking Stands (SDCC) — published by South Dublin County Council. 2 additional already-on-site duplicate-match source rows are staged as metadata/provenance enrichment for this existing record.",
       "sourceMapId": "sdcc-bicycle-parking-stands",
       "thumbnail": {
         "kind": "placeholder",
@@ -5940,6 +6940,18 @@
         {
           "label": "Source — data.gov.ie",
           "url": "https://data.gov.ie/"
+        },
+        {
+          "label": "Existing Civgraph record: Bicycle Parking Stands (SDCC) source files",
+          "url": "/browse/maps/sdcc-bicycle-parking-stands",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:sdcc-bicycle-parking-stands",
+          "url": "/browse/sources/map-source-sdcc-bicycle-parking-stands",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -5970,6 +6982,215 @@
       ],
       "interactiveUrl": "/#layers=sdcc-bicycle-parking-stands",
       "browseUrl": "/browse/sources/map-source-sdcc-bicycle-parking-stands",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:sdcc-bicycle-parking-stands",
+          "targetEntityKind": "map",
+          "targetEntityId": "sdcc-bicycle-parking-stands",
+          "targetTitle": "Bicycle Parking Stands (SDCC) source files",
+          "targetBrowseUrl": "/browse/maps/sdcc-bicycle-parking-stands",
+          "sourceItemCount": 2,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "ARCGIS GEOSERVICES REST API",
+            "CSV",
+            "GEOJSON",
+            "HTML",
+            "KML",
+            "ZIP"
+          ],
+          "providers": [
+            "data.gov.ie"
+          ],
+          "categories": [
+            "spatial"
+          ],
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geometry lineage and boundary-version metadata",
+            "geospatial source-format metadata",
+            "raw-source viewport candidate metadata",
+            "schema/table/attribute metadata",
+            "source/provenance metadata"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 320,
+              "title": "Bicycle Parking Stands SDCC",
+              "provider": "data.gov.ie",
+              "category": "spatial",
+              "formats": [
+                "ARCGIS GEOSERVICES REST API",
+                "CSV",
+                "GEOJSON",
+                "HTML",
+                "KML",
+                "ZIP"
+              ],
+              "safetyClass": "safe metadata enrichment candidate",
+              "recommendedAction": "Do not publish as new; enrich existing record only if source/provenance is missing.",
+              "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews.",
+              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+              "enrichmentTypes": [
+                "alternate-format metadata",
+                "download/source-file metadata",
+                "geometry lineage and boundary-version metadata",
+                "geospatial source-format metadata",
+                "raw-source viewport candidate metadata",
+                "schema/table/attribute metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "habitat-protected-sites"
+              ],
+              "siteFamiliesPresent": [
+                "habitat-protected-sites"
+              ],
+              "refinedStatus": "already represented or very strong exact match"
+            },
+            {
+              "auditRowNumber": 321,
+              "title": "Bicycle Parking Stands SDCC",
+              "provider": "data.gov.ie",
+              "category": "spatial",
+              "formats": [
+                "ARCGIS GEOSERVICES REST API",
+                "CSV",
+                "GEOJSON",
+                "HTML",
+                "KML",
+                "ZIP"
+              ],
+              "safetyClass": "safe metadata enrichment candidate",
+              "recommendedAction": "Do not publish as new; enrich existing record only if source/provenance is missing.",
+              "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews.",
+              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+              "enrichmentTypes": [
+                "alternate-format metadata",
+                "download/source-file metadata",
+                "geometry lineage and boundary-version metadata",
+                "geospatial source-format metadata",
+                "raw-source viewport candidate metadata",
+                "schema/table/attribute metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "habitat-protected-sites"
+              ],
+              "siteFamiliesPresent": [
+                "habitat-protected-sites"
+              ],
+              "refinedStatus": "already represented or very strong exact match"
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "database-map",
+              "id": "sdcc-bicycle-parking-stands",
+              "title": "Bicycle Parking Stands (SDCC)",
+              "score": 1.64
+            },
+            {
+              "kind": "browse-map",
+              "id": "sdcc-bicycle-parking-stands",
+              "title": "Bicycle Parking Stands (SDCC)",
+              "score": 1.64
+            },
+            {
+              "kind": "browse-source",
+              "id": "map-source:sdcc-bicycle-parking-stands",
+              "title": "Bicycle Parking Stands (SDCC) source files",
+              "score": 0.64
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 320,
+          "title": "Bicycle Parking Stands SDCC",
+          "provider": "data.gov.ie",
+          "category": "spatial",
+          "formats": [
+            "ARCGIS GEOSERVICES REST API",
+            "CSV",
+            "GEOJSON",
+            "HTML",
+            "KML",
+            "ZIP"
+          ],
+          "safetyClass": "safe metadata enrichment candidate",
+          "recommendedAction": "Do not publish as new; enrich existing record only if source/provenance is missing.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geometry lineage and boundary-version metadata",
+            "geospatial source-format metadata",
+            "raw-source viewport candidate metadata",
+            "schema/table/attribute metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "habitat-protected-sites"
+          ],
+          "siteFamiliesPresent": [
+            "habitat-protected-sites"
+          ],
+          "refinedStatus": "already represented or very strong exact match"
+        },
+        {
+          "auditRowNumber": 321,
+          "title": "Bicycle Parking Stands SDCC",
+          "provider": "data.gov.ie",
+          "category": "spatial",
+          "formats": [
+            "ARCGIS GEOSERVICES REST API",
+            "CSV",
+            "GEOJSON",
+            "HTML",
+            "KML",
+            "ZIP"
+          ],
+          "safetyClass": "safe metadata enrichment candidate",
+          "recommendedAction": "Do not publish as new; enrich existing record only if source/provenance is missing.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geometry lineage and boundary-version metadata",
+            "geospatial source-format metadata",
+            "raw-source viewport candidate metadata",
+            "schema/table/attribute metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "habitat-protected-sites"
+          ],
+          "siteFamiliesPresent": [
+            "habitat-protected-sites"
+          ],
+          "refinedStatus": "already represented or very strong exact match"
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "alternate-format metadata",
+        "download/source-file metadata",
+        "geometry lineage and boundary-version metadata",
+        "geospatial source-format metadata",
+        "raw-source viewport candidate metadata",
+        "schema/table/attribute metadata",
+        "source/provenance metadata"
+      ],
+      "publicationStatus": "enriched",
       "rawMetadata": {
         "id": "sdcc-bicycle-parking-stands",
         "name": "Bicycle Parking Stands (SDCC)",
@@ -8036,7 +9257,7 @@
       "provider": [
         "Transport Infrastructure Ireland"
       ],
-      "description": "TII Collision Rates 2011-2013 — published by Transport Infrastructure Ireland.",
+      "description": "TII Collision Rates 2011-2013 — published by Transport Infrastructure Ireland. 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "sourceMapId": "tii-collision-rates-2011-2013",
       "thumbnail": {
         "kind": "placeholder",
@@ -8047,6 +9268,18 @@
         {
           "label": "Source — data.gov.ie",
           "url": "https://data.gov.ie/"
+        },
+        {
+          "label": "Existing Civgraph record: TII Collision Rates 2011-2013 source files",
+          "url": "/browse/maps/tii-collision-rates-2011-2013",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:tii-collision-rates-2011-2013",
+          "url": "/browse/sources/map-source-tii-collision-rates-2011-2013",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -8069,6 +9302,135 @@
       ],
       "interactiveUrl": "/#layers=tii-collision-rates-2011-2013",
       "browseUrl": "/browse/sources/map-source-tii-collision-rates-2011-2013",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:tii-collision-rates-2011-2013",
+          "targetEntityKind": "map",
+          "targetEntityId": "tii-collision-rates-2011-2013",
+          "targetTitle": "TII Collision Rates 2011-2013 source files",
+          "targetBrowseUrl": "/browse/maps/tii-collision-rates-2011-2013",
+          "sourceItemCount": 1,
+          "confidence": "high-confidence",
+          "safetyClasses": [
+            "high-confidence enrichment candidate"
+          ],
+          "formats": [
+            "KML",
+            "SHP / ZIP"
+          ],
+          "providers": [
+            "data.gov.ie"
+          ],
+          "categories": [
+            "spatial"
+          ],
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "date/version metadata",
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "scale/generalisation/edition metadata",
+            "source/provenance metadata"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 761,
+              "title": "Collision Rates 2011 to 2013",
+              "provider": "data.gov.ie",
+              "category": "spatial",
+              "formats": [
+                "KML",
+                "SHP / ZIP"
+              ],
+              "safetyClass": "high-confidence enrichment candidate",
+              "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+              "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews.",
+              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+              "enrichmentTypes": [
+                "alternate-format metadata",
+                "date/version metadata",
+                "download/source-file metadata",
+                "geospatial source-format metadata",
+                "scale/generalisation/edition metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "habitat-protected-sites",
+                "transport-roads"
+              ],
+              "siteFamiliesPresent": [
+                "habitat-protected-sites",
+                "transport-roads"
+              ],
+              "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "database-map",
+              "id": "tii-collision-rates-2011-2013",
+              "title": "TII Collision Rates 2011-2013",
+              "score": 0.78
+            },
+            {
+              "kind": "browse-source",
+              "id": "map-source:tii-collision-rates-2011-2013",
+              "title": "TII Collision Rates 2011-2013 source files",
+              "score": 0.78
+            },
+            {
+              "kind": "browse-map",
+              "id": "tii-collision-rates-2011-2013",
+              "title": "TII Collision Rates 2011-2013",
+              "score": 0.78
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 761,
+          "title": "Collision Rates 2011 to 2013",
+          "provider": "data.gov.ie",
+          "category": "spatial",
+          "formats": [
+            "KML",
+            "SHP / ZIP"
+          ],
+          "safetyClass": "high-confidence enrichment candidate",
+          "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "date/version metadata",
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "scale/generalisation/edition metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "habitat-protected-sites",
+            "transport-roads"
+          ],
+          "siteFamiliesPresent": [
+            "habitat-protected-sites",
+            "transport-roads"
+          ],
+          "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "alternate-format metadata",
+        "date/version metadata",
+        "download/source-file metadata",
+        "geospatial source-format metadata",
+        "scale/generalisation/edition metadata",
+        "source/provenance metadata"
+      ],
+      "publicationStatus": "enriched",
       "rawMetadata": {
         "id": "tii-collision-rates-2011-2013",
         "name": "TII Collision Rates 2011-2013",
@@ -8116,7 +9478,7 @@
       "provider": [
         "Transport Infrastructure Ireland"
       ],
-      "description": "TII Collision Rates 2014-2016 — published by Transport Infrastructure Ireland.",
+      "description": "TII Collision Rates 2014-2016 — published by Transport Infrastructure Ireland. 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "sourceMapId": "tii-collision-rates-2014-2016",
       "thumbnail": {
         "kind": "placeholder",
@@ -8127,6 +9489,18 @@
         {
           "label": "Source — data.gov.ie",
           "url": "https://data.gov.ie/"
+        },
+        {
+          "label": "Existing Civgraph record: TII Collision Rates 2014-2016 source files",
+          "url": "/browse/maps/tii-collision-rates-2014-2016",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:tii-collision-rates-2014-2016",
+          "url": "/browse/sources/map-source-tii-collision-rates-2014-2016",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -8149,6 +9523,135 @@
       ],
       "interactiveUrl": "/#layers=tii-collision-rates-2014-2016",
       "browseUrl": "/browse/sources/map-source-tii-collision-rates-2014-2016",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:tii-collision-rates-2014-2016",
+          "targetEntityKind": "map",
+          "targetEntityId": "tii-collision-rates-2014-2016",
+          "targetTitle": "TII Collision Rates 2014-2016 source files",
+          "targetBrowseUrl": "/browse/maps/tii-collision-rates-2014-2016",
+          "sourceItemCount": 1,
+          "confidence": "high-confidence",
+          "safetyClasses": [
+            "high-confidence enrichment candidate"
+          ],
+          "formats": [
+            "KML",
+            "SHP / ZIP"
+          ],
+          "providers": [
+            "data.gov.ie"
+          ],
+          "categories": [
+            "spatial"
+          ],
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "date/version metadata",
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "scale/generalisation/edition metadata",
+            "source/provenance metadata"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 763,
+              "title": "Collision Rates 2014 to 2016",
+              "provider": "data.gov.ie",
+              "category": "spatial",
+              "formats": [
+                "KML",
+                "SHP / ZIP"
+              ],
+              "safetyClass": "high-confidence enrichment candidate",
+              "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+              "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews.",
+              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+              "enrichmentTypes": [
+                "alternate-format metadata",
+                "date/version metadata",
+                "download/source-file metadata",
+                "geospatial source-format metadata",
+                "scale/generalisation/edition metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "habitat-protected-sites",
+                "transport-roads"
+              ],
+              "siteFamiliesPresent": [
+                "habitat-protected-sites",
+                "transport-roads"
+              ],
+              "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "database-map",
+              "id": "tii-collision-rates-2014-2016",
+              "title": "TII Collision Rates 2014-2016",
+              "score": 0.78
+            },
+            {
+              "kind": "browse-source",
+              "id": "map-source:tii-collision-rates-2014-2016",
+              "title": "TII Collision Rates 2014-2016 source files",
+              "score": 0.78
+            },
+            {
+              "kind": "browse-map",
+              "id": "tii-collision-rates-2014-2016",
+              "title": "TII Collision Rates 2014-2016",
+              "score": 0.78
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 763,
+          "title": "Collision Rates 2014 to 2016",
+          "provider": "data.gov.ie",
+          "category": "spatial",
+          "formats": [
+            "KML",
+            "SHP / ZIP"
+          ],
+          "safetyClass": "high-confidence enrichment candidate",
+          "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "date/version metadata",
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "scale/generalisation/edition metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "habitat-protected-sites",
+            "transport-roads"
+          ],
+          "siteFamiliesPresent": [
+            "habitat-protected-sites",
+            "transport-roads"
+          ],
+          "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "alternate-format metadata",
+        "date/version metadata",
+        "download/source-file metadata",
+        "geospatial source-format metadata",
+        "scale/generalisation/edition metadata",
+        "source/provenance metadata"
+      ],
+      "publicationStatus": "enriched",
       "rawMetadata": {
         "id": "tii-collision-rates-2014-2016",
         "name": "TII Collision Rates 2014-2016",
@@ -8967,7 +10470,7 @@
       "provider": [
         "Translink"
       ],
-      "description": "NI Railways Halts — public transport infrastructure published by Translink.",
+      "description": "NI Railways Halts — public transport infrastructure published by Translink. 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "sourceMapId": "translink-rail-halts",
       "thumbnail": {
         "kind": "placeholder",
@@ -8978,6 +10481,18 @@
         {
           "label": "Source — admin.opendatani.gov.uk",
           "url": "https://admin.opendatani.gov.uk/"
+        },
+        {
+          "label": "Existing Civgraph record: NI Railways Halts source files",
+          "url": "/browse/maps/translink-rail-halts",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:translink-rail-halts",
+          "url": "/browse/sources/map-source-translink-rail-halts",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -9008,6 +10523,135 @@
       ],
       "interactiveUrl": "/#layers=translink-rail-halts",
       "browseUrl": "/browse/sources/map-source-translink-rail-halts",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:translink-rail-halts",
+          "targetEntityKind": "map",
+          "targetEntityId": "translink-rail-halts",
+          "targetTitle": "NI Railways Halts source files",
+          "targetBrowseUrl": "/browse/maps/translink-rail-halts",
+          "sourceItemCount": 1,
+          "confidence": "high-confidence",
+          "safetyClasses": [
+            "high-confidence enrichment candidate"
+          ],
+          "formats": [
+            "CSV",
+            "GEOJSON"
+          ],
+          "providers": [
+            "Open Data NI"
+          ],
+          "categories": [
+            "spatial"
+          ],
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "raw-source viewport candidate metadata",
+            "scale/generalisation/edition metadata",
+            "schema/table/attribute metadata",
+            "source/provenance metadata"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 661,
+              "title": "Northern Ireland Railways Halts",
+              "provider": "Open Data NI",
+              "category": "spatial",
+              "formats": [
+                "CSV",
+                "GEOJSON"
+              ],
+              "safetyClass": "high-confidence enrichment candidate",
+              "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+              "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+              "enrichmentTypes": [
+                "alternate-format metadata",
+                "download/source-file metadata",
+                "geospatial source-format metadata",
+                "raw-source viewport candidate metadata",
+                "scale/generalisation/edition metadata",
+                "schema/table/attribute metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "habitat-protected-sites"
+              ],
+              "siteFamiliesPresent": [
+                "habitat-protected-sites"
+              ],
+              "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "database-map",
+              "id": "translink-rail-halts",
+              "title": "NI Railways Halts",
+              "score": 0.8
+            },
+            {
+              "kind": "browse-source",
+              "id": "map-source:translink-rail-halts",
+              "title": "NI Railways Halts source files",
+              "score": 0.8
+            },
+            {
+              "kind": "browse-map",
+              "id": "translink-rail-halts",
+              "title": "NI Railways Halts",
+              "score": 0.8
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 661,
+          "title": "Northern Ireland Railways Halts",
+          "provider": "Open Data NI",
+          "category": "spatial",
+          "formats": [
+            "CSV",
+            "GEOJSON"
+          ],
+          "safetyClass": "high-confidence enrichment candidate",
+          "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "raw-source viewport candidate metadata",
+            "scale/generalisation/edition metadata",
+            "schema/table/attribute metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "habitat-protected-sites"
+          ],
+          "siteFamiliesPresent": [
+            "habitat-protected-sites"
+          ],
+          "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "alternate-format metadata",
+        "download/source-file metadata",
+        "geospatial source-format metadata",
+        "raw-source viewport candidate metadata",
+        "scale/generalisation/edition metadata",
+        "schema/table/attribute metadata",
+        "source/provenance metadata"
+      ],
+      "publicationStatus": "enriched",
       "rawMetadata": {
         "id": "translink-rail-halts",
         "name": "NI Railways Halts",
@@ -9056,7 +10700,7 @@
       "provider": [
         "Translink"
       ],
-      "description": "NI Railways Platforms — public transport infrastructure published by Translink.",
+      "description": "NI Railways Platforms — public transport infrastructure published by Translink. 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "sourceMapId": "translink-rail-platforms",
       "thumbnail": {
         "kind": "placeholder",
@@ -9067,6 +10711,18 @@
         {
           "label": "Source — admin.opendatani.gov.uk",
           "url": "https://admin.opendatani.gov.uk/"
+        },
+        {
+          "label": "Existing Civgraph record: NI Railways Platforms source files",
+          "url": "/browse/maps/translink-rail-platforms",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:translink-rail-platforms",
+          "url": "/browse/sources/map-source-translink-rail-platforms",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -9097,6 +10753,135 @@
       ],
       "interactiveUrl": "/#layers=translink-rail-platforms",
       "browseUrl": "/browse/sources/map-source-translink-rail-platforms",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:translink-rail-platforms",
+          "targetEntityKind": "map",
+          "targetEntityId": "translink-rail-platforms",
+          "targetTitle": "NI Railways Platforms source files",
+          "targetBrowseUrl": "/browse/maps/translink-rail-platforms",
+          "sourceItemCount": 1,
+          "confidence": "high-confidence",
+          "safetyClasses": [
+            "high-confidence enrichment candidate"
+          ],
+          "formats": [
+            "CSV",
+            "GEOJSON"
+          ],
+          "providers": [
+            "Open Data NI"
+          ],
+          "categories": [
+            "spatial"
+          ],
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "raw-source viewport candidate metadata",
+            "scale/generalisation/edition metadata",
+            "schema/table/attribute metadata",
+            "source/provenance metadata"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 665,
+              "title": "Northern Ireland Railways Platforms",
+              "provider": "Open Data NI",
+              "category": "spatial",
+              "formats": [
+                "CSV",
+                "GEOJSON"
+              ],
+              "safetyClass": "high-confidence enrichment candidate",
+              "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+              "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+              "enrichmentTypes": [
+                "alternate-format metadata",
+                "download/source-file metadata",
+                "geospatial source-format metadata",
+                "raw-source viewport candidate metadata",
+                "scale/generalisation/edition metadata",
+                "schema/table/attribute metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "habitat-protected-sites"
+              ],
+              "siteFamiliesPresent": [
+                "habitat-protected-sites"
+              ],
+              "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "database-map",
+              "id": "translink-rail-platforms",
+              "title": "NI Railways Platforms",
+              "score": 0.8
+            },
+            {
+              "kind": "browse-source",
+              "id": "map-source:translink-rail-platforms",
+              "title": "NI Railways Platforms source files",
+              "score": 0.8
+            },
+            {
+              "kind": "browse-map",
+              "id": "translink-rail-platforms",
+              "title": "NI Railways Platforms",
+              "score": 0.8
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 665,
+          "title": "Northern Ireland Railways Platforms",
+          "provider": "Open Data NI",
+          "category": "spatial",
+          "formats": [
+            "CSV",
+            "GEOJSON"
+          ],
+          "safetyClass": "high-confidence enrichment candidate",
+          "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "raw-source viewport candidate metadata",
+            "scale/generalisation/edition metadata",
+            "schema/table/attribute metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "habitat-protected-sites"
+          ],
+          "siteFamiliesPresent": [
+            "habitat-protected-sites"
+          ],
+          "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "alternate-format metadata",
+        "download/source-file metadata",
+        "geospatial source-format metadata",
+        "raw-source viewport candidate metadata",
+        "scale/generalisation/edition metadata",
+        "schema/table/attribute metadata",
+        "source/provenance metadata"
+      ],
+      "publicationStatus": "enriched",
       "rawMetadata": {
         "id": "translink-rail-platforms",
         "name": "NI Railways Platforms",
@@ -9234,7 +11019,7 @@
       "provider": [
         "Translink"
       ],
-      "description": "NI Railways Stations — public transport infrastructure published by Translink.",
+      "description": "NI Railways Stations — public transport infrastructure published by Translink. 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "sourceMapId": "translink-rail-stations",
       "thumbnail": {
         "kind": "placeholder",
@@ -9245,6 +11030,18 @@
         {
           "label": "Source — admin.opendatani.gov.uk",
           "url": "https://admin.opendatani.gov.uk/"
+        },
+        {
+          "label": "Existing Civgraph record: NI Railways Stations source files",
+          "url": "/browse/maps/translink-rail-stations",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:translink-rail-stations",
+          "url": "/browse/sources/map-source-translink-rail-stations",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -9275,6 +11072,135 @@
       ],
       "interactiveUrl": "/#layers=translink-rail-stations",
       "browseUrl": "/browse/sources/map-source-translink-rail-stations",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:translink-rail-stations",
+          "targetEntityKind": "map",
+          "targetEntityId": "translink-rail-stations",
+          "targetTitle": "NI Railways Stations source files",
+          "targetBrowseUrl": "/browse/maps/translink-rail-stations",
+          "sourceItemCount": 1,
+          "confidence": "high-confidence",
+          "safetyClasses": [
+            "high-confidence enrichment candidate"
+          ],
+          "formats": [
+            "CSV",
+            "GEOJSON"
+          ],
+          "providers": [
+            "Open Data NI"
+          ],
+          "categories": [
+            "spatial"
+          ],
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "raw-source viewport candidate metadata",
+            "scale/generalisation/edition metadata",
+            "schema/table/attribute metadata",
+            "source/provenance metadata"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 666,
+              "title": "Northern Ireland Railways Stations",
+              "provider": "Open Data NI",
+              "category": "spatial",
+              "formats": [
+                "CSV",
+                "GEOJSON"
+              ],
+              "safetyClass": "high-confidence enrichment candidate",
+              "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+              "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+              "enrichmentTypes": [
+                "alternate-format metadata",
+                "download/source-file metadata",
+                "geospatial source-format metadata",
+                "raw-source viewport candidate metadata",
+                "scale/generalisation/edition metadata",
+                "schema/table/attribute metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "habitat-protected-sites"
+              ],
+              "siteFamiliesPresent": [
+                "habitat-protected-sites"
+              ],
+              "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "database-map",
+              "id": "translink-rail-stations",
+              "title": "NI Railways Stations",
+              "score": 0.8
+            },
+            {
+              "kind": "browse-source",
+              "id": "map-source:translink-rail-stations",
+              "title": "NI Railways Stations source files",
+              "score": 0.8
+            },
+            {
+              "kind": "browse-map",
+              "id": "translink-rail-stations",
+              "title": "NI Railways Stations",
+              "score": 0.8
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 666,
+          "title": "Northern Ireland Railways Stations",
+          "provider": "Open Data NI",
+          "category": "spatial",
+          "formats": [
+            "CSV",
+            "GEOJSON"
+          ],
+          "safetyClass": "high-confidence enrichment candidate",
+          "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "raw-source viewport candidate metadata",
+            "scale/generalisation/edition metadata",
+            "schema/table/attribute metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "habitat-protected-sites"
+          ],
+          "siteFamiliesPresent": [
+            "habitat-protected-sites"
+          ],
+          "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "alternate-format metadata",
+        "download/source-file metadata",
+        "geospatial source-format metadata",
+        "raw-source viewport candidate metadata",
+        "scale/generalisation/edition metadata",
+        "schema/table/attribute metadata",
+        "source/provenance metadata"
+      ],
+      "publicationStatus": "enriched",
       "rawMetadata": {
         "id": "translink-rail-stations",
         "name": "NI Railways Stations",
@@ -9835,7 +11761,7 @@
       "provider": [
         "NISRA"
       ],
-      "description": "Statistical geography for census data",
+      "description": "Statistical geography for census data 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "sourceMapId": "ttwa-2011",
       "thumbnail": {
         "kind": "asset",
@@ -9848,6 +11774,18 @@
         {
           "label": "Northern Ireland Travel to Work Areas (TTWAs) | Northern Ireland Statistics and Research Agency (www.nisra.gov.uk)",
           "url": "https://www.nisra.gov.uk/support/geography/northern-ireland-travel-work-areas-ttwas"
+        },
+        {
+          "label": "Existing Civgraph record: Travel To Work Areas 2011",
+          "url": "/browse/maps/ttwa-2011",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:ttwa-2011",
+          "url": "/browse/sources/map-source-ttwa-2011",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -9862,6 +11800,142 @@
       ],
       "interactiveUrl": "/#layers=ttwa-2011",
       "browseUrl": "/browse/sources/map-source-ttwa-2011",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:ttwa-2011",
+          "targetEntityKind": "map",
+          "targetEntityId": "ttwa-2011",
+          "targetTitle": "Travel To Work Areas 2011",
+          "targetBrowseUrl": "/browse/maps/ttwa-2011",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "CSV",
+            "GEOJSON",
+            "SHP"
+          ],
+          "providers": [
+            "Open Data NI"
+          ],
+          "categories": [
+            "spatial"
+          ],
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "census/statistical provenance and concept context",
+            "date/version metadata",
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "raw-source viewport candidate metadata",
+            "schema/table/attribute metadata",
+            "source/provenance metadata"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 699,
+              "title": "Travel to Work Areas 2011",
+              "provider": "Open Data NI",
+              "category": "spatial",
+              "formats": [
+                "CSV",
+                "GEOJSON",
+                "SHP"
+              ],
+              "safetyClass": "safe metadata enrichment candidate",
+              "recommendedAction": "Do not publish as new; enrich existing record only if source/provenance is missing.",
+              "sourcePlacement": "Metadata in repo; cleaned fact bundles in R2/CDN only after approval; raw provider files via IA/source pages.",
+              "geographyRecommendation": "Require exact geography-year match or explicit approximate/harmonised geography flag before public facts.",
+              "enrichmentTypes": [
+                "alternate-format metadata",
+                "census/statistical provenance and concept context",
+                "date/version metadata",
+                "download/source-file metadata",
+                "geospatial source-format metadata",
+                "raw-source viewport candidate metadata",
+                "schema/table/attribute metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "habitat-protected-sites"
+              ],
+              "siteFamiliesPresent": [
+                "habitat-protected-sites"
+              ],
+              "refinedStatus": "already represented or very strong exact match"
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "database-map",
+              "id": "ttwa-2011",
+              "title": "Travel To Work Areas 2011",
+              "score": 1.78
+            },
+            {
+              "kind": "browse-map",
+              "id": "ttwa-2011",
+              "title": "Travel To Work Areas - 2011",
+              "score": 1.78
+            },
+            {
+              "kind": "browse-feature",
+              "id": "ttwa-2011",
+              "title": "Travel To Work Areas 2011",
+              "score": 1.56
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 699,
+          "title": "Travel to Work Areas 2011",
+          "provider": "Open Data NI",
+          "category": "spatial",
+          "formats": [
+            "CSV",
+            "GEOJSON",
+            "SHP"
+          ],
+          "safetyClass": "safe metadata enrichment candidate",
+          "recommendedAction": "Do not publish as new; enrich existing record only if source/provenance is missing.",
+          "sourcePlacement": "Metadata in repo; cleaned fact bundles in R2/CDN only after approval; raw provider files via IA/source pages.",
+          "geographyRecommendation": "Require exact geography-year match or explicit approximate/harmonised geography flag before public facts.",
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "census/statistical provenance and concept context",
+            "date/version metadata",
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "raw-source viewport candidate metadata",
+            "schema/table/attribute metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "habitat-protected-sites"
+          ],
+          "siteFamiliesPresent": [
+            "habitat-protected-sites"
+          ],
+          "refinedStatus": "already represented or very strong exact match"
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "alternate-format metadata",
+        "census/statistical provenance and concept context",
+        "date/version metadata",
+        "download/source-file metadata",
+        "geospatial source-format metadata",
+        "raw-source viewport candidate metadata",
+        "schema/table/attribute metadata",
+        "source/provenance metadata"
+      ],
+      "publicationStatus": "enriched",
       "rawMetadata": {
         "id": "ttwa-2011",
         "name": "Travel To Work Areas 2011",
@@ -18071,138 +20145,6 @@
         ],
         "source": {
           "title": "NISRA Census 2021, Main Statistics Phase 1, MS-E15 (Tenure — households)",
-          "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
-        }
-      }
-    },
-    {
-      "id": "table:data-2021-religion-catholic-lgd",
-      "slug": "table-data-2021-religion-catholic-lgd",
-      "type": "table",
-      "title": "Religion: Catholic (Census 2021, by LGD)",
-      "subtitle": "data-population",
-      "category": "data-population",
-      "description": "Religion: Catholic (LGD) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a protestant-catholic colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
-      "thumbnail": {
-        "kind": "asset",
-        "id": "lgd-2012",
-        "url": "/assets/thumbnails/lgd-2012.webp",
-        "smallUrl": "/assets/thumbnails/lgd-2012-60.webp",
-        "alt": "Religion: Catholic (Census 2021, by LGD)"
-      },
-      "references": [
-        {
-          "label": "NISRA Census 2021, Main Statistics Phase 1, MS-B19 (Religion)",
-          "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "ms-b19-catholic-lgd.csv",
-          "url": "data/census/derived/ms-b19-catholic-lgd.csv"
-        }
-      ],
-      "browseUrl": "/browse/sources/table-data-2021-religion-catholic-lgd",
-      "rawMetadata": {
-        "id": "data-2021-religion-catholic-lgd",
-        "type": "data-entry",
-        "name": "Religion: Catholic (Census 2021, by LGD)",
-        "slug": "data-2021-religion-catholic-lgd",
-        "category": "data-population",
-        "description": "Religion: Catholic (LGD) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a protestant-catholic colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
-        "geography": "lgd-2012",
-        "csv": "data/census/derived/ms-b19-catholic-lgd.csv",
-        "joinKey": "LGDCode",
-        "csvKeyColumn": "GeographyCode",
-        "valueColumn": "Catholic_pct",
-        "ramp": "protestant-catholic",
-        "domain": [
-          0,
-          100
-        ],
-        "logarithmic": false,
-        "tableColumns": [
-          "Geography",
-          "Total",
-          "Catholic",
-          "Catholic_pct"
-        ],
-        "keywords": [
-          "census",
-          "2021",
-          "nisra",
-          "data",
-          "religion catholic",
-          "lgd"
-        ],
-        "source": {
-          "title": "NISRA Census 2021, Main Statistics Phase 1, MS-B19 (Religion)",
-          "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
-        }
-      }
-    },
-    {
-      "id": "table:data-2021-religion-catholic-settlement",
-      "slug": "table-data-2021-religion-catholic-settlement",
-      "type": "table",
-      "title": "Religion: Catholic (Census 2021, by Settlement)",
-      "subtitle": "data-population",
-      "category": "data-population",
-      "description": "Religion: Catholic (Settlement) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a protestant-catholic colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
-      "thumbnail": {
-        "kind": "asset",
-        "id": "settlements-2015",
-        "url": "/assets/thumbnails/settlements-2015.webp",
-        "smallUrl": "/assets/thumbnails/settlements-2015-60.webp",
-        "alt": "Religion: Catholic (Census 2021, by Settlement)"
-      },
-      "references": [
-        {
-          "label": "NISRA Census 2021, Main Statistics Phase 1, MS-B19 (Religion)",
-          "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "ms-b19-catholic-settlement.csv",
-          "url": "data/census/derived/ms-b19-catholic-settlement.csv"
-        }
-      ],
-      "browseUrl": "/browse/sources/table-data-2021-religion-catholic-settlement",
-      "rawMetadata": {
-        "id": "data-2021-religion-catholic-settlement",
-        "type": "data-entry",
-        "name": "Religion: Catholic (Census 2021, by Settlement)",
-        "slug": "data-2021-religion-catholic-settlement",
-        "category": "data-population",
-        "description": "Religion: Catholic (Settlement) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a protestant-catholic colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
-        "geography": "settlements-2015",
-        "csv": "data/census/derived/ms-b19-catholic-settlement.csv",
-        "joinKey": "Code",
-        "csvKeyColumn": "GeographyCode",
-        "valueColumn": "Catholic_pct",
-        "ramp": "protestant-catholic",
-        "domain": [
-          0,
-          100
-        ],
-        "logarithmic": false,
-        "tableColumns": [
-          "Geography",
-          "Total",
-          "Catholic",
-          "Catholic_pct"
-        ],
-        "keywords": [
-          "census",
-          "2021",
-          "nisra",
-          "data",
-          "religion catholic",
-          "settlement"
-        ],
-        "source": {
-          "title": "NISRA Census 2021, Main Statistics Phase 1, MS-B19 (Religion)",
           "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
         }
       }
