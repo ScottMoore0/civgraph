@@ -1,3 +1,10 @@
+# D Drive Not-On-Site Content ROI Review
+
+- [x] Explain what content exists on the D: drive but has not yet been put on Civgraph.
+  - Task: use existing D-drive/site-overlap audits plus current catalogue/source manifests to list remaining locally held content in descending ROI for publication.
+  - Verification: inspect the audit CSV/MD outputs, sample provider mirrors, and current website metadata before reporting.
+  - Completed: reviewed `tasks/d-drive-not-on-site-datasets-2026-06-15.*`, `tasks/d-drive-site-overlap-context-2026-06-15.*`, and `tasks/raw-source-integration-recommendations-2026-06-19.md`; checked D:\ top-level mirrors and grouped remaining candidates by refined status, provider, category, and family.
+
 # Hills and Mountains Catalogue Visibility Regression
 
 - [x] Fix the visible catalogue pane so the Hills and Mountains cards render.
