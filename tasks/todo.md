@@ -1,3 +1,12 @@
+# Hills and Mountains Catalogue Visibility Regression
+
+- [x] Fix the visible catalogue pane so the Hills and Mountains cards render.
+  - Symptom: the database and runtime metadata contained the DoBIH/Hills map layers, but the catalogue pane did not show the expected Hills and Mountains cards.
+  - Root cause: the flat catalogue renderer in `js/ui-controller.js` still pointed at the obsolete `dobih-hills-and-mountains` class ID, while the generated database now uses four real card classes: Britain/Ireland, Ireland, England/Wales, and Scotland.
+  - Permanent prevention action: add and run a focused structural validator for the Hills and Mountains catalogue contract, covering the database hierarchy, flat card IDs, class IDs, ToC merge, and heading placement.
+  - Completed: replaced the obsolete flat catalogue card with four visible cards (`Britain and Ireland`, `Ireland`, `England and Wales`, `Scotland`) and added a heading-scoped ToC merge so the table of contents still has one `Hills and Mountains` entry under `Environment, Water & Geology`.
+  - Verification evidence: `node --check js/ui-controller.js`; `node --check scripts/validate-hills-catalogue.mjs`; `node scripts/validate-hills-catalogue.mjs` passed with 4 cards and 25 child layers; `node scripts/validate-pages-file-budget.mjs` passed at 8,160/18,500 deployable files.
+
 # Irish Hills/Mountains Domain Polygons
 
 - [x] Generate prominence-domain and summit-domain polygon maps for Irish hills/mountains and put them on the website.

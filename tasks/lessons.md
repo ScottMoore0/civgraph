@@ -1,5 +1,13 @@
 # Lessons Log
 
+### 197) Flat catalogue renderers need their own visibility guard
+- Mistake pattern: Verifying generated database hierarchy/C1 metadata while missing the separate hardcoded flat-catalogue renderer that users actually see in the main pane.
+- Impact: Hills and Mountains records existed and were loadable, but the catalogue pane still pointed at an obsolete class ID, so the visible cards did not appear.
+- Guardrail:
+  1) every catalogue hierarchy change must be checked against both generated `data/database/maps.json` and the visible flat catalogue renderer,
+  2) obsolete class IDs must be removed from UI definitions when a dataset is split into new card classes,
+  3) add focused validators for high-level catalogue contracts so visible ToC/card wiring fails locally before deployment.
+
 ### 196) Exact terminology changes must use tracked-file search first
 - Mistake pattern: For a narrow label replacement, starting with a broad recursive filesystem scan over generated data and large JSON instead of using `git grep`/targeted tracked-file search first.
 - Impact: a minutes-scale terminology change took far too long because the broad scan traversed large generated files and had to be stopped manually.

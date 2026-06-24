@@ -3741,12 +3741,36 @@ class UIController {
                 ]
             },
             {
-                id: 'flat-hills-mountains',
-                name: 'Hills and Mountains',
+                id: 'flat-hills-mountains-britain-ireland',
+                name: 'Britain and Ireland Hills and Mountains',
                 years: '2026',
                 extent: 'Britain and Ireland',
-                classIds: ['dobih-hills-and-mountains'],
+                classIds: ['dobih-britain-ireland-hills-and-mountains'],
                 thumbMapId: 'dobih-v18-4'
+            },
+            {
+                id: 'flat-hills-mountains-ireland',
+                name: 'Ireland Hills and Mountains',
+                years: '2026',
+                extent: 'Ireland',
+                classIds: ['dobih-ireland-hills-and-mountains'],
+                thumbMapId: 'dobih-v18-4-arderins'
+            },
+            {
+                id: 'flat-hills-mountains-england-wales',
+                name: 'England and Wales Hills and Mountains',
+                years: '2026',
+                extent: 'England and Wales',
+                classIds: ['dobih-england-wales-hills-and-mountains'],
+                thumbMapId: 'dobih-v18-4-nuttalls'
+            },
+            {
+                id: 'flat-hills-mountains-scotland',
+                name: 'Scotland Hills and Mountains',
+                years: '2026',
+                extent: 'Scotland',
+                classIds: ['dobih-scotland-hills-and-mountains'],
+                thumbMapId: 'dobih-v18-4-munros'
             },
             {
                 id: 'flat-habitat-networks', name: 'Habitat Networks (Ulster Wildlife)', years: '2020-2021', extent: 'Northern Ireland',
@@ -4347,6 +4371,19 @@ class UIController {
                 years: '1920-2023',
                 extent: 'Northern Ireland',
                 inHeading: 'Constituencies'
+            },
+            {
+                canonicalName: 'Hills and Mountains',
+                mergedIds: [
+                    'flat-hills-mountains-britain-ireland',
+                    'flat-hills-mountains-ireland',
+                    'flat-hills-mountains-england-wales',
+                    'flat-hills-mountains-scotland'
+                ],
+                years: '2026',
+                extent: 'Britain and Ireland',
+                inHeading: 'Environment, Water & Geology',
+                thumbMapId: 'dobih-v18-4'
             }
         ];
         const mergedIdSet = new Set(tocMerges.flatMap(m => m.mergedIds));
