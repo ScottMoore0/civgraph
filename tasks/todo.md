@@ -1,3 +1,11 @@
+# Hills and Mountains Catalogue Cards
+
+- [x] Split the DoBIH catalogue card into four visible Hills and Mountains cards while keeping one ToC item.
+  - Task: keep `Hills and Mountains` as the single table-of-contents item, but render four catalogue cards under it: `Britain and Ireland Hills and Mountains`, `Ireland Hills and Mountains`, `England and Wales Hills and Mountains`, and `Scotland Hills and Mountains`.
+  - Required grouping: include Nuttalls under England/Wales and Donalds/Donald Tops under Scotland.
+  - Verification: regenerate DoBIH metadata and assert the C1 entry remains singular while the four class/card records exist with expected child map IDs.
+  - Completed: updated the DoBIH generator and regenerated `data/database/maps.json`; confirmed one `hills-and-mountains-c1` ToC item with four full-width card sections and ran the Pages file-budget guard.
+
 # Hills And Mountains Coverage Review
 
 - [x] Review DoBIH Hills and Mountains map coverage.

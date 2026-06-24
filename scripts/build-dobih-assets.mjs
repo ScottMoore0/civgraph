@@ -44,7 +44,6 @@ const CATALOGUE_CATEGORY_ID = 'hills-and-mountains';
 const CATALOGUE_CATEGORY_NAME = 'Hills and Mountains';
 const CATALOGUE_GROUP_NAME = 'Physical Geography';
 const CATALOGUE_FLAT_SUBHEADING = 'Environment, Water and Geology';
-const CATALOGUE_CLASS_ID = 'dobih-hills-and-mountains';
 const CATALOGUE_C1_ID = 'hills-and-mountains-c1';
 const DATASET_VERSION = '18.4';
 const DATASET_DATE = '2026-06-22';
@@ -83,6 +82,70 @@ const CLASSIFICATIONS = [
   { id: 'county-tops', name: 'County Tops', fields: ['CoH', 'CoU', 'CoA', 'CoL', 'CT'], color: '#dc2626', description: 'County and county-equivalent tops recorded in DoBIH v18.4.' },
   { id: 'significant-islands', name: 'Significant Islands of Britain and Ireland', field: 'SIB', color: '#0891b2', description: 'Significant Islands of Britain and Ireland summits in DoBIH v18.4.' }
 ];
+
+const CATALOGUE_CLASS_GROUPS = [
+  {
+    id: 'dobih-britain-ireland-hills-and-mountains',
+    name: 'Britain and Ireland Hills and Mountains',
+    scope: 'Britain and Ireland',
+    maps: [
+      DATASET_ID,
+      `${DATASET_ID}-marilyns`,
+      `${DATASET_ID}-humps`,
+      `${DATASET_ID}-simms`,
+      `${DATASET_ID}-county-tops`,
+      `${DATASET_ID}-significant-islands`
+    ]
+  },
+  {
+    id: 'dobih-ireland-hills-and-mountains',
+    name: 'Ireland Hills and Mountains',
+    scope: 'Ireland',
+    maps: [
+      `${DATASET_ID}-arderins`,
+      `${DATASET_ID}-vandeleur-lynams`,
+      `${DATASET_ID}-carns`,
+      `${DATASET_ID}-binnions`
+    ]
+  },
+  {
+    id: 'dobih-england-wales-hills-and-mountains',
+    name: 'England and Wales Hills and Mountains',
+    scope: 'England and Wales',
+    maps: [
+      `${DATASET_ID}-nuttalls`,
+      `${DATASET_ID}-hewitts`,
+      `${DATASET_ID}-furths`,
+      `${DATASET_ID}-wainwrights`,
+      `${DATASET_ID}-birketts`,
+      `${DATASET_ID}-synges`,
+      `${DATASET_ID}-fellrangers`
+    ]
+  },
+  {
+    id: 'dobih-scotland-hills-and-mountains',
+    name: 'Scotland Hills and Mountains',
+    scope: 'Scotland',
+    maps: [
+      `${DATASET_ID}-munros`,
+      `${DATASET_ID}-munro-tops`,
+      `${DATASET_ID}-corbetts`,
+      `${DATASET_ID}-grahams`,
+      `${DATASET_ID}-donalds`,
+      `${DATASET_ID}-donald-tops`
+    ]
+  }
+];
+
+const LEGACY_CATALOGUE_CLASS_IDS = new Set([
+  'dobih-hill-classifications',
+  'dobih-hills-and-mountains',
+  ...CATALOGUE_CLASS_GROUPS.map((group) => group.id)
+]);
+const LEGACY_CATALOGUE_C1_IDS = new Set([
+  'hill-classifications-c1',
+  CATALOGUE_C1_ID
+]);
 
 const CORE_SOURCE_FILES = new Set([
   'hillcsv.zip',
@@ -431,28 +494,29 @@ function updateMapsJson(datasets, sourceInventory) {
     group: CATALOGUE_GROUP_NAME
   });
 
-  mapsData.classes = mapsData.classes.filter((item) => item.id !== 'dobih-hill-classifications');
-  mapsData.c1s = mapsData.c1s.filter((item) => item.id !== 'hill-classifications-c1');
+  const datasetIds = new Set(datasets.map((dataset) => dataset.id));
+  mapsData.classes = mapsData.classes.filter((item) => !LEGACY_CATALOGUE_CLASS_IDS.has(item.id));
+  mapsData.c1s = mapsData.c1s.filter((item) => !LEGACY_CATALOGUE_C1_IDS.has(item.id));
 
-  upsert(mapsData.classes, {
-    id: CATALOGUE_CLASS_ID,
-    name: CATALOGUE_NAME,
-    scope: 'British and Irish Isles',
-    category: CATALOGUE_CATEGORY_ID,
-    maps: datasets.map((dataset) => dataset.id)
-  });
+  for (const group of CATALOGUE_CLASS_GROUPS) {
+    upsert(mapsData.classes, {
+      id: group.id,
+      name: group.name,
+      scope: group.scope,
+      category: CATALOGUE_CATEGORY_ID,
+      maps: group.maps.filter((id) => datasetIds.has(id))
+    });
+  }
 
   upsert(mapsData.c1s, {
     id: CATALOGUE_C1_ID,
     name: CATALOGUE_NAME,
     category: CATALOGUE_CATEGORY_ID,
     layout: 'mixed',
-    sections: [
-      {
-        classId: CATALOGUE_CLASS_ID,
-        width: 'full'
-      }
-    ]
+    sections: CATALOGUE_CLASS_GROUPS.map((group) => ({
+      classId: group.id,
+      width: 'full'
+    }))
   });
 
   const sourceDownloads = sourceInventory
