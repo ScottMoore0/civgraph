@@ -1,3 +1,10 @@
+# Hills And Mountains Coverage Review
+
+- [x] Review DoBIH Hills and Mountains map coverage.
+  - Task: identify the coverage extent of each Hills and Mountains / DoBIH catalogue map, including whether each covers Britain and Ireland, Scotland only, Ireland only, England/Wales-only, England-only, etc.
+  - Verification: inspect generated DoBIH map/detail metadata and feature data rather than relying only on visible labels.
+  - Completed: reviewed `scripts/build-dobih-assets.mjs`, DoBIH Browse detail records, and `tmp/dobih/generated/dobih-v18-4*.geojson`; classified each child layer by actual `Country` values and feature counts.
+
 # Significant Islands Terminology
 
 - [x] Rename DoBIH Significant Islands terminology.
