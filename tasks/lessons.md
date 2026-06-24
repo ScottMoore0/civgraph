@@ -4,9 +4,11 @@
 - Mistake pattern: For a narrow label replacement, starting with a broad recursive filesystem scan over generated data and large JSON instead of using `git grep`/targeted tracked-file search first.
 - Impact: a minutes-scale terminology change took far too long because the broad scan traversed large generated files and had to be stopped manually.
 - Guardrail:
-  1) for exact wording changes, start with `git grep -l "old text"` and patch only those tracked files,
-  2) use a precise negative check such as `git grep -n -P "old text(?! suffix)"` after replacement,
-  3) avoid recursive `Get-ChildItem | Select-String` across the whole repo unless the task explicitly requires untracked/scratch files too.
+  1) for exact wording changes, start with `git grep -F -l "old text"` and patch only those tracked files,
+  2) use `git grep -F -n "old text"` only after filename-only search so huge single-line JSON does not flood output,
+  3) use scoped `rg -F -l "old text" data scripts test app js` when generated or non-git-indexed site files need checking,
+  4) use a precise negative check such as `git grep -n -P "old text(?! suffix)"` after replacement,
+  5) avoid recursive PowerShell `Get-ChildItem | Select-String` across the whole repo unless the task explicitly requires untracked/scratch files too.
 
 ### 195) Dataset publication needs an explicit catalogue hierarchy contract
 - Mistake pattern: Adding a dataset as loadable runtime/map records but leaving it in a generic catalogue bucket without the requested ToC item, parent card, and child-entry structure.
