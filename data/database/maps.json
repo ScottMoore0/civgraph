@@ -235,7 +235,7 @@
       "id": "hills-and-mountains",
       "name": "Hills and Mountains",
       "icon": "[map]",
-      "description": "Hill and mountain summit datasets, lists, and classifications.",
+      "description": "Hill and mountain summit datasets, lists, classifications, and modelled domains.",
       "group": "Physical Geography"
     }
   ],
@@ -1061,7 +1061,9 @@
         "dobih-v18-4-arderins",
         "dobih-v18-4-vandeleur-lynams",
         "dobih-v18-4-carns",
-        "dobih-v18-4-binnions"
+        "dobih-v18-4-binnions",
+        "irish-hill-summit-domains",
+        "irish-hill-prominence-domains"
       ]
     },
     {
@@ -34526,6 +34528,198 @@
         }
       ],
       "sourceManifest": "data/database/source-manifests/dobih-v18-4-sources.json"
+    },
+    {
+      "id": "irish-hill-summit-domains",
+      "name": "Irish Hill Summit Domains",
+      "slug": "irish-hill-summit-domains",
+      "category": "hills-and-mountains",
+      "provider": [
+        "Database of British and Irish Hills",
+        "Hill Bagging",
+        "Copernicus DEM"
+      ],
+      "description": "Modelled land-clipped nearest-summit domain polygons for Irish hills and mountains in DoBIH v18.4.",
+      "date": "2026-06-24",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/physical/irish-hill-summit-domains.fgb"
+      },
+      "style": {
+        "color": "#0ea5e9",
+        "fillColor": "#0ea5e9",
+        "fillOpacity": 0.18,
+        "weight": 1,
+        "opacity": 0.85
+      },
+      "labelProperty": "Name",
+      "idProperty": "DomainId",
+      "keywords": [
+        "DoBIH",
+        "Database of British and Irish Hills",
+        "Hill Bagging",
+        "Copernicus DEM",
+        "summits",
+        "hills",
+        "mountains",
+        "domain polygons",
+        "prominence",
+        "summit domains",
+        "Ireland",
+        "Hills and Mountains",
+        "Environment, Water and Geology",
+        "Irish Hill Summit Domains"
+      ],
+      "featured": false,
+      "useLOD": false,
+      "featureCount": 1664,
+      "featureTypeLabel": "hill domains",
+      "parentId": "dobih-v18-4",
+      "sourceCredits": [
+        "Database of British and Irish Hills editors",
+        "Hill Bagging",
+        "Copernicus DEM"
+      ],
+      "license": "Derived model; source DoBIH data CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "references": [
+        {
+          "label": "Hill Bagging - DoBIH downloads",
+          "url": "https://www.hill-bagging.co.uk/DoBIH/downloads.php",
+          "note": "Source download page for DoBIH v18.4 and companion files."
+        },
+        {
+          "label": "Hill Bagging",
+          "url": "https://www.hill-bagging.co.uk/",
+          "note": "Online version of the Database of British and Irish Hills."
+        },
+        {
+          "label": "Copernicus Digital Elevation Model",
+          "url": "https://spacedata.copernicus.eu/collections/copernicus-digital-elevation-model",
+          "note": "DEM source used for the prominence-domain model."
+        },
+        {
+          "label": "Creative Commons Attribution 4.0 International",
+          "url": "https://creativecommons.org/licenses/by/4.0/",
+          "note": "Licence recorded for DoBIH data exports."
+        },
+        {
+          "label": "Irish Hill Summit Domains generation caveat",
+          "note": "These are modelled summit domains, not official hill or mountain boundaries."
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "Irish Hill Summit Domains FlatGeobuf",
+          "file": "https://data.civgraph.net/data/maps/physical/irish-hill-summit-domains.fgb",
+          "bytes": 1940480
+        },
+        {
+          "label": "Domain build report",
+          "file": "tmp/dobih/domain-polygons/irish-hill-domain-build-report.json"
+        }
+      ],
+      "generationNotes": {
+        "method": "Nearest-summit land-clipped Voronoi polygon",
+        "caveat": "These are modelled summit domains, not official hill or mountain boundaries.",
+        "report": "tmp/dobih/domain-polygons/irish-hill-domain-build-report.json",
+        "generatedAt": "2026-06-24T01:47:39.907114+00:00"
+      }
+    },
+    {
+      "id": "irish-hill-prominence-domains",
+      "name": "Irish Hill Prominence Domains",
+      "slug": "irish-hill-prominence-domains",
+      "category": "hills-and-mountains",
+      "provider": [
+        "Database of British and Irish Hills",
+        "Hill Bagging",
+        "Copernicus DEM"
+      ],
+      "description": "Modelled DEM-informed prominence-weighted domain polygons for Irish hills and mountains in DoBIH v18.4.",
+      "date": "2026-06-24",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/physical/irish-hill-prominence-domains.fgb"
+      },
+      "style": {
+        "color": "#f97316",
+        "fillColor": "#f97316",
+        "fillOpacity": 0.22,
+        "weight": 1,
+        "opacity": 0.85
+      },
+      "labelProperty": "Name",
+      "idProperty": "DomainId",
+      "keywords": [
+        "DoBIH",
+        "Database of British and Irish Hills",
+        "Hill Bagging",
+        "Copernicus DEM",
+        "summits",
+        "hills",
+        "mountains",
+        "domain polygons",
+        "prominence",
+        "summit domains",
+        "Ireland",
+        "Hills and Mountains",
+        "Environment, Water and Geology",
+        "Irish Hill Prominence Domains"
+      ],
+      "featured": false,
+      "useLOD": false,
+      "featureCount": 1664,
+      "featureTypeLabel": "hill domains",
+      "parentId": "dobih-v18-4",
+      "sourceCredits": [
+        "Database of British and Irish Hills editors",
+        "Hill Bagging",
+        "Copernicus DEM"
+      ],
+      "license": "Derived model; source DoBIH data CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "references": [
+        {
+          "label": "Hill Bagging - DoBIH downloads",
+          "url": "https://www.hill-bagging.co.uk/DoBIH/downloads.php",
+          "note": "Source download page for DoBIH v18.4 and companion files."
+        },
+        {
+          "label": "Hill Bagging",
+          "url": "https://www.hill-bagging.co.uk/",
+          "note": "Online version of the Database of British and Irish Hills."
+        },
+        {
+          "label": "Copernicus Digital Elevation Model",
+          "url": "https://spacedata.copernicus.eu/collections/copernicus-digital-elevation-model",
+          "note": "DEM source used for the prominence-domain model."
+        },
+        {
+          "label": "Creative Commons Attribution 4.0 International",
+          "url": "https://creativecommons.org/licenses/by/4.0/",
+          "note": "Licence recorded for DoBIH data exports."
+        },
+        {
+          "label": "Irish Hill Prominence Domains generation caveat",
+          "note": "These are modelled prominence-weighted domains, not official hill or mountain boundaries."
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "Irish Hill Prominence Domains FlatGeobuf",
+          "file": "https://data.civgraph.net/data/maps/physical/irish-hill-prominence-domains.fgb",
+          "bytes": 4823696
+        },
+        {
+          "label": "Domain build report",
+          "file": "tmp/dobih/domain-polygons/irish-hill-domain-build-report.json"
+        }
+      ],
+      "generationNotes": {
+        "method": "DEM-informed prominence-weighted raster partition",
+        "caveat": "These are modelled prominence-weighted domains, not official hill or mountain boundaries.",
+        "report": "tmp/dobih/domain-polygons/irish-hill-domain-build-report.json",
+        "generatedAt": "2026-06-24T01:47:39.907114+00:00"
+      }
     }
   ]
 }

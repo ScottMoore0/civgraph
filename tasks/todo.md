@@ -1,3 +1,13 @@
+# Irish Hills/Mountains Domain Polygons
+
+- [x] Generate prominence-domain and summit-domain polygon maps for Irish hills/mountains and put them on the website.
+  - Task: use the local DoBIH Irish hill/summit data plus the local Copernicus GLO-30 DEM tiles to generate two reproducible polygon datasets: prominence-domain polygons and summit-domain polygons.
+  - Implementation shape: produce site-loadable vector layers, add catalogue/Browse/source metadata, and keep generated bulk map data out of the Pages bundle where appropriate.
+  - Verification: confirm raw inputs exist, run the generator, inspect output feature counts/bounds/schema, validate MapLibre metadata/catalogue wiring, run file-budget checks, then commit and push.
+  - Completed: added a reproducible Python generator for land-clipped Irish hill summit-domain polygons and DEM-informed prominence-domain polygons, plus a narrow metadata updater that wires both generated datasets into the DoBIH/Hills and Mountains catalogue, Browse records, MapLibre runtime metadata, feature indexes, layer detail sidecars, duplicate-ID sidecars, and the spatial index.
+  - Runtime assets: generated 1,664 summit-domain features and 1,664 prominence-domain features, built PMTiles packages, uploaded both PMTiles packages and both source FlatGeobuf files to the `boundaries-data` R2 bucket, and verified all four public CDN URLs return HTTP 206 byte ranges.
+  - Verification evidence: `python -m py_compile scripts\build_irish_hill_domain_assets.py`; `node --check scripts\build-irish-hill-domain-metadata.mjs`; focused Node assertions for database, Browse, MapLibre metadata, feature-index, detail, duplicate-ID, and index wiring; `node scripts\validate-pages-file-budget.mjs` passed at 8,152/18,500 deployable files. Broad `validate-test-app` and `validate-test2-route` still fail on unrelated pre-existing ED/ward feature-index, port-plan, and timeline-overlay gaps, not on these two hill-domain layers.
+
 # Hills and Mountains Catalogue Cards
 
 - [x] Split the DoBIH catalogue card into four visible Hills and Mountains cards while keeping one ToC item.
