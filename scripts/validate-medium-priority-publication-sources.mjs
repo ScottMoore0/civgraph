@@ -75,7 +75,12 @@ function main() {
     assert(detail, `detail shard does not contain ${source.id}`);
     assert(detail?.fullCitation, `detail ${source.id} lost full citation`);
     assert(detail?.viewport?.status, `detail ${source.id} lost viewport metadata`);
-    assert(normalizeArray(detail?.sourceItems).length === 1, `detail ${source.id} lost source item`);
+    const detailSourceItems = normalizeArray(detail?.sourceItems);
+    assert(detailSourceItems.length >= 1, `detail ${source.id} lost source item`);
+    assert(
+      detailSourceItems.some((item) => item.stagingId === source.approval.stagingId || item.auditRowNumber === source.sourceItems?.[0]?.auditRowNumber || item.title === source.title),
+      `detail ${source.id} lost its medium-priority source item`
+    );
     assert(detail?.approval?.recommendedAction === source.approval.recommendedAction, `detail ${source.id} lost approval action`);
     assert(!containsLocalPath(detail), `detail ${source.id} leaks a local filesystem path`);
     verifiedDetails += 1;

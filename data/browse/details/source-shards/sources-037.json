@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-25T07:23:40.712Z",
+  "generatedAt": "2026-06-25T18:54:56.904Z",
   "kind": "sources",
   "shard": "sources-037.json",
   "total": 200,
@@ -19438,7 +19438,7 @@
       "provider": [
         "Ulster Wildlife"
       ],
-      "description": "Spatial extent of acid grassland habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "description": "Spatial extent of acid grassland habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI. 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "sourceMapId": "habitat-acid-grassland",
       "thumbnail": {
         "kind": "asset",
@@ -19451,6 +19451,18 @@
         {
           "label": "Open Data NI — Acid Grassland Habitat Network",
           "url": "https://admin.opendatani.gov.uk/dataset/f4cdfd0e-f655-444d-a5fb-f052a04c6737"
+        },
+        {
+          "label": "Existing Civgraph record: Habitat Network — Acid Grassland",
+          "url": "/browse/maps/habitat-acid-grassland",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:habitat-acid-grassland",
+          "url": "/browse/sources/map-source-habitat-acid-grassland",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -19465,6 +19477,152 @@
       ],
       "interactiveUrl": "/#layers=habitat-acid-grassland",
       "browseUrl": "/browse/sources/map-source-habitat-acid-grassland",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:habitat-acid-grassland",
+          "targetEntityKind": "map",
+          "targetEntityId": "habitat-acid-grassland",
+          "targetTitle": "Habitat Network — Acid Grassland",
+          "targetBrowseUrl": "/browse/maps/habitat-acid-grassland",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "edelaney05_QueensUB"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 5,
+              "title": "Acid Grassland Habitat Network",
+              "provider": "edelaney05_QueensUB",
+              "category": "peatland-direct",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "b96e6ea99433423892a1a9761b79525a",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=b96e6ea99433423892a1a9761b79525a",
+              "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Acid_Grassland_Habitat_Network/FeatureServer",
+              "modified": "2025-11-14T15:26:37.000Z",
+              "access": "public",
+              "tags": [
+                "Ulster Wildlife",
+                "Acid Grassland Habitats",
+                "OpenDataNI",
+                "National Trust NI",
+                "RSPB NI",
+                "Woodland Trust NI",
+                "Nature Recovery Networks",
+                "Biodiversity",
+                "Grassland."
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query"
+              ],
+              "siblingItems": [
+                {
+                  "type": "Service Definition",
+                  "itemId": "bfcb25ba6503447e8069ca95c0aea120",
+                  "itemPage": "https://www.arcgis.com/home/item.html?id=bfcb25ba6503447e8069ca95c0aea120"
+                }
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — Acid Grassland",
+              "civgraphMatchId": "habitat-acid-grassland",
+              "civgraphMatchTitle": "Habitat Network — Acid Grassland",
+              "civgraphMatchKind": "map",
+              "civgraphMatchScore": 1,
+              "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "map",
+              "id": "habitat-acid-grassland",
+              "title": "Habitat Network — Acid Grassland",
+              "score": 1
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 5,
+          "title": "Acid Grassland Habitat Network",
+          "provider": "edelaney05_QueensUB",
+          "category": "peatland-direct",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "b96e6ea99433423892a1a9761b79525a",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=b96e6ea99433423892a1a9761b79525a",
+          "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Acid_Grassland_Habitat_Network/FeatureServer",
+          "modified": "2025-11-14T15:26:37.000Z",
+          "access": "public",
+          "tags": [
+            "Ulster Wildlife",
+            "Acid Grassland Habitats",
+            "OpenDataNI",
+            "National Trust NI",
+            "RSPB NI",
+            "Woodland Trust NI",
+            "Nature Recovery Networks",
+            "Biodiversity",
+            "Grassland."
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query"
+          ],
+          "siblingItems": [
+            {
+              "type": "Service Definition",
+              "itemId": "bfcb25ba6503447e8069ca95c0aea120",
+              "itemPage": "https://www.arcgis.com/home/item.html?id=bfcb25ba6503447e8069ca95c0aea120"
+            }
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — Acid Grassland",
+          "civgraphMatchId": "habitat-acid-grassland",
+          "civgraphMatchTitle": "Habitat Network — Acid Grassland",
+          "civgraphMatchKind": "map",
+          "civgraphMatchScore": 1,
+          "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
+      ],
+      "publicationStatus": "enriched",
       "rawMetadata": {
         "id": "habitat-acid-grassland",
         "name": "Habitat Network — Acid Grassland",
@@ -19524,7 +19682,7 @@
       "provider": [
         "Ulster Wildlife"
       ],
-      "description": "Spatial extent of ancient semi-natural woodland habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "description": "Spatial extent of ancient semi-natural woodland habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI. 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "sourceMapId": "habitat-ancient-semi-natural-woodland",
       "thumbnail": {
         "kind": "asset",
@@ -19537,6 +19695,18 @@
         {
           "label": "Open Data NI — Ancient Semi-Natural Woodland Habitat Network",
           "url": "https://admin.opendatani.gov.uk/dataset/0602c59a-2e65-40e7-88cf-4335afed4e09"
+        },
+        {
+          "label": "Existing Civgraph record: Habitat Network — Ancient Semi-Natural Woodland",
+          "url": "/browse/maps/habitat-ancient-semi-natural-woodland",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:habitat-ancient-semi-natural-woodland",
+          "url": "/browse/sources/map-source-habitat-ancient-semi-natural-woodland",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -19551,6 +19721,152 @@
       ],
       "interactiveUrl": "/#layers=habitat-ancient-semi-natural-woodland",
       "browseUrl": "/browse/sources/map-source-habitat-ancient-semi-natural-woodland",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:habitat-ancient-semi-natural-woodland",
+          "targetEntityKind": "map",
+          "targetEntityId": "habitat-ancient-semi-natural-woodland",
+          "targetTitle": "Habitat Network — Ancient Semi-Natural Woodland",
+          "targetBrowseUrl": "/browse/maps/habitat-ancient-semi-natural-woodland",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "edelaney05_QueensUB"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 15,
+              "title": "Ancient Semi_Natural Woodland Habitat Network",
+              "provider": "edelaney05_QueensUB",
+              "category": "peatland-direct",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "f48bfdfb5dec419d943ba69b79b3c1dd",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=f48bfdfb5dec419d943ba69b79b3c1dd",
+              "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Ancient_Semi_Natural_Woodland_Habitat_Network/FeatureServer",
+              "modified": "2025-11-14T15:41:17.000Z",
+              "access": "public",
+              "tags": [
+                "Ulster Wildlife",
+                "Ancient Semi-Natural Woodland Habitat",
+                "OpenDataNI",
+                "National Trust NI",
+                "RSPB NI",
+                "Woodland Trust NI",
+                "Nature Recovery Networks",
+                "Biodiversity",
+                "Woodland."
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query"
+              ],
+              "siblingItems": [
+                {
+                  "type": "Service Definition",
+                  "itemId": "00bdc334901d44f5aa975be9e48e001b",
+                  "itemPage": "https://www.arcgis.com/home/item.html?id=00bdc334901d44f5aa975be9e48e001b"
+                }
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — Ancient Semi-Natural Woodland",
+              "civgraphMatchId": "habitat-ancient-semi-natural-woodland",
+              "civgraphMatchTitle": "Habitat Network — Ancient Semi-Natural Woodland",
+              "civgraphMatchKind": "map",
+              "civgraphMatchScore": 1,
+              "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "map",
+              "id": "habitat-ancient-semi-natural-woodland",
+              "title": "Habitat Network — Ancient Semi-Natural Woodland",
+              "score": 1
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 15,
+          "title": "Ancient Semi_Natural Woodland Habitat Network",
+          "provider": "edelaney05_QueensUB",
+          "category": "peatland-direct",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "f48bfdfb5dec419d943ba69b79b3c1dd",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=f48bfdfb5dec419d943ba69b79b3c1dd",
+          "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Ancient_Semi_Natural_Woodland_Habitat_Network/FeatureServer",
+          "modified": "2025-11-14T15:41:17.000Z",
+          "access": "public",
+          "tags": [
+            "Ulster Wildlife",
+            "Ancient Semi-Natural Woodland Habitat",
+            "OpenDataNI",
+            "National Trust NI",
+            "RSPB NI",
+            "Woodland Trust NI",
+            "Nature Recovery Networks",
+            "Biodiversity",
+            "Woodland."
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query"
+          ],
+          "siblingItems": [
+            {
+              "type": "Service Definition",
+              "itemId": "00bdc334901d44f5aa975be9e48e001b",
+              "itemPage": "https://www.arcgis.com/home/item.html?id=00bdc334901d44f5aa975be9e48e001b"
+            }
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — Ancient Semi-Natural Woodland",
+          "civgraphMatchId": "habitat-ancient-semi-natural-woodland",
+          "civgraphMatchTitle": "Habitat Network — Ancient Semi-Natural Woodland",
+          "civgraphMatchKind": "map",
+          "civgraphMatchScore": 1,
+          "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
+      ],
+      "publicationStatus": "enriched",
       "rawMetadata": {
         "id": "habitat-ancient-semi-natural-woodland",
         "name": "Habitat Network — Ancient Semi-Natural Woodland",
@@ -19610,7 +19926,7 @@
       "provider": [
         "Ulster Wildlife"
       ],
-      "description": "Spatial extent of bog habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "description": "Spatial extent of bog habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI. 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "sourceMapId": "habitat-bog",
       "thumbnail": {
         "kind": "asset",
@@ -19623,6 +19939,18 @@
         {
           "label": "Open Data NI — Bog Habitat Network",
           "url": "https://admin.opendatani.gov.uk/dataset/846c30d0-2d1d-441e-99dc-43c4741e77f6"
+        },
+        {
+          "label": "Existing Civgraph record: Habitat Network — Bog",
+          "url": "/browse/maps/habitat-bog",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:habitat-bog",
+          "url": "/browse/sources/map-source-habitat-bog",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -19637,6 +19965,152 @@
       ],
       "interactiveUrl": "/#layers=habitat-bog",
       "browseUrl": "/browse/sources/map-source-habitat-bog",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:habitat-bog",
+          "targetEntityKind": "map",
+          "targetEntityId": "habitat-bog",
+          "targetTitle": "Habitat Network — Bog",
+          "targetBrowseUrl": "/browse/maps/habitat-bog",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "edelaney05_QueensUB"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 59,
+              "title": "Bog Habitat Network",
+              "provider": "edelaney05_QueensUB",
+              "category": "peatland-direct",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "0b0f7c2f3b1d4a879b5c81f2c0d57b11",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=0b0f7c2f3b1d4a879b5c81f2c0d57b11",
+              "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Bog_Habitat_Network/FeatureServer",
+              "modified": "2025-11-14T15:58:45.000Z",
+              "access": "public",
+              "tags": [
+                "Ulster Wildlife",
+                "Bog Habitats",
+                "OpenDataNI",
+                "National Trust NI",
+                "RSPB NI",
+                "Woodland Trust NI",
+                "Nature Recovery Networks",
+                "Biodiversity",
+                "Wetland."
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query"
+              ],
+              "siblingItems": [
+                {
+                  "type": "Service Definition",
+                  "itemId": "490da191a80a48cb857e247b5cbb0f78",
+                  "itemPage": "https://www.arcgis.com/home/item.html?id=490da191a80a48cb857e247b5cbb0f78"
+                }
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — Bog",
+              "civgraphMatchId": "habitat-bog",
+              "civgraphMatchTitle": "Habitat Network — Bog",
+              "civgraphMatchKind": "map",
+              "civgraphMatchScore": 1,
+              "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "map",
+              "id": "habitat-bog",
+              "title": "Habitat Network — Bog",
+              "score": 1
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 59,
+          "title": "Bog Habitat Network",
+          "provider": "edelaney05_QueensUB",
+          "category": "peatland-direct",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "0b0f7c2f3b1d4a879b5c81f2c0d57b11",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=0b0f7c2f3b1d4a879b5c81f2c0d57b11",
+          "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Bog_Habitat_Network/FeatureServer",
+          "modified": "2025-11-14T15:58:45.000Z",
+          "access": "public",
+          "tags": [
+            "Ulster Wildlife",
+            "Bog Habitats",
+            "OpenDataNI",
+            "National Trust NI",
+            "RSPB NI",
+            "Woodland Trust NI",
+            "Nature Recovery Networks",
+            "Biodiversity",
+            "Wetland."
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query"
+          ],
+          "siblingItems": [
+            {
+              "type": "Service Definition",
+              "itemId": "490da191a80a48cb857e247b5cbb0f78",
+              "itemPage": "https://www.arcgis.com/home/item.html?id=490da191a80a48cb857e247b5cbb0f78"
+            }
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — Bog",
+          "civgraphMatchId": "habitat-bog",
+          "civgraphMatchTitle": "Habitat Network — Bog",
+          "civgraphMatchKind": "map",
+          "civgraphMatchScore": 1,
+          "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
+      ],
+      "publicationStatus": "enriched",
       "rawMetadata": {
         "id": "habitat-bog",
         "name": "Habitat Network — Bog",
@@ -19696,7 +20170,7 @@
       "provider": [
         "Ulster Wildlife"
       ],
-      "description": "Spatial extent of calcareous grassland habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "description": "Spatial extent of calcareous grassland habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI. 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "sourceMapId": "habitat-calcareous-grassland",
       "thumbnail": {
         "kind": "asset",
@@ -19709,6 +20183,18 @@
         {
           "label": "Open Data NI — Calcareous Grassland Habitat Network",
           "url": "https://admin.opendatani.gov.uk/dataset/ddc941ea-51ce-4bb5-be8c-1daabca0a9b1"
+        },
+        {
+          "label": "Existing Civgraph record: Habitat Network — Calcareous Grassland",
+          "url": "/browse/maps/habitat-calcareous-grassland",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:habitat-calcareous-grassland",
+          "url": "/browse/sources/map-source-habitat-calcareous-grassland",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -19723,6 +20209,152 @@
       ],
       "interactiveUrl": "/#layers=habitat-calcareous-grassland",
       "browseUrl": "/browse/sources/map-source-habitat-calcareous-grassland",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:habitat-calcareous-grassland",
+          "targetEntityKind": "map",
+          "targetEntityId": "habitat-calcareous-grassland",
+          "targetTitle": "Habitat Network — Calcareous Grassland",
+          "targetBrowseUrl": "/browse/maps/habitat-calcareous-grassland",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "edelaney05_QueensUB"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 72,
+              "title": "Calcareous Grassland Habitat Network",
+              "provider": "edelaney05_QueensUB",
+              "category": "peatland-direct",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "373127951a0e4355abe0bcd5d243d9af",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=373127951a0e4355abe0bcd5d243d9af",
+              "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Calcareous_Grassland_Habitat_Network/FeatureServer",
+              "modified": "2025-11-14T16:08:47.000Z",
+              "access": "public",
+              "tags": [
+                "Ulster Wildlife",
+                "Calcareous Grassland Habitats",
+                "OpenDataNI",
+                "National Trust NI",
+                "RSPB NI",
+                "Woodland Trust NI",
+                "Nature Recovery Networks",
+                "Biodiversity",
+                "Grassland."
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query"
+              ],
+              "siblingItems": [
+                {
+                  "type": "Service Definition",
+                  "itemId": "c5f01a6677d948d88be28835606aa747",
+                  "itemPage": "https://www.arcgis.com/home/item.html?id=c5f01a6677d948d88be28835606aa747"
+                }
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — Calcareous Grassland",
+              "civgraphMatchId": "habitat-calcareous-grassland",
+              "civgraphMatchTitle": "Habitat Network — Calcareous Grassland",
+              "civgraphMatchKind": "map",
+              "civgraphMatchScore": 1,
+              "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "map",
+              "id": "habitat-calcareous-grassland",
+              "title": "Habitat Network — Calcareous Grassland",
+              "score": 1
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 72,
+          "title": "Calcareous Grassland Habitat Network",
+          "provider": "edelaney05_QueensUB",
+          "category": "peatland-direct",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "373127951a0e4355abe0bcd5d243d9af",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=373127951a0e4355abe0bcd5d243d9af",
+          "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Calcareous_Grassland_Habitat_Network/FeatureServer",
+          "modified": "2025-11-14T16:08:47.000Z",
+          "access": "public",
+          "tags": [
+            "Ulster Wildlife",
+            "Calcareous Grassland Habitats",
+            "OpenDataNI",
+            "National Trust NI",
+            "RSPB NI",
+            "Woodland Trust NI",
+            "Nature Recovery Networks",
+            "Biodiversity",
+            "Grassland."
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query"
+          ],
+          "siblingItems": [
+            {
+              "type": "Service Definition",
+              "itemId": "c5f01a6677d948d88be28835606aa747",
+              "itemPage": "https://www.arcgis.com/home/item.html?id=c5f01a6677d948d88be28835606aa747"
+            }
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — Calcareous Grassland",
+          "civgraphMatchId": "habitat-calcareous-grassland",
+          "civgraphMatchTitle": "Habitat Network — Calcareous Grassland",
+          "civgraphMatchKind": "map",
+          "civgraphMatchScore": 1,
+          "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
+      ],
+      "publicationStatus": "enriched",
       "rawMetadata": {
         "id": "habitat-calcareous-grassland",
         "name": "Habitat Network — Calcareous Grassland",
@@ -19868,7 +20500,7 @@
       "provider": [
         "Ulster Wildlife"
       ],
-      "description": "Spatial extent of coastal saltmarsh habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "description": "Spatial extent of coastal saltmarsh habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI. 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "sourceMapId": "habitat-coastal-saltmarsh",
       "thumbnail": {
         "kind": "asset",
@@ -19881,6 +20513,18 @@
         {
           "label": "Open Data NI — Coastal Saltmarsh Habitat Network",
           "url": "https://admin.opendatani.gov.uk/dataset/05953343-682e-4ae7-87c3-801a092f0587"
+        },
+        {
+          "label": "Existing Civgraph record: Habitat Network — Coastal Saltmarsh",
+          "url": "/browse/maps/habitat-coastal-saltmarsh",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:habitat-coastal-saltmarsh",
+          "url": "/browse/sources/map-source-habitat-coastal-saltmarsh",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -19895,6 +20539,152 @@
       ],
       "interactiveUrl": "/#layers=habitat-coastal-saltmarsh",
       "browseUrl": "/browse/sources/map-source-habitat-coastal-saltmarsh",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:habitat-coastal-saltmarsh",
+          "targetEntityKind": "map",
+          "targetEntityId": "habitat-coastal-saltmarsh",
+          "targetTitle": "Habitat Network — Coastal Saltmarsh",
+          "targetBrowseUrl": "/browse/maps/habitat-coastal-saltmarsh",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "edelaney05_QueensUB"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 84,
+              "title": "Coastal Saltmarsh Habitat Network",
+              "provider": "edelaney05_QueensUB",
+              "category": "peatland-direct",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "0245a92fedc1411f9188effa9b4540b4",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=0245a92fedc1411f9188effa9b4540b4",
+              "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Coastal_Saltmarsh_Habitat_Network/FeatureServer",
+              "modified": "2025-11-14T16:25:41.000Z",
+              "access": "public",
+              "tags": [
+                "Ulster Wildlife",
+                "Coastal Saltmarsh Habitats",
+                "OpenDataNI",
+                "National Trust NI",
+                "RSPB NI",
+                "Woodland Trust NI",
+                "Nature Recovery Networks",
+                "Biodiversity",
+                "Coastal."
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query"
+              ],
+              "siblingItems": [
+                {
+                  "type": "Service Definition",
+                  "itemId": "f9549f11ab2c4f2189216a34ecd81abd",
+                  "itemPage": "https://www.arcgis.com/home/item.html?id=f9549f11ab2c4f2189216a34ecd81abd"
+                }
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — Coastal Saltmarsh",
+              "civgraphMatchId": "habitat-coastal-saltmarsh",
+              "civgraphMatchTitle": "Habitat Network — Coastal Saltmarsh",
+              "civgraphMatchKind": "map",
+              "civgraphMatchScore": 1,
+              "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "map",
+              "id": "habitat-coastal-saltmarsh",
+              "title": "Habitat Network — Coastal Saltmarsh",
+              "score": 1
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 84,
+          "title": "Coastal Saltmarsh Habitat Network",
+          "provider": "edelaney05_QueensUB",
+          "category": "peatland-direct",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "0245a92fedc1411f9188effa9b4540b4",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=0245a92fedc1411f9188effa9b4540b4",
+          "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Coastal_Saltmarsh_Habitat_Network/FeatureServer",
+          "modified": "2025-11-14T16:25:41.000Z",
+          "access": "public",
+          "tags": [
+            "Ulster Wildlife",
+            "Coastal Saltmarsh Habitats",
+            "OpenDataNI",
+            "National Trust NI",
+            "RSPB NI",
+            "Woodland Trust NI",
+            "Nature Recovery Networks",
+            "Biodiversity",
+            "Coastal."
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query"
+          ],
+          "siblingItems": [
+            {
+              "type": "Service Definition",
+              "itemId": "f9549f11ab2c4f2189216a34ecd81abd",
+              "itemPage": "https://www.arcgis.com/home/item.html?id=f9549f11ab2c4f2189216a34ecd81abd"
+            }
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — Coastal Saltmarsh",
+          "civgraphMatchId": "habitat-coastal-saltmarsh",
+          "civgraphMatchTitle": "Habitat Network — Coastal Saltmarsh",
+          "civgraphMatchKind": "map",
+          "civgraphMatchScore": 1,
+          "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
+      ],
+      "publicationStatus": "enriched",
       "rawMetadata": {
         "id": "habitat-coastal-saltmarsh",
         "name": "Habitat Network — Coastal Saltmarsh",
@@ -19954,7 +20744,7 @@
       "provider": [
         "Ulster Wildlife"
       ],
-      "description": "Spatial extent of coastal sand dune habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "description": "Spatial extent of coastal sand dune habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI. 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "sourceMapId": "habitat-coastal-sand-dune",
       "thumbnail": {
         "kind": "asset",
@@ -19967,6 +20757,18 @@
         {
           "label": "Open Data NI — Coastal Sand Dune Habitat Network",
           "url": "https://admin.opendatani.gov.uk/dataset/10a948a6-05d5-498b-853a-430086da439a"
+        },
+        {
+          "label": "Existing Civgraph record: Habitat Network — Coastal Sand Dune",
+          "url": "/browse/maps/habitat-coastal-sand-dune",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:habitat-coastal-sand-dune",
+          "url": "/browse/sources/map-source-habitat-coastal-sand-dune",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -19981,6 +20783,152 @@
       ],
       "interactiveUrl": "/#layers=habitat-coastal-sand-dune",
       "browseUrl": "/browse/sources/map-source-habitat-coastal-sand-dune",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:habitat-coastal-sand-dune",
+          "targetEntityKind": "map",
+          "targetEntityId": "habitat-coastal-sand-dune",
+          "targetTitle": "Habitat Network — Coastal Sand Dune",
+          "targetBrowseUrl": "/browse/maps/habitat-coastal-sand-dune",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "edelaney05_QueensUB"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 86,
+              "title": "Coastal Sand Dune Habitat Network",
+              "provider": "edelaney05_QueensUB",
+              "category": "peatland-direct",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "7f20f7b8c8bc4f209e66f4245b50d98f",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=7f20f7b8c8bc4f209e66f4245b50d98f",
+              "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Coastal_Sand_Dune_Habitat_Network/FeatureServer",
+              "modified": "2025-11-14T16:32:49.000Z",
+              "access": "public",
+              "tags": [
+                "Ulster Wildlife",
+                "Coastal Sand Dune Habitats",
+                "OpenDataNI",
+                "National Trust NI",
+                "RSPB NI",
+                "Woodland Trust NI",
+                "Nature Recovery Networks",
+                "Biodiversity",
+                "coastal."
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query"
+              ],
+              "siblingItems": [
+                {
+                  "type": "Service Definition",
+                  "itemId": "0df8214926714046a23b50557e39490b",
+                  "itemPage": "https://www.arcgis.com/home/item.html?id=0df8214926714046a23b50557e39490b"
+                }
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — Coastal Sand Dune",
+              "civgraphMatchId": "habitat-coastal-sand-dune",
+              "civgraphMatchTitle": "Habitat Network — Coastal Sand Dune",
+              "civgraphMatchKind": "map",
+              "civgraphMatchScore": 1,
+              "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "map",
+              "id": "habitat-coastal-sand-dune",
+              "title": "Habitat Network — Coastal Sand Dune",
+              "score": 1
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 86,
+          "title": "Coastal Sand Dune Habitat Network",
+          "provider": "edelaney05_QueensUB",
+          "category": "peatland-direct",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "7f20f7b8c8bc4f209e66f4245b50d98f",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=7f20f7b8c8bc4f209e66f4245b50d98f",
+          "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Coastal_Sand_Dune_Habitat_Network/FeatureServer",
+          "modified": "2025-11-14T16:32:49.000Z",
+          "access": "public",
+          "tags": [
+            "Ulster Wildlife",
+            "Coastal Sand Dune Habitats",
+            "OpenDataNI",
+            "National Trust NI",
+            "RSPB NI",
+            "Woodland Trust NI",
+            "Nature Recovery Networks",
+            "Biodiversity",
+            "coastal."
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query"
+          ],
+          "siblingItems": [
+            {
+              "type": "Service Definition",
+              "itemId": "0df8214926714046a23b50557e39490b",
+              "itemPage": "https://www.arcgis.com/home/item.html?id=0df8214926714046a23b50557e39490b"
+            }
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — Coastal Sand Dune",
+          "civgraphMatchId": "habitat-coastal-sand-dune",
+          "civgraphMatchTitle": "Habitat Network — Coastal Sand Dune",
+          "civgraphMatchKind": "map",
+          "civgraphMatchScore": 1,
+          "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
+      ],
+      "publicationStatus": "enriched",
       "rawMetadata": {
         "id": "habitat-coastal-sand-dune",
         "name": "Habitat Network — Coastal Sand Dune",
@@ -20040,7 +20988,7 @@
       "provider": [
         "Ulster Wildlife"
       ],
-      "description": "Spatial extent of coastal vegetated shingle habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "description": "Spatial extent of coastal vegetated shingle habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI. 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "sourceMapId": "habitat-coastal-vegetated-shingle",
       "thumbnail": {
         "kind": "asset",
@@ -20053,6 +21001,18 @@
         {
           "label": "Open Data NI — Coastal Vegetated Shingle Habitat Network",
           "url": "https://admin.opendatani.gov.uk/dataset/bc57fe1b-d5f1-4f1a-af96-494618f3b53b"
+        },
+        {
+          "label": "Existing Civgraph record: Habitat Network — Coastal Vegetated Shingle",
+          "url": "/browse/maps/habitat-coastal-vegetated-shingle",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:habitat-coastal-vegetated-shingle",
+          "url": "/browse/sources/map-source-habitat-coastal-vegetated-shingle",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -20067,6 +21027,152 @@
       ],
       "interactiveUrl": "/#layers=habitat-coastal-vegetated-shingle",
       "browseUrl": "/browse/sources/map-source-habitat-coastal-vegetated-shingle",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:habitat-coastal-vegetated-shingle",
+          "targetEntityKind": "map",
+          "targetEntityId": "habitat-coastal-vegetated-shingle",
+          "targetTitle": "Habitat Network — Coastal Vegetated Shingle",
+          "targetBrowseUrl": "/browse/maps/habitat-coastal-vegetated-shingle",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "edelaney05_QueensUB"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 89,
+              "title": "Coastal Vegetated Shingle Habitat Network",
+              "provider": "edelaney05_QueensUB",
+              "category": "peatland-direct",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "a053006e225b40118fcd864b283d2a13",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=a053006e225b40118fcd864b283d2a13",
+              "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Coastal_Vegetated_Shingle_Habitat_Network/FeatureServer",
+              "modified": "2025-11-14T16:40:22.000Z",
+              "access": "public",
+              "tags": [
+                "Ulster Wildlife",
+                "Coastal Vegetated Shingle Habitats",
+                "OpenDataNI",
+                "National Trust NI",
+                "RSPB NI",
+                "Woodland Trust NI",
+                "Nature Recovery Networks",
+                "Biodiversity",
+                "Coastal."
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query"
+              ],
+              "siblingItems": [
+                {
+                  "type": "Service Definition",
+                  "itemId": "44ffd39ac9ae464c84c5e8180eaadce6",
+                  "itemPage": "https://www.arcgis.com/home/item.html?id=44ffd39ac9ae464c84c5e8180eaadce6"
+                }
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — Coastal Vegetated Shingle",
+              "civgraphMatchId": "habitat-coastal-vegetated-shingle",
+              "civgraphMatchTitle": "Habitat Network — Coastal Vegetated Shingle",
+              "civgraphMatchKind": "map",
+              "civgraphMatchScore": 1,
+              "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "map",
+              "id": "habitat-coastal-vegetated-shingle",
+              "title": "Habitat Network — Coastal Vegetated Shingle",
+              "score": 1
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 89,
+          "title": "Coastal Vegetated Shingle Habitat Network",
+          "provider": "edelaney05_QueensUB",
+          "category": "peatland-direct",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "a053006e225b40118fcd864b283d2a13",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=a053006e225b40118fcd864b283d2a13",
+          "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Coastal_Vegetated_Shingle_Habitat_Network/FeatureServer",
+          "modified": "2025-11-14T16:40:22.000Z",
+          "access": "public",
+          "tags": [
+            "Ulster Wildlife",
+            "Coastal Vegetated Shingle Habitats",
+            "OpenDataNI",
+            "National Trust NI",
+            "RSPB NI",
+            "Woodland Trust NI",
+            "Nature Recovery Networks",
+            "Biodiversity",
+            "Coastal."
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query"
+          ],
+          "siblingItems": [
+            {
+              "type": "Service Definition",
+              "itemId": "44ffd39ac9ae464c84c5e8180eaadce6",
+              "itemPage": "https://www.arcgis.com/home/item.html?id=44ffd39ac9ae464c84c5e8180eaadce6"
+            }
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — Coastal Vegetated Shingle",
+          "civgraphMatchId": "habitat-coastal-vegetated-shingle",
+          "civgraphMatchTitle": "Habitat Network — Coastal Vegetated Shingle",
+          "civgraphMatchKind": "map",
+          "civgraphMatchScore": 1,
+          "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
+      ],
+      "publicationStatus": "enriched",
       "rawMetadata": {
         "id": "habitat-coastal-vegetated-shingle",
         "name": "Habitat Network — Coastal Vegetated Shingle",
@@ -20126,7 +21232,7 @@
       "provider": [
         "Ulster Wildlife"
       ],
-      "description": "Spatial extent of deciduous woodland habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "description": "Spatial extent of deciduous woodland habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI. 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "sourceMapId": "habitat-deciduous-woodland",
       "thumbnail": {
         "kind": "asset",
@@ -20139,6 +21245,18 @@
         {
           "label": "Open Data NI — Deciduous Woodland Habitat Network",
           "url": "https://admin.opendatani.gov.uk/dataset/b15b4d96-9513-43b6-a310-a23c5c7fff37"
+        },
+        {
+          "label": "Existing Civgraph record: Habitat Network — Deciduous Woodland",
+          "url": "/browse/maps/habitat-deciduous-woodland",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:habitat-deciduous-woodland",
+          "url": "/browse/sources/map-source-habitat-deciduous-woodland",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -20153,6 +21271,152 @@
       ],
       "interactiveUrl": "/#layers=habitat-deciduous-woodland",
       "browseUrl": "/browse/sources/map-source-habitat-deciduous-woodland",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:habitat-deciduous-woodland",
+          "targetEntityKind": "map",
+          "targetEntityId": "habitat-deciduous-woodland",
+          "targetTitle": "Habitat Network — Deciduous Woodland",
+          "targetBrowseUrl": "/browse/maps/habitat-deciduous-woodland",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "edelaney05_QueensUB"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 134,
+              "title": "Deciduous Woodland Habitat Network",
+              "provider": "edelaney05_QueensUB",
+              "category": "peatland-direct",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "071b664053cc4dcdb33d71b4f2b03bf5",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=071b664053cc4dcdb33d71b4f2b03bf5",
+              "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Deciduous_Woodland_Habitat_Network/FeatureServer",
+              "modified": "2025-11-14T16:49:34.000Z",
+              "access": "public",
+              "tags": [
+                "Ulster Wildlife",
+                "Deciduous Woodland Habitats",
+                "OpenDataNI",
+                "National Trust NI",
+                "RSPB NI",
+                "Woodland Trust NI",
+                "Nature Recovery Networks",
+                "Biodiversity",
+                "Woodland."
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query"
+              ],
+              "siblingItems": [
+                {
+                  "type": "Service Definition",
+                  "itemId": "155f7536e4244d28ab48535ae5b01f1f",
+                  "itemPage": "https://www.arcgis.com/home/item.html?id=155f7536e4244d28ab48535ae5b01f1f"
+                }
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — Deciduous Woodland",
+              "civgraphMatchId": "habitat-deciduous-woodland",
+              "civgraphMatchTitle": "Habitat Network — Deciduous Woodland",
+              "civgraphMatchKind": "map",
+              "civgraphMatchScore": 1,
+              "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "map",
+              "id": "habitat-deciduous-woodland",
+              "title": "Habitat Network — Deciduous Woodland",
+              "score": 1
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 134,
+          "title": "Deciduous Woodland Habitat Network",
+          "provider": "edelaney05_QueensUB",
+          "category": "peatland-direct",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "071b664053cc4dcdb33d71b4f2b03bf5",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=071b664053cc4dcdb33d71b4f2b03bf5",
+          "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Deciduous_Woodland_Habitat_Network/FeatureServer",
+          "modified": "2025-11-14T16:49:34.000Z",
+          "access": "public",
+          "tags": [
+            "Ulster Wildlife",
+            "Deciduous Woodland Habitats",
+            "OpenDataNI",
+            "National Trust NI",
+            "RSPB NI",
+            "Woodland Trust NI",
+            "Nature Recovery Networks",
+            "Biodiversity",
+            "Woodland."
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query"
+          ],
+          "siblingItems": [
+            {
+              "type": "Service Definition",
+              "itemId": "155f7536e4244d28ab48535ae5b01f1f",
+              "itemPage": "https://www.arcgis.com/home/item.html?id=155f7536e4244d28ab48535ae5b01f1f"
+            }
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — Deciduous Woodland",
+          "civgraphMatchId": "habitat-deciduous-woodland",
+          "civgraphMatchTitle": "Habitat Network — Deciduous Woodland",
+          "civgraphMatchKind": "map",
+          "civgraphMatchScore": 1,
+          "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
+      ],
+      "publicationStatus": "enriched",
       "rawMetadata": {
         "id": "habitat-deciduous-woodland",
         "name": "Habitat Network — Deciduous Woodland",
@@ -20384,7 +21648,7 @@
       "provider": [
         "Ulster Wildlife"
       ],
-      "description": "Spatial extent of heath habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "description": "Spatial extent of heath habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI. 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "sourceMapId": "habitat-heath",
       "thumbnail": {
         "kind": "asset",
@@ -20397,6 +21661,18 @@
         {
           "label": "Open Data NI — Heath Habitat Network",
           "url": "https://admin.opendatani.gov.uk/dataset/11cae57f-ed15-4a0d-82b4-86871060a6f3"
+        },
+        {
+          "label": "Existing Civgraph record: Habitat Network — Heath",
+          "url": "/browse/maps/habitat-heath",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:habitat-heath",
+          "url": "/browse/sources/map-source-habitat-heath",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -20411,6 +21687,150 @@
       ],
       "interactiveUrl": "/#layers=habitat-heath",
       "browseUrl": "/browse/sources/map-source-habitat-heath",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:habitat-heath",
+          "targetEntityKind": "map",
+          "targetEntityId": "habitat-heath",
+          "targetTitle": "Habitat Network — Heath",
+          "targetBrowseUrl": "/browse/maps/habitat-heath",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "edelaney05_QueensUB"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 167,
+              "title": "Heath Habitat Network",
+              "provider": "edelaney05_QueensUB",
+              "category": "peatland-direct",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "e11bc98daf934634beaa143abb3eb357",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=e11bc98daf934634beaa143abb3eb357",
+              "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Heath_Habitat_Network/FeatureServer",
+              "modified": "2025-11-14T17:06:38.000Z",
+              "access": "public",
+              "tags": [
+                "Ulster Wildlife",
+                "Heath Habitats",
+                "OpenDataNI",
+                "National Trust NI",
+                "RSPB NI",
+                "Woodland Trust NI",
+                "Nature Recovery Networks",
+                "Biodiversity."
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query"
+              ],
+              "siblingItems": [
+                {
+                  "type": "Service Definition",
+                  "itemId": "48205b6e584d43369e90f53bb1c5c707",
+                  "itemPage": "https://www.arcgis.com/home/item.html?id=48205b6e584d43369e90f53bb1c5c707"
+                }
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — Heath",
+              "civgraphMatchId": "habitat-heath",
+              "civgraphMatchTitle": "Habitat Network — Heath",
+              "civgraphMatchKind": "map",
+              "civgraphMatchScore": 1,
+              "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "map",
+              "id": "habitat-heath",
+              "title": "Habitat Network — Heath",
+              "score": 1
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 167,
+          "title": "Heath Habitat Network",
+          "provider": "edelaney05_QueensUB",
+          "category": "peatland-direct",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "e11bc98daf934634beaa143abb3eb357",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=e11bc98daf934634beaa143abb3eb357",
+          "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Heath_Habitat_Network/FeatureServer",
+          "modified": "2025-11-14T17:06:38.000Z",
+          "access": "public",
+          "tags": [
+            "Ulster Wildlife",
+            "Heath Habitats",
+            "OpenDataNI",
+            "National Trust NI",
+            "RSPB NI",
+            "Woodland Trust NI",
+            "Nature Recovery Networks",
+            "Biodiversity."
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query"
+          ],
+          "siblingItems": [
+            {
+              "type": "Service Definition",
+              "itemId": "48205b6e584d43369e90f53bb1c5c707",
+              "itemPage": "https://www.arcgis.com/home/item.html?id=48205b6e584d43369e90f53bb1c5c707"
+            }
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — Heath",
+          "civgraphMatchId": "habitat-heath",
+          "civgraphMatchTitle": "Habitat Network — Heath",
+          "civgraphMatchKind": "map",
+          "civgraphMatchScore": 1,
+          "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
+      ],
+      "publicationStatus": "enriched",
       "rawMetadata": {
         "id": "habitat-heath",
         "name": "Habitat Network — Heath",
@@ -20470,7 +21890,7 @@
       "provider": [
         "Ulster Wildlife"
       ],
-      "description": "Spatial extent of lake habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "description": "Spatial extent of lake habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI. 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "sourceMapId": "habitat-lake",
       "thumbnail": {
         "kind": "asset",
@@ -20483,6 +21903,18 @@
         {
           "label": "Open Data NI — Lake Habitat Network",
           "url": "https://admin.opendatani.gov.uk/dataset/c389bfb5-65af-4457-b3f7-b5d1f2c7a29a"
+        },
+        {
+          "label": "Existing Civgraph record: Habitat Network — Lake",
+          "url": "/browse/maps/habitat-lake",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:habitat-lake",
+          "url": "/browse/sources/map-source-habitat-lake",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -20497,6 +21929,150 @@
       ],
       "interactiveUrl": "/#layers=habitat-lake",
       "browseUrl": "/browse/sources/map-source-habitat-lake",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:habitat-lake",
+          "targetEntityKind": "map",
+          "targetEntityId": "habitat-lake",
+          "targetTitle": "Habitat Network — Lake",
+          "targetBrowseUrl": "/browse/maps/habitat-lake",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "edelaney05_QueensUB"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 191,
+              "title": "Lake Habitat Network",
+              "provider": "edelaney05_QueensUB",
+              "category": "peatland-direct",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "350d2f8cbbb7464ebf2ba2b1484f0954",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=350d2f8cbbb7464ebf2ba2b1484f0954",
+              "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Lake_Habitat_Network/FeatureServer",
+              "modified": "2025-11-17T08:25:54.000Z",
+              "access": "public",
+              "tags": [
+                "Ulster Wildlife",
+                "Lake Habitats",
+                "OpenDataNI",
+                "National Trust NI",
+                "RSPB NI",
+                "Woodland Trust NI",
+                "Nature Recovery Networks",
+                "Biodiversity."
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query"
+              ],
+              "siblingItems": [
+                {
+                  "type": "Service Definition",
+                  "itemId": "ff04e6a6e53d425c8352e002348e8fca",
+                  "itemPage": "https://www.arcgis.com/home/item.html?id=ff04e6a6e53d425c8352e002348e8fca"
+                }
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — Lake",
+              "civgraphMatchId": "habitat-lake",
+              "civgraphMatchTitle": "Habitat Network — Lake",
+              "civgraphMatchKind": "map",
+              "civgraphMatchScore": 1,
+              "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "map",
+              "id": "habitat-lake",
+              "title": "Habitat Network — Lake",
+              "score": 1
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 191,
+          "title": "Lake Habitat Network",
+          "provider": "edelaney05_QueensUB",
+          "category": "peatland-direct",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "350d2f8cbbb7464ebf2ba2b1484f0954",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=350d2f8cbbb7464ebf2ba2b1484f0954",
+          "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Lake_Habitat_Network/FeatureServer",
+          "modified": "2025-11-17T08:25:54.000Z",
+          "access": "public",
+          "tags": [
+            "Ulster Wildlife",
+            "Lake Habitats",
+            "OpenDataNI",
+            "National Trust NI",
+            "RSPB NI",
+            "Woodland Trust NI",
+            "Nature Recovery Networks",
+            "Biodiversity."
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query"
+          ],
+          "siblingItems": [
+            {
+              "type": "Service Definition",
+              "itemId": "ff04e6a6e53d425c8352e002348e8fca",
+              "itemPage": "https://www.arcgis.com/home/item.html?id=ff04e6a6e53d425c8352e002348e8fca"
+            }
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — Lake",
+          "civgraphMatchId": "habitat-lake",
+          "civgraphMatchTitle": "Habitat Network — Lake",
+          "civgraphMatchKind": "map",
+          "civgraphMatchScore": 1,
+          "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
+      ],
+      "publicationStatus": "enriched",
       "rawMetadata": {
         "id": "habitat-lake",
         "name": "Habitat Network — Lake",
@@ -20556,7 +22132,7 @@
       "provider": [
         "Ulster Wildlife"
       ],
-      "description": "Spatial extent of limestone pavement habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "description": "Spatial extent of limestone pavement habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI. 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "sourceMapId": "habitat-limestone-pavement",
       "thumbnail": {
         "kind": "asset",
@@ -20569,6 +22145,18 @@
         {
           "label": "Open Data NI — Limestone Pavement Habitat Network",
           "url": "https://admin.opendatani.gov.uk/dataset/371e68d4-530a-4d1c-b867-44a3ef320411"
+        },
+        {
+          "label": "Existing Civgraph record: Habitat Network — Limestone Pavement",
+          "url": "/browse/maps/habitat-limestone-pavement",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:habitat-limestone-pavement",
+          "url": "/browse/sources/map-source-habitat-limestone-pavement",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -20583,6 +22171,150 @@
       ],
       "interactiveUrl": "/#layers=habitat-limestone-pavement",
       "browseUrl": "/browse/sources/map-source-habitat-limestone-pavement",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:habitat-limestone-pavement",
+          "targetEntityKind": "map",
+          "targetEntityId": "habitat-limestone-pavement",
+          "targetTitle": "Habitat Network — Limestone Pavement",
+          "targetBrowseUrl": "/browse/maps/habitat-limestone-pavement",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "edelaney05_QueensUB"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 210,
+              "title": "Limestone Pavement Habitat Network",
+              "provider": "edelaney05_QueensUB",
+              "category": "peatland-direct",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "2be86663e8d8476d86e12dcc24ce7dfd",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=2be86663e8d8476d86e12dcc24ce7dfd",
+              "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Limestone_Pavement_Habitat_Network/FeatureServer",
+              "modified": "2025-11-14T15:33:33.000Z",
+              "access": "public",
+              "tags": [
+                "Ulster Wildlife",
+                "Limestone Pavement Habitats",
+                "OpenDataNI",
+                "National Trust NI",
+                "RSPB NI",
+                "Woodland Trust NI",
+                "Nature Recovery Networks",
+                "Biodiversity."
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query"
+              ],
+              "siblingItems": [
+                {
+                  "type": "Service Definition",
+                  "itemId": "046876a9ae9c4a6e8596c82069342c32",
+                  "itemPage": "https://www.arcgis.com/home/item.html?id=046876a9ae9c4a6e8596c82069342c32"
+                }
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — Limestone Pavement",
+              "civgraphMatchId": "habitat-limestone-pavement",
+              "civgraphMatchTitle": "Habitat Network — Limestone Pavement",
+              "civgraphMatchKind": "map",
+              "civgraphMatchScore": 1,
+              "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "map",
+              "id": "habitat-limestone-pavement",
+              "title": "Habitat Network — Limestone Pavement",
+              "score": 1
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 210,
+          "title": "Limestone Pavement Habitat Network",
+          "provider": "edelaney05_QueensUB",
+          "category": "peatland-direct",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "2be86663e8d8476d86e12dcc24ce7dfd",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=2be86663e8d8476d86e12dcc24ce7dfd",
+          "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Limestone_Pavement_Habitat_Network/FeatureServer",
+          "modified": "2025-11-14T15:33:33.000Z",
+          "access": "public",
+          "tags": [
+            "Ulster Wildlife",
+            "Limestone Pavement Habitats",
+            "OpenDataNI",
+            "National Trust NI",
+            "RSPB NI",
+            "Woodland Trust NI",
+            "Nature Recovery Networks",
+            "Biodiversity."
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query"
+          ],
+          "siblingItems": [
+            {
+              "type": "Service Definition",
+              "itemId": "046876a9ae9c4a6e8596c82069342c32",
+              "itemPage": "https://www.arcgis.com/home/item.html?id=046876a9ae9c4a6e8596c82069342c32"
+            }
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — Limestone Pavement",
+          "civgraphMatchId": "habitat-limestone-pavement",
+          "civgraphMatchTitle": "Habitat Network — Limestone Pavement",
+          "civgraphMatchKind": "map",
+          "civgraphMatchScore": 1,
+          "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
+      ],
+      "publicationStatus": "enriched",
       "rawMetadata": {
         "id": "habitat-limestone-pavement",
         "name": "Habitat Network — Limestone Pavement",
@@ -20642,7 +22374,7 @@
       "provider": [
         "Ulster Wildlife"
       ],
-      "description": "Spatial extent of lowland meadow habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "description": "Spatial extent of lowland meadow habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI. 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "sourceMapId": "habitat-lowland-meadow",
       "thumbnail": {
         "kind": "asset",
@@ -20655,6 +22387,18 @@
         {
           "label": "Open Data NI — Lowland Meadow Habitat Network",
           "url": "https://admin.opendatani.gov.uk/dataset/c3d5eef0-5ddc-4ba4-a278-b292b1e00b65"
+        },
+        {
+          "label": "Existing Civgraph record: Habitat Network — Lowland Meadow",
+          "url": "/browse/maps/habitat-lowland-meadow",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:habitat-lowland-meadow",
+          "url": "/browse/sources/map-source-habitat-lowland-meadow",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -20669,6 +22413,152 @@
       ],
       "interactiveUrl": "/#layers=habitat-lowland-meadow",
       "browseUrl": "/browse/sources/map-source-habitat-lowland-meadow",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:habitat-lowland-meadow",
+          "targetEntityKind": "map",
+          "targetEntityId": "habitat-lowland-meadow",
+          "targetTitle": "Habitat Network — Lowland Meadow",
+          "targetBrowseUrl": "/browse/maps/habitat-lowland-meadow",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "edelaney05_QueensUB"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 221,
+              "title": "Lowland Meadow Habitat Network",
+              "provider": "edelaney05_QueensUB",
+              "category": "peatland-direct",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "c262ab98b1e74aed81c1d0403bb96396",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=c262ab98b1e74aed81c1d0403bb96396",
+              "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Lowland_Meadow_Habitat_Network/FeatureServer",
+              "modified": "2025-11-17T08:39:23.000Z",
+              "access": "public",
+              "tags": [
+                "Ulster Wildlife",
+                "Lowland Meadow Habitats",
+                "OpenDataNI",
+                "National Trust NI",
+                "RSPB NI",
+                "Woodland Trust NI",
+                "Nature Recovery Networks",
+                "Biodiversity",
+                "Grassland."
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query"
+              ],
+              "siblingItems": [
+                {
+                  "type": "Service Definition",
+                  "itemId": "7d3f8f52d79e42e0adb8dc97b2d651a6",
+                  "itemPage": "https://www.arcgis.com/home/item.html?id=7d3f8f52d79e42e0adb8dc97b2d651a6"
+                }
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — Lowland Meadow",
+              "civgraphMatchId": "habitat-lowland-meadow",
+              "civgraphMatchTitle": "Habitat Network — Lowland Meadow",
+              "civgraphMatchKind": "map",
+              "civgraphMatchScore": 1,
+              "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "map",
+              "id": "habitat-lowland-meadow",
+              "title": "Habitat Network — Lowland Meadow",
+              "score": 1
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 221,
+          "title": "Lowland Meadow Habitat Network",
+          "provider": "edelaney05_QueensUB",
+          "category": "peatland-direct",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "c262ab98b1e74aed81c1d0403bb96396",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=c262ab98b1e74aed81c1d0403bb96396",
+          "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Lowland_Meadow_Habitat_Network/FeatureServer",
+          "modified": "2025-11-17T08:39:23.000Z",
+          "access": "public",
+          "tags": [
+            "Ulster Wildlife",
+            "Lowland Meadow Habitats",
+            "OpenDataNI",
+            "National Trust NI",
+            "RSPB NI",
+            "Woodland Trust NI",
+            "Nature Recovery Networks",
+            "Biodiversity",
+            "Grassland."
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query"
+          ],
+          "siblingItems": [
+            {
+              "type": "Service Definition",
+              "itemId": "7d3f8f52d79e42e0adb8dc97b2d651a6",
+              "itemPage": "https://www.arcgis.com/home/item.html?id=7d3f8f52d79e42e0adb8dc97b2d651a6"
+            }
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — Lowland Meadow",
+          "civgraphMatchId": "habitat-lowland-meadow",
+          "civgraphMatchTitle": "Habitat Network — Lowland Meadow",
+          "civgraphMatchKind": "map",
+          "civgraphMatchScore": 1,
+          "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
+      ],
+      "publicationStatus": "enriched",
       "rawMetadata": {
         "id": "habitat-lowland-meadow",
         "name": "Habitat Network — Lowland Meadow",
@@ -20814,7 +22704,7 @@
       "provider": [
         "Ulster Wildlife"
       ],
-      "description": "Spatial extent of pond habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "description": "Spatial extent of pond habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI. 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "sourceMapId": "habitat-pond",
       "thumbnail": {
         "kind": "asset",
@@ -20827,6 +22717,18 @@
         {
           "label": "Open Data NI — Pond Habitat Network",
           "url": "https://admin.opendatani.gov.uk/dataset/4773a29d-b525-4e50-acae-b4ffa4047279"
+        },
+        {
+          "label": "Existing Civgraph record: Habitat Network — Pond",
+          "url": "/browse/maps/habitat-pond",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:habitat-pond",
+          "url": "/browse/sources/map-source-habitat-pond",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -20841,6 +22743,150 @@
       ],
       "interactiveUrl": "/#layers=habitat-pond",
       "browseUrl": "/browse/sources/map-source-habitat-pond",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:habitat-pond",
+          "targetEntityKind": "map",
+          "targetEntityId": "habitat-pond",
+          "targetTitle": "Habitat Network — Pond",
+          "targetBrowseUrl": "/browse/maps/habitat-pond",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "edelaney05_QueensUB"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 322,
+              "title": "Pond Habitat Network",
+              "provider": "edelaney05_QueensUB",
+              "category": "peatland-direct",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "b10da9e3003f44bbadb55fc942da1d1d",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=b10da9e3003f44bbadb55fc942da1d1d",
+              "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Pond_Habitat_Network/FeatureServer",
+              "modified": "2025-11-17T09:08:03.000Z",
+              "access": "public",
+              "tags": [
+                "Ulster Wildlife",
+                "Pond Habitats",
+                "OpenDataNI",
+                "National Trust NI",
+                "RSPB NI",
+                "Woodland Trust NI",
+                "Nature Recovery Networks",
+                "Biodiversity."
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query"
+              ],
+              "siblingItems": [
+                {
+                  "type": "Service Definition",
+                  "itemId": "5b03a6c078e94350a2537a6cd12a7e8f",
+                  "itemPage": "https://www.arcgis.com/home/item.html?id=5b03a6c078e94350a2537a6cd12a7e8f"
+                }
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — Pond",
+              "civgraphMatchId": "habitat-pond",
+              "civgraphMatchTitle": "Habitat Network — Pond",
+              "civgraphMatchKind": "map",
+              "civgraphMatchScore": 1,
+              "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "map",
+              "id": "habitat-pond",
+              "title": "Habitat Network — Pond",
+              "score": 1
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 322,
+          "title": "Pond Habitat Network",
+          "provider": "edelaney05_QueensUB",
+          "category": "peatland-direct",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "b10da9e3003f44bbadb55fc942da1d1d",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=b10da9e3003f44bbadb55fc942da1d1d",
+          "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Pond_Habitat_Network/FeatureServer",
+          "modified": "2025-11-17T09:08:03.000Z",
+          "access": "public",
+          "tags": [
+            "Ulster Wildlife",
+            "Pond Habitats",
+            "OpenDataNI",
+            "National Trust NI",
+            "RSPB NI",
+            "Woodland Trust NI",
+            "Nature Recovery Networks",
+            "Biodiversity."
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query"
+          ],
+          "siblingItems": [
+            {
+              "type": "Service Definition",
+              "itemId": "5b03a6c078e94350a2537a6cd12a7e8f",
+              "itemPage": "https://www.arcgis.com/home/item.html?id=5b03a6c078e94350a2537a6cd12a7e8f"
+            }
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — Pond",
+          "civgraphMatchId": "habitat-pond",
+          "civgraphMatchTitle": "Habitat Network — Pond",
+          "civgraphMatchKind": "map",
+          "civgraphMatchScore": 1,
+          "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
+      ],
+      "publicationStatus": "enriched",
       "rawMetadata": {
         "id": "habitat-pond",
         "name": "Habitat Network — Pond",
@@ -20986,7 +23032,7 @@
       "provider": [
         "Ulster Wildlife"
       ],
-      "description": "Spatial extent of reedbed habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "description": "Spatial extent of reedbed habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI. 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "sourceMapId": "habitat-reedbed",
       "thumbnail": {
         "kind": "asset",
@@ -20999,6 +23045,18 @@
         {
           "label": "Open Data NI — Reedbed Habitat Network",
           "url": "https://admin.opendatani.gov.uk/dataset/2aad7ca5-4619-4519-ab64-4ecfff858e72"
+        },
+        {
+          "label": "Existing Civgraph record: Habitat Network — Reedbed",
+          "url": "/browse/maps/habitat-reedbed",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:habitat-reedbed",
+          "url": "/browse/sources/map-source-habitat-reedbed",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -21013,6 +23071,152 @@
       ],
       "interactiveUrl": "/#layers=habitat-reedbed",
       "browseUrl": "/browse/sources/map-source-habitat-reedbed",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:habitat-reedbed",
+          "targetEntityKind": "map",
+          "targetEntityId": "habitat-reedbed",
+          "targetTitle": "Habitat Network — Reedbed",
+          "targetBrowseUrl": "/browse/maps/habitat-reedbed",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "edelaney05_QueensUB"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 334,
+              "title": "Reedbed Habitat Network",
+              "provider": "edelaney05_QueensUB",
+              "category": "peatland-direct",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "e109b25550804869b8fb60c6d4422606",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=e109b25550804869b8fb60c6d4422606",
+              "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Reedbed_Habitat_Network/FeatureServer",
+              "modified": "2025-11-17T09:25:37.000Z",
+              "access": "public",
+              "tags": [
+                "Ulster Wildlife",
+                "Reedbed Habitat Network",
+                "OpenDataNI",
+                "National Trust NI",
+                "RSPB NI",
+                "Woodland Trust NI",
+                "Nature Recovery Networks",
+                "Biodiversity",
+                "Wetland."
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query"
+              ],
+              "siblingItems": [
+                {
+                  "type": "Service Definition",
+                  "itemId": "522d2d75abce4d748be78fd54df16e85",
+                  "itemPage": "https://www.arcgis.com/home/item.html?id=522d2d75abce4d748be78fd54df16e85"
+                }
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — Reedbed",
+              "civgraphMatchId": "habitat-reedbed",
+              "civgraphMatchTitle": "Habitat Network — Reedbed",
+              "civgraphMatchKind": "map",
+              "civgraphMatchScore": 1,
+              "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "map",
+              "id": "habitat-reedbed",
+              "title": "Habitat Network — Reedbed",
+              "score": 1
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 334,
+          "title": "Reedbed Habitat Network",
+          "provider": "edelaney05_QueensUB",
+          "category": "peatland-direct",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "e109b25550804869b8fb60c6d4422606",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=e109b25550804869b8fb60c6d4422606",
+          "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Reedbed_Habitat_Network/FeatureServer",
+          "modified": "2025-11-17T09:25:37.000Z",
+          "access": "public",
+          "tags": [
+            "Ulster Wildlife",
+            "Reedbed Habitat Network",
+            "OpenDataNI",
+            "National Trust NI",
+            "RSPB NI",
+            "Woodland Trust NI",
+            "Nature Recovery Networks",
+            "Biodiversity",
+            "Wetland."
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query"
+          ],
+          "siblingItems": [
+            {
+              "type": "Service Definition",
+              "itemId": "522d2d75abce4d748be78fd54df16e85",
+              "itemPage": "https://www.arcgis.com/home/item.html?id=522d2d75abce4d748be78fd54df16e85"
+            }
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — Reedbed",
+          "civgraphMatchId": "habitat-reedbed",
+          "civgraphMatchTitle": "Habitat Network — Reedbed",
+          "civgraphMatchKind": "map",
+          "civgraphMatchScore": 1,
+          "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
+      ],
+      "publicationStatus": "enriched",
       "rawMetadata": {
         "id": "habitat-reedbed",
         "name": "Habitat Network — Reedbed",
@@ -21072,7 +23276,7 @@
       "provider": [
         "Ulster Wildlife"
       ],
-      "description": "Spatial extent of river habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "description": "Spatial extent of river habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI. 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "sourceMapId": "habitat-river",
       "thumbnail": {
         "kind": "asset",
@@ -21085,6 +23289,18 @@
         {
           "label": "Open Data NI — River Habitat Network",
           "url": "https://admin.opendatani.gov.uk/dataset/bde1d3a6-9276-442d-89e7-8a064af48898"
+        },
+        {
+          "label": "Existing Civgraph record: Habitat Network — River",
+          "url": "/browse/maps/habitat-river",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:habitat-river",
+          "url": "/browse/sources/map-source-habitat-river",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -21099,6 +23315,150 @@
       ],
       "interactiveUrl": "/#layers=habitat-river",
       "browseUrl": "/browse/sources/map-source-habitat-river",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:habitat-river",
+          "targetEntityKind": "map",
+          "targetEntityId": "habitat-river",
+          "targetTitle": "Habitat Network — River",
+          "targetBrowseUrl": "/browse/maps/habitat-river",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "edelaney05_QueensUB"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 341,
+              "title": "River Habitat Network",
+              "provider": "edelaney05_QueensUB",
+              "category": "peatland-direct",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "39d26d634a694a13a438185bc9de5a3e",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=39d26d634a694a13a438185bc9de5a3e",
+              "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/River_Habitat_Network/FeatureServer",
+              "modified": "2025-11-17T09:32:41.000Z",
+              "access": "public",
+              "tags": [
+                "Ulster Wildlife",
+                "River Habitats",
+                "OpenDataNI",
+                "National Trust NI",
+                "RSPB NI",
+                "Woodland Trust NI",
+                "Nature Recovery Networks",
+                "Biodiversity"
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query"
+              ],
+              "siblingItems": [
+                {
+                  "type": "Service Definition",
+                  "itemId": "70ff70fb11d04b2cb874e57bf28fca60",
+                  "itemPage": "https://www.arcgis.com/home/item.html?id=70ff70fb11d04b2cb874e57bf28fca60"
+                }
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — River",
+              "civgraphMatchId": "habitat-river",
+              "civgraphMatchTitle": "Habitat Network — River",
+              "civgraphMatchKind": "map",
+              "civgraphMatchScore": 1,
+              "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "map",
+              "id": "habitat-river",
+              "title": "Habitat Network — River",
+              "score": 1
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 341,
+          "title": "River Habitat Network",
+          "provider": "edelaney05_QueensUB",
+          "category": "peatland-direct",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "39d26d634a694a13a438185bc9de5a3e",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=39d26d634a694a13a438185bc9de5a3e",
+          "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/River_Habitat_Network/FeatureServer",
+          "modified": "2025-11-17T09:32:41.000Z",
+          "access": "public",
+          "tags": [
+            "Ulster Wildlife",
+            "River Habitats",
+            "OpenDataNI",
+            "National Trust NI",
+            "RSPB NI",
+            "Woodland Trust NI",
+            "Nature Recovery Networks",
+            "Biodiversity"
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query"
+          ],
+          "siblingItems": [
+            {
+              "type": "Service Definition",
+              "itemId": "70ff70fb11d04b2cb874e57bf28fca60",
+              "itemPage": "https://www.arcgis.com/home/item.html?id=70ff70fb11d04b2cb874e57bf28fca60"
+            }
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — River",
+          "civgraphMatchId": "habitat-river",
+          "civgraphMatchTitle": "Habitat Network — River",
+          "civgraphMatchKind": "map",
+          "civgraphMatchScore": 1,
+          "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
+      ],
+      "publicationStatus": "enriched",
       "rawMetadata": {
         "id": "habitat-river",
         "name": "Habitat Network — River",
@@ -21330,7 +23690,7 @@
       "provider": [
         "Ulster Wildlife"
       ],
-      "description": "Spatial extent of wood pasture and parkland habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "description": "Spatial extent of wood pasture and parkland habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI. 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "sourceMapId": "habitat-wood-pasture-parkland",
       "thumbnail": {
         "kind": "asset",
@@ -21343,6 +23703,18 @@
         {
           "label": "Open Data NI — Wood Pasture and Parkland Habitat Network",
           "url": "https://admin.opendatani.gov.uk/dataset/89653a85-4d13-4cc7-a643-1fb6e7cad0fa"
+        },
+        {
+          "label": "Existing Civgraph record: Habitat Network — Wood Pasture and Parkland",
+          "url": "/browse/maps/habitat-wood-pasture-parkland",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:habitat-wood-pasture-parkland",
+          "url": "/browse/sources/map-source-habitat-wood-pasture-parkland",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -21357,6 +23729,152 @@
       ],
       "interactiveUrl": "/#layers=habitat-wood-pasture-parkland",
       "browseUrl": "/browse/sources/map-source-habitat-wood-pasture-parkland",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:habitat-wood-pasture-parkland",
+          "targetEntityKind": "map",
+          "targetEntityId": "habitat-wood-pasture-parkland",
+          "targetTitle": "Habitat Network — Wood Pasture and Parkland",
+          "targetBrowseUrl": "/browse/maps/habitat-wood-pasture-parkland",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "edelaney05_QueensUB"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 435,
+              "title": "Wood Pasture and Parkland Habitat Network",
+              "provider": "edelaney05_QueensUB",
+              "category": "peatland-direct",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "f22083656c9e4bc7a005bdea89c64475",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=f22083656c9e4bc7a005bdea89c64475",
+              "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Wood_Pasture_and_Parkland_Habitat_Network/FeatureServer",
+              "modified": "2025-11-17T11:23:18.000Z",
+              "access": "public",
+              "tags": [
+                "Ulster Wildlife",
+                "Wood Pasture and Parkland Habitats",
+                "OpenDataNI",
+                "National Trust NI",
+                "RSPB NI",
+                "Woodland Trust NI",
+                "Nature Recovery Networks",
+                "Biodiversity",
+                "woodland."
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query"
+              ],
+              "siblingItems": [
+                {
+                  "type": "Service Definition",
+                  "itemId": "9d6306ac0d974fbcbbd17a10cc57bb5d",
+                  "itemPage": "https://www.arcgis.com/home/item.html?id=9d6306ac0d974fbcbbd17a10cc57bb5d"
+                }
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — Wood Pasture and Parkland",
+              "civgraphMatchId": "habitat-wood-pasture-parkland",
+              "civgraphMatchTitle": "Habitat Network — Wood Pasture and Parkland",
+              "civgraphMatchKind": "map",
+              "civgraphMatchScore": 1,
+              "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "map",
+              "id": "habitat-wood-pasture-parkland",
+              "title": "Habitat Network — Wood Pasture and Parkland",
+              "score": 1
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 435,
+          "title": "Wood Pasture and Parkland Habitat Network",
+          "provider": "edelaney05_QueensUB",
+          "category": "peatland-direct",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "f22083656c9e4bc7a005bdea89c64475",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=f22083656c9e4bc7a005bdea89c64475",
+          "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Wood_Pasture_and_Parkland_Habitat_Network/FeatureServer",
+          "modified": "2025-11-17T11:23:18.000Z",
+          "access": "public",
+          "tags": [
+            "Ulster Wildlife",
+            "Wood Pasture and Parkland Habitats",
+            "OpenDataNI",
+            "National Trust NI",
+            "RSPB NI",
+            "Woodland Trust NI",
+            "Nature Recovery Networks",
+            "Biodiversity",
+            "woodland."
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query"
+          ],
+          "siblingItems": [
+            {
+              "type": "Service Definition",
+              "itemId": "9d6306ac0d974fbcbbd17a10cc57bb5d",
+              "itemPage": "https://www.arcgis.com/home/item.html?id=9d6306ac0d974fbcbbd17a10cc57bb5d"
+            }
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — Wood Pasture and Parkland",
+          "civgraphMatchId": "habitat-wood-pasture-parkland",
+          "civgraphMatchTitle": "Habitat Network — Wood Pasture and Parkland",
+          "civgraphMatchKind": "map",
+          "civgraphMatchScore": 1,
+          "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
+      ],
+      "publicationStatus": "enriched",
       "rawMetadata": {
         "id": "habitat-wood-pasture-parkland",
         "name": "Habitat Network — Wood Pasture and Parkland",

@@ -1,5 +1,14 @@
 # Peatland Geoportal Metadata Duplicate Review
 
+- [x] Publish peatland geoportal metadata/provenance and source-page review records.
+  - Task: use the metadata-only Peatland Geoportal audit to enrich existing Civgraph records, create source/document/context Browse records, group DAERA/QUB SAC habitat-map conversion candidates under a coherent parent, and document best-source/variant/dedupe recommendations.
+  - Constraints: do not download ArcGIS source files, export feature geometry, convert vector services, upload to IA/R2/CDN, or create runtime map layers in this pass. Service inspection is limited to already-harvested metadata such as geometry type, layer count, capabilities, item IDs, owners, dates, links, and titles.
+  - Verification plan: generate a public sidecar from the local audit CSV, rebuild Browse source indexes, validate expected counts and no local-path/geometry leakage, then commit only the scoped files.
+  - Completed: added a generated peatland Geoportal source sidecar with 330 Browse/source records, 66 direct existing-record enrichment rows, 25 likely-duplicate review rows without concrete targets, 34 Service Definition/package review rows, 128 conversion-candidate review rows, 26 DAERA/QUB SAC habitat-map candidates grouped under a proposed `Peatland SAC Habitat Maps` parent, 14 variant-review rows, and 241 best-source review groups.
+  - Result: Browse source pages now preserve ArcGIS item IDs, owners, item URLs, service links, modified dates, tags, licence notes, source hierarchy, context/document links, structured-extraction notes for PDFs/code attachments, conversion cautions, and dedupe/variant recommendations without publishing geometry or creating runtime map layers.
+  - Guardrail: added `scripts/validate-peatland-geoportal-sources.mjs` and wired it into `npm run check` as `check:peatland-geoportal`.
+  - Verification evidence: `node --check scripts/build-peatland-geoportal-sources.mjs`; `node --check scripts/validate-peatland-geoportal-sources.mjs`; `node --check scripts/build-browse-indexes.mjs`; `node scripts/build-peatland-geoportal-sources.mjs`; `node scripts/build-browse-indexes.mjs`; `node scripts/validate-peatland-geoportal-sources.mjs`; `node scripts/validate-pages-file-budget.mjs`; `node scripts/validate-raw-source-documents.mjs`; `node scripts/validate-already-on-site-enrichments.mjs`; `node scripts/validate-medium-priority-publication-sources.mjs`; `npm run check`.
+
 - [x] Review Peatland Geoportal dataset metadata before any downloads.
   - Task: inspect the ArcGIS Hub/REST metadata for the Peatland Geoportal and identify likely duplicates, variants, source-only records, and unique candidates for Civgraph.
   - Constraints: do not download/export dataset geometries or source files; metadata-only review until explicitly authorised.

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-25T07:23:40.712Z",
+  "generatedAt": "2026-06-25T18:54:56.904Z",
   "kind": "sources",
   "shard": "sources-038.json",
   "total": 200,
@@ -14471,7 +14471,7 @@
         "DAERA",
         "NIEA"
       ],
-      "description": "Polygons of groundwater bodies — the underground aquifer-based units used for WFD groundwater status assessment.",
+      "description": "Polygons of groundwater bodies — the underground aquifer-based units used for WFD groundwater status assessment. 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "sourceMapId": "wq-groundwater-bodies",
       "thumbnail": {
         "kind": "asset",
@@ -14484,6 +14484,18 @@
         {
           "label": "OSNI Open Data — Northern Ireland Groundwater Bodies",
           "url": "https://admin.opendatani.gov.uk/dataset/northern-ireland-groundwater-bodies2"
+        },
+        {
+          "label": "Existing Civgraph record: Northern Ireland Groundwater Bodies",
+          "url": "/browse/maps/wq-groundwater-bodies",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:wq-groundwater-bodies",
+          "url": "/browse/sources/map-source-wq-groundwater-bodies",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -14498,6 +14510,132 @@
       ],
       "interactiveUrl": "/#layers=wq-groundwater-bodies",
       "browseUrl": "/browse/sources/map-source-wq-groundwater-bodies",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:wq-groundwater-bodies",
+          "targetEntityKind": "map",
+          "targetEntityId": "wq-groundwater-bodies",
+          "targetTitle": "Northern Ireland Groundwater Bodies",
+          "targetBrowseUrl": "/browse/maps/wq-groundwater-bodies",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "DAERA_OpenContent"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 293,
+              "title": "Northern Ireland Groundwater Bodies",
+              "provider": "DAERA_OpenContent",
+              "category": "habitat-protected-site-context",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "419801229efd42988a8745ae4aa776ca",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=419801229efd42988a8745ae4aa776ca",
+              "serviceUrl": "https://services-eu1.arcgis.com/kswen6BYexuc1SUk/arcgis/rest/services/NorthernIrelandGroundwaterBodies/FeatureServer",
+              "modified": "2023-08-17T00:02:47.000Z",
+              "access": "public",
+              "tags": [
+                "Groundwater",
+                "hydrogeology",
+                "WFD",
+                "Water Framework Directive",
+                "Aquifers"
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query",
+                "Sync"
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Northern Ireland Groundwater Bodies",
+              "civgraphMatchId": "wq-groundwater-bodies",
+              "civgraphMatchTitle": "Northern Ireland Groundwater Bodies",
+              "civgraphMatchKind": "map",
+              "civgraphMatchScore": 1,
+              "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "map",
+              "id": "wq-groundwater-bodies",
+              "title": "Northern Ireland Groundwater Bodies",
+              "score": 1
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 293,
+          "title": "Northern Ireland Groundwater Bodies",
+          "provider": "DAERA_OpenContent",
+          "category": "habitat-protected-site-context",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "419801229efd42988a8745ae4aa776ca",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=419801229efd42988a8745ae4aa776ca",
+          "serviceUrl": "https://services-eu1.arcgis.com/kswen6BYexuc1SUk/arcgis/rest/services/NorthernIrelandGroundwaterBodies/FeatureServer",
+          "modified": "2023-08-17T00:02:47.000Z",
+          "access": "public",
+          "tags": [
+            "Groundwater",
+            "hydrogeology",
+            "WFD",
+            "Water Framework Directive",
+            "Aquifers"
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query",
+            "Sync"
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Northern Ireland Groundwater Bodies",
+          "civgraphMatchId": "wq-groundwater-bodies",
+          "civgraphMatchTitle": "Northern Ireland Groundwater Bodies",
+          "civgraphMatchKind": "map",
+          "civgraphMatchScore": 1,
+          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
+      ],
+      "publicationStatus": "enriched",
       "rawMetadata": {
         "id": "wq-groundwater-bodies",
         "name": "Northern Ireland Groundwater Bodies",
@@ -14617,7 +14755,7 @@
         "DAERA",
         "NIEA"
       ],
-      "description": "Polygons of lakes and standing waters classified as WFD water bodies in Northern Ireland.",
+      "description": "Polygons of lakes and standing waters classified as WFD water bodies in Northern Ireland. 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "sourceMapId": "wq-lake-water-bodies",
       "thumbnail": {
         "kind": "asset",
@@ -14630,6 +14768,18 @@
         {
           "label": "OSNI Open Data — Lake Water Bodies",
           "url": "https://admin.opendatani.gov.uk/dataset/lake-water-bodies1"
+        },
+        {
+          "label": "Existing Civgraph record: Lake Water Bodies",
+          "url": "/browse/maps/wq-lake-water-bodies",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:wq-lake-water-bodies",
+          "url": "/browse/sources/map-source-wq-lake-water-bodies",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -14644,6 +14794,138 @@
       ],
       "interactiveUrl": "/#layers=wq-lake-water-bodies",
       "browseUrl": "/browse/sources/map-source-wq-lake-water-bodies",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:wq-lake-water-bodies",
+          "targetEntityKind": "map",
+          "targetEntityId": "wq-lake-water-bodies",
+          "targetTitle": "Lake Water Bodies",
+          "targetBrowseUrl": "/browse/maps/wq-lake-water-bodies",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "DAERA_OpenContent"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 192,
+              "title": "Lake Water Bodies",
+              "provider": "DAERA_OpenContent",
+              "category": "habitat-protected-site-context",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "b28bf03a9c5a487eb91a98386960feab",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=b28bf03a9c5a487eb91a98386960feab",
+              "serviceUrl": "https://services-eu1.arcgis.com/kswen6BYexuc1SUk/arcgis/rest/services/Lake_Water_Bodies_2016/FeatureServer",
+              "modified": "2023-08-17T00:02:43.000Z",
+              "access": "public",
+              "tags": [
+                "WFD",
+                "Lake Water Bodies",
+                "2nd cycle",
+                "NIEA",
+                "Water Framework Directive",
+                "DAERA",
+                "Water"
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query",
+                "Extract",
+                "Sync"
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Lake Water Bodies",
+              "civgraphMatchId": "wq-lake-water-bodies",
+              "civgraphMatchTitle": "Lake Water Bodies",
+              "civgraphMatchKind": "map",
+              "civgraphMatchScore": 1,
+              "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "map",
+              "id": "wq-lake-water-bodies",
+              "title": "Lake Water Bodies",
+              "score": 1
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 192,
+          "title": "Lake Water Bodies",
+          "provider": "DAERA_OpenContent",
+          "category": "habitat-protected-site-context",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "b28bf03a9c5a487eb91a98386960feab",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=b28bf03a9c5a487eb91a98386960feab",
+          "serviceUrl": "https://services-eu1.arcgis.com/kswen6BYexuc1SUk/arcgis/rest/services/Lake_Water_Bodies_2016/FeatureServer",
+          "modified": "2023-08-17T00:02:43.000Z",
+          "access": "public",
+          "tags": [
+            "WFD",
+            "Lake Water Bodies",
+            "2nd cycle",
+            "NIEA",
+            "Water Framework Directive",
+            "DAERA",
+            "Water"
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query",
+            "Extract",
+            "Sync"
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Lake Water Bodies",
+          "civgraphMatchId": "wq-lake-water-bodies",
+          "civgraphMatchTitle": "Lake Water Bodies",
+          "civgraphMatchKind": "map",
+          "civgraphMatchScore": 1,
+          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
+      ],
+      "publicationStatus": "enriched",
       "rawMetadata": {
         "id": "wq-lake-water-bodies",
         "name": "Lake Water Bodies",
@@ -16698,7 +16980,7 @@
         "DAERA",
         "NIEA"
       ],
-      "description": "River-segment polygons for each WFD river water body (2nd-cycle classification). Each segment is a single management unit under the EU Water Framework Directive.",
+      "description": "River-segment polygons for each WFD river water body (2nd-cycle classification). Each segment is a single management unit under the EU Water Framework Directive. 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "sourceMapId": "wq-wfd-river-water-bodies",
       "thumbnail": {
         "kind": "asset",
@@ -16711,6 +16993,18 @@
         {
           "label": "OSNI Open Data — WFD River Water Bodies 2nd Cycle",
           "url": "https://admin.opendatani.gov.uk/dataset/wfd-river-water-bodies-2nd-cycle1"
+        },
+        {
+          "label": "Existing Civgraph record: WFD River Water Bodies — 2nd Cycle",
+          "url": "/browse/maps/wq-wfd-river-water-bodies",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:wq-wfd-river-water-bodies",
+          "url": "/browse/sources/map-source-wq-wfd-river-water-bodies",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -16725,6 +17019,144 @@
       ],
       "interactiveUrl": "/#layers=wq-wfd-river-water-bodies",
       "browseUrl": "/browse/sources/map-source-wq-wfd-river-water-bodies",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:wq-wfd-river-water-bodies",
+          "targetEntityKind": "map",
+          "targetEntityId": "wq-wfd-river-water-bodies",
+          "targetTitle": "WFD River Water Bodies — 2nd Cycle",
+          "targetBrowseUrl": "/browse/maps/wq-wfd-river-water-bodies",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "DAERA_OpenContent"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 424,
+              "title": "WFD River Water Bodies 2nd Cycle",
+              "provider": "DAERA_OpenContent",
+              "category": "habitat-protected-site-context",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "5bd4d0fb38c442d480a17db6b839b1a3",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=5bd4d0fb38c442d480a17db6b839b1a3",
+              "serviceUrl": "https://services-eu1.arcgis.com/kswen6BYexuc1SUk/arcgis/rest/services/WFD_River_Water_Bodies_2016/FeatureServer",
+              "modified": "2023-08-17T00:02:46.000Z",
+              "access": "public",
+              "tags": [
+                "NIEA",
+                "DAERA",
+                "Department of Agriculture",
+                "Environment and Rural Affairs",
+                "Scientific",
+                "Northern Ireland",
+                "NI",
+                "Water",
+                "Water Framework Directive",
+                "WFD"
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query",
+                "Extract",
+                "Sync"
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: WFD River Water Bodies — 2nd Cycle",
+              "civgraphMatchId": "wq-wfd-river-water-bodies",
+              "civgraphMatchTitle": "WFD River Water Bodies — 2nd Cycle",
+              "civgraphMatchKind": "map",
+              "civgraphMatchScore": 1,
+              "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "map",
+              "id": "wq-wfd-river-water-bodies",
+              "title": "WFD River Water Bodies — 2nd Cycle",
+              "score": 1
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 424,
+          "title": "WFD River Water Bodies 2nd Cycle",
+          "provider": "DAERA_OpenContent",
+          "category": "habitat-protected-site-context",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "5bd4d0fb38c442d480a17db6b839b1a3",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=5bd4d0fb38c442d480a17db6b839b1a3",
+          "serviceUrl": "https://services-eu1.arcgis.com/kswen6BYexuc1SUk/arcgis/rest/services/WFD_River_Water_Bodies_2016/FeatureServer",
+          "modified": "2023-08-17T00:02:46.000Z",
+          "access": "public",
+          "tags": [
+            "NIEA",
+            "DAERA",
+            "Department of Agriculture",
+            "Environment and Rural Affairs",
+            "Scientific",
+            "Northern Ireland",
+            "NI",
+            "Water",
+            "Water Framework Directive",
+            "WFD"
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query",
+            "Extract",
+            "Sync"
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: WFD River Water Bodies — 2nd Cycle",
+          "civgraphMatchId": "wq-wfd-river-water-bodies",
+          "civgraphMatchTitle": "WFD River Water Bodies — 2nd Cycle",
+          "civgraphMatchKind": "map",
+          "civgraphMatchScore": 1,
+          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
+      ],
+      "publicationStatus": "enriched",
       "rawMetadata": {
         "id": "wq-wfd-river-water-bodies",
         "name": "WFD River Water Bodies — 2nd Cycle",
@@ -24196,7 +24628,7 @@
         "Tailte Éireann",
         "Tailte/OSI/data.gov.ie"
       ],
-      "description": "Constituency Boundaries Ungeneralised - National Electoral Boundaries - 2013 is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; election-model-merge-and-provenance-review: requires exact election merge review; large-or-special-format-review: size/format decision remains before runtime publication.",
+      "description": "Constituency Boundaries Ungeneralised - National Electoral Boundaries - 2013 is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; election-model-merge-and-provenance-review: requires exact election merge review; large-or-special-format-review: size/format decision remains before runtime publication. 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "url": "https://data.gov.ie/dataset/constituency-boundaries-ungeneralised-national-electoral-boundaries-20131",
       "references": [
         {
@@ -24210,6 +24642,18 @@
           "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/constituency-boundaries-ungeneralised-national-electoral-boundaries-20131",
           "source": "Internet Archive Wayback Machine",
           "role": "archive-captures"
+        },
+        {
+          "label": "Existing Civgraph record: Constituency Boundaries Ungeneralised - National Electoral Boundaries - 2013",
+          "url": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-constituency-boundaries-ungeneralised-national-electoral-boundaries-20131-00033",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: medium-priority:2-irish-election-source-enrichment-data:constituency-boundaries-ungeneralised-national-electoral-boundaries-20131:00033",
+          "url": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-constituency-boundaries-ungeneralised-national-electoral-boundaries-20131-00033",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -24251,7 +24695,14 @@
         "ZIP",
         "review:duplicate-or-variant-review-no-existing-match-candidate",
         "review:election-model-merge-and-provenance-review-requires-exact-election-merge-review",
-        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
+        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication",
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
       ],
       "sourceItems": [
         {
@@ -24321,6 +24772,42 @@
           "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
           "geographyRecommendation": "Match by election kind, legislation/version, jurisdiction, and date; do not merge Dail/Westminster/Assembly geographies by name alone.",
           "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        },
+        {
+          "auditRowNumber": 91,
+          "title": "Constituency Boundaries Ungeneralised - National Electoral Boundaries - 2013",
+          "provider": "TailteEireannMapGenie",
+          "category": "habitat-protected-site-context",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "dc928340da0844b287f8ea2672238d45",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=dc928340da0844b287f8ea2672238d45",
+          "serviceUrl": "https://services-eu1.arcgis.com/FH5XCsx8rYXqnjF5/arcgis/rest/services/Constituency_Boundaries_Ungeneralised/FeatureServer",
+          "modified": "2026-02-05T10:05:42.000Z",
+          "access": "public",
+          "tags": [
+            "Electoral Boundaries",
+            "dgigovernment",
+            "high-value-dataset",
+            "Geospatial"
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query",
+            "Extract"
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Constituency Boundaries Ungeneralised - National Electoral Boundaries - 2013",
+          "civgraphMatchId": "medium-priority:2-irish-election-source-enrichment-data:constituency-boundaries-ungeneralised-national-electoral-boundaries-20131:00033",
+          "civgraphMatchTitle": "Constituency Boundaries Ungeneralised - National Electoral Boundaries - 2013",
+          "civgraphMatchKind": "source",
+          "civgraphMatchScore": 1,
+          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
         }
       ],
       "status": "Source only",
@@ -24399,6 +24886,82 @@
       "proposedBrowsePath": "Books/Tables/Sources source/download record",
       "relationship": "source-record-runtime-conversion-pending",
       "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-constituency-boundaries-ungeneralised-national-electoral-boundaries-20131-00033",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "medium-priority:2-irish-election-source-enrichment-data:constituency-boundaries-ungeneralised-national-electoral-boundaries-20131:00033",
+          "targetEntityKind": "source",
+          "targetEntityId": "medium-priority:2-irish-election-source-enrichment-data:constituency-boundaries-ungeneralised-national-electoral-boundaries-20131:00033",
+          "targetTitle": "Constituency Boundaries Ungeneralised - National Electoral Boundaries - 2013",
+          "targetBrowseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-constituency-boundaries-ungeneralised-national-electoral-boundaries-20131-00033",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "TailteEireannMapGenie"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 91,
+              "title": "Constituency Boundaries Ungeneralised - National Electoral Boundaries - 2013",
+              "provider": "TailteEireannMapGenie",
+              "category": "habitat-protected-site-context",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "dc928340da0844b287f8ea2672238d45",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=dc928340da0844b287f8ea2672238d45",
+              "serviceUrl": "https://services-eu1.arcgis.com/FH5XCsx8rYXqnjF5/arcgis/rest/services/Constituency_Boundaries_Ungeneralised/FeatureServer",
+              "modified": "2026-02-05T10:05:42.000Z",
+              "access": "public",
+              "tags": [
+                "Electoral Boundaries",
+                "dgigovernment",
+                "high-value-dataset",
+                "Geospatial"
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query",
+                "Extract"
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Constituency Boundaries Ungeneralised - National Electoral Boundaries - 2013",
+              "civgraphMatchId": "medium-priority:2-irish-election-source-enrichment-data:constituency-boundaries-ungeneralised-national-electoral-boundaries-20131:00033",
+              "civgraphMatchTitle": "Constituency Boundaries Ungeneralised - National Electoral Boundaries - 2013",
+              "civgraphMatchKind": "source",
+              "civgraphMatchScore": 1,
+              "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "source",
+              "id": "medium-priority:2-irish-election-source-enrichment-data:constituency-boundaries-ungeneralised-national-electoral-boundaries-20131:00033",
+              "title": "Constituency Boundaries Ungeneralised - National Electoral Boundaries - 2013",
+              "score": 1
+            }
+          ]
+        }
+      ],
       "rawMetadata": {
         "id": "medium-priority:2-irish-election-source-enrichment-data:constituency-boundaries-ungeneralised-national-electoral-boundaries-20131:00033",
         "slug": "medium-priority-2-irish-election-source-enrichment-data-constituency-boundaries-ungeneralised-national-electoral-boundaries-20131-00033",
@@ -25050,7 +25613,7 @@
         "Tailte Éireann",
         "Tailte/OSI/data.gov.ie"
       ],
-      "description": "Constituency Boundaries Ungeneralised - National Electoral Boundaries - 2023 is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; election-model-merge-and-provenance-review: requires exact election merge review; large-or-special-format-review: size/format decision remains before runtime publication.",
+      "description": "Constituency Boundaries Ungeneralised - National Electoral Boundaries - 2023 is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; election-model-merge-and-provenance-review: requires exact election merge review; large-or-special-format-review: size/format decision remains before runtime publication. 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "url": "https://data.gov.ie/dataset/constituency-boundaries-ungeneralised-national-electoral-boundaries-20231",
       "references": [
         {
@@ -25064,6 +25627,18 @@
           "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/constituency-boundaries-ungeneralised-national-electoral-boundaries-20231",
           "source": "Internet Archive Wayback Machine",
           "role": "archive-captures"
+        },
+        {
+          "label": "Existing Civgraph record: Constituency Boundaries Ungeneralised - National Electoral Boundaries - 2023",
+          "url": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-constituency-boundaries-ungeneralised-national-electoral-boundaries-20231-00035",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: medium-priority:2-irish-election-source-enrichment-data:constituency-boundaries-ungeneralised-national-electoral-boundaries-20231:00035",
+          "url": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-constituency-boundaries-ungeneralised-national-electoral-boundaries-20231-00035",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -25105,7 +25680,14 @@
         "ZIP",
         "review:duplicate-or-variant-review-no-existing-match-candidate",
         "review:election-model-merge-and-provenance-review-requires-exact-election-merge-review",
-        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
+        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication",
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
       ],
       "sourceItems": [
         {
@@ -25175,6 +25757,42 @@
           "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
           "geographyRecommendation": "Match by election kind, legislation/version, jurisdiction, and date; do not merge Dail/Westminster/Assembly geographies by name alone.",
           "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        },
+        {
+          "auditRowNumber": 92,
+          "title": "Constituency Boundaries Ungeneralised - National Electoral Boundaries - 2023",
+          "provider": "TailteEireannMapGenie",
+          "category": "habitat-protected-site-context",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "a37ad6a3a6ff47e4a5a0ff313b418448",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=a37ad6a3a6ff47e4a5a0ff313b418448",
+          "serviceUrl": "https://services-eu1.arcgis.com/FH5XCsx8rYXqnjF5/arcgis/rest/services/ConstituencyBoundariesUngeneralised_National_Electoral_Boundaries_2023/FeatureServer",
+          "modified": "2026-02-05T10:05:44.000Z",
+          "access": "public",
+          "tags": [
+            "Electoral Boundaries",
+            "dgigovernment",
+            "high-value-dataset",
+            "Geospatial"
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query",
+            "Extract"
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Constituency Boundaries Ungeneralised - National Electoral Boundaries - 2023",
+          "civgraphMatchId": "medium-priority:2-irish-election-source-enrichment-data:constituency-boundaries-ungeneralised-national-electoral-boundaries-20231:00035",
+          "civgraphMatchTitle": "Constituency Boundaries Ungeneralised - National Electoral Boundaries - 2023",
+          "civgraphMatchKind": "source",
+          "civgraphMatchScore": 1,
+          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
         }
       ],
       "status": "Source only",
@@ -25253,6 +25871,82 @@
       "proposedBrowsePath": "Books/Tables/Sources source/download record",
       "relationship": "source-record-runtime-conversion-pending",
       "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-constituency-boundaries-ungeneralised-national-electoral-boundaries-20231-00035",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "medium-priority:2-irish-election-source-enrichment-data:constituency-boundaries-ungeneralised-national-electoral-boundaries-20231:00035",
+          "targetEntityKind": "source",
+          "targetEntityId": "medium-priority:2-irish-election-source-enrichment-data:constituency-boundaries-ungeneralised-national-electoral-boundaries-20231:00035",
+          "targetTitle": "Constituency Boundaries Ungeneralised - National Electoral Boundaries - 2023",
+          "targetBrowseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-constituency-boundaries-ungeneralised-national-electoral-boundaries-20231-00035",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "TailteEireannMapGenie"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 92,
+              "title": "Constituency Boundaries Ungeneralised - National Electoral Boundaries - 2023",
+              "provider": "TailteEireannMapGenie",
+              "category": "habitat-protected-site-context",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "a37ad6a3a6ff47e4a5a0ff313b418448",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=a37ad6a3a6ff47e4a5a0ff313b418448",
+              "serviceUrl": "https://services-eu1.arcgis.com/FH5XCsx8rYXqnjF5/arcgis/rest/services/ConstituencyBoundariesUngeneralised_National_Electoral_Boundaries_2023/FeatureServer",
+              "modified": "2026-02-05T10:05:44.000Z",
+              "access": "public",
+              "tags": [
+                "Electoral Boundaries",
+                "dgigovernment",
+                "high-value-dataset",
+                "Geospatial"
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query",
+                "Extract"
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Constituency Boundaries Ungeneralised - National Electoral Boundaries - 2023",
+              "civgraphMatchId": "medium-priority:2-irish-election-source-enrichment-data:constituency-boundaries-ungeneralised-national-electoral-boundaries-20231:00035",
+              "civgraphMatchTitle": "Constituency Boundaries Ungeneralised - National Electoral Boundaries - 2023",
+              "civgraphMatchKind": "source",
+              "civgraphMatchScore": 1,
+              "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "source",
+              "id": "medium-priority:2-irish-election-source-enrichment-data:constituency-boundaries-ungeneralised-national-electoral-boundaries-20231:00035",
+              "title": "Constituency Boundaries Ungeneralised - National Electoral Boundaries - 2023",
+              "score": 1
+            }
+          ]
+        }
+      ],
       "rawMetadata": {
         "id": "medium-priority:2-irish-election-source-enrichment-data:constituency-boundaries-ungeneralised-national-electoral-boundaries-20231:00035",
         "slug": "medium-priority-2-irish-election-source-enrichment-data-constituency-boundaries-ungeneralised-national-electoral-boundaries-20231-00035",

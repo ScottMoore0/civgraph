@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-25T07:23:40.712Z",
+  "generatedAt": "2026-06-25T18:54:56.904Z",
   "kind": "sources",
   "shard": "sources-036.json",
   "total": 200,
@@ -16799,7 +16799,7 @@
         "DAERA",
         "Northern Ireland Environment Agency"
       ],
-      "description": "Eight Areas of Outstanding Natural Beauty designated under Article 14 of the Nature Conservation and Amenity Lands (Northern Ireland) Order 1985 for landscape protection. Includes the Mournes, Antrim Coast & Glens, Causeway Coast, Ring of Gullion, Sperrins, Strangford Lough, Erne Lakeland and Lagan Valley AONBs.",
+      "description": "Eight Areas of Outstanding Natural Beauty designated under Article 14 of the Nature Conservation and Amenity Lands (Northern Ireland) Order 1985 for landscape protection. Includes the Mournes, Antrim Coast & Glens, Causeway Coast, Ring of Gullion, Sperrins, Strangford Lough, Erne Lakeland and Lagan Valley AONBs. 2 additional already-on-site duplicate-match source rows are staged as metadata/provenance enrichment for this existing record.",
       "sourceMapId": "designated-aonb",
       "thumbnail": {
         "kind": "asset",
@@ -16812,6 +16812,18 @@
         {
           "label": "Open Data NI — Areas of Outstanding Natural Beauty (AONB)",
           "url": "https://admin.opendatani.gov.uk/dataset/areas-of-outstanding-natural-beauty"
+        },
+        {
+          "label": "Existing Civgraph record: Areas of Outstanding Natural Beauty (AONB)",
+          "url": "/browse/maps/designated-aonb",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:designated-aonb",
+          "url": "/browse/sources/map-source-designated-aonb",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -16826,6 +16838,279 @@
       ],
       "interactiveUrl": "/#layers=designated-aonb",
       "browseUrl": "/browse/sources/map-source-designated-aonb",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:designated-aonb",
+          "targetEntityKind": "map",
+          "targetEntityId": "designated-aonb",
+          "targetTitle": "Areas of Outstanding Natural Beauty (AONB)",
+          "targetBrowseUrl": "/browse/maps/designated-aonb",
+          "sourceItemCount": 2,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "Heritage_Council_Admin",
+            "edelaney05_QueensUB"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 36,
+              "title": "Areas of Outstanding Natural Beauty",
+              "provider": "Heritage_Council_Admin",
+              "category": "habitat-protected-site-context",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "b2cf6a1e38c24e33ad984ec5bfe993cc",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=b2cf6a1e38c24e33ad984ec5bfe993cc",
+              "serviceUrl": "https://services-eu1.arcgis.com/v5dOXTEOb7ZHdNyQ/arcgis/rest/services/Areas_of_Outstanding_Natural_Beauty/FeatureServer",
+              "modified": "2026-03-04T16:28:52.000Z",
+              "access": "public",
+              "tags": [
+                "Landscapes"
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query"
+              ],
+              "siblingItems": [
+                {
+                  "type": "Feature Service",
+                  "itemId": "a0959d41bfb847ac931529f726ff8bca",
+                  "itemPage": "https://www.arcgis.com/home/item.html?id=a0959d41bfb847ac931529f726ff8bca"
+                },
+                {
+                  "type": "Service Definition",
+                  "itemId": "c1c2366f87a847b2b04421dad49969a2",
+                  "itemPage": "https://www.arcgis.com/home/item.html?id=c1c2366f87a847b2b04421dad49969a2"
+                }
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Areas of Outstanding Natural Beauty (AONB)",
+              "civgraphMatchId": "designated-aonb",
+              "civgraphMatchTitle": "Areas of Outstanding Natural Beauty (AONB)",
+              "civgraphMatchKind": "map",
+              "civgraphMatchScore": 1,
+              "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+            },
+            {
+              "auditRowNumber": 37,
+              "title": "Areas of Outstanding Natural Beauty _AONB_",
+              "provider": "edelaney05_QueensUB",
+              "category": "peatland-direct",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "a0959d41bfb847ac931529f726ff8bca",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=a0959d41bfb847ac931529f726ff8bca",
+              "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Areas_of_Outstanding_Natural_Beauty__AONB_/FeatureServer",
+              "modified": "2026-01-06T13:18:55.000Z",
+              "access": "public",
+              "tags": [
+                "Protected area",
+                "Protected Sites",
+                "INSPIRE",
+                "NIEA",
+                "DOE",
+                "Department of Environment",
+                "Northern Ireland Environment Agency",
+                "Environment Conservation and Heritage",
+                "Environment",
+                "AONB",
+                "Area of Outstanding Natural Beauty",
+                "Landscape",
+                "Scenic Value",
+                "Amenity Lands Act",
+                "Countryside",
+                "Landscape Character",
+                "Conservation",
+                "Amenity Lands",
+                "Northern Ireland",
+                "NI",
+                "Metadata",
+                "Boundaries",
+                "conservation."
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query"
+              ],
+              "siblingItems": [
+                {
+                  "type": "Feature Service",
+                  "itemId": "b2cf6a1e38c24e33ad984ec5bfe993cc",
+                  "itemPage": "https://www.arcgis.com/home/item.html?id=b2cf6a1e38c24e33ad984ec5bfe993cc"
+                },
+                {
+                  "type": "Service Definition",
+                  "itemId": "c1c2366f87a847b2b04421dad49969a2",
+                  "itemPage": "https://www.arcgis.com/home/item.html?id=c1c2366f87a847b2b04421dad49969a2"
+                }
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Areas of Outstanding Natural Beauty (AONB)",
+              "civgraphMatchId": "designated-aonb",
+              "civgraphMatchTitle": "Areas of Outstanding Natural Beauty (AONB)",
+              "civgraphMatchKind": "map",
+              "civgraphMatchScore": 1,
+              "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "map",
+              "id": "designated-aonb",
+              "title": "Areas of Outstanding Natural Beauty (AONB)",
+              "score": 1
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 36,
+          "title": "Areas of Outstanding Natural Beauty",
+          "provider": "Heritage_Council_Admin",
+          "category": "habitat-protected-site-context",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "b2cf6a1e38c24e33ad984ec5bfe993cc",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=b2cf6a1e38c24e33ad984ec5bfe993cc",
+          "serviceUrl": "https://services-eu1.arcgis.com/v5dOXTEOb7ZHdNyQ/arcgis/rest/services/Areas_of_Outstanding_Natural_Beauty/FeatureServer",
+          "modified": "2026-03-04T16:28:52.000Z",
+          "access": "public",
+          "tags": [
+            "Landscapes"
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query"
+          ],
+          "siblingItems": [
+            {
+              "type": "Feature Service",
+              "itemId": "a0959d41bfb847ac931529f726ff8bca",
+              "itemPage": "https://www.arcgis.com/home/item.html?id=a0959d41bfb847ac931529f726ff8bca"
+            },
+            {
+              "type": "Service Definition",
+              "itemId": "c1c2366f87a847b2b04421dad49969a2",
+              "itemPage": "https://www.arcgis.com/home/item.html?id=c1c2366f87a847b2b04421dad49969a2"
+            }
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Areas of Outstanding Natural Beauty (AONB)",
+          "civgraphMatchId": "designated-aonb",
+          "civgraphMatchTitle": "Areas of Outstanding Natural Beauty (AONB)",
+          "civgraphMatchKind": "map",
+          "civgraphMatchScore": 1,
+          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+        },
+        {
+          "auditRowNumber": 37,
+          "title": "Areas of Outstanding Natural Beauty _AONB_",
+          "provider": "edelaney05_QueensUB",
+          "category": "peatland-direct",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "a0959d41bfb847ac931529f726ff8bca",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=a0959d41bfb847ac931529f726ff8bca",
+          "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Areas_of_Outstanding_Natural_Beauty__AONB_/FeatureServer",
+          "modified": "2026-01-06T13:18:55.000Z",
+          "access": "public",
+          "tags": [
+            "Protected area",
+            "Protected Sites",
+            "INSPIRE",
+            "NIEA",
+            "DOE",
+            "Department of Environment",
+            "Northern Ireland Environment Agency",
+            "Environment Conservation and Heritage",
+            "Environment",
+            "AONB",
+            "Area of Outstanding Natural Beauty",
+            "Landscape",
+            "Scenic Value",
+            "Amenity Lands Act",
+            "Countryside",
+            "Landscape Character",
+            "Conservation",
+            "Amenity Lands",
+            "Northern Ireland",
+            "NI",
+            "Metadata",
+            "Boundaries",
+            "conservation."
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query"
+          ],
+          "siblingItems": [
+            {
+              "type": "Feature Service",
+              "itemId": "b2cf6a1e38c24e33ad984ec5bfe993cc",
+              "itemPage": "https://www.arcgis.com/home/item.html?id=b2cf6a1e38c24e33ad984ec5bfe993cc"
+            },
+            {
+              "type": "Service Definition",
+              "itemId": "c1c2366f87a847b2b04421dad49969a2",
+              "itemPage": "https://www.arcgis.com/home/item.html?id=c1c2366f87a847b2b04421dad49969a2"
+            }
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Areas of Outstanding Natural Beauty (AONB)",
+          "civgraphMatchId": "designated-aonb",
+          "civgraphMatchTitle": "Areas of Outstanding Natural Beauty (AONB)",
+          "civgraphMatchKind": "map",
+          "civgraphMatchScore": 1,
+          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
+      ],
+      "publicationStatus": "enriched",
       "rawMetadata": {
         "id": "designated-aonb",
         "name": "Areas of Outstanding Natural Beauty (AONB)",
@@ -16876,7 +17161,7 @@
         "DAERA",
         "Northern Ireland Environment Agency"
       ],
-      "description": "Areas of Special Scientific Interest provide statutory protection under the Nature Conservation and Amenity Lands (NI) Order 1985 for the best examples of NI's flora, fauna, geological or physiographical features. The 394 ASSIs are NI's principal site-based wildlife protection mechanism.",
+      "description": "Areas of Special Scientific Interest provide statutory protection under the Nature Conservation and Amenity Lands (NI) Order 1985 for the best examples of NI's flora, fauna, geological or physiographical features. The 394 ASSIs are NI's principal site-based wildlife protection mechanism. 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "sourceMapId": "designated-assi",
       "thumbnail": {
         "kind": "asset",
@@ -16889,6 +17174,18 @@
         {
           "label": "Open Data NI — Areas of Special Scientific Interest (ASSI)",
           "url": "https://admin.opendatani.gov.uk/dataset/areas-of-special-scientific-interest"
+        },
+        {
+          "label": "Existing Civgraph record: Areas of Special Scientific Interest (ASSI)",
+          "url": "/browse/maps/designated-assi",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:designated-assi",
+          "url": "/browse/sources/map-source-designated-assi",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -16903,6 +17200,184 @@
       ],
       "interactiveUrl": "/#layers=designated-assi",
       "browseUrl": "/browse/sources/map-source-designated-assi",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:designated-assi",
+          "targetEntityKind": "map",
+          "targetEntityId": "designated-assi",
+          "targetTitle": "Areas of Special Scientific Interest (ASSI)",
+          "targetBrowseUrl": "/browse/maps/designated-assi",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "Richard.joss_DAERANI"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 39,
+              "title": "Areas of Special Scientific Interest",
+              "provider": "Richard.joss_DAERANI",
+              "category": "peatland-direct",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "56b056f6502c41899c84a5ee28dc9317",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=56b056f6502c41899c84a5ee28dc9317",
+              "serviceUrl": "https://services-eu1.arcgis.com/kswen6BYexuc1SUk/arcgis/rest/services/AreasOfSpecialScientificInterestRIchard/FeatureServer",
+              "modified": "2023-09-05T11:26:36.000Z",
+              "access": "public",
+              "tags": [
+                "Protected Sites Protected Area",
+                "Landscape Conservation",
+                "Landscape Protection",
+                "INSPIRE",
+                "NIEA",
+                "DAERA",
+                "Department of Agriculture",
+                "Environment and Rural Affairs",
+                "Northern Ireland Environment Agency",
+                "Environment Conservation and Heritage",
+                "Environment",
+                "Conservation",
+                "ASSI",
+                "Area of Special Scientific Interest",
+                "Scientific",
+                "Special",
+                "Interest",
+                "Flora",
+                "Fauna",
+                "Geology",
+                "Physiographical",
+                "Intertidal",
+                "Marine",
+                "Environmental Order",
+                "Species",
+                "Habitat",
+                "Earth Science",
+                "Northern Ireland",
+                "NI",
+                "United Kingdom",
+                "UK"
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query",
+                "Sync"
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Areas of Special Scientific Interest (ASSI)",
+              "civgraphMatchId": "designated-assi",
+              "civgraphMatchTitle": "Areas of Special Scientific Interest (ASSI)",
+              "civgraphMatchKind": "map",
+              "civgraphMatchScore": 1,
+              "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "map",
+              "id": "designated-assi",
+              "title": "Areas of Special Scientific Interest (ASSI)",
+              "score": 1
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 39,
+          "title": "Areas of Special Scientific Interest",
+          "provider": "Richard.joss_DAERANI",
+          "category": "peatland-direct",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "56b056f6502c41899c84a5ee28dc9317",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=56b056f6502c41899c84a5ee28dc9317",
+          "serviceUrl": "https://services-eu1.arcgis.com/kswen6BYexuc1SUk/arcgis/rest/services/AreasOfSpecialScientificInterestRIchard/FeatureServer",
+          "modified": "2023-09-05T11:26:36.000Z",
+          "access": "public",
+          "tags": [
+            "Protected Sites Protected Area",
+            "Landscape Conservation",
+            "Landscape Protection",
+            "INSPIRE",
+            "NIEA",
+            "DAERA",
+            "Department of Agriculture",
+            "Environment and Rural Affairs",
+            "Northern Ireland Environment Agency",
+            "Environment Conservation and Heritage",
+            "Environment",
+            "Conservation",
+            "ASSI",
+            "Area of Special Scientific Interest",
+            "Scientific",
+            "Special",
+            "Interest",
+            "Flora",
+            "Fauna",
+            "Geology",
+            "Physiographical",
+            "Intertidal",
+            "Marine",
+            "Environmental Order",
+            "Species",
+            "Habitat",
+            "Earth Science",
+            "Northern Ireland",
+            "NI",
+            "United Kingdom",
+            "UK"
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query",
+            "Sync"
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Areas of Special Scientific Interest (ASSI)",
+          "civgraphMatchId": "designated-assi",
+          "civgraphMatchTitle": "Areas of Special Scientific Interest (ASSI)",
+          "civgraphMatchKind": "map",
+          "civgraphMatchScore": 1,
+          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
+      ],
+      "publicationStatus": "enriched",
       "rawMetadata": {
         "id": "designated-assi",
         "name": "Areas of Special Scientific Interest (ASSI)",
@@ -17030,7 +17505,7 @@
         "DAERA",
         "Northern Ireland Environment Agency"
       ],
-      "description": "Statutory nature reserves declared under the Nature Conservation and Amenity Lands (NI) Order 1985 for areas of importance for flora, fauna, geological or other special features. The 50 NNRs are managed primarily for conservation, with the highest level of legal site protection in NI.",
+      "description": "Statutory nature reserves declared under the Nature Conservation and Amenity Lands (NI) Order 1985 for areas of importance for flora, fauna, geological or other special features. The 50 NNRs are managed primarily for conservation, with the highest level of legal site protection in NI. 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "sourceMapId": "designated-nnr",
       "thumbnail": {
         "kind": "asset",
@@ -17043,6 +17518,18 @@
         {
           "label": "Open Data NI — National Nature Reserves (NNR)",
           "url": "https://admin.opendatani.gov.uk/dataset/national-nature-reserves"
+        },
+        {
+          "label": "Existing Civgraph record: National Nature Reserves (NNR)",
+          "url": "/browse/maps/designated-nnr",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:designated-nnr",
+          "url": "/browse/sources/map-source-designated-nnr",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -17057,6 +17544,186 @@
       ],
       "interactiveUrl": "/#layers=designated-nnr",
       "browseUrl": "/browse/sources/map-source-designated-nnr",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:designated-nnr",
+          "targetEntityKind": "map",
+          "targetEntityId": "designated-nnr",
+          "targetTitle": "National Nature Reserves (NNR)",
+          "targetBrowseUrl": "/browse/maps/designated-nnr",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "edelaney05_QueensUB"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 287,
+              "title": "National Nature Reserves",
+              "provider": "edelaney05_QueensUB",
+              "category": "peatland-direct",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "621ba6db8f6442d5b65c7f04804231ee",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=621ba6db8f6442d5b65c7f04804231ee",
+              "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/National_Nature_Reserves/FeatureServer",
+              "modified": "2026-01-06T13:20:22.000Z",
+              "access": "public",
+              "tags": [
+                "Land use",
+                "Protected sites",
+                "nature conservation",
+                "nature reserve",
+                "Protected Sites",
+                "INSPIRE",
+                "NIEA",
+                "Northern Ireland Environment Agency",
+                "DOE",
+                "Department of Environment",
+                "Environment Conservation and Heritage",
+                "Environment",
+                "Conservation",
+                "National Nature Reserves",
+                "Nature Reserves",
+                "Flora",
+                "Fauna",
+                "Geological",
+                "Nature Conservation",
+                "Amenity Lands",
+                "Land Use",
+                "Northern Ireland",
+                "NI",
+                "Metadata",
+                "Biodiversity",
+                "NNR."
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query"
+              ],
+              "siblingItems": [
+                {
+                  "type": "Service Definition",
+                  "itemId": "1a5453b9186941febd60d09079f36d43",
+                  "itemPage": "https://www.arcgis.com/home/item.html?id=1a5453b9186941febd60d09079f36d43"
+                }
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: National Nature Reserves (NNR)",
+              "civgraphMatchId": "designated-nnr",
+              "civgraphMatchTitle": "National Nature Reserves (NNR)",
+              "civgraphMatchKind": "map",
+              "civgraphMatchScore": 1,
+              "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "map",
+              "id": "designated-nnr",
+              "title": "National Nature Reserves (NNR)",
+              "score": 1
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 287,
+          "title": "National Nature Reserves",
+          "provider": "edelaney05_QueensUB",
+          "category": "peatland-direct",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "621ba6db8f6442d5b65c7f04804231ee",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=621ba6db8f6442d5b65c7f04804231ee",
+          "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/National_Nature_Reserves/FeatureServer",
+          "modified": "2026-01-06T13:20:22.000Z",
+          "access": "public",
+          "tags": [
+            "Land use",
+            "Protected sites",
+            "nature conservation",
+            "nature reserve",
+            "Protected Sites",
+            "INSPIRE",
+            "NIEA",
+            "Northern Ireland Environment Agency",
+            "DOE",
+            "Department of Environment",
+            "Environment Conservation and Heritage",
+            "Environment",
+            "Conservation",
+            "National Nature Reserves",
+            "Nature Reserves",
+            "Flora",
+            "Fauna",
+            "Geological",
+            "Nature Conservation",
+            "Amenity Lands",
+            "Land Use",
+            "Northern Ireland",
+            "NI",
+            "Metadata",
+            "Biodiversity",
+            "NNR."
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query"
+          ],
+          "siblingItems": [
+            {
+              "type": "Service Definition",
+              "itemId": "1a5453b9186941febd60d09079f36d43",
+              "itemPage": "https://www.arcgis.com/home/item.html?id=1a5453b9186941febd60d09079f36d43"
+            }
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: National Nature Reserves (NNR)",
+          "civgraphMatchId": "designated-nnr",
+          "civgraphMatchTitle": "National Nature Reserves (NNR)",
+          "civgraphMatchKind": "map",
+          "civgraphMatchScore": 1,
+          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
+      ],
+      "publicationStatus": "enriched",
       "rawMetadata": {
         "id": "designated-nnr",
         "name": "National Nature Reserves (NNR)",
@@ -17184,7 +17851,7 @@
         "DAERA",
         "Northern Ireland Environment Agency"
       ],
-      "description": "SACs are habitats and species given the greatest protection under the EU Habitats Directive (transposed into UK law via the Conservation Regulations). 58 sites in NI form part of the Natura 2000 network — the highest level of habitat protection in European law.",
+      "description": "SACs are habitats and species given the greatest protection under the EU Habitats Directive (transposed into UK law via the Conservation Regulations). 58 sites in NI form part of the Natura 2000 network — the highest level of habitat protection in European law. 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "sourceMapId": "designated-sac",
       "thumbnail": {
         "kind": "asset",
@@ -17197,6 +17864,18 @@
         {
           "label": "Open Data NI — Special Areas of Conservation (SAC)",
           "url": "https://admin.opendatani.gov.uk/dataset/special-areas-of-conservation"
+        },
+        {
+          "label": "Existing Civgraph record: Special Areas of Conservation (SAC)",
+          "url": "/browse/maps/designated-sac",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:designated-sac",
+          "url": "/browse/sources/map-source-designated-sac",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -17211,6 +17890,166 @@
       ],
       "interactiveUrl": "/#layers=designated-sac",
       "browseUrl": "/browse/sources/map-source-designated-sac",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:designated-sac",
+          "targetEntityKind": "map",
+          "targetEntityId": "designated-sac",
+          "targetTitle": "Special Areas of Conservation (SAC)",
+          "targetBrowseUrl": "/browse/maps/designated-sac",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "Richard.joss_DAERANI"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 360,
+              "title": "Special Areas of Conservation",
+              "provider": "Richard.joss_DAERANI",
+              "category": "habitat-protected-site-context",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "a7e17dfe2b284544848259eb3b26eb6d",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=a7e17dfe2b284544848259eb3b26eb6d",
+              "serviceUrl": "https://services-eu1.arcgis.com/kswen6BYexuc1SUk/arcgis/rest/services/SAC/FeatureServer",
+              "modified": "2023-09-05T11:26:35.000Z",
+              "access": "public",
+              "tags": [
+                "Protected Sites",
+                "Protected Area",
+                "INSPIRE",
+                "NIEA",
+                "Northern Ireland Environment Agency",
+                "DAERA",
+                "Department of Agriculture",
+                "Environment and Rural Affairs",
+                "Environment Conservation and Heritage",
+                "Environment",
+                "Conservation",
+                "SAC",
+                "Special Areas of Conservation",
+                "National Site Network Sites",
+                "Habitat",
+                "Species",
+                "Natural Habitats",
+                "Northern Ireland",
+                "NI",
+                "United Kingdom",
+                "UK"
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query",
+                "Extract",
+                "Sync"
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Special Areas of Conservation (SAC)",
+              "civgraphMatchId": "designated-sac",
+              "civgraphMatchTitle": "Special Areas of Conservation (SAC)",
+              "civgraphMatchKind": "map",
+              "civgraphMatchScore": 1,
+              "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "map",
+              "id": "designated-sac",
+              "title": "Special Areas of Conservation (SAC)",
+              "score": 1
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 360,
+          "title": "Special Areas of Conservation",
+          "provider": "Richard.joss_DAERANI",
+          "category": "habitat-protected-site-context",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "a7e17dfe2b284544848259eb3b26eb6d",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=a7e17dfe2b284544848259eb3b26eb6d",
+          "serviceUrl": "https://services-eu1.arcgis.com/kswen6BYexuc1SUk/arcgis/rest/services/SAC/FeatureServer",
+          "modified": "2023-09-05T11:26:35.000Z",
+          "access": "public",
+          "tags": [
+            "Protected Sites",
+            "Protected Area",
+            "INSPIRE",
+            "NIEA",
+            "Northern Ireland Environment Agency",
+            "DAERA",
+            "Department of Agriculture",
+            "Environment and Rural Affairs",
+            "Environment Conservation and Heritage",
+            "Environment",
+            "Conservation",
+            "SAC",
+            "Special Areas of Conservation",
+            "National Site Network Sites",
+            "Habitat",
+            "Species",
+            "Natural Habitats",
+            "Northern Ireland",
+            "NI",
+            "United Kingdom",
+            "UK"
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query",
+            "Extract",
+            "Sync"
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Special Areas of Conservation (SAC)",
+          "civgraphMatchId": "designated-sac",
+          "civgraphMatchTitle": "Special Areas of Conservation (SAC)",
+          "civgraphMatchKind": "map",
+          "civgraphMatchScore": 1,
+          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
+      ],
+      "publicationStatus": "enriched",
       "rawMetadata": {
         "id": "designated-sac",
         "name": "Special Areas of Conservation (SAC)",
@@ -17261,7 +18100,7 @@
         "DAERA",
         "Northern Ireland Environment Agency"
       ],
-      "description": "Designated under the EU Birds Directive for vulnerable, migratory and other significant bird species. 16 SPAs in NI form part of the Natura 2000 network. Many overlap with Ramsar / SAC / ASSI designations.",
+      "description": "Designated under the EU Birds Directive for vulnerable, migratory and other significant bird species. 16 SPAs in NI form part of the Natura 2000 network. Many overlap with Ramsar / SAC / ASSI designations. 2 additional already-on-site duplicate-match source rows are staged as metadata/provenance enrichment for this existing record.",
       "sourceMapId": "designated-spa",
       "thumbnail": {
         "kind": "asset",
@@ -17274,6 +18113,18 @@
         {
           "label": "Open Data NI — Special Protection Areas (SPA)",
           "url": "https://admin.opendatani.gov.uk/dataset/special-protection-areas"
+        },
+        {
+          "label": "Existing Civgraph record: Special Protection Areas (SPA)",
+          "url": "/browse/maps/designated-spa",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:designated-spa",
+          "url": "/browse/sources/map-source-designated-spa",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -17288,6 +18139,294 @@
       ],
       "interactiveUrl": "/#layers=designated-spa",
       "browseUrl": "/browse/sources/map-source-designated-spa",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:designated-spa",
+          "targetEntityKind": "map",
+          "targetEntityId": "designated-spa",
+          "targetTitle": "Special Protection Areas (SPA)",
+          "targetBrowseUrl": "/browse/maps/designated-spa",
+          "sourceItemCount": 2,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service",
+            "Feature Collection"
+          ],
+          "providers": [
+            "Richard.joss_DAERANI",
+            "edelaney05_QueensUB"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 361,
+              "title": "Special Protection Areas",
+              "provider": "Richard.joss_DAERANI",
+              "category": "habitat-protected-site-context",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "83261389584a4d159f8c0bc2144d0520",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=83261389584a4d159f8c0bc2144d0520",
+              "serviceUrl": "https://services-eu1.arcgis.com/kswen6BYexuc1SUk/arcgis/rest/services/SPA/FeatureServer",
+              "modified": "2023-09-05T11:26:36.000Z",
+              "access": "public",
+              "tags": [
+                "Protected Sites",
+                "INSPIRE",
+                "NIEA",
+                "Northern Ireland Environment Agency",
+                "DAERA",
+                "Department of Agriculture",
+                "Environment and Rural Affairs",
+                "Environment Conservation and Heritage",
+                "Environment",
+                "Conservation",
+                "SPA",
+                "Special Protection Area",
+                "Protected Areas",
+                "National Site Network",
+                "Birds Directive",
+                "Conservation Regulations",
+                "Rare Birds",
+                "Bird",
+                "Migratory Birds",
+                "Habitat",
+                "Northern Ireland",
+                "NI",
+                "United Kingdom",
+                "UK"
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query",
+                "Extract",
+                "Sync"
+              ],
+              "siblingItems": [
+                {
+                  "type": "Feature Collection",
+                  "itemId": "28b3b3afdbf549d2bb67c77b8912b5b6",
+                  "itemPage": "https://www.arcgis.com/home/item.html?id=28b3b3afdbf549d2bb67c77b8912b5b6"
+                }
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Special Protection Areas (SPA)",
+              "civgraphMatchId": "designated-spa",
+              "civgraphMatchTitle": "Special Protection Areas (SPA)",
+              "civgraphMatchKind": "map",
+              "civgraphMatchScore": 1,
+              "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+            },
+            {
+              "auditRowNumber": 362,
+              "title": "Special Protection Areas",
+              "provider": "edelaney05_QueensUB",
+              "category": "habitat-protected-site-context",
+              "formats": [
+                "Feature Collection"
+              ],
+              "arcgisItemId": "28b3b3afdbf549d2bb67c77b8912b5b6",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=28b3b3afdbf549d2bb67c77b8912b5b6",
+              "modified": "2025-12-12T17:40:02.000Z",
+              "access": "public",
+              "tags": [
+                "Protected Sites",
+                "INSPIRE",
+                "NIEA",
+                "Northern Ireland Environment Agency",
+                "DAERA",
+                "Environment",
+                "Department of Agriculture",
+                "Environment and Rural Affairs",
+                "Environment Conservation and Heritage",
+                "Conservation",
+                "Birds Directive",
+                "SPA",
+                "Special Protection Area",
+                "Protected Areas",
+                "National Site Network",
+                "Habitat",
+                "Conservation Regulations",
+                "Rare Birds",
+                "Bird",
+                "Migratory Birds",
+                "Northern Ireland",
+                "NI",
+                "United Kingdom",
+                "UK"
+              ],
+              "siblingItems": [
+                {
+                  "type": "Feature Service",
+                  "itemId": "83261389584a4d159f8c0bc2144d0520",
+                  "itemPage": "https://www.arcgis.com/home/item.html?id=83261389584a4d159f8c0bc2144d0520"
+                }
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Special Protection Areas (SPA)",
+              "civgraphMatchId": "designated-spa",
+              "civgraphMatchTitle": "Special Protection Areas (SPA)",
+              "civgraphMatchKind": "map",
+              "civgraphMatchScore": 1,
+              "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "map",
+              "id": "designated-spa",
+              "title": "Special Protection Areas (SPA)",
+              "score": 1
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 361,
+          "title": "Special Protection Areas",
+          "provider": "Richard.joss_DAERANI",
+          "category": "habitat-protected-site-context",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "83261389584a4d159f8c0bc2144d0520",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=83261389584a4d159f8c0bc2144d0520",
+          "serviceUrl": "https://services-eu1.arcgis.com/kswen6BYexuc1SUk/arcgis/rest/services/SPA/FeatureServer",
+          "modified": "2023-09-05T11:26:36.000Z",
+          "access": "public",
+          "tags": [
+            "Protected Sites",
+            "INSPIRE",
+            "NIEA",
+            "Northern Ireland Environment Agency",
+            "DAERA",
+            "Department of Agriculture",
+            "Environment and Rural Affairs",
+            "Environment Conservation and Heritage",
+            "Environment",
+            "Conservation",
+            "SPA",
+            "Special Protection Area",
+            "Protected Areas",
+            "National Site Network",
+            "Birds Directive",
+            "Conservation Regulations",
+            "Rare Birds",
+            "Bird",
+            "Migratory Birds",
+            "Habitat",
+            "Northern Ireland",
+            "NI",
+            "United Kingdom",
+            "UK"
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query",
+            "Extract",
+            "Sync"
+          ],
+          "siblingItems": [
+            {
+              "type": "Feature Collection",
+              "itemId": "28b3b3afdbf549d2bb67c77b8912b5b6",
+              "itemPage": "https://www.arcgis.com/home/item.html?id=28b3b3afdbf549d2bb67c77b8912b5b6"
+            }
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Special Protection Areas (SPA)",
+          "civgraphMatchId": "designated-spa",
+          "civgraphMatchTitle": "Special Protection Areas (SPA)",
+          "civgraphMatchKind": "map",
+          "civgraphMatchScore": 1,
+          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+        },
+        {
+          "auditRowNumber": 362,
+          "title": "Special Protection Areas",
+          "provider": "edelaney05_QueensUB",
+          "category": "habitat-protected-site-context",
+          "formats": [
+            "Feature Collection"
+          ],
+          "arcgisItemId": "28b3b3afdbf549d2bb67c77b8912b5b6",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=28b3b3afdbf549d2bb67c77b8912b5b6",
+          "modified": "2025-12-12T17:40:02.000Z",
+          "access": "public",
+          "tags": [
+            "Protected Sites",
+            "INSPIRE",
+            "NIEA",
+            "Northern Ireland Environment Agency",
+            "DAERA",
+            "Environment",
+            "Department of Agriculture",
+            "Environment and Rural Affairs",
+            "Environment Conservation and Heritage",
+            "Conservation",
+            "Birds Directive",
+            "SPA",
+            "Special Protection Area",
+            "Protected Areas",
+            "National Site Network",
+            "Habitat",
+            "Conservation Regulations",
+            "Rare Birds",
+            "Bird",
+            "Migratory Birds",
+            "Northern Ireland",
+            "NI",
+            "United Kingdom",
+            "UK"
+          ],
+          "siblingItems": [
+            {
+              "type": "Feature Service",
+              "itemId": "83261389584a4d159f8c0bc2144d0520",
+              "itemPage": "https://www.arcgis.com/home/item.html?id=83261389584a4d159f8c0bc2144d0520"
+            }
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Special Protection Areas (SPA)",
+          "civgraphMatchId": "designated-spa",
+          "civgraphMatchTitle": "Special Protection Areas (SPA)",
+          "civgraphMatchKind": "map",
+          "civgraphMatchScore": 1,
+          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
+      ],
+      "publicationStatus": "enriched",
       "rawMetadata": {
         "id": "designated-spa",
         "name": "Special Protection Areas (SPA)",

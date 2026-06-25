@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-25T07:23:40.712Z",
+  "generatedAt": "2026-06-25T18:54:56.904Z",
   "kind": "sources",
   "shard": "sources-039.json",
   "total": 200,
@@ -45135,7 +45135,7 @@
         "Tailte Éireann",
         "Tailte/OSI/data.gov.ie"
       ],
-      "description": "Administrative Areas - National Statutory Boundaries - 2019 - Generalised 20m is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; geography-crosswalk-and-versioning: needs exact geography crosswalk; large-or-special-format-review: size/format decision remains before runtime publication.",
+      "description": "Administrative Areas - National Statutory Boundaries - 2019 - Generalised 20m is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; geography-crosswalk-and-versioning: needs exact geography crosswalk; large-or-special-format-review: size/format decision remains before runtime publication. 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "url": "https://data.gov.ie/dataset/administrative-areas-national-statutory-boundaries-2019-generalised-20m1",
       "references": [
         {
@@ -45149,6 +45149,18 @@
           "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/administrative-areas-national-statutory-boundaries-2019-generalised-20m1",
           "source": "Internet Archive Wayback Machine",
           "role": "archive-captures"
+        },
+        {
+          "label": "Existing Civgraph record: Administrative Areas - National Statutory Boundaries - 2019 - Generalised 20m",
+          "url": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-administrative-areas-national-statutory-boundaries-2019",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:administrative-areas-national-statutory-boundaries-2019-generalised-20m1:00013",
+          "url": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-administrative-areas-national-statutory-boundaries-2019",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -45190,7 +45202,14 @@
         "ZIP",
         "review:duplicate-or-variant-review-no-existing-match-candidate",
         "review:geography-crosswalk-and-versioning-needs-exact-geography-crosswalk",
-        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
+        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication",
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
       ],
       "sourceItems": [
         {
@@ -45259,6 +45278,42 @@
           "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
           "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
           "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        },
+        {
+          "auditRowNumber": 7,
+          "title": "Administrative Areas - National Statutory Boundaries - 2019 - Generalised 20m",
+          "provider": "TailteEireannMapGenie",
+          "category": "habitat-protected-site-context",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "7f508baddb9644d8ac3c3921df39303a",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=7f508baddb9644d8ac3c3921df39303a",
+          "serviceUrl": "https://services-eu1.arcgis.com/FH5XCsx8rYXqnjF5/arcgis/rest/services/Administrative_Areas___OSi_National_Statutory_Boundaries___Generalised_20m/FeatureServer",
+          "modified": "2026-02-05T10:05:42.000Z",
+          "access": "public",
+          "tags": [
+            "dgigovernment",
+            "Statutory Boundaries",
+            "high-value-dataset",
+            "Geospatial"
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query",
+            "Extract"
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Administrative Areas - National Statutory Boundaries - 2019 - Generalised 20m",
+          "civgraphMatchId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:administrative-areas-national-statutory-boundaries-2019-generalised-20m1:00013",
+          "civgraphMatchTitle": "Administrative Areas - National Statutory Boundaries - 2019 - Generalised 20m",
+          "civgraphMatchKind": "source",
+          "civgraphMatchScore": 1,
+          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
         }
       ],
       "status": "Source only",
@@ -45335,6 +45390,82 @@
       "proposedBrowsePath": "Books/Tables/Sources source/download record",
       "relationship": "source-record",
       "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-administrative-areas-national-statutory-boundaries-2019-generalised-20m1-00013",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:administrative-areas-national-statutory-boundaries-2019-generalised-20m1:00013",
+          "targetEntityKind": "source",
+          "targetEntityId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:administrative-areas-national-statutory-boundaries-2019-generalised-20m1:00013",
+          "targetTitle": "Administrative Areas - National Statutory Boundaries - 2019 - Generalised 20m",
+          "targetBrowseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-administrative-areas-national-statutory-boundaries-2019",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "TailteEireannMapGenie"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 7,
+              "title": "Administrative Areas - National Statutory Boundaries - 2019 - Generalised 20m",
+              "provider": "TailteEireannMapGenie",
+              "category": "habitat-protected-site-context",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "7f508baddb9644d8ac3c3921df39303a",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=7f508baddb9644d8ac3c3921df39303a",
+              "serviceUrl": "https://services-eu1.arcgis.com/FH5XCsx8rYXqnjF5/arcgis/rest/services/Administrative_Areas___OSi_National_Statutory_Boundaries___Generalised_20m/FeatureServer",
+              "modified": "2026-02-05T10:05:42.000Z",
+              "access": "public",
+              "tags": [
+                "dgigovernment",
+                "Statutory Boundaries",
+                "high-value-dataset",
+                "Geospatial"
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query",
+                "Extract"
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Administrative Areas - National Statutory Boundaries - 2019 - Generalised 20m",
+              "civgraphMatchId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:administrative-areas-national-statutory-boundaries-2019-generalised-20m1:00013",
+              "civgraphMatchTitle": "Administrative Areas - National Statutory Boundaries - 2019 - Generalised 20m",
+              "civgraphMatchKind": "source",
+              "civgraphMatchScore": 1,
+              "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "source",
+              "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:administrative-areas-national-statutory-boundaries-2019-generalised-20m1:00013",
+              "title": "Administrative Areas - National Statutory Boundaries - 2019 - Generalised 20m",
+              "score": 1
+            }
+          ]
+        }
+      ],
       "rawMetadata": {
         "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:administrative-areas-national-statutory-boundaries-2019-generalised-20m1:00013",
         "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-administrative-areas-national-statutory-boundaries-2019-generalised-20m1-00013",
@@ -45556,7 +45687,7 @@
         "Tailte Éireann",
         "Tailte/OSI/data.gov.ie"
       ],
-      "description": "Administrative Areas - National Statutory Boundaries - 2019 is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; geography-crosswalk-and-versioning: needs exact geography crosswalk; large-or-special-format-review: size/format decision remains before runtime publication.",
+      "description": "Administrative Areas - National Statutory Boundaries - 2019 is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; geography-crosswalk-and-versioning: needs exact geography crosswalk; large-or-special-format-review: size/format decision remains before runtime publication. 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "url": "https://data.gov.ie/dataset/administrative-areas-national-statutory-boundaries-20191",
       "references": [
         {
@@ -45570,6 +45701,18 @@
           "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/administrative-areas-national-statutory-boundaries-20191",
           "source": "Internet Archive Wayback Machine",
           "role": "archive-captures"
+        },
+        {
+          "label": "Existing Civgraph record: Administrative Areas - National Statutory Boundaries - 2019",
+          "url": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-administrative-areas-national-statutory-boundaries-2019",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:administrative-areas-national-statutory-boundaries-20191:00012",
+          "url": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-administrative-areas-national-statutory-boundaries-2019",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -45611,7 +45754,14 @@
         "ZIP",
         "review:duplicate-or-variant-review-no-existing-match-candidate",
         "review:geography-crosswalk-and-versioning-needs-exact-geography-crosswalk",
-        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
+        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication",
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
       ],
       "sourceItems": [
         {
@@ -45680,6 +45830,42 @@
           "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
           "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
           "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        },
+        {
+          "auditRowNumber": 6,
+          "title": "Administrative Areas - National Statutory Boundaries - 2019",
+          "provider": "TailteEireannMapGenie",
+          "category": "habitat-protected-site-context",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "d81188d16e804bde81548e982e80c53e",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=d81188d16e804bde81548e982e80c53e",
+          "serviceUrl": "https://services-eu1.arcgis.com/FH5XCsx8rYXqnjF5/arcgis/rest/services/Administrative_Areas___OSi_National_Statutory_Boundaries/FeatureServer",
+          "modified": "2026-02-05T10:05:42.000Z",
+          "access": "public",
+          "tags": [
+            "dgigovernment",
+            "Statutory Boundaries",
+            "high-value-dataset",
+            "Geospatial"
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query",
+            "Extract"
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Administrative Areas - National Statutory Boundaries - 2019",
+          "civgraphMatchId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:administrative-areas-national-statutory-boundaries-20191:00012",
+          "civgraphMatchTitle": "Administrative Areas - National Statutory Boundaries - 2019",
+          "civgraphMatchKind": "source",
+          "civgraphMatchScore": 1,
+          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
         }
       ],
       "status": "Source only",
@@ -45756,6 +45942,82 @@
       "proposedBrowsePath": "Books/Tables/Sources source/download record",
       "relationship": "source-record",
       "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-administrative-areas-national-statutory-boundaries-20191-00012",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:administrative-areas-national-statutory-boundaries-20191:00012",
+          "targetEntityKind": "source",
+          "targetEntityId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:administrative-areas-national-statutory-boundaries-20191:00012",
+          "targetTitle": "Administrative Areas - National Statutory Boundaries - 2019",
+          "targetBrowseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-administrative-areas-national-statutory-boundaries-2019",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "TailteEireannMapGenie"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 6,
+              "title": "Administrative Areas - National Statutory Boundaries - 2019",
+              "provider": "TailteEireannMapGenie",
+              "category": "habitat-protected-site-context",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "d81188d16e804bde81548e982e80c53e",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=d81188d16e804bde81548e982e80c53e",
+              "serviceUrl": "https://services-eu1.arcgis.com/FH5XCsx8rYXqnjF5/arcgis/rest/services/Administrative_Areas___OSi_National_Statutory_Boundaries/FeatureServer",
+              "modified": "2026-02-05T10:05:42.000Z",
+              "access": "public",
+              "tags": [
+                "dgigovernment",
+                "Statutory Boundaries",
+                "high-value-dataset",
+                "Geospatial"
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query",
+                "Extract"
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Administrative Areas - National Statutory Boundaries - 2019",
+              "civgraphMatchId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:administrative-areas-national-statutory-boundaries-20191:00012",
+              "civgraphMatchTitle": "Administrative Areas - National Statutory Boundaries - 2019",
+              "civgraphMatchKind": "source",
+              "civgraphMatchScore": 1,
+              "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "source",
+              "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:administrative-areas-national-statutory-boundaries-20191:00012",
+              "title": "Administrative Areas - National Statutory Boundaries - 2019",
+              "score": 1
+            }
+          ]
+        }
+      ],
       "rawMetadata": {
         "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:administrative-areas-national-statutory-boundaries-20191:00012",
         "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-administrative-areas-national-statutory-boundaries-20191-00012",
@@ -49488,7 +49750,7 @@
         "Tailte Éireann",
         "Tailte/OSI/data.gov.ie"
       ],
-      "description": "Baronies - National Statutory Boundaries - 2019 is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; geography-crosswalk-and-versioning: needs exact geography crosswalk; large-or-special-format-review: size/format decision remains before runtime publication.",
+      "description": "Baronies - National Statutory Boundaries - 2019 is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; geography-crosswalk-and-versioning: needs exact geography crosswalk; large-or-special-format-review: size/format decision remains before runtime publication. 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "url": "https://data.gov.ie/dataset/baronies-national-statutory-boundaries-20191",
       "references": [
         {
@@ -49502,6 +49764,18 @@
           "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/baronies-national-statutory-boundaries-20191",
           "source": "Internet Archive Wayback Machine",
           "role": "archive-captures"
+        },
+        {
+          "label": "Existing Civgraph record: Baronies - National Statutory Boundaries - 2019",
+          "url": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-baronies-national-statutory-boundaries-20191-00019",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:baronies-national-statutory-boundaries-20191:00019",
+          "url": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-baronies-national-statutory-boundaries-20191-00019",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -49543,7 +49817,14 @@
         "ZIP",
         "review:duplicate-or-variant-review-no-existing-match-candidate",
         "review:geography-crosswalk-and-versioning-needs-exact-geography-crosswalk",
-        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
+        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication",
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
       ],
       "sourceItems": [
         {
@@ -49612,6 +49893,42 @@
           "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
           "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
           "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        },
+        {
+          "auditRowNumber": 55,
+          "title": "Baronies - National Statutory Boundaries - 2019",
+          "provider": "TailteEireannMapGenie",
+          "category": "habitat-protected-site-context",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "3c002f38637f45b7b7e064aed33a2bd5",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=3c002f38637f45b7b7e064aed33a2bd5",
+          "serviceUrl": "https://services-eu1.arcgis.com/FH5XCsx8rYXqnjF5/arcgis/rest/services/Baronies___OSi_National_Statutory_Boundaries/FeatureServer",
+          "modified": "2026-02-05T10:05:42.000Z",
+          "access": "public",
+          "tags": [
+            "dgigovernment",
+            "Statutory Boundaries",
+            "high-value-dataset",
+            "Geospatial"
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query",
+            "Extract"
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Baronies - National Statutory Boundaries - 2019",
+          "civgraphMatchId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:baronies-national-statutory-boundaries-20191:00019",
+          "civgraphMatchTitle": "Baronies - National Statutory Boundaries - 2019",
+          "civgraphMatchKind": "source",
+          "civgraphMatchScore": 1,
+          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
         }
       ],
       "status": "Source only",
@@ -49688,6 +50005,82 @@
       "proposedBrowsePath": "Books/Tables/Sources source/download record",
       "relationship": "source-record",
       "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-baronies-national-statutory-boundaries-20191-00019",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:baronies-national-statutory-boundaries-20191:00019",
+          "targetEntityKind": "source",
+          "targetEntityId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:baronies-national-statutory-boundaries-20191:00019",
+          "targetTitle": "Baronies - National Statutory Boundaries - 2019",
+          "targetBrowseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-baronies-national-statutory-boundaries-20191-00019",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "TailteEireannMapGenie"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 55,
+              "title": "Baronies - National Statutory Boundaries - 2019",
+              "provider": "TailteEireannMapGenie",
+              "category": "habitat-protected-site-context",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "3c002f38637f45b7b7e064aed33a2bd5",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=3c002f38637f45b7b7e064aed33a2bd5",
+              "serviceUrl": "https://services-eu1.arcgis.com/FH5XCsx8rYXqnjF5/arcgis/rest/services/Baronies___OSi_National_Statutory_Boundaries/FeatureServer",
+              "modified": "2026-02-05T10:05:42.000Z",
+              "access": "public",
+              "tags": [
+                "dgigovernment",
+                "Statutory Boundaries",
+                "high-value-dataset",
+                "Geospatial"
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query",
+                "Extract"
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Baronies - National Statutory Boundaries - 2019",
+              "civgraphMatchId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:baronies-national-statutory-boundaries-20191:00019",
+              "civgraphMatchTitle": "Baronies - National Statutory Boundaries - 2019",
+              "civgraphMatchKind": "source",
+              "civgraphMatchScore": 1,
+              "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "source",
+              "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:baronies-national-statutory-boundaries-20191:00019",
+              "title": "Baronies - National Statutory Boundaries - 2019",
+              "score": 1
+            }
+          ]
+        }
+      ],
       "rawMetadata": {
         "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:baronies-national-statutory-boundaries-20191:00019",
         "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-baronies-national-statutory-boundaries-20191-00019",
@@ -49909,7 +50302,7 @@
         "Tailte Éireann",
         "Tailte/OSI/data.gov.ie"
       ],
-      "description": "Baronies - National Statutory Boundaries - Ungeneralised - 2024 is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; geography-crosswalk-and-versioning: needs exact geography crosswalk; large-or-special-format-review: size/format decision remains before runtime publication.",
+      "description": "Baronies - National Statutory Boundaries - Ungeneralised - 2024 is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; geography-crosswalk-and-versioning: needs exact geography crosswalk; large-or-special-format-review: size/format decision remains before runtime publication. 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "url": "https://data.gov.ie/dataset/baronies-national-statutory-boundaries-ungeneralised-20241",
       "references": [
         {
@@ -49923,6 +50316,18 @@
           "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/baronies-national-statutory-boundaries-ungeneralised-20241",
           "source": "Internet Archive Wayback Machine",
           "role": "archive-captures"
+        },
+        {
+          "label": "Existing Civgraph record: Baronies - National Statutory Boundaries - Ungeneralised - 2024",
+          "url": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-baronies-national-statutory-boundaries-ungeneralised-20",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:baronies-national-statutory-boundaries-ungeneralised-20241:00021",
+          "url": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-baronies-national-statutory-boundaries-ungeneralised-20",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -49964,7 +50369,14 @@
         "ZIP",
         "review:duplicate-or-variant-review-no-existing-match-candidate",
         "review:geography-crosswalk-and-versioning-needs-exact-geography-crosswalk",
-        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
+        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication",
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
       ],
       "sourceItems": [
         {
@@ -50033,6 +50445,42 @@
           "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
           "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
           "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        },
+        {
+          "auditRowNumber": 57,
+          "title": "Baronies - National Statutory Boundaries - Ungeneralised - 2024",
+          "provider": "TailteEireannMapGenie",
+          "category": "habitat-protected-site-context",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "059ac2d7268f424e95f5460bebde48e7",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=059ac2d7268f424e95f5460bebde48e7",
+          "serviceUrl": "https://services-eu1.arcgis.com/FH5XCsx8rYXqnjF5/arcgis/rest/services/Baronies_NationalStatutoryBoundaries_Ungeneralised_2024/FeatureServer",
+          "modified": "2026-03-23T15:18:50.000Z",
+          "access": "public",
+          "tags": [
+            "dgigovernment",
+            "Statutory Boundaries",
+            "high-value-dataset",
+            "Geospatial"
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query",
+            "Extract"
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Baronies - National Statutory Boundaries - Ungeneralised - 2024",
+          "civgraphMatchId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:baronies-national-statutory-boundaries-ungeneralised-20241:00021",
+          "civgraphMatchTitle": "Baronies - National Statutory Boundaries - Ungeneralised - 2024",
+          "civgraphMatchKind": "source",
+          "civgraphMatchScore": 1,
+          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
         }
       ],
       "status": "Source only",
@@ -50109,6 +50557,82 @@
       "proposedBrowsePath": "Books/Tables/Sources source/download record",
       "relationship": "source-record",
       "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-baronies-national-statutory-boundaries-ungeneralised-20241-00021",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:baronies-national-statutory-boundaries-ungeneralised-20241:00021",
+          "targetEntityKind": "source",
+          "targetEntityId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:baronies-national-statutory-boundaries-ungeneralised-20241:00021",
+          "targetTitle": "Baronies - National Statutory Boundaries - Ungeneralised - 2024",
+          "targetBrowseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-baronies-national-statutory-boundaries-ungeneralised-20",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "TailteEireannMapGenie"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 57,
+              "title": "Baronies - National Statutory Boundaries - Ungeneralised - 2024",
+              "provider": "TailteEireannMapGenie",
+              "category": "habitat-protected-site-context",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "059ac2d7268f424e95f5460bebde48e7",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=059ac2d7268f424e95f5460bebde48e7",
+              "serviceUrl": "https://services-eu1.arcgis.com/FH5XCsx8rYXqnjF5/arcgis/rest/services/Baronies_NationalStatutoryBoundaries_Ungeneralised_2024/FeatureServer",
+              "modified": "2026-03-23T15:18:50.000Z",
+              "access": "public",
+              "tags": [
+                "dgigovernment",
+                "Statutory Boundaries",
+                "high-value-dataset",
+                "Geospatial"
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query",
+                "Extract"
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Baronies - National Statutory Boundaries - Ungeneralised - 2024",
+              "civgraphMatchId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:baronies-national-statutory-boundaries-ungeneralised-20241:00021",
+              "civgraphMatchTitle": "Baronies - National Statutory Boundaries - Ungeneralised - 2024",
+              "civgraphMatchKind": "source",
+              "civgraphMatchScore": 1,
+              "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "source",
+              "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:baronies-national-statutory-boundaries-ungeneralised-20241:00021",
+              "title": "Baronies - National Statutory Boundaries - Ungeneralised - 2024",
+              "score": 1
+            }
+          ]
+        }
+      ],
       "rawMetadata": {
         "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:baronies-national-statutory-boundaries-ungeneralised-20241:00021",
         "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-baronies-national-statutory-boundaries-ungeneralised-20241-00021",
@@ -51169,7 +51693,7 @@
         "Tailte Éireann",
         "Tailte/OSI/data.gov.ie"
       ],
-      "description": "Boundaries Seawater Area - National 250K Map Of Ireland is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; geography-crosswalk-and-versioning: needs exact geography crosswalk; large-or-special-format-review: size/format decision remains before runtime publication.",
+      "description": "Boundaries Seawater Area - National 250K Map Of Ireland is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; geography-crosswalk-and-versioning: needs exact geography crosswalk; large-or-special-format-review: size/format decision remains before runtime publication. 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "url": "https://data.gov.ie/dataset/boundaries-seawater-area-national-250k-map-of-ireland1",
       "references": [
         {
@@ -51183,6 +51707,18 @@
           "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/boundaries-seawater-area-national-250k-map-of-ireland1",
           "source": "Internet Archive Wayback Machine",
           "role": "archive-captures"
+        },
+        {
+          "label": "Existing Civgraph record: Boundaries Seawater Area - National 250K Map Of Ireland",
+          "url": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-boundaries-seawater-area-national-250k-map-of-ireland1-",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:boundaries-seawater-area-national-250k-map-of-ireland1:00176",
+          "url": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-boundaries-seawater-area-national-250k-map-of-ireland1-",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -51224,7 +51760,14 @@
         "ZIP",
         "review:duplicate-or-variant-review-no-existing-match-candidate",
         "review:geography-crosswalk-and-versioning-needs-exact-geography-crosswalk",
-        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
+        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication",
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
       ],
       "sourceItems": [
         {
@@ -51293,6 +51836,40 @@
           "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
           "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
           "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        },
+        {
+          "auditRowNumber": 61,
+          "title": "Boundaries Seawater Area - National 250K Map Of Ireland",
+          "provider": "TailteEireannMapGenie",
+          "category": "habitat-protected-site-context",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "6ac5b08b95ee46d19ff594dcddf28e2e",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=6ac5b08b95ee46d19ff594dcddf28e2e",
+          "serviceUrl": "https://services-eu1.arcgis.com/FH5XCsx8rYXqnjF5/arcgis/rest/services/Boundaries_Seawater_Area___OSi_National_250K_Map_Of_Ireland/FeatureServer",
+          "modified": "2024-11-13T08:08:59.000Z",
+          "access": "public",
+          "tags": [
+            "dgigovernment",
+            "250K Map of Ireland"
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query",
+            "Extract"
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Boundaries Seawater Area - National 250K Map Of Ireland",
+          "civgraphMatchId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:boundaries-seawater-area-national-250k-map-of-ireland1:00176",
+          "civgraphMatchTitle": "Boundaries Seawater Area - National 250K Map Of Ireland",
+          "civgraphMatchKind": "source",
+          "civgraphMatchScore": 1,
+          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
         }
       ],
       "status": "Source only",
@@ -51369,6 +51946,80 @@
       "proposedBrowsePath": "Books/Tables/Sources source/download record",
       "relationship": "source-record",
       "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-boundaries-seawater-area-national-250k-map-of-ireland1-00176",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:boundaries-seawater-area-national-250k-map-of-ireland1:00176",
+          "targetEntityKind": "source",
+          "targetEntityId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:boundaries-seawater-area-national-250k-map-of-ireland1:00176",
+          "targetTitle": "Boundaries Seawater Area - National 250K Map Of Ireland",
+          "targetBrowseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-boundaries-seawater-area-national-250k-map-of-ireland1-",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "TailteEireannMapGenie"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 61,
+              "title": "Boundaries Seawater Area - National 250K Map Of Ireland",
+              "provider": "TailteEireannMapGenie",
+              "category": "habitat-protected-site-context",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "6ac5b08b95ee46d19ff594dcddf28e2e",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=6ac5b08b95ee46d19ff594dcddf28e2e",
+              "serviceUrl": "https://services-eu1.arcgis.com/FH5XCsx8rYXqnjF5/arcgis/rest/services/Boundaries_Seawater_Area___OSi_National_250K_Map_Of_Ireland/FeatureServer",
+              "modified": "2024-11-13T08:08:59.000Z",
+              "access": "public",
+              "tags": [
+                "dgigovernment",
+                "250K Map of Ireland"
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query",
+                "Extract"
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Boundaries Seawater Area - National 250K Map Of Ireland",
+              "civgraphMatchId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:boundaries-seawater-area-national-250k-map-of-ireland1:00176",
+              "civgraphMatchTitle": "Boundaries Seawater Area - National 250K Map Of Ireland",
+              "civgraphMatchKind": "source",
+              "civgraphMatchScore": 1,
+              "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "source",
+              "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:boundaries-seawater-area-national-250k-map-of-ireland1:00176",
+              "title": "Boundaries Seawater Area - National 250K Map Of Ireland",
+              "score": 1
+            }
+          ]
+        }
+      ],
       "rawMetadata": {
         "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:boundaries-seawater-area-national-250k-map-of-ireland1:00176",
         "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-boundaries-seawater-area-national-250k-map-of-ireland1-00176",
@@ -51588,7 +52239,7 @@
         "Tailte Éireann",
         "Tailte/OSI/data.gov.ie"
       ],
-      "description": "Boundaries Seawater Line - National 1m Map Of Ireland is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; geography-crosswalk-and-versioning: needs exact geography crosswalk; large-or-special-format-review: size/format decision remains before runtime publication.",
+      "description": "Boundaries Seawater Line - National 1m Map Of Ireland is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; geography-crosswalk-and-versioning: needs exact geography crosswalk; large-or-special-format-review: size/format decision remains before runtime publication. 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "url": "https://data.gov.ie/dataset/boundaries-seawater-line-national-1m-map-of-ireland1",
       "references": [
         {
@@ -51602,6 +52253,18 @@
           "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/boundaries-seawater-line-national-1m-map-of-ireland1",
           "source": "Internet Archive Wayback Machine",
           "role": "archive-captures"
+        },
+        {
+          "label": "Existing Civgraph record: Boundaries Seawater Line - National 1m Map Of Ireland",
+          "url": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-boundaries-seawater-line-national-1m-map-of-ireland1-00",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:boundaries-seawater-line-national-1m-map-of-ireland1:00177",
+          "url": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-boundaries-seawater-line-national-1m-map-of-ireland1-00",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -51643,7 +52306,14 @@
         "ZIP",
         "review:duplicate-or-variant-review-no-existing-match-candidate",
         "review:geography-crosswalk-and-versioning-needs-exact-geography-crosswalk",
-        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
+        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication",
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
       ],
       "sourceItems": [
         {
@@ -51712,6 +52382,40 @@
           "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
           "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
           "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        },
+        {
+          "auditRowNumber": 62,
+          "title": "Boundaries Seawater Line - National 1m Map Of Ireland",
+          "provider": "TailteEireannMapGenie",
+          "category": "habitat-protected-site-context",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "8f7ae41d7a2f44feba6c0c08cfad77d7",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=8f7ae41d7a2f44feba6c0c08cfad77d7",
+          "serviceUrl": "https://services-eu1.arcgis.com/FH5XCsx8rYXqnjF5/arcgis/rest/services/Boundaries_Seawater_Line___OSi_National_1m_Map_Of_Ireland/FeatureServer",
+          "modified": "2024-11-12T15:23:36.000Z",
+          "access": "public",
+          "tags": [
+            "dgigovernment",
+            "1 Million Map of Ireland"
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolyline"
+          ],
+          "capabilities": [
+            "Query",
+            "Extract"
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Boundaries Seawater Line - National 1m Map Of Ireland",
+          "civgraphMatchId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:boundaries-seawater-line-national-1m-map-of-ireland1:00177",
+          "civgraphMatchTitle": "Boundaries Seawater Line - National 1m Map Of Ireland",
+          "civgraphMatchKind": "source",
+          "civgraphMatchScore": 1,
+          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
         }
       ],
       "status": "Source only",
@@ -51788,6 +52492,80 @@
       "proposedBrowsePath": "Books/Tables/Sources source/download record",
       "relationship": "source-record",
       "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-boundaries-seawater-line-national-1m-map-of-ireland1-00177",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:boundaries-seawater-line-national-1m-map-of-ireland1:00177",
+          "targetEntityKind": "source",
+          "targetEntityId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:boundaries-seawater-line-national-1m-map-of-ireland1:00177",
+          "targetTitle": "Boundaries Seawater Line - National 1m Map Of Ireland",
+          "targetBrowseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-boundaries-seawater-line-national-1m-map-of-ireland1-00",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "TailteEireannMapGenie"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 62,
+              "title": "Boundaries Seawater Line - National 1m Map Of Ireland",
+              "provider": "TailteEireannMapGenie",
+              "category": "habitat-protected-site-context",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "8f7ae41d7a2f44feba6c0c08cfad77d7",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=8f7ae41d7a2f44feba6c0c08cfad77d7",
+              "serviceUrl": "https://services-eu1.arcgis.com/FH5XCsx8rYXqnjF5/arcgis/rest/services/Boundaries_Seawater_Line___OSi_National_1m_Map_Of_Ireland/FeatureServer",
+              "modified": "2024-11-12T15:23:36.000Z",
+              "access": "public",
+              "tags": [
+                "dgigovernment",
+                "1 Million Map of Ireland"
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolyline"
+              ],
+              "capabilities": [
+                "Query",
+                "Extract"
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Boundaries Seawater Line - National 1m Map Of Ireland",
+              "civgraphMatchId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:boundaries-seawater-line-national-1m-map-of-ireland1:00177",
+              "civgraphMatchTitle": "Boundaries Seawater Line - National 1m Map Of Ireland",
+              "civgraphMatchKind": "source",
+              "civgraphMatchScore": 1,
+              "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "source",
+              "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:boundaries-seawater-line-national-1m-map-of-ireland1:00177",
+              "title": "Boundaries Seawater Line - National 1m Map Of Ireland",
+              "score": 1
+            }
+          ]
+        }
+      ],
       "rawMetadata": {
         "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:boundaries-seawater-line-national-1m-map-of-ireland1:00177",
         "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-boundaries-seawater-line-national-1m-map-of-ireland1-00177",
@@ -55006,7 +55784,7 @@
         "Tailte Éireann",
         "Tailte/OSI/data.gov.ie"
       ],
-      "description": "Civil Parishes - National Statutory Boundaries - 2019 - Generalised 20m is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; geography-crosswalk-and-versioning: needs exact geography crosswalk; large-or-special-format-review: size/format decision remains before runtime publication.",
+      "description": "Civil Parishes - National Statutory Boundaries - 2019 - Generalised 20m is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; geography-crosswalk-and-versioning: needs exact geography crosswalk; large-or-special-format-review: size/format decision remains before runtime publication. 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "url": "https://data.gov.ie/dataset/civil-parishes-national-statutory-boundaries-2019-generalised-20m1",
       "references": [
         {
@@ -55020,6 +55798,18 @@
           "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/civil-parishes-national-statutory-boundaries-2019-generalised-20m1",
           "source": "Internet Archive Wayback Machine",
           "role": "archive-captures"
+        },
+        {
+          "label": "Existing Civgraph record: Civil Parishes - National Statutory Boundaries - 2019 - Generalised 20m",
+          "url": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-civil-parishes-national-statutory-boundaries-2019-gener",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:civil-parishes-national-statutory-boundaries-2019-generalised-20m1:00026",
+          "url": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-civil-parishes-national-statutory-boundaries-2019-gener",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -55061,7 +55851,14 @@
         "ZIP",
         "review:duplicate-or-variant-review-no-existing-match-candidate",
         "review:geography-crosswalk-and-versioning-needs-exact-geography-crosswalk",
-        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
+        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication",
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
       ],
       "sourceItems": [
         {
@@ -55130,6 +55927,42 @@
           "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
           "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
           "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        },
+        {
+          "auditRowNumber": 78,
+          "title": "Civil Parishes - National Statutory Boundaries - 2019 - Generalised 20m",
+          "provider": "TailteEireannMapGenie",
+          "category": "habitat-protected-site-context",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "3d5faf0e3d424fcaba696e420d70e039",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=3d5faf0e3d424fcaba696e420d70e039",
+          "serviceUrl": "https://services-eu1.arcgis.com/FH5XCsx8rYXqnjF5/arcgis/rest/services/Civil_parishes___OSi_National_Statutory_Boundaries___Generalised_20m/FeatureServer",
+          "modified": "2026-02-05T10:05:42.000Z",
+          "access": "public",
+          "tags": [
+            "dgigovernment",
+            "Statutory Boundaries",
+            "high-value-dataset",
+            "Geospatial"
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query",
+            "Extract"
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Civil Parishes - National Statutory Boundaries - 2019 - Generalised 20m",
+          "civgraphMatchId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:civil-parishes-national-statutory-boundaries-2019-generalised-20m1:00026",
+          "civgraphMatchTitle": "Civil Parishes - National Statutory Boundaries - 2019 - Generalised 20m",
+          "civgraphMatchKind": "source",
+          "civgraphMatchScore": 1,
+          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
         }
       ],
       "status": "Source only",
@@ -55206,6 +56039,82 @@
       "proposedBrowsePath": "Books/Tables/Sources source/download record",
       "relationship": "source-record",
       "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-civil-parishes-national-statutory-boundaries-2019-generalised-20m1-00026",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:civil-parishes-national-statutory-boundaries-2019-generalised-20m1:00026",
+          "targetEntityKind": "source",
+          "targetEntityId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:civil-parishes-national-statutory-boundaries-2019-generalised-20m1:00026",
+          "targetTitle": "Civil Parishes - National Statutory Boundaries - 2019 - Generalised 20m",
+          "targetBrowseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-civil-parishes-national-statutory-boundaries-2019-gener",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "TailteEireannMapGenie"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 78,
+              "title": "Civil Parishes - National Statutory Boundaries - 2019 - Generalised 20m",
+              "provider": "TailteEireannMapGenie",
+              "category": "habitat-protected-site-context",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "3d5faf0e3d424fcaba696e420d70e039",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=3d5faf0e3d424fcaba696e420d70e039",
+              "serviceUrl": "https://services-eu1.arcgis.com/FH5XCsx8rYXqnjF5/arcgis/rest/services/Civil_parishes___OSi_National_Statutory_Boundaries___Generalised_20m/FeatureServer",
+              "modified": "2026-02-05T10:05:42.000Z",
+              "access": "public",
+              "tags": [
+                "dgigovernment",
+                "Statutory Boundaries",
+                "high-value-dataset",
+                "Geospatial"
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query",
+                "Extract"
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Civil Parishes - National Statutory Boundaries - 2019 - Generalised 20m",
+              "civgraphMatchId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:civil-parishes-national-statutory-boundaries-2019-generalised-20m1:00026",
+              "civgraphMatchTitle": "Civil Parishes - National Statutory Boundaries - 2019 - Generalised 20m",
+              "civgraphMatchKind": "source",
+              "civgraphMatchScore": 1,
+              "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "source",
+              "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:civil-parishes-national-statutory-boundaries-2019-generalised-20m1:00026",
+              "title": "Civil Parishes - National Statutory Boundaries - 2019 - Generalised 20m",
+              "score": 1
+            }
+          ]
+        }
+      ],
       "rawMetadata": {
         "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:civil-parishes-national-statutory-boundaries-2019-generalised-20m1:00026",
         "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-civil-parishes-national-statutory-boundaries-2019-generalised-20m1-00026",
@@ -55427,7 +56336,7 @@
         "Tailte Éireann",
         "Tailte/OSI/data.gov.ie"
       ],
-      "description": "Civil Parishes - National Statutory Boundaries - 2019 is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; geography-crosswalk-and-versioning: needs exact geography crosswalk; large-or-special-format-review: size/format decision remains before runtime publication.",
+      "description": "Civil Parishes - National Statutory Boundaries - 2019 is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; geography-crosswalk-and-versioning: needs exact geography crosswalk; large-or-special-format-review: size/format decision remains before runtime publication. 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "url": "https://data.gov.ie/dataset/civil-parishes-national-statutory-boundaries-20191",
       "references": [
         {
@@ -55441,6 +56350,18 @@
           "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/civil-parishes-national-statutory-boundaries-20191",
           "source": "Internet Archive Wayback Machine",
           "role": "archive-captures"
+        },
+        {
+          "label": "Existing Civgraph record: Civil Parishes - National Statutory Boundaries - 2019",
+          "url": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-civil-parishes-national-statutory-boundaries-20191-0002",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:civil-parishes-national-statutory-boundaries-20191:00025",
+          "url": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-civil-parishes-national-statutory-boundaries-20191-0002",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -55482,7 +56403,14 @@
         "ZIP",
         "review:duplicate-or-variant-review-no-existing-match-candidate",
         "review:geography-crosswalk-and-versioning-needs-exact-geography-crosswalk",
-        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
+        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication",
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
       ],
       "sourceItems": [
         {
@@ -55551,6 +56479,42 @@
           "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
           "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
           "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        },
+        {
+          "auditRowNumber": 77,
+          "title": "Civil Parishes - National Statutory Boundaries - 2019",
+          "provider": "TailteEireannMapGenie",
+          "category": "habitat-protected-site-context",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "ec50be5d53484bffb03267608b2e0848",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=ec50be5d53484bffb03267608b2e0848",
+          "serviceUrl": "https://services-eu1.arcgis.com/FH5XCsx8rYXqnjF5/arcgis/rest/services/Civil_parishes___OSi_National_Statutory_Boundaries/FeatureServer",
+          "modified": "2026-02-05T10:05:42.000Z",
+          "access": "public",
+          "tags": [
+            "dgigovernment",
+            "Statutory Boundaries",
+            "high-value-dataset",
+            "Geospatial"
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query",
+            "Extract"
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Civil Parishes - National Statutory Boundaries - 2019",
+          "civgraphMatchId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:civil-parishes-national-statutory-boundaries-20191:00025",
+          "civgraphMatchTitle": "Civil Parishes - National Statutory Boundaries - 2019",
+          "civgraphMatchKind": "source",
+          "civgraphMatchScore": 1,
+          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
         }
       ],
       "status": "Source only",
@@ -55627,6 +56591,82 @@
       "proposedBrowsePath": "Books/Tables/Sources source/download record",
       "relationship": "source-record",
       "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-civil-parishes-national-statutory-boundaries-20191-00025",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:civil-parishes-national-statutory-boundaries-20191:00025",
+          "targetEntityKind": "source",
+          "targetEntityId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:civil-parishes-national-statutory-boundaries-20191:00025",
+          "targetTitle": "Civil Parishes - National Statutory Boundaries - 2019",
+          "targetBrowseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-civil-parishes-national-statutory-boundaries-20191-0002",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "TailteEireannMapGenie"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 77,
+              "title": "Civil Parishes - National Statutory Boundaries - 2019",
+              "provider": "TailteEireannMapGenie",
+              "category": "habitat-protected-site-context",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "ec50be5d53484bffb03267608b2e0848",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=ec50be5d53484bffb03267608b2e0848",
+              "serviceUrl": "https://services-eu1.arcgis.com/FH5XCsx8rYXqnjF5/arcgis/rest/services/Civil_parishes___OSi_National_Statutory_Boundaries/FeatureServer",
+              "modified": "2026-02-05T10:05:42.000Z",
+              "access": "public",
+              "tags": [
+                "dgigovernment",
+                "Statutory Boundaries",
+                "high-value-dataset",
+                "Geospatial"
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query",
+                "Extract"
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Civil Parishes - National Statutory Boundaries - 2019",
+              "civgraphMatchId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:civil-parishes-national-statutory-boundaries-20191:00025",
+              "civgraphMatchTitle": "Civil Parishes - National Statutory Boundaries - 2019",
+              "civgraphMatchKind": "source",
+              "civgraphMatchScore": 1,
+              "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "source",
+              "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:civil-parishes-national-statutory-boundaries-20191:00025",
+              "title": "Civil Parishes - National Statutory Boundaries - 2019",
+              "score": 1
+            }
+          ]
+        }
+      ],
       "rawMetadata": {
         "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:civil-parishes-national-statutory-boundaries-20191:00025",
         "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-civil-parishes-national-statutory-boundaries-20191-00025",
@@ -57802,7 +58842,7 @@
         "Tailte Éireann",
         "Tailte/OSI/data.gov.ie"
       ],
-      "description": "Coast - National 250k Map Of Ireland is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; geography-crosswalk-and-versioning: needs exact geography crosswalk; large-or-special-format-review: size/format decision remains before runtime publication.",
+      "description": "Coast - National 250k Map Of Ireland is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; geography-crosswalk-and-versioning: needs exact geography crosswalk; large-or-special-format-review: size/format decision remains before runtime publication. 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "url": "https://data.gov.ie/dataset/coast-national-250k-map-of-ireland1",
       "references": [
         {
@@ -57816,6 +58856,18 @@
           "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/coast-national-250k-map-of-ireland1",
           "source": "Internet Archive Wayback Machine",
           "role": "archive-captures"
+        },
+        {
+          "label": "Existing Civgraph record: Coast - National 250k Map Of Ireland",
+          "url": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-coast-national-250k-map-of-ireland1-00913",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:coast-national-250k-map-of-ireland1:00913",
+          "url": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-coast-national-250k-map-of-ireland1-00913",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -57857,7 +58909,14 @@
         "ZIP",
         "review:duplicate-or-variant-review-no-existing-match-candidate",
         "review:geography-crosswalk-and-versioning-needs-exact-geography-crosswalk",
-        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
+        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication",
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
       ],
       "sourceItems": [
         {
@@ -57926,6 +58985,40 @@
           "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
           "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
           "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        },
+        {
+          "auditRowNumber": 79,
+          "title": "Coast - National 250k Map Of Ireland",
+          "provider": "TailteEireannMapGenie",
+          "category": "habitat-protected-site-context",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "e02a769bff8f43318abe10f5276d08b8",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=e02a769bff8f43318abe10f5276d08b8",
+          "serviceUrl": "https://services-eu1.arcgis.com/FH5XCsx8rYXqnjF5/arcgis/rest/services/Coast___OSi_National_250k_Map_Of_Ireland/FeatureServer",
+          "modified": "2024-11-12T15:32:44.000Z",
+          "access": "public",
+          "tags": [
+            "dgigovernment",
+            "250K Map of Ireland"
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolyline"
+          ],
+          "capabilities": [
+            "Query",
+            "Extract"
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Coast - National 250k Map Of Ireland",
+          "civgraphMatchId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:coast-national-250k-map-of-ireland1:00913",
+          "civgraphMatchTitle": "Coast - National 250k Map Of Ireland",
+          "civgraphMatchKind": "source",
+          "civgraphMatchScore": 1,
+          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
         }
       ],
       "status": "Source only",
@@ -58002,6 +59095,80 @@
       "proposedBrowsePath": "Books/Tables/Sources source/download record",
       "relationship": "source-record",
       "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-coast-national-250k-map-of-ireland1-00913",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:coast-national-250k-map-of-ireland1:00913",
+          "targetEntityKind": "source",
+          "targetEntityId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:coast-national-250k-map-of-ireland1:00913",
+          "targetTitle": "Coast - National 250k Map Of Ireland",
+          "targetBrowseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-coast-national-250k-map-of-ireland1-00913",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "TailteEireannMapGenie"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 79,
+              "title": "Coast - National 250k Map Of Ireland",
+              "provider": "TailteEireannMapGenie",
+              "category": "habitat-protected-site-context",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "e02a769bff8f43318abe10f5276d08b8",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=e02a769bff8f43318abe10f5276d08b8",
+              "serviceUrl": "https://services-eu1.arcgis.com/FH5XCsx8rYXqnjF5/arcgis/rest/services/Coast___OSi_National_250k_Map_Of_Ireland/FeatureServer",
+              "modified": "2024-11-12T15:32:44.000Z",
+              "access": "public",
+              "tags": [
+                "dgigovernment",
+                "250K Map of Ireland"
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolyline"
+              ],
+              "capabilities": [
+                "Query",
+                "Extract"
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Coast - National 250k Map Of Ireland",
+              "civgraphMatchId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:coast-national-250k-map-of-ireland1:00913",
+              "civgraphMatchTitle": "Coast - National 250k Map Of Ireland",
+              "civgraphMatchKind": "source",
+              "civgraphMatchScore": 1,
+              "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "source",
+              "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:coast-national-250k-map-of-ireland1:00913",
+              "title": "Coast - National 250k Map Of Ireland",
+              "score": 1
+            }
+          ]
+        }
+      ],
       "rawMetadata": {
         "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:coast-national-250k-map-of-ireland1:00913",
         "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-coast-national-250k-map-of-ireland1-00913",
@@ -59317,7 +60484,7 @@
         "Tailte Éireann",
         "Tailte/OSI/data.gov.ie"
       ],
-      "description": "Counties - National Statutory Boundaries - 2019 - Generalised 20m is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; geography-crosswalk-and-versioning: needs exact geography crosswalk; large-or-special-format-review: size/format decision remains before runtime publication.",
+      "description": "Counties - National Statutory Boundaries - 2019 - Generalised 20m is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; geography-crosswalk-and-versioning: needs exact geography crosswalk; large-or-special-format-review: size/format decision remains before runtime publication. 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "url": "https://data.gov.ie/dataset/counties-national-statutory-boundaries-2019-generalised-20m1",
       "references": [
         {
@@ -59331,6 +60498,18 @@
           "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/counties-national-statutory-boundaries-2019-generalised-20m1",
           "source": "Internet Archive Wayback Machine",
           "role": "archive-captures"
+        },
+        {
+          "label": "Existing Civgraph record: Counties - National Statutory Boundaries - 2019 - Generalised 20m",
+          "url": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-counties-national-statutory-boundaries-2019-generalised",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:counties-national-statutory-boundaries-2019-generalised-20m1:00178",
+          "url": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-counties-national-statutory-boundaries-2019-generalised",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -59372,7 +60551,14 @@
         "ZIP",
         "review:duplicate-or-variant-review-no-existing-match-candidate",
         "review:geography-crosswalk-and-versioning-needs-exact-geography-crosswalk",
-        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
+        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication",
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
       ],
       "sourceItems": [
         {
@@ -59441,6 +60627,42 @@
           "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
           "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
           "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        },
+        {
+          "auditRowNumber": 106,
+          "title": "Counties - National Statutory Boundaries - 2019 - Generalised 20m",
+          "provider": "TailteEireannMapGenie",
+          "category": "habitat-protected-site-context",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "7ef9c5102d61424295e98505a00251ea",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=7ef9c5102d61424295e98505a00251ea",
+          "serviceUrl": "https://services-eu1.arcgis.com/FH5XCsx8rYXqnjF5/arcgis/rest/services/Counties___OSi_National_Statutory_Boundaries___Generalised_20m/FeatureServer",
+          "modified": "2026-02-05T10:05:42.000Z",
+          "access": "public",
+          "tags": [
+            "dgigovernment",
+            "Statutory Boundaries",
+            "high-value-dataset",
+            "Geospatial"
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query",
+            "Extract"
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Counties - National Statutory Boundaries - 2019 - Generalised 20m",
+          "civgraphMatchId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:counties-national-statutory-boundaries-2019-generalised-20m1:00178",
+          "civgraphMatchTitle": "Counties - National Statutory Boundaries - 2019 - Generalised 20m",
+          "civgraphMatchKind": "source",
+          "civgraphMatchScore": 1,
+          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
         }
       ],
       "status": "Source only",
@@ -59517,6 +60739,82 @@
       "proposedBrowsePath": "Books/Tables/Sources source/download record",
       "relationship": "source-record",
       "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-counties-national-statutory-boundaries-2019-generalised-20m1-00178",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:counties-national-statutory-boundaries-2019-generalised-20m1:00178",
+          "targetEntityKind": "source",
+          "targetEntityId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:counties-national-statutory-boundaries-2019-generalised-20m1:00178",
+          "targetTitle": "Counties - National Statutory Boundaries - 2019 - Generalised 20m",
+          "targetBrowseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-counties-national-statutory-boundaries-2019-generalised",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "TailteEireannMapGenie"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 106,
+              "title": "Counties - National Statutory Boundaries - 2019 - Generalised 20m",
+              "provider": "TailteEireannMapGenie",
+              "category": "habitat-protected-site-context",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "7ef9c5102d61424295e98505a00251ea",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=7ef9c5102d61424295e98505a00251ea",
+              "serviceUrl": "https://services-eu1.arcgis.com/FH5XCsx8rYXqnjF5/arcgis/rest/services/Counties___OSi_National_Statutory_Boundaries___Generalised_20m/FeatureServer",
+              "modified": "2026-02-05T10:05:42.000Z",
+              "access": "public",
+              "tags": [
+                "dgigovernment",
+                "Statutory Boundaries",
+                "high-value-dataset",
+                "Geospatial"
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query",
+                "Extract"
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Counties - National Statutory Boundaries - 2019 - Generalised 20m",
+              "civgraphMatchId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:counties-national-statutory-boundaries-2019-generalised-20m1:00178",
+              "civgraphMatchTitle": "Counties - National Statutory Boundaries - 2019 - Generalised 20m",
+              "civgraphMatchKind": "source",
+              "civgraphMatchScore": 1,
+              "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "source",
+              "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:counties-national-statutory-boundaries-2019-generalised-20m1:00178",
+              "title": "Counties - National Statutory Boundaries - 2019 - Generalised 20m",
+              "score": 1
+            }
+          ]
+        }
+      ],
       "rawMetadata": {
         "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:counties-national-statutory-boundaries-2019-generalised-20m1:00178",
         "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-counties-national-statutory-boundaries-2019-generalised-20m1-00178",
@@ -59738,7 +61036,7 @@
         "Tailte Éireann",
         "Tailte/OSI/data.gov.ie"
       ],
-      "description": "Counties - National Statutory Boundaries - Ungeneralised - 2024 is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; geography-crosswalk-and-versioning: needs exact geography crosswalk; large-or-special-format-review: size/format decision remains before runtime publication.",
+      "description": "Counties - National Statutory Boundaries - Ungeneralised - 2024 is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; geography-crosswalk-and-versioning: needs exact geography crosswalk; large-or-special-format-review: size/format decision remains before runtime publication. 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "url": "https://data.gov.ie/dataset/counties-national-statutory-boundaries-ungeneralised-20241",
       "references": [
         {
@@ -59752,6 +61050,18 @@
           "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/counties-national-statutory-boundaries-ungeneralised-20241",
           "source": "Internet Archive Wayback Machine",
           "role": "archive-captures"
+        },
+        {
+          "label": "Existing Civgraph record: Counties - National Statutory Boundaries - Ungeneralised - 2024",
+          "url": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-counties-national-statutory-boundaries-ungeneralised-20",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:counties-national-statutory-boundaries-ungeneralised-20241:00179",
+          "url": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-counties-national-statutory-boundaries-ungeneralised-20",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -59793,7 +61103,14 @@
         "ZIP",
         "review:duplicate-or-variant-review-no-existing-match-candidate",
         "review:geography-crosswalk-and-versioning-needs-exact-geography-crosswalk",
-        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
+        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication",
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
       ],
       "sourceItems": [
         {
@@ -59862,6 +61179,42 @@
           "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
           "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
           "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        },
+        {
+          "auditRowNumber": 107,
+          "title": "Counties - National Statutory Boundaries - Ungeneralised - 2024",
+          "provider": "TailteEireannMapGenie",
+          "category": "habitat-protected-site-context",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "dc24df2a5ce84ee9a38d9afe8431ee9b",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=dc24df2a5ce84ee9a38d9afe8431ee9b",
+          "serviceUrl": "https://services-eu1.arcgis.com/FH5XCsx8rYXqnjF5/arcgis/rest/services/Counties_NationalStatutoryBoundaries_Ungeneralised_2024/FeatureServer",
+          "modified": "2026-02-18T16:40:28.000Z",
+          "access": "public",
+          "tags": [
+            "dgigovernment",
+            "Statutory Boundaries",
+            "high-value-dataset",
+            "Geospatial"
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query",
+            "Extract"
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Counties - National Statutory Boundaries - Ungeneralised - 2024",
+          "civgraphMatchId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:counties-national-statutory-boundaries-ungeneralised-20241:00179",
+          "civgraphMatchTitle": "Counties - National Statutory Boundaries - Ungeneralised - 2024",
+          "civgraphMatchKind": "source",
+          "civgraphMatchScore": 1,
+          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
         }
       ],
       "status": "Source only",
@@ -59938,6 +61291,82 @@
       "proposedBrowsePath": "Books/Tables/Sources source/download record",
       "relationship": "source-record",
       "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-counties-national-statutory-boundaries-ungeneralised-20241-00179",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:counties-national-statutory-boundaries-ungeneralised-20241:00179",
+          "targetEntityKind": "source",
+          "targetEntityId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:counties-national-statutory-boundaries-ungeneralised-20241:00179",
+          "targetTitle": "Counties - National Statutory Boundaries - Ungeneralised - 2024",
+          "targetBrowseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-counties-national-statutory-boundaries-ungeneralised-20",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "TailteEireannMapGenie"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 107,
+              "title": "Counties - National Statutory Boundaries - Ungeneralised - 2024",
+              "provider": "TailteEireannMapGenie",
+              "category": "habitat-protected-site-context",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "dc24df2a5ce84ee9a38d9afe8431ee9b",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=dc24df2a5ce84ee9a38d9afe8431ee9b",
+              "serviceUrl": "https://services-eu1.arcgis.com/FH5XCsx8rYXqnjF5/arcgis/rest/services/Counties_NationalStatutoryBoundaries_Ungeneralised_2024/FeatureServer",
+              "modified": "2026-02-18T16:40:28.000Z",
+              "access": "public",
+              "tags": [
+                "dgigovernment",
+                "Statutory Boundaries",
+                "high-value-dataset",
+                "Geospatial"
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query",
+                "Extract"
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Counties - National Statutory Boundaries - Ungeneralised - 2024",
+              "civgraphMatchId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:counties-national-statutory-boundaries-ungeneralised-20241:00179",
+              "civgraphMatchTitle": "Counties - National Statutory Boundaries - Ungeneralised - 2024",
+              "civgraphMatchKind": "source",
+              "civgraphMatchScore": 1,
+              "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "source",
+              "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:counties-national-statutory-boundaries-ungeneralised-20241:00179",
+              "title": "Counties - National Statutory Boundaries - Ungeneralised - 2024",
+              "score": 1
+            }
+          ]
+        }
+      ],
       "rawMetadata": {
         "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:counties-national-statutory-boundaries-ungeneralised-20241:00179",
         "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-counties-national-statutory-boundaries-ungeneralised-20241-00179",
@@ -66136,7 +67565,7 @@
         "Tailte Éireann",
         "Tailte/OSI/data.gov.ie"
       ],
-      "description": "CSO Electoral Divisions - National Statistical Boundaries - 2022 - Ungeneralised is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; large-or-special-format-review: size/format decision remains before runtime publication.",
+      "description": "CSO Electoral Divisions - National Statistical Boundaries - 2022 - Ungeneralised is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; large-or-special-format-review: size/format decision remains before runtime publication. 1 additional already-on-site duplicate-match source row is staged as metadata/provenance enrichment for this existing record.",
       "url": "https://data.gov.ie/dataset/cso-electoral-divisions-national-statistical-boundaries-2022-ungeneralised1",
       "references": [
         {
@@ -66150,6 +67579,18 @@
           "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/cso-electoral-divisions-national-statistical-boundaries-2022-ungeneralised1",
           "source": "Internet Archive Wayback Machine",
           "role": "archive-captures"
+        },
+        {
+          "label": "Existing Civgraph record: CSO Electoral Divisions - National Statistical Boundaries - 2022 - Ungeneralised",
+          "url": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-cso-electoral-divisions-national-statistical-boundaries",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:cso-electoral-divisions-national-statistical-boundaries-2022-ungeneralised1:00039",
+          "url": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-cso-electoral-divisions-national-statistical-boundaries",
+          "source": "Civgraph",
+          "role": "matched-source-record"
         }
       ],
       "downloads": [
@@ -66190,7 +67631,14 @@
         "XLSX",
         "ZIP",
         "review:duplicate-or-variant-review-no-existing-match-candidate",
-        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
+        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication",
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
       ],
       "sourceItems": [
         {
@@ -66260,6 +67708,42 @@
           "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
           "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
           "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        },
+        {
+          "auditRowNumber": 114,
+          "title": "CSO Electoral Divisions - National Statistical Boundaries - 2022 - Ungeneralised",
+          "provider": "TailteEireannMapGenie",
+          "category": "habitat-protected-site-context",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "deba50580cc24e4eb9cf50eb3cfebf69",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=deba50580cc24e4eb9cf50eb3cfebf69",
+          "serviceUrl": "https://services-eu1.arcgis.com/BuS9rtTsYEV5C0xh/arcgis/rest/services/CSO_Electoral_Divisions_National_Statistical_Boundaries_2022_Ungeneralised_view/FeatureServer",
+          "modified": "2026-02-05T10:05:44.000Z",
+          "access": "public",
+          "tags": [
+            "dgigovernment",
+            "Statistical Boundaries",
+            "high-value-dataset",
+            "Geospatial"
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query",
+            "Extract"
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: CSO Electoral Divisions - National Statistical Boundaries - 2022 - Ungeneralised",
+          "civgraphMatchId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:cso-electoral-divisions-national-statistical-boundaries-2022-ungeneralised1:00039",
+          "civgraphMatchTitle": "CSO Electoral Divisions - National Statistical Boundaries - 2022 - Ungeneralised",
+          "civgraphMatchKind": "source",
+          "civgraphMatchScore": 1,
+          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
         }
       ],
       "status": "Source only",
@@ -66337,6 +67821,82 @@
       "proposedBrowsePath": "Books/Tables/Sources source/download record",
       "relationship": "source-record",
       "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-cso-electoral-divisions-national-statistical-boundaries-2022-ungeneralised1-00039",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:cso-electoral-divisions-national-statistical-boundaries-2022-ungeneralised1:00039",
+          "targetEntityKind": "source",
+          "targetEntityId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:cso-electoral-divisions-national-statistical-boundaries-2022-ungeneralised1:00039",
+          "targetTitle": "CSO Electoral Divisions - National Statistical Boundaries - 2022 - Ungeneralised",
+          "targetBrowseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-cso-electoral-divisions-national-statistical-boundaries",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "TailteEireannMapGenie"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "sourceItems": [
+            {
+              "auditRowNumber": 114,
+              "title": "CSO Electoral Divisions - National Statistical Boundaries - 2022 - Ungeneralised",
+              "provider": "TailteEireannMapGenie",
+              "category": "habitat-protected-site-context",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "deba50580cc24e4eb9cf50eb3cfebf69",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=deba50580cc24e4eb9cf50eb3cfebf69",
+              "serviceUrl": "https://services-eu1.arcgis.com/BuS9rtTsYEV5C0xh/arcgis/rest/services/CSO_Electoral_Divisions_National_Statistical_Boundaries_2022_Ungeneralised_view/FeatureServer",
+              "modified": "2026-02-05T10:05:44.000Z",
+              "access": "public",
+              "tags": [
+                "dgigovernment",
+                "Statistical Boundaries",
+                "high-value-dataset",
+                "Geospatial"
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query",
+                "Extract"
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: CSO Electoral Divisions - National Statistical Boundaries - 2022 - Ungeneralised",
+              "civgraphMatchId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:cso-electoral-divisions-national-statistical-boundaries-2022-ungeneralised1:00039",
+              "civgraphMatchTitle": "CSO Electoral Divisions - National Statistical Boundaries - 2022 - Ungeneralised",
+              "civgraphMatchKind": "source",
+              "civgraphMatchScore": 1,
+              "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "source",
+              "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:cso-electoral-divisions-national-statistical-boundaries-2022-ungeneralised1:00039",
+              "title": "CSO Electoral Divisions - National Statistical Boundaries - 2022 - Ungeneralised",
+              "score": 1
+            }
+          ]
+        }
+      ],
       "rawMetadata": {
         "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:cso-electoral-divisions-national-statistical-boundaries-2022-ungeneralised1:00039",
         "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-cso-electoral-divisions-national-statistical-boundaries-2022-ungeneralised1-00039",

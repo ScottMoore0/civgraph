@@ -38,15 +38,18 @@ function main() {
   const approvedPublicationSourcesData = readJson('data/database/approved-publication-sources.json', { sources: [] });
   const rawSourceDocumentsData = readJson('data/database/raw-source-documents.json', { sources: [] });
   const mediumPriorityPublicationSourcesData = readJson('data/database/medium-priority-publication-sources.json', { sources: [] });
+  const peatlandGeoportalSourcesData = readJson('data/database/peatland-geoportal-sources.json', { sources: [], targets: [], reviewRows: [] });
   const alreadyOnSiteEnrichmentsData = readJson('data/database/already-on-site-enrichments.json', { targets: [], reviewRows: [] });
   const browseSourceInputs = {
     sources: [
       ...normalizeArray(externalSourcesData.sources || externalSourcesData.items),
       ...normalizeArray(approvedPublicationSourcesData.sources || approvedPublicationSourcesData.items),
       ...normalizeArray(rawSourceDocumentsData.sources || rawSourceDocumentsData.items),
-      ...normalizeArray(mediumPriorityPublicationSourcesData.sources || mediumPriorityPublicationSourcesData.items)
+      ...normalizeArray(mediumPriorityPublicationSourcesData.sources || mediumPriorityPublicationSourcesData.items),
+      ...normalizeArray(peatlandGeoportalSourcesData.sources || peatlandGeoportalSourcesData.items)
     ]
   };
+  const sourceEnrichmentInputs = mergeSourceEnrichmentInputs(alreadyOnSiteEnrichmentsData, peatlandGeoportalSourcesData);
   const spatialIndex = readJson('data/database/spatial-index.json', { maps: [], features: [] });
   const partyIds = readJson('election-viewer-package/data/party-ids.json', { party_ids: [], aliases: {} });
   const electionManifest = readJson('test/metadata/elections-test2.json', { elections: [], totals: {} });
@@ -75,7 +78,7 @@ function main() {
   const featureGroups = buildFeatureGroups(spatialIndex, maps, parentElections);
   const { parties, partyDetails } = buildParties(partyIds, electionDetails);
   const { persons, personDetails } = buildPersons(electionDetails);
-  const sources = buildSources(booksData, dataEntriesData, maps, parentElections, thumbnailIds, browseSourceInputs, alreadyOnSiteEnrichmentsData);
+  const sources = buildSources(booksData, dataEntriesData, maps, parentElections, thumbnailIds, browseSourceInputs, sourceEnrichmentInputs);
   const rawMapsById = new Map((mapsData.maps || []).map((map) => [map.id, map]));
   const rawDataEntriesById = new Map(normalizeArray(dataEntriesData.dataEntries || dataEntriesData.entries).map((entry) => [entry.id || entry.slug || slugify(entry.name || entry.title), entry]));
   const rawElectionsByKey = new Map(normalizeArray(electionManifest.elections).map((entry) => [entry.key, entry]));
@@ -1121,6 +1124,13 @@ function buildPersons(electionDetails) {
   })).sort((a, b) => (b.totals.elected - a.totals.elected) || (b.totals.stood - a.totals.stood) || a.title.localeCompare(b.title));
 
   return { persons: items, personDetails: details };
+}
+
+function mergeSourceEnrichmentInputs(...inputs) {
+  return {
+    targets: inputs.flatMap((input) => normalizeArray(input?.targets)),
+    reviewRows: inputs.flatMap((input) => normalizeArray(input?.reviewRows))
+  };
 }
 
 function buildSources(booksData, dataEntriesData, maps, elections, thumbnailIds, externalSourcesData = {}, alreadyOnSiteEnrichmentsData = {}) {
