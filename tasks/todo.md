@@ -1,3 +1,13 @@
+# Peatland Geoportal Metadata Duplicate Review
+
+- [x] Review Peatland Geoportal dataset metadata before any downloads.
+  - Task: inspect the ArcGIS Hub/REST metadata for the Peatland Geoportal and identify likely duplicates, variants, source-only records, and unique candidates for Civgraph.
+  - Constraints: do not download/export dataset geometries or source files; metadata-only review until explicitly authorised.
+  - Verification plan: harvest item/service metadata only, compare item titles/providers/types/service URLs against existing Civgraph catalogue/source metadata, and produce a concise duplicate/variant recommendation.
+  - Completed: harvested 438 ArcGIS group item metadata records and service-level descriptions only; no feature geometries, source files, exports, or raw datasets were downloaded.
+  - Outputs: `tasks/peatland-geoportal-duplicate-review-2026-06-25.csv`, `tasks/peatland-geoportal-duplicate-review-2026-06-25-likely-duplicates.csv`, `tasks/peatland-geoportal-duplicate-review-2026-06-25-candidate-map-layers.csv`, `tasks/peatland-geoportal-duplicate-review-2026-06-25.json`, and `tasks/peatland-geoportal-duplicate-review-2026-06-25.md`.
+  - Summary: 91 likely existing Civgraph duplicates/enrichment targets, 34 ArcGIS Service Definition packaging duplicates, 8 possible variants, 88 web-map/story/context records, 45 source-document records, 30 raster/service-review records, 13 context-layer review records, and 128 candidate interactive map layers requiring licence/dedupe review before any ingestion.
+
 # D Drive Full Content Blocker And Duplicate Review
 
 - [x] Publish approved medium-priority D-drive staging rows as website source records.
