@@ -1,5 +1,14 @@
 # D Drive Full Content Blocker And Duplicate Review
 
+- [x] Prepare medium-priority D-drive content queues for later website publication.
+  - Task: clean and stage the five approved D-drive queues: Irish election source/enrichment data, authoritative boundary variants, Open Data NI boundary/statistical geographies, transport/roads/infrastructure/public assets, and local authority planning/property/open-data layers.
+  - Constraints: do not publish new public site records, do not upload to IA/R2/CDN, and do not create catalogue/runtime entries until explicitly approved. Staging outputs may propose records, variants, enrichment, conversion plans, source pages, and batch approvals.
+  - Required outputs: row-level cleaned staging records, batch review bundles, duplicate/variant/match recommendations, residual blocker classifications, validation report, and a summary explaining what remains gated on approval or source conversion.
+  - Completed: added `scripts/build-medium-priority-publication-prep.mjs` and generated a staging-only approval pack under `tasks/medium-priority-publication-prep-2026-06-25/` for all 2,347 rows across the five approved queues.
+  - Outputs: `row-staging-records`, `batch-review-bundles`, `election-enrichment-prep`, `boundary-variant-prep`, `local-authority-planning-property-prep`, `transport-public-assets-prep`, `conversion-plan`, `residual-blocker-review`, `source-provenance-drafts`, `summary`, `README`, and `validation-report` CSV/JSON/MD files as appropriate.
+  - Result: 1,121 rows are ready for approval without residual blockers; 1,226 rows remain in residual review, mostly because they need conversion decisions, exact geography/version checks, special-format handling, or batch-level publication approval.
+  - Verification evidence: `node --check scripts\build-medium-priority-publication-prep.mjs`; `node scripts\build-medium-priority-publication-prep.mjs`; generated `validation-report.json` passed target-count, stable-ID/title/action, local-path-scrubbing, provider-URL, and staged-only checks.
+
 - [x] Publish raw source-document corpus as Browse/Books/Tables source records.
   - Task: take the approved 252-row `Raw source-document corpus` review queue and create public Browse source records using the agreed conventions for Books/Tables/Sources placement, canonical provider/Wayback/IA link order, viewport metadata, status chips, citations, and local-path scrubbing.
   - Constraints: do not upload anything to IA/R2/CDN in this task; do not create duplicate map/election parent records; do not expose local `D:\` or user filesystem paths in public generated data.
