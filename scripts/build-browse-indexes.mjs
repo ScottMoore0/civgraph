@@ -37,12 +37,14 @@ function main() {
   const externalSourcesData = readJson('data/database/external-sources.json', { sources: [] });
   const approvedPublicationSourcesData = readJson('data/database/approved-publication-sources.json', { sources: [] });
   const rawSourceDocumentsData = readJson('data/database/raw-source-documents.json', { sources: [] });
+  const mediumPriorityPublicationSourcesData = readJson('data/database/medium-priority-publication-sources.json', { sources: [] });
   const alreadyOnSiteEnrichmentsData = readJson('data/database/already-on-site-enrichments.json', { targets: [], reviewRows: [] });
   const browseSourceInputs = {
     sources: [
       ...normalizeArray(externalSourcesData.sources || externalSourcesData.items),
       ...normalizeArray(approvedPublicationSourcesData.sources || approvedPublicationSourcesData.items),
-      ...normalizeArray(rawSourceDocumentsData.sources || rawSourceDocumentsData.items)
+      ...normalizeArray(rawSourceDocumentsData.sources || rawSourceDocumentsData.items),
+      ...normalizeArray(mediumPriorityPublicationSourcesData.sources || mediumPriorityPublicationSourcesData.items)
     ]
   };
   const spatialIndex = readJson('data/database/spatial-index.json', { maps: [], features: [] });
@@ -1501,10 +1503,10 @@ function compactSourceIndexRecord(record, assignments = null) {
     sourceMapId: record.sourceMapId,
     duplicateCount: record.duplicateCount,
     license: record.license,
+    referenceCount: normalizeArray(record.references).length,
+    downloadCount: normalizeArray(record.downloads).length,
     relatedRecords: normalizeArray(record.relatedRecords).slice(0, 5),
     keywords: normalizeArray(record.keywords).slice(0, 16),
-    references: normalizeArray(record.references).slice(0, 4),
-    downloads: normalizeArray(record.downloads).slice(0, 4),
     interactiveUrl: record.interactiveUrl,
     browseUrl: record.browseUrl,
     detailUrl: `/data/browse/details/${SOURCE_DETAIL_SHARD_DIR}/${sourceShardNameForRecord(record, assignments)}`
@@ -1608,7 +1610,7 @@ function sourceRawMetadata(record, context) {
       anchorUrl: record.downloads?.[1]?.url
     });
   }
-  if (/^(wikipedia-article|internet-archive-raster-map|external-source|approved-[a-z-]+-source|raw-source-[a-z-]+)$/.test(record.type) || /^(external|approved-publication|approved-variant|raw-source):/.test(String(record.id || ''))) {
+  if (/^(wikipedia-article|internet-archive-raster-map|external-source|approved-[a-z-]+-source|raw-source-[a-z-]+)$/.test(record.type) || /^(external|approved-publication|approved-variant|raw-source|medium-priority):/.test(String(record.id || ''))) {
     return context.rawExternalSourcesById?.get(record.id) || null;
   }
   return null;

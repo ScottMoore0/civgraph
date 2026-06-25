@@ -1,5 +1,13 @@
 # D Drive Full Content Blocker And Duplicate Review
 
+- [x] Publish approved medium-priority D-drive staging rows as website source records.
+  - Task: take the five cleaned medium-priority publication queues and materialise them on the website as Browse/Books/Tables/Sources source/provenance records.
+  - Scope: Irish election source/enrichment data, authoritative boundary variants, Open Data NI boundary/statistical-geography files, transport/roads/infrastructure/public-asset data, and local authority planning/property/open-data layers.
+  - Constraints: publish source/provenance/download/reference metadata only; do not fabricate live MapLibre layers, PMTiles, IA mirrors, or R2/CDN assets for rows whose runtime conversion/geography/duplicate review is still pending.
+  - Verification plan: generate a public sidecar, rebuild Browse indexes, validate expected counts, ensure no local filesystem paths leak, run the Pages file budget and relevant source validators, then commit and push.
+  - Completed: added a generated medium-priority source sidecar with all 2,347 approved/review-approved rows, wired it into Browse source generation, compacted source index records so heavy references/downloads remain in detail shards, and added a focused validator to guard counts, group totals, materialised source detail records, and local-path scrubbing.
+  - Verification evidence: `node --check scripts\build-medium-priority-publication-sources.mjs`; `node --check scripts\validate-medium-priority-publication-sources.mjs`; `node --check scripts\build-browse-indexes.mjs`; `node scripts\build-medium-priority-publication-sources.mjs`; `node scripts\build-browse-indexes.mjs`; `node scripts\validate-medium-priority-publication-sources.mjs`; `node scripts\validate-raw-source-documents.mjs`; `node scripts\validate-already-on-site-enrichments.mjs`; `node scripts\validate-pages-file-budget.mjs`; `npm run check`.
+
 - [x] Prepare medium-priority D-drive content queues for later website publication.
   - Task: clean and stage the five approved D-drive queues: Irish election source/enrichment data, authoritative boundary variants, Open Data NI boundary/statistical geographies, transport/roads/infrastructure/public assets, and local authority planning/property/open-data layers.
   - Constraints: do not publish new public site records, do not upload to IA/R2/CDN, and do not create catalogue/runtime entries until explicitly approved. Staging outputs may propose records, variants, enrichment, conversion plans, source pages, and batch approvals.
