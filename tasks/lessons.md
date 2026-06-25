@@ -2625,3 +2625,19 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   2) move untracked scratch output only after preserving a tracked-diff patch,
   3) restore tracked curated files immediately if a wholesale move catches them,
   4) keep deploy cleaners and file-budget validators aligned so tracked review records do not become Pages assets.
+
+### 196) Mobile pane switches must not be hosted only inside a hideable pane
+- Mistake pattern: Moving the sole catalogue/map switch into the map control stack because that is the tidy visual location, without preserving a switch outside the panes.
+- Impact: when mobile state hides the map pane, the control needed to return from catalogue to map can disappear.
+- Guardrail:
+  1) every mobile pane state needs at least one visible control outside the pane being revealed,
+  2) in-map controls may duplicate the action but cannot be the only way to switch views,
+  3) mobile verification must test both `info-full -> map-full` and `map-full -> info-full` from a fresh page load.
+
+### 197) Converted composite maps need explicit loadable-child fallbacks
+- Mistake pattern: Relying on catalogue parent/group ids to resolve automatically when a map exists as multiple converted child PMTiles layers.
+- Impact: users can click a valid catalogue entry and hit an unconverted/ambiguous parent route even though converted children exist.
+- Guardrail:
+  1) composite parent maps must declare or resolve explicit converted children,
+  2) MapLibre resolution should prefer loadable converted equivalents over same-id unconverted placeholders,
+  3) route checks should include grouped parent entries and representative child entries.

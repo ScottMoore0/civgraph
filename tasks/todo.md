@@ -7299,3 +7299,18 @@ Review:
 - [x] Download the three external references found during the Hill Bagging scrape.
   - Completed: downloaded the RHB survey PDF, Historic Counties Standard PDF, and Ordnance Survey coordinate systems guide into `tmp/hill-bagging/downloads/external/`.
   - Verification: `tmp/hill-bagging/download-summary.json` now reports 48 total downloaded files including external references, 79,922,358 bytes total, and SHA-256 hashes in `tmp/hill-bagging/download-inventory.csv`.
+
+# Conference Hotfix: Mobile Pane Switch And Civil Parishes Loading
+
+- [x] Restore a visible mobile control to switch between catalogue and map.
+  - Task: make the catalogue/map switch reachable even when one pane is hidden on mobile.
+  - Completed: added an always-visible mobile-only header pane toggle while retaining the map-stack toggle above zoom/compass for map view.
+- [x] Fix Civil Parishes loading through the interactive map.
+  - Task: prevent Civil Parishes catalogue entries from resolving to an unconverted or ambiguous parent id.
+  - Completed: added an explicit Civil Parishes composite loader that loads the converted Connacht, Leinster, Munster, and Ulster PMTiles layers together, and hardened MapLibre layer resolution to prefer loadable converted equivalents.
+
+## Recurring issue: controls cannot live only inside the pane they reveal
+- Symptom: on mobile, the only catalogue/map switch can disappear when the map pane is hidden.
+- Root cause: the previous control relocation moved `#mobileToggle` into the MapLibre control stack, which is hidden in catalogue-only mobile state.
+- Permanent prevention action: keep a mobile pane switch in the fixed header and only use map-stack controls as secondary in-map controls.
+- Verification evidence: `node --check app\src\app.js`, `node --check app\src\maplibre-main-adapter.js`, and targeted build/browser checks for the hotfix.

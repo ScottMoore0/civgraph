@@ -1184,10 +1184,13 @@ export class Test2MapLibreMainAdapter {
   }
 
   resolveLayer(mainId) {
-    return this.metadataService.getLayer(mainId)
-      || this.metadataService.layers.find((layer) => layer.sourceMapId === mainId && layer.loadable)
-      || this.metadataService.layers.find((layer) => layer.migration?.sourceMapId === mainId && layer.loadable)
-      || this.metadataService.layers.find((layer) => layer.parentId === mainId && layer.loadable)
+    const directLayer = this.metadataService.getLayer(mainId);
+    if (directLayer?.loadable) return directLayer;
+    const layers = this.metadataService.layers || [];
+    return layers.find((layer) => layer.sourceMapId === mainId && layer.loadable)
+      || layers.find((layer) => layer.migration?.sourceMapId === mainId && layer.loadable)
+      || layers.find((layer) => layer.parentId === mainId && layer.loadable)
+      || directLayer
       || null;
   }
 

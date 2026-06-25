@@ -21,6 +21,19 @@ const TIMELINE_ANIMATION_DELAYS = Object.freeze({
   settle: 450
 });
 
+const CIVIL_PARISHES_COMPOSITE_PARENT_IDS = new Set([
+  'civil-parishes-by-province',
+  'ireland-civil-parishes',
+  'flat-civil-parishes'
+]);
+
+const CIVIL_PARISHES_COMPOSITE_CHILD_IDS = [
+  'civil-parishes-connacht',
+  'civil-parishes-leinster',
+  'civil-parishes-munster',
+  'civil-parishes-ulster'
+];
+
 function parseLayerOrder(value) {
   if (!value) return [];
   let items = [];
@@ -212,6 +225,7 @@ class Test2App {
     this.mapController.init('map');
     this.installOutsideMapHighlightClear();
     this.relocateMobileCatalogueToggle();
+    this.installMobilePaneToggle();
     window.__civgraphTest2 = {
       ...(window.__civgraphTest2 || {}),
       app: this,
@@ -344,6 +358,62 @@ class Test2App {
     if (toggle.parentElement !== stack || toggle.nextElementSibling !== zoomControl) {
       stack.insertBefore(toggle, zoomControl);
     }
+  }
+
+  installMobilePaneToggle() {
+    if (this._mobilePaneToggleInstalled) {
+      this.updateMobilePaneToggleState();
+      return;
+    }
+    const header = document.querySelector('.app-header');
+    if (!header) return;
+
+    let toggle = document.getElementById('mobilePaneToggle');
+    if (!toggle) {
+      toggle = document.createElement('button');
+      toggle.id = 'mobilePaneToggle';
+      toggle.type = 'button';
+      toggle.className = 'mobile-pane-toggle';
+      toggle.innerHTML = '<span aria-hidden="true">☰</span>';
+      const menuButton = document.getElementById('mobileMenuBtn');
+      if (menuButton?.parentElement === header) {
+        header.insertBefore(toggle, menuButton);
+      } else {
+        header.appendChild(toggle);
+      }
+    }
+
+    toggle.addEventListener('click', (event) => {
+      event.preventDefault();
+      const nextState = uiController.currentStateId === 'info-full' ? 'map-full' : 'info-full';
+      uiController.setSplitState(nextState);
+      setTimeout(() => this.mapController?.invalidateSize?.(), 250);
+      this.updateMobilePaneToggleState();
+    });
+
+    const previousSplitHandler = uiController.onSplitChange;
+    uiController.onSplitChange = (stateId) => {
+      if (typeof previousSplitHandler === 'function') previousSplitHandler(stateId);
+      this.updateMobilePaneToggleState();
+    };
+
+    window.matchMedia?.('(max-width: 768px)')?.addEventListener?.('change', () => {
+      this.updateMobilePaneToggleState();
+    });
+
+    this._mobilePaneToggleInstalled = true;
+    this.mobilePaneToggle = toggle;
+    this.updateMobilePaneToggleState();
+  }
+
+  updateMobilePaneToggleState() {
+    const toggle = document.getElementById('mobilePaneToggle');
+    if (!toggle) return;
+    const showingCatalogue = uiController.currentStateId === 'info-full';
+    const label = showingCatalogue ? 'Show map' : 'Show catalogue';
+    toggle.setAttribute('aria-label', label);
+    toggle.setAttribute('title', label);
+    toggle.dataset.target = showingCatalogue ? 'map' : 'catalogue';
   }
 
   configureCataloguePerformanceProfile() {
@@ -808,6 +878,20 @@ class Test2App {
     }
     const directLayer = this.mapController.resolveLayer(mapConfig?.id || mapId);
     if (!directLayer?.loadable) {
+      const civilParishChildIds = this.getCivilParishesCompositeChildIds(mapId, mapConfig);
+      if (civilParishChildIds.length) {
+        const groupConfig = mapConfig || dataService.getMapById('civil-parishes-by-province') || {
+          id: mapId,
+          name: 'Civil Parishes of Ireland'
+        };
+        await Promise.all(civilParishChildIds.map((childId) => this.mapController.loadLayer(childId, { fit: false })));
+        this.mapController.markGroupLoaded(groupConfig.id || mapId, groupConfig, civilParishChildIds);
+        if (options.fit !== false) {
+          if (groupConfig.bounds) this.mapController.fitToBounds(groupConfig.bounds, { smooth: false });
+          else this.mapController.fitToLayers(civilParishChildIds);
+        }
+        return;
+      }
       const childIds = this.getConvertedCompositeChildIds(mapConfig);
       if (childIds.length) {
         await Promise.all(childIds.map((childId) => this.mapController.loadLayer(childId, { fit: false })));
@@ -817,6 +901,19 @@ class Test2App {
       }
     }
     await this.mapController.loadLayer(mapConfig || mapId, { fit: options.fit !== false });
+  }
+
+  getCivilParishesCompositeChildIds(mapId, mapConfig) {
+    const requestedIds = new Set([
+      mapId,
+      mapConfig?.id,
+      mapConfig?.classId,
+      mapConfig?.slug
+    ].filter(Boolean));
+    const shouldUseComposite = [...requestedIds].some((id) => CIVIL_PARISHES_COMPOSITE_PARENT_IDS.has(id));
+    if (!shouldUseComposite) return [];
+    return CIVIL_PARISHES_COMPOSITE_CHILD_IDS
+      .filter((childId) => this.mapController.resolveLayer(childId)?.loadable);
   }
 
   getConvertedCompositeChildIds(mapConfig) {

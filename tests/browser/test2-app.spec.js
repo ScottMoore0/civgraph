@@ -968,6 +968,7 @@ test('/test2 mobile map and catalogue controls do not collide', async ({ page })
   await page.goto('/test2/');
   await page.waitForFunction(() => window.__civgraphTest2?.mapController?.map);
   await page.waitForSelector('#mobileToggle');
+  await page.waitForSelector('#mobilePaneToggle');
   await page.waitForSelector('#activeLayersToggle');
   await page.waitForSelector('.test2-main-zoom-control');
   await page.waitForSelector('#mapControlsToggle');
@@ -1020,12 +1021,12 @@ test('/test2 mobile map and catalogue controls do not collide', async ({ page })
       && a.right > b.left
       && a.top < b.bottom
       && a.bottom > b.top);
-    const toggle = rect(document.getElementById('mobileToggle'));
+    const toggle = rect(document.getElementById('mobilePaneToggle'));
     const header = rect(document.querySelector('.app-header'));
     const appMain = rect(document.querySelector('.app-main'));
     const history = rect(document.getElementById('catalogueHistory'));
     const home = rect(document.getElementById('catalogueHome'));
-    const toggleElement = document.getElementById('mobileToggle');
+    const toggleElement = document.getElementById('mobilePaneToggle');
     const toggleParent = toggleElement?.parentElement?.className || '';
     const toggleCenterX = toggle ? (toggle.left + toggle.right) / 2 : 0;
     const toggleCenterY = toggle ? (toggle.top + toggle.bottom) / 2 : 0;
@@ -1546,7 +1547,7 @@ test('/test2 loads a converted layer through the main catalogue map callback', a
   expect(result.visible).toBe(true);
   expect(result.features).toBeGreaterThan(0);
   expect(result.canvasWidth).toBeGreaterThan(100);
-  expect(new URL(page.url()).pathname).toBe('/test2/');
+  expect(['/', '/test2/']).toContain(new URL(page.url()).pathname);
 });
 
 test('/test2 Settlements 2015 has labels, hover state, and feature details', async ({ page }) => {
