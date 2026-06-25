@@ -36,11 +36,13 @@ function main() {
   const booksData = readJson('data/database/books.json', { categories: [], books: [] });
   const externalSourcesData = readJson('data/database/external-sources.json', { sources: [] });
   const approvedPublicationSourcesData = readJson('data/database/approved-publication-sources.json', { sources: [] });
+  const rawSourceDocumentsData = readJson('data/database/raw-source-documents.json', { sources: [] });
   const alreadyOnSiteEnrichmentsData = readJson('data/database/already-on-site-enrichments.json', { targets: [], reviewRows: [] });
   const browseSourceInputs = {
     sources: [
       ...normalizeArray(externalSourcesData.sources || externalSourcesData.items),
-      ...normalizeArray(approvedPublicationSourcesData.sources || approvedPublicationSourcesData.items)
+      ...normalizeArray(approvedPublicationSourcesData.sources || approvedPublicationSourcesData.items),
+      ...normalizeArray(rawSourceDocumentsData.sources || rawSourceDocumentsData.items)
     ]
   };
   const spatialIndex = readJson('data/database/spatial-index.json', { maps: [], features: [] });
@@ -1224,6 +1226,13 @@ function buildSources(booksData, dataEntriesData, maps, elections, thumbnailIds,
       downloads,
       keywords: normalizeArray(entry.keywords),
       sourceItems: normalizeArray(entry.sourceItems),
+      status: entry.status || normalizeArray(entry.statusChips)[0] || null,
+      statusChips: normalizeArray(entry.statusChips),
+      sourceHierarchy: normalizeArray(entry.sourceHierarchy),
+      viewport: entry.viewport || null,
+      shortCitation: entry.shortCitation || null,
+      fullCitation: entry.fullCitation || null,
+      relatedRecords: normalizeArray(entry.relatedRecords),
       duplicateCount: entry.duplicateCount || null,
       license: entry.license || null,
       approval: entry.approval || null,
@@ -1478,6 +1487,10 @@ function compactSourceIndexRecord(record, assignments = null) {
     url: record.url,
     thumbnail: record.thumbnail,
     status: record.status,
+    statusChips: normalizeArray(record.statusChips).slice(0, 8),
+    sourceHierarchy: normalizeArray(record.sourceHierarchy).slice(0, 8),
+    viewport: compactViewportSummary(record.viewport),
+    shortCitation: record.shortCitation,
     publicationStatus: record.publicationStatus,
     approval: compactApprovalSummary(record.approval),
     proposedBrowsePath: record.proposedBrowsePath,
@@ -1488,12 +1501,24 @@ function compactSourceIndexRecord(record, assignments = null) {
     sourceMapId: record.sourceMapId,
     duplicateCount: record.duplicateCount,
     license: record.license,
+    relatedRecords: normalizeArray(record.relatedRecords).slice(0, 5),
     keywords: normalizeArray(record.keywords).slice(0, 16),
     references: normalizeArray(record.references).slice(0, 4),
     downloads: normalizeArray(record.downloads).slice(0, 4),
     interactiveUrl: record.interactiveUrl,
     browseUrl: record.browseUrl,
     detailUrl: `/data/browse/details/${SOURCE_DETAIL_SHARD_DIR}/${sourceShardNameForRecord(record, assignments)}`
+  });
+}
+
+function compactViewportSummary(viewport) {
+  if (!viewport || typeof viewport !== 'object') return null;
+  return compactObject({
+    status: viewport.status,
+    supportedViewportTypes: normalizeArray(viewport.supportedViewportTypes).slice(0, 8),
+    canonicalDatasetUrl: viewport.canonicalDatasetUrl,
+    internetArchiveUrl: viewport.internetArchiveUrl,
+    waybackUrl: viewport.waybackUrl
   });
 }
 
@@ -1583,7 +1608,7 @@ function sourceRawMetadata(record, context) {
       anchorUrl: record.downloads?.[1]?.url
     });
   }
-  if (/^(wikipedia-article|internet-archive-raster-map|external-source|approved-[a-z-]+-source)$/.test(record.type) || /^(external|approved-publication|approved-variant):/.test(String(record.id || ''))) {
+  if (/^(wikipedia-article|internet-archive-raster-map|external-source|approved-[a-z-]+-source|raw-source-[a-z-]+)$/.test(record.type) || /^(external|approved-publication|approved-variant|raw-source):/.test(String(record.id || ''))) {
     return context.rawExternalSourcesById?.get(record.id) || null;
   }
   return null;

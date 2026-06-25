@@ -1,5 +1,13 @@
 # D Drive Full Content Blocker And Duplicate Review
 
+- [x] Publish raw source-document corpus as Browse/Books/Tables source records.
+  - Task: take the approved 252-row `Raw source-document corpus` review queue and create public Browse source records using the agreed conventions for Books/Tables/Sources placement, canonical provider/Wayback/IA link order, viewport metadata, status chips, citations, and local-path scrubbing.
+  - Constraints: do not upload anything to IA/R2/CDN in this task; do not create duplicate map/election parent records; do not expose local `D:\` or user filesystem paths in public generated data.
+  - Verification: generated sidecar must contain exactly 252 raw-source records; Browse source output must include those records; validators must prove no local filesystem paths leak and Pages file-budget/checks remain safe.
+  - Completed: added `data/database/raw-source-documents.json` with 252 IA-ready source-only records, wired those records into Browse source generation and detail shards, preserved source hierarchy/viewport/citation/status metadata, and kept IA mirror URLs as pending metadata rather than fabricating links before upload.
+  - Guardrail: added `scripts/validate-raw-source-documents.mjs` and wired it into `npm run check` as `check:raw-source-documents`.
+  - Verification evidence: `node --check scripts\build-raw-source-document-records.mjs`; `node --check scripts\build-browse-indexes.mjs`; `node --check scripts\validate-raw-source-documents.mjs`; `node scripts\build-raw-source-document-records.mjs`; `node scripts\build-browse-indexes.mjs`; `npm run check:raw-source-documents`; `npm run check`. The raw-source validator confirmed 252 generated records, 252 Browse details, and no exposed local paths.
+
 - [x] Apply already-on-site duplicate-match enrichment to existing records.
   - Task: use the exact/high-confidence duplicate-match audit to enrich existing Civgraph records with source/provenance/download/format/version metadata while avoiding duplicate parent records.
   - Constraints: do not create duplicate map/election/source parent entries; broader family/context rows must remain review-backed rather than auto-applied as facts.
