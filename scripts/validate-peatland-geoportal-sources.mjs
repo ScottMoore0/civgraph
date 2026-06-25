@@ -79,6 +79,15 @@ function validateBrowseSources(peatlandSources, peatlandTargets) {
     const enrichment = normalizeArray(detail.alreadyOnSiteEnrichments).find((item) => item.sourceTargetId === target.sourceTargetId);
     assert(enrichment, `Browse detail ${indexItem.id} does not include peatland enrichment ${target.sourceTargetId}`);
     assert(normalizeArray(enrichment.sourceItems).length === normalizeArray(target.sourceItems).length, `Browse detail ${indexItem.id} has wrong peatland enrichment count`);
+    const expectedItemIds = normalizeArray(target.sourceItems).map((item) => item.arcgisItemId).filter(Boolean);
+    assert(expectedItemIds.length > 0, `Peatland enrichment target ${target.sourceTargetId} has no ArcGIS item IDs`);
+    assert(normalizeArray(enrichment.arcgisItemIds).length >= expectedItemIds.length, `Browse detail ${indexItem.id} lost peatland ArcGIS item IDs`);
+    assert(/ArcGIS/i.test(enrichment.provenanceSummary || ''), `Browse detail ${indexItem.id} lost peatland ArcGIS provenance summary`);
+    const refs = normalizeArray(detail.references);
+    assert(refs.some((ref) => ref.role === 'arcgis-item-page'), `Browse detail ${indexItem.id} lacks peatland ArcGIS item-page reference`);
+    if (normalizeArray(target.sourceItems).some((item) => item.serviceUrl)) {
+      assert(refs.some((ref) => ref.role === 'arcgis-service-url'), `Browse detail ${indexItem.id} lacks peatland ArcGIS service reference`);
+    }
   }
 }
 

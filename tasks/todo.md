@@ -1,5 +1,12 @@
 # Peatland Geoportal Metadata Duplicate Review
 
+- [x] Surface Peatland Geoportal ArcGIS metadata on matched existing Browse records.
+  - Task: use the already-harvested ArcGIS item metadata to enrich matched existing Civgraph source records with explicit item-page references, service links, related Web Map/StoryMap/context links, owner/provider metadata, access state, modified dates, tags, and licence notes.
+  - Constraints: metadata-only enrichment; do not download ArcGIS geometry, source exports, attachments, Service Definitions, or create runtime map layers in this pass.
+  - Verification plan: rebuild Browse source outputs, validate that peatland enrichment targets carry ArcGIS item/service references and provenance summaries, then stage only scoped files.
+  - Completed: extended the shared Browse source enrichment merge so matched existing records now expose ArcGIS item IDs/pages, service URLs, related ArcGIS sibling/context records, access states, modified dates, licence notes, and provenance summaries as first-class references/provenance rather than burying them only inside `sourceItems`.
+  - Verification evidence: `node --check scripts/build-browse-indexes.mjs`; `node --check scripts/validate-peatland-geoportal-sources.mjs`; `node scripts/build-browse-indexes.mjs`; `node scripts/validate-peatland-geoportal-sources.mjs`; `node scripts/validate-medium-priority-publication-sources.mjs`; `node scripts/validate-already-on-site-enrichments.mjs`; `node scripts/validate-pages-file-budget.mjs`; `npm run check`.
+
 - [x] Publish peatland geoportal metadata/provenance and source-page review records.
   - Task: use the metadata-only Peatland Geoportal audit to enrich existing Civgraph records, create source/document/context Browse records, group DAERA/QUB SAC habitat-map conversion candidates under a coherent parent, and document best-source/variant/dedupe recommendations.
   - Constraints: do not download ArcGIS source files, export feature geometry, convert vector services, upload to IA/R2/CDN, or create runtime map layers in this pass. Service inspection is limited to already-harvested metadata such as geometry type, layer count, capabilities, item IDs, owners, dates, links, and titles.

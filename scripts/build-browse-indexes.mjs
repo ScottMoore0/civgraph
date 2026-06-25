@@ -1273,6 +1273,7 @@ function applyAlreadyOnSiteEnrichments(sources, alreadyOnSiteEnrichmentsData = {
     if (!sourceItems.length) continue;
 
     const existing = byId.get(sourceTargetId);
+    const provenanceSummary = sourceEnrichmentProvenanceSummary(target);
     const enrichment = compactObject({
       sourceTargetId,
       targetEntityKind: target.targetEntityKind,
@@ -1286,6 +1287,13 @@ function applyAlreadyOnSiteEnrichments(sources, alreadyOnSiteEnrichmentsData = {
       providers: normalizeArray(target.providers),
       categories: normalizeArray(target.categories),
       enrichmentTypes: normalizeArray(target.enrichmentTypes),
+      arcgisItemIds: uniqueCleanStrings(sourceItems.map((item) => item.arcgisItemId)),
+      arcgisItemPages: uniqueCleanStrings(sourceItems.map((item) => item.arcgisItemPage)),
+      serviceUrls: uniqueCleanStrings(sourceItems.map((item) => item.serviceUrl)),
+      modifiedDates: uniqueCleanStrings(sourceItems.map((item) => item.modified)),
+      accessStates: uniqueCleanStrings(sourceItems.map((item) => item.access)),
+      licenseNotes: uniqueCleanStrings(sourceItems.map((item) => item.licenseNote)),
+      provenanceSummary,
       sourceItems,
       evidence: normalizeArray(target.evidence)
     });
@@ -1304,7 +1312,7 @@ function applyAlreadyOnSiteEnrichments(sources, alreadyOnSiteEnrichmentsData = {
       ]);
       existing.description = appendSentence(
         existing.description,
-        `${sourceItems.length} additional already-on-site duplicate-match source ${sourceItems.length === 1 ? 'row is' : 'rows are'} staged as metadata/provenance enrichment for this existing record.`
+        provenanceSummary || `${sourceItems.length} additional already-on-site duplicate-match source ${sourceItems.length === 1 ? 'row is' : 'rows are'} staged as metadata/provenance enrichment for this existing record.`
       );
       existing.publicationStatus = existing.publicationStatus || 'enriched';
       continue;
@@ -1324,7 +1332,7 @@ function applyAlreadyOnSiteEnrichments(sources, alreadyOnSiteEnrichmentsData = {
       ]),
       category: 'Already-on-site source enrichments',
       provider: normalizeArray(target.providers),
-      description: `Additional source/provenance metadata for an existing Civgraph record. This does not create a duplicate map or data parent record.`,
+      description: provenanceSummary || `Additional source/provenance metadata for an existing Civgraph record. This does not create a duplicate map or data parent record.`,
       references: sourceEnrichmentReferences(target),
       downloads: [],
       sourceItems,
@@ -1352,6 +1360,9 @@ function mergeSourceItems(existing, additions) {
   const seen = new Set();
   for (const item of [...normalizeArray(existing), ...normalizeArray(additions)]) {
     const key = JSON.stringify([
+      item.arcgisItemId || '',
+      item.arcgisItemPage || '',
+      item.serviceUrl || '',
       item.auditRowNumber || '',
       item.title || '',
       normalizeArray(item.formats).join('|')
@@ -1361,6 +1372,34 @@ function mergeSourceItems(existing, additions) {
     out.push(item);
   }
   return out;
+}
+
+function sourceEnrichmentProvenanceSummary(target) {
+  const sourceItems = normalizeArray(target.sourceItems);
+  if (!sourceItems.length) return '';
+  if (!sourceItems.some(isArcgisSourceItem)) return '';
+  const corpusLabel = isPeatlandEnrichmentTarget(target) ? 'Peatland Geoportal ArcGIS' : 'ArcGIS';
+  const providers = uniqueCleanStrings([
+    ...sourceItems.map((item) => item.provider),
+    ...normalizeArray(target.providers)
+  ]);
+  const itemIds = uniqueCleanStrings(sourceItems.map((item) => item.arcgisItemId));
+  const serviceUrls = uniqueCleanStrings(sourceItems.map((item) => item.serviceUrl));
+  const modifiedDates = uniqueCleanStrings(sourceItems.map((item) => formatArcgisDate(item.modified)));
+  const accessStates = uniqueCleanStrings(sourceItems.map((item) => item.access));
+  const licenseNotes = uniqueCleanStrings(sourceItems.map((item) => item.licenseNote)).map(stripTrailingSentencePunctuation);
+  const relatedCount = sourceItems.reduce((sum, item) => sum + normalizeArray(item.siblingItems).length, 0);
+  const parts = [
+    `${sourceItems.length} ${corpusLabel} metadata ${sourceItems.length === 1 ? 'item' : 'items'} staged as provenance for this existing Civgraph record`
+  ];
+  if (providers.length) parts.push(`owner/provider: ${limitListForSentence(providers, 4)}`);
+  if (itemIds.length) parts.push(`ArcGIS item ${itemIds.length === 1 ? 'ID' : 'IDs'}: ${limitListForSentence(itemIds, 4)}`);
+  if (modifiedDates.length) parts.push(`modified: ${limitListForSentence(modifiedDates, 3)}`);
+  if (accessStates.length) parts.push(`access: ${limitListForSentence(accessStates, 3)}`);
+  if (serviceUrls.length) parts.push(`${serviceUrls.length} service ${serviceUrls.length === 1 ? 'link' : 'links'} preserved as references`);
+  if (relatedCount) parts.push(`${relatedCount} related ArcGIS sibling/context ${relatedCount === 1 ? 'item' : 'items'} preserved as references`);
+  if (licenseNotes.length) parts.push(`licence note: ${limitListForSentence(licenseNotes, 2)}`);
+  return `${parts.join('; ')}.`;
 }
 
 function sourceEnrichmentReferences(target) {
@@ -1381,7 +1420,115 @@ function sourceEnrichmentReferences(target) {
       role: 'matched-source-record'
     }));
   }
+  for (const item of normalizeArray(target.sourceItems)) {
+    if (!isArcgisSourceItem(item)) continue;
+    const title = cleanText(item.title || item.arcgisItemId || 'ArcGIS item');
+    const provider = cleanText(item.provider || 'ArcGIS Online / Peatland Geoportal');
+    if (item.arcgisItemPage) {
+      refs.push(compactObject({
+        label: `ArcGIS item: ${title}`,
+        url: item.arcgisItemPage,
+        source: provider,
+        role: 'arcgis-item-page',
+        type: normalizeArray(item.formats)[0] || null,
+        note: compactJoin([
+          item.arcgisItemId ? `Item ID ${item.arcgisItemId}` : '',
+          item.modified ? `modified ${formatArcgisDate(item.modified)}` : '',
+          item.access ? `access ${item.access}` : ''
+        ], '; ')
+      }));
+    }
+    if (item.serviceUrl) {
+      refs.push(compactObject({
+        label: `ArcGIS service: ${title}`,
+        url: item.serviceUrl,
+        source: provider,
+        role: 'arcgis-service-url',
+        type: 'ArcGIS service',
+        note: compactJoin([
+          normalizeArray(item.geometryTypes).length ? `geometry: ${normalizeArray(item.geometryTypes).join(', ')}` : '',
+          normalizeArray(item.capabilities).length ? `capabilities: ${normalizeArray(item.capabilities).join(', ')}` : '',
+          Number.isFinite(Number(item.serviceLayerCount)) ? `${item.serviceLayerCount} layers` : ''
+        ], '; ')
+      }));
+    }
+    for (const sibling of normalizeArray(item.siblingItems)) {
+      const siblingTitle = cleanText(sibling.title || sibling.itemId || 'Related ArcGIS item');
+      const siblingType = cleanText(sibling.type || 'ArcGIS item');
+      if (sibling.itemPage) {
+        refs.push(compactObject({
+          label: `Related ArcGIS ${siblingType}: ${siblingTitle}`,
+          url: sibling.itemPage,
+          source: 'ArcGIS Online',
+          role: 'arcgis-related-item',
+          type: siblingType,
+          note: sibling.itemId ? `Item ID ${sibling.itemId}` : ''
+        }));
+      }
+      if (sibling.serviceUrl) {
+        refs.push(compactObject({
+          label: `Related ArcGIS service: ${siblingTitle}`,
+          url: sibling.serviceUrl,
+          source: 'ArcGIS Online',
+          role: 'arcgis-related-service',
+          type: siblingType
+        }));
+      }
+    }
+  }
   return refs;
+}
+
+function isArcgisSourceItem(item) {
+  return Boolean(
+    item?.arcgisItemId ||
+    item?.arcgisItemPage ||
+    /arcgis\.com|FeatureServer|MapServer|ImageServer|SceneServer/i.test(cleanText(item?.serviceUrl || '')) ||
+    normalizeArray(item?.siblingItems).some((sibling) => sibling?.itemId || sibling?.itemPage || sibling?.serviceUrl)
+  );
+}
+
+function isPeatlandEnrichmentTarget(target) {
+  return /peatland-geoportal/i.test(JSON.stringify([
+    target.sourceTargetId,
+    target.categories,
+    target.enrichmentTypes,
+    target.sourceItems
+  ]));
+}
+
+function uniqueCleanStrings(values) {
+  const out = [];
+  const seen = new Set();
+  for (const value of normalizeArray(values).flatMap((item) => normalizeArray(item))) {
+    const clean = cleanText(value);
+    if (!clean || seen.has(clean)) continue;
+    seen.add(clean);
+    out.push(clean);
+  }
+  return out;
+}
+
+function limitListForSentence(values, limit = 3) {
+  const cleanValues = uniqueCleanStrings(values);
+  if (cleanValues.length <= limit) return cleanValues.join(', ');
+  return `${cleanValues.slice(0, limit).join(', ')} and ${cleanValues.length - limit} more`;
+}
+
+function formatArcgisDate(value) {
+  const clean = cleanText(value);
+  if (!clean) return '';
+  const dateMatch = clean.match(/(\d{4}-\d{2}-\d{2})/);
+  if (dateMatch) return dateMatch[1];
+  const numeric = Number(clean);
+  if (Number.isFinite(numeric) && numeric > 100000000000) {
+    return new Date(numeric).toISOString().slice(0, 10);
+  }
+  return clean;
+}
+
+function stripTrailingSentencePunctuation(value) {
+  return cleanText(value).replace(/[.]+$/g, '');
 }
 
 function mergeKeywordLists(...lists) {
