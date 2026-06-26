@@ -1,5 +1,11 @@
 # PRONI Full Browse Crawler Tooling
 
+- [x] Add dynamic all-field capture to PRONI detail records.
+  - Task: extend the PRONI detail parser so it keeps the existing normalized convenience fields while also storing every label/value pair found on the detail page, preventing rare future PRONI attributes from being silently dropped.
+  - Verification plan: syntax-check the crawler, run a bounded one-record Browse smoke test, and confirm the emitted detail record contains `rawAttributes`, `attributeKeys`, and the normalized fields.
+  - Completed: `Extract-DetailFields` now captures every labelled detail-page row into `rawAttributes`, records ordered `attributeKeys` and `rawAttributeCount`, and still populates the existing normalized fields for downstream convenience.
+  - Verification evidence: PowerShell syntax check passed; bounded live Browse smoke against `AA > AA/1 > AA/1/2` fetched `AA/1/2/1` with 0 failures and 0 mismatches, and emitted `rawAttributes` containing `Repository`, `PRONI Reference`, `Level`, `Access`, `Title`, `Dates`, `Description`, and `Digital Record`.
+
 - [x] Implement production-oriented PRONI Browse crawler improvements 1-7.
   - Task: implement the seven agreed PRONI crawler improvements as reusable tooling: branch-page batch reuse, extracted-reference validation, durable checkpoints, two-pass index/fetch mode, dynamic worker branch queue, conservative global rate limiting/backoff, and a swappable HTTP client abstraction.
   - Scope: crawler tooling and bounded verification samples only; do not run the full 1.5M-record corpus crawl in this task.

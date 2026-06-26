@@ -400,25 +400,61 @@ function Find-NextButton([string]$Html) {
   return $null
 }
 
+function Add-RawDetailAttribute([Collections.Specialized.OrderedDictionary]$Attributes, [string]$Key, [string]$Value) {
+  if (-not $Key) { return }
+  if (-not $Attributes.Contains($Key)) {
+    $Attributes[$Key] = $Value
+    return
+  }
+
+  $existing = $Attributes[$Key]
+  if ($existing -is [array]) {
+    $Attributes[$Key] = @($existing) + $Value
+  } else {
+    $Attributes[$Key] = @($existing, $Value)
+  }
+}
+
 function Extract-DetailFields([string]$Html) {
   $wanted = @('Repository','PRONI Reference','Level','Access','Title','Dates','Description','Digital Record')
+  $canonicalByLower = @{}
+  foreach ($key in $wanted) { $canonicalByLower[$key.ToLowerInvariant()] = $key }
+
   $result = [ordered]@{}
   foreach ($key in $wanted) { $result[$key] = '' }
+  $rawAttributes = [ordered]@{}
+
   foreach ($tr in [regex]::Matches($Html, '<tr\b[\s\S]*?</tr>', 'IgnoreCase')) {
     $rowHtml = $tr.Value
     $labelMatch = [regex]::Match($rowHtml, '<label\b[^>]*>([\s\S]*?)</label>', 'IgnoreCase')
     if (-not $labelMatch.Success) { continue }
     $key = (Strip-Html $labelMatch.Groups[1].Value).TrimEnd(':').Trim()
-    $canonical = $wanted | Where-Object { $_.ToLowerInvariant() -eq $key.ToLowerInvariant() } | Select-Object -First 1
-    if (-not $canonical) { continue }
+    if (-not $key) { continue }
+
     $cells = @()
     foreach ($td in [regex]::Matches($rowHtml, '<td\b[^>]*>([\s\S]*?)</td>', 'IgnoreCase')) {
       $cell = Strip-Html $td.Groups[1].Value
       if ($cell) { $cells += $cell }
     }
-    if ($cells.Count -ge 2) { $result[$canonical] = ($cells[1..($cells.Count - 1)] -join ' ').Trim() }
+    $value = ''
+    if ($cells.Count -ge 2) { $value = ($cells[1..($cells.Count - 1)] -join ' ').Trim() }
+
+    Add-RawDetailAttribute $rawAttributes $key $value
+
+    $lowerKey = $key.ToLowerInvariant()
+    if ($canonicalByLower.ContainsKey($lowerKey)) {
+      $result[$canonicalByLower[$lowerKey]] = $value
+    }
   }
-  if ($result['Digital Record'] -match '^\[?\d+\s*-') { $result['Digital Record'] = '' }
+
+  if ($result['Digital Record'] -match '^\[?\d+\s*-') {
+    $result['Digital Record'] = ''
+    if ($rawAttributes.Contains('Digital Record')) { $rawAttributes['Digital Record'] = '' }
+  }
+
+  $result['rawAttributes'] = $rawAttributes
+  $result['attributeKeys'] = @($rawAttributes.Keys)
+  $result['rawAttributeCount'] = $rawAttributes.Count
   return [pscustomobject]$result
 }
 
@@ -547,6 +583,9 @@ function Fetch-DetailRows([string]$PageHtml, [object]$Branch, [int]$PageNumber, 
         dates = $fields.Dates
         description = $fields.Description
         digitalRecord = $fields.'Digital Record'
+        rawAttributeCount = $fields.rawAttributeCount
+        attributeKeys = @($fields.attributeKeys)
+        rawAttributes = $fields.rawAttributes
       }
       Write-JsonLine $DetailsPath ([pscustomobject]$record)
       $script:Stats.DetailsFetched++
