@@ -1,3 +1,14 @@
+# PRONI Full Browse Crawler Tooling
+
+- [x] Implement production-oriented PRONI Browse crawler improvements 1-7.
+  - Task: implement the seven agreed PRONI crawler improvements as reusable tooling: branch-page batch reuse, extracted-reference validation, durable checkpoints, two-pass index/fetch mode, dynamic worker branch queue, conservative global rate limiting/backoff, and a swappable HTTP client abstraction.
+  - Scope: crawler tooling and bounded verification samples only; do not run the full 1.5M-record corpus crawl in this task.
+  - Constraints: Browse-only traversal; do not use search boxes or direct record-reference search as the primary crawler path; write crawl output under ignored `tmp/` paths by default.
+  - Verification plan: parse/syntax-check the script, run a bounded live Browse sample with low rate limits, inspect summary counts and validation outputs, then commit/push only the crawler script and task documentation.
+  - Completed: added `scripts/proni-browse-corpus-crawler.ps1` with branch-page snapshot reuse, detail reference validation, append-only checkpoint logs, two-pass index/fetch modes, file-locked dynamic branch queues for workers, shared global rate limiting/backoff, and `PowerShell`/`.NET HttpClient` client paths.
+  - Verification evidence: PowerShell syntax check passed; bounded `Mode Both` smoke against `AA > AA/1 > AA/1/2` indexed/fetched 8 records with 0 mismatches and 0 failures; separate index/fetch worker-queue smoke fetched 3 indexed records through a two-worker queue with queue status `done`, 0 mismatches, and 0 failures; `HttpClient` smoke fetched 1 record through the full Browse POST flow with 0 failures.
+
+
 # Peatland Geoportal Metadata Duplicate Review
 
 - [x] Surface Peatland Geoportal ArcGIS metadata on matched existing Browse records.
