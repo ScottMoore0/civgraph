@@ -1,5 +1,17 @@
 # PRONI Full Browse Crawler Tooling
 
+- [x] Implement PRONI per-worker throughput improvements.
+  - Task: increase effective per-worker records/second by implementing the seven agreed improvements: page/record-level queueing, reusable page snapshots/postback metadata, per-worker output shards, grouped index lookup structures, `HttpClient` as the default client, an async snapshot-fetch runtime, and direct-record-endpoint discovery tooling.
+  - Constraints: keep Browse traversal as the authoritative crawl path; do not use search boxes as the primary crawl route; save live verification crawl data under `D:\PRONI\...`; keep full-corpus crawling out of this task.
+  - Completed: updated `scripts/proni-browse-corpus-crawler.ps1` so `HttpClient` is the default, queue work can be grouped by branch/page/record, Browse results pages are snapshotted with postback metadata, worker outputs are sharded then merged, index rows are pre-grouped for fast lookup, stale snapshot replay is detected before writing bad records, and stale snapshots fall back to reopening the Browse path live.
+  - Completed: added `scripts/proni-browse-async-fetch.mjs`, a bounded async fetch runtime for snapshot-backed indexes. It strips PowerShell JSON BOMs, reuses snapshot metadata/cookies, serializes records within the same ASP.NET snapshot/session to avoid postback races, and still runs independent snapshot groups concurrently.
+  - Completed: added `scripts/proni-direct-endpoint-probe.mjs`, which starts from a Browse-derived index row, confirms the normal Browse postback detail page, probes plausible direct detail URL patterns, and records whether any direct endpoint is safe to use.
+  - Verification evidence: `node --check scripts\proni-browse-async-fetch.mjs`; `node --check scripts\proni-direct-endpoint-probe.mjs`; PowerShell scriptblock parse of `scripts\proni-browse-corpus-crawler.ps1`.
+  - Verification evidence: bounded stale-snapshot record queue run at `D:\PRONI\eCatalogue\per-worker-tests\20260626-optimized\record-v2` produced 8 detail rows, 0 failures, 0 mismatches, and explicit `fetch-page-snapshot-stale` followed by `fetch-page-browse-open` events.
+  - Verification evidence: bounded page queue run at `D:\PRONI\eCatalogue\per-worker-tests\20260626-optimized\page-fetch-v1` produced 8 detail rows, 0 failures, 0 mismatches, and queue status 1 done / 0 pending / 0 failed.
+  - Verification evidence: bounded async runtime run at `D:\PRONI\eCatalogue\per-worker-tests\20260626-optimized\aa-async-fresh-v3-async` fetched 8 details with 0 failures and 0 mismatches at 3.678 records/sec for a one-snapshot group.
+  - Verification evidence: direct endpoint probe at `D:\PRONI\eCatalogue\per-worker-tests\20260626-optimized\direct-probe-v3` confirmed the normal Browse postback for `AA/1/2/1`, tested 12 candidate direct URLs, and found no usable direct endpoint.
+
 - [x] Test maximum safe PRONI Browse records-per-second rate.
   - Task: run bounded real Browse crawler samples at increasing rates, saving all generated crawl data directly under `D:\PRONI\eCatalogue\rate-tests`, and stop before a long hang or repeated throttle/block failures.
   - Verification plan: inspect each run's summary, failures, events, and detail/index row counts; report the maximum stable observed records/second and the first unstable rate if one is found.

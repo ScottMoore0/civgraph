@@ -2,7 +2,9 @@ param(
   [ValidateSet('Index','Fetch','Both')]
   [string]$Mode = 'Both',
   [ValidateSet('PowerShell','HttpClient')]
-  [string]$Client = 'PowerShell',
+  [string]$Client = 'HttpClient',
+  [ValidateSet('Branch','Page','Record')]
+  [string]$QueueGranularity = 'Page',
   [string[]]$Letters = @('A'),
   [switch]$AllLetters,
   [string]$BranchPathCsv = '',
@@ -18,16 +20,31 @@ param(
   [switch]$StopOnMismatch,
   [switch]$StopOnBlocked,
   [switch]$Resume,
+  [object]$UsePageSnapshots = $true,
+  [object]$FetchFromSnapshots = $true,
+  [object]$ShardWorkerOutputs = $true,
   [switch]$WorkerMode,
   [int]$WorkerId = 0,
   [string]$QueuePath = '',
   [string]$IndexPath = '',
+  [string]$SnapshotDir = '',
   [string]$OutDir = 'tmp/proni-corpus-crawl',
   [string]$UserAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/148 Safari/537.36'
 )
 
 $ErrorActionPreference = 'Stop'
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
+function ConvertTo-BooleanFlag($Value, [bool]$Default = $false) {
+  if ($null -eq $Value) { return $Default }
+  if ($Value -is [bool]) { return [bool]$Value }
+  if ($Value -is [int] -or $Value -is [long] -or $Value -is [double]) { return ([double]$Value) -ne 0 }
+  $text = ([string]$Value).Trim()
+  if (-not $text) { return $Default }
+  if ($text -match '^(1|true|t|yes|y|on)$') { return $true }
+  if ($text -match '^(0|false|f|no|n|off)$') { return $false }
+  return $Default
+}
 
 $Base = 'https://apps.proni.gov.uk/eCatNI_IE/'
 $ScriptPath = if ($PSCommandPath) { $PSCommandPath } else { $MyInvocation.MyCommand.Path }
@@ -39,10 +56,24 @@ if ($AllLetters) {
   $Letters = @(65..90 | ForEach-Object { [string][char]$_ })
 }
 
+$UsePageSnapshots = ConvertTo-BooleanFlag $UsePageSnapshots $true
+$FetchFromSnapshots = ConvertTo-BooleanFlag $FetchFromSnapshots $true
+$ShardWorkerOutputs = ConvertTo-BooleanFlag $ShardWorkerOutputs $true
+
 if (-not $IndexPath) {
   $IndexPath = Join-Path $OutDir 'records-index.jsonl'
 } elseif (-not [IO.Path]::IsPathRooted($IndexPath)) {
   $IndexPath = Join-Path (Get-Location) $IndexPath
+}
+
+if (-not $SnapshotDir) {
+  $SnapshotDir = Join-Path $OutDir 'page-snapshots'
+} elseif (-not [IO.Path]::IsPathRooted($SnapshotDir)) {
+  $SnapshotDir = Join-Path (Get-Location) $SnapshotDir
+}
+if ($UsePageSnapshots) {
+  New-Item -ItemType Directory -Force -Path $SnapshotDir | Out-Null
+  $SnapshotDir = (Resolve-Path $SnapshotDir).Path
 }
 
 $DetailsPath = Join-Path $OutDir 'records-details.jsonl'
@@ -54,6 +85,11 @@ $SummaryPath = Join-Path $OutDir 'summary.json'
 if ($WorkerMode) {
   $StatePath = Join-Path $OutDir "state-worker-$WorkerId.json"
   $SummaryPath = Join-Path $OutDir "summary-worker-$WorkerId.json"
+  if ($ShardWorkerOutputs) {
+    $DetailsPath = Join-Path $OutDir "records-details-worker-$WorkerId.jsonl"
+    $FailuresPath = Join-Path $OutDir "failures-worker-$WorkerId.jsonl"
+    $EventsPath = Join-Path $OutDir "events-worker-$WorkerId.jsonl"
+  }
 }
 
 $Headers = @{
@@ -70,6 +106,10 @@ $script:Stats = [ordered]@{
   StartedAt = (Get-Date).ToUniversalTime().ToString('o')
   Mode = $Mode
   Client = $Client
+  QueueGranularity = $QueueGranularity
+  UsePageSnapshots = [bool]$UsePageSnapshots
+  FetchFromSnapshots = [bool]$FetchFromSnapshots
+  ShardWorkerOutputs = [bool]$ShardWorkerOutputs
   WorkerMode = [bool]$WorkerMode
   WorkerId = $WorkerId
   BranchesIndexed = 0
@@ -179,6 +219,168 @@ function Add-DerivedRunStats {
   }
 }
 
+function Get-ObjectValue([object]$Object, [string]$Name, $Default = $null) {
+  if ($null -eq $Object) { return $Default }
+  if ($Object -is [hashtable] -and $Object.ContainsKey($Name)) { return $Object[$Name] }
+  $property = $Object.PSObject.Properties[$Name]
+  if ($property) { return $property.Value }
+  return $Default
+}
+
+function Get-TextSha256([string]$Value) {
+  $sha = [Security.Cryptography.SHA256]::Create()
+  try {
+    $bytes = [Text.Encoding]::UTF8.GetBytes($Value)
+    return ([BitConverter]::ToString($sha.ComputeHash($bytes))).Replace('-', '').ToLowerInvariant()
+  } finally {
+    $sha.Dispose()
+  }
+}
+
+function Get-SafePathSegment([string]$Value) {
+  if (-not $Value) { return 'root' }
+  $clean = [regex]::Replace($Value, '[^A-Za-z0-9._-]+', '_').Trim('_')
+  if ($clean.Length -gt 80) { $clean = $clean.Substring(0, 80) }
+  if (-not $clean) { return 'root' }
+  return $clean
+}
+
+function Get-TaskKey([string]$BranchKey, [int]$Page = 0, [string]$Ctl = '') {
+  if ($QueueGranularity -eq 'Branch') { return $BranchKey }
+  if ($QueueGranularity -eq 'Page') { return "$BranchKey|page:$Page" }
+  return "$BranchKey|page:$Page|ctl:$Ctl"
+}
+
+function Save-PageSnapshot([object]$Branch, [int]$PageNumber, [string]$Html, [object[]]$Rows) {
+  if (-not $UsePageSnapshots) { return $null }
+  $branchKey = Get-BranchKey $Branch
+  $hash = Get-TextSha256 "$branchKey|$PageNumber"
+  $letterDir = Join-Path $SnapshotDir (Get-SafePathSegment $Branch.Letter)
+  New-Item -ItemType Directory -Force -Path $letterDir | Out-Null
+  $htmlPath = Join-Path $letterDir "$hash.html"
+  $metaPath = Join-Path $letterDir "$hash.json"
+  [IO.File]::WriteAllText($htmlPath, $Html, [Text.UTF8Encoding]::new($false))
+  $metadata = [ordered]@{
+    createdAt = (Get-Date).ToUniversalTime().ToString('o')
+    branchKey = $branchKey
+    letter = $Branch.Letter
+    path = @($Branch.Path)
+    page = $PageNumber
+    pageHash = Get-PageHash $Html
+    htmlPath = $htmlPath
+    rowCount = @($Rows).Count
+    cookieHeader = Get-ProniCookieHeader
+  }
+  [pscustomobject]$metadata | ConvertTo-Json -Depth 20 | Set-Content -Path $metaPath -Encoding UTF8
+  return [pscustomobject]@{
+    HtmlPath = $htmlPath
+    MetadataPath = $metaPath
+    PageHash = $metadata.pageHash
+  }
+}
+
+function Read-PageSnapshot([object]$IndexRow) {
+  if (-not $FetchFromSnapshots) { return '' }
+  $path = [string](Get-ObjectValue $IndexRow 'pageSnapshotPath' '')
+  if (-not $path -or -not (Test-Path $path)) { return '' }
+  $html = [IO.File]::ReadAllText($path, [Text.Encoding]::UTF8)
+  $expectedHash = [string](Get-ObjectValue $IndexRow 'pageHash' '')
+  if ($expectedHash) {
+    $actualHash = Get-PageHash $html
+    if ($actualHash -ne $expectedHash) {
+      Write-Event 'snapshot-hash-mismatch' @{ path=$path; expected=$expectedHash; actual=$actualHash }
+      return ''
+    }
+  }
+  return $html
+}
+
+function Read-PageSnapshotMetadata([object]$IndexRow) {
+  $path = [string](Get-ObjectValue $IndexRow 'pageSnapshotMetadataPath' '')
+  if (-not $path -or -not (Test-Path $path)) { return $null }
+  try {
+    return Get-Content -Path $path -Raw | ConvertFrom-Json
+  } catch {
+    Write-Event 'snapshot-metadata-read-failed' @{ path=$path; error=$_.Exception.Message }
+    return $null
+  }
+}
+
+function Set-ProniCookieHeader([string]$CookieHeader) {
+  if (-not $CookieHeader) { return }
+  try {
+    if ($Client -eq 'HttpClient' -and $script:HttpHandler -and $script:HttpHandler.CookieContainer) {
+      $script:HttpHandler.CookieContainer.SetCookies([Uri]$Base, $CookieHeader)
+      return
+    }
+    if ($script:Session -and $script:Session.Cookies) {
+      $script:Session.Cookies.SetCookies([Uri]$Base, $CookieHeader)
+    }
+  } catch {
+    Write-Event 'cookie-header-apply-failed' @{ error=$_.Exception.Message }
+  }
+}
+
+function Apply-PageSnapshotState([object]$IndexRow) {
+  $metadata = Read-PageSnapshotMetadata $IndexRow
+  if ($metadata -and $metadata.cookieHeader) {
+    Set-ProniCookieHeader ([string]$metadata.cookieHeader)
+    Write-Event 'snapshot-cookie-applied' @{ path=([string](Get-ObjectValue $IndexRow 'pageSnapshotMetadataPath' '')) }
+  }
+}
+
+function Add-IndexLookupRow([hashtable]$Map, [string]$Key, [object]$Row) {
+  if (-not $Map.ContainsKey($Key)) {
+    $Map[$Key] = New-Object 'System.Collections.Generic.List[object]'
+  }
+  $Map[$Key].Add($Row)
+}
+
+function Initialize-IndexLookups([object[]]$IndexRows) {
+  $byBranch = @{}
+  $byPage = @{}
+  $byRecord = @{}
+  foreach ($row in $IndexRows) {
+    $branchKey = [string](Get-ObjectValue $row 'branchKey' '')
+    if (-not $branchKey) { continue }
+    $page = [int](Get-ObjectValue $row 'page' 0)
+    $ctl = [string](Get-ObjectValue $row 'ctl' '')
+    Add-IndexLookupRow $byBranch $branchKey $row
+    Add-IndexLookupRow $byPage "$branchKey|page:$page" $row
+    Add-IndexLookupRow $byRecord "$branchKey|page:$page|ctl:$ctl" $row
+  }
+  $script:IndexLookupByBranch = $byBranch
+  $script:IndexLookupByPage = $byPage
+  $script:IndexLookupByRecord = $byRecord
+}
+
+function Get-IndexRowsForTask([object]$Task, [object[]]$FallbackIndexRows) {
+  $taskKind = [string](Get-ObjectValue $Task 'TaskKind' 'Branch')
+  $taskKey = [string](Get-ObjectValue $Task 'TaskKey' '')
+  $branchKey = [string](Get-ObjectValue $Task 'BranchKey' '')
+  if ($script:IndexLookupByRecord -or $script:IndexLookupByPage -or $script:IndexLookupByBranch) {
+    if ($taskKind -eq 'Record' -and $script:IndexLookupByRecord.ContainsKey($taskKey)) {
+      return @($script:IndexLookupByRecord[$taskKey].ToArray())
+    }
+    if ($taskKind -eq 'Page' -and $script:IndexLookupByPage.ContainsKey($taskKey)) {
+      return @($script:IndexLookupByPage[$taskKey].ToArray())
+    }
+    if ($script:IndexLookupByBranch.ContainsKey($branchKey)) {
+      return @($script:IndexLookupByBranch[$branchKey].ToArray())
+    }
+  }
+  if ($taskKind -eq 'Record') {
+    $page = [int](Get-ObjectValue $Task 'Page' 0)
+    $ctl = [string](Get-ObjectValue $Task 'Ctl' '')
+    return @($FallbackIndexRows | Where-Object { $_.branchKey -eq $branchKey -and [int]$_.page -eq $page -and [string]$_.ctl -eq $ctl })
+  }
+  if ($taskKind -eq 'Page') {
+    $page = [int](Get-ObjectValue $Task 'Page' 0)
+    return @($FallbackIndexRows | Where-Object { $_.branchKey -eq $branchKey -and [int]$_.page -eq $page })
+  }
+  return @($FallbackIndexRows | Where-Object { $_.branchKey -eq $branchKey })
+}
+
 function Parse-Inputs([string]$Html) {
   $dict = [ordered]@{}
   foreach ($m in [regex]::Matches($Html, '<input\b[^>]*>', 'IgnoreCase')) {
@@ -219,6 +421,20 @@ function Initialize-ProniClient {
     $script:HttpClient.DefaultRequestHeaders.AcceptLanguage.ParseAdd('en;q=0.9')
     $script:HttpClient.DefaultRequestHeaders.AcceptLanguage.ParseAdd('en-GB;q=0.8')
   }
+}
+
+function Get-ProniCookieHeader {
+  try {
+    if ($Client -eq 'HttpClient' -and $script:HttpHandler -and $script:HttpHandler.CookieContainer) {
+      return [string]$script:HttpHandler.CookieContainer.GetCookieHeader([Uri]$Base)
+    }
+    if ($script:Session -and $script:Session.Cookies) {
+      return [string]$script:Session.Cookies.GetCookieHeader([Uri]$Base)
+    }
+  } catch {
+    Write-Event 'cookie-header-read-failed' @{ error=$_.Exception.Message }
+  }
+  return ''
 }
 
 function Wait-RequestPace {
@@ -550,7 +766,7 @@ function Fetch-DetailRows([string]$PageHtml, [object]$Branch, [int]$PageNumber, 
       $fields = Extract-DetailFields $detailHtml
       $actual = [string]$fields.'PRONI Reference'
       $mismatch = $false
-      if ($expected -and $actual -and $expected -ne $actual) {
+      if ($expected -and ($expected -ne $actual)) {
         $mismatch = $true
         $script:Stats.Mismatches++
         Write-Failure @{
@@ -615,6 +831,7 @@ function Index-Branch([object]$Branch, [switch]$FetchNow) {
     $selectableBranches = @($rows | Where-Object { $_.ResultsSelect -and -not $_.ResultsSelect.Disabled })
     $leafRows = @($rows | Where-Object { $_.ResultsView -and (-not $_.ResultsSelect -or $_.ResultsSelect.Disabled) })
     $hash = Get-PageHash $html
+    $snapshot = Save-PageSnapshot $Branch $pageNumber $html $leafRows
 
     foreach ($row in $selectableBranches) {
       if (-not $row.ResultsSelect.Value) { continue }
@@ -636,6 +853,12 @@ function Index-Branch([object]$Branch, [switch]$FetchNow) {
         expectedRef = $expected
         rowText = $row.Text
         pageHash = $hash
+        pageSnapshotPath = if ($snapshot) { $snapshot.HtmlPath } else { '' }
+        pageSnapshotMetadataPath = if ($snapshot) { $snapshot.MetadataPath } else { '' }
+        resultsViewName = if ($row.ResultsView) { $row.ResultsView.Name } else { '' }
+        resultsViewValue = if ($row.ResultsView) { $row.ResultsView.Value } else { '' }
+        resultsSelectName = if ($row.ResultsSelect) { $row.ResultsSelect.Name } else { '' }
+        resultsSelectValue = if ($row.ResultsSelect) { $row.ResultsSelect.Value } else { '' }
       }
       Write-JsonLine $IndexPath ([pscustomobject]$index)
       $script:Stats.RecordsIndexed++
@@ -697,24 +920,41 @@ function Run-IndexPass([switch]$FetchNow) {
 }
 
 function Initialize-FetchQueue([object[]]$IndexRows) {
-  $branches = @(
-    $IndexRows |
-      Group-Object branchKey |
-      ForEach-Object {
-        $branch = Get-BranchFromKey $_.Name
-        [pscustomobject]@{
-          branchKey=$_.Name
-          letter=$branch.Letter
-          path=@($branch.Path)
-          status='pending'
-          attempts=0
-          records=$_.Count
-        }
+  $taskMap = [ordered]@{}
+  foreach ($row in $IndexRows) {
+    $branchKey = [string](Get-ObjectValue $row 'branchKey' '')
+    if (-not $branchKey) { continue }
+    $page = [int](Get-ObjectValue $row 'page' 0)
+    $ctl = [string](Get-ObjectValue $row 'ctl' '')
+    $taskKey = if ($QueueGranularity -eq 'Branch') {
+      $branchKey
+    } elseif ($QueueGranularity -eq 'Page') {
+      "$branchKey|page:$page"
+    } else {
+      "$branchKey|page:$page|ctl:$ctl"
+    }
+    if (-not $taskMap.Contains($taskKey)) {
+      $branch = Get-BranchFromKey $branchKey
+      $taskMap[$taskKey] = [ordered]@{
+        taskKey=$taskKey
+        taskKind=$QueueGranularity
+        branchKey=$branchKey
+        letter=$branch.Letter
+        path=@($branch.Path)
+        page=$page
+        ctl=if ($QueueGranularity -eq 'Record') { $ctl } else { '' }
+        status='pending'
+        attempts=0
+        records=0
       }
-  )
+    }
+    $taskMap[$taskKey].records = [int]$taskMap[$taskKey].records + 1
+  }
+  $branches = @($taskMap.Values | ForEach-Object { [pscustomobject]$_ })
   $queue = [pscustomobject]@{
     createdAt=(Get-Date).ToUniversalTime().ToString('o')
     updatedAt=(Get-Date).ToUniversalTime().ToString('o')
+    granularity=$QueueGranularity
     branches=$branches
   }
   $queue | ConvertTo-Json -Depth 30 | Set-Content -Path $QueuePath -Encoding UTF8
@@ -745,7 +985,7 @@ function Get-NextBranchFromQueue {
     $selected = $queue.branches | Where-Object { $_.status -eq 'pending' } | Select-Object -First 1
     if (-not $selected) { return $null }
     foreach ($branch in $queue.branches) {
-      if ($branch.branchKey -eq $selected.branchKey) {
+      if ($branch.taskKey -eq $selected.taskKey) {
         $branch.status = 'running'
         Set-ObjectProperty $branch 'workerId' $WorkerId
         Set-ObjectProperty $branch 'startedAt' ((Get-Date).ToUniversalTime().ToString('o'))
@@ -754,15 +994,23 @@ function Get-NextBranchFromQueue {
     }
     $queue.updatedAt = (Get-Date).ToUniversalTime().ToString('o')
     $queue | ConvertTo-Json -Depth 30 | Set-Content -Path $QueuePath -Encoding UTF8
-    return [pscustomobject]@{ Letter=$selected.letter; Path=@($selected.path); BranchKey=$selected.branchKey }
+    return [pscustomobject]@{
+      Letter=$selected.letter
+      Path=@($selected.path)
+      BranchKey=$selected.branchKey
+      TaskKey=$selected.taskKey
+      TaskKind=$selected.taskKind
+      Page=[int]$selected.page
+      Ctl=[string]$selected.ctl
+    }
   }
 }
 
-function Set-QueueBranchStatus([string]$BranchKey, [string]$Status, [string]$ErrorMessage = '') {
+function Set-QueueBranchStatus([string]$TaskKey, [string]$Status, [string]$ErrorMessage = '') {
   Invoke-QueueLock {
     $queue = Get-Content -Path $QueuePath -Raw | ConvertFrom-Json
     foreach ($branch in $queue.branches) {
-      if ($branch.branchKey -eq $BranchKey) {
+      if ($branch.taskKey -eq $TaskKey) {
         $branch.status = $Status
         Set-ObjectProperty $branch 'workerId' $WorkerId
         Set-ObjectProperty $branch 'finishedAt' ((Get-Date).ToUniversalTime().ToString('o'))
@@ -774,60 +1022,179 @@ function Set-QueueBranchStatus([string]$BranchKey, [string]$Status, [string]$Err
   } | Out-Null
 }
 
-function Fetch-BranchFromIndex([object]$Branch, [object[]]$IndexRows) {
+function Open-BranchPageFromBrowse([object]$Branch, [int]$TargetPage) {
   $branchKey = if ($Branch.BranchKey) { $Branch.BranchKey } else { Get-BranchKey $Branch }
-  $expectedRows = @($IndexRows | Where-Object { $_.branchKey -eq $branchKey })
-  if (-not $expectedRows.Count) { return }
-  Write-Event 'branch-fetch-start' @{ branchKey=$branchKey; expectedRecords=$expectedRows.Count }
   $html = Invoke-WithRetry { Open-BranchSnapshot $Branch } "Open fetch branch $branchKey"
   $pageNumber = 1
-  while ($pageNumber -le $MaxPagesPerBranch) {
-    $pageExpected = @($expectedRows | Where-Object { [int]$_.page -eq $pageNumber })
-    $rows = @(Parse-GridRows $html)
-    $leafRows = @($rows | Where-Object { $_.ResultsView -and (-not $_.ResultsSelect -or $_.ResultsSelect.Disabled) })
-    if ($pageExpected.Count) {
-      $expectedByCtl = @{}
-      $wantedCtls = New-Object 'System.Collections.Generic.HashSet[string]'
-      foreach ($item in $pageExpected) {
-        [void]$wantedCtls.Add([string]$item.ctl)
-        if ($item.expectedRef) { $expectedByCtl[[string]$item.ctl] = [string]$item.expectedRef }
-      }
-      $leafRows = @($leafRows | Where-Object { $wantedCtls.Contains([string]$_.Ctl) })
-      Fetch-DetailRows $html $Branch $pageNumber $leafRows $expectedByCtl
-    }
-    $script:Stats.BranchPagesFetched++
-    if ($MaxRecords -gt 0 -and $script:Stats.DetailsFetched -ge $MaxRecords) { break }
+  while ($pageNumber -lt $TargetPage -and $pageNumber -le $MaxPagesPerBranch) {
     $next = Find-NextButton $html
     if (-not $next) { break }
     $html = Invoke-WithRetry { Click-Next $html $next } "Next fetch page $branchKey"
     $pageNumber++
   }
+  return [pscustomobject]@{ Html=$html; Page=$pageNumber }
+}
+
+function Fetch-IndexedRowsOnPage([string]$Html, [object]$Branch, [int]$PageNumber, [object[]]$ExpectedRows) {
+  if (-not $ExpectedRows.Count) { return }
+  $rows = @(Parse-GridRows $Html)
+  $leafRows = @($rows | Where-Object { $_.ResultsView -and (-not $_.ResultsSelect -or $_.ResultsSelect.Disabled) })
+  $expectedByCtl = @{}
+  $wantedCtls = New-Object 'System.Collections.Generic.HashSet[string]'
+  foreach ($item in $ExpectedRows) {
+    [void]$wantedCtls.Add([string]$item.ctl)
+    if ($item.expectedRef) { $expectedByCtl[[string]$item.ctl] = [string]$item.expectedRef }
+  }
+  $leafRows = @($leafRows | Where-Object { $wantedCtls.Contains([string]$_.Ctl) })
+  Fetch-DetailRows $Html $Branch $PageNumber $leafRows $expectedByCtl
+}
+
+function Test-IndexedPageReplay([string]$Html, [object[]]$ExpectedRows) {
+  if (-not $ExpectedRows.Count) {
+    return [pscustomobject]@{ Ok=$true; Reason='no rows'; ExpectedRef=''; ActualRef=''; Ctl='' }
+  }
+
+  $rows = @(Parse-GridRows $Html)
+  $leafRows = @($rows | Where-Object { $_.ResultsView -and (-not $_.ResultsSelect -or $_.ResultsSelect.Disabled) })
+  $first = $null
+  $expected = $null
+  foreach ($item in $ExpectedRows) {
+    $ctl = [string]$item.ctl
+    $first = $leafRows | Where-Object { [string]$_.Ctl -eq $ctl } | Select-Object -First 1
+    if ($first) {
+      $expected = $item
+      break
+    }
+  }
+  if (-not $first) {
+    return [pscustomobject]@{ Ok=$false; Reason='expected row not found on snapshot page'; ExpectedRef=''; ActualRef=''; Ctl='' }
+  }
+
+  $res = Invoke-ProniPost "$Base`BrowseSearchResults.aspx" $Html @{ $first.ResultsView.Name = $first.ResultsView.Value }
+  if (Test-Blocked $res) {
+    return [pscustomobject]@{ Ok=$false; Reason=(Get-FailureReason $res); ExpectedRef=[string]$expected.expectedRef; ActualRef=''; Ctl=[string]$first.Ctl }
+  }
+
+  $fields = Extract-DetailFields $res.Content
+  $actual = [string]$fields['PRONI Reference']
+  $expectedRef = [string]$expected.expectedRef
+  if ($expectedRef -and $actual -ne $expectedRef) {
+    return [pscustomobject]@{ Ok=$false; Reason='snapshot replay returned blank or different detail record'; ExpectedRef=$expectedRef; ActualRef=$actual; Ctl=[string]$first.Ctl }
+  }
+  if (-not $expectedRef -and [int]$fields.rawAttributeCount -le 0) {
+    return [pscustomobject]@{ Ok=$false; Reason='snapshot replay returned no detail attributes'; ExpectedRef=''; ActualRef=$actual; Ctl=[string]$first.Ctl }
+  }
+
+  return [pscustomobject]@{ Ok=$true; Reason=''; ExpectedRef=$expectedRef; ActualRef=$actual; Ctl=[string]$first.Ctl }
+}
+
+function Fetch-TaskFromIndex([object]$Task, [object[]]$IndexRows) {
+  $branchKey = if ($Task.BranchKey) { $Task.BranchKey } else { Get-BranchKey $Task }
+  $taskKey = if ($Task.TaskKey) { $Task.TaskKey } else { $branchKey }
+  $taskKind = if ($Task.TaskKind) { $Task.TaskKind } else { 'Branch' }
+  $expectedRows = @(Get-IndexRowsForTask $Task $IndexRows)
+  if (-not $expectedRows.Count) { return }
+
+  Write-Event 'fetch-task-start' @{ taskKey=$taskKey; taskKind=$taskKind; branchKey=$branchKey; expectedRecords=$expectedRows.Count }
+
+  $pages = @($expectedRows | Group-Object page | Sort-Object { [int]$_.Name })
+  foreach ($pageGroup in $pages) {
+    if ($MaxRecords -gt 0 -and $script:Stats.DetailsFetched -ge $MaxRecords) { break }
+    $pageNumber = [int]$pageGroup.Name
+    $pageRows = @($pageGroup.Group)
+    $html = ''
+    $fromSnapshot = $false
+
+    if ($FetchFromSnapshots -and $pageRows.Count) {
+      $html = Read-PageSnapshot $pageRows[0]
+      if ($html) {
+        Apply-PageSnapshotState $pageRows[0]
+        $fromSnapshot = $true
+        Write-Event 'fetch-page-snapshot-hit' @{ taskKey=$taskKey; branchKey=$branchKey; page=$pageNumber; rows=$pageRows.Count }
+      }
+    }
+
+    if ($html -and $fromSnapshot) {
+      $probe = Test-IndexedPageReplay $html $pageRows
+      if ($probe.Ok) {
+        Write-Event 'fetch-page-snapshot-replay-ok' @{ taskKey=$taskKey; branchKey=$branchKey; page=$pageNumber; ctl=$probe.Ctl; expectedRef=$probe.ExpectedRef; actualRef=$probe.ActualRef }
+      } else {
+        Write-Event 'fetch-page-snapshot-stale' @{ taskKey=$taskKey; branchKey=$branchKey; page=$pageNumber; ctl=$probe.Ctl; expectedRef=$probe.ExpectedRef; actualRef=$probe.ActualRef; reason=$probe.Reason }
+        $html = ''
+        $fromSnapshot = $false
+      }
+    }
+
+    if (-not $html) {
+      $opened = Open-BranchPageFromBrowse $Task $pageNumber
+      $html = [string]$opened.Html
+      if ([int]$opened.Page -ne $pageNumber) {
+        throw "Could not navigate to page $pageNumber for $branchKey; reached page $($opened.Page)"
+      }
+      Write-Event 'fetch-page-browse-open' @{ taskKey=$taskKey; branchKey=$branchKey; page=$pageNumber; rows=$pageRows.Count }
+    }
+
+    Fetch-IndexedRowsOnPage $html $Task $pageNumber $pageRows
+    $script:Stats.BranchPagesFetched++
+  }
+
   $script:Stats.BranchesFetched++
   Save-State
-  Write-Event 'branch-fetch-complete' @{ branchKey=$branchKey; fetched=$script:Stats.DetailsFetched }
+  Write-Event 'fetch-task-complete' @{ taskKey=$taskKey; taskKind=$taskKind; branchKey=$branchKey; fetched=$script:Stats.DetailsFetched }
 }
 
 function Run-FetchWorker {
   Initialize-ProniClient
   $indexRows = Get-IndexRows
+  Initialize-IndexLookups $indexRows
   while ($true) {
     if ($MaxRecords -gt 0 -and $script:Stats.DetailsFetched -ge $MaxRecords) { break }
     $branch = Get-NextBranchFromQueue
     if (-not $branch) { break }
     try {
-      Fetch-BranchFromIndex $branch $indexRows
-      Set-QueueBranchStatus $branch.BranchKey 'done'
+      Fetch-TaskFromIndex $branch $indexRows
+      Set-QueueBranchStatus $branch.TaskKey 'done'
     } catch {
-      Write-Failure @{ type='branch-fetch-failed'; branchKey=$branch.BranchKey; error=$_.Exception.Message }
+      Write-Failure @{ type='fetch-task-failed'; taskKey=$branch.TaskKey; branchKey=$branch.BranchKey; error=$_.Exception.Message }
       if ($MaxRetries -gt 0) {
-        Set-QueueBranchStatus $branch.BranchKey 'failed' $_.Exception.Message
+        Set-QueueBranchStatus $branch.TaskKey 'failed' $_.Exception.Message
       } else {
-        Set-QueueBranchStatus $branch.BranchKey 'pending' $_.Exception.Message
+        Set-QueueBranchStatus $branch.TaskKey 'pending' $_.Exception.Message
       }
       if ($StopOnBlocked -or $StopOnMismatch) { throw }
     }
   }
   Save-State
+}
+
+function Merge-WorkerJsonlShards([string]$Pattern, [string]$TargetPath, [bool]$AppendExisting = $false) {
+  $shards = @(Get-ChildItem -Path $OutDir -Filter $Pattern -File -ErrorAction SilentlyContinue | Sort-Object Name)
+  if (-not $shards.Count) { return 0 }
+  $tmpPath = "$TargetPath.merge"
+  if (Test-Path $tmpPath) { Remove-Item -LiteralPath $tmpPath -Force }
+  if ($AppendExisting -and (Test-Path $TargetPath)) {
+    Get-Content -Path $TargetPath | Add-Content -Path $tmpPath -Encoding UTF8
+  }
+  foreach ($shard in $shards) {
+    if ((Get-Item $shard.FullName).Length -le 0) { continue }
+    Get-Content -Path $shard.FullName | Add-Content -Path $tmpPath -Encoding UTF8
+  }
+  if (Test-Path $tmpPath) {
+    Move-Item -LiteralPath $tmpPath -Destination $TargetPath -Force
+  }
+  return $shards.Count
+}
+
+function Merge-WorkerOutputs {
+  if (-not $ShardWorkerOutputs -or $Workers -le 1) { return }
+  $detailsShards = Merge-WorkerJsonlShards 'records-details-worker-*.jsonl' (Join-Path $OutDir 'records-details.jsonl') $false
+  $failureShards = Merge-WorkerJsonlShards 'failures-worker-*.jsonl' (Join-Path $OutDir 'failures.jsonl') $true
+  $eventShards = Merge-WorkerJsonlShards 'events-worker-*.jsonl' (Join-Path $OutDir 'events.jsonl') $true
+  $script:Stats.WorkerOutputShardsMerged = [pscustomobject]@{
+    details = $detailsShards
+    failures = $failureShards
+    events = $eventShards
+  }
 }
 
 function Run-FetchPass {
@@ -850,10 +1217,12 @@ function Run-FetchPass {
       '-NoProfile','-ExecutionPolicy','Bypass','-File',$ScriptPath,
       '-Mode','Fetch',
       '-Client',$Client,
+      '-QueueGranularity',$QueueGranularity,
       '-WorkerMode',
       '-WorkerId',$i,
       '-QueuePath',$QueuePath,
       '-IndexPath',$IndexPath,
+      '-SnapshotDir',$SnapshotDir,
       '-OutDir',$OutDir,
       '-GlobalRps',([string]$GlobalRps),
       '-WorkerRps',([string]$WorkerRps),
@@ -861,7 +1230,10 @@ function Run-FetchPass {
       '-BackoffSeconds',([string]$BackoffSeconds),
       '-MaxRetries',([string]$MaxRetries),
       '-MaxRecords',([string]$MaxRecords),
-      '-MaxPagesPerBranch',([string]$MaxPagesPerBranch)
+      '-MaxPagesPerBranch',([string]$MaxPagesPerBranch),
+      '-UsePageSnapshots',([string]([int][bool]$UsePageSnapshots)),
+      '-FetchFromSnapshots',([string]([int][bool]$FetchFromSnapshots)),
+      '-ShardWorkerOutputs',([string]([int][bool]$ShardWorkerOutputs))
     )
     if ($StopOnMismatch) { $args += '-StopOnMismatch' }
     if ($StopOnBlocked) { $args += '-StopOnBlocked' }
@@ -876,6 +1248,7 @@ function Run-FetchPass {
     Receive-Job -Job $job -ErrorAction Continue
   }
   Remove-Job -Job $jobs -Force
+  Merge-WorkerOutputs
   Save-State
 }
 
