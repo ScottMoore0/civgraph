@@ -1,5 +1,11 @@
 # PRONI Full Browse Crawler Tooling
 
+- [x] Test maximum safe PRONI Browse records-per-second rate.
+  - Task: run bounded real Browse crawler samples at increasing rates, saving all generated crawl data directly under `D:\PRONI\eCatalogue\rate-tests`, and stop before a long hang or repeated throttle/block failures.
+  - Verification plan: inspect each run's summary, failures, events, and detail/index row counts; report the maximum stable observed records/second and the first unstable rate if one is found.
+  - Completed: ran bounded Browse/index/fetch samples under `D:\PRONI\eCatalogue\rate-tests\20260626-dynamic-fields`, including 1/2/4/6/8/12/16/24 configured aggregate RPS probes and a final 100-record end-to-end `Mode Both` sample.
+  - Verification evidence: the clean D-drive summary is saved at `D:\PRONI\eCatalogue\rate-tests\20260626-dynamic-fields\rate-test-summary.csv` and `.json`; the best sustained fetch-only sample was 100 detail records in 29.51 seconds at configured 24 RPS / 12 workers (3.388 detail records/sec), and the best end-to-end index+detail sample was 100 indexed plus 100 fetched in 34.114 seconds at configured 16 RPS (2.931 detail records/sec). All completed rate samples had 0 crawler failures, 0 reference mismatches, and 0 blocked responses. No throttle point was observed up to configured 24 aggregate RPS; throughput flattened because branch/page traversal and uneven branch distribution became the bottleneck.
+
 - [x] Add dynamic all-field capture to PRONI detail records.
   - Task: extend the PRONI detail parser so it keeps the existing normalized convenience fields while also storing every label/value pair found on the detail page, preventing rare future PRONI attributes from being silently dropped.
   - Verification plan: syntax-check the crawler, run a bounded one-record Browse smoke test, and confirm the emitted detail record contains `rawAttributes`, `attributeKeys`, and the normalized fields.
