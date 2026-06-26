@@ -7340,3 +7340,25 @@ Review:
 - Root cause: the previous control relocation moved `#mobileToggle` into the MapLibre control stack, which is hidden in catalogue-only mobile state.
 - Permanent prevention action: keep a mobile pane switch in the fixed header and only use map-stack controls as secondary in-map controls.
 - Verification evidence: `node --check app\src\app.js`, `node --check app\src\maplibre-main-adapter.js`, and targeted build/browser checks for the hotfix.
+
+# PRONI Browse-Only Single Record Crawl
+
+- [x] Crawl PRONI reference `AA/1/2/1` using only the Browse link path.
+  - Task: click through Browse navigation without using search boxes, extract Repository, PRONI Reference, Level, Access, Title, Dates, Description, and Digital Record, then revise the full-crawl estimate from the observed path and timings.
+  - Completed: followed `SearchPage > Browse > A > AA > AA/1 > AA/1/2 > More AA/1/2/1` and extracted the requested item metadata.
+  - Verification: 7 live PRONI Browse requests completed in 1.485 seconds total; a follow-up detail-page markup check confirmed `Digital Record` is an empty field for this record.
+
+# PRONI Browse Rate Probe
+
+- [x] Run a bounded Browse-only rate probe.
+  - Task: test a small sample of PRONI leaf detail requests at controlled request rates, stopping immediately on throttling, WAF rejection, non-200 responses, or sustained timeout symptoms.
+  - Completed: tested Browse leaf detail `More` requests from `AA/1/2` at target rates from 0.5 through 10 records/sec, with two bounded batches and immediate stop conditions.
+  - Verification: 66 total detail requests returned HTTP 200, with no throttle/WAF text, no non-200 responses, and no timeouts. Highest achieved sustained short-burst rate was about 8.4 records/sec, limited by client/round-trip timing rather than a server throttle.
+
+# PRONI Permissioned Throttle Point Test
+
+- [x] Run a permissioned stepped throttle test using unique Browse records.
+  - Task: after user-confirmed PRONI permission, crawl through the Browse tree without search boxes, use distinct record paths rather than repeated hits to the same record, and ramp request rates until throttling, WAF rejection, non-200 responses, timeouts, or sustained latency collapse.
+  - Completed: added `scripts/proni-browse-crawl-throttle.ps1` for checkpointed Browse traversal and `scripts/proni-parallel-throttle.ps1` for controlled multi-worker phases. The crawler reopens each Browse branch path in a fresh WebForms session, extracts leaf detail records, writes JSONL records/logs under ignored `tmp/proni-crawl/`, and records stop-condition summaries.
+  - Verification: single-worker stepped run over Browse letter A completed 375 unique records at target phases 1, 2, 4, 8, and 10 records/sec with zero failures. Parallel smoke `2:1:A,B` completed 20 records at 2.165 actual records/sec with zero failures. Parallel phases completed `4:2:A,B` (100 records, 4.041 actual records/sec), `8:2:C,D,E,F` (200 records, 7.920 actual records/sec), `16:4:G,H,I,J` (180 records, 11.416 actual records/sec), `24:4:K,L,M,N,O,P` (300 records, 17.814 actual records/sec), and `40:4:Q,R,S,T,U,V,W,X,Y,Z` (266 records, 18.120 actual records/sec). No phase produced WAF rejection, non-200 response, timeout failure, or throttle text.
+  - Result: no throttle point was observed up to the practical Browse-crawler ceiling reached here. The safe production recommendation is still to crawl well below the tested ceiling, preferably 1-2 records/sec sustained with checkpointing and exponential backoff, or at most a small parallel crawl around 4-8 records/sec after another longer-duration pilot.
