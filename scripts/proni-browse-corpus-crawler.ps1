@@ -1,5 +1,5 @@
 param(
-  [ValidateSet('Index','Fetch','Both')]
+  [ValidateSet('Index','Fetch','Both','Quick')]
   [string]$Mode = 'Both',
   [ValidateSet('PowerShell','HttpClient')]
   [string]$Client = 'HttpClient',
@@ -34,6 +34,8 @@ param(
 
 $ErrorActionPreference = 'Stop'
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+$GlobalRpsWasProvided = $PSBoundParameters.ContainsKey('GlobalRps')
+$WorkerRpsWasProvided = $PSBoundParameters.ContainsKey('WorkerRps')
 
 function ConvertTo-BooleanFlag($Value, [bool]$Default = $false) {
   if ($null -eq $Value) { return $Default }
@@ -60,6 +62,11 @@ $UsePageSnapshots = ConvertTo-BooleanFlag $UsePageSnapshots $true
 $FetchFromSnapshots = ConvertTo-BooleanFlag $FetchFromSnapshots $true
 $ShardWorkerOutputs = ConvertTo-BooleanFlag $ShardWorkerOutputs $true
 
+if ($Mode -eq 'Quick') {
+  if (-not $GlobalRpsWasProvided) { $GlobalRps = 18.0 }
+  if (-not $WorkerRpsWasProvided) { $WorkerRps = 18.0 }
+}
+
 if (-not $IndexPath) {
   $IndexPath = Join-Path $OutDir 'records-index.jsonl'
 } elseif (-not [IO.Path]::IsPathRooted($IndexPath)) {
@@ -77,6 +84,7 @@ if ($UsePageSnapshots) {
 }
 
 $DetailsPath = Join-Path $OutDir 'records-details.jsonl'
+$QuickPath = Join-Path $OutDir 'records-quick.jsonl'
 $FailuresPath = Join-Path $OutDir 'failures.jsonl'
 $EventsPath = Join-Path $OutDir 'events.jsonl'
 $StatePath = Join-Path $OutDir 'state.json'
@@ -118,6 +126,7 @@ $script:Stats = [ordered]@{
   BranchPagesIndexed = 0
   BranchPagesFetched = 0
   RecordsIndexed = 0
+  RecordsQuickScanned = 0
   DetailsFetched = 0
   Mismatches = 0
   Failures = 0
@@ -203,8 +212,19 @@ function Get-TextLineCount([string]$Path) {
 
 function Add-DerivedRunStats {
   $script:Stats.IndexRowsOnDisk = Get-TextLineCount $IndexPath
+  $script:Stats.QuickRowsOnDisk = Get-TextLineCount $QuickPath
   $script:Stats.DetailRowsOnDisk = Get-TextLineCount $DetailsPath
   $script:Stats.FailureRowsOnDisk = Get-TextLineCount $FailuresPath
+  try {
+    $started = [DateTime]::Parse([string]$script:Stats.StartedAt).ToUniversalTime()
+    $elapsed = [Math]::Max(0.001, ((Get-Date).ToUniversalTime() - $started).TotalSeconds)
+    $script:Stats.ElapsedSeconds = [Math]::Round($elapsed, 3)
+    $script:Stats.IndexRowsPerSecond = [Math]::Round(([double]$script:Stats.IndexRowsOnDisk / $elapsed), 3)
+    $script:Stats.QuickRowsPerSecond = [Math]::Round(([double]$script:Stats.QuickRowsOnDisk / $elapsed), 3)
+    $script:Stats.DetailRowsPerSecond = [Math]::Round(([double]$script:Stats.DetailRowsOnDisk / $elapsed), 3)
+  } catch {
+    $script:Stats.RateCalculationError = $_.Exception.Message
+  }
   if ($QueuePath -and (Test-Path $QueuePath)) {
     try {
       $queue = Get-Content -Path $QueuePath -Raw | ConvertFrom-Json
@@ -718,12 +738,21 @@ function Click-Next([string]$Html, [object]$NextButton) {
 }
 
 function Click-SelectByRef([string]$Html, [string]$Ref) {
-  foreach ($row in (Parse-GridRows $Html)) {
-    if ($row.ResultsSelect -and $row.ResultsSelect.Value -eq $Ref -and -not $row.ResultsSelect.Disabled) {
-      return Click-Select $Html $row
+  $pageHtml = $Html
+  for ($page = 1; $page -le $MaxPagesPerBranch; $page++) {
+    foreach ($row in (Parse-GridRows $pageHtml)) {
+      if ($row.ResultsSelect -and $row.ResultsSelect.Value -eq $Ref -and -not $row.ResultsSelect.Disabled) {
+        if ($page -gt 1) {
+          Write-Event 'branch-select-found-on-later-page' @{ ref=$Ref; page=$page }
+        }
+        return Click-Select $pageHtml $row
+      }
     }
+    $next = Find-NextButton $pageHtml
+    if (-not $next) { break }
+    $pageHtml = Click-Next $pageHtml $next
   }
-  throw "Could not find selectable branch $Ref"
+  throw "Could not find selectable branch $Ref after scanning $MaxPagesPerBranch page(s)"
 }
 
 function Open-BranchSnapshot([object]$Branch) {
@@ -819,6 +848,34 @@ function Fetch-DetailRows([string]$PageHtml, [object]$Branch, [int]$PageNumber, 
   }
 }
 
+function Write-QuickRecord([object]$Branch, [int]$PageNumber, [object]$Row, [string]$ExpectedRef, [string]$PageHash, [object]$Snapshot) {
+  $record = [ordered]@{
+    at = (Get-Date).ToUniversalTime().ToString('o')
+    scanLevel = 'quick-index'
+    attributeCompleteness = 'listing-only'
+    validationStatus = 'unvalidated-detail'
+    detailFetchAttempted = $false
+    branchKey = Get-BranchKey $Branch
+    letter = $Branch.Letter
+    path = @($Branch.Path)
+    page = $PageNumber
+    ctl = $Row.Ctl
+    expectedRef = $ExpectedRef
+    proniReference = $ExpectedRef
+    listingText = $Row.Text
+    pageHash = $PageHash
+    pageSnapshotPath = if ($Snapshot) { $Snapshot.HtmlPath } else { '' }
+    pageSnapshotMetadataPath = if ($Snapshot) { $Snapshot.MetadataPath } else { '' }
+    resultsViewName = if ($Row.ResultsView) { $Row.ResultsView.Name } else { '' }
+    resultsViewValue = if ($Row.ResultsView) { $Row.ResultsView.Value } else { '' }
+    resultsSelectName = if ($Row.ResultsSelect) { $Row.ResultsSelect.Name } else { '' }
+    resultsSelectValue = if ($Row.ResultsSelect) { $Row.ResultsSelect.Value } else { '' }
+    completenessNote = 'Quick scan records are Browse listing inventory rows only. Run Mode Fetch or Both to capture all visible detail-page attributes.'
+  }
+  Write-JsonLine $QuickPath ([pscustomobject]$record)
+  $script:Stats.RecordsQuickScanned++
+}
+
 function Index-Branch([object]$Branch, [switch]$FetchNow) {
   $branchKey = Get-BranchKey $Branch
   Write-Event 'branch-index-start' @{ branchKey=$branchKey; path=@($Branch.Path); letter=$Branch.Letter }
@@ -845,6 +902,9 @@ function Index-Branch([object]$Branch, [switch]$FetchNow) {
       $expected = if ($row.ResultsSelect -and $row.ResultsSelect.Value) { [string]$row.ResultsSelect.Value } else { '' }
       $index = [ordered]@{
         at = (Get-Date).ToUniversalTime().ToString('o')
+        scanLevel = if ($Mode -eq 'Quick') { 'quick-index' } else { 'index' }
+        attributeCompleteness = 'listing-only'
+        validationStatus = 'unvalidated-detail'
         branchKey = $branchKey
         letter = $Branch.Letter
         path = @($Branch.Path)
@@ -861,6 +921,9 @@ function Index-Branch([object]$Branch, [switch]$FetchNow) {
         resultsSelectValue = if ($row.ResultsSelect) { $row.ResultsSelect.Value } else { '' }
       }
       Write-JsonLine $IndexPath ([pscustomobject]$index)
+      if ($Mode -eq 'Quick') {
+        Write-QuickRecord $Branch $pageNumber $row $expected $hash $snapshot
+      }
       $script:Stats.RecordsIndexed++
     }
 
@@ -884,7 +947,7 @@ function Index-Branch([object]$Branch, [switch]$FetchNow) {
 
 function Run-IndexPass([switch]$FetchNow) {
   if (-not $Resume) {
-    foreach ($path in @($IndexPath,$DetailsPath,$FailuresPath,$EventsPath,$StatePath,$SummaryPath)) {
+    foreach ($path in @($IndexPath,$QuickPath,$DetailsPath,$FailuresPath,$EventsPath,$StatePath,$SummaryPath)) {
       if (Test-Path $path) { Remove-Item -LiteralPath $path -Force }
     }
   }
@@ -1259,6 +1322,8 @@ if ($WorkerMode) {
   if (-not $QueuePath) { throw 'WorkerMode requires QueuePath.' }
   Run-FetchWorker
 } elseif ($Mode -eq 'Index') {
+  Run-IndexPass
+} elseif ($Mode -eq 'Quick') {
   Run-IndexPass
 } elseif ($Mode -eq 'Both') {
   Run-IndexPass -FetchNow

@@ -1,5 +1,14 @@
 # PRONI Full Browse Crawler Tooling
 
+- [x] Implement PRONI Quick scan mode.
+  - Task: add a shallow high-throughput PRONI Browse inventory mode that indexes listing rows and page snapshots without opening every detail record.
+  - Scope: crawler tooling and bounded verification only; Quick records must be explicitly marked as listing-only and must not claim full dynamic attribute capture.
+  - Verification plan: parse/syntax-check the crawler, run a bounded live Quick scan under `D:\PRONI\...`, inspect `records-quick.jsonl`, `records-index.jsonl`, and `summary.json`, then commit/push only scoped files.
+  - Completed: added `-Mode Quick`, which writes `records-quick.jsonl` alongside the technical Browse index, defaults quick mode to 18 configured aggregate RPS when no explicit rate is supplied, snapshots Browse pages for later full-detail fetches, and marks every quick row as `scanLevel=quick-index`, `attributeCompleteness=listing-only`, `validationStatus=unvalidated-detail`, and `detailFetchAttempted=false`.
+  - Completed: fixed a Browse traversal bug exposed by Quick verification where branch paths whose selectable row was on page 2+ could not be reopened; `Click-SelectByRef` now scans paginated Browse results before failing.
+  - Verification evidence: PowerShell scriptblock parse passed; bounded quick scan at `D:\PRONI\eCatalogue\quick-tests\20260627-quick-v2` produced 8 quick rows, 8 index rows, 0 detail rows, 0 failures, and 0 blocked responses.
+  - Verification evidence: broader bounded quick scan at `D:\PRONI\eCatalogue\quick-tests\20260627-quick-100-v2` produced 100 quick rows, 100 index rows, 0 detail rows, 0 failures, 0 blocked responses, and exercised the later-page branch selection guard with `AUS` found on page 2. This broad traversal sample ran at 3.075 quick rows/sec because it included branch discovery overhead, not only dense result-page row extraction.
+
 - [x] Implement PRONI per-worker throughput improvements.
   - Task: increase effective per-worker records/second by implementing the seven agreed improvements: page/record-level queueing, reusable page snapshots/postback metadata, per-worker output shards, grouped index lookup structures, `HttpClient` as the default client, an async snapshot-fetch runtime, and direct-record-endpoint discovery tooling.
   - Constraints: keep Browse traversal as the authoritative crawl path; do not use search boxes as the primary crawl route; save live verification crawl data under `D:\PRONI\...`; keep full-corpus crawling out of this task.
