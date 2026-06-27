@@ -1,10 +1,393 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-25T18:54:56.904Z",
+  "generatedAt": "2026-06-27T17:15:03.361Z",
   "kind": "sources",
   "shard": "sources-043.json",
   "total": 200,
   "items": [
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:community-facilities-2012-galway-county2:00466",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-community-facilities-2012-galway-county2-00466",
+      "type": "approved-medium-priority-source",
+      "title": "Community Facilities 2012 Galway County",
+      "subtitle": "Local authority planning/property/open-data layers / Galway County Council, data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, GEOJSON, HTML, KML, ZIP / Source record; runtime review pending",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "date": "2012",
+      "provider": [
+        "Galway County Council",
+        "data.gov.ie"
+      ],
+      "description": "Community Facilities 2012 Galway County is published as a medium-priority Civgraph source/provenance record from Galway County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
+      "url": "https://data.gov.ie/dataset/community-facilities-2012-galway-county2",
+      "references": [
+        {
+          "label": "Community Facilities 2012 Galway County provider page",
+          "url": "https://data.gov.ie/dataset/community-facilities-2012-galway-county2",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "Community Facilities 2012 Galway County Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/community-facilities-2012-galway-county2",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/community-facilities-2012-galway-county2",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "source-record-with-runtime-review",
+        "Local authority planning/property/open-data layers",
+        "source-data",
+        "features",
+        "Republic of Ireland",
+        "local-authority-batch-review",
+        "ARCGIS GEOSERVICES REST API",
+        "CSV",
+        "GEOJSON",
+        "HTML",
+        "KML",
+        "ZIP",
+        "review:duplicate-or-variant-review-no-existing-match-candidate"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 467,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:community-facilities-2012-galway-county2:00466",
+          "title": "Community Facilities 2012 Galway County",
+          "cleanTitle": "Community Facilities 2012 Galway County",
+          "provider": "data.gov.ie",
+          "organisation": "Galway County Council",
+          "category": "spatial",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Republic of Ireland",
+          "topic": "source-data",
+          "featureUnit": "features",
+          "formats": [
+            "ARCGIS GEOSERVICES REST API",
+            "CSV",
+            "GEOJSON",
+            "HTML",
+            "KML",
+            "ZIP"
+          ],
+          "isSpatial": true,
+          "isLargeOrSpecial": false,
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GEOJSON",
+              "HTML",
+              "KML",
+              "ZIP"
+            ]
+          },
+          "approvalState": "ready-with-residual-review",
+          "sourcePublicationState": "public source record with runtime/semantic review still pending",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/community-facilities-2012-galway-county2",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/community-facilities-2012-galway-county2",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "large-or-special-format-review: normal source package; no special-format hold",
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        }
+      ],
+      "status": "Source only",
+      "statusChips": [
+        "Source record",
+        "Runtime review pending",
+        "Spatial source",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Republic of Ireland",
+        "source-data",
+        "Community Facilities 2012 Galway County"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "download-only"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/community-facilities-2012-galway-county2",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/community-facilities-2012-galway-county2",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Galway County Council, data.gov.ie, Community Facilities 2012 Galway County.",
+      "fullCitation": "Galway County Council, data.gov.ie. Community Facilities 2012 Galway County. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/community-facilities-2012-galway-county2. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/community-facilities-2012-galway-county2.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:community-facilities-2012-galway-county2:00466",
+        "sourceRowNumber": 467,
+        "approvalState": "ready-with-residual-review",
+        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+        "proposedAction": "local-authority-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "ARCGIS GEOSERVICES REST API",
+            "CSV",
+            "GEOJSON",
+            "HTML",
+            "KML",
+            "ZIP"
+          ]
+        },
+        "confidence": 60,
+        "residualBlockers": [
+          "duplicate-or-variant-review: no existing match candidate"
+        ],
+        "resolvedBlockers": [
+          "large-or-special-format-review: normal source package; no special-format hold",
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+        ],
+        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+      },
+      "publicationStatus": "source-record-with-runtime-review",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-community-facilities-2012-galway-county2-00466",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:community-facilities-2012-galway-county2:00466",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-community-facilities-2012-galway-county2-00466",
+        "type": "approved-medium-priority-source",
+        "title": "Community Facilities 2012 Galway County",
+        "subtitle": "Local authority planning/property/open-data layers / Galway County Council, data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, GEOJSON, HTML, KML, ZIP / Source record; runtime review pending",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "date": "2012",
+        "provider": [
+          "Galway County Council",
+          "data.gov.ie"
+        ],
+        "description": "Community Facilities 2012 Galway County is published as a medium-priority Civgraph source/provenance record from Galway County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
+        "url": "https://data.gov.ie/dataset/community-facilities-2012-galway-county2",
+        "references": [
+          {
+            "label": "Community Facilities 2012 Galway County provider page",
+            "url": "https://data.gov.ie/dataset/community-facilities-2012-galway-county2",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "Community Facilities 2012 Galway County Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/community-facilities-2012-galway-county2",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/community-facilities-2012-galway-county2",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source only",
+        "statusChips": [
+          "Source record",
+          "Runtime review pending",
+          "Spatial source",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Republic of Ireland",
+          "source-data",
+          "Community Facilities 2012 Galway County"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "download-only"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/community-facilities-2012-galway-county2",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/community-facilities-2012-galway-county2",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Galway County Council, data.gov.ie, Community Facilities 2012 Galway County.",
+        "fullCitation": "Galway County Council, data.gov.ie. Community Facilities 2012 Galway County. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/community-facilities-2012-galway-county2. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/community-facilities-2012-galway-county2.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 467,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:community-facilities-2012-galway-county2:00466",
+            "title": "Community Facilities 2012 Galway County",
+            "cleanTitle": "Community Facilities 2012 Galway County",
+            "provider": "data.gov.ie",
+            "organisation": "Galway County Council",
+            "category": "spatial",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Republic of Ireland",
+            "topic": "source-data",
+            "featureUnit": "features",
+            "formats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GEOJSON",
+              "HTML",
+              "KML",
+              "ZIP"
+            ],
+            "isSpatial": true,
+            "isLargeOrSpecial": false,
+            "proposedAction": "local-authority-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "ARCGIS GEOSERVICES REST API",
+                "CSV",
+                "GEOJSON",
+                "HTML",
+                "KML",
+                "ZIP"
+              ]
+            },
+            "approvalState": "ready-with-residual-review",
+            "sourcePublicationState": "public source record with runtime/semantic review still pending",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/community-facilities-2012-galway-county2",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/community-facilities-2012-galway-county2",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "large-or-special-format-review: normal source package; no special-format hold",
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+            ],
+            "residualBlockers": [
+              "duplicate-or-variant-review: no existing match candidate"
+            ],
+            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:community-facilities-2012-galway-county2:00466",
+          "sourceRowNumber": 467,
+          "approvalState": "ready-with-residual-review",
+          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GEOJSON",
+              "HTML",
+              "KML",
+              "ZIP"
+            ]
+          },
+          "confidence": 60,
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate"
+          ],
+          "resolvedBlockers": [
+            "large-or-special-format-review: normal source package; no special-format hold",
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        },
+        "publicationStatus": "source-record-with-runtime-review",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "source-record-with-runtime-review",
+          "Local authority planning/property/open-data layers",
+          "source-data",
+          "features",
+          "Republic of Ireland",
+          "local-authority-batch-review",
+          "ARCGIS GEOSERVICES REST API",
+          "CSV",
+          "GEOJSON",
+          "HTML",
+          "KML",
+          "ZIP",
+          "review:duplicate-or-variant-review-no-existing-match-candidate"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-community-facilities-2012-galway-county2-00466"
+      }
+    },
     {
       "id": "medium-priority:5-local-authority-planning-property-open-data-layers:community-facilities-dlr:00467",
       "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-community-facilities-dlr-00467",
@@ -71002,375 +71385,6 @@
           "CSV"
         ],
         "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-dublin-city-council-eu-imf-financial-reporting-02183"
-      }
-    },
-    {
-      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:dublin-city-council-planning-applications:00871",
-      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-dublin-city-council-planning-applications-00871",
-      "type": "approved-medium-priority-source",
-      "title": "Planning Applications DCC",
-      "subtitle": "Local authority planning/property/open-data layers / Dublin City Council, data.gov.ie / Republic of Ireland / CSV, DBASE, PRJ, SHP, SHX / Source record; runtime review pending",
-      "category": "Medium-priority: Local authority planning/property/open-data layers",
-      "provider": [
-        "Dublin City Council",
-        "data.gov.ie"
-      ],
-      "description": "Planning Applications DCC is published as a medium-priority Civgraph source/provenance record from Dublin City Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-      "url": "https://data.gov.ie/dataset/dublin-city-council-planning-applications",
-      "references": [
-        {
-          "label": "Planning Applications DCC provider page",
-          "url": "https://data.gov.ie/dataset/dublin-city-council-planning-applications",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Planning Applications DCC Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dublin-city-council-planning-applications",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/dublin-city-council-planning-applications",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "source-record-with-runtime-review",
-        "Local authority planning/property/open-data layers",
-        "planning-property",
-        "features",
-        "Republic of Ireland",
-        "local-authority-batch-review",
-        "CSV",
-        "DBASE",
-        "PRJ",
-        "SHP",
-        "SHX",
-        "review:duplicate-or-variant-review-no-existing-match-candidate"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 872,
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:dublin-city-council-planning-applications:00871",
-          "title": "Planning Applications DCC",
-          "cleanTitle": "Planning Applications DCC",
-          "provider": "data.gov.ie",
-          "organisation": "Dublin City Council",
-          "category": "spatial",
-          "roiGroup": "5. Local authority planning/property/open-data layers",
-          "groupTitle": "Local authority planning/property/open-data layers",
-          "jurisdiction": "Republic of Ireland",
-          "topic": "planning-property",
-          "featureUnit": "features",
-          "formats": [
-            "CSV",
-            "DBASE",
-            "PRJ",
-            "SHP",
-            "SHX"
-          ],
-          "isSpatial": true,
-          "isLargeOrSpecial": false,
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "DBASE",
-              "PRJ",
-              "SHP",
-              "SHX"
-            ]
-          },
-          "approvalState": "ready-with-residual-review",
-          "sourcePublicationState": "public source record with runtime/semantic review still pending",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/dublin-city-council-planning-applications",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dublin-city-council-planning-applications",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source record",
-        "Runtime review pending",
-        "Spatial source",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Local authority planning/property/open-data layers",
-        "Republic of Ireland",
-        "planning-property",
-        "Planning Applications DCC"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text",
-          "download-only"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/dublin-city-council-planning-applications",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dublin-city-council-planning-applications",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Dublin City Council, data.gov.ie, Planning Applications DCC.",
-      "fullCitation": "Dublin City Council, data.gov.ie. Planning Applications DCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dublin-city-council-planning-applications. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dublin-city-council-planning-applications.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:dublin-city-council-planning-applications:00871",
-        "sourceRowNumber": 872,
-        "approvalState": "ready-with-residual-review",
-        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-        "proposedAction": "local-authority-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "CSV",
-            "DBASE",
-            "PRJ",
-            "SHP",
-            "SHX"
-          ]
-        },
-        "confidence": 60,
-        "residualBlockers": [
-          "duplicate-or-variant-review: no existing match candidate"
-        ],
-        "resolvedBlockers": [
-          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-        ],
-        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
-      },
-      "publicationStatus": "source-record-with-runtime-review",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-dublin-city-council-planning-applications-00871",
-      "rawMetadata": {
-        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:dublin-city-council-planning-applications:00871",
-        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-dublin-city-council-planning-applications-00871",
-        "type": "approved-medium-priority-source",
-        "title": "Planning Applications DCC",
-        "subtitle": "Local authority planning/property/open-data layers / Dublin City Council, data.gov.ie / Republic of Ireland / CSV, DBASE, PRJ, SHP, SHX / Source record; runtime review pending",
-        "category": "Medium-priority: Local authority planning/property/open-data layers",
-        "provider": [
-          "Dublin City Council",
-          "data.gov.ie"
-        ],
-        "description": "Planning Applications DCC is published as a medium-priority Civgraph source/provenance record from Dublin City Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-        "url": "https://data.gov.ie/dataset/dublin-city-council-planning-applications",
-        "references": [
-          {
-            "label": "Planning Applications DCC provider page",
-            "url": "https://data.gov.ie/dataset/dublin-city-council-planning-applications",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Planning Applications DCC Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dublin-city-council-planning-applications",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/dublin-city-council-planning-applications",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source record",
-          "Runtime review pending",
-          "Spatial source",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Local authority planning/property/open-data layers",
-          "Republic of Ireland",
-          "planning-property",
-          "Planning Applications DCC"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text",
-            "download-only"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/dublin-city-council-planning-applications",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dublin-city-council-planning-applications",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Dublin City Council, data.gov.ie, Planning Applications DCC.",
-        "fullCitation": "Dublin City Council, data.gov.ie. Planning Applications DCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dublin-city-council-planning-applications. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dublin-city-council-planning-applications.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 872,
-            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:dublin-city-council-planning-applications:00871",
-            "title": "Planning Applications DCC",
-            "cleanTitle": "Planning Applications DCC",
-            "provider": "data.gov.ie",
-            "organisation": "Dublin City Council",
-            "category": "spatial",
-            "roiGroup": "5. Local authority planning/property/open-data layers",
-            "groupTitle": "Local authority planning/property/open-data layers",
-            "jurisdiction": "Republic of Ireland",
-            "topic": "planning-property",
-            "featureUnit": "features",
-            "formats": [
-              "CSV",
-              "DBASE",
-              "PRJ",
-              "SHP",
-              "SHX"
-            ],
-            "isSpatial": true,
-            "isLargeOrSpecial": false,
-            "proposedAction": "local-authority-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "CSV",
-                "DBASE",
-                "PRJ",
-                "SHP",
-                "SHX"
-              ]
-            },
-            "approvalState": "ready-with-residual-review",
-            "sourcePublicationState": "public source record with runtime/semantic review still pending",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/dublin-city-council-planning-applications",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dublin-city-council-planning-applications",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-            ],
-            "residualBlockers": [
-              "duplicate-or-variant-review: no existing match candidate"
-            ],
-            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:dublin-city-council-planning-applications:00871",
-          "sourceRowNumber": 872,
-          "approvalState": "ready-with-residual-review",
-          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "DBASE",
-              "PRJ",
-              "SHP",
-              "SHX"
-            ]
-          },
-          "confidence": 60,
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate"
-          ],
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
-        },
-        "publicationStatus": "source-record-with-runtime-review",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "source-record-with-runtime-review",
-          "Local authority planning/property/open-data layers",
-          "planning-property",
-          "features",
-          "Republic of Ireland",
-          "local-authority-batch-review",
-          "CSV",
-          "DBASE",
-          "PRJ",
-          "SHP",
-          "SHX",
-          "review:duplicate-or-variant-review-no-existing-match-candidate"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-dublin-city-council-planning-applications-00871"
       }
     }
   ]

@@ -2641,3 +2641,11 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   1) composite parent maps must declare or resolve explicit converted children,
   2) MapLibre resolution should prefer loadable converted equivalents over same-id unconverted placeholders,
   3) route checks should include grouped parent entries and representative child entries.
+
+### 198) Source-record publication is not document data extraction
+- Mistake pattern: Treating complete document inventory/source publication as satisfying an extraction request for every document format.
+- Impact: PDF/scan data can be represented in Browse but not actually converted into structured rows, which is materially different from extraction.
+- Guardrail:
+  1) for every requested source format, explicitly track whether the work produced structured rows, source-only records, or no coverage,
+  2) do not describe a task as fully extracted unless each requested format has row-level extraction or a clearly accepted exception,
+  3) validators for document extraction tasks should include per-format structured-row coverage, not only source-record coverage.

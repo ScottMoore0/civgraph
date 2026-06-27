@@ -1,10 +1,393 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-25T18:54:56.904Z",
+  "generatedAt": "2026-06-27T17:15:03.361Z",
   "kind": "sources",
   "shard": "sources-049.json",
   "total": 200,
   "items": [
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:toucan-pedestrian-crossing-2023-fcc1:00790",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-toucan-pedestrian-crossing-2023-fcc1-00790",
+      "type": "approved-medium-priority-source",
+      "title": "Toucan Pedestrian Crossing 2023 FCC",
+      "subtitle": "Local authority planning/property/open-data layers / Fingal County Council, data.gov.ie / Ireland / unspecified / ARCGIS GEOSERVICES REST API, CSV, GEOJSON, HTML, KML, ZIP / Source record; runtime review pending",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "date": "2023",
+      "provider": [
+        "Fingal County Council",
+        "data.gov.ie"
+      ],
+      "description": "Toucan Pedestrian Crossing 2023 FCC is published as a medium-priority Civgraph source/provenance record from Fingal County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
+      "url": "https://data.gov.ie/dataset/toucan-pedestrian-crossing-2023-fcc1",
+      "references": [
+        {
+          "label": "Toucan Pedestrian Crossing 2023 FCC provider page",
+          "url": "https://data.gov.ie/dataset/toucan-pedestrian-crossing-2023-fcc1",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "Toucan Pedestrian Crossing 2023 FCC Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/toucan-pedestrian-crossing-2023-fcc1",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/toucan-pedestrian-crossing-2023-fcc1",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "source-record-with-runtime-review",
+        "Local authority planning/property/open-data layers",
+        "transport-public-asset",
+        "road features",
+        "Ireland / unspecified",
+        "local-authority-batch-review",
+        "ARCGIS GEOSERVICES REST API",
+        "CSV",
+        "GEOJSON",
+        "HTML",
+        "KML",
+        "ZIP",
+        "review:duplicate-or-variant-review-no-existing-match-candidate"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 791,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:toucan-pedestrian-crossing-2023-fcc1:00790",
+          "title": "Toucan Pedestrian Crossing 2023 FCC",
+          "cleanTitle": "Toucan Pedestrian Crossing 2023 FCC",
+          "provider": "data.gov.ie",
+          "organisation": "Fingal County Council",
+          "category": "spatial",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "transport-public-asset",
+          "featureUnit": "road features",
+          "formats": [
+            "ARCGIS GEOSERVICES REST API",
+            "CSV",
+            "GEOJSON",
+            "HTML",
+            "KML",
+            "ZIP"
+          ],
+          "isSpatial": true,
+          "isLargeOrSpecial": false,
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GEOJSON",
+              "HTML",
+              "KML",
+              "ZIP"
+            ]
+          },
+          "approvalState": "ready-with-residual-review",
+          "sourcePublicationState": "public source record with runtime/semantic review still pending",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/toucan-pedestrian-crossing-2023-fcc1",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/toucan-pedestrian-crossing-2023-fcc1",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "large-or-special-format-review: normal source package; no special-format hold",
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        }
+      ],
+      "status": "Source only",
+      "statusChips": [
+        "Source record",
+        "Runtime review pending",
+        "Spatial source",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Ireland / unspecified",
+        "transport-public-asset",
+        "Toucan Pedestrian Crossing 2023 FCC"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "download-only"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/toucan-pedestrian-crossing-2023-fcc1",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/toucan-pedestrian-crossing-2023-fcc1",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Fingal County Council, data.gov.ie, Toucan Pedestrian Crossing 2023 FCC.",
+      "fullCitation": "Fingal County Council, data.gov.ie. Toucan Pedestrian Crossing 2023 FCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/toucan-pedestrian-crossing-2023-fcc1. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/toucan-pedestrian-crossing-2023-fcc1.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:toucan-pedestrian-crossing-2023-fcc1:00790",
+        "sourceRowNumber": 791,
+        "approvalState": "ready-with-residual-review",
+        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+        "proposedAction": "local-authority-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "ARCGIS GEOSERVICES REST API",
+            "CSV",
+            "GEOJSON",
+            "HTML",
+            "KML",
+            "ZIP"
+          ]
+        },
+        "confidence": 60,
+        "residualBlockers": [
+          "duplicate-or-variant-review: no existing match candidate"
+        ],
+        "resolvedBlockers": [
+          "large-or-special-format-review: normal source package; no special-format hold",
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+        ],
+        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+      },
+      "publicationStatus": "source-record-with-runtime-review",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-toucan-pedestrian-crossing-2023-fcc1-00790",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:toucan-pedestrian-crossing-2023-fcc1:00790",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-toucan-pedestrian-crossing-2023-fcc1-00790",
+        "type": "approved-medium-priority-source",
+        "title": "Toucan Pedestrian Crossing 2023 FCC",
+        "subtitle": "Local authority planning/property/open-data layers / Fingal County Council, data.gov.ie / Ireland / unspecified / ARCGIS GEOSERVICES REST API, CSV, GEOJSON, HTML, KML, ZIP / Source record; runtime review pending",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "date": "2023",
+        "provider": [
+          "Fingal County Council",
+          "data.gov.ie"
+        ],
+        "description": "Toucan Pedestrian Crossing 2023 FCC is published as a medium-priority Civgraph source/provenance record from Fingal County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
+        "url": "https://data.gov.ie/dataset/toucan-pedestrian-crossing-2023-fcc1",
+        "references": [
+          {
+            "label": "Toucan Pedestrian Crossing 2023 FCC provider page",
+            "url": "https://data.gov.ie/dataset/toucan-pedestrian-crossing-2023-fcc1",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "Toucan Pedestrian Crossing 2023 FCC Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/toucan-pedestrian-crossing-2023-fcc1",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/toucan-pedestrian-crossing-2023-fcc1",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source only",
+        "statusChips": [
+          "Source record",
+          "Runtime review pending",
+          "Spatial source",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Ireland / unspecified",
+          "transport-public-asset",
+          "Toucan Pedestrian Crossing 2023 FCC"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "download-only"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/toucan-pedestrian-crossing-2023-fcc1",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/toucan-pedestrian-crossing-2023-fcc1",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Fingal County Council, data.gov.ie, Toucan Pedestrian Crossing 2023 FCC.",
+        "fullCitation": "Fingal County Council, data.gov.ie. Toucan Pedestrian Crossing 2023 FCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/toucan-pedestrian-crossing-2023-fcc1. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/toucan-pedestrian-crossing-2023-fcc1.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 791,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:toucan-pedestrian-crossing-2023-fcc1:00790",
+            "title": "Toucan Pedestrian Crossing 2023 FCC",
+            "cleanTitle": "Toucan Pedestrian Crossing 2023 FCC",
+            "provider": "data.gov.ie",
+            "organisation": "Fingal County Council",
+            "category": "spatial",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "transport-public-asset",
+            "featureUnit": "road features",
+            "formats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GEOJSON",
+              "HTML",
+              "KML",
+              "ZIP"
+            ],
+            "isSpatial": true,
+            "isLargeOrSpecial": false,
+            "proposedAction": "local-authority-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "ARCGIS GEOSERVICES REST API",
+                "CSV",
+                "GEOJSON",
+                "HTML",
+                "KML",
+                "ZIP"
+              ]
+            },
+            "approvalState": "ready-with-residual-review",
+            "sourcePublicationState": "public source record with runtime/semantic review still pending",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/toucan-pedestrian-crossing-2023-fcc1",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/toucan-pedestrian-crossing-2023-fcc1",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "large-or-special-format-review: normal source package; no special-format hold",
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+            ],
+            "residualBlockers": [
+              "duplicate-or-variant-review: no existing match candidate"
+            ],
+            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:toucan-pedestrian-crossing-2023-fcc1:00790",
+          "sourceRowNumber": 791,
+          "approvalState": "ready-with-residual-review",
+          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GEOJSON",
+              "HTML",
+              "KML",
+              "ZIP"
+            ]
+          },
+          "confidence": 60,
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate"
+          ],
+          "resolvedBlockers": [
+            "large-or-special-format-review: normal source package; no special-format hold",
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        },
+        "publicationStatus": "source-record-with-runtime-review",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "source-record-with-runtime-review",
+          "Local authority planning/property/open-data layers",
+          "transport-public-asset",
+          "road features",
+          "Ireland / unspecified",
+          "local-authority-batch-review",
+          "ARCGIS GEOSERVICES REST API",
+          "CSV",
+          "GEOJSON",
+          "HTML",
+          "KML",
+          "ZIP",
+          "review:duplicate-or-variant-review-no-existing-match-candidate"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-toucan-pedestrian-crossing-2023-fcc1-00790"
+      }
+    },
     {
       "id": "medium-priority:5-local-authority-planning-property-open-data-layers:toucan-pedestrian-crossings-2024-fcc1:00791",
       "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-toucan-pedestrian-crossings-2024-fcc1-00791",
@@ -70272,325 +70655,6 @@
           "WMS"
         ],
         "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-inspire-strategic-noise-maps-noise-contour-map-for-major-railways-lden-02216"
-      }
-    },
-    {
-      "id": "medium-priority:7-transport-roads-infrastructure-public-assets:inspire-strategic-noise-maps-noise-contour-map-for-major-railways-lnight:02217",
-      "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-inspire-strategic-noise-maps-noise-contour-map-for-major-railways-lnight-02217",
-      "type": "approved-medium-priority-source",
-      "title": "INSPIRE Strategic noise maps. Noise contour map for major railways – Lnight",
-      "subtitle": "Transport, roads, infrastructure, public assets / Environmental Protection Agency, data.gov.ie / Ireland / unspecified / NULL, WMS / Approved source record",
-      "category": "Medium-priority: Transport, roads, infrastructure, public assets",
-      "provider": [
-        "Environmental Protection Agency",
-        "data.gov.ie"
-      ],
-      "description": "INSPIRE Strategic noise maps. Noise contour map for major railways – Lnight is published as a medium-priority Civgraph source/provenance record from Environmental Protection Agency, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/inspire-strategic-noise-maps-noise-contour-map-for-major-railways-lnight",
-      "references": [
-        {
-          "label": "INSPIRE Strategic noise maps. Noise contour map for major railways – Lnight provider page",
-          "url": "https://data.gov.ie/dataset/inspire-strategic-noise-maps-noise-contour-map-for-major-railways-lnight",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "INSPIRE Strategic noise maps. Noise contour map for major railways – Lnight Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/inspire-strategic-noise-maps-noise-contour-map-for-major-railways-lnight",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/inspire-strategic-noise-maps-noise-contour-map-for-major-railways-lnight",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Transport, roads, infrastructure, public assets",
-        "transport-public-asset",
-        "features",
-        "Ireland / unspecified",
-        "transport-public-asset-batch-review",
-        "NULL",
-        "WMS"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 2218,
-          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:inspire-strategic-noise-maps-noise-contour-map-for-major-railways-lnight:02217",
-          "title": "INSPIRE Strategic noise maps. Noise contour map for major railways – Lnight",
-          "cleanTitle": "INSPIRE Strategic noise maps. Noise contour map for major railways – Lnight",
-          "provider": "data.gov.ie",
-          "organisation": "Environmental Protection Agency",
-          "category": "tabular",
-          "roiGroup": "7. Transport, roads, infrastructure, public assets",
-          "groupTitle": "Transport, roads, infrastructure, public assets",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "transport-public-asset",
-          "featureUnit": "features",
-          "formats": [
-            "NULL",
-            "WMS"
-          ],
-          "isSpatial": true,
-          "isLargeOrSpecial": false,
-          "proposedAction": "transport-public-asset-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "NULL",
-              "WMS"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/inspire-strategic-noise-maps-noise-contour-map-for-major-railways-lnight",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/inspire-strategic-noise-maps-noise-contour-map-for-major-railways-lnight",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "public-asset-batch-placement: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Spatial source",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Transport, roads, infrastructure, public assets",
-        "Ireland / unspecified",
-        "transport-public-asset",
-        "INSPIRE Strategic noise maps. Noise contour map for major railways – Lnight"
-      ],
-      "viewport": {
-        "status": "source-page-only",
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/inspire-strategic-noise-maps-noise-contour-map-for-major-railways-lnight",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/inspire-strategic-noise-maps-noise-contour-map-for-major-railways-lnight",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Environmental Protection Agency, data.gov.ie, INSPIRE Strategic noise maps. Noise contour map for major railways – Lnight.",
-      "fullCitation": "Environmental Protection Agency, data.gov.ie. INSPIRE Strategic noise maps. Noise contour map for major railways – Lnight. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/inspire-strategic-noise-maps-noise-contour-map-for-major-railways-lnight. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/inspire-strategic-noise-maps-noise-contour-map-for-major-railways-lnight.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:inspire-strategic-noise-maps-noise-contour-map-for-major-railways-lnight:02217",
-        "sourceRowNumber": 2218,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
-        "proposedAction": "transport-public-asset-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "NULL",
-            "WMS"
-          ]
-        },
-        "confidence": 60,
-        "resolvedBlockers": [
-          "public-asset-batch-placement: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-inspire-strategic-noise-maps-noise-contour-map-for-major-railways-lnight-02217",
-      "rawMetadata": {
-        "id": "medium-priority:7-transport-roads-infrastructure-public-assets:inspire-strategic-noise-maps-noise-contour-map-for-major-railways-lnight:02217",
-        "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-inspire-strategic-noise-maps-noise-contour-map-for-major-railways-lnight-02217",
-        "type": "approved-medium-priority-source",
-        "title": "INSPIRE Strategic noise maps. Noise contour map for major railways – Lnight",
-        "subtitle": "Transport, roads, infrastructure, public assets / Environmental Protection Agency, data.gov.ie / Ireland / unspecified / NULL, WMS / Approved source record",
-        "category": "Medium-priority: Transport, roads, infrastructure, public assets",
-        "provider": [
-          "Environmental Protection Agency",
-          "data.gov.ie"
-        ],
-        "description": "INSPIRE Strategic noise maps. Noise contour map for major railways – Lnight is published as a medium-priority Civgraph source/provenance record from Environmental Protection Agency, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/inspire-strategic-noise-maps-noise-contour-map-for-major-railways-lnight",
-        "references": [
-          {
-            "label": "INSPIRE Strategic noise maps. Noise contour map for major railways – Lnight provider page",
-            "url": "https://data.gov.ie/dataset/inspire-strategic-noise-maps-noise-contour-map-for-major-railways-lnight",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "INSPIRE Strategic noise maps. Noise contour map for major railways – Lnight Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/inspire-strategic-noise-maps-noise-contour-map-for-major-railways-lnight",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/inspire-strategic-noise-maps-noise-contour-map-for-major-railways-lnight",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Spatial source",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Transport, roads, infrastructure, public assets",
-          "Ireland / unspecified",
-          "transport-public-asset",
-          "INSPIRE Strategic noise maps. Noise contour map for major railways – Lnight"
-        ],
-        "viewport": {
-          "status": "source-page-only",
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/inspire-strategic-noise-maps-noise-contour-map-for-major-railways-lnight",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/inspire-strategic-noise-maps-noise-contour-map-for-major-railways-lnight",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Environmental Protection Agency, data.gov.ie, INSPIRE Strategic noise maps. Noise contour map for major railways – Lnight.",
-        "fullCitation": "Environmental Protection Agency, data.gov.ie. INSPIRE Strategic noise maps. Noise contour map for major railways – Lnight. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/inspire-strategic-noise-maps-noise-contour-map-for-major-railways-lnight. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/inspire-strategic-noise-maps-noise-contour-map-for-major-railways-lnight.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 2218,
-            "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:inspire-strategic-noise-maps-noise-contour-map-for-major-railways-lnight:02217",
-            "title": "INSPIRE Strategic noise maps. Noise contour map for major railways – Lnight",
-            "cleanTitle": "INSPIRE Strategic noise maps. Noise contour map for major railways – Lnight",
-            "provider": "data.gov.ie",
-            "organisation": "Environmental Protection Agency",
-            "category": "tabular",
-            "roiGroup": "7. Transport, roads, infrastructure, public assets",
-            "groupTitle": "Transport, roads, infrastructure, public assets",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "transport-public-asset",
-            "featureUnit": "features",
-            "formats": [
-              "NULL",
-              "WMS"
-            ],
-            "isSpatial": true,
-            "isLargeOrSpecial": false,
-            "proposedAction": "transport-public-asset-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "NULL",
-                "WMS"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/inspire-strategic-noise-maps-noise-contour-map-for-major-railways-lnight",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/inspire-strategic-noise-maps-noise-contour-map-for-major-railways-lnight",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "public-asset-batch-placement: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:inspire-strategic-noise-maps-noise-contour-map-for-major-railways-lnight:02217",
-          "sourceRowNumber": 2218,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
-          "proposedAction": "transport-public-asset-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "NULL",
-              "WMS"
-            ]
-          },
-          "confidence": 60,
-          "resolvedBlockers": [
-            "public-asset-batch-placement: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Transport, roads, infrastructure, public assets",
-          "transport-public-asset",
-          "features",
-          "Ireland / unspecified",
-          "transport-public-asset-batch-review",
-          "NULL",
-          "WMS"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-inspire-strategic-noise-maps-noise-contour-map-for-major-railways-lnight-02217"
       }
     }
   ]

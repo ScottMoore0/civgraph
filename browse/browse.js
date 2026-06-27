@@ -1,5 +1,5 @@
 const DATA_ROOT = '../data/browse';
-const BROWSE_DATA_VERSION = '20260604-election-names-v2';
+const BROWSE_DATA_VERSION = '20260627-ni-register-interests';
 const THUMBNAIL_ASSET_VERSION = '20260604-tight-admin-frame';
 const ENTITY_CONFIG = {
   maps: { label: 'Maps', singular: 'Map', index: 'maps.json', detailDir: 'maps', action: 'Open in interactive map' },
@@ -7,6 +7,7 @@ const ENTITY_CONFIG = {
   features: { label: 'Features', singular: 'Feature group', index: 'features.json', detailDir: null, action: 'Open source map' },
   parties: { label: 'Parties / Labels', singular: 'Party / label', index: 'parties.json', detailDir: 'parties' },
   persons: { label: 'Persons', singular: 'Person', index: 'persons.json', detailDir: null },
+  'register-interests': { label: 'Register Interests', singular: 'Register interest', index: 'register-interests.json', detailDir: 'register-interests' },
   sources: { label: 'Books / Tables / Sources', singular: 'Source', index: 'sources.json', detailDir: 'sources' }
 };
 
@@ -29,11 +30,14 @@ const TECHNICAL_FIELD_KEYS = new Set([
   'mapId',
   'parentCardId',
   'pmtilesUrl',
+  'publicWhipId',
   'rawMetadata',
   'resultUrl',
   'slug',
   'sourceMapId',
   'sourceMapUrl',
+  'sourceRecordId',
+  'sourceUrl',
   'spatialIndexUrl',
   'thumbnail',
   'tileUrl',
@@ -47,13 +51,20 @@ const PUBLIC_METADATA_KEYS = new Set([
   'category',
   'constituencies',
   'date',
+  'dateEnd',
+  'dateStart',
   'description',
   'downloads',
+  'chamber',
+  'constituency',
+  'constituencies',
   'elections',
   'featured',
   'geography',
   'group',
   'keywords',
+  'memberName',
+  'memberType',
   'name',
   'observedNames',
   'parentCard',
@@ -62,7 +73,17 @@ const PUBLIC_METADATA_KEYS = new Set([
   'references',
   'relatedElections',
   'sampleFeatures',
+  'interestSummary',
+  'interestText',
+  'isNone',
+  'jurisdiction',
   'sourceFiles',
+  'sourceCount',
+  'sourceKinds',
+  'sourceRefs',
+  'sourceKind',
+  'sourceTitle',
+  'sourceTitles',
   'status',
   'subtitle',
   'title',
@@ -243,6 +264,7 @@ function setPortalHero() {
     + (counts.featureGroups || 0)
     + (counts.parties || 0)
     + (counts.persons || 0)
+    + (counts['register-interests'] || 0)
     + (counts.sources || 0);
   els.hero.innerHTML = `
     <p class="browse-kicker">Browse</p>
@@ -254,6 +276,7 @@ function setPortalHero() {
       ${renderPortalStat('Feature groups', counts.featureGroups)}
       ${renderPortalStat('Parties / labels', counts.parties)}
       ${renderPortalStat('Persons', counts.persons)}
+      ${renderPortalStat('Register interests', counts['register-interests'])}
       ${renderPortalStat('Sources', counts.sources)}
       ${renderPortalStat('Total entries', total)}
     </div>
@@ -266,7 +289,7 @@ function renderPortalLanding() {
     els.results.innerHTML = `
       <section class="browse-portal-search-note">
         <h2>Choose a section to search</h2>
-        <p>The Browse search is scoped to the active section so large indexes stay responsive. Select Maps, Elections, Features, Parties / Labels, Persons, or Sources, then search within that section.</p>
+        <p>The Browse search is scoped to the active section so large indexes stay responsive. Select Maps, Elections, Features, Parties / Labels, Persons, Register Interests, or Sources, then search within that section.</p>
       </section>
       ${renderPortalSections()}
     `;
@@ -349,6 +372,18 @@ function portalSections() {
         { heading: 'People indexes', links: [['Candidates', '#/persons'], ['Elected representatives', '#/persons'], ['Repeated candidates', '#/persons']] },
         { heading: 'Election links', links: [['Contests stood', '#/persons'], ['Seats won', '#/persons'], ['Party histories', '#/parties']] },
         { heading: 'Research routes', links: [['Search persons', '#/persons'], ['Election entries', '#/elections'], ['Source records', '#/sources']] }
+      ]
+    },
+    {
+      id: 'register-interests',
+      title: 'Register interests',
+      href: '#/register-interests',
+      count: counts['register-interests'],
+      summary: 'MLA and Northern Ireland MP register of interests rows, linked to source editions, provider APIs, and filtered CSV extracts.',
+      columns: [
+        { heading: 'Bodies', links: [['NI Assembly MLAs', '#/register-interests'], ['NI Westminster MPs', '#/register-interests'], ['Current API entries', '#/register-interests']] },
+        { heading: 'Interest data', links: [['Employment and earnings', '#/register-interests'], ['Donations and support', '#/register-interests'], ['Gifts, visits and hospitality', '#/register-interests']] },
+        { heading: 'Source routes', links: [['Register source documents', '#/sources'], ['Structured JSON shards', '#/sources'], ['Historical editions', '#/sources']] }
       ]
     },
     {
@@ -507,6 +542,19 @@ function renderOverviewPanel(type, item) {
     rows.push(['Canonical name', item.canonicalName], ['Observed labels', joinList(item.observedNames?.slice(0, 8))], ['Years', item.subtitle], ['Occurrences', item.occurrenceCount]);
   } else if (type === 'persons') {
     rows.push(['Name', item.name], ['Years', item.subtitle], ['Parties', joinList(item.parties?.slice(0, 5).map((party) => party.name))], ['Contests', item.totals?.stood], ['Elected', item.totals?.elected]);
+  } else if (type === 'register-interests') {
+    rows.push(
+      ['Chamber', item.chamber],
+      ['Member type', item.memberType],
+      ['Jurisdiction', item.jurisdiction],
+      ['Member', item.memberName],
+      ['Constituency', item.constituency || joinList(item.constituencies)],
+      ['Category', item.category],
+      ['Date', formatDate(item.date)],
+      ['Date range', item.dateStart && item.dateEnd && item.dateStart !== item.dateEnd ? `${formatDate(item.dateStart)} to ${formatDate(item.dateEnd)}` : ''],
+      ['Source rows merged', item.sourceCount],
+      ['Source', item.sourceTitle]
+    );
   } else if (type === 'sources') {
     rows.push(['Type', item.type], ['Category', item.category], ['Provider', joinList(item.provider)], ['Date', item.date]);
   }
@@ -514,7 +562,7 @@ function renderOverviewPanel(type, item) {
     <section class="browse-detail__panel">
       <h2>Overview</h2>
       <div class="browse-detail__body">
-        ${item.description ? `<p>${escapeHtml(item.description)}</p>` : ''}
+        ${type === 'register-interests' && (item.interestText || item.interestSummary) ? `<p>${escapeHtml(item.interestText || item.interestSummary)}</p>` : item.description ? `<p>${escapeHtml(item.description)}</p>` : ''}
         ${renderDefinitionRows(rows)}
         ${renderBadges(item)}
       </div>
@@ -552,6 +600,19 @@ function renderMetadataPanel(type, item) {
     rows.push(
       ['Contests', item.totals?.stood],
       ['Elected', item.totals?.elected]
+    );
+  } else if (type === 'register-interests') {
+    rows.push(
+      ['Source kind', item.sourceKind],
+      ['Source kinds', joinList(item.sourceKinds)],
+      ['Extraction method', item.extractionMethod],
+      ['Extraction confidence', item.extractionConfidence],
+      ['Duplicate source rows merged', item.duplicateSourceRowCount],
+      ['None / nil entry', item.isNone === undefined ? '' : item.isNone ? 'Yes' : 'No'],
+      ['Earliest declaration', item.earliestDeclaration],
+      ['Latest declaration', item.latestDeclaration],
+      ['Parties', joinList(item.parties)],
+      ['Election dates', joinList(item.electionDates)]
     );
   } else if (type === 'sources') {
     rows.push(
@@ -704,8 +765,24 @@ function renderRelatedPanel(type, item) {
     escapeHtml(row.constituency || ''),
     escapeHtml(row.status || (row.elected ? 'Elected' : ''))
   ]);
+  if (type === 'register-interests') return renderSimpleTable('Register Sources', ['Date', 'Kind', 'Source', 'Page'], item.sourceRefs || [], (row) => [
+    formatDate(row.date || row.editionDate || row.latestDeclaration || row.earliestDeclaration),
+    escapeHtml(sourceKindLabel(row.sourceKind || '')),
+    row.sourceUrl ? `<a href="${escapeAttr(row.sourceUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(row.sourceTitle || row.sourceUrl)}</a>` : escapeHtml(row.sourceTitle || ''),
+    escapeHtml([row.sourcePageStart, row.sourcePageEnd && row.sourcePageEnd !== row.sourcePageStart ? row.sourcePageEnd : null].filter(Boolean).join('-'))
+  ]);
   if (type === 'maps') return renderSimpleTable('Variants', ['Title', 'Date', 'ID'], item.variants || [], (row) => [escapeHtml(row.title || row.id), escapeHtml(row.date || ''), escapeHtml(row.id || '')]);
   return '';
+}
+
+function sourceKindLabel(value) {
+  return String(value || '')
+    .replace(/^historical-/, '')
+    .replace(/-register$/, '')
+    .replace(/current-provider-json-api/, 'current API')
+    .replace(/filtered-westminster-csv/, 'NI MP CSV')
+    .replace(/-/g, ' ')
+    .replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
 function renderElectionRelated(item) {
@@ -746,6 +823,7 @@ function resultKindLabel(value) {
 function renderLinksPanel(item) {
   const rows = [];
   if (item.url) rows.push(['Source link', item.title || item.name || item.url, item.url]);
+  if (item.sourceUrl) rows.push(['Source link', item.sourceTitle || item.sourceUrl, item.sourceUrl]);
   for (const link of item.downloads || []) rows.push(['Download', link.label, link.url]);
   for (const link of item.sourceFiles || []) rows.push(['Source file', link.label, link.url]);
   for (const ref of item.references || []) rows.push(['Reference', ref.label || ref.url, ref.url]);
@@ -833,6 +911,13 @@ function normalizedThumbnail(item) {
 }
 
 function fallbackThumbnail(item) {
+  if (item?.type === 'register-interest') {
+    return {
+      kind: 'placeholder',
+      label: 'RI',
+      type: 'register-interest'
+    };
+  }
   if (item?.type === 'map' || item?.type === 'data-entry' || item?.category || item?.parentCard) {
     return {
       kind: 'map-fallback',
@@ -1206,6 +1291,7 @@ function entityTypeForBrowseType(type) {
   if (type === 'features') return 'feature';
   if (type === 'parties') return 'party';
   if (type === 'persons') return 'person';
+  if (type === 'register-interests') return 'register-interest';
   if (type === 'sources') return 'source';
   return null;
 }
@@ -1309,6 +1395,10 @@ async function loadIndex(type) {
   if (state.indexes.has(type)) return state.indexes.get(type);
   const config = ENTITY_CONFIG[type];
   const data = await loadJson(`${DATA_ROOT}/${config.index}`);
+  if (type === 'register-interests' && data.indexLayout === 'sharded' && Array.isArray(data.shards)) {
+    const shardData = await Promise.all(data.shards.map((shard) => loadJson(shard.url)));
+    data.items = shardData.flatMap((shard) => Array.isArray(shard.items) ? shard.items : []);
+  }
   state.indexes.set(type, data);
   return data;
 }
@@ -1322,8 +1412,8 @@ async function loadDetail(type, item) {
   if (state.details.has(cacheKey)) return state.details.get(cacheKey);
   let detail;
   try {
-    if (type === 'sources' && item.detailUrl) {
-      detail = await loadSourceShardDetail(item, slug);
+    if (item.detailUrl) {
+      detail = await loadShardDetail(item, slug);
     } else {
       detail = await loadJson(`${DATA_ROOT}/details/${config.detailDir}/${encodeURIComponent(slug)}.json`);
     }
@@ -1338,7 +1428,7 @@ async function loadDetail(type, item) {
   return detail;
 }
 
-async function loadSourceShardDetail(item, slug) {
+async function loadShardDetail(item, slug) {
   const shardUrl = item.detailUrl;
   const shardCacheKey = `source-shard:${shardUrl}`;
   let shard = state.details.get(shardCacheKey);
@@ -1346,7 +1436,11 @@ async function loadSourceShardDetail(item, slug) {
     shard = await loadJson(shardUrl);
     state.details.set(shardCacheKey, shard);
   }
-  const items = Array.isArray(shard?.items) ? shard.items : [];
+  const items = Array.isArray(shard?.items)
+    ? shard.items
+    : Array.isArray(shard?.interests)
+      ? shard.interests
+      : [];
   const match = items.find((candidate) => (
     String(candidate.slug || '').toLowerCase() === String(slug || '').toLowerCase() ||
     String(candidate.id || '').toLowerCase() === String(item.id || '').toLowerCase()
@@ -1357,7 +1451,7 @@ async function loadSourceShardDetail(item, slug) {
     error.url = shardUrl;
     throw error;
   }
-  return { schemaVersion: shard.schemaVersion || 1, generatedAt: shard.generatedAt, item: match };
+  return { schemaVersion: shard.schemaVersion || 1, generatedAt: shard.generatedAt, item: { ...item, ...match } };
 }
 
 async function loadJson(url) {
@@ -1409,6 +1503,17 @@ function searchableText(item) {
     item.canonicalName,
     item.observedNames,
     item.knownAliases,
+    item.memberName,
+    item.memberType,
+    item.chamber,
+    item.jurisdiction,
+    item.constituency,
+    item.constituencies,
+    item.parties,
+    item.sourceTitle,
+    item.sourceKind,
+    item.interestSummary,
+    item.interestText,
     item.keywords
   ].flat().filter(Boolean).join(' ').toLowerCase();
 }
@@ -1423,6 +1528,7 @@ function metaForItem(type, item) {
   if (type === 'features') return [item.category, `${formatNumber(item.featureCount)} features`, item.relatedElectionCount ? `${item.relatedElectionCount} elections` : null];
   if (type === 'parties') return [item.subtitle, `${formatNumber(item.occurrenceCount)} occurrences`, `${formatNumber(item.relatedElectionCount)} elections`];
   if (type === 'persons') return [item.subtitle, `${formatNumber(item.totals?.stood)} contests`, `${formatNumber(item.totals?.elected)} elected`];
+  if (type === 'register-interests') return [item.memberType, item.constituency || joinList(item.constituencies), item.category, item.sourceCount ? `${formatNumber(item.sourceCount)} source rows` : null, formatDate(item.date)];
   if (type === 'sources') return [item.type, item.category, item.date];
   return [item.category, item.group, item.subtitle];
 }
@@ -1432,6 +1538,7 @@ function summaryForItem(type, item) {
   if (type === 'features') return `Feature group for ${item.title}, loaded from ${item.spatialIndexUrl || 'the spatial index'}.`;
   if (type === 'parties') return `${item.title} has ${formatNumber(item.relatedElectionCount)} linked election summaries in Browse.`;
   if (type === 'persons') return joinList(item.parties?.slice(0, 3).map((party) => party.name));
+  if (type === 'register-interests') return item.interestSummary || item.description;
   if (type === 'sources') return item.description || joinList(item.downloads?.slice(0, 2).map((link) => link.label));
   return item.subtitle;
 }

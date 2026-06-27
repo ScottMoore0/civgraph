@@ -1,0 +1,5278 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-06-27T17:10:52.733Z",
+  "title": "Northern Ireland register of interests source records",
+  "summary": {
+    "scrapedAssemblySourceCount": 75,
+    "sourceRecordCount": 80,
+    "assemblyCurrentSourceUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+    "assemblyArchiveSourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm",
+    "mpExtractCount": 3
+  },
+  "sources": [
+    {
+      "id": "ni-register:assembly:landing-html:c1dbf5b2bd376a54",
+      "slug": "ni-register-assembly-landing-html-ni-assembly-archive-register-landing-page-cdc41552",
+      "type": "register-source-document",
+      "title": "NI Assembly archive register landing page",
+      "subtitle": "Archive / landing page",
+      "category": "Registers of interests",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests landing page. content type text/html",
+      "url": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm",
+      "references": [
+        {
+          "label": "Archive register landing page",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "landing-html source",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm",
+          "type": "landing-html"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "landing-html",
+        "archive"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Archive"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "landing-html",
+        "HTTP 200",
+        "archive"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "archive",
+          "sourcePageUrl": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm",
+          "title": "NI Assembly archive register landing page",
+          "linkText": "landing page",
+          "kind": "landing-html",
+          "contentType": "text/html",
+          "httpStatus": 200,
+          "bytes": 8471,
+          "sha256": "080b912b0a98332be0bb4b8ce2c2e5b02d3239f4a8c03d279dc086c52e751068",
+          "lastModified": "Wed, 26 Nov 2014 12:13:52 GMT",
+          "providerUrl": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:landing-html:3d407ce80b31c738",
+      "slug": "ni-register-assembly-landing-html-ni-assembly-current-register-landing-page-63b626c8",
+      "type": "register-source-document",
+      "title": "NI Assembly current register landing page",
+      "subtitle": "Current / landing page",
+      "category": "Registers of interests",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests landing page. content type text/html; charset=utf-8",
+      "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "landing-html source",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "type": "landing-html"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "landing-html",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "landing-html",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "NI Assembly Register of Interests landing page",
+          "linkText": "landing page",
+          "kind": "landing-html",
+          "contentType": "text/html; charset=utf-8",
+          "httpStatus": 200,
+          "bytes": 45425,
+          "sha256": "7506379bc3096f7b3de46d8189ff7b28b2294f11e06b49ff8d2e51220feff0fa",
+          "providerUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:json:a66cec8ce9a0b26c",
+      "slug": "ni-register-assembly-json-ni-assembly-current-registered-interests-json-api-60f80a1c",
+      "type": "register-source-dataset",
+      "title": "NI Assembly current registered interests JSON API",
+      "subtitle": "Current / json",
+      "category": "Registers of interests",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests json. content type application/json; charset=utf-8",
+      "url": "http://data.niassembly.gov.uk/register.asmx/GetAllRegisteredInterests_JSON",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "http://data.niassembly.gov.uk/register.asmx"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "http://data.niassembly.gov.uk/register.asmx/GetAllRegisteredInterests_JSON"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "json source",
+          "url": "http://data.niassembly.gov.uk/register.asmx/GetAllRegisteredInterests_JSON",
+          "type": "json"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "json",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "json",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "http://data.niassembly.gov.uk/register.asmx",
+          "title": "NI Assembly GetAllRegisteredInterests JSON",
+          "linkText": "NI Assembly GetAllRegisteredInterests JSON",
+          "kind": "json",
+          "contentType": "application/json; charset=utf-8",
+          "httpStatus": 200,
+          "bytes": 137804,
+          "sha256": "9b881e299486f254896e5c1b9cd62598f5ff30f226f89ab54e33bebf42041099",
+          "providerUrl": "http://data.niassembly.gov.uk/register.asmx/GetAllRegisteredInterests_JSON"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:json:d5e8bbd570ffe5e5",
+      "slug": "ni-register-assembly-json-ni-assembly-current-registered-interests-json-api-fb54ef92",
+      "type": "register-source-dataset",
+      "title": "NI Assembly current registered interests JSON API",
+      "subtitle": "Current / json",
+      "category": "Registers of interests",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests json. content type application/json; charset=utf-8",
+      "url": "http://data.niassembly.gov.uk/register.asmx/GetAllRegisteredInterests_JSONP",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "http://data.niassembly.gov.uk/register.asmx"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "http://data.niassembly.gov.uk/register.asmx/GetAllRegisteredInterests_JSONP"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "json source",
+          "url": "http://data.niassembly.gov.uk/register.asmx/GetAllRegisteredInterests_JSONP",
+          "type": "json"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "json",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "json",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "http://data.niassembly.gov.uk/register.asmx",
+          "title": "NI Assembly GetAllRegisteredInterests JSONP",
+          "linkText": "NI Assembly GetAllRegisteredInterests JSONP",
+          "kind": "json",
+          "contentType": "application/json; charset=utf-8",
+          "httpStatus": 200,
+          "bytes": 137808,
+          "sha256": "b7701552c004a530f9fa151438e2ff0c23711c95056d23266aa0be63c3d04517",
+          "providerUrl": "http://data.niassembly.gov.uk/register.asmx/GetAllRegisteredInterests_JSONP"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:xml:e6029953b0288b1d",
+      "slug": "ni-register-assembly-xml-ni-assembly-ni-assembly-getallregisteredinterests-xml-30b7a0b2",
+      "type": "register-source-dataset",
+      "title": "NI Assembly NI Assembly GetAllRegisteredInterests XML",
+      "subtitle": "Current / xml",
+      "category": "Registers of interests",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests xml. content type text/xml; charset=utf-8",
+      "url": "http://data.niassembly.gov.uk/register.asmx/GetAllRegisteredInterests",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "http://data.niassembly.gov.uk/register.asmx"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "http://data.niassembly.gov.uk/register.asmx/GetAllRegisteredInterests"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "xml source",
+          "url": "http://data.niassembly.gov.uk/register.asmx/GetAllRegisteredInterests",
+          "type": "xml"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "xml",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "xml",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "http://data.niassembly.gov.uk/register.asmx",
+          "title": "NI Assembly GetAllRegisteredInterests XML",
+          "linkText": "NI Assembly GetAllRegisteredInterests XML",
+          "kind": "xml",
+          "contentType": "text/xml; charset=utf-8",
+          "httpStatus": 200,
+          "bytes": 207556,
+          "sha256": "8a01c98f034dc7341defde7c9c348561ddfe5e5148dbdab2fdb4227ce048f9aa",
+          "providerUrl": "http://data.niassembly.gov.uk/register.asmx/GetAllRegisteredInterests"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:html:3d3b5f08c3a48f0b",
+      "slug": "ni-register-assembly-html-ni-assembly-register-of-interests-a3680961",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Interests",
+      "subtitle": "Current / html",
+      "category": "Registers of interests",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests html. content type text/html; charset=utf-8",
+      "url": "http://data.niassembly.gov.uk/register.asmx",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "http://data.niassembly.gov.uk/register.asmx"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "html source",
+          "url": "http://data.niassembly.gov.uk/register.asmx",
+          "type": "html"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "html",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "html",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "Register of Interests",
+          "linkText": "Register of Interests",
+          "kind": "html",
+          "contentType": "text/html; charset=utf-8",
+          "httpStatus": 200,
+          "bytes": 3914,
+          "sha256": "fc3f96cc78ba733756dcc3cd955fe1c93e11197ea38e2e970246495658bd7265",
+          "providerUrl": "http://data.niassembly.gov.uk/register.asmx"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:html:3f0b845672b76a87",
+      "slug": "ni-register-assembly-html-ni-assembly-register-of-member-s-interests-77404fb5",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Member's Interests",
+      "subtitle": "Archive / html",
+      "category": "Registers of interests",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests html. content type text/html",
+      "url": "https://archive.niassembly.gov.uk/members/expenses/register280410.htm",
+      "references": [
+        {
+          "label": "Archive register landing page",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register280410.htm"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "html source",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register280410.htm",
+          "type": "html"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "html",
+        "archive"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Archive"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "html",
+        "HTTP 200",
+        "archive"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "archive",
+          "sourcePageUrl": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm",
+          "title": "Register of Member's Interests",
+          "linkText": "Register of Member's Interests",
+          "kind": "html",
+          "contentType": "text/html",
+          "httpStatus": 200,
+          "bytes": 221747,
+          "sha256": "3deabd7e07dc269ba35b3c31f0f8eecfb2d82f7f738d5a0fbcc403a172ae784e",
+          "lastModified": "Wed, 26 Nov 2014 12:13:52 GMT",
+          "providerUrl": "https://archive.niassembly.gov.uk/members/expenses/register280410.htm"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:html:c620ac99234aa1a1",
+      "slug": "ni-register-assembly-html-ni-assembly-register-of-member-s-interests-69efb24d",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Member's Interests",
+      "subtitle": "Archive / html",
+      "category": "Registers of interests",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests html. content type text/html",
+      "url": "https://archive.niassembly.gov.uk/members/expenses/register240311.htm",
+      "references": [
+        {
+          "label": "Archive register landing page",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register240311.htm"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "html source",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register240311.htm",
+          "type": "html"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "html",
+        "archive"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Archive"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "html",
+        "HTTP 200",
+        "archive"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "archive",
+          "sourcePageUrl": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm",
+          "title": "Register of Member's Interests",
+          "linkText": "Register of Member's Interests",
+          "kind": "html",
+          "contentType": "text/html",
+          "httpStatus": 200,
+          "bytes": 348225,
+          "sha256": "871ae8669589f4c1d9cc36de521e67cf0e41a216321297e0bea245d94da7ba8e",
+          "lastModified": "Wed, 26 Nov 2014 12:13:53 GMT",
+          "providerUrl": "https://archive.niassembly.gov.uk/members/expenses/register240311.htm"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:html:cdab1ad592720cd5",
+      "slug": "ni-register-assembly-html-ni-assembly-register-of-member-s-interests-6c05cd99",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Member's Interests",
+      "subtitle": "Archive / html",
+      "category": "Registers of interests",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests html. content type text/html",
+      "url": "https://archive.niassembly.gov.uk/members/expenses/register291110.htm",
+      "references": [
+        {
+          "label": "Archive register landing page",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register291110.htm"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "html source",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register291110.htm",
+          "type": "html"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "html",
+        "archive"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Archive"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "html",
+        "HTTP 200",
+        "archive"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "archive",
+          "sourcePageUrl": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm",
+          "title": "Register of Member's Interests",
+          "linkText": "Register of Member's Interests",
+          "kind": "html",
+          "contentType": "text/html",
+          "httpStatus": 200,
+          "bytes": 342573,
+          "sha256": "9024c482f5c3149c1b57c10913f925c2f9056064392c116ac2ec6704dc92afe3",
+          "lastModified": "Wed, 26 Nov 2014 12:13:52 GMT",
+          "providerUrl": "https://archive.niassembly.gov.uk/members/expenses/register291110.htm"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:html:dbba1afccd696816",
+      "slug": "ni-register-assembly-html-ni-assembly-register-of-member-s-interests-0ba33223",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Member's Interests",
+      "subtitle": "Archive / html",
+      "category": "Registers of interests",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests html. content type text/html",
+      "url": "https://archive.niassembly.gov.uk/members/expenses/register180610.htm",
+      "references": [
+        {
+          "label": "Archive register landing page",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register180610.htm"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "html source",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register180610.htm",
+          "type": "html"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "html",
+        "archive"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Archive"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "html",
+        "HTTP 200",
+        "archive"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "archive",
+          "sourcePageUrl": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm",
+          "title": "Register of Member's Interests",
+          "linkText": "Register of Member's Interests",
+          "kind": "html",
+          "contentType": "text/html",
+          "httpStatus": 200,
+          "bytes": 219018,
+          "sha256": "57d138566decfcbf8676e4e62982c4e6ee5a1a0247e177a95988d2da1de5a04f",
+          "lastModified": "Wed, 26 Nov 2014 12:13:53 GMT",
+          "providerUrl": "https://archive.niassembly.gov.uk/members/expenses/register180610.htm"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:html:f54e2a4d3e007ed7",
+      "slug": "ni-register-assembly-html-ni-assembly-register-of-member-s-interests-9163d844",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Member's Interests",
+      "subtitle": "Archive / html",
+      "category": "Registers of interests",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests html. content type text/html",
+      "url": "https://archive.niassembly.gov.uk/members/expenses/register250211.htm",
+      "references": [
+        {
+          "label": "Archive register landing page",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register250211.htm"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "html source",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register250211.htm",
+          "type": "html"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "html",
+        "archive"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Archive"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "html",
+        "HTTP 200",
+        "archive"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "archive",
+          "sourcePageUrl": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm",
+          "title": "Register of Member's Interests",
+          "linkText": "Register of Member's Interests",
+          "kind": "html",
+          "contentType": "text/html",
+          "httpStatus": 200,
+          "bytes": 342872,
+          "sha256": "ce5828e1ee0780d66302cbfcfbafcdc04f257108f7d8c3595cd0e2dfd1e7406d",
+          "lastModified": "Wed, 26 Nov 2014 12:13:53 GMT",
+          "providerUrl": "https://archive.niassembly.gov.uk/members/expenses/register250211.htm"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:html:ffdfde919e89cf78",
+      "slug": "ni-register-assembly-html-ni-assembly-register-of-member-s-interests-1a7c4613",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Member's Interests",
+      "subtitle": "Archive / html",
+      "category": "Registers of interests",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests html. content type text/html",
+      "url": "https://archive.niassembly.gov.uk/members/expenses/register130910.htm",
+      "references": [
+        {
+          "label": "Archive register landing page",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register130910.htm"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "html source",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register130910.htm",
+          "type": "html"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "html",
+        "archive"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Archive"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "html",
+        "HTTP 200",
+        "archive"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "archive",
+          "sourcePageUrl": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm",
+          "title": "Register of Member's Interests",
+          "linkText": "Register of Member's Interests",
+          "kind": "html",
+          "contentType": "text/html",
+          "httpStatus": 200,
+          "bytes": 330901,
+          "sha256": "1a56553153eabd3c9fc06abf36cf03cdc537e847a243906e550f5abbf21a7129",
+          "lastModified": "Wed, 26 Nov 2014 12:13:53 GMT",
+          "providerUrl": "https://archive.niassembly.gov.uk/members/expenses/register130910.htm"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:html:7a80f507530b546d",
+      "slug": "ni-register-assembly-html-ni-assembly-register-of-members-interests-10-april-2013-f7a1ed52",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (10 April 2013)",
+      "subtitle": "Current / html / 10 April 2013",
+      "category": "Registers of interests",
+      "date": "2013-04-10",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests html. edition dated 10 April 2013. content type text/html; charset=utf-8",
+      "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/10-april-2013/",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/10-april-2013/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "html source",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/10-april-2013/",
+          "type": "html"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "html",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "html",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "10 April 2013 (HTML)",
+          "linkText": "10 April 2013 (HTML)",
+          "kind": "html",
+          "contentType": "text/html; charset=utf-8",
+          "httpStatus": 200,
+          "bytes": 199542,
+          "sha256": "bbd20b15656448cdd40ec56b3878db5f644ca1fc4a4185f64bd86151b2d93763",
+          "providerUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/10-april-2013/"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:pdf:ce80d251bb71fdba",
+      "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-10-april-2013-5bbff4e8",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (10 April 2013)",
+      "subtitle": "Current / pdf / 10 April 2013",
+      "category": "Registers of interests",
+      "date": "2013-04-10",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests pdf. edition dated 10 April 2013. content type application/pdf",
+      "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_100413.pdf",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_100413.pdf"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "pdf source",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_100413.pdf",
+          "type": "pdf"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "pdf",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "pdf",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "PDF",
+          "linkText": "PDF",
+          "kind": "pdf",
+          "contentType": "application/pdf",
+          "httpStatus": 200,
+          "bytes": 213773,
+          "sha256": "17e075ef9c3f176ca0046cc26dcc74cddf3c3e991a8e0f846a2a08b723d4cf27",
+          "lastModified": "Fri, 12 Dec 2014 22:45:27 GMT",
+          "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_100413.pdf"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:html:84c4d3862048f0e5",
+      "slug": "ni-register-assembly-html-ni-assembly-register-of-members-interests-10-october-2012-a24eac14",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (10 October 2012)",
+      "subtitle": "Current / html / 10 October 2012",
+      "category": "Registers of interests",
+      "date": "2012-10-10",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests html. edition dated 10 October 2012. content type text/html; charset=utf-8",
+      "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/10-october-2012/",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/10-october-2012/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "html source",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/10-october-2012/",
+          "type": "html"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "html",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "html",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "10 October 2012 (HTML)",
+          "linkText": "10 October 2012 (HTML)",
+          "kind": "html",
+          "contentType": "text/html; charset=utf-8",
+          "httpStatus": 200,
+          "bytes": 350575,
+          "sha256": "7556f594198574e755c40050c12e7f3b12033b06338b560877ae490e914b4805",
+          "providerUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/10-october-2012/"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:pdf:1ff0d5705a8bfbdd",
+      "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-10-october-2012-1bea95f1",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (10 October 2012)",
+      "subtitle": "Current / pdf / 10 October 2012",
+      "category": "Registers of interests",
+      "date": "2012-10-10",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests pdf. edition dated 10 October 2012. content type application/pdf",
+      "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_101012.pdf",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_101012.pdf"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "pdf source",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_101012.pdf",
+          "type": "pdf"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "pdf",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "pdf",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "PDF",
+          "linkText": "PDF",
+          "kind": "pdf",
+          "contentType": "application/pdf",
+          "httpStatus": 200,
+          "bytes": 212159,
+          "sha256": "f954a2e83c24b7f95fdea6e9bfc539bb4ac7b7019debf55c8855e2f77f67013f",
+          "lastModified": "Fri, 12 Dec 2014 22:45:27 GMT",
+          "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_101012.pdf"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:pdf:59039f855308b271",
+      "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-13-september-2010-5e550a6c",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (13 September 2010)",
+      "subtitle": "Archive / pdf / 13 September 2010",
+      "category": "Registers of interests",
+      "date": "2010-09-13",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests pdf. edition dated 13 September 2010. content type application/pdf",
+      "url": "https://archive.niassembly.gov.uk/members/expenses/register_130910.pdf",
+      "references": [
+        {
+          "label": "Archive register landing page",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register_130910.pdf"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "pdf source",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register_130910.pdf",
+          "type": "pdf"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "pdf",
+        "archive"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Archive"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "pdf",
+        "HTTP 200",
+        "archive"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "archive",
+          "sourcePageUrl": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm",
+          "title": "PDF",
+          "linkText": "PDF",
+          "kind": "pdf",
+          "contentType": "application/pdf",
+          "httpStatus": 200,
+          "bytes": 240389,
+          "sha256": "c1b35d5dafdcb98ff62484db43c92f64f0f2859b5dd2b734fe02cc5752e176ae",
+          "lastModified": "Wed, 26 Nov 2014 12:13:52 GMT",
+          "providerUrl": "https://archive.niassembly.gov.uk/members/expenses/register_130910.pdf"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:html:f98216522851fd31",
+      "slug": "ni-register-assembly-html-ni-assembly-register-of-members-interests-14-november-2014-1e56a4c4",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (14 November 2014)",
+      "subtitle": "Current / html / 14 November 2014",
+      "category": "Registers of interests",
+      "date": "2014-11-14",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests html. edition dated 14 November 2014. content type text/html; charset=utf-8",
+      "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/14-november-2014/",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/14-november-2014/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "html source",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/14-november-2014/",
+          "type": "html"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "html",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "html",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "14 November 2014 (HTML)",
+          "linkText": "14 November 2014 (HTML)",
+          "kind": "html",
+          "contentType": "text/html; charset=utf-8",
+          "httpStatus": 200,
+          "bytes": 336280,
+          "sha256": "15b0986f630add59d098019f12926635926e930ebaebb66b0573ca3fc3ca059d",
+          "providerUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/14-november-2014/"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:html:2298382502f72c7d",
+      "slug": "ni-register-assembly-html-ni-assembly-register-of-members-interests-15-january-2014-b05f6b57",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (15 January 2014)",
+      "subtitle": "Current / html / 15 January 2014",
+      "category": "Registers of interests",
+      "date": "2014-01-15",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests html. edition dated 15 January 2014. content type text/html; charset=utf-8",
+      "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/15-january-2014/",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/15-january-2014/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "html source",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/15-january-2014/",
+          "type": "html"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "html",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "html",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "15 January 2014 (HTML)",
+          "linkText": "15 January 2014 (HTML)",
+          "kind": "html",
+          "contentType": "text/html; charset=utf-8",
+          "httpStatus": 200,
+          "bytes": 341577,
+          "sha256": "54a40f2887b480fb29ba5fe256fde7c06588adc54d77064a4b47ce0aa74daaf8",
+          "providerUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/15-january-2014/"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:pdf:ecea0f566cd14ce1",
+      "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-16-april-2021-67008f6b",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (16 April 2021)",
+      "subtitle": "Current / pdf / 16 April 2021",
+      "category": "Registers of interests",
+      "date": "2021-04-16",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests pdf. edition dated 16 April 2021. content type application/pdf",
+      "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/registerofinterests-16april2021.pdf",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/registerofinterests-16april2021.pdf"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "pdf source",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/registerofinterests-16april2021.pdf",
+          "type": "pdf"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "pdf",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "pdf",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "16 April 2021 - PDF",
+          "linkText": "16 April 2021 - PDF",
+          "kind": "pdf",
+          "contentType": "application/pdf",
+          "httpStatus": 200,
+          "bytes": 240705,
+          "sha256": "5f447c412a957b16137ca965499c7069e3aacd1b6891bf1a68a0d9a770c99c15",
+          "lastModified": "Mon, 19 Apr 2021 09:30:52 GMT",
+          "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/registerofinterests-16april2021.pdf"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:html:aa164354cdb98bb8",
+      "slug": "ni-register-assembly-html-ni-assembly-register-of-members-interests-16-december-2011-7224202a",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (16 December 2011)",
+      "subtitle": "Current / html / 16 December 2011",
+      "category": "Registers of interests",
+      "date": "2011-12-16",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests html. edition dated 16 December 2011. content type text/html; charset=utf-8",
+      "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/16-december-2011/",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/16-december-2011/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "html source",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/16-december-2011/",
+          "type": "html"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "html",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "html",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "16 December 2011",
+          "linkText": "16 December 2011",
+          "kind": "html",
+          "contentType": "text/html; charset=utf-8",
+          "httpStatus": 200,
+          "bytes": 340098,
+          "sha256": "e3620f7b5fae033c34d6c7c310712d5f68dcff27e340148f890a1ce4eb3cc8ab",
+          "providerUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/16-december-2011/"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:pdf:78373909ea127cb3",
+      "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-16-december-2011-1c45e14e",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (16 December 2011)",
+      "subtitle": "Current / pdf / 16 December 2011",
+      "category": "Registers of interests",
+      "date": "2011-12-16",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests pdf. edition dated 16 December 2011. content type application/pdf",
+      "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_161211.pdf",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_161211.pdf"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "pdf source",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_161211.pdf",
+          "type": "pdf"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "pdf",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "pdf",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "PDF",
+          "linkText": "PDF",
+          "kind": "pdf",
+          "contentType": "application/pdf",
+          "httpStatus": 200,
+          "bytes": 204582,
+          "sha256": "e297102c503cac05047dc96736686aa88dab1c7384000c14282c9b67753fc370",
+          "lastModified": "Fri, 12 Dec 2014 22:45:28 GMT",
+          "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_161211.pdf"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:html:384947e018148578",
+      "slug": "ni-register-assembly-html-ni-assembly-register-of-members-interests-16-october-2013-41c13d1a",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (16 October 2013)",
+      "subtitle": "Current / html / 16 October 2013",
+      "category": "Registers of interests",
+      "date": "2013-10-16",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests html. edition dated 16 October 2013. content type text/html; charset=utf-8",
+      "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/16-october-2013/",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/16-october-2013/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "html source",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/16-october-2013/",
+          "type": "html"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "html",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "html",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "16 October 2013 (HTML)",
+          "linkText": "16 October 2013 (HTML)",
+          "kind": "html",
+          "contentType": "text/html; charset=utf-8",
+          "httpStatus": 200,
+          "bytes": 353808,
+          "sha256": "f47ab6b27b1e5889d5322e8e1a61c5815198be167f258ba423813fd5e3b4335c",
+          "providerUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/16-october-2013/"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:pdf:36a652ac4f596c5b",
+      "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-16-october-2013-37064e60",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (16 October 2013)",
+      "subtitle": "Current / pdf / 16 October 2013",
+      "category": "Registers of interests",
+      "date": "2013-10-16",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests pdf. edition dated 16 October 2013. content type application/pdf",
+      "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_161013.pdf",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_161013.pdf"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "pdf source",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_161013.pdf",
+          "type": "pdf"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "pdf",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "pdf",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "PDF",
+          "linkText": "PDF",
+          "kind": "pdf",
+          "contentType": "application/pdf",
+          "httpStatus": 200,
+          "bytes": 217211,
+          "sha256": "62f5bfcfa64d6c454a44f98f0a8c3231ad51f47c5c1cfd3f6ffc9bea087ac1ba",
+          "lastModified": "Fri, 12 Dec 2014 22:45:28 GMT",
+          "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_161013.pdf"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:pdf:df43f2316492ca50",
+      "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-17-december-2018-4b5dbeb1",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (17 December 2018)",
+      "subtitle": "Current / pdf / 17 December 2018",
+      "category": "Registers of interests",
+      "date": "2018-12-17",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests pdf. edition dated 17 December 2018. content type application/pdf",
+      "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-17-dec-2018.pdf",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-17-dec-2018.pdf"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "pdf source",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-17-dec-2018.pdf",
+          "type": "pdf"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "pdf",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "pdf",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "17 December 2018 - PDF",
+          "linkText": "17 December 2018 - PDF",
+          "kind": "pdf",
+          "contentType": "application/pdf",
+          "httpStatus": 200,
+          "bytes": 160282,
+          "sha256": "6f4e9527537bb7a6759192a8d6f986d908af2954154850d0aa585917c1106331",
+          "lastModified": "Tue, 18 Dec 2018 09:47:32 GMT",
+          "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-17-dec-2018.pdf"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:pdf:a04f682974509b5d",
+      "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-2-july-2025-f0533971",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (2 July 2025)",
+      "subtitle": "Current / pdf / 2 July 2025",
+      "category": "Registers of interests",
+      "date": "2025-07-02",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests pdf. edition dated 2 July 2025. content type application/pdf",
+      "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interest-as-of-2-july-2025.pdf",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interest-as-of-2-july-2025.pdf"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "pdf source",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interest-as-of-2-july-2025.pdf",
+          "type": "pdf"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "pdf",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "pdf",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "2 July 2025 - PDF (96 pages, 243KB)",
+          "linkText": "2 July 2025 - PDF (96 pages, 243KB)",
+          "kind": "pdf",
+          "contentType": "application/pdf",
+          "httpStatus": 200,
+          "bytes": 249699,
+          "sha256": "f0d220303e540028182a23bd93549db59be89033b3fcca8232ad2e0f1887f615",
+          "lastModified": "Thu, 03 Jul 2025 17:16:08 GMT",
+          "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interest-as-of-2-july-2025.pdf"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:html:2067396b85125260",
+      "slug": "ni-register-assembly-html-ni-assembly-register-of-members-interests-20-december-2012-6255f322",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (20 December 2012)",
+      "subtitle": "Current / html / 20 December 2012",
+      "category": "Registers of interests",
+      "date": "2012-12-20",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests html. edition dated 20 December 2012. content type text/html; charset=utf-8",
+      "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/20-december-2012/",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/20-december-2012/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "html source",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/20-december-2012/",
+          "type": "html"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "html",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "html",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "20 December 2012 (HTML)",
+          "linkText": "20 December 2012 (HTML)",
+          "kind": "html",
+          "contentType": "text/html; charset=utf-8",
+          "httpStatus": 200,
+          "bytes": 352657,
+          "sha256": "6cc5b850949d69600e4b528d8ddcce5e81eaf22012b6d50f6f34c6e7a61f29a9",
+          "providerUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/20-december-2012/"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:pdf:747840bedd2f9345",
+      "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-20-december-2012-183bbfc6",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (20 December 2012)",
+      "subtitle": "Current / pdf / 20 December 2012",
+      "category": "Registers of interests",
+      "date": "2012-12-20",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests pdf. edition dated 20 December 2012. content type application/pdf",
+      "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_201212.pdf",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_201212.pdf"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "pdf source",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_201212.pdf",
+          "type": "pdf"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "pdf",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "pdf",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "PDF",
+          "linkText": "PDF",
+          "kind": "pdf",
+          "contentType": "application/pdf",
+          "httpStatus": 200,
+          "bytes": 213885,
+          "sha256": "e49b44faed1e033e2f43c230e55ed1260d78d263ac10a0eb52ce8a6da1cec316",
+          "lastModified": "Fri, 12 Dec 2014 22:45:28 GMT",
+          "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_201212.pdf"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:html:2dd767ee1eafd2fa",
+      "slug": "ni-register-assembly-html-ni-assembly-register-of-members-interests-21-october-2015-d4a0f2e2",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (21 October 2015)",
+      "subtitle": "Current / html / 21 October 2015",
+      "category": "Registers of interests",
+      "date": "2015-10-21",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests html. edition dated 21 October 2015. content type text/html; charset=utf-8",
+      "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/21-october-2015/",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/21-october-2015/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "html source",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/21-october-2015/",
+          "type": "html"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "html",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "html",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "HTML)",
+          "linkText": "HTML)",
+          "kind": "html",
+          "contentType": "text/html; charset=utf-8",
+          "httpStatus": 200,
+          "bytes": 200909,
+          "sha256": "7bf17883460e46813e359fa98b568f8ae602165dc260baefb1fd5c7fd165508e",
+          "providerUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/21-october-2015/"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:html:2da1bfec24e69cf6",
+      "slug": "ni-register-assembly-html-ni-assembly-register-of-members-interests-24-february-2015-3b90f811",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (24 February 2015)",
+      "subtitle": "Current / html / 24 February 2015",
+      "category": "Registers of interests",
+      "date": "2015-02-24",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests html. edition dated 24 February 2015. content type text/html; charset=utf-8",
+      "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/24-february-2015/",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/24-february-2015/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "html source",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/24-february-2015/",
+          "type": "html"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "html",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "html",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "24 February 2015 (HTML",
+          "linkText": "24 February 2015 (HTML",
+          "kind": "html",
+          "contentType": "text/html; charset=utf-8",
+          "httpStatus": 200,
+          "bytes": 183094,
+          "sha256": "8ec95d8c87a4773e7d14c453a7a52752de4f40ae6cd8cc08e0ab6ba1f87495ed",
+          "providerUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/24-february-2015/"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:pdf:f2b657553daac745",
+      "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-24-july-2020-43c2bcf2",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (24 July 2020)",
+      "subtitle": "Current / pdf / 24 July 2020",
+      "category": "Registers of interests",
+      "date": "2020-07-24",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests pdf. edition dated 24 July 2020. content type application/pdf",
+      "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/registerofinterests-24.07.2020.pdf",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/registerofinterests-24.07.2020.pdf"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "pdf source",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/registerofinterests-24.07.2020.pdf",
+          "type": "pdf"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "pdf",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "pdf",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "24 July 2020 - PDF",
+          "linkText": "24 July 2020 - PDF",
+          "kind": "pdf",
+          "contentType": "application/pdf",
+          "httpStatus": 200,
+          "bytes": 249161,
+          "sha256": "a3096737402c7c1e1a0129bbbbf18dbd61545ddba15e3dd4a2f5e7e9b0f691b1",
+          "lastModified": "Fri, 24 Jul 2020 09:42:53 GMT",
+          "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/registerofinterests-24.07.2020.pdf"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:pdf:1976d2665418feb1",
+      "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-24-march-2011-1e2ae1ba",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (24 March 2011)",
+      "subtitle": "Archive / pdf / 24 March 2011",
+      "category": "Registers of interests",
+      "date": "2011-03-24",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests pdf. edition dated 24 March 2011. content type application/pdf",
+      "url": "https://archive.niassembly.gov.uk/members/expenses/register_240311.pdf",
+      "references": [
+        {
+          "label": "Archive register landing page",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register_240311.pdf"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "pdf source",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register_240311.pdf",
+          "type": "pdf"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "pdf",
+        "archive"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Archive"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "pdf",
+        "HTTP 200",
+        "archive"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "archive",
+          "sourcePageUrl": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm",
+          "title": "PDF",
+          "linkText": "PDF",
+          "kind": "pdf",
+          "contentType": "application/pdf",
+          "httpStatus": 200,
+          "bytes": 241861,
+          "sha256": "644b4c1af761cfd74064c854bc377b302b207f7f1745c1cdb28923696d833a12",
+          "lastModified": "Wed, 26 Nov 2014 12:13:52 GMT",
+          "providerUrl": "https://archive.niassembly.gov.uk/members/expenses/register_240311.pdf"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:pdf:49916b3d1c7108b2",
+      "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-25-february-2011-eb485dcd",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (25 February 2011)",
+      "subtitle": "Archive / pdf / 25 February 2011",
+      "category": "Registers of interests",
+      "date": "2011-02-25",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests pdf. edition dated 25 February 2011. content type application/pdf",
+      "url": "https://archive.niassembly.gov.uk/members/expenses/register_250211.pdf",
+      "references": [
+        {
+          "label": "Archive register landing page",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register_250211.pdf"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "pdf source",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register_250211.pdf",
+          "type": "pdf"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "pdf",
+        "archive"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Archive"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "pdf",
+        "HTTP 200",
+        "archive"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "archive",
+          "sourcePageUrl": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm",
+          "title": "PDF",
+          "linkText": "PDF",
+          "kind": "pdf",
+          "contentType": "application/pdf",
+          "httpStatus": 200,
+          "bytes": 238740,
+          "sha256": "3ff737d063852ff45c788a4f5b4f396a3b6887e770f6f30c8d316f0f73d8b6ee",
+          "lastModified": "Wed, 26 Nov 2014 12:13:52 GMT",
+          "providerUrl": "https://archive.niassembly.gov.uk/members/expenses/register_250211.pdf"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:pdf:1269ff170209f78e",
+      "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-25-january-2017-0b2d5f1e",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (25 January 2017)",
+      "subtitle": "Current / pdf / 25 January 2017",
+      "category": "Registers of interests",
+      "date": "2017-01-25",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests pdf. edition dated 25 January 2017. content type application/pdf",
+      "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/25-january-2017.pdf",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/25-january-2017.pdf"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "pdf source",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/25-january-2017.pdf",
+          "type": "pdf"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "pdf",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "pdf",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "PDF",
+          "linkText": "PDF",
+          "kind": "pdf",
+          "contentType": "application/pdf",
+          "httpStatus": 200,
+          "bytes": 171805,
+          "sha256": "188596740f05dd5f09fae505527407032945082a47f9627292d1563bb3d4f4e7",
+          "lastModified": "Wed, 25 Jan 2017 15:28:37 GMT",
+          "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/25-january-2017.pdf"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:html:b56d39103caab0bc",
+      "slug": "ni-register-assembly-html-ni-assembly-register-of-members-interests-25-march-2016-e3a7fc99",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (25 March 2016)",
+      "subtitle": "Current / html / 25 March 2016",
+      "category": "Registers of interests",
+      "date": "2016-03-25",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests html. edition dated 25 March 2016. content type text/html; charset=utf-8",
+      "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/25-march-2016/",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/25-march-2016/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "html source",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/25-march-2016/",
+          "type": "html"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "html",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "html",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "HTML",
+          "linkText": "HTML",
+          "kind": "html",
+          "contentType": "text/html; charset=utf-8",
+          "httpStatus": 200,
+          "bytes": 198889,
+          "sha256": "0eaf88f42df1e43c9a04f5282050c53b62d93a9d35816a790b51f84fd1f1f733",
+          "providerUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/25-march-2016/"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:pdf:8e8fa8f589bd34da",
+      "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-25-march-2022-cdd006ec",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (25 March 2022)",
+      "subtitle": "Current / pdf / 25 March 2022",
+      "category": "Registers of interests",
+      "date": "2022-03-25",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests pdf. edition dated 25 March 2022. content type application/pdf",
+      "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-25-march-2022.pdf",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-25-march-2022.pdf"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "pdf source",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-25-march-2022.pdf",
+          "type": "pdf"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "pdf",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "pdf",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "25 March 2022 - PDF",
+          "linkText": "25 March 2022 - PDF",
+          "kind": "pdf",
+          "contentType": "application/pdf",
+          "httpStatus": 200,
+          "bytes": 240705,
+          "sha256": "a860c0113fc235a0f96e9154f83be4621b5028fc610d8bccd4afb91c8362e79d",
+          "lastModified": "Fri, 25 Mar 2022 15:14:18 GMT",
+          "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-25-march-2022.pdf"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:pdf:c5996640c13687a7",
+      "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-25-november-2007-9822b68d",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (25 November 2007)",
+      "subtitle": "Archive / pdf / 25 November 2007",
+      "category": "Registers of interests",
+      "date": "2007-11-25",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests pdf. edition dated 25 November 2007. content type application/pdf",
+      "url": "https://archive.niassembly.gov.uk/members/expenses/register_251107.pdf",
+      "references": [
+        {
+          "label": "Archive register landing page",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register_251107.pdf"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "pdf source",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register_251107.pdf",
+          "type": "pdf"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "pdf",
+        "archive"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Archive"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "pdf",
+        "HTTP 200",
+        "archive"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "archive",
+          "sourcePageUrl": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm",
+          "title": "PDF)",
+          "linkText": "PDF)",
+          "kind": "pdf",
+          "contentType": "application/pdf",
+          "httpStatus": 200,
+          "bytes": 399914,
+          "sha256": "7d8db597f89414330e55880acbed3bab8edf3fdc71da7ca910ac1e3e35124b09",
+          "lastModified": "Wed, 26 Nov 2014 12:13:52 GMT",
+          "providerUrl": "https://archive.niassembly.gov.uk/members/expenses/register_251107.pdf"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:html:d0d14c85fb3c425a",
+      "slug": "ni-register-assembly-html-ni-assembly-register-of-members-interests-29-april-2014-70c7a13b",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (29 April 2014)",
+      "subtitle": "Current / html / 29 April 2014",
+      "category": "Registers of interests",
+      "date": "2014-04-29",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests html. edition dated 29 April 2014. content type text/html; charset=utf-8",
+      "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/29-april-2014/",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/29-april-2014/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "html source",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/29-april-2014/",
+          "type": "html"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "html",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "html",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "29 April 2014 (HTML)",
+          "linkText": "29 April 2014 (HTML)",
+          "kind": "html",
+          "contentType": "text/html; charset=utf-8",
+          "httpStatus": 200,
+          "bytes": 338332,
+          "sha256": "af4608bd68c999fb2e28166886b587a6320b67ecd24671ee33f53c91c4de2dde",
+          "providerUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/29-april-2014/"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:pdf:7cc5d9089d4e07ec",
+      "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-29-april-2014-76e7fc80",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (29 April 2014)",
+      "subtitle": "Current / pdf / 29 April 2014",
+      "category": "Registers of interests",
+      "date": "2014-04-29",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests pdf. edition dated 29 April 2014. content type application/pdf",
+      "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-29-apr-14.pdf",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-29-apr-14.pdf"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "pdf source",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-29-apr-14.pdf",
+          "type": "pdf"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "pdf",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "pdf",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "PDF",
+          "linkText": "PDF",
+          "kind": "pdf",
+          "contentType": "application/pdf",
+          "httpStatus": 200,
+          "bytes": 225706,
+          "sha256": "e82883e3b8af3733d53818a2290fe4c683cac4cc26c08b82ecfc2051e34b924f",
+          "lastModified": "Fri, 27 Mar 2015 09:45:56 GMT",
+          "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-29-apr-14.pdf"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:html:68bfd15973a85924",
+      "slug": "ni-register-assembly-html-ni-assembly-register-of-members-interests-29-june-2011-671808a3",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (29 June 2011)",
+      "subtitle": "Current / html / 29 June 2011",
+      "category": "Registers of interests",
+      "date": "2011-06-29",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests html. edition dated 29 June 2011. content type text/html; charset=utf-8",
+      "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/29-june-2011/",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/29-june-2011/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "html source",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/29-june-2011/",
+          "type": "html"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "html",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "html",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "Register of Member's Interests (HTML)",
+          "linkText": "Register of Member's Interests (HTML)",
+          "kind": "html",
+          "contentType": "text/html; charset=utf-8",
+          "httpStatus": 200,
+          "bytes": 336770,
+          "sha256": "cd7237a49c3d7b6d37124ee5466e78f7f47dd5a6ffda108fa03616f293cc58c4",
+          "providerUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/29-june-2011/"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:pdf:3812fd3ee6294713",
+      "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-29-june-2011-f0f9ae80",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (29 June 2011)",
+      "subtitle": "Current / pdf / 29 June 2011",
+      "category": "Registers of interests",
+      "date": "2011-06-29",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests pdf. edition dated 29 June 2011. content type application/pdf",
+      "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_290611.pdf",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_290611.pdf"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "pdf source",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_290611.pdf",
+          "type": "pdf"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "pdf",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "pdf",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "PDF",
+          "linkText": "PDF",
+          "kind": "pdf",
+          "contentType": "application/pdf",
+          "httpStatus": 200,
+          "bytes": 198385,
+          "sha256": "84ac9cc2b77ad5884a955ae76fd27dd6b1b26d08d5c988eaba955ae0ec3e134c",
+          "lastModified": "Fri, 12 Dec 2014 22:45:28 GMT",
+          "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_290611.pdf"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:pdf:4ad330edbf7103fd",
+      "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-29-november-2010-f3a6bc25",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (29 November 2010)",
+      "subtitle": "Archive / pdf / 29 November 2010",
+      "category": "Registers of interests",
+      "date": "2010-11-29",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests pdf. edition dated 29 November 2010. content type application/pdf",
+      "url": "https://archive.niassembly.gov.uk/members/expenses/register_291110.pdf",
+      "references": [
+        {
+          "label": "Archive register landing page",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register_291110.pdf"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "pdf source",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register_291110.pdf",
+          "type": "pdf"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "pdf",
+        "archive"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Archive"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "pdf",
+        "HTTP 200",
+        "archive"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "archive",
+          "sourcePageUrl": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm",
+          "title": "PDF",
+          "linkText": "PDF",
+          "kind": "pdf",
+          "contentType": "application/pdf",
+          "httpStatus": 200,
+          "bytes": 238738,
+          "sha256": "6d942b9c78ca35a110cb4ae434177da1365b76af1a93648cac4de13319ce1942",
+          "lastModified": "Wed, 26 Nov 2014 12:13:52 GMT",
+          "providerUrl": "https://archive.niassembly.gov.uk/members/expenses/register_291110.pdf"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:pdf:dd8828bad415dc13",
+      "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-3-december-2019-a9c195e7",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (3 December 2019)",
+      "subtitle": "Current / pdf / 3 December 2019",
+      "category": "Registers of interests",
+      "date": "2019-12-03",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests pdf. edition dated 3 December 2019. content type application/pdf",
+      "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/registerofinterests-03dec2019.pdf",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/registerofinterests-03dec2019.pdf"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "pdf source",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/registerofinterests-03dec2019.pdf",
+          "type": "pdf"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "pdf",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "pdf",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "03 December 2019 - PDF",
+          "linkText": "03 December 2019 - PDF",
+          "kind": "pdf",
+          "contentType": "application/pdf",
+          "httpStatus": 200,
+          "bytes": 238675,
+          "sha256": "f7858cc034d93bd9fb558f15b8f5dbfcad4e13754d39e43a8b0df606f17dc32e",
+          "lastModified": "Tue, 03 Dec 2019 12:33:40 GMT",
+          "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/registerofinterests-03dec2019.pdf"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:html:557d8054cbdb92cf",
+      "slug": "ni-register-assembly-html-ni-assembly-register-of-members-interests-3-july-2013-059141cc",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (3 July 2013)",
+      "subtitle": "Current / html / 3 July 2013",
+      "category": "Registers of interests",
+      "date": "2013-07-03",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests html. edition dated 3 July 2013. content type text/html; charset=utf-8",
+      "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/03-jul-2013/",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/03-jul-2013/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "html source",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/03-jul-2013/",
+          "type": "html"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "html",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "html",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "3 July 2013 (HTML)",
+          "linkText": "3 July 2013 (HTML)",
+          "kind": "html",
+          "contentType": "text/html; charset=utf-8",
+          "httpStatus": 200,
+          "bytes": 354914,
+          "sha256": "f9b212dfd0bf74c969841eaa152ee24828a9d50dc1e8dbfd095f5f92dc8b6619",
+          "providerUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/03-jul-2013/"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:pdf:be5308c968181567",
+      "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-3-july-2013-d348152c",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (3 July 2013)",
+      "subtitle": "Current / pdf / 3 July 2013",
+      "category": "Registers of interests",
+      "date": "2013-07-03",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests pdf. edition dated 3 July 2013. content type application/pdf",
+      "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_030713.pdf",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_030713.pdf"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "pdf source",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_030713.pdf",
+          "type": "pdf"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "pdf",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "pdf",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "PDF",
+          "linkText": "PDF",
+          "kind": "pdf",
+          "contentType": "application/pdf",
+          "httpStatus": 200,
+          "bytes": 230557,
+          "sha256": "9f996b01d8cfcb54006127d6e02be26d099ff11796108c3f8ebbcda5c994814e",
+          "lastModified": "Fri, 12 Dec 2014 22:45:25 GMT",
+          "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_030713.pdf"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:html:4b123d39054ba8f1",
+      "slug": "ni-register-assembly-html-ni-assembly-register-of-members-interests-3-july-2015-d30bf85c",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (3 July 2015)",
+      "subtitle": "Current / html / 3 July 2015",
+      "category": "Registers of interests",
+      "date": "2015-07-03",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests html. edition dated 3 July 2015. content type text/html; charset=utf-8",
+      "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/03-july-2015/",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/03-july-2015/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "html source",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/03-july-2015/",
+          "type": "html"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "html",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "html",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "HTML",
+          "linkText": "HTML",
+          "kind": "html",
+          "contentType": "text/html; charset=utf-8",
+          "httpStatus": 200,
+          "bytes": 190453,
+          "sha256": "ff90272fdc7ceb3751fb9f77609ce8acdfd529d15bb9ee119868ef772ed1274d",
+          "providerUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/03-july-2015/"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:pdf:edbe5b6579fa4cfc",
+      "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-3-july-2024-8d4c937e",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (3 July 2024)",
+      "subtitle": "Current / pdf / 3 July 2024",
+      "category": "Registers of interests",
+      "date": "2024-07-03",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests pdf. edition dated 3 July 2024. content type application/pdf",
+      "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-03-july-2024.pdf",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-03-july-2024.pdf"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "pdf source",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-03-july-2024.pdf",
+          "type": "pdf"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "pdf",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "pdf",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "3 July 2024 - PDF (98 pages, 236KB)",
+          "linkText": "3 July 2024 - PDF (98 pages, 236KB)",
+          "kind": "pdf",
+          "contentType": "application/pdf",
+          "httpStatus": 200,
+          "bytes": 242426,
+          "sha256": "f616f9344b8a4f5f6504e2ee7ed2028a7516c79fba825f441cb29feb1c0173a3",
+          "lastModified": "Wed, 03 Jul 2024 13:40:45 GMT",
+          "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-03-july-2024.pdf"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:html:19ff4ca523bbac7d",
+      "slug": "ni-register-assembly-html-ni-assembly-register-of-members-interests-30-march-2012-75f35842",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (30 March 2012)",
+      "subtitle": "Current / html / 30 March 2012",
+      "category": "Registers of interests",
+      "date": "2012-03-30",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests html. edition dated 30 March 2012. content type text/html; charset=utf-8",
+      "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/30-march-2012/",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/30-march-2012/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "html source",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/30-march-2012/",
+          "type": "html"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "html",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "html",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "30 March 2012 (HTML)",
+          "linkText": "30 March 2012 (HTML)",
+          "kind": "html",
+          "contentType": "text/html; charset=utf-8",
+          "httpStatus": 200,
+          "bytes": 343336,
+          "sha256": "a76b1417d8228606a2ec3941b698046c4c98b73b347dabcbc30c353e180ad2c7",
+          "providerUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/30-march-2012/"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:pdf:1974539eee0c694d",
+      "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-30-march-2012-a8578d0f",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (30 March 2012)",
+      "subtitle": "Current / pdf / 30 March 2012",
+      "category": "Registers of interests",
+      "date": "2012-03-30",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests pdf. edition dated 30 March 2012. content type application/pdf",
+      "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_300312.pdf",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_300312.pdf"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "pdf source",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_300312.pdf",
+          "type": "pdf"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "pdf",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "pdf",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "PDF",
+          "linkText": "PDF",
+          "kind": "pdf",
+          "contentType": "application/pdf",
+          "httpStatus": 200,
+          "bytes": 206992,
+          "sha256": "8619a5903ad10e356f556ed7a01a1ebacf9e1a2084d8544e13b419171dbcc3db",
+          "lastModified": "Fri, 12 Dec 2014 22:45:28 GMT",
+          "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_300312.pdf"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:pdf:61a68c95cd37aeaf",
+      "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-30-november-2017-3d6989a4",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (30 November 2017)",
+      "subtitle": "Current / pdf / 30 November 2017",
+      "category": "Registers of interests",
+      "date": "2017-11-30",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests pdf. edition dated 30 November 2017. content type application/pdf",
+      "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/roi-30-november-2017.pdf",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/roi-30-november-2017.pdf"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "pdf source",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/roi-30-november-2017.pdf",
+          "type": "pdf"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "pdf",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "pdf",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "30 November 2017 - PDF",
+          "linkText": "30 November 2017 - PDF",
+          "kind": "pdf",
+          "contentType": "application/pdf",
+          "httpStatus": 200,
+          "bytes": 147729,
+          "sha256": "df3a8a38722a6dd63562f651e92e2b828b1b75603042c1ba169d68399d29150c",
+          "lastModified": "Tue, 09 Jan 2018 14:59:48 GMT",
+          "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/roi-30-november-2017.pdf"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:html:b02e0c406bc15a91",
+      "slug": "ni-register-assembly-html-ni-assembly-register-of-members-interests-4-july-2014-9cbb6430",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (4 July 2014)",
+      "subtitle": "Current / html / 4 July 2014",
+      "category": "Registers of interests",
+      "date": "2014-07-04",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests html. edition dated 4 July 2014. content type text/html; charset=utf-8",
+      "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/04-july-2014/",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/04-july-2014/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "html source",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/04-july-2014/",
+          "type": "html"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "html",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "html",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "04 July 2014 (HTML)",
+          "linkText": "04 July 2014 (HTML)",
+          "kind": "html",
+          "contentType": "text/html; charset=utf-8",
+          "httpStatus": 200,
+          "bytes": 341990,
+          "sha256": "869b86a3da3a83af086ebcedb8c74687656b50d92793b55457af9651760cc9c8",
+          "providerUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/04-july-2014/"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:pdf:e7c165a56761a533",
+      "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-4-july-2014-40cc27ec",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (4 July 2014)",
+      "subtitle": "Current / pdf / 4 July 2014",
+      "category": "Registers of interests",
+      "date": "2014-07-04",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests pdf. edition dated 4 July 2014. content type application/pdf",
+      "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-04-jul-14.pdf",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-04-jul-14.pdf"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "pdf source",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-04-jul-14.pdf",
+          "type": "pdf"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "pdf",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "pdf",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "PDF",
+          "linkText": "PDF",
+          "kind": "pdf",
+          "contentType": "application/pdf",
+          "httpStatus": 200,
+          "bytes": 227381,
+          "sha256": "44ed0cdf37ee420f14cc6c4c205e030799d75b121198b8ec43850b1b2fd9dd8b",
+          "lastModified": "Fri, 27 Mar 2015 09:45:56 GMT",
+          "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-04-jul-14.pdf"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:pdf:e469360c83cc8729",
+      "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-4-july-2016-22214cc3",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (4 July 2016)",
+      "subtitle": "Current / pdf / 4 July 2016",
+      "category": "Registers of interests",
+      "date": "2016-07-04",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests pdf. edition dated 4 July 2016. content type application/pdf",
+      "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-4-july-2016.pdf",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-4-july-2016.pdf"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "pdf source",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-4-july-2016.pdf",
+          "type": "pdf"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "pdf",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "pdf",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "PDF",
+          "linkText": "PDF",
+          "kind": "pdf",
+          "contentType": "application/pdf",
+          "httpStatus": 200,
+          "bytes": 157988,
+          "sha256": "22edca3e555818ddfe02ed3f377dfcdee20f67ac7c4064aff93956ad7fd26c21",
+          "lastModified": "Tue, 05 Jul 2016 11:18:26 GMT",
+          "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-4-july-2016.pdf"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:pdf:189f7bc871d4c78d",
+      "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-4-july-2023-969c82c7",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (4 July 2023)",
+      "subtitle": "Current / pdf / 4 July 2023",
+      "category": "Registers of interests",
+      "date": "2023-07-04",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests pdf. edition dated 4 July 2023. content type application/pdf",
+      "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-04-july-2023.pdf",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-04-july-2023.pdf"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "pdf source",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-04-july-2023.pdf",
+          "type": "pdf"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "pdf",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "pdf",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "4 July 2023 - PDF",
+          "linkText": "4 July 2023 - PDF",
+          "kind": "pdf",
+          "contentType": "application/pdf",
+          "httpStatus": 200,
+          "bytes": 234375,
+          "sha256": "577d1b9337621afe19311d08686781505b47f9d33d85f403fd25ec0cd5cfea9f",
+          "lastModified": "Thu, 30 Nov 2023 12:09:54 GMT",
+          "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-04-july-2023.pdf"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:pdf:a82dafc397ebc2b0",
+      "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-5-july-2022-9053faf4",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (5 July 2022)",
+      "subtitle": "Current / pdf / 5 July 2022",
+      "category": "Registers of interests",
+      "date": "2022-07-05",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests pdf. edition dated 5 July 2022. content type application/pdf",
+      "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-05-july-2022.pdf",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-05-july-2022.pdf"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "pdf source",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-05-july-2022.pdf",
+          "type": "pdf"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "pdf",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "pdf",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "5 July 2022 - PDF",
+          "linkText": "5 July 2022 - PDF",
+          "kind": "pdf",
+          "contentType": "application/pdf",
+          "httpStatus": 200,
+          "bytes": 219464,
+          "sha256": "0e49f6cd240ef440450706704448dfe67b06f6cb7800db9be7c0c45abb27198a",
+          "lastModified": "Thu, 30 Nov 2023 12:09:38 GMT",
+          "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-05-july-2022.pdf"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:html:b3333879f93f937d",
+      "slug": "ni-register-assembly-html-ni-assembly-register-of-members-interests-6-february-2012-8478abf8",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (6 February 2012)",
+      "subtitle": "Current / html / 6 February 2012",
+      "category": "Registers of interests",
+      "date": "2012-02-06",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests html. edition dated 6 February 2012. content type text/html; charset=utf-8",
+      "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/6-february-2012/",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/6-february-2012/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "html source",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/6-february-2012/",
+          "type": "html"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "html",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "html",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "6 February 2012",
+          "linkText": "6 February 2012",
+          "kind": "html",
+          "contentType": "text/html; charset=utf-8",
+          "httpStatus": 200,
+          "bytes": 326270,
+          "sha256": "78c6daeb4001a525f5df7209b883e5e7402b99bfcbdb03decfec8f8387aa52e6",
+          "providerUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/6-february-2012/"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:pdf:c84d8acc0f5a3798",
+      "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-6-february-2012-ca6648d5",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (6 February 2012)",
+      "subtitle": "Current / pdf / 6 February 2012",
+      "category": "Registers of interests",
+      "date": "2012-02-06",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests pdf. edition dated 6 February 2012. content type application/pdf",
+      "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_060212.pdf",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_060212.pdf"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "pdf source",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_060212.pdf",
+          "type": "pdf"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "pdf",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "pdf",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "PDF",
+          "linkText": "PDF",
+          "kind": "pdf",
+          "contentType": "application/pdf",
+          "httpStatus": 200,
+          "bytes": 205905,
+          "sha256": "5c6374b2327b94b6fb5401e89f8f85fe67454d04e3cab9d5af21bd625bbaebd1",
+          "lastModified": "Fri, 12 Dec 2014 22:45:26 GMT",
+          "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_060212.pdf"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:html:90b9c61e5949b20c",
+      "slug": "ni-register-assembly-html-ni-assembly-register-of-members-interests-6-july-2012-6c73ea8b",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (6 July 2012)",
+      "subtitle": "Current / html / 6 July 2012",
+      "category": "Registers of interests",
+      "date": "2012-07-06",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests html. edition dated 6 July 2012. content type text/html; charset=utf-8",
+      "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/06-july-2012/",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/06-july-2012/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "html source",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/06-july-2012/",
+          "type": "html"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "html",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "html",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "6 July 2012 (HTML)",
+          "linkText": "6 July 2012 (HTML)",
+          "kind": "html",
+          "contentType": "text/html; charset=utf-8",
+          "httpStatus": 200,
+          "bytes": 350296,
+          "sha256": "d6d0f04e1a059e298bebcd43b0d05284ed2c0cd264e81e222a8fdc16e993ed56",
+          "providerUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/06-july-2012/"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:html:6de7e17d132ed819",
+      "slug": "ni-register-assembly-html-ni-assembly-register-of-members-interests-7-october-2011-4d0d201c",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (7 October 2011)",
+      "subtitle": "Current / html / 7 October 2011",
+      "category": "Registers of interests",
+      "date": "2011-10-07",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests html. edition dated 7 October 2011. content type text/html; charset=utf-8",
+      "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/07-october-2011/",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/07-october-2011/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "html source",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/07-october-2011/",
+          "type": "html"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "html",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "html",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "7 October 2011 (HTML)",
+          "linkText": "7 October 2011 (HTML)",
+          "kind": "html",
+          "contentType": "text/html; charset=utf-8",
+          "httpStatus": 200,
+          "bytes": 338715,
+          "sha256": "58006934d81d0d77d1b005c083a1899cd066b54053c69a8503e1e0495396e16d",
+          "providerUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/07-october-2011/"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:pdf:d2fe10447f879fa2",
+      "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-7-october-2011-d027a5dc",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (7 October 2011)",
+      "subtitle": "Current / pdf / 7 October 2011",
+      "category": "Registers of interests",
+      "date": "2011-10-07",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests pdf. edition dated 7 October 2011. content type application/pdf",
+      "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_071011.pdf",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_071011.pdf"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "pdf source",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_071011.pdf",
+          "type": "pdf"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "pdf",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "pdf",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "PDF",
+          "linkText": "PDF",
+          "kind": "pdf",
+          "contentType": "application/pdf",
+          "httpStatus": 200,
+          "bytes": 202403,
+          "sha256": "0f6d1a9fdd3f777bc2cf2c4c55722cf61ddfe701ba585bede13309592aa57004",
+          "lastModified": "Fri, 12 Dec 2014 22:45:26 GMT",
+          "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_071011.pdf"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:pdf:0aefb2ebf33c15aa",
+      "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-9-march-2010-e3e64c3d",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members Interests (9 March 2010)",
+      "subtitle": "Archive / pdf / 9 March 2010",
+      "category": "Registers of interests",
+      "date": "2010-03-09",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests pdf. edition dated 9 March 2010. content type application/pdf",
+      "url": "https://archive.niassembly.gov.uk/members/expenses/register_090310.pdf",
+      "references": [
+        {
+          "label": "Archive register landing page",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register_090310.pdf"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "pdf source",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register_090310.pdf",
+          "type": "pdf"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "pdf",
+        "archive"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Archive"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "pdf",
+        "HTTP 200",
+        "archive"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "archive",
+          "sourcePageUrl": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm",
+          "title": "PDF",
+          "linkText": "PDF",
+          "kind": "pdf",
+          "contentType": "application/pdf",
+          "httpStatus": 200,
+          "bytes": 635078,
+          "sha256": "b321a73530dc486a579423181bb6635145be663bd63daf431a770fac09fc2377",
+          "lastModified": "Wed, 26 Nov 2014 12:13:52 GMT",
+          "providerUrl": "https://archive.niassembly.gov.uk/members/expenses/register_090310.pdf"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:html:2cc057f9b8a55d8c",
+      "slug": "ni-register-assembly-html-ni-assembly-register-of-members-interests-416b6ddc",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members' Interests",
+      "subtitle": "Archive / html",
+      "category": "Registers of interests",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests html. content type text/html",
+      "url": "https://archive.niassembly.gov.uk/members/expenses/register2.htm",
+      "references": [
+        {
+          "label": "Archive register landing page",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register2.htm"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "html source",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register2.htm",
+          "type": "html"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "html",
+        "archive"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Archive"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "html",
+        "HTTP 200",
+        "archive"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "archive",
+          "sourcePageUrl": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm",
+          "title": "Register of Members' Interests",
+          "linkText": "Register of Members' Interests",
+          "kind": "html",
+          "contentType": "text/html",
+          "httpStatus": 200,
+          "bytes": 88301,
+          "sha256": "ae495175ea0f81d84ef0572428dd13d9de625dfb2b7578e0f40ab1ae2804f373",
+          "lastModified": "Wed, 26 Nov 2014 12:13:53 GMT",
+          "providerUrl": "https://archive.niassembly.gov.uk/members/expenses/register2.htm"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:html:3315a8c292c7aa1d",
+      "slug": "ni-register-assembly-html-ni-assembly-register-of-members-interests-c84954c0",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members' Interests",
+      "subtitle": "Archive / html",
+      "category": "Registers of interests",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests html. content type text/html",
+      "url": "https://archive.niassembly.gov.uk/members/expenses/register.htm",
+      "references": [
+        {
+          "label": "Archive register landing page",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register.htm"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "html source",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register.htm",
+          "type": "html"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "html",
+        "archive"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Archive"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "html",
+        "HTTP 200",
+        "archive"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "archive",
+          "sourcePageUrl": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm",
+          "title": "Register of Members' Interests",
+          "linkText": "Register of Members' Interests",
+          "kind": "html",
+          "contentType": "text/html",
+          "httpStatus": 200,
+          "bytes": 83693,
+          "sha256": "cbf87ef3ba2b532bfb43d2c82bd8da6c96e6db3022ed15fd371bea6b18f2cd66",
+          "lastModified": "Wed, 26 Nov 2014 12:13:53 GMT",
+          "providerUrl": "https://archive.niassembly.gov.uk/members/expenses/register.htm"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:html:b906614aac337765",
+      "slug": "ni-register-assembly-html-ni-assembly-register-of-members-interests-e7d79a90",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members' Interests",
+      "subtitle": "Archive / html",
+      "category": "Registers of interests",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests html. content type text/html",
+      "url": "https://archive.niassembly.gov.uk/members/expenses/register090310.htm",
+      "references": [
+        {
+          "label": "Archive register landing page",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register090310.htm"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "html source",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register090310.htm",
+          "type": "html"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "html",
+        "archive"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Archive"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "html",
+        "HTTP 200",
+        "archive"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "archive",
+          "sourcePageUrl": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm",
+          "title": "Register of Members' Interests",
+          "linkText": "Register of Members' Interests",
+          "kind": "html",
+          "contentType": "text/html",
+          "httpStatus": 200,
+          "bytes": 215436,
+          "sha256": "cd8cefb66ccbb95735047ad26349382003e3ce68805c401535c03c9fd3f6613f",
+          "lastModified": "Wed, 26 Nov 2014 12:13:53 GMT",
+          "providerUrl": "https://archive.niassembly.gov.uk/members/expenses/register090310.htm"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:html:d8612ac2fc1dfd6f",
+      "slug": "ni-register-assembly-html-ni-assembly-register-of-members-interests-685da016",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members' Interests",
+      "subtitle": "Archive / html",
+      "category": "Registers of interests",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests html. content type text/html",
+      "url": "https://archive.niassembly.gov.uk/members/expenses/register120110.htm",
+      "references": [
+        {
+          "label": "Archive register landing page",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register120110.htm"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "html source",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register120110.htm",
+          "type": "html"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "html",
+        "archive"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Archive"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "html",
+        "HTTP 200",
+        "archive"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "archive",
+          "sourcePageUrl": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm",
+          "title": "Register of Members' Interests",
+          "linkText": "Register of Members' Interests",
+          "kind": "html",
+          "contentType": "text/html",
+          "httpStatus": 200,
+          "bytes": 214821,
+          "sha256": "6b2dacdb316ff1dccf1ead5d4ecbd2a96e9a5d0291f515d37a64481be71380a1",
+          "lastModified": "Wed, 26 Nov 2014 12:13:53 GMT",
+          "providerUrl": "https://archive.niassembly.gov.uk/members/expenses/register120110.htm"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:html:da7008ee50ca2963",
+      "slug": "ni-register-assembly-html-ni-assembly-register-of-members-interests-32c1dd8d",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members' Interests",
+      "subtitle": "Archive / html",
+      "category": "Registers of interests",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests html. content type text/html",
+      "url": "https://archive.niassembly.gov.uk/members/expenses/register251109.htm",
+      "references": [
+        {
+          "label": "Archive register landing page",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register251109.htm"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "html source",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register251109.htm",
+          "type": "html"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "html",
+        "archive"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Archive"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "html",
+        "HTTP 200",
+        "archive"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "archive",
+          "sourcePageUrl": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm",
+          "title": "Register of Members' Interests",
+          "linkText": "Register of Members' Interests",
+          "kind": "html",
+          "contentType": "text/html",
+          "httpStatus": 200,
+          "bytes": 206765,
+          "sha256": "5638fe3ec430c8357c060cac7ecef126a8d281e260ac1fd858f293ae1599298c",
+          "lastModified": "Wed, 26 Nov 2014 12:13:53 GMT",
+          "providerUrl": "https://archive.niassembly.gov.uk/members/expenses/register251109.htm"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:pdf:d1be54bada8bdb14",
+      "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-7c63e1c9",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members' Interests",
+      "subtitle": "Archive / pdf",
+      "category": "Registers of interests",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests pdf. content type application/pdf",
+      "url": "https://archive.niassembly.gov.uk/members/expenses/register_07.pdf",
+      "references": [
+        {
+          "label": "Archive register landing page",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register_07.pdf"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "pdf source",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register_07.pdf",
+          "type": "pdf"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "pdf",
+        "archive"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Archive"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "pdf",
+        "HTTP 200",
+        "archive"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "archive",
+          "sourcePageUrl": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm",
+          "title": "Register of Members' Interests",
+          "linkText": "Register of Members' Interests",
+          "kind": "pdf",
+          "contentType": "application/pdf",
+          "httpStatus": 200,
+          "bytes": 118510,
+          "sha256": "9797c7e1d0c2c2f34f158eddd2a938c448952f120d6d456f9c80157adefc6348",
+          "lastModified": "Wed, 26 Nov 2014 12:13:52 GMT",
+          "providerUrl": "https://archive.niassembly.gov.uk/members/expenses/register_07.pdf"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:html:37a015d4fca7e7b1",
+      "slug": "ni-register-assembly-html-ni-assembly-register-of-members-interests-during-the-2022-2027-mandate-d6ccee85",
+      "type": "register-source-document",
+      "title": "NI Assembly Register of Members’ Interests during the 2022-2027 Mandate",
+      "subtitle": "Current / html",
+      "category": "Registers of interests",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests html. content type text/html; charset=utf-8",
+      "url": "https://aims.niassembly.gov.uk/mlas/registerofinterests.aspx",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://aims.niassembly.gov.uk/mlas/registerofinterests.aspx"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "html source",
+          "url": "https://aims.niassembly.gov.uk/mlas/registerofinterests.aspx",
+          "type": "html"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "html",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "html",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "Register of Members’ Interests during the 2022-2027 Mandate",
+          "linkText": "Register of Members’ Interests during the 2022-2027 Mandate",
+          "kind": "html",
+          "contentType": "text/html; charset=utf-8",
+          "httpStatus": 200,
+          "bytes": 90086,
+          "sha256": "1544fb44236bc5cfebd7e43f9ecba86c15190c5e7e912351be3ad0b8d6f6dca0",
+          "providerUrl": "https://aims.niassembly.gov.uk/mlas/registerofinterests.aspx"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:pdf:1b66909f7c32aae0",
+      "slug": "ni-register-assembly-pdf-ni-assembly-register-source-1b66909f7c32aae0-26edfd5e",
+      "type": "register-source-document",
+      "title": "NI Assembly register source 1b66909f7c32aae0",
+      "subtitle": "Current / pdf",
+      "category": "Registers of interests",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests pdf. content type application/pdf",
+      "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/211015.pdf",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/211015.pdf"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "pdf source",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/211015.pdf",
+          "type": "pdf"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "pdf",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "pdf",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "PDF",
+          "linkText": "PDF",
+          "kind": "pdf",
+          "contentType": "application/pdf",
+          "httpStatus": 200,
+          "bytes": 210963,
+          "sha256": "1080aed59d89b9a95bd4add53eb3304f16f8e96b938a2f554a3f93cfe1933d1b",
+          "lastModified": "Wed, 03 Feb 2016 15:01:56 GMT",
+          "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/211015.pdf"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:pdf:4ebc94a952f185a1",
+      "slug": "ni-register-assembly-pdf-ni-assembly-register-source-4ebc94a952f185a1-67688ea6",
+      "type": "register-source-document",
+      "title": "NI Assembly register source 4ebc94a952f185a1",
+      "subtitle": "Current / pdf",
+      "category": "Registers of interests",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests pdf. content type application/pdf",
+      "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/interests-25-03-2016.pdf",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/interests-25-03-2016.pdf"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "pdf source",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/interests-25-03-2016.pdf",
+          "type": "pdf"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "pdf",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "pdf",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "PDF",
+          "linkText": "PDF",
+          "kind": "pdf",
+          "contentType": "application/pdf",
+          "httpStatus": 200,
+          "bytes": 212715,
+          "sha256": "e3ef9825fc1c11a9300a92d134d7fcfc13ca18f53412bfb763ffcd1cca4bbf13",
+          "lastModified": "Fri, 25 Mar 2016 12:21:42 GMT",
+          "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/interests-25-03-2016.pdf"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:pdf:5e0f6c1e246602db",
+      "slug": "ni-register-assembly-pdf-ni-assembly-register-source-5e0f6c1e246602db-2f9fbaa4",
+      "type": "register-source-document",
+      "title": "NI Assembly register source 5e0f6c1e246602db",
+      "subtitle": "Current / pdf",
+      "category": "Registers of interests",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests pdf. content type application/pdf",
+      "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/030715.pdf",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/030715.pdf"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "pdf source",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/030715.pdf",
+          "type": "pdf"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "pdf",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "pdf",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "PDF",
+          "linkText": "PDF",
+          "kind": "pdf",
+          "contentType": "application/pdf",
+          "httpStatus": 200,
+          "bytes": 208541,
+          "sha256": "e9aebb7a61b1605228dd015e382787cfb6133489e8c284faedfafcbfaa46114a",
+          "lastModified": "Wed, 03 Feb 2016 15:00:37 GMT",
+          "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/030715.pdf"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:pdf:6d0ca375efb2f904",
+      "slug": "ni-register-assembly-pdf-ni-assembly-register-source-6d0ca375efb2f904-1bec588a",
+      "type": "register-source-document",
+      "title": "NI Assembly register source 6d0ca375efb2f904",
+      "subtitle": "Current / pdf",
+      "category": "Registers of interests",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests pdf. content type application/pdf",
+      "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_15-jan-14.pdf",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_15-jan-14.pdf"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "pdf source",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_15-jan-14.pdf",
+          "type": "pdf"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "pdf",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "pdf",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "PDF",
+          "linkText": "PDF",
+          "kind": "pdf",
+          "contentType": "application/pdf",
+          "httpStatus": 200,
+          "bytes": 234326,
+          "sha256": "0d7db019fd351438c5fed784df05422fa2a97c14fb80732960af5ae095f28bf2",
+          "lastModified": "Fri, 27 Mar 2015 09:45:55 GMT",
+          "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_15-jan-14.pdf"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:pdf:a4ce61fa29e9ceb3",
+      "slug": "ni-register-assembly-pdf-ni-assembly-register-source-a4ce61fa29e9ceb3-453f624f",
+      "type": "register-source-document",
+      "title": "NI Assembly register source a4ce61fa29e9ceb3",
+      "subtitle": "Current / pdf",
+      "category": "Registers of interests",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests pdf. content type application/pdf",
+      "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/050116.pdf",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/050116.pdf"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "pdf source",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/050116.pdf",
+          "type": "pdf"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "pdf",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "pdf",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "PDF",
+          "linkText": "PDF",
+          "kind": "pdf",
+          "contentType": "application/pdf",
+          "httpStatus": 200,
+          "bytes": 209401,
+          "sha256": "5c799323f4e89aefada5a29a3c922035a544da202be83d8a8a5f66b92ae2d2ac",
+          "lastModified": "Wed, 03 Feb 2016 15:02:51 GMT",
+          "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/050116.pdf"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:pdf:d07a7e23083e9481",
+      "slug": "ni-register-assembly-pdf-ni-assembly-register-source-d07a7e23083e9481-7f58b0b4",
+      "type": "register-source-document",
+      "title": "NI Assembly register source d07a7e23083e9481",
+      "subtitle": "Current / pdf",
+      "category": "Registers of interests",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests pdf. content type application/pdf",
+      "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/240215.pdf",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/240215.pdf"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "pdf source",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/240215.pdf",
+          "type": "pdf"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "pdf",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "pdf",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "PDF",
+          "linkText": "PDF",
+          "kind": "pdf",
+          "contentType": "application/pdf",
+          "httpStatus": 200,
+          "bytes": 212105,
+          "sha256": "724edbddeea0ed15148123293758203fc7e99549df63dafc255d18feeb06a600",
+          "lastModified": "Wed, 03 Feb 2016 14:59:09 GMT",
+          "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/240215.pdf"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:pdf:d2a3d325d0648fc3",
+      "slug": "ni-register-assembly-pdf-ni-assembly-register-source-d2a3d325d0648fc3-09b11e9d",
+      "type": "register-source-document",
+      "title": "NI Assembly register source d2a3d325d0648fc3",
+      "subtitle": "Current / pdf",
+      "category": "Registers of interests",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "NI Assembly register of interests pdf. content type application/pdf",
+      "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_14-nov-14.pdf",
+      "references": [
+        {
+          "label": "Current register landing page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Provider source URL",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_14-nov-14.pdf"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "pdf source",
+          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_14-nov-14.pdf",
+          "type": "pdf"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "pdf",
+        "current"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly",
+        "Current"
+      ],
+      "status": "Available",
+      "statusChips": [
+        "pdf",
+        "HTTP 200",
+        "current"
+      ],
+      "parentId": "ni-register:assembly:collection",
+      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
+      "sourceItems": [
+        {
+          "sourcePageId": "current",
+          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+          "title": "PDF",
+          "linkText": "PDF",
+          "kind": "pdf",
+          "contentType": "application/pdf",
+          "httpStatus": 200,
+          "bytes": 225557,
+          "sha256": "e96436fdc00ee81bb7109420a15c0f8f521ed827fdf22ea3a8347eea375ea8de",
+          "lastModified": "Fri, 27 Mar 2015 09:45:57 GMT",
+          "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_14-nov-14.pdf"
+        }
+      ]
+    },
+    {
+      "id": "ni-register:assembly:collection",
+      "slug": "ni-register-assembly-collection",
+      "type": "register-source-collection",
+      "title": "Northern Ireland Assembly Register of Members Interests",
+      "subtitle": "75 scraped source records",
+      "category": "Registers of interests",
+      "provider": [
+        "Northern Ireland Assembly"
+      ],
+      "description": "Public current and archived Northern Ireland Assembly register of interests pages, HTML editions, PDF editions, and machine-readable API payloads.",
+      "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+      "references": [
+        {
+          "label": "Current NI Assembly register page",
+          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
+        },
+        {
+          "label": "Archived NI Assembly register page",
+          "url": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Structured NI register interest data",
+          "url": "/data/database/ni-register-interests.json",
+          "type": "json"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MLA",
+        "Northern Ireland Assembly",
+        "standards",
+        "transparency"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland Assembly"
+      ],
+      "status": "Structured",
+      "statusChips": [
+        "Source inventory",
+        "Structured current API",
+        "Historical HTML parsed"
+      ],
+      "sourceItems": [
+        {
+          "kind": "scrape-inventory",
+          "sourceCount": 75,
+          "htmlCount": 32,
+          "pdfCount": 38,
+          "jsonCount": 2,
+          "xmlCount": 1,
+          "downloadedBytes": 17762712
+        }
+      ]
+    },
+    {
+      "id": "ni-register:mp:full-csv",
+      "slug": "ni-register-mp-full-csv",
+      "type": "register-source-dataset",
+      "title": "Northern Ireland MPs extracted from supplied Westminster register CSV",
+      "subtitle": "register_of_interests.csv / 1623 NI-only rows",
+      "category": "Registers of interests",
+      "provider": [
+        "UK Parliament",
+        "TheyWorkForYou/Public Whip derived identifiers"
+      ],
+      "description": "A generated NI-only extract from a supplied Westminster register of interests CSV. England, Scotland, and Wales MPs are excluded by matching member names to local Northern Ireland Westminster election winners.",
+      "references": [
+        {
+          "label": "Structured NI register interest data",
+          "url": "/data/database/ni-register-interests.json"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Structured NI register interest data",
+          "url": "/data/database/ni-register-interests.json",
+          "type": "json"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MP",
+        "Northern Ireland",
+        "CSV extract"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland MPs",
+        "register_of_interests.csv"
+      ],
+      "status": "Structured",
+      "statusChips": [
+        "CSV filtered",
+        "NI MPs only"
+      ],
+      "sourceItems": [
+        {
+          "id": "full-csv",
+          "sourceFile": "register_of_interests.csv",
+          "totalCsvRows": 132614,
+          "matchedNiMembersInCsv": 55,
+          "filteredRows": 1623,
+          "declarationDateStart": "2000-11-10",
+          "declarationDateEnd": "2026-06-15",
+          "filterBasis": "Matched to Northern Ireland Westminster election winners from local election result bundles."
+        }
+      ]
+    },
+    {
+      "id": "ni-register:mp:recent-csv-1",
+      "slug": "ni-register-mp-recent-csv-1",
+      "type": "register-source-dataset",
+      "title": "Northern Ireland MPs extracted from supplied Westminster register CSV 1",
+      "subtitle": "register_of_interests (1).csv / 76 NI-only rows",
+      "category": "Registers of interests",
+      "provider": [
+        "UK Parliament",
+        "TheyWorkForYou/Public Whip derived identifiers"
+      ],
+      "description": "A generated NI-only extract from a supplied Westminster register of interests CSV. England, Scotland, and Wales MPs are excluded by matching member names to local Northern Ireland Westminster election winners.",
+      "references": [
+        {
+          "label": "Structured NI register interest data",
+          "url": "/data/database/ni-register-interests.json"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Structured NI register interest data",
+          "url": "/data/database/ni-register-interests.json",
+          "type": "json"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MP",
+        "Northern Ireland",
+        "CSV extract"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland MPs",
+        "register_of_interests (1).csv"
+      ],
+      "status": "Structured",
+      "statusChips": [
+        "CSV filtered",
+        "NI MPs only"
+      ],
+      "sourceItems": [
+        {
+          "id": "recent-csv-1",
+          "sourceFile": "register_of_interests (1).csv",
+          "totalCsvRows": 14171,
+          "matchedNiMembersInCsv": 16,
+          "filteredRows": 76,
+          "declarationDateStart": "2024-08-04",
+          "declarationDateEnd": "2026-06-15",
+          "filterBasis": "Matched to Northern Ireland Westminster election winners from local election result bundles."
+        }
+      ]
+    },
+    {
+      "id": "ni-register:mp:recent-csv-2",
+      "slug": "ni-register-mp-recent-csv-2",
+      "type": "register-source-dataset",
+      "title": "Northern Ireland MPs extracted from supplied Westminster register CSV 2",
+      "subtitle": "register_of_interests (2).csv / 280 NI-only rows",
+      "category": "Registers of interests",
+      "provider": [
+        "UK Parliament",
+        "TheyWorkForYou/Public Whip derived identifiers"
+      ],
+      "description": "A generated NI-only extract from a supplied Westminster register of interests CSV. England, Scotland, and Wales MPs are excluded by matching member names to local Northern Ireland Westminster election winners.",
+      "references": [
+        {
+          "label": "Structured NI register interest data",
+          "url": "/data/database/ni-register-interests.json"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Structured NI register interest data",
+          "url": "/data/database/ni-register-interests.json",
+          "type": "json"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MP",
+        "Northern Ireland",
+        "CSV extract"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland MPs",
+        "register_of_interests (2).csv"
+      ],
+      "status": "Structured",
+      "statusChips": [
+        "CSV filtered",
+        "NI MPs only"
+      ],
+      "sourceItems": [
+        {
+          "id": "recent-csv-2",
+          "sourceFile": "register_of_interests (2).csv",
+          "totalCsvRows": 23982,
+          "matchedNiMembersInCsv": 18,
+          "filteredRows": 280,
+          "declarationDateStart": "2014-05-12",
+          "declarationDateEnd": "2024-05-28",
+          "filterBasis": "Matched to Northern Ireland Westminster election winners from local election result bundles."
+        }
+      ]
+    },
+    {
+      "id": "ni-register:mp:collection",
+      "slug": "ni-register-mp-collection",
+      "type": "register-source-collection",
+      "title": "Northern Ireland MPs register of interests extracts",
+      "subtitle": "3 supplied CSV extracts filtered to NI MPs",
+      "category": "Registers of interests",
+      "provider": [
+        "UK Parliament",
+        "TheyWorkForYou/Public Whip derived identifiers"
+      ],
+      "description": "Filtered extracts from the supplied Westminster register CSV files, retaining only MPs matched to Northern Ireland House of Commons constituencies.",
+      "references": [
+        {
+          "label": "Structured NI register interest data",
+          "url": "/data/database/ni-register-interests.json"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Structured NI register interest data",
+          "url": "/data/database/ni-register-interests.json",
+          "type": "json"
+        }
+      ],
+      "keywords": [
+        "register of interests",
+        "MP",
+        "Northern Ireland",
+        "House of Commons",
+        "Westminster"
+      ],
+      "sourceHierarchy": [
+        "Browse",
+        "Registers of interests",
+        "Northern Ireland MPs"
+      ],
+      "status": "Structured",
+      "statusChips": [
+        "CSV filtered",
+        "NI MPs only"
+      ],
+      "sourceItems": [
+        {
+          "id": "full-csv",
+          "sourceFile": "register_of_interests.csv",
+          "filteredRows": 1623,
+          "matchedNiMembersInCsv": 55,
+          "totalCsvRows": 132614
+        },
+        {
+          "id": "recent-csv-1",
+          "sourceFile": "register_of_interests (1).csv",
+          "filteredRows": 76,
+          "matchedNiMembersInCsv": 16,
+          "totalCsvRows": 14171
+        },
+        {
+          "id": "recent-csv-2",
+          "sourceFile": "register_of_interests (2).csv",
+          "filteredRows": 280,
+          "matchedNiMembersInCsv": 18,
+          "totalCsvRows": 23982
+        }
+      ]
+    }
+  ]
+}

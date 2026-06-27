@@ -1,10 +1,341 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-25T20:16:25.777Z",
+  "generatedAt": "2026-06-27T17:15:03.361Z",
   "kind": "sources",
   "shard": "sources-039.json",
   "total": 200,
   "items": [
+    {
+      "id": "medium-priority:2-irish-election-source-enrichment-data:general-election-2016-constituency-details:00304",
+      "slug": "medium-priority-2-irish-election-source-enrichment-data-general-election-2016-constituency-details-00304",
+      "type": "approved-medium-priority-source",
+      "title": "General Election 2016 Constituency Details",
+      "subtitle": "Irish election source/enrichment data / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV / Approved source record",
+      "category": "Medium-priority: Irish election source/enrichment data",
+      "date": "2016",
+      "provider": [
+        "Department of Housing, Local Government and Heritage",
+        "data.gov.ie"
+      ],
+      "description": "General Election 2016 Constituency Details is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/general-election-2016-constituency-details",
+      "references": [
+        {
+          "label": "General Election 2016 Constituency Details provider page",
+          "url": "https://data.gov.ie/dataset/general-election-2016-constituency-details",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "General Election 2016 Constituency Details Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/general-election-2016-constituency-details",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/general-election-2016-constituency-details",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Irish election source/enrichment data",
+        "election",
+        "constituencies",
+        "Ireland / unspecified",
+        "enrich-existing-election",
+        "CSV"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 305,
+          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:general-election-2016-constituency-details:00304",
+          "title": "General Election 2016 Constituency Details",
+          "cleanTitle": "General Election 2016 Constituency Details",
+          "provider": "data.gov.ie",
+          "organisation": "Department of Housing, Local Government and Heritage",
+          "category": "tabular",
+          "roiGroup": "2. Irish election source/enrichment data",
+          "groupTitle": "Irish election source/enrichment data",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "election",
+          "featureUnit": "constituencies",
+          "formats": [
+            "CSV"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "enrich-existing-election",
+          "proposedPlacement": "Elections/source provenance",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/general-election-2016-constituency-details",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/general-election-2016-constituency-details",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "election-model-merge-and-provenance-review: election staging action assigned",
+            "geography-matching: geography family inferred",
+            "high-priority-manual-review: publication policy assigned",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+          "geographyRecommendation": "Match by election kind, legislation/version, jurisdiction, and date; do not merge Dail/Westminster/Assembly geographies by name alone.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link",
+        "Election provenance"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Irish election source/enrichment data",
+        "Ireland / unspecified",
+        "election",
+        "General Election 2016 Constituency Details"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/general-election-2016-constituency-details",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/general-election-2016-constituency-details",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, General Election 2016 Constituency Details.",
+      "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. General Election 2016 Constituency Details. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/general-election-2016-constituency-details. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/general-election-2016-constituency-details.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:2-irish-election-source-enrichment-data:general-election-2016-constituency-details:00304",
+        "sourceRowNumber": 305,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish election source/provenance enrichment",
+        "proposedAction": "enrich-existing-election",
+        "proposedPlacement": "Elections/source provenance",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV"
+          ]
+        },
+        "confidence": 60,
+        "resolvedBlockers": [
+          "election-model-merge-and-provenance-review: election staging action assigned",
+          "geography-matching: geography family inferred",
+          "high-priority-manual-review: publication policy assigned",
+          "needs-provider-context-review: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+        "geographyRecommendation": "Match by election kind, legislation/version, jurisdiction, and date; do not merge Dail/Westminster/Assembly geographies by name alone.",
+        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Elections/source provenance",
+      "relationship": "election-source-enrichment",
+      "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-general-election-2016-constituency-details-00304",
+      "rawMetadata": {
+        "id": "medium-priority:2-irish-election-source-enrichment-data:general-election-2016-constituency-details:00304",
+        "slug": "medium-priority-2-irish-election-source-enrichment-data-general-election-2016-constituency-details-00304",
+        "type": "approved-medium-priority-source",
+        "title": "General Election 2016 Constituency Details",
+        "subtitle": "Irish election source/enrichment data / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV / Approved source record",
+        "category": "Medium-priority: Irish election source/enrichment data",
+        "date": "2016",
+        "provider": [
+          "Department of Housing, Local Government and Heritage",
+          "data.gov.ie"
+        ],
+        "description": "General Election 2016 Constituency Details is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/general-election-2016-constituency-details",
+        "references": [
+          {
+            "label": "General Election 2016 Constituency Details provider page",
+            "url": "https://data.gov.ie/dataset/general-election-2016-constituency-details",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "General Election 2016 Constituency Details Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/general-election-2016-constituency-details",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/general-election-2016-constituency-details",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link",
+          "Election provenance"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Irish election source/enrichment data",
+          "Ireland / unspecified",
+          "election",
+          "General Election 2016 Constituency Details"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/general-election-2016-constituency-details",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/general-election-2016-constituency-details",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, General Election 2016 Constituency Details.",
+        "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. General Election 2016 Constituency Details. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/general-election-2016-constituency-details. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/general-election-2016-constituency-details.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 305,
+            "stagingId": "medium-prep:2-irish-election-source-enrichment-data:general-election-2016-constituency-details:00304",
+            "title": "General Election 2016 Constituency Details",
+            "cleanTitle": "General Election 2016 Constituency Details",
+            "provider": "data.gov.ie",
+            "organisation": "Department of Housing, Local Government and Heritage",
+            "category": "tabular",
+            "roiGroup": "2. Irish election source/enrichment data",
+            "groupTitle": "Irish election source/enrichment data",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "election",
+            "featureUnit": "constituencies",
+            "formats": [
+              "CSV"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "enrich-existing-election",
+            "proposedPlacement": "Elections/source provenance",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/general-election-2016-constituency-details",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/general-election-2016-constituency-details",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "election-model-merge-and-provenance-review: election staging action assigned",
+              "geography-matching: geography family inferred",
+              "high-priority-manual-review: publication policy assigned",
+              "needs-provider-context-review: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+            "geographyRecommendation": "Match by election kind, legislation/version, jurisdiction, and date; do not merge Dail/Westminster/Assembly geographies by name alone.",
+            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:general-election-2016-constituency-details:00304",
+          "sourceRowNumber": 305,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish election source/provenance enrichment",
+          "proposedAction": "enrich-existing-election",
+          "proposedPlacement": "Elections/source provenance",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV"
+            ]
+          },
+          "confidence": 60,
+          "resolvedBlockers": [
+            "election-model-merge-and-provenance-review: election staging action assigned",
+            "geography-matching: geography family inferred",
+            "high-priority-manual-review: publication policy assigned",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+          "geographyRecommendation": "Match by election kind, legislation/version, jurisdiction, and date; do not merge Dail/Westminster/Assembly geographies by name alone.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Elections/source provenance",
+        "relationship": "election-source-enrichment",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Irish election source/enrichment data",
+          "election",
+          "constituencies",
+          "Ireland / unspecified",
+          "enrich-existing-election",
+          "CSV"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-general-election-2016-constituency-details-00304"
+      }
+    },
     {
       "id": "medium-priority:2-irish-election-source-enrichment-data:general-election-2016-count-details:00975",
       "slug": "medium-priority-2-irish-election-source-enrichment-data-general-election-2016-count-details-00975",
@@ -74033,288 +74364,6 @@
           "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
         ],
         "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-electoral-districts-national-placenames-gazetteer1-00047"
-      }
-    },
-    {
-      "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:electoral-divisions-1986-2019:02118",
-      "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-electoral-divisions-1986-2019-02118",
-      "type": "approved-medium-priority-source",
-      "title": "Electoral Divisions 1986-2019",
-      "subtitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA / Local standalone source / Ireland / unspecified / ZIP / Source record; runtime review pending",
-      "category": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-      "date": "1986",
-      "provider": [
-        "Local standalone source"
-      ],
-      "description": "Electoral Divisions 1986-2019 is published as a medium-priority Civgraph source/provenance record from Local standalone source. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-      "downloads": [
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "source-record-with-runtime-review",
-        "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "boundary",
-        "Electoral Divisions",
-        "Ireland / unspecified",
-        "source-download-only",
-        "ZIP",
-        "review:duplicate-or-variant-review-no-existing-match-candidate"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 2119,
-          "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:electoral-divisions-1986-2019:02118",
-          "title": "Electoral Divisions 1986-2019",
-          "cleanTitle": "Electoral Divisions 1986-2019",
-          "provider": "Local standalone source",
-          "category": "standalone-file",
-          "roiGroup": "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "groupTitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "boundary",
-          "featureUnit": "Electoral Divisions",
-          "formats": [
-            "ZIP"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "source-download-only",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "ZIP"
-            ]
-          },
-          "approvalState": "ready-with-residual-review",
-          "sourcePublicationState": "public source record with runtime/semantic review still pending",
-          "confidence": 60,
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "geography-crosswalk-and-versioning: geography family inferred",
-            "geography-matching: geography family inferred",
-            "large-or-special-format-review: normal source package; no special-format hold"
-          ],
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source record",
-        "Runtime review pending",
-        "Download available"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "Ireland / unspecified",
-        "boundary",
-        "Electoral Divisions 1986-2019"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "download-only"
-        ],
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Local standalone source, Electoral Divisions 1986-2019.",
-      "fullCitation": "Local standalone source. Electoral Divisions 1986-2019. Medium-priority Civgraph publication source record generated from D: drive audit and staging review.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:electoral-divisions-1986-2019:02118",
-        "sourceRowNumber": 2119,
-        "approvalState": "ready-with-residual-review",
-        "recommendedAction": "publish as source/download record",
-        "proposedAction": "source-download-only",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "ZIP"
-          ]
-        },
-        "confidence": 60,
-        "residualBlockers": [
-          "duplicate-or-variant-review: no existing match candidate"
-        ],
-        "resolvedBlockers": [
-          "geography-crosswalk-and-versioning: geography family inferred",
-          "geography-matching: geography family inferred",
-          "large-or-special-format-review: normal source package; no special-format hold"
-        ],
-        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-        "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
-        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-      },
-      "publicationStatus": "source-record-with-runtime-review",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-electoral-divisions-1986-2019-02118",
-      "rawMetadata": {
-        "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:electoral-divisions-1986-2019:02118",
-        "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-electoral-divisions-1986-2019-02118",
-        "type": "approved-medium-priority-source",
-        "title": "Electoral Divisions 1986-2019",
-        "subtitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA / Local standalone source / Ireland / unspecified / ZIP / Source record; runtime review pending",
-        "category": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "date": "1986",
-        "provider": [
-          "Local standalone source"
-        ],
-        "description": "Electoral Divisions 1986-2019 is published as a medium-priority Civgraph source/provenance record from Local standalone source. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-        "downloads": [
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source record",
-          "Runtime review pending",
-          "Download available"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "Ireland / unspecified",
-          "boundary",
-          "Electoral Divisions 1986-2019"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "download-only"
-          ],
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Local standalone source, Electoral Divisions 1986-2019.",
-        "fullCitation": "Local standalone source. Electoral Divisions 1986-2019. Medium-priority Civgraph publication source record generated from D: drive audit and staging review.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 2119,
-            "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:electoral-divisions-1986-2019:02118",
-            "title": "Electoral Divisions 1986-2019",
-            "cleanTitle": "Electoral Divisions 1986-2019",
-            "provider": "Local standalone source",
-            "category": "standalone-file",
-            "roiGroup": "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-            "groupTitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "boundary",
-            "featureUnit": "Electoral Divisions",
-            "formats": [
-              "ZIP"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "source-download-only",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "ZIP"
-              ]
-            },
-            "approvalState": "ready-with-residual-review",
-            "sourcePublicationState": "public source record with runtime/semantic review still pending",
-            "confidence": 60,
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "geography-crosswalk-and-versioning: geography family inferred",
-              "geography-matching: geography family inferred",
-              "large-or-special-format-review: normal source package; no special-format hold"
-            ],
-            "residualBlockers": [
-              "duplicate-or-variant-review: no existing match candidate"
-            ],
-            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-            "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
-            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:electoral-divisions-1986-2019:02118",
-          "sourceRowNumber": 2119,
-          "approvalState": "ready-with-residual-review",
-          "recommendedAction": "publish as source/download record",
-          "proposedAction": "source-download-only",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "ZIP"
-            ]
-          },
-          "confidence": 60,
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate"
-          ],
-          "resolvedBlockers": [
-            "geography-crosswalk-and-versioning: geography family inferred",
-            "geography-matching: geography family inferred",
-            "large-or-special-format-review: normal source package; no special-format hold"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        },
-        "publicationStatus": "source-record-with-runtime-review",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "source-record-with-runtime-review",
-          "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "boundary",
-          "Electoral Divisions",
-          "Ireland / unspecified",
-          "source-download-only",
-          "ZIP",
-          "review:duplicate-or-variant-review-no-existing-match-candidate"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-electoral-divisions-1986-2019-02118"
       }
     }
   ]

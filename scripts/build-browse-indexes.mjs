@@ -15,6 +15,8 @@ const PERSON_RELATED_LIMIT = Number.POSITIVE_INFINITY;
 const PARTY_RELATED_LIMIT = Number.POSITIVE_INFINITY;
 const SOURCE_DETAIL_SHARD_DIR = 'source-shards';
 const SOURCE_DETAIL_SHARD_SIZE = 200;
+const REGISTER_INTEREST_INDEX_SHARD_DIR = 'register-interest-shards';
+const REGISTER_INTEREST_INDEX_SHARD_SIZE = 5000;
 const RAW_ELECTION_SOURCE_CACHE = new Map();
 
 const ENTITY_GROUPS = [
@@ -23,6 +25,7 @@ const ENTITY_GROUPS = [
   { id: 'features', label: 'Features', description: 'Boundary features by source map, including election geography groups where available.' },
   { id: 'parties', label: 'Parties / Labels', description: 'Party and ticket labels observed in election data.' },
   { id: 'persons', label: 'Persons', description: 'Candidate and elected-person entries observed in election bundles.' },
+  { id: 'register-interests', label: 'Register Interests', description: 'MLA and Northern Ireland MP register of interests records, linked back to source editions and datasets.' },
   { id: 'sources', label: 'Books / Tables / Sources', description: 'Books, tables, datasets, map downloads, source files, and references.' }
 ];
 
@@ -39,6 +42,8 @@ function main() {
   const rawSourceDocumentsData = readJson('data/database/raw-source-documents.json', { sources: [] });
   const mediumPriorityPublicationSourcesData = readJson('data/database/medium-priority-publication-sources.json', { sources: [] });
   const peatlandGeoportalSourcesData = readJson('data/database/peatland-geoportal-sources.json', { sources: [], targets: [], reviewRows: [] });
+  const niRegisterSourcesData = readJson('data/database/ni-register-sources.json', { sources: [] });
+  const niRegisterInterestsData = readJson('data/database/ni-register-interests.json', { interests: [], shards: [] });
   const alreadyOnSiteEnrichmentsData = readJson('data/database/already-on-site-enrichments.json', { targets: [], reviewRows: [] });
   const browseSourceInputs = {
     sources: [
@@ -46,7 +51,8 @@ function main() {
       ...normalizeArray(approvedPublicationSourcesData.sources || approvedPublicationSourcesData.items),
       ...normalizeArray(rawSourceDocumentsData.sources || rawSourceDocumentsData.items),
       ...normalizeArray(mediumPriorityPublicationSourcesData.sources || mediumPriorityPublicationSourcesData.items),
-      ...normalizeArray(peatlandGeoportalSourcesData.sources || peatlandGeoportalSourcesData.items)
+      ...normalizeArray(peatlandGeoportalSourcesData.sources || peatlandGeoportalSourcesData.items),
+      ...normalizeArray(niRegisterSourcesData.sources || niRegisterSourcesData.items)
     ]
   };
   const sourceEnrichmentInputs = mergeSourceEnrichmentInputs(alreadyOnSiteEnrichmentsData, peatlandGeoportalSourcesData);
@@ -78,6 +84,7 @@ function main() {
   const featureGroups = buildFeatureGroups(spatialIndex, maps, parentElections);
   const { parties, partyDetails } = buildParties(partyIds, electionDetails);
   const { persons, personDetails } = buildPersons(electionDetails);
+  const registerInterests = buildRegisterInterests(niRegisterInterestsData);
   const sources = buildSources(booksData, dataEntriesData, maps, parentElections, thumbnailIds, browseSourceInputs, sourceEnrichmentInputs);
   const rawMapsById = new Map((mapsData.maps || []).map((map) => [map.id, map]));
   const rawDataEntriesById = new Map(normalizeArray(dataEntriesData.dataEntries || dataEntriesData.entries).map((entry) => [entry.id || entry.slug || slugify(entry.name || entry.title), entry]));
@@ -89,9 +96,12 @@ function main() {
   ensureUniqueSlugs(featureGroups);
   ensureUniqueSlugs(parties);
   ensureUniqueSlugs(persons);
+  ensureUniqueSlugs(registerInterests);
   ensureUniqueSlugs(sources);
   const sourceDetailShardByKey = buildSourceDetailShardAssignments(sources);
   const sourceIndexItems = sources.map((source) => compactSourceIndexRecord(source, sourceDetailShardByKey));
+  const registerInterestIndexItems = registerInterests.map(compactRegisterInterestIndexRecord);
+  const registerInterestIndexShards = writeRegisterInterestIndexShards(registerInterestIndexItems);
 
   writeJson('maps.json', { schemaVersion: 1, generatedAt: GENERATED_AT, total: maps.length, items: maps });
   writeJson('elections.json', { schemaVersion: 1, generatedAt: GENERATED_AT, total: elections.length, items: elections });
@@ -105,6 +115,17 @@ function main() {
   });
   writeJson('parties.json', { schemaVersion: 1, generatedAt: GENERATED_AT, total: parties.length, items: parties });
   writeJson('persons.json', { schemaVersion: 1, generatedAt: GENERATED_AT, total: persons.length, items: persons });
+  writeJson('register-interests.json', {
+    schemaVersion: 1,
+    generatedAt: GENERATED_AT,
+    total: registerInterests.length,
+    indexLayout: 'sharded',
+    indexShardStrategy: 'fixed-size',
+    indexShardSize: REGISTER_INTEREST_INDEX_SHARD_SIZE,
+    indexShardDir: `/data/browse/${REGISTER_INTEREST_INDEX_SHARD_DIR}`,
+    detailLayout: 'external-shards',
+    shards: registerInterestIndexShards
+  });
   writeJson('sources.json', {
     schemaVersion: 2,
     generatedAt: GENERATED_AT,
@@ -152,6 +173,7 @@ function main() {
       featureRecords: spatialIndex.features?.length || 0,
       parties: parties.length,
       persons: persons.length,
+      'register-interests': registerInterests.length,
       sources: sources.length
     },
     entrypoints: {
@@ -160,6 +182,7 @@ function main() {
       features: '/data/browse/features.json',
       parties: '/data/browse/parties.json',
       persons: '/data/browse/persons.json',
+      'register-interests': '/data/browse/register-interests.json',
       sources: '/data/browse/sources.json'
     },
     notes: [
@@ -175,6 +198,7 @@ function main() {
   console.log(`- feature groups: ${featureGroups.length} (${spatialIndex.features?.length || 0} feature records)`);
   console.log(`- parties: ${parties.length}`);
   console.log(`- persons: ${persons.length}`);
+  console.log(`- register interests: ${registerInterests.length}`);
   console.log(`- sources: ${sources.length}`);
 }
 
@@ -1126,6 +1150,80 @@ function buildPersons(electionDetails) {
   return { persons: items, personDetails: details };
 }
 
+function buildRegisterInterests(data) {
+  return expandRegisterInterestRecords(data).map((entry) => {
+    const id = entry.id || `register-interest:${slugify(`${entry.memberName || 'member'}-${entry.category || 'interest'}-${entry.date || ''}`)}`;
+    const date = entry.date || entry.latestDeclaration || entry.earliestDeclaration || entry.editionDate || entry.startDate || null;
+    const memberName = cleanText(entry.memberName || 'Unknown member');
+    const category = cleanText(entry.category || 'Register interest');
+    const constituency = entry.constituency || normalizeArray(entry.constituencies)[0] || null;
+    const chamber = cleanText(entry.chamber || '');
+    const memberType = cleanText(entry.memberType || '');
+    const title = cleanText(entry.title || `${memberName} - ${category}`);
+    const slug = entry.slug || slugify(id);
+    const sourceRefs = normalizeArray(entry.sourceRefs);
+    const sourceUrls = normalizeArray(entry.sourceUrls || sourceRefs.map((ref) => ref.sourceUrl)).filter(Boolean);
+    const sourceTitles = normalizeArray(entry.sourceTitles || sourceRefs.map((ref) => ref.sourceTitle)).filter(Boolean);
+    const sourceKinds = normalizeArray(entry.sourceKinds || sourceRefs.map((ref) => ref.sourceKind)).filter(Boolean);
+    const sourceUrl = entry.sourceUrl || sourceUrls[0] || null;
+    const references = normalizeReferences(entry.references || sourceRefs.map((ref) => ({ label: ref.sourceTitle || ref.sourceKind || 'Register source', url: ref.sourceUrl })).filter((ref) => ref.url));
+    const interestSummary = truncateText(entry.interestText || entry.description || '', 500);
+    return compactObject({
+      id,
+      slug,
+      type: 'register-interest',
+      title,
+      subtitle: compactJoin([memberType, constituency, chamber, date]),
+      category,
+      date,
+      provider: normalizeArray(entry.provider),
+      description: truncateText(interestSummary, 240),
+      interestSummary,
+      chamber,
+      memberType,
+      jurisdiction: entry.jurisdiction,
+      memberName,
+      constituency,
+      constituencies: normalizeArray(entry.constituencies),
+      parties: normalizeArray(entry.parties),
+      publicWhipId: entry.publicWhipId,
+      sourceRecordId: entry.sourceRecordId,
+      sourceTitle: entry.sourceTitle || sourceTitles[0],
+      sourceTitles,
+      sourceKind: entry.sourceKind || sourceKinds[0],
+      sourceKinds,
+      sourceUrl,
+      sourceUrls,
+      sourceCount: entry.sourceCount || sourceRefs.length || sourceUrls.length || null,
+      duplicateSourceRowCount: entry.duplicateSourceRowCount,
+      sourceRefs,
+      dateStart: entry.dateStart,
+      dateEnd: entry.dateEnd,
+      extractionMethod: entry.extractionMethod,
+      extractionConfidence: entry.extractionConfidence,
+      isNone: entry.isNone,
+      references,
+      keywords: normalizeArray(entry.keywords).slice(0, 16),
+      detailUrl: entry.detailUrl,
+      browseUrl: `/browse/register-interests/${encodeURIComponent(slug)}`
+    });
+  }).sort((a, b) => String(a.memberName || '').localeCompare(String(b.memberName || ''))
+    || String(a.date || '').localeCompare(String(b.date || ''))
+    || String(a.category || '').localeCompare(String(b.category || '')));
+}
+
+function expandRegisterInterestRecords(data) {
+  const direct = normalizeArray(data?.interests || data?.items);
+  if (direct.length) return direct;
+  return normalizeArray(data?.canonicalShards || data?.shards).flatMap((shard) => {
+    const relPath = String(shard.path || shard.url || '').replace(/^\/+/, '').replace(/[?#].*$/, '');
+    if (!relPath) return [];
+    const shardData = readJson(relPath, { interests: [], items: [] });
+    const detailUrl = shard.url || `/${relPath.replace(/\\/g, '/')}`;
+    return normalizeArray(shardData.interests || shardData.items).map((entry) => compactObject({ ...entry, detailUrl }));
+  });
+}
+
 function mergeSourceEnrichmentInputs(...inputs) {
   return {
     targets: inputs.flatMap((input) => normalizeArray(input?.targets)),
@@ -1631,6 +1729,32 @@ function writeSourceDetailShards(records, enhance = null, assignments = null) {
   }
 }
 
+function writeRegisterInterestIndexShards(records) {
+  const shardDir = path.join(OUT_DIR, REGISTER_INTEREST_INDEX_SHARD_DIR);
+  rmSync(shardDir, { recursive: true, force: true });
+  mkdirSync(shardDir, { recursive: true });
+  const shards = [];
+  for (let index = 0; index < records.length; index += REGISTER_INTEREST_INDEX_SHARD_SIZE) {
+    const shardIndex = Math.floor(index / REGISTER_INTEREST_INDEX_SHARD_SIZE);
+    const shardName = `register-interests-${String(shardIndex).padStart(3, '0')}.json`;
+    const items = records.slice(index, index + REGISTER_INTEREST_INDEX_SHARD_SIZE);
+    writeJson(path.join(REGISTER_INTEREST_INDEX_SHARD_DIR, shardName), {
+      schemaVersion: 1,
+      generatedAt: GENERATED_AT,
+      kind: 'register-interest-index',
+      shard: shardName,
+      total: items.length,
+      items
+    });
+    shards.push({
+      name: shardName,
+      url: `/data/browse/${REGISTER_INTEREST_INDEX_SHARD_DIR}/${shardName}`,
+      count: items.length
+    });
+  }
+  return shards;
+}
+
 function compactSourceIndexRecord(record, assignments = null) {
   const slug = sourceDetailSlug(record);
   return compactObject({
@@ -1667,6 +1791,29 @@ function compactSourceIndexRecord(record, assignments = null) {
     interactiveUrl: record.interactiveUrl,
     browseUrl: record.browseUrl,
     detailUrl: `/data/browse/details/${SOURCE_DETAIL_SHARD_DIR}/${sourceShardNameForRecord(record, assignments)}`
+  });
+}
+
+function compactRegisterInterestIndexRecord(record) {
+  return compactObject({
+    id: record.id,
+    slug: record.slug,
+    type: record.type,
+    title: record.title,
+    category: record.category,
+    date: record.date,
+    description: truncateText(record.description || record.interestSummary || '', 140),
+    memberType: record.memberType,
+    memberName: record.memberName,
+    constituency: record.constituency,
+    sourceKind: record.sourceKind,
+    sourceKinds: normalizeArray(record.sourceKinds).slice(0, 5),
+    sourceCount: record.sourceCount,
+    duplicateSourceRowCount: record.duplicateSourceRowCount,
+    dateStart: record.dateStart,
+    dateEnd: record.dateEnd,
+    isNone: record.isNone,
+    detailUrl: record.detailUrl
   });
 }
 
@@ -1767,7 +1914,7 @@ function sourceRawMetadata(record, context) {
       anchorUrl: record.downloads?.[1]?.url
     });
   }
-  if (/^(wikipedia-article|internet-archive-raster-map|external-source|approved-[a-z-]+-source|raw-source-[a-z-]+)$/.test(record.type) || /^(external|approved-publication|approved-variant|raw-source|medium-priority):/.test(String(record.id || ''))) {
+  if (/^(wikipedia-article|internet-archive-raster-map|external-source|approved-[a-z-]+-source|raw-source-[a-z-]+|register-source-[a-z-]+)$/.test(record.type) || /^(external|approved-publication|approved-variant|raw-source|medium-priority|ni-register):/.test(String(record.id || ''))) {
     return context.rawExternalSourcesById?.get(record.id) || null;
   }
   return null;

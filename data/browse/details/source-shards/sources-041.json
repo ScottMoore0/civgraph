@@ -1,10 +1,393 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-25T18:54:56.904Z",
+  "generatedAt": "2026-06-27T17:15:03.361Z",
   "kind": "sources",
   "shard": "sources-041.json",
   "total": 200,
   "items": [
+    {
+      "id": "medium-priority:4-open-data-ni-boundary-and-statistical-geography-files:2008-ortho-osni2:00897",
+      "slug": "medium-priority-4-open-data-ni-boundary-and-statistical-geography-files-2008-ortho-osni2-00897",
+      "type": "approved-medium-priority-source",
+      "title": "2008 Ortho OSNI",
+      "subtitle": "Open Data NI boundary and statistical-geography files / Department of Agriculture, Environment and Rural Affairs, Open Data NI / Northern Ireland / CSV, GEOJSON, HTML, JSON, KML, SHP / Source record; runtime review pending",
+      "category": "Medium-priority: Open Data NI boundary and statistical-geography files",
+      "date": "2008",
+      "provider": [
+        "Department of Agriculture, Environment and Rural Affairs",
+        "Open Data NI"
+      ],
+      "description": "2008 Ortho OSNI is published as a medium-priority Civgraph source/provenance record from Department of Agriculture, Environment and Rural Affairs, Open Data NI. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: geography-crosswalk-and-versioning: needs exact geography crosswalk.",
+      "url": "https://admin.opendatani.gov.uk/dataset/2008-ortho-osni2",
+      "references": [
+        {
+          "label": "2008 Ortho OSNI provider page",
+          "url": "https://admin.opendatani.gov.uk/dataset/2008-ortho-osni2",
+          "source": "Open Data NI",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "2008 Ortho OSNI Wayback captures",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/2008-ortho-osni2",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://admin.opendatani.gov.uk/dataset/2008-ortho-osni2",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "source-record-with-runtime-review",
+        "Open Data NI boundary and statistical-geography files",
+        "source-data",
+        "features",
+        "Northern Ireland",
+        "variant-child-map",
+        "CSV",
+        "GEOJSON",
+        "HTML",
+        "JSON",
+        "KML",
+        "SHP",
+        "review:geography-crosswalk-and-versioning-needs-exact-geography-crosswalk"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 898,
+          "stagingId": "medium-prep:4-open-data-ni-boundary-and-statistical-geography-files:2008-ortho-osni2:00897",
+          "title": "2008 Ortho OSNI",
+          "cleanTitle": "2008 Ortho OSNI",
+          "provider": "Open Data NI",
+          "organisation": "Department of Agriculture, Environment and Rural Affairs",
+          "category": "spatial",
+          "roiGroup": "4. Open Data NI boundary and statistical-geography files",
+          "groupTitle": "Open Data NI boundary and statistical-geography files",
+          "jurisdiction": "Northern Ireland",
+          "topic": "source-data",
+          "featureUnit": "features",
+          "formats": [
+            "CSV",
+            "GEOJSON",
+            "HTML",
+            "JSON",
+            "KML",
+            "SHP"
+          ],
+          "isSpatial": true,
+          "isLargeOrSpecial": false,
+          "proposedAction": "variant-child-map",
+          "proposedPlacement": "Maps > boundary/geography variant",
+          "proposedRuntime": {
+            "desired": "MapLibre interactive layer",
+            "conversion": "Convert source geometry to PMTiles/vector tiles after approval.",
+            "sourceFormats": [
+              "CSV",
+              "GEOJSON",
+              "HTML",
+              "JSON",
+              "KML",
+              "SHP"
+            ]
+          },
+          "approvalState": "ready-with-residual-review",
+          "sourcePublicationState": "public source record with runtime/semantic review still pending",
+          "confidence": 45,
+          "currentProviderUrl": "https://admin.opendatani.gov.uk/dataset/2008-ortho-osni2",
+          "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/2008-ortho-osni2",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "duplicate-or-variant-review: classified as variant-child-map",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "residualBlockers": [
+            "geography-crosswalk-and-versioning: needs exact geography crosswalk"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
+        }
+      ],
+      "status": "Source only",
+      "statusChips": [
+        "Source record",
+        "Runtime review pending",
+        "Spatial source",
+        "Conversion pending",
+        "Download available",
+        "Provider link",
+        "Wayback link",
+        "Variant candidate"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Open Data NI boundary and statistical-geography files",
+        "Northern Ireland",
+        "source-data",
+        "2008 Ortho OSNI"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "download-only"
+        ],
+        "canonicalDatasetUrl": "https://admin.opendatani.gov.uk/dataset/2008-ortho-osni2",
+        "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/2008-ortho-osni2",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "Convert source geometry to PMTiles/vector tiles after approval."
+      },
+      "shortCitation": "Department of Agriculture, Environment and Rural Affairs, Open Data NI, 2008 Ortho OSNI.",
+      "fullCitation": "Department of Agriculture, Environment and Rural Affairs, Open Data NI. 2008 Ortho OSNI. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://admin.opendatani.gov.uk/dataset/2008-ortho-osni2. Wayback capture index: https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/2008-ortho-osni2.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:4-open-data-ni-boundary-and-statistical-geography-files:2008-ortho-osni2:00897",
+        "sourceRowNumber": 898,
+        "approvalState": "ready-with-residual-review",
+        "recommendedAction": "publish source record as candidate child/variant metadata",
+        "proposedAction": "variant-child-map",
+        "proposedPlacement": "Maps > boundary/geography variant",
+        "proposedRuntime": {
+          "desired": "MapLibre interactive layer",
+          "conversion": "Convert source geometry to PMTiles/vector tiles after approval.",
+          "sourceFormats": [
+            "CSV",
+            "GEOJSON",
+            "HTML",
+            "JSON",
+            "KML",
+            "SHP"
+          ]
+        },
+        "confidence": 45,
+        "residualBlockers": [
+          "geography-crosswalk-and-versioning: needs exact geography crosswalk"
+        ],
+        "resolvedBlockers": [
+          "duplicate-or-variant-review: classified as variant-child-map",
+          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+        ],
+        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
+      },
+      "publicationStatus": "source-record-with-runtime-review",
+      "proposedBrowsePath": "Maps > boundary/geography variant",
+      "relationship": "variant-source-candidate",
+      "browseUrl": "/browse/sources/medium-priority-4-open-data-ni-boundary-and-statistical-geography-files-2008-ortho-osni2-00897",
+      "rawMetadata": {
+        "id": "medium-priority:4-open-data-ni-boundary-and-statistical-geography-files:2008-ortho-osni2:00897",
+        "slug": "medium-priority-4-open-data-ni-boundary-and-statistical-geography-files-2008-ortho-osni2-00897",
+        "type": "approved-medium-priority-source",
+        "title": "2008 Ortho OSNI",
+        "subtitle": "Open Data NI boundary and statistical-geography files / Department of Agriculture, Environment and Rural Affairs, Open Data NI / Northern Ireland / CSV, GEOJSON, HTML, JSON, KML, SHP / Source record; runtime review pending",
+        "category": "Medium-priority: Open Data NI boundary and statistical-geography files",
+        "date": "2008",
+        "provider": [
+          "Department of Agriculture, Environment and Rural Affairs",
+          "Open Data NI"
+        ],
+        "description": "2008 Ortho OSNI is published as a medium-priority Civgraph source/provenance record from Department of Agriculture, Environment and Rural Affairs, Open Data NI. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: geography-crosswalk-and-versioning: needs exact geography crosswalk.",
+        "url": "https://admin.opendatani.gov.uk/dataset/2008-ortho-osni2",
+        "references": [
+          {
+            "label": "2008 Ortho OSNI provider page",
+            "url": "https://admin.opendatani.gov.uk/dataset/2008-ortho-osni2",
+            "source": "Open Data NI",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "2008 Ortho OSNI Wayback captures",
+            "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/2008-ortho-osni2",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://admin.opendatani.gov.uk/dataset/2008-ortho-osni2",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source only",
+        "statusChips": [
+          "Source record",
+          "Runtime review pending",
+          "Spatial source",
+          "Conversion pending",
+          "Download available",
+          "Provider link",
+          "Wayback link",
+          "Variant candidate"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Open Data NI boundary and statistical-geography files",
+          "Northern Ireland",
+          "source-data",
+          "2008 Ortho OSNI"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "download-only"
+          ],
+          "canonicalDatasetUrl": "https://admin.opendatani.gov.uk/dataset/2008-ortho-osni2",
+          "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/2008-ortho-osni2",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "Convert source geometry to PMTiles/vector tiles after approval."
+        },
+        "shortCitation": "Department of Agriculture, Environment and Rural Affairs, Open Data NI, 2008 Ortho OSNI.",
+        "fullCitation": "Department of Agriculture, Environment and Rural Affairs, Open Data NI. 2008 Ortho OSNI. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://admin.opendatani.gov.uk/dataset/2008-ortho-osni2. Wayback capture index: https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/2008-ortho-osni2.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 898,
+            "stagingId": "medium-prep:4-open-data-ni-boundary-and-statistical-geography-files:2008-ortho-osni2:00897",
+            "title": "2008 Ortho OSNI",
+            "cleanTitle": "2008 Ortho OSNI",
+            "provider": "Open Data NI",
+            "organisation": "Department of Agriculture, Environment and Rural Affairs",
+            "category": "spatial",
+            "roiGroup": "4. Open Data NI boundary and statistical-geography files",
+            "groupTitle": "Open Data NI boundary and statistical-geography files",
+            "jurisdiction": "Northern Ireland",
+            "topic": "source-data",
+            "featureUnit": "features",
+            "formats": [
+              "CSV",
+              "GEOJSON",
+              "HTML",
+              "JSON",
+              "KML",
+              "SHP"
+            ],
+            "isSpatial": true,
+            "isLargeOrSpecial": false,
+            "proposedAction": "variant-child-map",
+            "proposedPlacement": "Maps > boundary/geography variant",
+            "proposedRuntime": {
+              "desired": "MapLibre interactive layer",
+              "conversion": "Convert source geometry to PMTiles/vector tiles after approval.",
+              "sourceFormats": [
+                "CSV",
+                "GEOJSON",
+                "HTML",
+                "JSON",
+                "KML",
+                "SHP"
+              ]
+            },
+            "approvalState": "ready-with-residual-review",
+            "sourcePublicationState": "public source record with runtime/semantic review still pending",
+            "confidence": 45,
+            "currentProviderUrl": "https://admin.opendatani.gov.uk/dataset/2008-ortho-osni2",
+            "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/2008-ortho-osni2",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "duplicate-or-variant-review: classified as variant-child-map",
+              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+            ],
+            "residualBlockers": [
+              "geography-crosswalk-and-versioning: needs exact geography crosswalk"
+            ],
+            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:4-open-data-ni-boundary-and-statistical-geography-files:2008-ortho-osni2:00897",
+          "sourceRowNumber": 898,
+          "approvalState": "ready-with-residual-review",
+          "recommendedAction": "publish source record as candidate child/variant metadata",
+          "proposedAction": "variant-child-map",
+          "proposedPlacement": "Maps > boundary/geography variant",
+          "proposedRuntime": {
+            "desired": "MapLibre interactive layer",
+            "conversion": "Convert source geometry to PMTiles/vector tiles after approval.",
+            "sourceFormats": [
+              "CSV",
+              "GEOJSON",
+              "HTML",
+              "JSON",
+              "KML",
+              "SHP"
+            ]
+          },
+          "confidence": 45,
+          "residualBlockers": [
+            "geography-crosswalk-and-versioning: needs exact geography crosswalk"
+          ],
+          "resolvedBlockers": [
+            "duplicate-or-variant-review: classified as variant-child-map",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
+        },
+        "publicationStatus": "source-record-with-runtime-review",
+        "proposedBrowsePath": "Maps > boundary/geography variant",
+        "relationship": "variant-source-candidate",
+        "keywords": [
+          "medium-priority-publication",
+          "source-record-with-runtime-review",
+          "Open Data NI boundary and statistical-geography files",
+          "source-data",
+          "features",
+          "Northern Ireland",
+          "variant-child-map",
+          "CSV",
+          "GEOJSON",
+          "HTML",
+          "JSON",
+          "KML",
+          "SHP",
+          "review:geography-crosswalk-and-versioning-needs-exact-geography-crosswalk"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-4-open-data-ni-boundary-and-statistical-geography-files-2008-ortho-osni2-00897"
+      }
+    },
     {
       "id": "medium-priority:4-open-data-ni-boundary-and-statistical-geography-files:2009-ortho-osni2:00898",
       "slug": "medium-priority-4-open-data-ni-boundary-and-statistical-geography-files-2009-ortho-osni2-00898",
@@ -70604,325 +70987,6 @@
           "CSV"
         ],
         "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-annual-new-property-prices-01313"
-      }
-    },
-    {
-      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:anti-social-behaviour-strategy:01759",
-      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-anti-social-behaviour-strategy-01759",
-      "type": "approved-medium-priority-source",
-      "title": "Anti Social Behaviour Strategy",
-      "subtitle": "Local authority planning/property/open-data layers / Kildare County Council, data.gov.ie / Ireland / unspecified / PDF / Approved source record",
-      "category": "Medium-priority: Local authority planning/property/open-data layers",
-      "provider": [
-        "Kildare County Council",
-        "data.gov.ie"
-      ],
-      "description": "Anti Social Behaviour Strategy is published as a medium-priority Civgraph source/provenance record from Kildare County Council, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/anti-social-behaviour-strategy",
-      "references": [
-        {
-          "label": "Anti Social Behaviour Strategy provider page",
-          "url": "https://data.gov.ie/dataset/anti-social-behaviour-strategy",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Anti Social Behaviour Strategy Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/anti-social-behaviour-strategy",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/anti-social-behaviour-strategy",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Local authority planning/property/open-data layers",
-        "source-data",
-        "features",
-        "Ireland / unspecified",
-        "local-authority-batch-review",
-        "PDF"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 1760,
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:anti-social-behaviour-strategy:01759",
-          "title": "Anti Social Behaviour Strategy",
-          "cleanTitle": "Anti Social Behaviour Strategy",
-          "provider": "data.gov.ie",
-          "organisation": "Kildare County Council",
-          "category": "tabular",
-          "roiGroup": "5. Local authority planning/property/open-data layers",
-          "groupTitle": "Local authority planning/property/open-data layers",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "source-data",
-          "featureUnit": "features",
-          "formats": [
-            "PDF"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "PDF"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/anti-social-behaviour-strategy",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/anti-social-behaviour-strategy",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "source-page-and-ia-viewport-decision: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Local authority planning/property/open-data layers",
-        "Ireland / unspecified",
-        "source-data",
-        "Anti Social Behaviour Strategy"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "pdf"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/anti-social-behaviour-strategy",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/anti-social-behaviour-strategy",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Kildare County Council, data.gov.ie, Anti Social Behaviour Strategy.",
-      "fullCitation": "Kildare County Council, data.gov.ie. Anti Social Behaviour Strategy. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/anti-social-behaviour-strategy. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/anti-social-behaviour-strategy.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:anti-social-behaviour-strategy:01759",
-        "sourceRowNumber": 1760,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-        "proposedAction": "local-authority-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "PDF"
-          ]
-        },
-        "confidence": 60,
-        "resolvedBlockers": [
-          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-          "source-page-and-ia-viewport-decision: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-anti-social-behaviour-strategy-01759",
-      "rawMetadata": {
-        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:anti-social-behaviour-strategy:01759",
-        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-anti-social-behaviour-strategy-01759",
-        "type": "approved-medium-priority-source",
-        "title": "Anti Social Behaviour Strategy",
-        "subtitle": "Local authority planning/property/open-data layers / Kildare County Council, data.gov.ie / Ireland / unspecified / PDF / Approved source record",
-        "category": "Medium-priority: Local authority planning/property/open-data layers",
-        "provider": [
-          "Kildare County Council",
-          "data.gov.ie"
-        ],
-        "description": "Anti Social Behaviour Strategy is published as a medium-priority Civgraph source/provenance record from Kildare County Council, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/anti-social-behaviour-strategy",
-        "references": [
-          {
-            "label": "Anti Social Behaviour Strategy provider page",
-            "url": "https://data.gov.ie/dataset/anti-social-behaviour-strategy",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Anti Social Behaviour Strategy Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/anti-social-behaviour-strategy",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/anti-social-behaviour-strategy",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Local authority planning/property/open-data layers",
-          "Ireland / unspecified",
-          "source-data",
-          "Anti Social Behaviour Strategy"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "pdf"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/anti-social-behaviour-strategy",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/anti-social-behaviour-strategy",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Kildare County Council, data.gov.ie, Anti Social Behaviour Strategy.",
-        "fullCitation": "Kildare County Council, data.gov.ie. Anti Social Behaviour Strategy. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/anti-social-behaviour-strategy. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/anti-social-behaviour-strategy.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 1760,
-            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:anti-social-behaviour-strategy:01759",
-            "title": "Anti Social Behaviour Strategy",
-            "cleanTitle": "Anti Social Behaviour Strategy",
-            "provider": "data.gov.ie",
-            "organisation": "Kildare County Council",
-            "category": "tabular",
-            "roiGroup": "5. Local authority planning/property/open-data layers",
-            "groupTitle": "Local authority planning/property/open-data layers",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "source-data",
-            "featureUnit": "features",
-            "formats": [
-              "PDF"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "local-authority-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "PDF"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/anti-social-behaviour-strategy",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/anti-social-behaviour-strategy",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-              "source-page-and-ia-viewport-decision: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:anti-social-behaviour-strategy:01759",
-          "sourceRowNumber": 1760,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "PDF"
-            ]
-          },
-          "confidence": 60,
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "source-page-and-ia-viewport-decision: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Local authority planning/property/open-data layers",
-          "source-data",
-          "features",
-          "Ireland / unspecified",
-          "local-authority-batch-review",
-          "PDF"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-anti-social-behaviour-strategy-01759"
       }
     }
   ]
