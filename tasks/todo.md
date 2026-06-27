@@ -7884,15 +7884,19 @@ Review:
   - Permanent prevention action: changed the NI register grouped Browse shard generator to split by serialized byte budget and updated the NI register validator to assert shard byte metadata plus actual file sizes.
   - Verification evidence: after regenerating NI register sidecars and Browse indexes, `node scripts/validate-already-on-site-enrichments.mjs`, `node scripts/validate-external-sources.mjs`, `npm run check:ni-register-interests`, `node scripts/validate-pages-file-budget.mjs`, and targeted private-source scans passed; grouped Browse record shards are now ten files under the configured 20 MiB byte budget.
   - Completed: committed the protected source-index package as `a56a09794` (`Protect source enrichment and NI register browse data`).
-- [ ] Protect test2 route/CDN/election metadata package.
+- [x] Protect test2 route/CDN/election metadata package.
   - Task: stage route/audit validator updates, CDN manifests/reports, test metadata, and referenced DOBIH sidecars while leaving timestamp-only election-audit baselines unstaged unless explicitly refreshed.
   - Verification plan: run `npm run check:test2`, `npm run check:test`, CDN validators, file-budget validation, and cached-diff review before committing.
   - Execution note: initial `npm run check:test` failed because the regenerated `maps-test.json` had current converted/alias rows not represented in `test/metadata/main-site-port-plan.json`, and five EDS feature-index sidecars referenced by metadata were missing.
   - Permanent prevention action: regenerated `test/metadata/main-site-port-plan.json` from current metadata and built the five missing EDS feature indexes; reran both `/test` and `/test2` validators before staging.
   - Verification evidence: `npm run check:test` now passes with 0 errors and one existing non-blocking `dfi-surface-defects-2017-vector-test` feature-search-index warning; `npm run check:test2` passes with 0 blocking issues, 55 non-blocking election warnings, and 0 PMTiles/CDN warnings; standalone CDN validators and file-budget validation pass.
-- [ ] Protect generated Browse/features/thumbnail/performance/build marker package.
+  - Completed: committed the protected test2/CDN/election metadata package as `50f0478e9` (`Update test CDN metadata and parity reports`).
+- [x] Protect generated Browse/features/thumbnail/performance/build marker package.
   - Task: stage generated Browse feature, thumbnail, performance dashboard, and final root shell cache-key output after build/check verification.
   - Verification plan: run build/check/file-budget validation and review the staged diff before committing.
+  - Verification evidence: `npm run build`, `npm run check`, `npm run check:test`, `npm run check:test2`, and `node scripts/validate-pages-file-budget.mjs` passed. Remaining warnings are the known non-blocking `/test` `dfi-surface-defects-2017-vector-test` feature-search-index warning and 55 non-blocking `/test2` election audit warnings; PMTiles/CDN validation has 0 warnings and 0 errors.
+  - Execution note: restored timestamp-only generated churn in `tasks/test2-election-data-audit.*`, `data/browse/details/source-shards/*`, and `data/browse/register-interest-shards/*` after saving `tmp/test2-source-register-timestamp-before-restore-2026-06-28.patch`.
 - [ ] Archive or preserve remaining leftovers without deletion.
   - Task: inspect residual tracked and untracked dirt, snapshot any path-scoped restores first, and move any selected untracked leftovers to an external archive folder rather than deleting them.
   - Verification plan: final `git status`, aggregate check/build/check, file-budget validation, and sensitive-source scan.
+  - Execution note: detected unrelated Civgraph semantic-graph work (`package.json`, graph registries/scripts, and generated `data/graph` outputs) during cleanup execution; leave it unstaged and unarchived because it is outside this dirty-tree cleanup plan.
