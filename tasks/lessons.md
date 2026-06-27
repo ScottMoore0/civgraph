@@ -2693,3 +2693,12 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   1) shard large generated JSON by serialized byte budget when rows can contain nested evidence arrays,
   2) record shard byte counts in the generated index,
   3) make validators assert both index byte metadata and actual file sizes against the Pages limit.
+
+### 204) Private-source scans must include scripts and ignored local review packs
+- Mistake pattern: scanning only generated public data and task logs while local scripts or ignored review packs still contain private source paths or possession clues.
+- Impact: a repo cleanup can leave publishable-looking helper files that imply possession of private address-level material, even if the source data itself is never copied.
+- Guardrail:
+  1) run private-source marker scans with `--no-ignore` across scripts, task packs, public data, and generated outputs before finalizing cleanup,
+  2) archive repo-local private-source helpers and local review packs outside the repository instead of deleting them,
+  3) remove any tracked helper that implies private-source possession and add an ignore guard for the local-only filename,
+  4) keep committed task notes generic and free of local source paths.
