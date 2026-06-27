@@ -11,6 +11,7 @@ const OUTPUT_SOURCE_PATH = path.join(ROOT, 'data', 'database', 'ni-register-sour
 const OUTPUT_INTEREST_PATH = path.join(ROOT, 'data', 'database', 'ni-register-interests.json');
 const OUTPUT_INTEREST_SHARD_DIR = path.join(ROOT, 'data', 'database', 'ni-register-interests');
 const OUTPUT_CANONICAL_INTEREST_SHARD_DIR = path.join(ROOT, 'data', 'database', 'ni-register-canonical-interests');
+const OUTPUT_BROWSE_REGISTER_SHARD_DIR = path.join(ROOT, 'data', 'database', 'ni-register-browse-records');
 const PDF_TEXT_SCRIPT = path.join(ROOT, 'scripts', 'extract-pdf-text.py');
 const STRUCTURED_DATA_URL = '/data/database/ni-register-interests.json';
 const GENERATED_AT = new Date().toISOString();
@@ -71,6 +72,8 @@ function main() {
   const interestShards = writeInterestShards(interests);
   const canonicalInterests = buildCanonicalInterests(interests).sort(sortInterests);
   const canonicalInterestShards = writeCanonicalInterestShards(canonicalInterests);
+  const browseRegisterRecords = buildBrowseRegisterRecords(interests).sort(sortBrowseRegisterRecords);
+  const browseRegisterShards = writeBrowseRegisterShards(browseRegisterRecords);
   const sourcePayload = {
     schemaVersion: 1,
     generatedAt: GENERATED_AT,
@@ -95,10 +98,14 @@ function main() {
     canonicalLayout: 'sharded',
     canonicalShardSize: INTEREST_SHARD_SIZE,
     canonicalShardDir: '/data/database/ni-register-canonical-interests',
+    browseLayout: 'sharded',
+    browseShardSize: INTEREST_SHARD_SIZE,
+    browseShardDir: '/data/database/ni-register-browse-records',
     summary: compactObject({
       totalInterests: interests.length,
       totalSourceRows: interests.length,
       totalCanonicalInterests: canonicalInterests.length,
+      totalBrowseRegisterRecords: browseRegisterRecords.length,
       duplicateSourceRowsMerged: interests.length - canonicalInterests.length,
       assemblyCurrentApiInterests: currentAssemblyInterests.length,
       assemblyHistoricalHtmlInterests: historicalAssemblyInterests.length,
@@ -110,7 +117,8 @@ function main() {
       note: 'Structured MLA rows are extracted from the current provider JSON API, historical HTML register pages, and PDF register editions. NI MP rows are extracted from the supplied CSV files after NI-only filtering.'
     }),
     shards: interestShards,
-    canonicalShards: canonicalInterestShards
+    canonicalShards: canonicalInterestShards,
+    browseShards: browseRegisterShards
   };
 
   writeJson(OUTPUT_SOURCE_PATH, sourcePayload);
@@ -119,6 +127,7 @@ function main() {
   console.log(`NI register sources written: ${path.relative(ROOT, OUTPUT_SOURCE_PATH)} (${sources.length} records)`);
   console.log(`NI register interests written: ${path.relative(ROOT, OUTPUT_INTEREST_PATH)} (${interests.length} records)`);
   console.log(`- Canonical Browse interests: ${canonicalInterests.length}`);
+  console.log(`- Grouped Browse register records: ${browseRegisterRecords.length}`);
   console.log(`- Duplicate source rows merged: ${interests.length - canonicalInterests.length}`);
   console.log(`- Current MLA API rows: ${currentAssemblyInterests.length}`);
   console.log(`- Historical MLA HTML rows: ${historicalAssemblyInterests.length}`);
@@ -290,6 +299,207 @@ function writeCanonicalInterestShards(interests) {
   return shards;
 }
 
+function writeBrowseRegisterShards(records) {
+  rmSync(OUTPUT_BROWSE_REGISTER_SHARD_DIR, { recursive: true, force: true });
+  mkdirSync(OUTPUT_BROWSE_REGISTER_SHARD_DIR, { recursive: true });
+  const shards = [];
+  for (let index = 0; index < records.length; index += INTEREST_SHARD_SIZE) {
+    const shardIndex = Math.floor(index / INTEREST_SHARD_SIZE);
+    const shardName = `ni-register-browse-records-${String(shardIndex).padStart(3, '0')}.json`;
+    const shardItems = records.slice(index, index + INTEREST_SHARD_SIZE);
+    writeJson(path.join(OUTPUT_BROWSE_REGISTER_SHARD_DIR, shardName), {
+      schemaVersion: 1,
+      generatedAt: GENERATED_AT,
+      kind: 'ni-register-browse-records',
+      shard: shardName,
+      total: shardItems.length,
+      interests: shardItems
+    });
+    shards.push({
+      name: shardName,
+      url: `/data/database/ni-register-browse-records/${shardName}`,
+      count: shardItems.length
+    });
+  }
+  return shards;
+}
+
+function buildBrowseRegisterRecords(sourceRows) {
+  const groups = new Map();
+  for (const row of sourceRows) {
+    const electedBody = electedBodyForInterest(row);
+    const date = registerRecordDate(row) || 'undated';
+    const key = [
+      canonicalMemberName(row.memberName),
+      electedBody,
+      date || 'undated'
+    ].join('|');
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(row);
+  }
+
+  return [...groups.entries()].map(([key, rows]) => {
+    const sortedRows = [...rows].sort(sortSourceRowsForCanonical);
+    const representative = sortedRows[0];
+    const electedBody = electedBodyForInterest(representative);
+    const date = registerRecordDate(representative) || 'undated';
+    const interests = buildBrowseRecordInterestGroups(key, sortedRows);
+    const sourceRefs = interests.flatMap((interest) => interest.sourceRefs);
+    const categories = uniqueCleanStrings(interests.map((interest) => interest.category));
+    const sourceKinds = uniqueCleanStrings(sourceRefs.map((ref) => ref.sourceKind));
+    const sourceRecordIds = uniqueCleanStrings(sourceRefs.map((ref) => ref.sourceRecordId));
+    const sourceTitles = uniqueCleanStrings(sourceRefs.map((ref) => ref.sourceTitle));
+    const sourceUrls = uniqueCleanStrings(sourceRefs.map((ref) => ref.sourceUrl));
+    const memberName = representative.memberName;
+    const constituencies = uniqueCleanStrings(sortedRows.flatMap((row) => normalizeArray(row.constituencies || row.constituency)));
+    const parties = uniqueCleanStrings(sortedRows.flatMap((row) => normalizeArray(row.parties)));
+    const nonNilInterestCount = interests.filter((interest) => !interest.isNone).length;
+    const title = `${memberName} - ${electedBody} - ${date || 'Undated register'}`;
+    const sourceCount = sourceRefs.length;
+    return compactObject({
+      id: `ni-register-record:${shortHash(key)}`,
+      type: 'register-interest',
+      recordKind: 'politician-body-date-register',
+      title,
+      chamber: representative.chamber,
+      electedBody,
+      memberType: representative.memberType,
+      jurisdiction: representative.jurisdiction,
+      memberId: representative.memberId,
+      publicWhipId: representative.publicWhipId,
+      memberName,
+      constituency: representative.constituency || constituencies[0] || null,
+      constituencies,
+      parties,
+      date,
+      dateStart: date,
+      dateEnd: date,
+      earliestDeclaration: minString(sortedRows.map((row) => row.earliestDeclaration || row.startDate || row.date)),
+      latestDeclaration: maxString(sortedRows.map((row) => row.latestDeclaration || row.date)),
+      categories,
+      category: categories.length === 1 ? categories[0] : `${categories.length} categories`,
+      categoryCount: categories.length,
+      interestCount: interests.length,
+      nonNilInterestCount,
+      hasNilInterests: interests.some((interest) => interest.isNone),
+      isNone: interests.length > 0 && nonNilInterestCount === 0,
+      interests,
+      interestSummary: summarizeBrowseRegisterInterests(interests),
+      description: summarizeBrowseRegisterRecord(memberName, electedBody, date, interests, sourceRefs),
+      sourceKind: sourceKinds[0],
+      sourceKinds,
+      sourceRecordIds,
+      sourceTitles,
+      sourceUrls,
+      sourceCount,
+      duplicateSourceRowCount: Math.max(0, sourceCount - interests.length),
+      sourceRefs,
+      sourceRowIds: sourceRefs.map((ref) => ref.sourceRowId),
+      provider: uniqueCleanStrings(sortedRows.flatMap((row) => normalizeArray(row.provider))),
+      extractionConfidence: sourceRefs.some((ref) => ref.extractionConfidence === 'high') ? 'high' : 'medium',
+      extractionMethod: 'politician-body-date-grouping',
+      keywords: uniqueCleanStrings([
+        'register of interests',
+        memberName,
+        electedBody,
+        representative.memberType,
+        representative.chamber,
+        representative.jurisdiction,
+        representative.constituency,
+        ...constituencies,
+        ...parties,
+        ...categories,
+        ...sourceKinds
+      ]).slice(0, 32)
+    });
+  });
+}
+
+function buildBrowseRecordInterestGroups(recordKey, rows) {
+  const groups = new Map();
+  for (const row of rows) {
+    const key = [
+      canonicalCategory(row.category),
+      canonicalInterestText(row.interestText)
+    ].join('|');
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(row);
+  }
+
+  return [...groups.entries()].map(([key, groupRows]) => {
+    const sortedRows = [...groupRows].sort(sortSourceRowsForCanonical);
+    const representative = sortedRows[0];
+    const sourceRefs = sortedRows.map((row) => canonicalSourceRef(row));
+    const sourceKinds = uniqueCleanStrings(sourceRefs.map((ref) => ref.sourceKind));
+    const sourceRecordIds = uniqueCleanStrings(sourceRefs.map((ref) => ref.sourceRecordId));
+    const sourceTitles = uniqueCleanStrings(sourceRefs.map((ref) => ref.sourceTitle));
+    const sourceUrls = uniqueCleanStrings(sourceRefs.map((ref) => ref.sourceUrl));
+    return compactObject({
+      id: `ni-register-record-interest:${shortHash(`${recordKey}|${key}`)}`,
+      type: 'register-interest-entry',
+      categoryId: representative.categoryId,
+      categoryNumber: representative.categoryNumber,
+      category: representative.category,
+      interestText: representative.interestText,
+      interestSummary: truncateText(representative.interestText, 500),
+      isNone: sortedRows.every((row) => row.isNone),
+      sourceCount: sourceRefs.length,
+      duplicateSourceRowCount: Math.max(0, sourceRefs.length - 1),
+      sourceKinds,
+      sourceRecordIds,
+      sourceTitles,
+      sourceUrls,
+      sourceRefs,
+      sourceRowIds: sourceRefs.map((ref) => ref.sourceRowId),
+      extractionConfidence: sourceRefs.some((ref) => ref.extractionConfidence === 'high') ? 'high' : 'medium'
+    });
+  }).sort(sortBrowseRecordInterests);
+}
+
+function electedBodyForInterest(row) {
+  if (row.memberType === 'MP' || /House of Commons/i.test(row.chamber || '')) return 'House of Commons';
+  return 'Assembly';
+}
+
+function registerRecordDate(row) {
+  return row.editionDate || row.latestDeclaration || row.date || row.startDate || row.earliestDeclaration || null;
+}
+
+function sortBrowseRecordInterests(a, b) {
+  return Number(a.categoryNumber || 999) - Number(b.categoryNumber || 999)
+    || String(a.category || '').localeCompare(String(b.category || ''))
+    || String(a.interestText || '').localeCompare(String(b.interestText || ''))
+    || String(a.id || '').localeCompare(String(b.id || ''));
+}
+
+function sortBrowseRegisterRecords(a, b) {
+  return sortableRegisterDate(b.date).localeCompare(sortableRegisterDate(a.date))
+    || String(a.memberName || '').localeCompare(String(b.memberName || ''))
+    || String(a.electedBody || '').localeCompare(String(b.electedBody || ''))
+    || String(a.id || '').localeCompare(String(b.id || ''));
+}
+
+function sortableRegisterDate(value) {
+  return /^\d{4}-\d{2}-\d{2}$/.test(String(value || '')) ? String(value) : '';
+}
+
+function summarizeBrowseRegisterInterests(interests) {
+  const nonNil = normalizeArray(interests).filter((interest) => !interest.isNone);
+  const rows = nonNil.length ? nonNil : normalizeArray(interests);
+  return rows.slice(0, 3).map((interest) => {
+    const text = truncateText(interest.interestText || '', 120);
+    return compactJoin([interest.category, text], ': ');
+  }).filter(Boolean).join(' / ');
+}
+
+function summarizeBrowseRegisterRecord(memberName, electedBody, date, interests, sourceRefs) {
+  const count = normalizeArray(interests).length;
+  const nonNil = normalizeArray(interests).filter((interest) => !interest.isNone).length;
+  const sourceCount = normalizeArray(sourceRefs).length;
+  const nilText = nonNil === 0 ? 'all nil/no-interest entries' : `${nonNil} non-nil ${nonNil === 1 ? 'entry' : 'entries'}`;
+  return `${memberName} ${electedBody} register record for ${date || 'an undated register'} with ${count} grouped ${count === 1 ? 'interest' : 'interests'} (${nilText}) and ${sourceCount} source ${sourceCount === 1 ? 'row' : 'rows'}.`;
+}
+
 function buildCanonicalInterests(sourceRows) {
   const groups = new Map();
   for (const row of sourceRows) {
@@ -401,6 +611,9 @@ function canonicalSourceRef(row) {
     sourceRecordId: row.sourceRecordId,
     sourceTitle: row.sourceTitle,
     sourceUrl: row.sourceUrl,
+    category: row.category,
+    categoryId: row.categoryId,
+    categoryNumber: row.categoryNumber,
     date: row.date,
     editionDate: row.editionDate,
     startDate: row.startDate,
@@ -1137,7 +1350,7 @@ function isoDateFromText(value) {
   const text = cleanText(value);
   const namedMonth = text.match(/\b(\d{1,2})(?:st|nd|rd|th)?[-\s]+(jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?|aug(?:ust)?|sep(?:t(?:ember)?)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)[-\s]+(\d{2,4})\b/i);
   if (namedMonth) return buildIsoDate(Number(namedMonth[1]), monthNumber(namedMonth[2]), Number(normalizeYear(namedMonth[3])));
-  const compactDate = text.match(/\bregister[_-](\d{2})(\d{2})(\d{2})\b/i);
+  const compactDate = text.match(/\bregister[_-]?(\d{2})(\d{2})(\d{2})\b/i);
   if (compactDate) return buildIsoDate(Number(compactDate[1]), Number(compactDate[2]), Number(normalizeYear(compactDate[3])));
   const dashedDate = text.match(/\b(\d{1,2})[-_](jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[-_](\d{2,4})\b/i);
   if (dashedDate) return buildIsoDate(Number(dashedDate[1]), monthNumber(dashedDate[2]), Number(normalizeYear(dashedDate[3])));
@@ -1268,6 +1481,12 @@ function minString(values) {
 
 function compactJoin(parts, separator = ' / ') {
   return parts.filter((part) => part !== null && part !== undefined && String(part).trim()).map(cleanText).join(separator) || null;
+}
+
+function truncateText(value, maxLength = 360) {
+  const text = cleanText(value);
+  if (text.length <= maxLength) return text;
+  return `${text.slice(0, Math.max(0, maxLength - 3)).trim()}...`;
 }
 
 function normalizeKey(value) {

@@ -124,6 +124,16 @@ function main() {
     indexShardSize: REGISTER_INTEREST_INDEX_SHARD_SIZE,
     indexShardDir: `/data/browse/${REGISTER_INTEREST_INDEX_SHARD_DIR}`,
     detailLayout: 'external-shards',
+    defaultSort: { key: 'date', direction: 'desc' },
+    sortOptions: [
+      { key: 'date', label: 'Date' },
+      { key: 'memberName', label: 'Politician' },
+      { key: 'electedBody', label: 'Elected body' },
+      { key: 'constituency', label: 'Constituency' },
+      { key: 'interestCount', label: 'Interests' },
+      { key: 'sourceCount', label: 'Source rows' }
+    ],
+    filterFields: ['electedBody', 'memberType', 'chamber', 'constituency', 'categories', 'sourceKinds', 'isNone'],
     shards: registerInterestIndexShards
   });
   writeJson('sources.json', {
@@ -1152,14 +1162,17 @@ function buildPersons(electionDetails) {
 
 function buildRegisterInterests(data) {
   return expandRegisterInterestRecords(data).map((entry) => {
-    const id = entry.id || `register-interest:${slugify(`${entry.memberName || 'member'}-${entry.category || 'interest'}-${entry.date || ''}`)}`;
+    const interests = normalizeArray(entry.interests);
+    const categories = uniqueCleanStrings(entry.categories || interests.map((interest) => interest.category) || entry.category);
+    const id = entry.id || `register-interest:${slugify(`${entry.memberName || 'member'}-${entry.electedBody || entry.memberType || 'body'}-${entry.date || ''}`)}`;
     const date = entry.date || entry.latestDeclaration || entry.earliestDeclaration || entry.editionDate || entry.startDate || null;
     const memberName = cleanText(entry.memberName || 'Unknown member');
-    const category = cleanText(entry.category || 'Register interest');
+    const category = cleanText(entry.category || (categories.length === 1 ? categories[0] : `${categories.length || interests.length || 1} categories`));
     const constituency = entry.constituency || normalizeArray(entry.constituencies)[0] || null;
     const chamber = cleanText(entry.chamber || '');
+    const electedBody = cleanText(entry.electedBody || (/House of Commons/i.test(chamber) ? 'House of Commons' : 'Assembly'));
     const memberType = cleanText(entry.memberType || '');
-    const title = cleanText(entry.title || `${memberName} - ${category}`);
+    const title = cleanText(entry.title || `${memberName} - ${electedBody} - ${date || 'Undated register'}`);
     const slug = entry.slug || slugify(id);
     const sourceRefs = normalizeArray(entry.sourceRefs);
     const sourceUrls = normalizeArray(entry.sourceUrls || sourceRefs.map((ref) => ref.sourceUrl)).filter(Boolean);
@@ -1167,19 +1180,27 @@ function buildRegisterInterests(data) {
     const sourceKinds = normalizeArray(entry.sourceKinds || sourceRefs.map((ref) => ref.sourceKind)).filter(Boolean);
     const sourceUrl = entry.sourceUrl || sourceUrls[0] || null;
     const references = normalizeReferences(entry.references || sourceRefs.map((ref) => ({ label: ref.sourceTitle || ref.sourceKind || 'Register source', url: ref.sourceUrl })).filter((ref) => ref.url));
-    const interestSummary = truncateText(entry.interestText || entry.description || '', 500);
+    const interestSummary = truncateText(entry.interestSummary || entry.interestText || entry.description || summarizeRegisterInterestEntries(interests), 500);
     return compactObject({
       id,
       slug,
       type: 'register-interest',
+      recordKind: entry.recordKind,
       title,
-      subtitle: compactJoin([memberType, constituency, chamber, date]),
+      subtitle: compactJoin([memberType, electedBody, constituency, date]),
       category,
+      categories,
+      categoryCount: entry.categoryCount || categories.length || null,
       date,
       provider: normalizeArray(entry.provider),
       description: truncateText(interestSummary, 240),
       interestSummary,
+      interests,
+      interestCount: entry.interestCount || interests.length || null,
+      nonNilInterestCount: entry.nonNilInterestCount,
+      hasNilInterests: entry.hasNilInterests,
       chamber,
+      electedBody,
       memberType,
       jurisdiction: entry.jurisdiction,
       memberName,
@@ -1207,21 +1228,39 @@ function buildRegisterInterests(data) {
       detailUrl: entry.detailUrl,
       browseUrl: `/browse/register-interests/${encodeURIComponent(slug)}`
     });
-  }).sort((a, b) => String(a.memberName || '').localeCompare(String(b.memberName || ''))
-    || String(a.date || '').localeCompare(String(b.date || ''))
-    || String(a.category || '').localeCompare(String(b.category || '')));
+  }).sort(sortRegisterInterestRecords);
 }
 
 function expandRegisterInterestRecords(data) {
   const direct = normalizeArray(data?.interests || data?.items);
   if (direct.length) return direct;
-  return normalizeArray(data?.canonicalShards || data?.shards).flatMap((shard) => {
+  return normalizeArray(data?.browseShards || data?.canonicalShards || data?.shards).flatMap((shard) => {
     const relPath = String(shard.path || shard.url || '').replace(/^\/+/, '').replace(/[?#].*$/, '');
     if (!relPath) return [];
     const shardData = readJson(relPath, { interests: [], items: [] });
     const detailUrl = shard.url || `/${relPath.replace(/\\/g, '/')}`;
     return normalizeArray(shardData.interests || shardData.items).map((entry) => compactObject({ ...entry, detailUrl }));
   });
+}
+
+function sortRegisterInterestRecords(a, b) {
+  return sortableRegisterDate(b.date).localeCompare(sortableRegisterDate(a.date))
+    || String(a.memberName || '').localeCompare(String(b.memberName || ''))
+    || String(a.electedBody || '').localeCompare(String(b.electedBody || ''))
+    || String(a.id || '').localeCompare(String(b.id || ''));
+}
+
+function sortableRegisterDate(value) {
+  return /^\d{4}-\d{2}-\d{2}$/.test(String(value || '')) ? String(value) : '';
+}
+
+function summarizeRegisterInterestEntries(interests) {
+  const rows = normalizeArray(interests);
+  const nonNil = rows.filter((interest) => !interest.isNone);
+  return (nonNil.length ? nonNil : rows).slice(0, 3).map((interest) => {
+    const text = truncateText(interest.interestText || '', 120);
+    return compactJoin([interest.category, text], ': ');
+  }).filter(Boolean).join(' / ');
 }
 
 function mergeSourceEnrichmentInputs(...inputs) {
@@ -1799,13 +1838,23 @@ function compactRegisterInterestIndexRecord(record) {
     id: record.id,
     slug: record.slug,
     type: record.type,
+    recordKind: record.recordKind,
     title: record.title,
     category: record.category,
+    categories: normalizeArray(record.categories).slice(0, 20),
+    categoryCount: record.categoryCount,
     date: record.date,
     description: truncateText(record.description || record.interestSummary || '', 140),
     memberType: record.memberType,
     memberName: record.memberName,
+    electedBody: record.electedBody,
+    chamber: record.chamber,
     constituency: record.constituency,
+    constituencies: normalizeArray(record.constituencies).slice(0, 12),
+    parties: normalizeArray(record.parties).slice(0, 12),
+    interestCount: record.interestCount,
+    nonNilInterestCount: record.nonNilInterestCount,
+    hasNilInterests: record.hasNilInterests,
     sourceKind: record.sourceKind,
     sourceKinds: normalizeArray(record.sourceKinds).slice(0, 5),
     sourceCount: record.sourceCount,

@@ -39,8 +39,10 @@ function main() {
 
   assert(interestIndex.detailLayout === 'sharded', 'NI register interest data must use sharded layout');
   assert(interestIndex.canonicalLayout === 'sharded', 'NI register canonical interest data must use sharded layout');
+  assert(interestIndex.browseLayout === 'sharded', 'NI register grouped Browse data must use sharded layout');
   assert(interestIndex.summary?.totalSourceRows === 75908, `expected 75,908 source rows, found ${interestIndex.summary?.totalSourceRows}`);
   assert(interestIndex.summary?.totalCanonicalInterests === 8289, `expected 8,289 canonical Browse interests, found ${interestIndex.summary?.totalCanonicalInterests}`);
+  assert(Number.isInteger(interestIndex.summary?.totalBrowseRegisterRecords) && interestIndex.summary.totalBrowseRegisterRecords > 0, 'NI register summary must include grouped Browse register record count');
   assert(interestIndex.summary?.duplicateSourceRowsMerged === 67619, `expected 67,619 duplicate source rows merged, found ${interestIndex.summary?.duplicateSourceRowsMerged}`);
   assert(interestIndex.summary?.assemblyCurrentApiInterests === 424, `expected 424 current MLA API rows, found ${interestIndex.summary?.assemblyCurrentApiInterests}`);
   assert(interestIndex.summary?.mpInterests === 1622, `expected 1,622 deduplicated NI MP rows, found ${interestIndex.summary?.mpInterests}`);
@@ -103,11 +105,12 @@ function main() {
   assert(pdfSourceRecordIds.size === 38, `expected structured PDF rows for all 38 PDFs, found ${pdfSourceRecordIds.size}`);
   assert(sourceRecordIds.has('ni-register:assembly:collection') === false, 'interest rows should reference concrete Assembly source records, not the collection parent');
   validateCanonicalInterests(interestIndex);
+  validateBrowseRegisterRecords(interestIndex);
 
   validateBrowseSources(sources);
   validateBrowseRegisterInterests(interestIndex);
 
-  console.log(`NI register validation passed: ${sources.length} source records, ${totalShardRows} interest rows, ${currentMlaRows} current MLA API rows, ${historicalMlaRows} historical MLA HTML rows, ${historicalPdfRows} historical MLA PDF rows, ${mpRows} NI MP rows.`);
+  console.log(`NI register validation passed: ${sources.length} source records, ${totalShardRows} source rows, ${interestIndex.summary.totalCanonicalInterests} canonical interests, ${interestIndex.summary.totalBrowseRegisterRecords} grouped Browse records.`);
 }
 
 function validateCanonicalInterests(interestIndex) {
@@ -146,6 +149,58 @@ function loadCanonicalInterestRows(interestIndex) {
   });
 }
 
+function validateBrowseRegisterRecords(interestIndex) {
+  const rows = loadGroupedBrowseRegisterRows(interestIndex);
+  assert(rows.length === interestIndex.summary.totalBrowseRegisterRecords, `grouped Browse register row count ${rows.length} does not match summary ${interestIndex.summary.totalBrowseRegisterRecords}`);
+  const tupleKeys = new Set();
+  let sourceRefTotal = 0;
+  let assemblyRows = 0;
+  let commonsRows = 0;
+  for (const row of rows) {
+    assert(row.id?.startsWith('ni-register-record:'), `grouped Browse row has unexpected id: ${row.id}`);
+    assert(row.recordKind === 'politician-body-date-register', `grouped Browse row has unexpected recordKind: ${row.id}`);
+    assert(row.memberName && row.electedBody && row.date, `grouped Browse row missing tuple fields: ${row.id}`);
+    assert(['Assembly', 'House of Commons'].includes(row.electedBody), `grouped Browse row has unexpected elected body ${row.electedBody}: ${row.id}`);
+    const tupleKey = `${row.memberName}|${row.electedBody}|${row.date}`.toLowerCase();
+    assert(!tupleKeys.has(tupleKey), `duplicate politician/body/date Browse tuple: ${tupleKey}`);
+    tupleKeys.add(tupleKey);
+    if (row.electedBody === 'Assembly') assemblyRows += 1;
+    if (row.electedBody === 'House of Commons') commonsRows += 1;
+    const interests = normalizeArray(row.interests);
+    assert(interests.length === row.interestCount, `grouped Browse row ${row.id} interestCount mismatch`);
+    assert(interests.length > 0, `grouped Browse row ${row.id} has no grouped interests`);
+    assert(row.categoryCount === normalizeArray(row.categories).length, `grouped Browse row ${row.id} categoryCount mismatch`);
+    let rowSourceRefs = 0;
+    for (const interest of interests) {
+      assert(interest.category && interest.interestText, `grouped interest missing category/text in ${row.id}`);
+      assert(interest.sourceCount === normalizeArray(interest.sourceRefs).length, `grouped interest ${interest.id} sourceCount mismatch`);
+      rowSourceRefs += interest.sourceCount;
+      for (const ref of normalizeArray(interest.sourceRefs)) {
+        assert(ref.sourceRowId && ref.sourceKind && ref.sourceRecordId, `grouped source ref missing source metadata in ${row.id}`);
+        assert(normalizedCategory(ref.category) === normalizedCategory(interest.category), `grouped source ref category mismatch in ${row.id}`);
+      }
+    }
+    assert(row.sourceCount === rowSourceRefs, `grouped Browse row ${row.id} sourceCount mismatch`);
+    assert(normalizeArray(row.sourceRefs).length === row.sourceCount, `grouped Browse row ${row.id} flattened sourceRefs mismatch`);
+    sourceRefTotal += row.sourceCount;
+  }
+  assert(sourceRefTotal === interestIndex.summary.totalSourceRows, `grouped Browse sourceRefs cover ${sourceRefTotal} source rows, expected ${interestIndex.summary.totalSourceRows}`);
+  assert(assemblyRows > 0, 'grouped Browse register rows must include Assembly records');
+  assert(commonsRows > 0, 'grouped Browse register rows must include House of Commons records');
+}
+
+function loadGroupedBrowseRegisterRows(interestIndex) {
+  return normalizeArray(interestIndex.browseShards).flatMap((shard) => {
+    assert(shard.url && /^\/data\/database\/ni-register-browse-records\//.test(shard.url), `unexpected grouped Browse NI register shard URL: ${shard.url}`);
+    const shardData = readJson(publicUrlToLocalPath(shard.url));
+    assert(shardData.schemaVersion === 1, `grouped Browse NI register shard ${shard.name} must use schemaVersion 1`);
+    assert(!containsLocalPath(shardData), `grouped Browse NI register shard ${shard.name} must not expose local filesystem paths`);
+    const rows = normalizeArray(shardData.interests);
+    assert(rows.length === shard.count, `grouped Browse NI register shard ${shard.name} count mismatch`);
+    return rows;
+  });
+}
+
 function validateBrowseSources(expectedSources) {
   const browse = readJson(BROWSE_SOURCES);
   const browseItems = normalizeArray(browse.items);
@@ -164,24 +219,36 @@ function validateBrowseSources(expectedSources) {
 function validateBrowseRegisterInterests(interestIndex) {
   const browse = readJson(BROWSE_REGISTER_INTERESTS);
   assert(browse.schemaVersion === 1, 'Browse register interest index must use schemaVersion 1');
-  assert(browse.total === interestIndex.summary.totalCanonicalInterests, `Browse register interest total ${browse.total} does not match canonical total ${interestIndex.summary.totalCanonicalInterests}`);
+  assert(browse.total === interestIndex.summary.totalBrowseRegisterRecords, `Browse register interest total ${browse.total} does not match grouped total ${interestIndex.summary.totalBrowseRegisterRecords}`);
   assert(!containsLocalPath(browse), 'Browse register interest index must not expose local filesystem paths');
   assert(browse.indexLayout === 'sharded', 'Browse register interest index must use sharded layout');
+  assert(browse.defaultSort?.key === 'date' && browse.defaultSort?.direction === 'desc', 'Browse register interests must default to date descending');
+  assert(normalizeArray(browse.sortOptions).some((option) => option.key === 'memberName'), 'Browse register interests must expose memberName sort option');
+  assert(normalizeArray(browse.filterFields).includes('electedBody'), 'Browse register interests must expose electedBody filter field');
+  assert(normalizeArray(browse.filterFields).includes('categories'), 'Browse register interests must expose category filter field');
   const items = loadBrowseRegisterInterestItems(browse);
   assert(items.length === browse.total, 'Browse register interest item count must match total');
   assert(items.every((item) => item.detailUrl), 'every Browse register interest row must carry a detail shard URL');
   assert(items.every((item) => !Object.hasOwn(item, 'interestText')), 'Browse register interest compact index must not duplicate full interest text');
+  assert(items.every((item) => !Object.hasOwn(item, 'interests')), 'Browse register interest compact index must not duplicate grouped detail interests');
+  assert(items.every((item) => item.recordKind === 'politician-body-date-register'), 'every Browse register interest row must be a grouped politician/body/date record');
+  assert(items.every((item) => item.electedBody === 'Assembly' || item.electedBody === 'House of Commons'), 'Browse register interest rows must use normalised elected bodies');
+  assert(items.every((item) => item.interestCount >= 1), 'every Browse register interest row must expose interestCount');
   assert(items.every((item) => item.sourceCount >= 1), 'every Browse register interest row must expose canonical sourceCount');
   assert(items.some((item) => item.memberType === 'MLA'), 'Browse register interest index must include MLA rows');
   assert(items.some((item) => item.memberType === 'MP'), 'Browse register interest index must include NI MP rows');
+  for (let index = 1; index < items.length; index += 1) {
+    assert(sortableRegisterDate(items[index - 1].date).localeCompare(sortableRegisterDate(items[index].date)) >= 0, 'Browse register interest rows must default to newest-first order');
+  }
   const sampleMp = items.find((item) => item.memberType === 'MP');
   assert(sampleMp?.constituency || normalizeArray(sampleMp?.constituencies).length > 0, 'Browse NI MP sample must include constituency evidence');
-  const sample = items.find((item) => item.sourceKind === 'current-provider-json-api') || items[0];
+  const sample = items.find((item) => normalizeArray(item.sourceKinds).includes('current-provider-json-api')) || items[0];
   const detailShard = readJson(publicUrlToLocalPath(sample.detailUrl));
   const detailRows = normalizeArray(detailShard.items || detailShard.interests);
   assert(detailRows.some((row) => row.id === sample.id), `Browse register interest detail shard does not contain sample ${sample.id}`);
   const detailSample = detailRows.find((row) => row.id === sample.id);
-  assert(normalizeArray(detailSample?.sourceRefs).length === detailSample?.sourceCount, `canonical detail ${sample.id} lost sourceRefs`);
+  assert(normalizeArray(detailSample?.interests).length === detailSample?.interestCount, `grouped detail ${sample.id} lost grouped interests`);
+  assert(normalizeArray(detailSample?.sourceRefs).length === detailSample?.sourceCount, `grouped detail ${sample.id} lost sourceRefs`);
 }
 
 function loadBrowseRegisterInterestItems(browse) {
@@ -193,8 +260,13 @@ function loadBrowseRegisterInterestItems(browse) {
     const items = normalizeArray(shardData.items);
     assert(items.length === shard.count, `Browse register interest shard ${shard.name} count mismatch`);
     assert(items.every((item) => !Object.hasOwn(item, 'interestText')), `Browse register interest shard ${shard.name} must not duplicate full interest text`);
+    assert(items.every((item) => !Object.hasOwn(item, 'interests')), `Browse register interest shard ${shard.name} must not duplicate grouped detail interests`);
     return items;
   });
+}
+
+function sortableRegisterDate(value) {
+  return /^\d{4}-\d{2}-\d{2}$/.test(String(value || '')) ? String(value) : '';
 }
 
 function countSourceItemsByKind(sources, kind) {
@@ -227,6 +299,18 @@ function normalizeArray(value) {
 
 function containsLocalPath(value) {
   return /[A-Z]:\\|\\\\|\/Users\/scomo|\/home\/|tmp\/ni-assembly-registers|Downloads\\/i.test(JSON.stringify(value));
+}
+
+function normalizedCategory(value) {
+  return cleanText(value)
+    .toLowerCase()
+    .replace(/\binterests\b/g, 'interest')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
+}
+
+function cleanText(value) {
+  return String(value || '').replace(/\s+/g, ' ').trim();
 }
 
 function assert(condition, message) {

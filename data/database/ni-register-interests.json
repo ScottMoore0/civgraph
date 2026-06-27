@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-27T17:10:52.733Z",
+  "generatedAt": "2026-06-27T22:02:11.300Z",
   "title": "Northern Ireland register of interests structured data",
   "detailLayout": "sharded",
   "shardSize": 1000,
@@ -8,10 +8,14 @@
   "canonicalLayout": "sharded",
   "canonicalShardSize": 1000,
   "canonicalShardDir": "/data/database/ni-register-canonical-interests",
+  "browseLayout": "sharded",
+  "browseShardSize": 1000,
+  "browseShardDir": "/data/database/ni-register-browse-records",
   "summary": {
     "totalInterests": 75908,
     "totalSourceRows": 75908,
     "totalCanonicalInterests": 8289,
+    "totalBrowseRegisterRecords": 5064,
     "duplicateSourceRowsMerged": 67619,
     "assemblyCurrentApiInterests": 424,
     "assemblyHistoricalHtmlInterests": 34565,
@@ -449,6 +453,38 @@
       "name": "ni-register-canonical-interests-008.json",
       "url": "/data/database/ni-register-canonical-interests/ni-register-canonical-interests-008.json",
       "count": 289
+    }
+  ],
+  "browseShards": [
+    {
+      "name": "ni-register-browse-records-000.json",
+      "url": "/data/database/ni-register-browse-records/ni-register-browse-records-000.json",
+      "count": 1000
+    },
+    {
+      "name": "ni-register-browse-records-001.json",
+      "url": "/data/database/ni-register-browse-records/ni-register-browse-records-001.json",
+      "count": 1000
+    },
+    {
+      "name": "ni-register-browse-records-002.json",
+      "url": "/data/database/ni-register-browse-records/ni-register-browse-records-002.json",
+      "count": 1000
+    },
+    {
+      "name": "ni-register-browse-records-003.json",
+      "url": "/data/database/ni-register-browse-records/ni-register-browse-records-003.json",
+      "count": 1000
+    },
+    {
+      "name": "ni-register-browse-records-004.json",
+      "url": "/data/database/ni-register-browse-records/ni-register-browse-records-004.json",
+      "count": 1000
+    },
+    {
+      "name": "ni-register-browse-records-005.json",
+      "url": "/data/database/ni-register-browse-records/ni-register-browse-records-005.json",
+      "count": 64
     }
   ]
 }

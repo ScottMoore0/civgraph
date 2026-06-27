@@ -11,6 +11,25 @@ const ENTITY_CONFIG = {
   sources: { label: 'Books / Tables / Sources', singular: 'Source', index: 'sources.json', detailDir: 'sources' }
 };
 
+const REGISTER_INTEREST_SORT_OPTIONS = [
+  { key: 'date', label: 'Date' },
+  { key: 'memberName', label: 'Politician' },
+  { key: 'electedBody', label: 'Body' },
+  { key: 'constituency', label: 'Constituency' },
+  { key: 'interestCount', label: 'Interests' },
+  { key: 'sourceCount', label: 'Sources' }
+];
+
+const REGISTER_INTEREST_FILTERS = [
+  { key: 'electedBody', label: 'Body' },
+  { key: 'memberType', label: 'Member type' },
+  { key: 'chamber', label: 'Chamber' },
+  { key: 'constituency', label: 'Constituency' },
+  { key: 'categories', label: 'Category' },
+  { key: 'sourceKinds', label: 'Source kind' },
+  { key: 'nilStatus', label: 'Interest status' }
+];
+
 const TECHNICAL_FIELD_KEYS = new Set([
   'anchorUrl',
   'bbox',
@@ -49,6 +68,8 @@ const PUBLIC_METADATA_KEYS = new Set([
   'body',
   'canonicalName',
   'category',
+  'categories',
+  'categoryCount',
   'constituencies',
   'date',
   'dateEnd',
@@ -58,13 +79,17 @@ const PUBLIC_METADATA_KEYS = new Set([
   'chamber',
   'constituency',
   'constituencies',
+  'electedBody',
   'elections',
   'featured',
   'geography',
   'group',
   'keywords',
+  'interestCount',
+  'interests',
   'memberName',
   'memberType',
+  'nonNilInterestCount',
   'name',
   'observedNames',
   'parentCard',
@@ -76,6 +101,7 @@ const PUBLIC_METADATA_KEYS = new Set([
   'interestSummary',
   'interestText',
   'isNone',
+  'hasNilInterests',
   'jurisdiction',
   'sourceFiles',
   'sourceCount',
@@ -105,7 +131,12 @@ const state = {
   loadedFeatureMap: null,
   auth: null,
   currentDetail: null,
-  modalMode: null
+  modalMode: null,
+  registerInterestControls: {
+    sortKey: 'date',
+    sortDir: 'desc',
+    filters: {}
+  }
 };
 
 const els = {
@@ -169,6 +200,30 @@ function bindEvents() {
       els.menuBtn?.setAttribute('aria-expanded', 'false');
     }
 
+    const registerSort = event.target.closest('[data-register-sort]');
+    if (registerSort) {
+      event.preventDefault();
+      state.registerInterestControls.sortKey = registerSort.dataset.registerSort || 'date';
+      renderCurrent();
+      return;
+    }
+
+    const registerDirection = event.target.closest('[data-register-direction]');
+    if (registerDirection) {
+      event.preventDefault();
+      state.registerInterestControls.sortDir = registerDirection.dataset.registerDirection === 'asc' ? 'asc' : 'desc';
+      renderCurrent();
+      return;
+    }
+
+    const clearRegisterFilters = event.target.closest('[data-register-clear-filters]');
+    if (clearRegisterFilters) {
+      event.preventDefault();
+      state.registerInterestControls.filters = {};
+      renderCurrent();
+      return;
+    }
+
     const contributorAction = event.target.closest('[data-contributor-action]');
     if (contributorAction) {
       event.preventDefault();
@@ -179,6 +234,20 @@ function bindEvents() {
     if (event.target.closest('[data-contributor-close]')) {
       closeContributorModal();
     }
+  });
+
+  document.addEventListener('change', (event) => {
+    const filter = event.target.closest('[data-register-filter]');
+    if (!filter) return;
+    const key = filter.dataset.registerFilter;
+    if (!key) return;
+    const value = filter.value || '';
+    if (value) {
+      state.registerInterestControls.filters[key] = value;
+    } else {
+      delete state.registerInterestControls.filters[key];
+    }
+    renderCurrent();
   });
 
   els.contributorForm?.addEventListener('submit', submitContributorForm);
@@ -445,6 +514,10 @@ function setHero(config, item) {
 }
 
 function renderList(type, items) {
+  if (type === 'register-interests') {
+    renderRegisterInterestList(items);
+    return;
+  }
   const filtered = filterItems(items, state.query);
   const config = ENTITY_CONFIG[type];
   els.results.innerHTML = `
@@ -454,6 +527,133 @@ function renderList(type, items) {
     </div>
     ${filtered.length > 500 ? `<p class="browse-description">Showing the first 500 matching records. Narrow the search to find more.</p>` : ''}
   `;
+}
+
+function renderRegisterInterestList(items) {
+  const textFiltered = filterItems(items, state.query);
+  const filtered = applyRegisterInterestFilters(textFiltered);
+  const sorted = sortRegisterInterestItems(filtered);
+  const config = ENTITY_CONFIG['register-interests'];
+  els.results.innerHTML = `
+    ${renderRegisterInterestControls(items, sorted.length, items.length)}
+    ${renderFilterSummary(sorted.length, items.length)}
+    <div class="browse-grid">
+      ${sorted.slice(0, 500).map((item) => renderCard('register-interests', item, config)).join('')}
+    </div>
+    ${sorted.length > 500 ? `<p class="browse-description">Showing the first 500 matching records. Narrow the search or filters to find more.</p>` : ''}
+  `;
+}
+
+function renderRegisterInterestControls(items, filteredCount, totalCount) {
+  const controls = state.registerInterestControls;
+  const activeFilters = Object.values(controls.filters || {}).filter(Boolean).length;
+  return `
+    <section class="browse-controls" aria-label="Register interest sorting and filters">
+      <div class="browse-control-group">
+        <span class="browse-control-label">Sort by</span>
+        <div class="browse-segmented" role="group" aria-label="Sort attribute">
+          ${REGISTER_INTEREST_SORT_OPTIONS.map((option) => `
+            <button type="button" class="browse-control-btn${controls.sortKey === option.key ? ' browse-control-btn--active' : ''}" data-register-sort="${escapeAttr(option.key)}">${escapeHtml(option.label)}</button>
+          `).join('')}
+        </div>
+      </div>
+      <div class="browse-control-group">
+        <span class="browse-control-label">Order</span>
+        <div class="browse-segmented" role="group" aria-label="Sort direction">
+          <button type="button" class="browse-control-btn${controls.sortDir === 'desc' ? ' browse-control-btn--active' : ''}" data-register-direction="desc">Newest / Desc</button>
+          <button type="button" class="browse-control-btn${controls.sortDir === 'asc' ? ' browse-control-btn--active' : ''}" data-register-direction="asc">Oldest / Asc</button>
+        </div>
+      </div>
+      <div class="browse-filter-grid">
+        ${REGISTER_INTEREST_FILTERS.map((filter) => renderRegisterInterestFilter(filter, items)).join('')}
+      </div>
+      <div class="browse-control-footer">
+        <span>${formatNumber(filteredCount)} of ${formatNumber(totalCount)} records after controls${activeFilters ? `, ${activeFilters} active ${activeFilters === 1 ? 'filter' : 'filters'}` : ''}.</span>
+        <button type="button" class="browse-btn" data-register-clear-filters>Clear filters</button>
+      </div>
+    </section>
+  `;
+}
+
+function renderRegisterInterestFilter(filter, items) {
+  const value = state.registerInterestControls.filters[filter.key] || '';
+  const options = registerInterestFilterOptions(filter.key, items);
+  return `
+    <label class="browse-filter">
+      <span>${escapeHtml(filter.label)}</span>
+      <select data-register-filter="${escapeAttr(filter.key)}">
+        <option value="">All</option>
+        ${options.map((option) => `<option value="${escapeAttr(option.value)}"${option.value === value ? ' selected' : ''}>${escapeHtml(option.label)}</option>`).join('')}
+      </select>
+    </label>
+  `;
+}
+
+function registerInterestFilterOptions(key, items) {
+  if (key === 'nilStatus') {
+    return [
+      { value: 'has-registrable', label: 'Has registrable interests' },
+      { value: 'nil-only', label: 'Nil / no interests only' },
+      { value: 'includes-nil', label: 'Includes nil entries' }
+    ];
+  }
+  const values = new Set();
+  for (const item of items) {
+    for (const value of registerInterestFilterValues(item, key)) {
+      if (value) values.add(value);
+    }
+  }
+  return [...values]
+    .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
+    .map((value) => ({ value, label: key === 'sourceKinds' ? sourceKindLabel(value) : value }));
+}
+
+function registerInterestFilterValues(item, key) {
+  if (key === 'categories') return normalizeArray(item.categories || item.category);
+  if (key === 'sourceKinds') return normalizeArray(item.sourceKinds || item.sourceKind);
+  if (key === 'constituency') return normalizeArray(item.constituencies || item.constituency);
+  return normalizeArray(item[key]);
+}
+
+function applyRegisterInterestFilters(items) {
+  const filters = state.registerInterestControls.filters || {};
+  return items.filter((item) => Object.entries(filters).every(([key, value]) => registerInterestMatchesFilter(item, key, value)));
+}
+
+function registerInterestMatchesFilter(item, key, value) {
+  if (!value) return true;
+  if (key === 'nilStatus') {
+    if (value === 'has-registrable') return Number(item.nonNilInterestCount || 0) > 0 || item.isNone === false;
+    if (value === 'nil-only') return item.isNone === true;
+    if (value === 'includes-nil') return item.hasNilInterests === true || item.isNone === true;
+    return true;
+  }
+  return registerInterestFilterValues(item, key).some((itemValue) => String(itemValue) === String(value));
+}
+
+function sortRegisterInterestItems(items) {
+  const controls = state.registerInterestControls;
+  const sortKey = REGISTER_INTEREST_SORT_OPTIONS.some((option) => option.key === controls.sortKey) ? controls.sortKey : 'date';
+  const direction = controls.sortDir === 'asc' ? 1 : -1;
+  return [...items].sort((a, b) => {
+    const compared = compareRegisterInterestValues(registerInterestSortValue(a, sortKey), registerInterestSortValue(b, sortKey), sortKey);
+    return direction * compared
+      || compareRegisterInterestValues(registerInterestSortValue(a, 'date'), registerInterestSortValue(b, 'date'), 'date') * -1
+      || compareRegisterInterestValues(a.memberName || '', b.memberName || '', 'memberName')
+      || compareRegisterInterestValues(a.id || '', b.id || '', 'id');
+  });
+}
+
+function registerInterestSortValue(item, key) {
+  if (key === 'date') return /^\d{4}-\d{2}-\d{2}$/.test(String(item.date || '')) ? item.date : '';
+  if (key === 'constituency') return item.constituency || normalizeArray(item.constituencies)[0] || '';
+  if (key === 'interestCount' || key === 'sourceCount') return Number(item[key] || 0);
+  return item[key] || '';
+}
+
+function compareRegisterInterestValues(left, right, key) {
+  if (key === 'interestCount' || key === 'sourceCount') return Number(left || 0) - Number(right || 0);
+  return String(left || '').localeCompare(String(right || ''), undefined, { numeric: true });
 }
 
 function renderCard(type, item, config) {
@@ -544,16 +744,18 @@ function renderOverviewPanel(type, item) {
     rows.push(['Name', item.name], ['Years', item.subtitle], ['Parties', joinList(item.parties?.slice(0, 5).map((party) => party.name))], ['Contests', item.totals?.stood], ['Elected', item.totals?.elected]);
   } else if (type === 'register-interests') {
     rows.push(
+      ['Elected body', item.electedBody],
       ['Chamber', item.chamber],
       ['Member type', item.memberType],
       ['Jurisdiction', item.jurisdiction],
       ['Member', item.memberName],
       ['Constituency', item.constituency || joinList(item.constituencies)],
-      ['Category', item.category],
       ['Date', formatDate(item.date)],
-      ['Date range', item.dateStart && item.dateEnd && item.dateStart !== item.dateEnd ? `${formatDate(item.dateStart)} to ${formatDate(item.dateEnd)}` : ''],
+      ['Categories', joinList(item.categories) || item.category],
+      ['Interest entries', item.interestCount],
+      ['Non-nil entries', item.nonNilInterestCount],
       ['Source rows merged', item.sourceCount],
-      ['Source', item.sourceTitle]
+      ['Source kinds', joinList((item.sourceKinds || []).map(sourceKindLabel))]
     );
   } else if (type === 'sources') {
     rows.push(['Type', item.type], ['Category', item.category], ['Provider', joinList(item.provider)], ['Date', item.date]);
@@ -562,7 +764,7 @@ function renderOverviewPanel(type, item) {
     <section class="browse-detail__panel">
       <h2>Overview</h2>
       <div class="browse-detail__body">
-        ${type === 'register-interests' && (item.interestText || item.interestSummary) ? `<p>${escapeHtml(item.interestText || item.interestSummary)}</p>` : item.description ? `<p>${escapeHtml(item.description)}</p>` : ''}
+        ${type === 'register-interests' && (item.interestSummary || item.description) ? `<p>${escapeHtml(item.interestSummary || item.description)}</p>` : item.description ? `<p>${escapeHtml(item.description)}</p>` : ''}
         ${renderDefinitionRows(rows)}
         ${renderBadges(item)}
       </div>
@@ -603,12 +805,14 @@ function renderMetadataPanel(type, item) {
     );
   } else if (type === 'register-interests') {
     rows.push(
-      ['Source kind', item.sourceKind],
-      ['Source kinds', joinList(item.sourceKinds)],
+      ['Record kind', item.recordKind],
+      ['Source kind', sourceKindLabel(item.sourceKind)],
+      ['Source kinds', joinList((item.sourceKinds || []).map(sourceKindLabel))],
       ['Extraction method', item.extractionMethod],
       ['Extraction confidence', item.extractionConfidence],
       ['Duplicate source rows merged', item.duplicateSourceRowCount],
-      ['None / nil entry', item.isNone === undefined ? '' : item.isNone ? 'Yes' : 'No'],
+      ['Nil-only record', item.isNone === undefined ? '' : item.isNone ? 'Yes' : 'No'],
+      ['Includes nil entries', item.hasNilInterests === undefined ? '' : item.hasNilInterests ? 'Yes' : 'No'],
       ['Earliest declaration', item.earliestDeclaration],
       ['Latest declaration', item.latestDeclaration],
       ['Parties', joinList(item.parties)],
@@ -765,14 +969,29 @@ function renderRelatedPanel(type, item) {
     escapeHtml(row.constituency || ''),
     escapeHtml(row.status || (row.elected ? 'Elected' : ''))
   ]);
-  if (type === 'register-interests') return renderSimpleTable('Register Sources', ['Date', 'Kind', 'Source', 'Page'], item.sourceRefs || [], (row) => [
-    formatDate(row.date || row.editionDate || row.latestDeclaration || row.earliestDeclaration),
-    escapeHtml(sourceKindLabel(row.sourceKind || '')),
-    row.sourceUrl ? `<a href="${escapeAttr(row.sourceUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(row.sourceTitle || row.sourceUrl)}</a>` : escapeHtml(row.sourceTitle || ''),
-    escapeHtml([row.sourcePageStart, row.sourcePageEnd && row.sourcePageEnd !== row.sourcePageStart ? row.sourcePageEnd : null].filter(Boolean).join('-'))
-  ]);
+  if (type === 'register-interests') return renderRegisterInterestRelated(item);
   if (type === 'maps') return renderSimpleTable('Variants', ['Title', 'Date', 'ID'], item.variants || [], (row) => [escapeHtml(row.title || row.id), escapeHtml(row.date || ''), escapeHtml(row.id || '')]);
   return '';
+}
+
+function renderRegisterInterestRelated(item) {
+  const interestRows = normalizeArray(item.interests);
+  const sourceRows = normalizeArray(item.sourceRefs);
+  return `
+    ${renderSimpleTable('Register Interests', ['Category', 'Interest', 'Sources', 'Nil'], interestRows, (row) => [
+      escapeHtml(row.category || ''),
+      escapeHtml(row.interestText || ''),
+      formatNumber(row.sourceCount || normalizeArray(row.sourceRefs).length),
+      row.isNone ? 'Yes' : 'No'
+    ])}
+    ${renderSimpleTable('Register Sources', ['Date', 'Category', 'Kind', 'Source', 'Page'], sourceRows, (row) => [
+      formatDate(row.date || row.editionDate || row.latestDeclaration || row.earliestDeclaration),
+      escapeHtml(row.category || ''),
+      escapeHtml(sourceKindLabel(row.sourceKind || '')),
+      row.sourceUrl ? `<a href="${escapeAttr(row.sourceUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(row.sourceTitle || row.sourceUrl)}</a>` : escapeHtml(row.sourceTitle || ''),
+      escapeHtml([row.sourcePageStart, row.sourcePageEnd && row.sourcePageEnd !== row.sourcePageStart ? row.sourcePageEnd : null].filter(Boolean).join('-'))
+    ])}
+  `;
 }
 
 function sourceKindLabel(value) {
@@ -1505,13 +1724,17 @@ function searchableText(item) {
     item.knownAliases,
     item.memberName,
     item.memberType,
+    item.electedBody,
     item.chamber,
     item.jurisdiction,
     item.constituency,
     item.constituencies,
+    item.categories,
     item.parties,
     item.sourceTitle,
+    item.sourceTitles,
     item.sourceKind,
+    item.sourceKinds,
     item.interestSummary,
     item.interestText,
     item.keywords
@@ -1528,7 +1751,13 @@ function metaForItem(type, item) {
   if (type === 'features') return [item.category, `${formatNumber(item.featureCount)} features`, item.relatedElectionCount ? `${item.relatedElectionCount} elections` : null];
   if (type === 'parties') return [item.subtitle, `${formatNumber(item.occurrenceCount)} occurrences`, `${formatNumber(item.relatedElectionCount)} elections`];
   if (type === 'persons') return [item.subtitle, `${formatNumber(item.totals?.stood)} contests`, `${formatNumber(item.totals?.elected)} elected`];
-  if (type === 'register-interests') return [item.memberType, item.constituency || joinList(item.constituencies), item.category, item.sourceCount ? `${formatNumber(item.sourceCount)} source rows` : null, formatDate(item.date)];
+  if (type === 'register-interests') return [
+    formatDate(item.date),
+    item.electedBody || item.memberType,
+    item.constituency || joinList(item.constituencies),
+    item.interestCount ? `${formatNumber(item.interestCount)} interests` : item.category,
+    item.sourceCount ? `${formatNumber(item.sourceCount)} source rows` : null
+  ];
   if (type === 'sources') return [item.type, item.category, item.date];
   return [item.category, item.group, item.subtitle];
 }
@@ -1538,7 +1767,7 @@ function summaryForItem(type, item) {
   if (type === 'features') return `Feature group for ${item.title}, loaded from ${item.spatialIndexUrl || 'the spatial index'}.`;
   if (type === 'parties') return `${item.title} has ${formatNumber(item.relatedElectionCount)} linked election summaries in Browse.`;
   if (type === 'persons') return joinList(item.parties?.slice(0, 3).map((party) => party.name));
-  if (type === 'register-interests') return item.interestSummary || item.description;
+  if (type === 'register-interests') return item.interestSummary || item.description || joinList(item.categories);
   if (type === 'sources') return item.description || joinList(item.downloads?.slice(0, 2).map((link) => link.label));
   return item.subtitle;
 }
@@ -1554,6 +1783,11 @@ function cleanStatus(value) {
 function joinList(value) {
   if (Array.isArray(value)) return value.filter(Boolean).join(', ');
   return value || '';
+}
+
+function normalizeArray(value) {
+  if (value === null || value === undefined) return [];
+  return Array.isArray(value) ? value : [value];
 }
 
 function formatDate(value) {

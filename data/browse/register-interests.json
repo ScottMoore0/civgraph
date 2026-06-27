@@ -1,12 +1,51 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-27T17:13:30.670Z",
-  "total": 8289,
+  "generatedAt": "2026-06-27T21:59:57.578Z",
+  "total": 5064,
   "indexLayout": "sharded",
   "indexShardStrategy": "fixed-size",
   "indexShardSize": 5000,
   "indexShardDir": "/data/browse/register-interest-shards",
   "detailLayout": "external-shards",
+  "defaultSort": {
+    "key": "date",
+    "direction": "desc"
+  },
+  "sortOptions": [
+    {
+      "key": "date",
+      "label": "Date"
+    },
+    {
+      "key": "memberName",
+      "label": "Politician"
+    },
+    {
+      "key": "electedBody",
+      "label": "Elected body"
+    },
+    {
+      "key": "constituency",
+      "label": "Constituency"
+    },
+    {
+      "key": "interestCount",
+      "label": "Interests"
+    },
+    {
+      "key": "sourceCount",
+      "label": "Source rows"
+    }
+  ],
+  "filterFields": [
+    "electedBody",
+    "memberType",
+    "chamber",
+    "constituency",
+    "categories",
+    "sourceKinds",
+    "isNone"
+  ],
   "shards": [
     {
       "name": "register-interests-000.json",
@@ -16,7 +55,7 @@
     {
       "name": "register-interests-001.json",
       "url": "/data/browse/register-interest-shards/register-interests-001.json",
-      "count": 3289
+      "count": 64
     }
   ]
 }

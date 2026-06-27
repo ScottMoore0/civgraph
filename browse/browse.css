@@ -601,6 +601,86 @@ a:hover {
   background: var(--color-primary-light);
 }
 
+.browse-controls {
+  display: grid;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.browse-control-group {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.browse-control-label,
+.browse-filter span {
+  color: var(--color-text-muted);
+  font-size: .76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.browse-segmented {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.browse-control-btn {
+  min-height: 34px;
+  padding: .45rem .75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  background: var(--color-surface-elevated);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.browse-control-btn:hover,
+.browse-control-btn--active {
+  color: #fff;
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+}
+
+.browse-filter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-3);
+}
+
+.browse-filter {
+  display: grid;
+  gap: 6px;
+}
+
+.browse-filter select {
+  width: 100%;
+  min-height: 38px;
+  padding: .45rem .55rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  background: var(--color-surface-elevated);
+}
+
+.browse-control-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  color: var(--color-text-muted);
+  font-size: .9rem;
+}
+
 .browse-grid {
   display: grid;
   gap: var(--space-3);
