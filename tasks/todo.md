@@ -7896,7 +7896,8 @@ Review:
   - Verification plan: run build/check/file-budget validation and review the staged diff before committing.
   - Verification evidence: `npm run build`, `npm run check`, `npm run check:test`, `npm run check:test2`, and `node scripts/validate-pages-file-budget.mjs` passed. Remaining warnings are the known non-blocking `/test` `dfi-surface-defects-2017-vector-test` feature-search-index warning and 55 non-blocking `/test2` election audit warnings; PMTiles/CDN validation has 0 warnings and 0 errors.
   - Execution note: restored timestamp-only generated churn in `tasks/test2-election-data-audit.*`, `data/browse/details/source-shards/*`, and `data/browse/register-interest-shards/*` after saving `tmp/test2-source-register-timestamp-before-restore-2026-06-28.patch`.
-- [ ] Archive or preserve remaining leftovers without deletion.
+- [x] Archive or preserve remaining leftovers without deletion.
   - Task: inspect residual tracked and untracked dirt, snapshot any path-scoped restores first, and move any selected untracked leftovers to an external archive folder rather than deleting them.
   - Verification plan: final `git status`, aggregate check/build/check, file-budget validation, and sensitive-source scan.
   - Execution note: detected unrelated Civgraph semantic-graph work (`package.json`, graph registries/scripts, and generated `data/graph` outputs) during cleanup execution; leave it unstaged and unarchived because it is outside this dirty-tree cleanup plan.
+  - Completed: moved `scripts/build-d-drive-blocker-review.mjs` and `scripts/build-d-drive-remaining-decision-packs.mjs` to the external archive folder with an `archive-manifest.json`; no repo cleanup action deleted private source files or external source directories.
