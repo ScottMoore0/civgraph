@@ -7,6 +7,8 @@ param(
   [string]$QueueGranularity = 'Page',
   [ValidateSet('InSession','Reopen')]
   [string]$DiscoveryStrategy = 'InSession',
+  [ValidateSet('LetterSplit','DynamicQueue')]
+  [string]$DiscoverIndexStrategy = 'LetterSplit',
   [string[]]$Letters = @('A'),
   [switch]$AllLetters,
   [string]$BranchPathCsv = '',
@@ -169,6 +171,7 @@ $script:Stats = [ordered]@{
   Client = $Client
   QueueGranularity = $QueueGranularity
   DiscoveryStrategy = $DiscoveryStrategy
+  DiscoverIndexStrategy = $DiscoverIndexStrategy
   UsePageSnapshots = [bool]$UsePageSnapshots
   FetchFromSnapshots = [bool]$FetchFromSnapshots
   ShardWorkerOutputs = [bool]$ShardWorkerOutputs
@@ -289,14 +292,18 @@ function Write-Failure([hashtable]$Data) {
   Write-JsonLine $FailuresPath ([pscustomobject]$failure)
 }
 
-function Open-ExclusiveFileWithRetry([string]$Path, [int]$TimeoutMs = 10000) {
+function Open-ExclusiveFileWithRetry([string]$Path, [int]$TimeoutMs = 60000) {
   $sw = [Diagnostics.Stopwatch]::StartNew()
+  $rng = [Random]::new()
   while ($true) {
     try {
       return [IO.File]::Open($Path, [IO.FileMode]::OpenOrCreate, [IO.FileAccess]::ReadWrite, [IO.FileShare]::None)
-    } catch [IO.IOException] {
+    } catch {
+      $ex = $_.Exception
+      $isIo = ($ex -is [IO.IOException]) -or ($ex.InnerException -is [IO.IOException])
+      if (-not $isIo) { throw }
       if ($sw.ElapsedMilliseconds -ge $TimeoutMs) { throw }
-      Start-Sleep -Milliseconds 75
+      Start-Sleep -Milliseconds ($rng.Next(50, 151))
     }
   }
 }
@@ -1500,6 +1507,7 @@ function Add-CommonWorkerArgs([object[]]$BaseArgs) {
   $workerArgs += @(
     '-Client',$Client,
     '-DiscoveryStrategy',$DiscoveryStrategy,
+    '-DiscoverIndexStrategy',$DiscoverIndexStrategy,
     '-OutDir',$OutDir,
     '-GlobalRps',([string]$GlobalRps),
     '-WorkerRps',([string]$WorkerRps),
@@ -1526,6 +1534,11 @@ function Add-CommonWorkerArgs([object[]]$BaseArgs) {
 }
 
 function Run-DiscoverIndexPass {
+  if ($DiscoverIndexStrategy -eq 'DynamicQueue') {
+    Run-DiscoverIndexDynamicQueuePass
+    return
+  }
+
   if ($Workers -le 1 -or $BranchPathCsv.Trim()) {
     Run-DiscoveryPass
     return
@@ -1677,6 +1690,255 @@ function Set-QueueBranchStatus([string]$TaskKey, [string]$Status, [string]$Error
     $queue.updatedAt = (Get-Date).ToUniversalTime().ToString('o')
     $queue | ConvertTo-Json -Depth 30 | Set-Content -Path $QueuePath -Encoding UTF8
   } | Out-Null
+}
+
+function Get-DiscoveryRootBranches {
+  $roots = New-Object 'System.Collections.Generic.List[object]'
+  if ($BranchPathCsv.Trim()) {
+    $parts = @($BranchPathCsv -split ',' | ForEach-Object { $_.Trim() } | Where-Object { $_ })
+    if (-not $parts.Count) { throw 'BranchPathCsv was provided but no branch refs were parsed.' }
+    $letter = $parts[0].Substring(0,1).ToUpperInvariant()
+    $roots.Add([pscustomobject]@{ Letter=$letter; Path=$parts; Depth=$parts.Count; Ref=$parts[-1] })
+  } else {
+    foreach ($letter in $Letters) {
+      $letterText = ([string]$letter).Trim().ToUpperInvariant()
+      if (-not $letterText) { continue }
+      $roots.Add([pscustomobject]@{ Letter=$letterText; Path=@(); Depth=0; Ref="letter:$letterText" })
+    }
+  }
+  return @($roots.ToArray())
+}
+
+function New-DiscoveryQueueTask([object]$Branch) {
+  $branchKey = Get-BranchKey $Branch
+  return [ordered]@{
+    taskKey=$branchKey
+    taskKind='DiscoveryBranch'
+    branchKey=$branchKey
+    letter=$Branch.Letter
+    path=@($Branch.Path)
+    depth=@($Branch.Path).Count
+    ref=if ($Branch.Ref) { $Branch.Ref } else { '' }
+    parentKey=if ($Branch.ParentKey) { $Branch.ParentKey } else { '' }
+    title=if ($Branch.Text) { $Branch.Text } else { '' }
+    status='pending'
+    attempts=0
+    recordsIndexed=0
+    childBranches=0
+    error=''
+  }
+}
+
+function Ensure-DiscoveryQueueCounters([object]$Queue) {
+  if (-not $Queue.PSObject.Properties['counters']) {
+    Set-ObjectProperty $Queue 'counters' ([pscustomobject]@{})
+  }
+  foreach ($name in @('active','branchesDone','recordsIndexed','failed')) {
+    if (-not $Queue.counters.PSObject.Properties[$name]) {
+      Set-ObjectProperty $Queue.counters $name 0
+    }
+  }
+}
+
+function Initialize-DiscoveryQueue([object[]]$RootBranches) {
+  $taskMap = [ordered]@{}
+  foreach ($branch in $RootBranches) {
+    $task = New-DiscoveryQueueTask $branch
+    $taskMap[$task.taskKey] = $task
+  }
+  $branches = @($taskMap.Values | ForEach-Object { [pscustomobject]$_ })
+  $queue = [pscustomobject]@{
+    createdAt=(Get-Date).ToUniversalTime().ToString('o')
+    updatedAt=(Get-Date).ToUniversalTime().ToString('o')
+    strategy='DynamicQueue'
+    granularity='Branch'
+    counters=[pscustomobject]@{
+      active=0
+      branchesDone=0
+      recordsIndexed=0
+      failed=0
+    }
+    branches=$branches
+  }
+  $queue | ConvertTo-Json -Depth 30 | Set-Content -Path $QueuePath -Encoding UTF8
+}
+
+function Add-DiscoveryBranchesToQueue([object[]]$Children) {
+  if (-not @($Children).Count) { return 0 }
+  return Invoke-QueueLock {
+    $queue = Get-Content -Path $QueuePath -Raw | ConvertFrom-Json
+    Ensure-DiscoveryQueueCounters $queue
+    $branches = New-Object 'System.Collections.Generic.List[object]'
+    $existing = New-Object 'System.Collections.Generic.HashSet[string]'
+    foreach ($branch in @($queue.branches)) {
+      $branches.Add($branch)
+      [void]$existing.Add([string]$branch.taskKey)
+    }
+
+    $added = 0
+    foreach ($child in $Children) {
+      if ($MaxBranches -gt 0 -and $branches.Count -ge $MaxBranches) { break }
+      $task = New-DiscoveryQueueTask $child
+      if ($existing.Contains([string]$task.taskKey)) { continue }
+      $branches.Add([pscustomobject]$task)
+      [void]$existing.Add([string]$task.taskKey)
+      $added++
+    }
+
+    Set-ObjectProperty $queue 'branches' @($branches.ToArray())
+    $queue.updatedAt = (Get-Date).ToUniversalTime().ToString('o')
+    $queue | ConvertTo-Json -Depth 30 | Set-Content -Path $QueuePath -Encoding UTF8
+    return $added
+  }
+}
+
+function Get-NextDiscoveryBranchFromQueue {
+  return Invoke-QueueLock {
+    if (-not (Test-Path $QueuePath)) { return $null }
+    $queue = Get-Content -Path $QueuePath -Raw | ConvertFrom-Json
+    Ensure-DiscoveryQueueCounters $queue
+    if ($MaxRecords -gt 0 -and [int]$queue.counters.recordsIndexed -ge $MaxRecords) {
+      return $null
+    }
+
+    $selected = @($queue.branches | Where-Object { $_.status -eq 'pending' } | Select-Object -First 1)
+    if (-not $selected.Count) {
+      if ([int]$queue.counters.active -gt 0) {
+        return [pscustomobject]@{ Wait=$true }
+      }
+      return $null
+    }
+
+    $task = $selected[0]
+    foreach ($branch in $queue.branches) {
+      if ($branch.taskKey -eq $task.taskKey) {
+        $branch.status = 'running'
+        Set-ObjectProperty $branch 'workerId' $WorkerId
+        Set-ObjectProperty $branch 'startedAt' ((Get-Date).ToUniversalTime().ToString('o'))
+        $branch.attempts = [int]$branch.attempts + 1
+      }
+    }
+    $queue.counters.active = [int]$queue.counters.active + 1
+    $queue.updatedAt = (Get-Date).ToUniversalTime().ToString('o')
+    $queue | ConvertTo-Json -Depth 30 | Set-Content -Path $QueuePath -Encoding UTF8
+
+    return [pscustomobject]@{
+      Wait=$false
+      Letter=[string]$task.letter
+      Path=@($task.path)
+      BranchKey=[string]$task.branchKey
+      TaskKey=[string]$task.taskKey
+      TaskKind='DiscoveryBranch'
+    }
+  }
+}
+
+function Set-DiscoveryQueueTaskStatus([string]$TaskKey, [string]$Status, [int]$RecordsIndexed = 0, [int]$ChildBranches = 0, [string]$ErrorMessage = '') {
+  Invoke-QueueLock {
+    $queue = Get-Content -Path $QueuePath -Raw | ConvertFrom-Json
+    Ensure-DiscoveryQueueCounters $queue
+    foreach ($branch in $queue.branches) {
+      if ($branch.taskKey -eq $TaskKey) {
+        $branch.status = $Status
+        Set-ObjectProperty $branch 'workerId' $WorkerId
+        Set-ObjectProperty $branch 'finishedAt' ((Get-Date).ToUniversalTime().ToString('o'))
+        Set-ObjectProperty $branch 'recordsIndexed' $RecordsIndexed
+        Set-ObjectProperty $branch 'childBranches' $ChildBranches
+        Set-ObjectProperty $branch 'error' $ErrorMessage
+      }
+    }
+    if ([int]$queue.counters.active -gt 0) {
+      $queue.counters.active = [int]$queue.counters.active - 1
+    }
+    if ($Status -eq 'done') {
+      $queue.counters.branchesDone = [int]$queue.counters.branchesDone + 1
+      $queue.counters.recordsIndexed = [int]$queue.counters.recordsIndexed + $RecordsIndexed
+    } elseif ($Status -eq 'failed') {
+      $queue.counters.failed = [int]$queue.counters.failed + 1
+    }
+    $queue.updatedAt = (Get-Date).ToUniversalTime().ToString('o')
+    $queue | ConvertTo-Json -Depth 30 | Set-Content -Path $QueuePath -Encoding UTF8
+  } | Out-Null
+}
+
+function Run-DiscoverIndexQueueWorker {
+  Initialize-ProniClient
+  while ($true) {
+    $branch = Get-NextDiscoveryBranchFromQueue
+    if (-not $branch) { break }
+    if ($branch.Wait) {
+      Start-Sleep -Milliseconds 150
+      continue
+    }
+
+    $taskKey = if ($branch.TaskKey) { $branch.TaskKey } else { Get-BranchKey $branch }
+    try {
+      $before = [int]$script:Stats.RecordsIndexed
+      $children = @(Discover-Branch $branch)
+      $records = [int]$script:Stats.RecordsIndexed - $before
+      $added = Add-DiscoveryBranchesToQueue $children
+      $script:Stats.BranchesQueued = [int]$script:Stats.BranchesQueued + $added
+      Set-DiscoveryQueueTaskStatus $taskKey 'done' $records @($children).Count
+    } catch {
+      Write-Failure @{ type='discover-index-task-failed'; taskKey=$taskKey; branchKey=$branch.BranchKey; error=$_.Exception.Message }
+      Set-DiscoveryQueueTaskStatus $taskKey 'failed' 0 0 $_.Exception.Message
+      if ($StopOnBlocked -or $StopOnMismatch) { throw }
+    }
+  }
+  Save-State
+}
+
+function Run-DiscoverIndexDynamicQueuePass {
+  if (-not $QueuePath) { $script:QueuePath = Join-Path $OutDir 'discovery-queue.json' } else { $script:QueuePath = $QueuePath }
+  Set-Variable -Scope Script -Name QueuePath -Value $script:QueuePath
+
+  if (-not $Resume) {
+    foreach ($pattern in @(
+      'records-index*.jsonl','records-quick*.jsonl','branches-discovered*.jsonl',
+      'branch-pages-discovered*.jsonl','failures*.jsonl','events*.jsonl',
+      'state*.json','summary*.json','global-rate.json','global-rate.lock',
+      'discovery-queue.json','discovery-queue.json.lock'
+    )) {
+      Get-ChildItem -Path $OutDir -Filter $pattern -File -ErrorAction SilentlyContinue | Remove-Item -Force
+    }
+  }
+
+  if (-not $Resume -or -not (Test-Path $QueuePath)) {
+    $roots = @(Get-DiscoveryRootBranches)
+    if (-not $roots.Count) { throw 'No discovery roots available for DynamicQueue DiscoverIndex.' }
+    Initialize-DiscoveryQueue $roots
+  }
+
+  if ($Workers -le 1) {
+    Run-DiscoverIndexQueueWorker
+    return
+  }
+
+  $jobs = @()
+  for ($i = 1; $i -le $Workers; $i++) {
+    $args = @(
+      '-NoProfile','-ExecutionPolicy','Bypass','-File',$ScriptPath,
+      '-Mode','DiscoverIndex',
+      '-WorkerMode',
+      '-WorkerId',([string]$i),
+      '-QueuePath',$QueuePath,
+      '-MaxRecords',([string]$MaxRecords),
+      '-MaxBranches',([string]$MaxBranches)
+    )
+    $args = Add-CommonWorkerArgs -BaseArgs $args
+    $jobs += Start-Job -ScriptBlock {
+      param($PowerShellArgs)
+      powershell @PowerShellArgs
+    } -ArgumentList (,$args)
+  }
+
+  Wait-Job -Job $jobs | Out-Null
+  foreach ($job in $jobs) {
+    Receive-Job -Job $job -ErrorAction Continue
+  }
+  Remove-Job -Job $jobs -Force
+  Merge-WorkerOutputs
+  Save-State
 }
 
 function Open-BranchPageFromBrowse([object]$Branch, [int]$TargetPage) {
@@ -1934,7 +2196,12 @@ Write-Event 'run-start' @{ mode=$Mode; client=$Client; letters=($Letters -join '
 
 if ($WorkerMode) {
   if ($Mode -eq 'DiscoverIndex') {
-    Run-DiscoveryPass
+    if ($DiscoverIndexStrategy -eq 'DynamicQueue') {
+      if (-not $QueuePath) { throw 'WorkerMode DynamicQueue requires QueuePath.' }
+      Run-DiscoverIndexQueueWorker
+    } else {
+      Run-DiscoveryPass
+    }
   } elseif ($Mode -eq 'Fetch') {
     if (-not $QueuePath) { throw 'WorkerMode requires QueuePath.' }
     Run-FetchWorker
