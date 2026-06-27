@@ -7877,15 +7877,19 @@ Review:
   - Task: save status, diff-stat, full tracked patch, and untracked inventory under ignored `tmp/` before any restore, archive move, or cleanup action.
   - Verification plan: confirm all snapshot files exist and are non-empty where applicable.
   - Completed: wrote `tmp/dirty-tree-status-2026-06-28.txt`, `tmp/dirty-tree-stat-2026-06-28.txt`, `tmp/dirty-tree-tracked-2026-06-28.patch`, and `tmp/dirty-tree-untracked-2026-06-28.txt`; verified they exist with expected non-zero sizes.
-- [ ] Protect already-on-site/source-redaction and NI register source-index packages.
+- [x] Protect already-on-site/source-redaction and NI register source-index packages.
   - Task: stage and review the combined source-index package because `scripts/build-browse-indexes.mjs` and generated Browse source shards intentionally mix these two workstreams in the current in-place tree.
   - Verification plan: run already-on-site validation, external-source validation, NI register validation, Browse build, file-budget validation, sensitive-source scans, and cached-diff review before committing.
   - Execution note: first file-budget validation failed because grouped NI register Browse detail shards were row-sharded and four generated files exceeded the 25 MB Pages limit.
   - Permanent prevention action: changed the NI register grouped Browse shard generator to split by serialized byte budget and updated the NI register validator to assert shard byte metadata plus actual file sizes.
   - Verification evidence: after regenerating NI register sidecars and Browse indexes, `node scripts/validate-already-on-site-enrichments.mjs`, `node scripts/validate-external-sources.mjs`, `npm run check:ni-register-interests`, `node scripts/validate-pages-file-budget.mjs`, and targeted private-source scans passed; grouped Browse record shards are now ten files under the configured 20 MiB byte budget.
+  - Completed: committed the protected source-index package as `a56a09794` (`Protect source enrichment and NI register browse data`).
 - [ ] Protect test2 route/CDN/election metadata package.
   - Task: stage route/audit validator updates, CDN manifests/reports, test metadata, and referenced DOBIH sidecars while leaving timestamp-only election-audit baselines unstaged unless explicitly refreshed.
   - Verification plan: run `npm run check:test2`, `npm run check:test`, CDN validators, file-budget validation, and cached-diff review before committing.
+  - Execution note: initial `npm run check:test` failed because the regenerated `maps-test.json` had current converted/alias rows not represented in `test/metadata/main-site-port-plan.json`, and five EDS feature-index sidecars referenced by metadata were missing.
+  - Permanent prevention action: regenerated `test/metadata/main-site-port-plan.json` from current metadata and built the five missing EDS feature indexes; reran both `/test` and `/test2` validators before staging.
+  - Verification evidence: `npm run check:test` now passes with 0 errors and one existing non-blocking `dfi-surface-defects-2017-vector-test` feature-search-index warning; `npm run check:test2` passes with 0 blocking issues, 55 non-blocking election warnings, and 0 PMTiles/CDN warnings; standalone CDN validators and file-budget validation pass.
 - [ ] Protect generated Browse/features/thumbnail/performance/build marker package.
   - Task: stage generated Browse feature, thumbnail, performance dashboard, and final root shell cache-key output after build/check verification.
   - Verification plan: run build/check/file-budget validation and review the staged diff before committing.

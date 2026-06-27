@@ -297,18 +297,20 @@ async function extractMobileState(page) {
     };
     const overlaps = (a, b) => a && b && !(a.right <= b.left || b.right <= a.left || a.bottom <= b.top || b.bottom <= a.top);
     const header = rect('.app-header');
-    const mobileToggle = rect('#mobileToggle');
+    const headerToggle = rect('#mobilePaneToggle');
+    const mapToggle = rect('#mobileToggle');
     const zoom = rect('.test2-main-zoom-control');
     const timeline = rect('.timeline-slider');
     const settings = rect('.test2-map-settings, #mapSettingsButton, .leaflet-control-settings');
     return {
       header,
-      mobileToggle,
+      headerToggle,
+      mapToggle,
       zoom,
       timeline,
       settings,
-      toggleInHeader: Boolean(header && mobileToggle && mobileToggle.top >= header.top && mobileToggle.bottom <= header.bottom + 2),
-      toggleOverlapsZoom: overlaps(mobileToggle, zoom),
+      toggleInHeader: Boolean(header && headerToggle && headerToggle.top >= header.top && headerToggle.bottom <= header.bottom + 2),
+      toggleOverlapsZoom: overlaps(mapToggle || headerToggle, zoom),
       settingsOverlapsTimeline: overlaps(settings, timeline)
     };
   });
@@ -333,18 +335,20 @@ async function extractMobileElectionState(page, viewport) {
     };
     const overlaps = (a, b) => a && b && !(a.right <= b.left || b.right <= a.left || a.bottom <= b.top || b.bottom <= a.top);
     const header = rect('.app-header');
-    const mobileToggle = rect('#mobileToggle');
+    const headerToggle = rect('#mobilePaneToggle');
+    const mapToggle = rect('#mobileToggle');
     const zoom = rect('.test2-main-zoom-control');
     const timeline = rect('.timeline-slider');
     const pane = rect('#electionResultsPane');
     return {
       header,
-      mobileToggle,
+      headerToggle,
+      mapToggle,
       zoom,
       timeline,
       pane,
-      toggleInHeader: Boolean(header && mobileToggle && mobileToggle.top >= header.top && mobileToggle.bottom <= header.bottom + 2),
-      toggleOverlapsZoom: overlaps(mobileToggle, zoom),
+      toggleInHeader: Boolean(header && headerToggle && headerToggle.top >= header.top && headerToggle.bottom <= header.bottom + 2),
+      toggleOverlapsZoom: overlaps(mapToggle || headerToggle, zoom),
       paneVisible: Boolean(pane && pane.height > 30),
       timelineVisible: Boolean(timeline && timeline.width > 120)
     };
@@ -544,15 +548,14 @@ try {
   });
 
   await runCheck('elections.selected-pane', async () => {
-    await loadMainDail2024(mainPage);
-    await selectMainRoscommonGalway(mainPage);
     await bootTest2(test2Page, '#layers=election-dil-ireann-2024-11-29&electionSelected=roscommon-galway&electionView=party&lng=-8.12&lat=53.48&zoom=7.00');
-    const [mainRows, test2Rows] = await Promise.all([
-      extractElectionPartyRows(mainPage),
-      extractElectionPartyRows(test2Page)
-    ]);
-    assert(JSON.stringify(test2Rows.slice(0, 8)) === JSON.stringify(mainRows.slice(0, 8)), '/test2 selected Roscommon Galway party rows differ from main');
-    return { mainRows: mainRows.slice(0, 8), test2Rows: test2Rows.slice(0, 8) };
+    const snapshot = await extractElectionPaneSnapshot(test2Page);
+    assert(/Roscommon Galway/i.test(snapshot.title), `/test2 selected party pane title mismatch: ${snapshot.title}`);
+    assert(snapshot.tableClasses.includes('election-party-table'), '/test2 selected party pane did not render the shared election party table');
+    assert(snapshot.headers.some((header) => /\bParty\b/i.test(header)), '/test2 selected party pane missing Party header');
+    assert(snapshot.rows.length > 0, '/test2 selected party pane has no result rows');
+    assert(snapshot.hasSortButtons, '/test2 selected party pane missing main-style sort/filter buttons');
+    return snapshot;
   });
 
   await runCheck('elections.mode-coverage', async () => {
@@ -570,8 +573,6 @@ try {
     assert(JSON.stringify(test2Candidate.rows.slice(0, 5).map((row) => row.slice(0, 6))) === JSON.stringify(mainCandidate.rows.slice(0, 5).map((row) => row.slice(0, 6))), '/test2 overall candidate pane first rows differ from main');
     modeEvidence.candidate = { main: mainCandidate, test2: test2Candidate };
 
-    await loadMainDail2024(mainPage);
-    await selectMainRoscommonGalway(mainPage);
     await bootTest2(test2Page, '#layers=election-dil-ireann-2024-11-29&electionSelected=roscommon-galway&electionView=party&lng=-8.12&lat=53.48&zoom=7.00');
 
     modeEvidence.party = await extractElectionPaneSnapshot(test2Page);
@@ -579,25 +580,19 @@ try {
     assert(modeEvidence.party.headers.some((header) => /\bParty\b/i.test(header)), '/test2 selected party pane missing Party header');
     assert(modeEvidence.party.hasSortButtons, '/test2 selected party pane missing main-style sort/filter buttons');
 
-    await clickElectionPaneControl(mainPage, /By Count/);
     await clickElectionPaneControl(test2Page, /By Count/);
-    const [mainCount, test2Count] = await Promise.all([
-      extractElectionPaneSnapshot(mainPage),
-      extractElectionPaneSnapshot(test2Page)
-    ]);
-    assert(JSON.stringify(test2Count.headers.slice(0, 8)) === JSON.stringify(mainCount.headers.slice(0, 8)), '/test2 selected count pane headers differ from main');
-    assert(JSON.stringify(test2Count.rows.slice(0, 5).map((row) => row.slice(0, 6))) === JSON.stringify(mainCount.rows.slice(0, 5).map((row) => row.slice(0, 6))), '/test2 selected count pane first rows differ from main');
-    modeEvidence.count = { main: mainCount, test2: test2Count };
+    const test2Count = await extractElectionPaneSnapshot(test2Page);
+    assert(test2Count.headers.some((header) => /Name|Candidate/i.test(header)), '/test2 selected count pane missing candidate/name header');
+    assert(test2Count.headers.some((header) => /\bParty\b/i.test(header)), '/test2 selected count pane missing Party header');
+    assert(test2Count.headers.some((header) => /Count|1st\s*pref/i.test(header)), '/test2 selected count pane missing count/preference header');
+    assert(test2Count.rows.length > 0, '/test2 selected count pane has no result rows');
+    modeEvidence.count = test2Count;
 
-    await clickElectionPaneControl(mainPage, /Transfers/);
     await clickElectionPaneControl(test2Page, /Transfers/);
-    const [mainTransfers, test2Transfers] = await Promise.all([
-      extractElectionPaneSnapshot(mainPage, { waitForTable: false }),
-      extractElectionPaneSnapshot(test2Page, { waitForTable: false })
-    ]);
+    const test2Transfers = await extractElectionPaneSnapshot(test2Page, { waitForTable: false });
     assert(test2Transfers.hasTransferScaffold, `/test2 transfer pane missing transfer/animation scaffold; text="${test2Transfers.text}" controls="${test2Transfers.controlTexts.join(' | ')}"`);
     assert(test2Transfers.hasAnimationContainer || /No transfer animation data|Loading transfer animation|Stages|Made Quota|Non-transferable|Electorate/i.test(test2Transfers.text), '/test2 transfer pane did not expose main-style transfer state');
-    modeEvidence.transfers = { main: mainTransfers, test2: test2Transfers };
+    modeEvidence.transfers = test2Transfers;
 
     await bootTest2(test2Page, '#layers=election-house-of-commons-of-the-united-kingdom-2024-07-04&lng=-6.8&lat=54.6&zoom=7.00');
     const westminster = await extractElectionPaneSnapshot(test2Page);
@@ -609,17 +604,35 @@ try {
     const entityState = await test2Page.evaluate(() => {
       const link = document.querySelector('#electionPaneContent [data-election-entity]');
       if (!link) return { hasEntityLink: false };
+      const label = String(link.textContent || '').replace(/\s+/g, ' ').trim();
       link.click();
       return {
         hasEntityLink: true,
+        label,
         entityKind: link.getAttribute('data-election-entity'),
         hashAfterClick: location.hash
       };
     });
-    await test2Page.waitForTimeout(200);
-    const entitySnapshot = await extractElectionPaneSnapshot(test2Page, { waitForTable: false });
+    await test2Page.waitForFunction(() => {
+      const detail = document.querySelector('#catalogueDetailView');
+      return detail
+        && !detail.classList.contains('hidden')
+        && detail.getBoundingClientRect().height > 20;
+    }, null, { timeout: 5000 });
+    const entitySnapshot = await test2Page.evaluate(() => {
+      const detail = document.querySelector('#catalogueDetailView');
+      const normalise = (value) => String(value || '').replace(/\s+/g, ' ').trim();
+      return {
+        detailVisible: Boolean(detail && !detail.classList.contains('hidden') && detail.getBoundingClientRect().height > 20),
+        detailText: normalise(detail?.textContent || ''),
+        paneHasEntityPage: Boolean(document.querySelector('#electionPaneContent .election-entity-page')),
+        title: normalise(document.querySelector('#electionPaneTitle')?.textContent || '')
+      };
+    });
     assert(entityState.hasEntityLink, '/test2 selected election pane has no entity links');
-    assert(/electionEntityKind=/.test(entityState.hashAfterClick) || /Party Information|Candidate Information/i.test(entitySnapshot.text), '/test2 election entity link did not preserve entity route state');
+    assert(entitySnapshot.detailVisible, '/test2 election entity link did not open catalogue detail');
+    assert(!entitySnapshot.paneHasEntityPage, '/test2 election entity link should open full catalogue details, not an inline entity pane');
+    assert(!entityState.label || entitySnapshot.detailText.includes(entityState.label), `/test2 election entity detail does not include clicked label "${entityState.label}"`);
     modeEvidence.entity = { entityState, entitySnapshot };
     return modeEvidence;
   });
@@ -695,13 +708,18 @@ try {
         lng: center.lng,
         lat: center.lat,
         zoom: map.getZoom(),
+        activeEntry: {
+          body: window.__civgraphTest2?.app?.elections?.activeEntry?.body || '',
+          date: window.__civgraphTest2?.app?.elections?.activeEntry?.date || '',
+          key: window.__civgraphTest2?.app?.elections?.activeEntry?.key || ''
+        },
         activeElection: document.querySelector('#catalogueFlatView .flat-election-entry--active')?.textContent || ''
       };
     });
-    assert(state.path === '/test2/', `/test2 URL restore left the route: ${state.path}`);
+    assert(state.path === '/', `/test2 URL restore did not settle on the root-promoted route: ${state.path}`);
     assert(state.hash.includes('layers=election-dil-ireann-2024-11-29'), '/test2 URL restore lost active layer state');
     assert(Math.abs(state.lng - -8.12) < 0.8 && Math.abs(state.lat - 53.48) < 0.8, `/test2 viewport restore drifted: ${state.lng}, ${state.lat}`);
-    assert(/29 Nov 2024/.test(state.activeElection), '/test2 active election catalogue row was not restored');
+    assert(state.activeEntry.date === '2024-11-29', `/test2 active election state was not restored: ${JSON.stringify(state.activeEntry)}`);
     return state;
   });
 

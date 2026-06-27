@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-23T20:58:40.266Z",
+  "generatedAt": "2026-06-27T15:57:40.647Z",
   "cdnBase": "https://data.civgraph.net/data/maps/test",
   "r2Prefix": "data/maps/test",
   "assets": [
@@ -5687,6 +5687,24 @@
       "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dobih-v18-4-significant-islands-vector-test.pmtiles",
       "bytes": 4728260,
       "exists": true
+    },
+    {
+      "layerId": "irish-hill-summit-domains-vector-test",
+      "kind": "pmtiles",
+      "localPath": "test/pmtiles/generated/irish-hill-summit-domains-vector-test.pmtiles",
+      "targetKey": "data/maps/test/pmtiles/generated/irish-hill-summit-domains-vector-test.pmtiles",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/irish-hill-summit-domains-vector-test.pmtiles",
+      "bytes": 36517690,
+      "exists": true
+    },
+    {
+      "layerId": "irish-hill-prominence-domains-vector-test",
+      "kind": "pmtiles",
+      "localPath": "test/pmtiles/generated/irish-hill-prominence-domains-vector-test.pmtiles",
+      "targetKey": "data/maps/test/pmtiles/generated/irish-hill-prominence-domains-vector-test.pmtiles",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/irish-hill-prominence-domains-vector-test.pmtiles",
+      "bytes": 35395715,
+      "exists": true
     }
   ],
   "commands": [
@@ -5723,6 +5741,8 @@
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/dobih-v18-4-carns-vector-test.pmtiles --file test/pmtiles/generated/dobih-v18-4-carns-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/dobih-v18-4-binnions-vector-test.pmtiles --file test/pmtiles/generated/dobih-v18-4-binnions-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/dobih-v18-4-county-tops-vector-test.pmtiles --file test/pmtiles/generated/dobih-v18-4-county-tops-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/dobih-v18-4-significant-islands-vector-test.pmtiles --file test/pmtiles/generated/dobih-v18-4-significant-islands-vector-test.pmtiles --remote --content-type application/octet-stream"
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/dobih-v18-4-significant-islands-vector-test.pmtiles --file test/pmtiles/generated/dobih-v18-4-significant-islands-vector-test.pmtiles --remote --content-type application/octet-stream",
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/irish-hill-summit-domains-vector-test.pmtiles --file test/pmtiles/generated/irish-hill-summit-domains-vector-test.pmtiles --remote --content-type application/octet-stream",
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/irish-hill-prominence-domains-vector-test.pmtiles --file test/pmtiles/generated/irish-hill-prominence-domains-vector-test.pmtiles --remote --content-type application/octet-stream"
   ]
 }

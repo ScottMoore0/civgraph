@@ -27,7 +27,29 @@ const wardTimelineTransitionSidecarIds = [
   'wards-2012__wards-2022-final-recommendations'
 ];
 const wardTimelineTransitionSidecars = wardTimelineTransitionSidecarIds.map((id) => JSON.parse(readFileSync('data/timeline-transitions/' + id + '.geojson', 'utf8')));
-const wardTimelineTransitionRuntimeOverlays = wardTimelineTransitionSidecarIds.map((id) => JSON.parse(readFileSync('data/timeline-transition-overlays/' + id + '.geojson', 'utf8')));
+const timelineTransitionRuntimeManifest = JSON.parse(readFileSync('data/timeline-transition-overlays/manifest.json', 'utf8'));
+const timelineTransitionRuntimeEntries = new Map((Array.isArray(timelineTransitionRuntimeManifest.transitions) ? timelineTransitionRuntimeManifest.transitions : [])
+  .filter((entry) => entry?.id)
+  .map((entry) => [entry.id, entry]));
+function loadTimelineRuntimeOverlay(id) {
+  const entry = timelineTransitionRuntimeEntries.get(id);
+  const runtimePaths = entry && Array.isArray(entry.runtimePaths) && entry.runtimePaths.length
+    ? entry.runtimePaths
+    : [entry?.runtimePath || `data/timeline-transition-overlays/${id}.geojson`].filter(Boolean);
+  const parts = runtimePaths.map((runtimePath) => ({
+    path: runtimePath,
+    size: statSync(runtimePath).size,
+    geojson: JSON.parse(readFileSync(runtimePath, 'utf8'))
+  }));
+  return {
+    entry,
+    runtimePaths,
+    parts,
+    metadata: parts.reduce((metadata, part) => ({ ...metadata, ...(part.geojson.metadata || {}) }), {}),
+    features: parts.flatMap((part) => Array.isArray(part.geojson.features) ? part.geojson.features : [])
+  };
+}
+const wardTimelineTransitionRuntimeOverlays = wardTimelineTransitionSidecarIds.map(loadTimelineRuntimeOverlay);
 const browseIndexBuilderSource = readFileSync('scripts/build-browse-indexes.mjs', 'utf8');
 const electionDataAuditSource = readFileSync('scripts/audit-test2-election-data.mjs', 'utf8');
 const uiControllerSource = readFileSync('js/ui-controller.js', 'utf8');
@@ -387,8 +409,9 @@ const niWardsTransitionKeys = niWardsTimelineMapIds
   .map((id, index) => niWardsTimelineMapIds[index] + '__' + id);
 assert(JSON.stringify(niWardsTransitionKeys) === JSON.stringify(wardTimelineTransitionSidecarIds), '/test2 NI Wards timeline must resolve to every adjacent sidecar-backed transition, not only 1993 to 2012');
 assert(wardTimelineTransitionSidecars.every((sidecar) => sidecar.features.some((feature) => ['split', 'transfer'].includes(feature?.properties?.transitionType))), '/test2 Wards territorial transition sidecars must each contain visible red/purple overlay parts, not just unchanged hit-test polygons');
-assert(wardTimelineTransitionRuntimeOverlays.length === 4 && wardTimelineTransitionRuntimeOverlays.every((overlay) => overlay?.metadata?.runtimeOverlay === true && Array.isArray(overlay.features) && overlay.features.length > 0), '/test2 must ship deployable runtime overlays for every adjacent Wards transition');
-assert(wardTimelineTransitionRuntimeOverlays.every((overlay, index) => statSync('data/timeline-transition-overlays/' + wardTimelineTransitionSidecarIds[index] + '.geojson').size < MAX_PAGES_FILE_BYTES), '/test2 runtime transition overlays must remain below Cloudflare Pages per-file limit');
+assert(wardTimelineTransitionRuntimeOverlays.length === 4 && wardTimelineTransitionRuntimeOverlays.every((overlay) => overlay.entry && overlay?.metadata?.runtimeOverlay === true && Array.isArray(overlay.features) && overlay.features.length > 0), '/test2 must ship deployable runtime overlays for every adjacent Wards transition');
+assert(wardTimelineTransitionRuntimeOverlays.every((overlay) => overlay.parts.every((part) => part.size < MAX_PAGES_FILE_BYTES)), '/test2 runtime transition overlay shards must remain below Cloudflare Pages per-file limit');
+assert(wardTimelineTransitionRuntimeOverlays.every((overlay) => Number(overlay.entry.runtimeFeatures) === overlay.features.length), '/test2 runtime transition overlay manifest feature counts must match shard contents');
 assert(wardTimelineTransitionRuntimeOverlays.every((overlay) => overlay.features.every((feature) => ['split', 'territory-split', 'transfer'].includes(feature?.properties?.transitionType || feature?.properties?.changeType))), '/test2 runtime transition overlays must contain only visible red/purple transition parts');
 assert(timelineRuntimeOverlayBuilderSource.includes('VISIBLE_TYPES') && timelineRuntimeOverlayBuilderSource.includes('runtimeOverlay'), '/test2 runtime transition overlay builder must derive deployable overlays from full sidecars');
 const ded1922Placeholder = findMap('ded-1922-10-31');

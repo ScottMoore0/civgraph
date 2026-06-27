@@ -55,9 +55,11 @@ const normalizeKeyText = (value) => String(value ?? '')
 const keyToSourceDetailPaths = (entry) => {
   const candidates = [];
   if (entry?.key) {
+    candidates.push(`data/browse/details/elections/${slugify(String(entry.key).replace(/__/g, '-'))}.json`);
     candidates.push(`data/browse/details/sources/election-source-${slugify(String(entry.key).replace(/__/g, '-'))}.json`);
   }
   if (entry?.bodySlug && entry?.date) {
+    candidates.push(`data/browse/details/elections/${entry.bodySlug}-${entry.date}.json`);
     candidates.push(`data/browse/details/sources/election-source-${entry.bodySlug}-${entry.date}.json`);
   }
   return [...new Set(candidates)];
@@ -210,9 +212,13 @@ const validPollReviewByResult = new Map((validPollReview.records || []).map((rec
 const candidateRowReviewByResult = new Map((candidateRowReview.records || []).map((record) => [reviewRecordKey(record.electionKey, record.constituency), record]));
 const partyColourReviewByParty = new Map((partyColourReview.records || []).map((record) => [normalizeKeyText(record.party || record.label), record]));
 
-const sourceFiles = fs.existsSync(path.join(ROOT, 'data/browse/details/sources'))
+const currentElectionDetailFiles = fs.existsSync(path.join(ROOT, 'data/browse/details/elections'))
+  ? fs.readdirSync(path.join(ROOT, 'data/browse/details/elections')).filter((name) => name.endsWith('.json'))
+  : [];
+const legacyElectionSourceFiles = fs.existsSync(path.join(ROOT, 'data/browse/details/sources'))
   ? fs.readdirSync(path.join(ROOT, 'data/browse/details/sources')).filter((name) => /^election-source-.*\.json$/.test(name))
   : [];
+const sourceFiles = currentElectionDetailFiles.length ? currentElectionDetailFiles : legacyElectionSourceFiles;
 const resultFiles = fs.existsSync(path.join(ROOT, 'test/metadata/elections-test2'))
   ? fs.readdirSync(path.join(ROOT, 'test/metadata/elections-test2')).filter((name) => name.endsWith('.json'))
   : [];
