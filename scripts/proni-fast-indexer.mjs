@@ -26,6 +26,7 @@ function parseArgs(argv) {
     manifest: "",
     snapshots: false,
     stopOnBlocked: true,
+    allowUnbounded: false,
     workers: 8,
     globalRps: 0,
     workerRps: 24,
@@ -63,6 +64,7 @@ function parseArgs(argv) {
       case "no-snapshots": out.snapshots = false; break;
       case "stop-on-blocked": out.stopOnBlocked = true; break;
       case "no-stop-on-blocked": out.stopOnBlocked = false; break;
+      case "allow-unbounded": out.allowUnbounded = true; break;
       case "workers": out.workers = Number(take()); break;
       case "global-rps": out.globalRps = Number(take()); break;
       case "worker-rps": out.workerRps = Number(take()); break;
@@ -101,6 +103,7 @@ Modes:
   probe       Small endpoint/page-size/direct-link probe.
 
 This tool is intentionally bounded by --max-records / --max-branches for live probes.
+Use --allow-unbounded only for an intentional full Browse-tree run.
 `;
 }
 
@@ -487,6 +490,11 @@ class SharedQueue {
     return new Promise((resolve) => this.waiters.push(resolve));
   }
 
+  shiftNow() {
+    if (this.items.length) return this.items.shift();
+    return null;
+  }
+
   get length() {
     return this.items.length;
   }
@@ -846,7 +854,7 @@ async function runLive(options, writers, scanLevel) {
   async function worker(workerId) {
     const session = new Session(workerId, options, writers, globalBucket);
     while (!shouldStop(state.stats, options)) {
-      const branch = await queue.shift();
+      const branch = options.partition === "hybrid" ? await queue.shift() : queue.shiftNow();
       state.queueLength = Math.max(0, state.queueLength - 1);
       if (!branch) break;
       try {
@@ -965,8 +973,8 @@ async function main() {
     return;
   }
   if (!["index", "discover", "local-index", "probe"].includes(options.mode)) throw new Error(`Unsupported mode: ${options.mode}`);
-  if (options.mode !== "local-index" && options.maxRecords <= 0 && options.maxBranches <= 0) {
-    throw new Error("Live modes require --max-records or --max-branches so probes stay bounded.");
+  if (options.mode !== "local-index" && options.maxRecords <= 0 && options.maxBranches <= 0 && !options.allowUnbounded) {
+    throw new Error("Live modes require --max-records or --max-branches so probes stay bounded. Use --allow-unbounded only for an intentional full Browse-tree run.");
   }
   await ensureOutDir(options);
   await fsp.writeFile(path.join(options.outDir, "run-config.json"), JSON.stringify(options, null, 2), "utf8");
