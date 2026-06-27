@@ -1,5 +1,5 @@
 param(
-  [ValidateSet('Index','Fetch','Both','Quick','Discover','Capture')]
+  [ValidateSet('Index','Fetch','Both','Quick','Discover','Capture','DiscoverIndex')]
   [string]$Mode = 'Both',
   [ValidateSet('PowerShell','HttpClient')]
   [string]$Client = 'HttpClient',
@@ -19,6 +19,14 @@ param(
   [int]$TimeoutSec = 20,
   [int]$BackoffSeconds = 20,
   [int]$MaxRetries = 2,
+  [int]$BufferSize = 1,
+  [switch]$AdaptiveRate,
+  [double]$MinGlobalRps = 1.0,
+  [double]$MaxGlobalRps = 0.0,
+  [double]$RateIncreaseFactor = 1.05,
+  [double]$RateDecreaseFactor = 0.5,
+  [int]$AdaptiveOkWindow = 25,
+  [int]$SlowResponseMs = 5000,
   [switch]$StopOnMismatch,
   [switch]$StopOnBlocked,
   [switch]$Resume,
@@ -41,6 +49,9 @@ $ErrorActionPreference = 'Stop'
 $GlobalRpsWasProvided = $PSBoundParameters.ContainsKey('GlobalRps')
 $WorkerRpsWasProvided = $PSBoundParameters.ContainsKey('WorkerRps')
 $UsePageSnapshotsWasProvided = $PSBoundParameters.ContainsKey('UsePageSnapshots')
+$BufferSizeWasProvided = $PSBoundParameters.ContainsKey('BufferSize')
+$AdaptiveRateWasProvided = $PSBoundParameters.ContainsKey('AdaptiveRate')
+$MaxGlobalRpsWasProvided = $PSBoundParameters.ContainsKey('MaxGlobalRps')
 
 function ConvertTo-BooleanFlag($Value, [bool]$Default = $false) {
   if ($null -eq $Value) { return $Default }
@@ -63,6 +74,13 @@ if ($AllLetters) {
   $Letters = @(65..90 | ForEach-Object { [string][char]$_ })
 }
 
+$Letters = @(
+  $Letters |
+    ForEach-Object { ([string]$_) -split ',' } |
+    ForEach-Object { $_.Trim().ToUpperInvariant() } |
+    Where-Object { $_ }
+)
+
 $UsePageSnapshots = ConvertTo-BooleanFlag $UsePageSnapshots $true
 $FetchFromSnapshots = ConvertTo-BooleanFlag $FetchFromSnapshots $true
 $ShardWorkerOutputs = ConvertTo-BooleanFlag $ShardWorkerOutputs $true
@@ -72,7 +90,15 @@ if ($Mode -eq 'Quick') {
   if (-not $WorkerRpsWasProvided) { $WorkerRps = 18.0 }
 }
 
-if ($Mode -eq 'Discover' -and -not $UsePageSnapshotsWasProvided) {
+if ($Mode -eq 'DiscoverIndex') {
+  if (-not $GlobalRpsWasProvided) { $GlobalRps = 18.0 }
+  if (-not $WorkerRpsWasProvided) { $WorkerRps = 18.0 }
+  if (-not $BufferSizeWasProvided) { $BufferSize = 250 }
+  if (-not $AdaptiveRateWasProvided) { $AdaptiveRate = $true }
+  if (-not $MaxGlobalRpsWasProvided) { $MaxGlobalRps = 24.0 }
+}
+
+if ($Mode -in @('Discover','DiscoverIndex') -and -not $UsePageSnapshotsWasProvided) {
   $UsePageSnapshots = $false
 }
 
@@ -115,6 +141,12 @@ if ($WorkerMode) {
   $StatePath = Join-Path $OutDir "state-worker-$WorkerId.json"
   $SummaryPath = Join-Path $OutDir "summary-worker-$WorkerId.json"
   if ($ShardWorkerOutputs) {
+    if ($Mode -in @('DiscoverIndex','Discover','Index','Quick','Capture')) {
+      $IndexPath = Join-Path $OutDir "records-index-worker-$WorkerId.jsonl"
+      $QuickPath = Join-Path $OutDir "records-quick-worker-$WorkerId.jsonl"
+      $DiscoveryPath = Join-Path $OutDir "branches-discovered-worker-$WorkerId.jsonl"
+      $DiscoveryPagesPath = Join-Path $OutDir "branch-pages-discovered-worker-$WorkerId.jsonl"
+    }
     $DetailsPath = Join-Path $OutDir "records-details-worker-$WorkerId.jsonl"
     $FailuresPath = Join-Path $OutDir "failures-worker-$WorkerId.jsonl"
     $EventsPath = Join-Path $OutDir "events-worker-$WorkerId.jsonl"
@@ -142,6 +174,12 @@ $script:Stats = [ordered]@{
   ShardWorkerOutputs = [bool]$ShardWorkerOutputs
   WorkerMode = [bool]$WorkerMode
   WorkerId = $WorkerId
+  BufferSize = $BufferSize
+  AdaptiveRate = [bool]$AdaptiveRate
+  GlobalRps = $GlobalRps
+  WorkerRps = $WorkerRps
+  MinGlobalRps = $MinGlobalRps
+  MaxGlobalRps = $MaxGlobalRps
   BranchesIndexed = 0
   BranchesFetched = 0
   BranchesQueued = 0
@@ -160,6 +198,7 @@ $script:Stats = [ordered]@{
   BlockedResponses = 0
   Retries = 0
 }
+$script:JsonLineBuffers = @{}
 
 function Html-Decode([string]$Value) {
   if ($null -eq $Value) { return '' }
@@ -186,12 +225,47 @@ function Get-TagAttribute([string]$Tag, [string]$Name) {
 
 function Write-JsonLine([string]$Path, [object]$Value) {
   $line = ($Value | ConvertTo-Json -Compress -Depth 40)
+  Write-JsonLines $Path @($line)
+}
+
+function Write-JsonLines([string]$Path, [string[]]$Lines) {
+  $linesToWrite = @($Lines | Where-Object { $_ -and $_.Trim() })
+  if (-not $linesToWrite.Count) { return }
   $lockPath = "$Path.lock"
   $fs = Open-ExclusiveFileWithRetry $lockPath
   try {
-    $line | Add-Content -Path $Path -Encoding UTF8
+    $text = ($linesToWrite -join [Environment]::NewLine) + [Environment]::NewLine
+    [IO.File]::AppendAllText($Path, $text, [Text.UTF8Encoding]::new($false))
   } finally {
     $fs.Dispose()
+  }
+}
+
+function Write-JsonLineBuffered([string]$Path, [object]$Value) {
+  if ($BufferSize -le 1) {
+    Write-JsonLine $Path $Value
+    return
+  }
+  $line = ($Value | ConvertTo-Json -Compress -Depth 40)
+  if (-not $script:JsonLineBuffers.ContainsKey($Path)) {
+    $script:JsonLineBuffers[$Path] = New-Object 'System.Collections.Generic.List[string]'
+  }
+  $script:JsonLineBuffers[$Path].Add($line)
+  if ($script:JsonLineBuffers[$Path].Count -ge $BufferSize) {
+    Flush-JsonLineBuffer $Path
+  }
+}
+
+function Flush-JsonLineBuffer([string]$Path) {
+  if (-not $script:JsonLineBuffers.ContainsKey($Path)) { return }
+  $items = @($script:JsonLineBuffers[$Path].ToArray())
+  $script:JsonLineBuffers[$Path].Clear()
+  Write-JsonLines $Path $items
+}
+
+function Flush-AllJsonLineBuffers {
+  foreach ($path in @($script:JsonLineBuffers.Keys)) {
+    Flush-JsonLineBuffer $path
   }
 }
 
@@ -228,6 +302,7 @@ function Open-ExclusiveFileWithRetry([string]$Path, [int]$TimeoutMs = 10000) {
 }
 
 function Save-State {
+  Flush-AllJsonLineBuffers
   $script:Stats.UpdatedAt = (Get-Date).ToUniversalTime().ToString('o')
   [pscustomobject]$script:Stats | ConvertTo-Json -Depth 20 | Set-Content -Path $StatePath -Encoding UTF8
 }
@@ -238,6 +313,7 @@ function Get-TextLineCount([string]$Path) {
 }
 
 function Add-DerivedRunStats {
+  Flush-AllJsonLineBuffers
   $script:Stats.DiscoveryRowsOnDisk = Get-TextLineCount $DiscoveryPath
   $script:Stats.DiscoveryPageRowsOnDisk = Get-TextLineCount $DiscoveryPagesPath
   $script:Stats.IndexRowsOnDisk = Get-TextLineCount $IndexPath
@@ -488,6 +564,47 @@ function Get-ProniCookieHeader {
   return ''
 }
 
+function Get-DefaultRateState {
+  return [ordered]@{
+    lastRequestMs = 0
+    adaptiveRps = if ($GlobalRps -gt 0) { [double]$GlobalRps } else { 0.0 }
+    okStreak = 0
+    blockedStreak = 0
+    slowStreak = 0
+    updatedAt = (Get-Date).ToUniversalTime().ToString('o')
+  }
+}
+
+function Read-GlobalRateState([string]$RatePath) {
+  $state = Get-DefaultRateState
+  if (-not (Test-Path $RatePath)) { return $state }
+  try {
+    $raw = Get-Content -Path $RatePath -Raw | ConvertFrom-Json
+    foreach ($prop in $raw.PSObject.Properties) {
+      $state[$prop.Name] = $prop.Value
+    }
+  } catch {}
+  if (-not $state.Contains('adaptiveRps') -or [double]$state.adaptiveRps -le 0) {
+    $state['adaptiveRps'] = if ($GlobalRps -gt 0) { [double]$GlobalRps } else { 0.0 }
+  }
+  if (-not $state.Contains('okStreak')) { $state['okStreak'] = 0 }
+  if (-not $state.Contains('blockedStreak')) { $state['blockedStreak'] = 0 }
+  if (-not $state.Contains('slowStreak')) { $state['slowStreak'] = 0 }
+  return $state
+}
+
+function Write-GlobalRateState([string]$RatePath, [Collections.Specialized.OrderedDictionary]$State) {
+  $State['updatedAt'] = (Get-Date).ToUniversalTime().ToString('o')
+  [pscustomobject]$State | ConvertTo-Json -Compress -Depth 10 | Set-Content -Path $RatePath -Encoding UTF8
+}
+
+function Get-EffectiveGlobalRps([Collections.Specialized.OrderedDictionary]$State) {
+  if ($AdaptiveRate -and $State.Contains('adaptiveRps') -and [double]$State.adaptiveRps -gt 0) {
+    return [double]$State.adaptiveRps
+  }
+  return [double]$GlobalRps
+}
+
 function Wait-RequestPace {
   if ($WorkerRps -gt 0) {
     $now = [DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds()
@@ -503,24 +620,69 @@ function Wait-RequestPace {
   $fs = Open-ExclusiveFileWithRetry $lockPath
   try {
     $now = [DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds()
-    $last = 0L
-    if (Test-Path $ratePath) {
-      try {
-        $state = Get-Content -Path $ratePath -Raw | ConvertFrom-Json
-        $last = [int64]$state.lastRequestMs
-      } catch {
-        $last = 0L
-      }
-    }
-    $gap = [int][Math]::Ceiling(1000.0 / $GlobalRps)
+    $state = Read-GlobalRateState $ratePath
+    $last = [int64]$state.lastRequestMs
+    $effectiveRps = Get-EffectiveGlobalRps $state
+    if ($effectiveRps -le 0) { return }
+    $gap = [int][Math]::Ceiling(1000.0 / $effectiveRps)
     $wait = $last + $gap - $now
     if ($wait -gt 0) {
       Start-Sleep -Milliseconds $wait
       $now = [DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds()
     }
-    @{ lastRequestMs = $now } | ConvertTo-Json -Compress | Set-Content -Path $ratePath -Encoding UTF8
+    $state['lastRequestMs'] = $now
+    Write-GlobalRateState $ratePath $state
   } finally {
     $fs.Dispose()
+  }
+}
+
+function Update-AdaptiveRate([object]$Res) {
+  if (-not $AdaptiveRate -or $GlobalRps -le 0) { return }
+  $lockPath = Join-Path $OutDir 'global-rate.lock'
+  $ratePath = Join-Path $OutDir 'global-rate.json'
+  $fs = Open-ExclusiveFileWithRetry $lockPath
+  try {
+    $state = Read-GlobalRateState $ratePath
+    $current = [double](Get-EffectiveGlobalRps $state)
+    if ($current -le 0) { $current = [double]$GlobalRps }
+    $minRps = [Math]::Max(0.1, [double]$MinGlobalRps)
+    $maxRps = if ($MaxGlobalRps -gt 0) { [double]$MaxGlobalRps } else { [double]$GlobalRps }
+    $isBlocked = (-not $Res.Ok) -or ([int]$Res.Status -eq 429) -or ([int]$Res.Status -ge 500)
+    if (-not $isBlocked -and $Res.Content -match 'Request Rejected|support ID|Access Denied|Too Many Requests|rate limit|throttl') {
+      $isBlocked = $true
+    }
+    $isSlow = ([double]$Res.Ms -ge [double]$SlowResponseMs)
+    $newRps = $current
+    $reason = ''
+
+    if ($isBlocked -or $isSlow) {
+      $newRps = [Math]::Max($minRps, $current * [double]$RateDecreaseFactor)
+      $state['okStreak'] = 0
+      if ($isBlocked) {
+        $state['blockedStreak'] = [int]$state.blockedStreak + 1
+        $reason = 'blocked'
+      } else {
+        $state['slowStreak'] = [int]$state.slowStreak + 1
+        $reason = 'slow'
+      }
+    } else {
+      $state['okStreak'] = [int]$state.okStreak + 1
+      if ([int]$state.okStreak -ge $AdaptiveOkWindow) {
+        $newRps = [Math]::Min($maxRps, $current * [double]$RateIncreaseFactor)
+        $state['okStreak'] = 0
+        $reason = 'clean-streak'
+      }
+    }
+
+    $state['adaptiveRps'] = [Math]::Round($newRps, 4)
+    Write-GlobalRateState $ratePath $state
+  } finally {
+    $fs.Dispose()
+  }
+
+  if ($reason -and [Math]::Abs($newRps - $current) -gt 0.001) {
+    Write-Event 'adaptive-rate-update' @{ reason=$reason; oldRps=[Math]::Round($current, 4); newRps=[Math]::Round($newRps, 4); status=$Res.Status; ms=[Math]::Round($Res.Ms, 3) }
   }
 }
 
@@ -551,7 +713,9 @@ function Invoke-HttpClientRequest([string]$Method, [string]$Uri, [hashtable]$Bod
 function Invoke-ProniRequest([string]$Method, [string]$Uri, [hashtable]$Body = $null, [string]$Referer = '') {
   Wait-RequestPace
   if ($Client -eq 'HttpClient') {
-    return Invoke-HttpClientRequest $Method $Uri $Body $Referer
+    $res = Invoke-HttpClientRequest $Method $Uri $Body $Referer
+    Update-AdaptiveRate $res
+    return $res
   }
 
   $sw = [Diagnostics.Stopwatch]::StartNew()
@@ -564,14 +728,18 @@ function Invoke-ProniRequest([string]$Method, [string]$Uri, [hashtable]$Body = $
       $res = Invoke-WebRequest -UseBasicParsing -Uri $Uri -Method Post -Body $Body -WebSession $script:Session -Headers $requestHeaders -TimeoutSec $TimeoutSec
     }
     $sw.Stop()
-    return [pscustomobject]@{ Ok=$true; Status=[int]$res.StatusCode; Content=[string]$res.Content; Ms=$sw.Elapsed.TotalMilliseconds; Error='' }
+    $result = [pscustomobject]@{ Ok=$true; Status=[int]$res.StatusCode; Content=[string]$res.Content; Ms=$sw.Elapsed.TotalMilliseconds; Error='' }
+    Update-AdaptiveRate $result
+    return $result
   } catch {
     $sw.Stop()
     $status = 0
     if ($_.Exception.Response) {
       try { $status = [int]$_.Exception.Response.StatusCode } catch {}
     }
-    return [pscustomobject]@{ Ok=$false; Status=$status; Content=''; Ms=$sw.Elapsed.TotalMilliseconds; Error=$_.Exception.Message }
+    $result = [pscustomobject]@{ Ok=$false; Status=$status; Content=''; Ms=$sw.Elapsed.TotalMilliseconds; Error=$_.Exception.Message }
+    Update-AdaptiveRate $result
+    return $result
   }
 }
 
@@ -863,7 +1031,7 @@ function Fetch-DetailRows([string]$PageHtml, [object]$Branch, [int]$PageNumber, 
         attributeKeys = @($fields.attributeKeys)
         rawAttributes = $fields.rawAttributes
       }
-      Write-JsonLine $DetailsPath ([pscustomobject]$record)
+      Write-JsonLineBuffered $DetailsPath ([pscustomobject]$record)
       $script:Stats.DetailsFetched++
     } catch {
       Write-Failure @{
@@ -903,7 +1071,7 @@ function Write-QuickRecord([object]$Branch, [int]$PageNumber, [object]$Row, [str
     resultsSelectValue = if ($Row.ResultsSelect) { $Row.ResultsSelect.Value } else { '' }
     completenessNote = 'Quick scan records are Browse listing inventory rows only. Run Mode Fetch or Both to capture all visible detail-page attributes.'
   }
-  Write-JsonLine $QuickPath ([pscustomobject]$record)
+  Write-JsonLineBuffered $QuickPath ([pscustomobject]$record)
   $script:Stats.RecordsQuickScanned++
 }
 
@@ -932,7 +1100,7 @@ function Write-ListingRows([object]$Branch, [int]$PageNumber, [object[]]$LeafRow
       resultsSelectName = if ($row.ResultsSelect) { $row.ResultsSelect.Name } else { '' }
       resultsSelectValue = if ($row.ResultsSelect) { $row.ResultsSelect.Value } else { '' }
     }
-    Write-JsonLine $IndexPath ([pscustomobject]$index)
+    Write-JsonLineBuffered $IndexPath ([pscustomobject]$index)
     if ($WriteQuickRows) {
       Write-QuickRecord $Branch $PageNumber $row $expected $PageHash $Snapshot $ScanLevel
     }
@@ -998,7 +1166,7 @@ function Write-DiscoveryPage([object]$Branch, [int]$PageNumber, [string]$PageHas
     pageSnapshotPath = if ($Snapshot) { $Snapshot.HtmlPath } else { '' }
     pageSnapshotMetadataPath = if ($Snapshot) { $Snapshot.MetadataPath } else { '' }
   }
-  Write-JsonLine $DiscoveryPagesPath ([pscustomobject]$record)
+  Write-JsonLineBuffered $DiscoveryPagesPath ([pscustomobject]$record)
   $script:Stats.BranchPagesDiscovered++
   $script:Stats.DiscoveryLeafRows = [int]$script:Stats.DiscoveryLeafRows + @($LeafRows).Count
   $script:Stats.DiscoveryChildBranches = [int]$script:Stats.DiscoveryChildBranches + @($SelectableBranches).Count
@@ -1018,7 +1186,7 @@ function Write-DiscoveryBranch([object]$Branch, [int]$PageCount, [int]$LeafRowCo
     childRefs = @($ChildBranches | ForEach-Object { $_.Ref })
     elapsedMs = [Math]::Round($ElapsedMs, 3)
   }
-  Write-JsonLine $DiscoveryPath ([pscustomobject]$record)
+  Write-JsonLineBuffered $DiscoveryPath ([pscustomobject]$record)
   $script:Stats.BranchesDiscovered++
 }
 
@@ -1048,8 +1216,11 @@ function Discover-Branch([object]$Branch) {
 
     $leafCount += $leafRows.Count
     Write-DiscoveryPage $Branch $pageNumber $hash $rows $selectableBranches $leafRows $snapshot ([bool]$next)
+    if ($Mode -eq 'DiscoverIndex' -and $leafRows.Count) {
+      Write-ListingRows $Branch $pageNumber $leafRows $hash $snapshot $false 'discover-index'
+    }
 
-    if ($MaxRecords -gt 0 -and [int]$script:Stats.DiscoveryLeafRows -ge $MaxRecords) { break }
+    if ($MaxRecords -gt 0 -and ([int]$script:Stats.DiscoveryLeafRows -ge $MaxRecords -or [int]$script:Stats.RecordsIndexed -ge $MaxRecords)) { break }
     if (-not $next) { break }
     $html = Invoke-WithRetry { Click-Next $html $next } "Discover next page $branchKey"
     $pageNumber++
@@ -1065,6 +1236,7 @@ function Discover-Branch([object]$Branch) {
 function Test-DiscoveryLimitReached {
   if ($MaxBranches -gt 0 -and [int]$script:Stats.BranchesDiscovered -ge $MaxBranches) { return $true }
   if ($MaxRecords -gt 0 -and [int]$script:Stats.DiscoveryLeafRows -ge $MaxRecords) { return $true }
+  if ($Mode -eq 'DiscoverIndex' -and $MaxRecords -gt 0 -and [int]$script:Stats.RecordsIndexed -ge $MaxRecords) { return $true }
   return $false
 }
 
@@ -1099,6 +1271,9 @@ function Discover-BranchInSession([object]$Branch, [string]$Html) {
 
     $leafCount += $leafRows.Count
     Write-DiscoveryPage $Branch $pageNumber $hash $rows $selectableBranches $leafRows $snapshot ([bool]$next)
+    if ($Mode -eq 'DiscoverIndex' -and $leafRows.Count) {
+      Write-ListingRows $Branch $pageNumber $leafRows $hash $snapshot $false 'discover-index'
+    }
 
     if (Test-DiscoveryLimitReached) { break }
     if (-not $next) { break }
@@ -1130,7 +1305,7 @@ function Discover-BranchInSession([object]$Branch, [string]$Html) {
 
 function Run-InSessionDiscoveryPass {
   if (-not $Resume) {
-    foreach ($path in @($DiscoveryPath,$DiscoveryPagesPath,$FailuresPath,$EventsPath,$StatePath,$SummaryPath)) {
+    foreach ($path in @($DiscoveryPath,$DiscoveryPagesPath,$IndexPath,$QuickPath,$FailuresPath,$EventsPath,$StatePath,$SummaryPath)) {
       if (Test-Path $path) { Remove-Item -LiteralPath $path -Force }
     }
   }
@@ -1164,7 +1339,7 @@ function Run-DiscoveryPass {
   }
 
   if (-not $Resume) {
-    foreach ($path in @($DiscoveryPath,$DiscoveryPagesPath,$FailuresPath,$EventsPath,$StatePath,$SummaryPath)) {
+    foreach ($path in @($DiscoveryPath,$DiscoveryPagesPath,$IndexPath,$QuickPath,$FailuresPath,$EventsPath,$StatePath,$SummaryPath)) {
       if (Test-Path $path) { Remove-Item -LiteralPath $path -Force }
     }
   }
@@ -1300,6 +1475,104 @@ function Run-IndexPass([switch]$FetchNow) {
       if (-not $seen.Contains($childKey)) { $queue.Enqueue($child); $script:Stats.BranchesQueued++ }
     }
   }
+  Save-State
+}
+
+function Split-ItemsForWorkers([object[]]$Items, [int]$WorkerCount) {
+  $chunks = @()
+  for ($i = 0; $i -lt $WorkerCount; $i++) {
+    $chunks += ,(New-Object 'System.Collections.Generic.List[object]')
+  }
+  $index = 0
+  foreach ($item in $Items) {
+    $chunks[$index % $WorkerCount].Add($item)
+    $index++
+  }
+  $result = New-Object 'System.Collections.Generic.List[string]'
+  foreach ($chunk in $chunks) {
+    if ($chunk.Count -gt 0) { $result.Add((@($chunk.ToArray()) -join ',')) }
+  }
+  return @($result.ToArray())
+}
+
+function Add-CommonWorkerArgs([object[]]$BaseArgs) {
+  $workerArgs = @($BaseArgs)
+  $workerArgs += @(
+    '-Client',$Client,
+    '-DiscoveryStrategy',$DiscoveryStrategy,
+    '-OutDir',$OutDir,
+    '-GlobalRps',([string]$GlobalRps),
+    '-WorkerRps',([string]$WorkerRps),
+    '-TimeoutSec',([string]$TimeoutSec),
+    '-BackoffSeconds',([string]$BackoffSeconds),
+    '-MaxRetries',([string]$MaxRetries),
+    '-MaxPagesPerBranch',([string]$MaxPagesPerBranch),
+    '-BufferSize',([string]$BufferSize),
+    '-MinGlobalRps',([string]$MinGlobalRps),
+    '-MaxGlobalRps',([string]$MaxGlobalRps),
+    '-RateIncreaseFactor',([string]$RateIncreaseFactor),
+    '-RateDecreaseFactor',([string]$RateDecreaseFactor),
+    '-AdaptiveOkWindow',([string]$AdaptiveOkWindow),
+    '-SlowResponseMs',([string]$SlowResponseMs),
+    '-UsePageSnapshots',([string]([int][bool]$UsePageSnapshots)),
+    '-FetchFromSnapshots',([string]([int][bool]$FetchFromSnapshots)),
+    '-ShardWorkerOutputs',([string]([int][bool]$ShardWorkerOutputs))
+  )
+  if ($AdaptiveRate) { $workerArgs += '-AdaptiveRate' }
+  if ($StopOnMismatch) { $workerArgs += '-StopOnMismatch' }
+  if ($StopOnBlocked) { $workerArgs += '-StopOnBlocked' }
+  if ($Resume) { $workerArgs += '-Resume' }
+  return ,$workerArgs
+}
+
+function Run-DiscoverIndexPass {
+  if ($Workers -le 1 -or $BranchPathCsv.Trim()) {
+    Run-DiscoveryPass
+    return
+  }
+
+  if (-not $Resume) {
+    foreach ($pattern in @(
+      'records-index*.jsonl','records-quick*.jsonl','branches-discovered*.jsonl',
+      'branch-pages-discovered*.jsonl','failures*.jsonl','events*.jsonl',
+      'state*.json','summary*.json','global-rate.json','global-rate.lock'
+    )) {
+      Get-ChildItem -Path $OutDir -Filter $pattern -File -ErrorAction SilentlyContinue | Remove-Item -Force
+    }
+  }
+
+  $letterList = @($Letters | ForEach-Object { ([string]$_).ToUpperInvariant() } | Where-Object { $_ })
+  $chunks = @(Split-ItemsForWorkers $letterList $Workers)
+  if (-not $chunks.Count) { throw 'No letters available for DiscoverIndex.' }
+  $workerMaxRecords = if ($MaxRecords -gt 0) { [Math]::Ceiling([double]$MaxRecords / [double]$chunks.Count) } else { 0 }
+  $workerMaxBranches = if ($MaxBranches -gt 0) { [Math]::Ceiling([double]$MaxBranches / [double]$chunks.Count) } else { 0 }
+  $jobs = @()
+  $workerIdValue = 1
+
+  foreach ($chunk in $chunks) {
+    $args = @(
+      '-NoProfile','-ExecutionPolicy','Bypass','-File',$ScriptPath,
+      '-Mode','DiscoverIndex',
+      '-WorkerMode',
+      '-WorkerId',([string]$workerIdValue),
+      '-MaxRecords',([string]$workerMaxRecords),
+      '-MaxBranches',([string]$workerMaxBranches),
+      '-Letters',$chunk
+    )
+    $args = Add-CommonWorkerArgs -BaseArgs $args
+    $jobs += Start-Job -ScriptBlock {
+      param($PowerShellArgs)
+      powershell @PowerShellArgs
+    } -ArgumentList (,$args)
+    $workerIdValue++
+  }
+
+  Wait-Job -Job $jobs | Out-Null
+  foreach ($job in $jobs) {
+    Receive-Job -Job $job -ErrorAction Continue
+  }
+  Remove-Job -Job $jobs -Force
+  Merge-WorkerOutputs
   Save-State
 }
 
@@ -1571,13 +1844,33 @@ function Merge-WorkerJsonlShards([string]$Pattern, [string]$TargetPath, [bool]$A
 
 function Merge-WorkerOutputs {
   if (-not $ShardWorkerOutputs -or $Workers -le 1) { return }
+  $indexShards = Merge-WorkerJsonlShards 'records-index-worker-*.jsonl' (Join-Path $OutDir 'records-index.jsonl') $false
+  $quickShards = Merge-WorkerJsonlShards 'records-quick-worker-*.jsonl' (Join-Path $OutDir 'records-quick.jsonl') $false
+  $discoveryShards = Merge-WorkerJsonlShards 'branches-discovered-worker-*.jsonl' (Join-Path $OutDir 'branches-discovered.jsonl') $false
+  $discoveryPageShards = Merge-WorkerJsonlShards 'branch-pages-discovered-worker-*.jsonl' (Join-Path $OutDir 'branch-pages-discovered.jsonl') $false
   $detailsShards = Merge-WorkerJsonlShards 'records-details-worker-*.jsonl' (Join-Path $OutDir 'records-details.jsonl') $false
   $failureShards = Merge-WorkerJsonlShards 'failures-worker-*.jsonl' (Join-Path $OutDir 'failures.jsonl') $true
   $eventShards = Merge-WorkerJsonlShards 'events-worker-*.jsonl' (Join-Path $OutDir 'events.jsonl') $true
   $script:Stats.WorkerOutputShardsMerged = [pscustomobject]@{
+    index = $indexShards
+    quick = $quickShards
+    discovery = $discoveryShards
+    discoveryPages = $discoveryPageShards
     details = $detailsShards
     failures = $failureShards
     events = $eventShards
+  }
+  $workerSummaries = @(Get-ChildItem -Path $OutDir -Filter 'summary-worker-*.json' -File -ErrorAction SilentlyContinue | ForEach-Object {
+    try { Get-Content -Path $_.FullName -Raw | ConvertFrom-Json } catch { $null }
+  } | Where-Object { $_ })
+  if ($workerSummaries.Count) {
+    $script:Stats.WorkerSummariesMerged = $workerSummaries.Count
+    $script:Stats.WorkerBranchesDiscovered = [int](@($workerSummaries | Measure-Object -Property BranchesDiscovered -Sum).Sum)
+    $script:Stats.WorkerBranchPagesDiscovered = [int](@($workerSummaries | Measure-Object -Property BranchPagesDiscovered -Sum).Sum)
+    $script:Stats.WorkerRecordsIndexed = [int](@($workerSummaries | Measure-Object -Property RecordsIndexed -Sum).Sum)
+    $script:Stats.WorkerDiscoveryLeafRows = [int](@($workerSummaries | Measure-Object -Property DiscoveryLeafRows -Sum).Sum)
+    $script:Stats.WorkerFailures = [int](@($workerSummaries | Measure-Object -Property Failures -Sum).Sum)
+    $script:Stats.WorkerBlockedResponses = [int](@($workerSummaries | Measure-Object -Property BlockedResponses -Sum).Sum)
   }
 }
 
@@ -1640,10 +1933,18 @@ Initialize-ProniClient
 Write-Event 'run-start' @{ mode=$Mode; client=$Client; letters=($Letters -join ','); maxBranches=$MaxBranches; maxRecords=$MaxRecords; workers=$Workers }
 
 if ($WorkerMode) {
-  if (-not $QueuePath) { throw 'WorkerMode requires QueuePath.' }
-  Run-FetchWorker
+  if ($Mode -eq 'DiscoverIndex') {
+    Run-DiscoveryPass
+  } elseif ($Mode -eq 'Fetch') {
+    if (-not $QueuePath) { throw 'WorkerMode requires QueuePath.' }
+    Run-FetchWorker
+  } else {
+    throw "WorkerMode is not supported for mode $Mode."
+  }
 } elseif ($Mode -eq 'Discover') {
   Run-DiscoveryPass
+} elseif ($Mode -eq 'DiscoverIndex') {
+  Run-DiscoverIndexPass
 } elseif ($Mode -eq 'Capture') {
   Run-CapturePass
 } elseif ($Mode -eq 'Index') {
