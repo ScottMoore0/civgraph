@@ -1,3 +1,107 @@
+# Civgraph Semantic Graph First Production Slice
+
+- [ ] Add the first generated semantic graph slice.
+  - Task: implement Civgraph-native graph registries, builder, validator, and generated graph data for core entities/statements covering bodies, offices, persons, parties/labels, elections, sources, and NI register interests.
+  - Verification plan: run graph syntax checks, `npm run build:graph`, `npm run check:graph`, and focused data smoke checks for Carla Lockhart / House of Commons / NI register records.
+- [ ] Add graph-backed Browse statement panels where safe.
+  - Task: keep existing Browse routes/indexes intact, but render compact graph statement panels on register-interest and person detail pages when graph mappings exist.
+  - Verification plan: run `node --check browse/browse.js`, build Browse/graph data, and smoke the local Browse page if feasible.
+- [ ] Preserve existing files and avoid broad migration risk.
+  - Task: do not replace map/election/source domain files or migrate all Browse consumption in one pass; keep the graph additive and sharded.
+  - Verification plan: ensure generated graph shards stay below file-size caps and existing Register Interests validation still passes.
+- [ ] Record production-slice review.
+  - Task: document what was implemented, what is intentionally deferred, and verification results.
+
+# Civgraph Semantic Graph Implementation Plan
+
+- [x] Write a maximally derisked implementation plan for a Civgraph-appropriate Wikidata-style statement layer.
+  - Task: document a hybrid architecture that keeps existing PDFs, PMTiles/MBTiles, GeoJSON, CSV/XLSX, election bundles, source records, map layers, and Browse data while adding a generated semantic statement graph as the connective layer.
+  - Completed: added `docs/civgraph-semantic-graph-implementation-plan.md` with target architecture, data model, ID strategy, property/entity registries, provenance model, domain mapping, phased rollout, UI plan, validators, tests, risks, and acceptance criteria.
+  - Verification evidence: scoped Markdown file exists and was checked with targeted file reads plus `git diff --check`.
+
+# NI Register Browse Grouping And Controls
+
+- [x] Group Browse-facing register interest records by politician, elected body, and register date.
+  - Task: change the NI register canonical/public model so each Browse record is a politician-name / elected-body / date tuple containing all interests for that politician in that body on that register date.
+  - Completed: added grouped Browse register shards under `data/database/ni-register-browse-records/` while preserving raw source rows and canonical exact-interest rows for audit.
+  - Result: 75,908 raw extraction rows remain covered by source refs, 8,289 canonical exact-interest rows remain available, and Browse now exposes 5,064 politician/body/date tuple records.
+- [x] Add Register Interests Browse sorting and filtering controls.
+  - Task: default Register Interests to newest-first, add controls for sort attribute and direction, and add filters for body, member type, chamber, constituency, category, source kind, and nil/non-nil state.
+  - Completed: added Register Interests controls in `browse/browse.js` and `browse/browse.css`; default sort is date descending, with buttons for date, politician, body, constituency, interest count, source count, and ascending/descending order.
+  - Completed: added filters for elected body, member type, chamber, constituency, category, source kind, and interest status.
+- [x] Update validation guardrails.
+  - Task: validate grouped Browse totals, source-reference coverage, per-record grouped interest payloads, and sort/filter metadata.
+  - Completed: extended `scripts/validate-ni-register-interests.mjs` to require grouped tuple records, Assembly and House of Commons coverage, full source-reference coverage, sharded Browse detail payloads, compact-index sort/filter metadata, and default newest-first ordering.
+  - Verification evidence: `npm run build:ni-register-interests`, `npm run build:browse`, `npm run check:ni-register-interests`, `npm run build`, and a sequential `npm run check` passed.
+- [x] Record review findings.
+  - Task: summarize counts, verification evidence, and any remaining caveats.
+  - Completed: focused data smoke confirmed 5,064 grouped records, newest first record `Carla Lockhart - House of Commons - 2026-06-15`, undated records sorted last, both Assembly and House of Commons present, 50 category filter values, and 4 source-kind values.
+  - Completed: browser smoke confirmed the Browse page renders six sort buttons, defaults to Newest / Desc, renders seven filters, and filtering to House of Commons changes the visible set to 564 records.
+
+## Review: NI Register Browse Grouping And Controls
+
+- Browse now treats each register entry as a politician / elected-body / register-date tuple, not as a single extracted source row.
+- Tuple details retain all grouped interest entries and source references, so HTML/PDF/API/CSV evidence is still inspectable without creating duplicate Browse cards.
+- The compact Browse index remains sharded and does not include full interest text; full grouped interests are loaded from detail shards.
+- Verification passed after rerunning aggregate checks sequentially; an earlier concurrent build/check run was invalid because both commands touched generated Browse files at the same time.
+
+# PRONI Full eCatalogue Listing Index Crawl
+
+- [ ] Run the improved PRONI fast indexer across the full Browse tree.
+  - Task: index all PRONI eCatalogue Browse listing records into `D:\PRONI\eCatalogue\...`, continuing until the Browse tree is exhausted rather than stopping at a small probe cap.
+  - Scope: listing/index rows only, not full record-detail capture; no website publication; no C-drive output for crawl data.
+  - Safety: verify long-run queue termination, use PRONI Browse traversal, stop/report if blocked/throttled/failure responses occur, and write progress/failure/summary artifacts under `D:\PRONI\eCatalogue\full-index\...`.
+  - Verification plan: start the full crawl in an observable session, monitor `records-index.jsonl`, `events.jsonl`, `failures.jsonl`, and summary/progress output, and report throughput and current count.
+
+# PRONI Node Fast Indexer Throughput Expansion
+
+- [x] Implement six further PRONI rows/sec improvements beyond the PowerShell `DiscoverIndex` ceiling.
+  - Task: add a separate high-throughput Node fast-indexing path while preserving Browse-only traversal, D-drive output, bounded probes, and the existing full-detail capture path.
+  - Scope: implement the six requested improvements: async hot path outside PowerShell, branch discovery vs row indexing separation, snapshot-first/local-parse support, hybrid partitioning, endpoint/page-size probe guardrails, and bounded adaptive throughput/correctness probes.
+  - Constraints: do not run a full 1.5m-record crawl; stop if blocked/throttled/error responses appear; write live outputs under `D:\PRONI\eCatalogue\crawler-probes\...`; do not publish scraped data to the website.
+  - Verification plan: syntax-check new tooling, run bounded live Browse probes, inspect rows/sec/failures/blocked counts, and commit only scoped crawler/tooling files.
+  - Completed: added `scripts/proni-fast-indexer.mjs`, a Node-based Browse indexer with async HTTP/session handling, separate branch discovery/listing-index/local-parse/probe modes, optional page snapshots, hybrid queue or in-session traversal, endpoint/page-size probing, bounded worker/global rate controls, failure JSONL logging, and detail-sample correctness checks.
+  - Verification evidence: `node --check scripts/proni-fast-indexer.mjs` passed; probe run `D:\PRONI\eCatalogue\crawler-probes\fast-index-node-20260627-201651` found no Browse page-size control; bounded in-session live run `D:\PRONI\eCatalogue\crawler-probes\fast-index-node-insession-20260627-202028` indexed 3,000 rows in 5.009 seconds = 598.91 rows/sec, with 0 failures and detail samples matching expected PRONI references; snapshot-first/local-parse run `D:\PRONI\eCatalogue\crawler-probes\fast-index-node-snapshot-20260627-202156` plus `...-local` parsed 200 saved rows locally at 7,630 rows/sec.
+
+# PRONI DiscoverIndex Throughput Tuning
+
+- [x] Maximise safe record index row throughput for PRONI Browse discovery.
+  - Task: run bounded live `DiscoverIndex` probes with higher worker/rate settings, identify the fastest clean aggregate indexed-record throughput, and make code-level tuning changes only where they improve safe throughput.
+  - Constraints: write probe outputs to `D:\PRONI\eCatalogue\crawler-probes\...`; do not run a full corpus crawl; stop/escalate if blocked responses or provider errors appear; keep full record detail capture separate from indexing.
+  - Verification plan: compare summary JSON files for indexed rows/sec, branch/page discovery rates, failures, and blocked responses; run parser/diff checks if code changes are made.
+  - Completed: ran bounded live probes across 4, 8, 12, 16, 18, 20, and 24 worker profiles with progressively higher global/worker request rates and buffered index output.
+  - Result: best clean profile was 16 workers, `GlobalRps=120`, `WorkerRps=12`, `MaxGlobalRps=160`, `BufferSize=2500`, `MaxPagesPerBranch=35`, with 4,493 index rows in 44.915 seconds = 100.034 indexed rows/sec.
+  - Verification evidence: the best run at `D:\PRONI\eCatalogue\crawler-probes\discover-index-speed-w16-g120-long\summary.json` reported 0 worker failures and 0 blocked responses. Higher-rate 16-worker and 18/20/24-worker profiles were clean but slower, so the bottleneck is now traversal/job overhead rather than provider blocking.
+
+- [x] Implement PRONI DiscoverIndex architecture improvements 1-6 beyond the current ~100 indexed rows/sec ceiling.
+  - Task: research and implement the six agreed improvements: page-size probing, dynamic branch/page work distribution, lower global pacing overhead, two-stage snapshot/index mode, direct endpoint reconstruction research, and bounded throughput/correctness probes.
+  - Constraints: write live probes to `D:\PRONI\eCatalogue\crawler-probes\...`; do not start an unbounded full-corpus crawl; stop if blocked/throttled/error responses appear; keep full detail capture separate from listing-index discovery.
+  - Verification plan: run bounded live probes before and after code changes, inspect `summary.json` files for indexed rows/sec, failures, blocked responses, and mismatch/error counts; run PowerShell parser checks and scoped diffs for any crawler edits.
+  - Completed: inspected saved PRONI Browse page snapshots and found no safe page-size/page-length control. The Browse results grid exposes fixed rows plus First/Previous/Next/Last navigation, so page-size expansion is not a currently available speed lever.
+  - Completed: tested the rate-lock bottleneck by running bounded `DiscoverIndex` probes with `GlobalRps=0`. Best observed clean probe before code edits was 16 workers, `WorkerRps=32`, `BufferSize=2500`, no snapshots, 4,493 requested rows and 224.677 indexed rows/sec, with 0 failures and 0 blocked responses at `D:\PRONI\eCatalogue\crawler-probes\discover-index-speed-w16-noglobal-w32-20260627-192017\summary.json`.
+  - Completed: added `-DiscoverIndexStrategy LetterSplit|DynamicQueue`. `LetterSplit` preserves the fastest independent-root path. `DynamicQueue` adds a shared branch queue with active-worker accounting, restartable queue state, dedupe, and bounded branch/record caps for imbalanced full-corpus discovery.
+  - Completed: hardened the shared lock helper used by queue/rate files. PowerShell wraps `[IO.File]::Open` lock contention in a method-invocation exception, so the retry now detects wrapped IO exceptions, waits with jitter, and retries for up to 60 seconds.
+  - Completed: tested two-stage `Discover` with page snapshots followed by `Capture` from snapshots. The capture phase produced 250 listing rows in 2.482 seconds, or 100.7 rows/sec, with 0 failures and 0 blocked responses at `D:\PRONI\eCatalogue\crawler-probes\two-stage-discover-capture-20260627-192522\summary.json`; this is useful for restartability/durability, not faster than direct letter-split indexing.
+  - Completed: tested direct endpoint reconstruction against a fresh Browse session for `AA/1/2/1`. Normal Browse postback confirmed the record, but 12 guessed direct URL/query candidates returned no usable detail endpoint. No direct endpoint should be used unless a later authenticated/service endpoint is discovered.
+  - Verification evidence: PowerShell parser check passed after the code changes. Dynamic queue bounded probe `D:\PRONI\eCatalogue\crawler-probes\discover-index-dynamic-w16-w32-20260627-194712\summary.json` produced 1,496 index rows at 32.004 rows/sec, 0 failures, and 0 blocked responses. This proves correctness/restartability but is slower because it reopens branch paths.
+  - Verification evidence: post-patch fast `LetterSplit` bounded probe `D:\PRONI\eCatalogue\crawler-probes\discover-index-lettersplit-w16-w32-postpatch-20260627-194906\summary.json` produced 3,264 index rows at 206.485 rows/sec, 0 failures, and 0 blocked responses. Recommendation: use `LetterSplit` with `GlobalRps=0`, `WorkerRps=32`, `Workers=16`, `BufferSize=2500`, snapshots disabled for fastest index generation; use `DynamicQueue` only when branch imbalance/resume behavior matters more than raw speed.
+
+
+# PRONI Full Index Discovery Speed Improvements
+
+- [x] Implement improvements 1-6 for fast full-index preparation.
+  - Task: add a production-oriented combined discovery/index path for the PRONI Browse crawler so the 1.5m-record listing index can be built as quickly as possible before full detail scraping.
+  - Improvements: write listing rows while discovering branches/pages; parallelise independent roots; add adaptive rate/backoff controls; buffer JSONL writes; checkpoint branch/page progress aggressively; keep branch discovery/index separate from full detail capture.
+  - Constraints: do not run the full corpus crawl in this task; run bounded probes only; preserve full dynamic all-field detail capture for `Fetch`; keep output suitable for `D:\PRONI\eCatalogue\...`.
+  - Verification plan: PowerShell parser check, diff check, bounded live `DiscoverIndex` probe, bounded parallel-root probe, summary/rate inspection, and scoped commit/push.
+  - Completed: added `-Mode DiscoverIndex`, which writes listing index rows while traversing branch/page discovery, preserving `Fetch` as the separate dynamic all-field detail-capture mode.
+  - Completed: added buffered JSONL writes for high-volume output files, with flushes at branch/task checkpoints and before derived summary stats.
+  - Completed: added adaptive shared global pacing via `global-rate.json`, including clean-streak rate increases and slow/blocked response backoff.
+  - Completed: added parallel independent-root discovery/index workers, per-worker shard files, merged discovery/page/index outputs, and worker summary aggregate counters.
+  - Completed: normalized comma-separated `Letters` values and made worker letter chunks pass as comma-separated strings to avoid PowerShell array-binding errors.
+  - Verification evidence: PowerShell parser check passed. Single-worker bounded probe at `D:\PRONI\eCatalogue\crawler-probes\discover-index-leaf` produced 4 discovered branches, 6 discovery pages, 30 merged index rows, 0 failures, and 0 blocked responses.
+  - Verification evidence: parallel bounded probe at `D:\PRONI\eCatalogue\crawler-probes\discover-index-parallel-final-leaf` launched 2 workers, merged 2 index shards / 2 discovery shards / 2 discovery-page shards, produced 8 discovered branches, 11 discovery pages, 40 merged index rows, 0 failures, and 0 blocked responses.
+
 # PRONI Branch Discovery / Record Capture Split
 
 - [x] Split PRONI Browse branch discovery from record data capture.
@@ -968,7 +1072,7 @@
 
 ## Review: dirty worktree and untracked files
 - The dirty tree is not one coherent changeset. It mixes intentional generated Browse metadata, timestamp/line-ending churn, local scratch scripts with private paths, an untracked temporary clone, imported private/refactored election code, and generated reports.
-- Highest-risk untracked material: `privaterep_refactored/` and Pointer/postcode scripts because they contain imported code, caches/pyc files, and local/private data paths such as `D:\eoni\properties.geojson` and `G:\My Drive`.
+- Highest-risk untracked material: `privaterep_refactored/` and sensitive address/postcode scratch scripts because they contain imported code, caches/pyc files, and local/private drive paths.
 - Best next step is non-destructive cleanup: export a patch and untracked inventory, then move scratch/private directories outside the repo or into a quarantine outside tracked paths before staging any intentional public data/metadata.
 
 # Fix election pane count semantics, party deltas, and map colour consistency
@@ -4966,20 +5070,18 @@ Review remaining /test parity after final non-data polish
   - Verification:
     - `npm run check:test` passed. Existing warning-only findings remain: two large tile-budget layers plus one aggregate warning that 18 PMTiles layers retain local-only directory fallbacks disabled off localhost.
 
-Find Pointer postal address coordinate data
+Sensitive postal-address source handling
 - [x] Record the search request
-- [x] Search the `boundaries-website` repo for Pointer files and references
-- [x] Enumerate local/external drives and search likely external storage locations
-- [x] Report candidate paths, confidence, and follow-up steps
+- [x] Search the workspace for sensitive address-source references
+- [x] Check likely local/private storage locations without publishing source details
+- [x] Report handling constraints and follow-up steps
   - Review:
-    - Repo scripts reference a Pointer/EONI properties source at `D:\eoni\properties.geojson`.
-    - Verified `D:\eoni\properties.geojson` exists on the external HDD and is 335,653,079 bytes, last modified 2026-04-27 00:41:42.
-    - Light header inspection confirms it is a GeoJSON FeatureCollection of postal address point records with fields including `UPRN`, `Address1`-`Address5`, `POSTCODE`, `X_COR`, `Y_COR`, and lon/lat point geometry.
-    - Verified derived postcode district outputs exist in Google Drive at `G:\My Drive\NI Postcode Districts - Polygons.geojson` and `G:\My Drive\NI Postcode Districts - Polygons Map.png`.
+    - A local sensitive address-coordinate candidate was found outside the workspace and must remain private.
+    - No public catalogue, Browse source, map layer, source-enrichment row, Internet Archive item, CDN object, or tracked task note should name or describe the private source.
+    - Derived aggregate postcode/geography outputs require their own rights and disclosure review before any publication.
   - Verification:
-    - `Test-Path D:\eoni\properties.geojson` returned true.
-    - `Get-ChildItem D:\eoni` showed `properties.geojson`, `polling_stations.geojson`, and scrape logs.
-    - Read only the first 4 KB of `properties.geojson` to confirm schema without loading the full 336 MB file.
+    - Performed read-only local checks without copying source rows into the workspace.
+    - Public/tracked follow-up must refer only to the generic sensitive-source hold.
 
 Debug GeoDirectory CAPTCHA loading
 - [x] Record the browser-debugging request
@@ -7426,3 +7528,367 @@ Review:
   - Task: test whether branch page reuse, two-pass Browse indexing, branch-level parallelism, alternate HTTP clients, and checkpointed branch queues can reduce overhead without violating the Browse-only constraint or reintroducing WebForms state corruption.
   - Completed: added `scripts/proni-overhead-research.ps1` and documented findings in `tasks/proni-overhead-derisking-2026-06-26.md`.
   - Verification: live Browse-only probe against `A > AA > AA/1 > AA/1/2` confirmed a branch snapshot can fetch 12 distinct detail records with no WebForms state corruption, averaging 107 ms per detail record after a 1.26 s branch open. Reopening the indexed branch reproduced 5/5 expected records. The note records guardrails for branch batching, two-pass indexing, parallelism, client choice, and checkpointing.
+
+# Remaining ROI Review For Pre-PRONI Work
+
+- [x] Rank remaining tasks across peatland Geoportal work, D-drive content integration, and immediate site-facing fixes.
+  - Task: use the inherited context, generated review artifacts, and current validators to list remaining work in descending ROI with caveats/blockers.
+  - Completed: reviewed the attached inherited-context summary, `tasks/peatland-geoportal-duplicate-review-2026-06-25.md`, `tasks/d-drive-content-blocker-summary-2026-06-24.json`, `tasks/medium-priority-publication-prep-2026-06-25/summary.json`, `tasks/already-on-site-enrichment-summary-2026-06-24.json`, and the relevant task-log sections.
+  - Verification evidence: `node scripts/validate-peatland-geoportal-sources.mjs` passed with 330 source records, 66 enrichment rows, 26 SAC candidates, and 14 variant rows; `node scripts/validate-medium-priority-publication-sources.mjs` passed with 2,347 records and no local paths exposed; `node scripts/validate-pages-file-budget.mjs` passed at 8,178/18,500 deployable files; `node scripts/validate-maplibre-root-promotion.mjs` passed. `node scripts/validate-test2-route.mjs` is currently blocked by missing `data/timeline-transition-overlays/wards-1993__wards-2012.geojson`, so route-level UI verification still needs that blocker resolved.
+
+# Restore Route-Level UI Verification
+
+- [x] Update route validator for sharded timeline transition overlays.
+  - Task: replace the stale single-file runtime overlay assumption in `scripts/validate-test2-route.mjs` with manifest/runtimePaths-aware validation.
+  - Verification plan: run `node --check scripts/validate-test2-route.mjs`, `node scripts/validate-test2-route.mjs`, and `node scripts/validate-timeline-transition-overlays.mjs`.
+  - Completed: `scripts/validate-test2-route.mjs` now reads `data/timeline-transition-overlays/manifest.json`, loads each required Wards transition via `runtimePaths`, and validates shard size, runtime metadata, feature counts, and visible transition types across all shards.
+  - Verification evidence: `node --check scripts\validate-test2-route.mjs`; `node scripts\validate-timeline-transition-overlays.mjs` passed with 136 runtime overlays; `node scripts\validate-test2-route.mjs` passed.
+- [x] Re-run publication and deployment guardrails.
+  - Task: prove the existing peatland/D-drive source publication state and deploy file budget remain clean after the validator fix.
+  - Verification plan: run peatland, medium-priority publication, root route promotion, and Pages file-budget validators.
+  - Completed: re-ran the non-browser publication, file-budget, route-promotion, PMTiles CDN metadata, raw-source, external-source, election-audit, performance-dashboard, and full `npm run check` guardrails.
+  - Verification evidence: `npm run check` passed end-to-end; `node scripts\validate-test2-pmtiles-cdn.mjs` passed metadata validation with 666 PMTiles layers and 2 warnings for Irish hill-domain PMTiles not directly represented in the CDN upload manifest; `node scripts\audit-test2-election-data.mjs --fail-on-blocking` reported 0 blocking issues and 331 non-blocking warnings.
+- [x] Browser-smoke the visible route flows.
+  - Task: verify the mobile catalogue/map toggle remains reachable, Civil Parishes can load, and visible catalogue/source records are reachable through the app route.
+  - Verification plan: use the app's existing browser smoke tooling or a local dev server plus Playwright/browser checks.
+  - Completed: ran the focused `/test2` Playwright smoke checks for mobile map/catalogue controls, TOC-first mobile catalogue rendering, and the Civil Parishes converted-layer catalogue callback.
+  - Verification evidence: `npx playwright test tests/browser/test2-app.spec.js -g "mobile map and catalogue controls do not collide|mobile catalogue renders TOC first"` passed 2/2 tests; `npx playwright test tests/browser/test2-app.spec.js -g "loads a converted layer through the main catalogue map callback"` passed 1/1 test and verified the Civil Parishes layer rendered features. The broader `node scripts\audit-test2-general-parity.mjs` probe stalled and was stopped, so focused browser smoke coverage was used instead of the full parity audit.
+- [x] Record review findings.
+  - Task: summarize what was fixed, what passed, and any remaining blockers or caveats.
+  - Completed: findings recorded in this task log and ready for handoff.
+
+# Route Verification Follow-Up Triage
+
+- [x] Decide whether to keep regenerated audit report diffs.
+  - Task: inspect the generated election audit and CDN validation report diffs and decide whether they are useful evidence, stale generated churn, or signal that the generator/audit inputs need a follow-up fix.
+  - Completed: the regenerated election audit report should not be kept as-is with the route-validator fix because it reports `source detail records: 0` after looking in obsolete `data/browse/details/sources`, while the current 276 election detail records live under `data/browse/details/elections`. The regenerated PMTiles CDN report is useful as diagnostic evidence, but it should only be kept if paired with the CDN manifest/upload follow-up or intentionally refreshed report baseline.
+  - Verification evidence: `data/browse/details/sources` is absent; `data/browse/details/elections` contains 276 JSON records including `dail-eireann-2024-11-29.json`; `tasks/test2-election-data-audit.json` warning counts are 276 `source-record-missing`, 26 `valid-poll-review`, and 29 `candidate-list-review`.
+- [x] Investigate the stalled broad parity audit.
+  - Task: inspect `scripts/audit-test2-general-parity.mjs`, rerun it with bounded diagnostics, and identify whether it is blocked by browser startup, network/tiles, route boot, or audit-script control flow.
+  - Completed: reran the audit under a 120 second wrapper with output captured to `tmp/test2-general-parity-debug.*`; it completed rather than hanging. The audit produced 13 passes, 4 required failures, and 1 reported-only item. The long waits were two 20 second failures looking for Roscommon Galway on the main map. The audit is partly stale after root promotion: `/test2/index.html` redirects to `/`, but the audit still asserts `/test2/`, and its mobile check uses old `#mobileToggle` header expectations instead of the current `#mobilePaneToggle` header control.
+  - Verification evidence: `tmp/test2-general-parity-report-debug.json` recorded failures for `elections.selected-pane`, `elections.mode-coverage`, `url.restore`, and `mobile`; `test2/index.html` redirects to `/` while preserving hash/query; focused Playwright tests for mobile controls and Civil Parishes already pass.
+- [x] Explain warning handling for election audit and PMTiles CDN manifest warnings.
+  - Task: classify the 331 election audit warnings and 2 PMTiles CDN-manifest warnings by risk and recommend the next action.
+  - Completed: 276 election warnings are stale source-detail path assumptions and should be fixed in the audit to read `data/browse/details/elections`; 55 remaining election warnings are known data-quality review sidecars that should remain warnings until source review resolves them. The 2 PMTiles warnings are deployment-manifest coverage gaps for local Irish hill-domain PMTiles archives, not route-validator failures.
+  - Verification evidence: local PMTiles exist at `test/pmtiles/generated/irish-hill-summit-domains-vector-test.pmtiles` (36,517,690 bytes) and `test/pmtiles/generated/irish-hill-prominence-domains-vector-test.pmtiles` (35,395,715 bytes), but `test/metadata/cdn-upload-manifest.json` has no matching assets for those layer IDs/URLs/local paths.
+- [x] Record findings.
+  - Task: update this section with findings, caveats, and verification evidence.
+  - Completed: findings recorded here and summarized for handoff.
+
+# Route Parity Audit And CDN Manifest Follow-Up
+
+- [x] Update broad parity audit for root promotion and current mobile selectors.
+  - Task: revise `scripts/audit-test2-general-parity.mjs` so `/test2` redirecting to `/` is accepted, mobile checks use the current fixed-header `#mobilePaneToggle`, and brittle selected-election setup no longer depends on finding a main-map feature by scanning rendered layers.
+  - Verification plan: run syntax check and a bounded broad parity audit.
+  - Completed: updated the broad parity audit to accept the root-promoted route, use `#mobilePaneToggle` for fixed-header mobile checks, validate selected election panes through URL-restored state instead of a main-map feature scan, and validate election entity links against the current catalogue-detail behavior.
+  - Verification evidence: `node --check scripts\audit-test2-general-parity.mjs` passed; bounded `node scripts/audit-test2-general-parity.mjs` run passed every required area and wrote `tmp/test2-general-parity-report-root-promotion.json`.
+- [x] Regenerate/update the CDN upload manifest.
+  - Task: run the manifest generator against current `test/metadata/maps-test.json` so the two Irish hill-domain PMTiles layers are represented.
+  - Verification plan: inspect manifest entries for `irish-hill-summit-domains-vector-test` and `irish-hill-prominence-domains-vector-test`.
+  - Completed: regenerated `test/metadata/cdn-upload-manifest.json`; it now has PMTiles entries and wrangler commands for `irish-hill-summit-domains-vector-test` and `irish-hill-prominence-domains-vector-test`.
+  - Verification evidence: manifest reports 574 total assets; target entries record 36,517,690 bytes for summit domains and 35,395,715 bytes for prominence domains.
+- [x] Upload and verify the two Irish hill-domain PMTiles objects.
+  - Task: upload only `irish-hill-summit-domains-vector-test` and `irish-hill-prominence-domains-vector-test` to the configured R2/CDN target, then verify byte-range serving.
+  - Verification plan: use the existing PMTiles deploy and CDN verification scripts with scoped layer IDs.
+  - Completed: uploaded both PMTiles archives to `boundaries-data` under `data/maps/test/pmtiles/generated/`, then ran full CDN range verification across the regenerated PMTiles manifest.
+  - Verification evidence: `npm run deploy:test:pmtiles -- --ids irish-hill-summit-domains-vector-test,irish-hill-prominence-domains-vector-test` reported 2/2 uploaded, 0 failed, 71,913,405 bytes; `npm run verify:test:pmtiles-cdn` verified 573/573 PMTiles assets. The two target URLs returned HTTP 206 with 16-byte range bodies and `Accept-Ranges: bytes`.
+- [x] Rerun CDN validation.
+  - Task: rerun `validate-test2-pmtiles-cdn` and record whether warnings are cleared.
+  - Completed: added `byteRangeVerifiedAt` for the two uploaded layers in `test/metadata/maps-test.json` and reran the PMTiles/CDN validators.
+  - Verification evidence: `node scripts\validate-test2-pmtiles-cdn.mjs` passed with 666 PMTiles layers, 573 unique URLs, 0 errors, and 0 warnings; `node scripts\validate-test-cdn-manifest.mjs` passed with 0 errors and 0 warnings; `npm run check:test2` passed, including PMTiles metadata coverage `666/666 PMTiles layers use CDN URLs`.
+- [x] Record review findings.
+  - Task: summarize code/data changes, upload status, verification evidence, and any remaining blockers.
+  - Completed: findings recorded here and summarized for handoff. The election audit still reports 331 non-blocking warnings; those are unchanged from the earlier classification and are separate from the CDN manifest/upload fix.
+
+# Election Audit Source Detail Path Fix
+
+- [x] Update election audit to use current Browse election detail records.
+  - Task: fix `scripts/audit-test2-election-data.mjs` so it reads the current `data/browse/details/elections` records instead of treating the removed `data/browse/details/sources/election-source-*.json` path as mandatory.
+  - Verification plan: rerun `npm run check:test2`, inspect warning category counts, and confirm stale `source-record-missing` warnings are gone.
+  - Completed: updated `keyToSourceDetailPaths` to check `data/browse/details/elections/*.json` first while retaining the legacy `data/browse/details/sources/election-source-*.json` fallback; updated source-detail file counting to use current election details when present.
+  - Verification evidence: direct `node scripts\audit-test2-election-data.mjs --fail-on-blocking` passed with 0 blocking issues and 55 warnings; source detail stats now show 276 detail files, 0 parent source records missing, and 276 source records with multiple references.
+- [x] Record remaining warnings.
+  - Task: summarize the remaining warning categories after the path fix and distinguish real data-review items from tooling drift.
+  - Completed: stale `source-record-missing` warnings are gone. Remaining warnings are 26 `valid-poll-review` records and 29 `candidate-list-review` records, all already marked `source-review-required`.
+  - Verification evidence: `npm run check:test2` passed; audit warning categories are `valid-poll-review: 26` and `candidate-list-review: 29`; PMTiles/CDN validation remains at 0 errors and 0 warnings.
+
+# Election Audit Source Detail Path Fix
+
+- [ ] Update election data audit for current Browse detail layout.
+  - Task: change `scripts/audit-test2-election-data.mjs` so election source/detail presence checks use current `data/browse/details/elections` records rather than obsolete `data/browse/details/sources/election-source-*.json` records.
+  - Verification plan: run syntax check and `npm run check:test2`.
+- [ ] Advise remaining election audit warnings.
+  - Task: report the remaining warning categories after stale source-detail warnings are removed.
+- [ ] Record review findings.
+  - Task: summarize code changes, generated report changes, verification evidence, and remaining data-review warnings.
+
+# NI Assembly Register Of Interests Source Review
+
+- [x] Inventory NI Assembly register-of-interests source pages and documents.
+  - Task: scrape or enumerate the public HTML/PDF/document links from `https://www.niassembly.gov.uk/your-mlas/register-of-interests/` and `https://archive.niassembly.gov.uk/members/expenses/register_home.htm`.
+  - Constraints: keep downloaded/source artifacts under ignored `tmp/` or task-report paths unless a later publishing step is approved; do not publish copied document bodies to Browse in this feasibility pass.
+  - Verification plan: record source URLs, HTTP status/content type where available, detected format, title/date hints, and duplicate/coverage counts.
+  - Completed: added and ran a focused scraper under `tmp/ni-assembly-registers/`, capturing the two landing pages, linked dated HTML/PDF editions, and the current NI Assembly XML/JSON/JSONP register API outputs.
+  - Verification evidence: final inventory contains 75 records, all HTTP 200, with 38 PDFs, 32 HTML pages, 2 landing HTML pages, 2 JSON/JSONP payloads, 1 XML payload, 17,762,712 downloaded bytes, and 0 duplicate payload groups.
+- [x] Extract Northern Ireland MPs only from the supplied Westminster register CSV.
+  - Task: read `C:\Users\scomo\Downloads\register_of_interests.csv`, identify MP rows for Northern Ireland constituencies only, and write a structured extract/report.
+  - Constraints: exclude England, Scotland, and Wales MPs; preserve enough source columns to make filtering auditable.
+  - Verification plan: inspect CSV headers, validate constituency matching against the 18 NI Westminster constituencies, and report included/excluded counts.
+  - Completed: derived NI Westminster MPs from local UK House of Commons election result bundles from 1997 onward, matched CSV `member_name` values with audited aliases, and wrote filtered rows plus member-level diagnostics under `tmp/ni-assembly-registers/`.
+  - Verification evidence: read 132,614 CSV rows / 1,912 CSV members; matched 55 NI MPs; wrote 1,623 NI-only declaration rows; recorded 4 NI election winners not present in the CSV under checked names.
+- [x] Assess Browse-section feasibility.
+  - Task: compare the discovered NI Assembly documents and filtered Westminster CSV extract with the existing Browse source-record architecture.
+  - Verification plan: inspect current Browse source generation/validation patterns, identify the minimal data shape needed, and document blockers, risks, and recommended next steps.
+  - Completed: reviewed the Browse source pipeline and wrote `tasks/ni-assembly-register-source-review-2026-06-27.md`.
+  - Verification evidence: identified `scripts/build-browse-indexes.mjs` as the materialization path for source sidecars into `data/browse/sources.json` and sharded source details; recommended a metadata-only sidecar plus dedicated validator before publication.
+
+## Review: NI Assembly Register Of Interests Source Review
+
+- Scraped/inventoried the NI Assembly current and archive register sources into ignored scratch outputs without publishing copied third-party document bodies.
+- Extracted the supplied Westminster register CSV to Northern Ireland MPs only using local election-result-derived MP identities rather than un-audited text matching.
+- Feasibility conclusion: Browse publication is straightforward as metadata-only source records; structured per-interest extraction is feasible for the current API and more involved for historical HTML/PDF editions.
+
+# Additional Register Of Interests CSV NI Extracts
+
+- [x] Extract Northern Ireland MPs only from `register_of_interests (1).csv`.
+  - Task: reuse the audited NI Westminster MP matching approach from the previous extract and write distinct output files.
+  - Verification plan: syntax-check the extractor, run it against the CSV, inspect row/member counts, and record unmatched NI winner diagnostics.
+  - Completed: wrote `tmp/ni-assembly-registers/register-of-interests-1-ni-mps.csv`, `tmp/ni-assembly-registers/register-of-interests-1-ni-mp-members.csv`, and `tmp/ni-assembly-registers/register-of-interests-1-ni-mps-summary.json`.
+  - Verification evidence: read 14,171 rows / 649 CSV members; matched 16 NI MPs; wrote 76 NI-only declaration rows; matched declaration span is 2024-08-04 to 2026-06-15.
+- [x] Extract Northern Ireland MPs only from `register_of_interests (2).csv`.
+  - Task: reuse the audited NI Westminster MP matching approach from the previous extract and write distinct output files.
+  - Verification plan: syntax-check the extractor, run it against the CSV, inspect row/member counts, and record unmatched NI winner diagnostics.
+  - Completed: wrote `tmp/ni-assembly-registers/register-of-interests-2-ni-mps.csv`, `tmp/ni-assembly-registers/register-of-interests-2-ni-mp-members.csv`, and `tmp/ni-assembly-registers/register-of-interests-2-ni-mps-summary.json`.
+  - Verification evidence: read 23,982 rows / 674 CSV members; matched 18 NI MPs; wrote 280 NI-only declaration rows; matched declaration span is 2014-05-12 to 2024-05-28.
+- [x] Record results and output paths.
+  - Task: update this task log with counts, diagnostics, and the generated scratch output paths.
+  - Completed: wrote `tasks/ni-register-additional-csv-extracts-2026-06-27.md` and recorded the output paths above.
+  - Verification evidence: `node --check tmp\ni-assembly-registers\extract-ni-mp-register-csv.mjs`; both extraction commands completed successfully; member-summary inspection confirmed only matched NI MPs are present in the extracted outputs.
+
+## Review: Additional Register Of Interests CSV NI Extracts
+
+- Extracted both additional register CSVs into separate NI-only output sets without overwriting the previous full CSV extract.
+- High unmatched NI winner counts in these summary files are expected because the matcher uses all NI Westminster winners from 1997 onward while these two source CSVs cover narrower date ranges.
+
+# D Drive Safe Publication Current Review
+
+- [x] Audit what safe D-drive publication/enrichment work remains possible without new user approval.
+  - Task: inspect the existing D-drive publication, raw-source, and enrichment artifacts; distinguish already-published approved batches from material still gated by rights, IA mirroring, duplicate/variant, or map-conversion decisions.
+  - Verification plan: rerun the focused D-drive/source validators and file-budget checks, then record what can be done immediately versus what requires user approval.
+  - Completed: confirmed the self-actionable D-drive work is already materialised as metadata/source records: 2,347 medium-priority source records, 252 raw source-document records, and 91 applied already-on-site enrichment rows across 89 targets. No additional public D-drive publication is safe without new approval because the remaining queues are review-only, residual-review, IA-mirroring, duplicate/variant, special-format, or map-conversion gated.
+  - Verification evidence: `node scripts\validate-medium-priority-publication-sources.mjs`; `node scripts\validate-raw-source-documents.mjs`; `node scripts\validate-already-on-site-enrichments.mjs`; `node scripts\validate-approved-publication-path.mjs`; `node scripts\validate-external-sources.mjs`; `node scripts\validate-pages-file-budget.mjs`; `node scripts\validate-peatland-geoportal-sources.mjs`; `npm run check`.
+- [x] Record current findings and remaining user-owned decisions.
+  - Task: summarize whether any additional local-only implementation is safe now, list validation evidence, and identify the decisions the user still needs to make before further publication.
+  - Completed: recorded that further progress now requires user decisions on IA mirroring for 252 raw-source rows, review-only already-on-site rows, medium-priority residual-review/runtime-conversion rows, and any new interactive map/PMTiles promotion.
+
+# D Drive Remaining Decision Packs
+
+- [x] Rank already-on-site review-only rows.
+  - Task: classify the 1,022 review-only already-on-site rows into safe/probable/hold batches with evidence and recommended next action.
+  - Constraints: do not apply the rows to public records in this task.
+  - Completed: generated `tasks/d-drive-remaining-decision-packs-2026-06-27/already-on-site-review-rankings.csv` and `.json`; buckets are 59 safe related-source enrichment reviews, 305 probable variant/source enrichments, 510 low-confidence variant holds, 143 context-overlap holds, and 5 weak-match holds.
+- [x] Rank medium-priority residual-review rows.
+  - Task: group residual-review medium-priority rows into approval bundles such as safe download-only, enrichment, variant child, interactive map candidate, and hold.
+  - Constraints: do not create runtime/catalogue records, IA uploads, R2/CDN assets, or PMTiles in this task.
+  - Completed: generated `tasks/d-drive-remaining-decision-packs-2026-06-27/medium-priority-residual-bundles.csv` and `.json`; buckets are 44 safe download-only/IA mirror candidates, 39 enrichment approval rows, 38 variant-child map candidates, 43 interactive-map rows still held pending dedupe/rights, 6 variant-child holds pending crosswalk, 2 rights-review download holds, 288 special-format download-only holds, and 766 batch-review holds.
+- [x] Rank runtime conversion and PMTiles candidates.
+  - Task: identify the highest-ROI candidate conversions and explain prerequisite checks before any map-layer promotion.
+  - Constraints: no conversion/build/upload until the user approves specific candidates.
+  - Completed: generated `tasks/d-drive-remaining-decision-packs-2026-06-27/runtime-conversion-candidates.csv` and `.json`; 399 conversion-plan rows were ranked, including 22 tier-1 first-pass candidates, 38 tier-2 after-crosswalk candidates, 302 dedupe/versioning holds, 28 general holds, and 9 rights-blocked candidates.
+- [x] Classify licence and rights risk.
+  - Task: attach available provider/licence evidence, flag unclear rows, and block upload/conversion recommendations where rights are weak.
+  - Completed: fetched/cached CKAN licence metadata for 1,586 derived provider package URLs in `provider-license-cache.json`, generated `licence-risk-review.csv` and `.json`, confirmed 2,580 rows with standard open licence metadata, and flagged 67 rows that still need rights/provider review before mirroring or conversion.
+- [x] Record findings and remaining user decisions.
+  - Task: write generated reports and summarize what the user needs to approve next.
+  - Completed: wrote `summary.json` and `README.md` in `tasks/d-drive-remaining-decision-packs-2026-06-27/`; no public Browse/database records, PMTiles, IA uploads, or R2/CDN assets were changed.
+  - Verification evidence: `node --check scripts\build-d-drive-remaining-decision-packs.mjs`; `node scripts\build-d-drive-remaining-decision-packs.mjs --fetch-licenses`; local-path scan over `tasks/d-drive-remaining-decision-packs-2026-06-27`; `node scripts\validate-pages-file-budget.mjs`; `npm run check`.
+
+# Apply Approved Already-On-Site Source Enrichments
+
+- [x] Promote the approved 55 rights-clear already-on-site rows.
+  - Task: update the repeatable already-on-site enrichment generation so the approved safe related-source rows move from review-only into source/provenance enrichment, while rows 1005, 521, 945, and one sensitive row remain held.
+  - Constraints: do not create duplicate parent records, map layers, PMTiles, IA uploads, or CDN assets; broad Tailte statutory-boundary rows must be attached as related statutory-boundary family evidence, not exact `counties-ireland` equivalence.
+  - Completed: added the approved 55 row numbers to the generator, kept rows 1005, 521, 945, and one sensitive row review-only, and grouped the nine broad Tailte/OSI 2019 statutory-boundary rows under `already-on-site-family:tailte-osi-2019-statutory-boundaries` with relationship text stating they are not exact geometry or map-parent equivalence.
+- [x] Regenerate source/Browse outputs and validate.
+  - Task: rebuild already-on-site enrichment records and Browse indexes, then run focused validators and aggregate checks.
+  - Completed: regenerated `data/database/already-on-site-enrichments.json` and Browse source indexes/details. Applied source rows increased from 91 to 146, applied targets from 89 to 124, and review-only rows dropped from 1,022 to 967.
+- [x] Record findings and remaining holds.
+  - Task: document applied counts, held rows, verification evidence, and any caveats.
+  - Completed: verified the four held rows remain review-only, and verified the Tailte/OSI statutory-boundary family target carries the approved family-level relationship wording.
+  - Verification evidence: `node --check scripts\build-already-on-site-enrichment-records.mjs`; `node --check scripts\build-browse-indexes.mjs`; `node --check scripts\validate-already-on-site-enrichments.mjs`; `node scripts\build-already-on-site-enrichment-records.mjs`; `node scripts\build-browse-indexes.mjs`; `node scripts\validate-already-on-site-enrichments.mjs`; `node scripts\validate-external-sources.mjs`; `node scripts\validate-pages-file-budget.mjs`; `npm run check`.
+
+# NI Register Interests Browse Publication
+
+- [x] Build NI register data sidecars.
+  - Task: create tracked generated JSON sidecars for NI Assembly register sources and structured MLA/NI MP register-interest rows.
+  - Verification plan: run the builder, inspect record counts, and confirm generated files do not expose local scratch paths.
+  - Completed: added `scripts/build-ni-register-interests.mjs`, generated `data/database/ni-register-sources.json`, `data/database/ni-register-interests.json`, and 35 structured-data shards under `data/database/ni-register-interests/`.
+  - Verification evidence: builder produced 80 NI register source records and 34,360 interest rows: 424 current MLA API rows, 32,314 historical MLA HTML rows, and 1,622 deduplicated Northern Ireland MP rows.
+- [x] Wire NI register data into Browse.
+  - Task: include NI register source records in the existing Sources Browse section and add a dedicated Browse index for register-interest rows.
+  - Verification plan: rebuild Browse indexes and confirm `data/browse/sources.json`, source detail shards, and `data/browse/register-interests.json` contain the NI register records.
+  - Completed: wired `data/database/ni-register-sources.json` into the source pipeline, added a first-class `Register Interests` Browse section, and wrote a compact `data/browse/register-interests.json` index that links detail views to structured-data shards.
+  - Verification evidence: `npm run build:browse` reports 34,360 register-interest Browse records and 10,827 source records; `data/browse/register-interests.json` is 21,584,833 bytes, under the 25 MB Pages guardrail.
+- [x] Add validation guardrails.
+  - Task: validate source coverage, NI-only MP filtering, current MLA API row counts, structured row counts, and Browse materialization.
+  - Verification plan: add and run a focused `check:ni-register-interests` script.
+  - Completed: added `scripts/validate-ni-register-interests.mjs` and included it in `npm run check`.
+  - Verification evidence: `npm run check:ni-register-interests` passed; `npm run check` passed; `npm run build` passed.
+- [x] Record review findings.
+  - Task: document what was published, extraction coverage, verification evidence, and remaining feasibility caveats.
+  - Completed: published source records for all 75 scraped Assembly URLs and structured Browse rows for reliable provider JSON, historical HTML, and NI-only MP CSV data. PDF editions are represented as source records rather than low-confidence row-level parses.
+
+## Review: NI Register Interests Browse Publication
+
+- Published a dedicated Register Interests Browse section for 34,360 structured rows and added 80 related source records to Books / Tables / Sources.
+- The implementation keeps full extracted interest text in sharded JSON so Browse can stay under Cloudflare Pages' per-file limit while still loading full details on demand.
+- Extraction coverage is high-confidence for the current NI Assembly JSON API and NI-only MP CSV rows, medium-confidence for historical MLA HTML pages, and source-record-only for PDF editions.
+
+# NI Register PDF Full Extraction
+
+- [x] Inspect PDF text extraction quality.
+  - Task: sample the NI Assembly PDF editions with available PDF tooling, identify recurring member/category layout patterns, and distinguish text-layer PDFs from any extraction failures.
+  - Verification plan: record PDF count, extractable text count, and sample parsed rows before touching generated public data.
+  - Completed: confirmed `pypdf` text extraction is available and sampled older archive and newer current PDFs. The PDFs expose usable text layers with member headings and numbered register categories.
+  - Verification evidence: inspected 38 PDF inventory records and sample text from 2007/2009/2010 archive PDFs plus 2019/2025 current PDFs.
+- [x] Implement PDF row extraction.
+  - Task: extend the NI register generator so PDF editions produce structured MLA member/category rows, deduplicated per source document.
+  - Verification plan: regenerate structured shards and compare counts for `historical-pdf-register` rows against the 38 PDF source records.
+  - Completed: added `scripts/extract-pdf-text.py`, integrated PDF parsing into `scripts/build-ni-register-interests.mjs`, regenerated structured shards, and added inferred empty-category rows where PDFs omit text under a numbered category.
+  - Verification evidence: builder produced 39,297 `historical-pdf-register` rows across all 38 PDF source documents; total structured interest rows are now 73,657.
+- [x] Extend validation.
+  - Task: update the NI register validator so PDF source records must have structured row coverage, and so source-only PDF publication cannot pass.
+  - Verification plan: run `npm run check:ni-register-interests`.
+  - Completed: validator now requires 39,297 PDF rows, page references on PDF rows, valid PDF category headings, and structured row coverage for all 38 PDF source records.
+  - Verification evidence: `npm run check:ni-register-interests` passed with 39,297 historical MLA PDF rows.
+- [x] Rebuild Browse and record results.
+  - Task: rebuild Browse outputs, run aggregate checks/build, and record final PDF extraction counts and caveats.
+  - Completed: sharded the Browse register-interest compact index to keep files below the Pages per-file limit after adding PDF rows.
+  - Verification evidence: `npm run build:browse` reports 73,657 register-interest records and 10,828 source records; `npm run check` passed; `npm run build` passed. `data/browse/register-interests.json` is now a small shard manifest and the largest register-interest Browse shard is about 3.2 MB.
+
+## Review: NI Register PDF Full Extraction
+
+- PDF row-level extraction is now implemented, not just source-record publication.
+- All 38 scraped NI Assembly PDF register documents have structured MLA member/category rows.
+- Final structured counts: 424 current MLA API rows, 32,314 historical MLA HTML rows, 39,297 historical MLA PDF rows, and 1,622 NI MP rows.
+
+# NI Register Canonical Browse Deduplication
+
+- [x] Build canonical interest rows.
+  - Task: group source-specific HTML/PDF/API/CSV extraction rows into canonical register-interest rows and attach all matching source references.
+  - Verification plan: regenerate structured data and confirm source-specific audit rows are retained while Browse-facing canonical rows are fewer than source rows.
+  - Completed: added canonical interest shard generation to `scripts/build-ni-register-interests.mjs`. Raw source-specific extraction shards remain available for audit, while canonical shards merge exact normalized duplicate interests and retain `sourceRefs`.
+  - Verification evidence: regenerated 75,908 source-specific extraction rows into 8,289 canonical Browse interests, merging 67,619 duplicate source rows.
+- [x] Switch Browse to canonical rows.
+  - Task: update Browse generation so `Register Interests` lists canonical interests, with source references for duplicate HTML/PDF/API evidence.
+  - Verification plan: rebuild Browse and confirm register-interest counts use canonical rows, not raw extracted source rows.
+  - Completed: updated `scripts/build-browse-indexes.mjs` to read `canonicalShards`, write sharded compact Browse index records, and keep canonical detail rows linked to their source-reference evidence.
+  - Verification evidence: `npm run build:browse` reports 8,289 register-interest Browse records and 10,828 source records; Browse register-interest compact shards are 4.48 MB and 2.93 MB.
+- [x] Guard against duplicate Browse rows.
+  - Task: update validation to fail if exact HTML/PDF duplicate rows appear as separate Browse items, while allowing source-specific audit rows in backend shards.
+  - Verification plan: run `npm run check:ni-register-interests`.
+  - Completed: updated `scripts/validate-ni-register-interests.mjs` to validate source rows, canonical rows, source-reference coverage, merged duplicate counts, and Browse canonical totals.
+  - Verification evidence: `npm run check:ni-register-interests` passed and confirms all 75,908 source rows are covered by canonical `sourceRefs`.
+- [x] Record final counts and caveats.
+  - Task: document source-row count, canonical Browse-row count, source-reference coverage, and verification evidence.
+  - Completed: recorded final source/canonical counts and aggregate verification.
+
+## Review: NI Register Canonical Browse Deduplication
+
+- Browse now lists 8,289 canonical register-interest records instead of 75,908 source-specific extraction rows.
+- The backend keeps all 75,908 source rows for audit: 424 current API rows, 34,565 HTML rows, 39,297 PDF rows, and 1,622 NI MP CSV rows.
+- Canonical rows retain `sourceRefs` so duplicated HTML/PDF/API/CSV evidence is visible from the detail view rather than shown as separate duplicate Browse cards.
+- Verification passed: `npm run check:ni-register-interests`, `npm run check`, and `npm run build`.
+
+# Already-On-Site Remaining Work Research
+
+- [x] Research the remaining task-2 items.
+  - Task: inspect the four held approved rows, the remaining review-only already-on-site queue, and the current dirty-file/package scope, then recommend what to do next.
+  - Verification plan: use structured generated artifacts rather than broad text search; record row counts, blockers, and packaging risks before making recommendations.
+  - Completed: reviewed `data/database/already-on-site-enrichments.json`, `tasks/d-drive-remaining-decision-packs-2026-06-27/already-on-site-review-rankings.json`, the licence-risk decision pack, current map/source records, and live provider metadata for the relevant public data.gov.ie and ArcGIS endpoints.
+  - Item 1 recommendation: promote row 521 only after correcting/confirming the existing `roi-local-authorities-2024` source metadata, because live data.gov.ie now exposes `local-authorities-national-statutory-boundaries-ungeneralised-20241` under CC-BY 4.0 and the same file is already used by the site; promote or repair row 1005 only as a stale-URL fix from dead `dcc_public_cycle_parking_stands` to live `cycle-parking-dcc` under CC-BY 4.0; keep one sensitive address-source row held and withheld from public outputs; keep row 945 held/remap manually because `Counties_RoI` has no public source URL and the automatic target evidence points to weak feature/source matches rather than a reliable counties map target.
+  - Item 2 recommendation: do not bulk-approve the remaining 967 review-only rows. The queue now consists of 4 remaining safe rows, 305 probable variant/source rows, 510 low-confidence holds, 143 context-overlap holds, and 5 weak-match holds. The next ROI batch is not all 305 probable rows; it is a curated source-family pass over the 297 rights-clear probable rows, especially Tailte/OSI statutory-boundary rows, while excluding eight probable rights blockers and avoiding direct attachment of broad Tailte/local-authority rows to unrelated `counties-ireland` or council-topic targets.
+  - Item 3 recommendation: do not stage a task-2-only commit from the current dirty tree without splitting/rebuilding. `scripts/build-browse-indexes.mjs` now contains both already-on-site provenance changes and later NI register-interest changes, and the generated Browse source shards include mixed source-index changes. A clean package should either group task 2 with the later Browse-source additions intentionally, or rebuild/stage task 2 in a clean worktree with NI register files absent and `build-browse-indexes` patch-split to the already-on-site provenance changes only.
+  - Verification evidence: current enrichment summary is 146 applied rows, 124 targets, and 967 review-only rows; original ranking rows not yet applied are 4 safe, 305 probable, 510 low-confidence, 143 context-overlap, and 5 weak-match. Live data.gov.ie probes found `cycle-parking-dcc`, `local-authorities-national-statutory-boundaries-ungeneralised-20241`, `counties-national-statutory-boundaries-ungeneralised-20241`, and `counties-national-statutory-boundaries-20191` as public CC-BY 4.0 packages; the old DCC package URL returns 404 and its old package API returns 403. Live EONI ArcGIS layer metadata is queryable but only states OSNI Crown Copyright at service level.
+
+- [x] Resolve remaining ambiguities across items 1, 2, and 3.
+  - Task: deepen the research enough to remove unresolved ambiguity around the four held rows, the next review-only approval batch, and the clean packaging/staging strategy.
+  - Verification plan: use live provider metadata where needed, structured local decision packs, and git-diff inspection; record final decisions and any remaining user-owned approval points.
+  - Completed: resolved the remaining row-level ambiguity for rows 521, 945, and 1005 plus one sensitive held row, split the review-only queue into implementable approval buckets, and confirmed the current working tree cannot produce a clean task-2-only staged package without either split/rebuild work or an intentional combined source-index package.
+  - Item 1 final disposition: row 521 is rights/source resolved because the local D-drive GeoJSON hash exactly matches the live Tailte Éireann 2024 local-authorities GeoJSON under `local-authorities-national-statutory-boundaries-ungeneralised-20241`; approve it only after fixing the existing `roi-local-authorities-2024` metadata/references, which still describe 2019/generalised source material. Row 1005 is resolved as a stale URL repair to the live `cycle-parking-dcc` package under CC-BY 4.0. One sensitive address-source row remains held and withheld from public outputs. Row 945 remains held/remap-only because local `Counties_RoI.geojson` is a 26-feature ROI counties component that does not byte-match the live Tailte 2019 or 2024 counties GeoJSON downloads and the automatic target evidence points to weak/wrong feature/source matches rather than an exact current map source.
+  - Item 2 final disposition: do not bulk-approve the remaining 967 review-only rows. The next implementable batch should be a curated source-family pass, starting with the rights-clear Tailte/OSI national geospatial rows, then separate OPW/hydro and GSI/geology variant families after manual classifier cleanup. Tailte constituency/Gaeltacht/province/LEA rows need target-family remapping; local-authority topic rows and the mixed other rights-clear rows should stay out of already-on-site direct enrichment until reviewed as source records, map candidates, or council-topic families. The eight probable rows with unresolved rights/provider evidence stay held.
+  - Item 3 final disposition: no clean task-2-only staging path exists from the current dirty tree because `scripts/build-browse-indexes.mjs` and generated Browse source shards now mix the already-on-site provenance work with later NI register-interest source-index work. The clean options are either an intentional combined source-index package after full validation, or a clean worktree rebuild that excludes NI register inputs and patch-splits `build-browse-indexes` to the already-on-site provenance changes only.
+  - Verification evidence: fetched live data.gov.ie package metadata for DCC cycle parking, Tailte 2024 local authorities, Tailte 2019 counties, and Tailte 2024 counties; fetched live EONI ArcGIS service/layer metadata; hashed the relevant D-drive files; confirmed row 521 is an exact live-source hash match and row 945 is not; parsed local GeoJSON structure for `Counties_RoI`, local authorities, and EONI polling-station files; inspected current review-only ranking counts and relevant git diffs.
+
+# Already-On-Site Resolved Rows And Full Review
+
+- [x] Apply resolved row 521 and row 1005 recommendations.
+  - Task: update the repeatable already-on-site generation path so row 521 is no longer held after correcting `roi-local-authorities-2024` 2024/ungeneralised source metadata, and row 1005 uses the live DCC `cycle-parking-dcc` provider package instead of the dead old slug.
+  - Verification plan: regenerate already-on-site/Browse outputs and run the focused already-on-site, external-source, file-budget, and aggregate checks that cover these generated records.
+  - Completed: updated `data/database/maps.json` so `roi-local-authorities-2024` is titled/dated as 2024 ungeneralised Tailte source material and points at the live data.gov.ie package plus GeoJSON download; updated `dcc-dcc-public-cycle-parking-stands` to use the live `cycle-parking-dcc` data.gov.ie package; updated `scripts/build-already-on-site-enrichment-records.mjs` so rows 521 and 1005 are applied with resolved source titles, providers, public package URLs, and CC-BY 4.0 licence metadata.
+  - Result: already-on-site enrichment output now has 148 applied source rows across 126 targets and 965 internal review-only rows. Row 521 is applied to `map-source:roi-local-authorities-2024`; row 1005 is applied to `map-source:dcc-dcc-public-cycle-parking-stands`; row 945 remains held and one sensitive held row is withheld from public outputs.
+- [x] Fully review the remaining review-only queue.
+  - Task: classify the remaining already-on-site review-only rows into source-family approval, remap, hold, and non-enrichment buckets, including the Tailte/OSI, OPW/hydro, GSI/geology, local-authority-topic, mixed-other, and rights-blocked groups.
+  - Verification plan: generate a structured review report under `tasks/`, inspect counts and representative rows, and document recommendations and unresolved blockers.
+  - Completed: added `scripts/review-already-on-site-remaining.mjs` and generated a local ignored decision pack at `tasks/already-on-site-remaining-full-review-2026-06-27/` with `README.md`, `summary.json`, `reviewed-rows.csv`, and `reviewed-rows.json`.
+  - Review result: of 965 internal remaining rows, public outputs withhold one sensitive row. Public review buckets hold 504 low-confidence, 118 context-overlap, 75 local-authority topic/non-enrichment, 39 rights/provider unresolved, 23 mixed row-level, 5 weak-match, and row 945. Candidate source-family review batches are 105 Tailte/OSI national geospatial rows, 14 OPW/hydro rows, 11 GSI/geology rows, 17 Open Data NI rows, 7 heritage/environment rows, and 1 census/statistical row. A further 44 Tailte government-boundary rows need target-family remapping before approval.
+- [x] Record findings and dirty-tree cleanup guidance.
+  - Task: explain sensitive held-row handling, summarize the full review, and describe clean packaging options for the current mixed working tree.
+  - Completed: recorded findings in this section and prepared dirty-tree guidance for handoff. The current tree remains mixed with unrelated route/CDN/NI-register/build artifacts; a clean task-2 package should be split in a clean worktree or intentionally bundled with the later source-index work.
+  - Verification evidence: `node --check scripts/build-already-on-site-enrichment-records.mjs`; `node --check scripts/validate-already-on-site-enrichments.mjs`; `node --check scripts/review-already-on-site-remaining.mjs`; `node scripts/build-already-on-site-enrichment-records.mjs`; `node scripts/build-browse-indexes.mjs`; `node scripts/review-already-on-site-remaining.mjs`; `node scripts/validate-already-on-site-enrichments.mjs`; `node scripts/validate-external-sources.mjs`; `node scripts/validate-pages-file-budget.mjs`; `npm run check`; `npm run build`.
+
+# Dirty Tree Cleanup Research Without New Branch
+
+- [x] Inventory and classify the current dirty tree in place.
+  - Task: research what must be kept, reverted, ignored, or staged to clean the current branch without creating another branch/worktree.
+  - Verification plan: inspect tracked/untracked status, diff stats, representative diffs, generated artifact ownership, and sensitive-source redaction state before recommending cleanup commands.
+  - Completed: refreshed `git status --short --untracked-files=all`, `git diff --stat`, `git ls-files --others --exclude-standard`, grouped status counts, focused package shortstats, and sensitive-source search results without creating a branch or worktree.
+  - Dirty-tree shape: 754 tracked files are modified with 488,582 insertions and 297,792 deletions; top-level dirty counts are 604 under `test/`, 187 under `data/`, 11 under `scripts/`, 4 under `tasks/`, 2 under `browse/`, and one each under `app/`, `assets/`, and `index.html`.
+  - Package classification:
+    - Already-on-site/source-redaction package: keep and stage first; includes row 521/1005 metadata fixes, sensitive held-row withholding, generated already-on-site output, source Browse output, and task/lesson notes. Focused shortstat is 62 files, 10,540 insertions, and 7,289 deletions.
+    - NI register Browse grouping package: keep as a separate package or intentionally combine only with source-index generator changes; includes grouped register Browse shards and register-interest validation/build changes. Focused shortstat is 92 files, 472,117 insertions, and 288,837 deletions.
+    - Test2 route/CDN/election-audit package: keep or stage separately after deciding whether to keep regenerated metadata baselines; includes route validators/audits, CDN manifest/report outputs, election audit outputs, and broad `test/metadata/layer-details-test2/` churn. Focused shortstat is 561 files, 4,849 insertions, and 1,451 deletions.
+    - UI/build generated package: stage only if this branch is also releasing the Browse/root/build refresh; otherwise revert after the keep packages are protected. Focused shortstat for visible Browse/build files is 7 files, 410 insertions, and 36 deletions.
+    - Untracked/generated sidecars: `data/database/ni-register-browse-records/*.json` should go with the NI register package; `scripts/review-already-on-site-remaining.mjs` should go with already-on-site if the review utility is intended to be tracked; old D-drive decision-pack scripts should be either staged with their earlier research package or left untracked/deleted after backup; DOBIH test metadata sidecars should only be kept with the test2 metadata package.
+  - Main cleanup risk: `scripts/build-browse-indexes.mjs` is a mixed file with both already-on-site/source provenance changes and NI register Browse changes, so path-level staging would blend packages. Use `git add -p scripts/build-browse-indexes.mjs` if splitting commits in place, or intentionally create one combined source-index package.
+  - Sensitive-source verification: targeted scans and validator checks found no private local path, sensitive source filename, sensitive address-level schema markers, or provider-specific sensitive source text in the public already-on-site output or relevant scripts. Preserve this redaction package before any revert.
+  - Recommended no-branch order: first stage/verify the sensitive already-on-site package, second the NI register package, third the test2 route/CDN/election package, fourth decide generated build/UI files, then clean selected untracked leftovers with a dry-run first.
+
+- [x] Research remaining dirty-tree keep/revert decisions.
+  - Task: determine whether the test2/CDN/election generated diffs, build/UI artifacts, and untracked helper/generated files should be kept, reverted, or left untracked before in-place cleanup.
+  - Verification plan: inspect representative diffs, generated report semantics, build-output provenance, and untracked file contents without staging, deleting, or creating another branch.
+  - Completed: inspected CDN manifest/range/upload reports, test2 validation reports, route/election audit script diffs, representative layer-detail diffs, map-test index diffs, generated Browse/thumbnail/build artifacts, untracked helper scripts, and untracked DOBIH sidecar references.
+  - Test2/CDN decision: keep as an intentional package, but stage it as its own package. The diffs add the two Irish hill PMTiles objects to `cdn-upload-manifest.json`, record successful upload of both objects, verify 573/573 CDN byte-range assets, and leave `cdn-manifest-validation-report.json` plus `test2-cdn-validation-report.json` at zero warnings and zero errors. `scripts/validate-test-cdn-manifest.mjs` requires active PMTiles layers to have `tilePackage.byteRangeVerifiedAt` and matching successful range-report rows, so most of the broad layer-detail churn is noisy generated proof rather than arbitrary drift.
+  - Test2 metadata caveat: `test/metadata/maps-test-index.json` now references the untracked DOBIH detail/duplicate sidecars. All 48 untracked DOBIH sidecars are referenced by `maps-test-index.json` or `maps-test.json`, so if the regenerated test2 index is kept, those untracked sidecars must be staged with it.
+  - Election audit decision: keep the audit-script changes because they update the audit path for current election detail files, root promotion, and current mobile selectors. The regenerated `tasks/test2-election-data-audit.*` diffs are timestamp-only against the previous baseline, so keep them only if the test2 audit-baseline refresh is intentionally included in the test2 package; otherwise they can be reverted without losing code fixes.
+  - Build/UI decision: no content diffs remain in `browse/browse.js` or `browse/browse.css`; they should not be staged as UI changes unless future status shows real diffs. Keep `data/browse/features.json`, `assets/thumbnails/manifest.json`, `data/database/feature-thumbnails/_manifest.json`, and `app/build/performance-dashboard.json` with the data/test2 package because they reflect generated metadata changes, including the two Irish hill domain feature groups and the Local Authorities 2024 title fix. Treat `index.html` as build/release output generated by `scripts/build-shared-shell-assets.mjs`; keep it only in the final build/release package, not in an earlier data-only package.
+  - Feature-thumbnail caveat: the manifest refresh changes some fallback rendered-asset base paths to the current script default. Runtime only uses `renderedAssetBasePath` when `renderedAssetIds` contains the feature thumbnail id, so zero-rendered fallback base churn is low risk; the visible `roi-local-authorities-2024` name correction is the stronger reason to keep the generated manifest refresh.
+  - Untracked helper decision: stage `scripts/review-already-on-site-remaining.mjs` with the already-on-site package if the review utility should be reproducible. Leave `scripts/build-d-drive-blocker-review.mjs` and `scripts/build-d-drive-remaining-decision-packs.mjs` untracked by default as research tooling, not runtime website code; the latter has generic `D:\`/local-source handling and should not be swept into a public website package without deliberate review.
+
+- [x] Write execution-grade dirty-tree cleanup plan.
+  - Task: create a Markdown runbook with exact no-branch cleanup order, keep/revert/leave-untracked decisions, staging boundaries, safety constraints, and verification commands.
+  - Verification plan: read back the generated plan file and confirm it names each current decision area without requiring a new branch or any private-source deletion.
+  - Completed: created `tasks/dirty-tree-cleanup-execution-plan-2026-06-27.md` with package-by-package staging instructions, explicit keep/revert/default-leave-untracked decisions, dry-run-only cleanup rules, private-source non-deletion constraints, and final verification commands.
+  - Clarification: updated the runbook so `git clean` is dry-run inventory only, untracked leftovers are moved to an external archive folder instead of deleted, and path-scoped restores require patch snapshots first.
+
+# Execute Dirty Tree Cleanup Plan
+
+- [x] Create safety snapshots before cleanup actions.
+  - Task: save status, diff-stat, full tracked patch, and untracked inventory under ignored `tmp/` before any restore, archive move, or cleanup action.
+  - Verification plan: confirm all snapshot files exist and are non-empty where applicable.
+  - Completed: wrote `tmp/dirty-tree-status-2026-06-28.txt`, `tmp/dirty-tree-stat-2026-06-28.txt`, `tmp/dirty-tree-tracked-2026-06-28.patch`, and `tmp/dirty-tree-untracked-2026-06-28.txt`; verified they exist with expected non-zero sizes.
+- [ ] Protect already-on-site/source-redaction and NI register source-index packages.
+  - Task: stage and review the combined source-index package because `scripts/build-browse-indexes.mjs` and generated Browse source shards intentionally mix these two workstreams in the current in-place tree.
+  - Verification plan: run already-on-site validation, external-source validation, NI register validation, Browse build, file-budget validation, sensitive-source scans, and cached-diff review before committing.
+  - Execution note: first file-budget validation failed because grouped NI register Browse detail shards were row-sharded and four generated files exceeded the 25 MB Pages limit.
+  - Permanent prevention action: changed the NI register grouped Browse shard generator to split by serialized byte budget and updated the NI register validator to assert shard byte metadata plus actual file sizes.
+  - Verification evidence: after regenerating NI register sidecars and Browse indexes, `node scripts/validate-already-on-site-enrichments.mjs`, `node scripts/validate-external-sources.mjs`, `npm run check:ni-register-interests`, `node scripts/validate-pages-file-budget.mjs`, and targeted private-source scans passed; grouped Browse record shards are now ten files under the configured 20 MiB byte budget.
+- [ ] Protect test2 route/CDN/election metadata package.
+  - Task: stage route/audit validator updates, CDN manifests/reports, test metadata, and referenced DOBIH sidecars while leaving timestamp-only election-audit baselines unstaged unless explicitly refreshed.
+  - Verification plan: run `npm run check:test2`, `npm run check:test`, CDN validators, file-budget validation, and cached-diff review before committing.
+- [ ] Protect generated Browse/features/thumbnail/performance/build marker package.
+  - Task: stage generated Browse feature, thumbnail, performance dashboard, and final root shell cache-key output after build/check verification.
+  - Verification plan: run build/check/file-budget validation and review the staged diff before committing.
+- [ ] Archive or preserve remaining leftovers without deletion.
+  - Task: inspect residual tracked and untracked dirt, snapshot any path-scoped restores first, and move any selected untracked leftovers to an external archive folder rather than deleting them.
+  - Verification plan: final `git status`, aggregate check/build/check, file-budget validation, and sensitive-source scan.

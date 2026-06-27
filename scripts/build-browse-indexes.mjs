@@ -1461,7 +1461,7 @@ function applyAlreadyOnSiteEnrichments(sources, alreadyOnSiteEnrichmentsData = {
       id,
       slug: slugify(id),
       type: 'already-on-site-enrichment-source',
-      title: `${title} source/provenance enrichment`,
+      title: target.targetEntityKind === 'source-family' ? `${title} provenance enrichment` : `${title} source/provenance enrichment`,
       subtitle: compactJoin([
         `${sourceItems.length} duplicate-match source ${sourceItems.length === 1 ? 'row' : 'rows'}`,
         normalizeArray(target.providers).join(', '),
@@ -1514,7 +1514,7 @@ function mergeSourceItems(existing, additions) {
 function sourceEnrichmentProvenanceSummary(target) {
   const sourceItems = normalizeArray(target.sourceItems);
   if (!sourceItems.length) return '';
-  if (!sourceItems.some(isArcgisSourceItem)) return '';
+  if (!sourceItems.some(isArcgisSourceItem)) return genericSourceEnrichmentProvenanceSummary(target);
   const corpusLabel = isPeatlandEnrichmentTarget(target) ? 'Peatland Geoportal ArcGIS' : 'ArcGIS';
   const providers = uniqueCleanStrings([
     ...sourceItems.map((item) => item.provider),
@@ -1539,6 +1539,31 @@ function sourceEnrichmentProvenanceSummary(target) {
   return `${parts.join('; ')}.`;
 }
 
+function genericSourceEnrichmentProvenanceSummary(target) {
+  const sourceItems = normalizeArray(target.sourceItems);
+  const targetLabel = target.targetEntityKind === 'source-family' ? 'this Civgraph source-family record' : 'this existing Civgraph record';
+  const providers = uniqueCleanStrings([
+    ...sourceItems.map((item) => item.provider),
+    ...normalizeArray(target.providers)
+  ]);
+  const formats = uniqueCleanStrings([
+    ...sourceItems.flatMap((item) => normalizeArray(item.formats)),
+    ...normalizeArray(target.formats)
+  ]);
+  const datasetUrls = uniqueCleanStrings(sourceItems.map((item) => item.providerDatasetUrl));
+  const relationships = uniqueCleanStrings(sourceItems.map((item) => item.relationship));
+  const licenceTitles = uniqueCleanStrings(sourceItems.map((item) => item.licenseTitle));
+  const parts = [
+    `${sourceItems.length} related provider/source ${sourceItems.length === 1 ? 'row is' : 'rows are'} staged as provenance for ${targetLabel}`
+  ];
+  if (providers.length) parts.push(`provider: ${limitListForSentence(providers, 4)}`);
+  if (formats.length) parts.push(`formats: ${limitListForSentence(formats, 6)}`);
+  if (datasetUrls.length) parts.push(`${datasetUrls.length} provider dataset ${datasetUrls.length === 1 ? 'link' : 'links'} preserved as references`);
+  if (licenceTitles.length) parts.push(`licence: ${limitListForSentence(licenceTitles, 3)}`);
+  if (relationships.length) parts.push(`relationship: ${limitListForSentence(relationships, 2)}`);
+  return `${parts.join('; ')}.`;
+}
+
 function sourceEnrichmentReferences(target) {
   const refs = [];
   if (target.targetBrowseUrl) {
@@ -1558,6 +1583,27 @@ function sourceEnrichmentReferences(target) {
     }));
   }
   for (const item of normalizeArray(target.sourceItems)) {
+    if (item.providerDatasetUrl) {
+      refs.push(compactObject({
+        label: `Provider dataset: ${cleanText(item.title || target.targetTitle || item.providerDatasetUrl)}`,
+        url: item.providerDatasetUrl,
+        source: cleanText(item.provider || 'Source provider'),
+        role: 'canonical-provider-dataset',
+        type: normalizeArray(item.formats)[0] || null,
+        note: compactJoin([
+          item.relationship,
+          item.licenseTitle ? `licence: ${item.licenseTitle}` : ''
+        ], '; ')
+      }));
+    }
+    if (item.licenseUrl) {
+      refs.push(compactObject({
+        label: item.licenseTitle ? `Licence: ${item.licenseTitle}` : 'Source licence',
+        url: item.licenseUrl,
+        source: cleanText(item.provider || 'Source provider'),
+        role: 'source-licence'
+      }));
+    }
     if (!isArcgisSourceItem(item)) continue;
     const title = cleanText(item.title || item.arcgisItemId || 'ArcGIS item');
     const provider = cleanText(item.provider || 'ArcGIS Online / Peatland Geoportal');

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, statSync } from 'node:fs';
 import path from 'node:path';
 
 const ROOT = process.cwd();
@@ -8,6 +8,7 @@ const INTEREST_INDEX = path.join(ROOT, 'data', 'database', 'ni-register-interest
 const BROWSE_SOURCES = path.join(ROOT, 'data', 'browse', 'sources.json');
 const BROWSE_REGISTER_INTERESTS = path.join(ROOT, 'data', 'browse', 'register-interests.json');
 const SOURCE_SHARDS = path.join(ROOT, 'data', 'browse', 'details', 'source-shards');
+const PAGES_MAX_FILE_BYTES = 25 * 1024 * 1024;
 
 main();
 
@@ -40,6 +41,7 @@ function main() {
   assert(interestIndex.detailLayout === 'sharded', 'NI register interest data must use sharded layout');
   assert(interestIndex.canonicalLayout === 'sharded', 'NI register canonical interest data must use sharded layout');
   assert(interestIndex.browseLayout === 'sharded', 'NI register grouped Browse data must use sharded layout');
+  assert(Number.isInteger(interestIndex.browseShardMaxBytes) && interestIndex.browseShardMaxBytes <= PAGES_MAX_FILE_BYTES, 'NI register grouped Browse shard byte budget must fit Pages limit');
   assert(interestIndex.summary?.totalSourceRows === 75908, `expected 75,908 source rows, found ${interestIndex.summary?.totalSourceRows}`);
   assert(interestIndex.summary?.totalCanonicalInterests === 8289, `expected 8,289 canonical Browse interests, found ${interestIndex.summary?.totalCanonicalInterests}`);
   assert(Number.isInteger(interestIndex.summary?.totalBrowseRegisterRecords) && interestIndex.summary.totalBrowseRegisterRecords > 0, 'NI register summary must include grouped Browse register record count');
@@ -192,7 +194,12 @@ function validateBrowseRegisterRecords(interestIndex) {
 function loadGroupedBrowseRegisterRows(interestIndex) {
   return normalizeArray(interestIndex.browseShards).flatMap((shard) => {
     assert(shard.url && /^\/data\/database\/ni-register-browse-records\//.test(shard.url), `unexpected grouped Browse NI register shard URL: ${shard.url}`);
-    const shardData = readJson(publicUrlToLocalPath(shard.url));
+    const shardPath = publicUrlToLocalPath(shard.url);
+    const shardBytes = statSync(shardPath).size;
+    assert(shardBytes <= PAGES_MAX_FILE_BYTES, `grouped Browse NI register shard ${shard.name} exceeds Pages file limit`);
+    assert(shardBytes <= interestIndex.browseShardMaxBytes, `grouped Browse NI register shard ${shard.name} exceeds configured byte budget`);
+    assert(shard.bytes === shardBytes, `grouped Browse NI register shard ${shard.name} byte count mismatch`);
+    const shardData = readJson(shardPath);
     assert(shardData.schemaVersion === 1, `grouped Browse NI register shard ${shard.name} must use schemaVersion 1`);
     assert(!containsLocalPath(shardData), `grouped Browse NI register shard ${shard.name} must not expose local filesystem paths`);
     const rows = normalizeArray(shardData.interests);

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-27T17:15:03.361Z",
+  "generatedAt": "2026-06-27T23:06:29.632Z",
   "kind": "sources",
   "shard": "sources-038.json",
   "total": 200,
@@ -7867,38 +7867,58 @@
       "id": "map-source:roi-local-authorities-2024",
       "slug": "map-source-roi-local-authorities-2024",
       "type": "map-source",
-      "title": "Local Authorities - 2019 source files",
+      "title": "Local Authorities - 2024 source files",
       "subtitle": "Local Government Districts / Tailte Éireann",
       "category": "Map sources",
-      "date": "2019",
+      "date": "2024",
       "provider": [
         "Tailte Éireann"
       ],
-      "description": "Council and district boundaries",
+      "description": "Council and district boundaries 1 related provider/source row is staged as provenance for this existing Civgraph record; provider: Tailte Eireann, Local source mirror; formats: GEOJSON; 1 provider dataset link preserved as references; licence: Creative Commons Attribution 4.0; relationship: related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval.",
       "sourceMapId": "roi-local-authorities-2024",
       "thumbnail": {
         "kind": "asset",
         "id": "roi-local-authorities-2024",
         "url": "/assets/thumbnails/roi-local-authorities-2024.webp",
         "smallUrl": "/assets/thumbnails/roi-local-authorities-2024-60.webp",
-        "alt": "Local Authorities 2019"
+        "alt": "Local Authorities 2024"
       },
       "references": [
         {
-          "label": "Administrative Areas - National Statutory Boundaries - 2019 - Generalised 20m (data-osi.opendata.arcgis.com)",
-          "url": "https://data-osi.opendata.arcgis.com/datasets/osi::administrative-areas-national-statutory-boundaries-2019-generalised-20m"
+          "label": "Local Authorities - National Statutory Boundaries - Ungeneralised - 2024 (data.gov.ie)",
+          "url": "https://data.gov.ie/dataset/local-authorities-national-statutory-boundaries-ungeneralised-20241",
+          "note": "Source - Tailte Eireann, CC-BY 4.0"
         },
         {
-          "label": "Local Authorities 2019 — GeoJSON download",
-          "url": "https://opendata.arcgis.com/datasets/7f508baddb9644d8ac3c3921df39303a_0.geojson"
+          "label": "Local Authorities 2024 - GeoJSON download",
+          "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/ed592af6f0444bf1b0becdb5925f9477/geojson?layers=0",
+          "note": "Live provider download matched the mirrored GeoJSON byte-for-byte during the 2026-06-27 review."
         },
         {
-          "label": "Local Authorities 2019 — KML download",
-          "url": "https://opendata.arcgis.com/datasets/7f508baddb9644d8ac3c3921df39303a_0.kml"
+          "label": "Existing Civgraph record: Local Authorities 2024 source files",
+          "url": "/browse/maps/roi-local-authorities-2024",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
         },
         {
-          "label": "Local Authorities 2019 — Shapefile (ZIP) download",
-          "url": "https://opendata.arcgis.com/datasets/7f508baddb9644d8ac3c3921df39303a_0.zip"
+          "label": "Existing Civgraph source record: map-source:roi-local-authorities-2024",
+          "url": "/browse/sources/map-source-roi-local-authorities-2024",
+          "source": "Civgraph",
+          "role": "matched-source-record"
+        },
+        {
+          "label": "Provider dataset: Local Authorities - National Statutory Boundaries - Ungeneralised - 2024",
+          "url": "https://data.gov.ie/dataset/local-authorities-national-statutory-boundaries-ungeneralised-20241",
+          "source": "Tailte Eireann",
+          "role": "canonical-provider-dataset",
+          "type": "GEOJSON",
+          "note": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval / licence: Creative Commons Attribution 4.0"
+        },
+        {
+          "label": "Licence: Creative Commons Attribution 4.0",
+          "url": "https://creativecommons.org/licenses/by/4.0/",
+          "source": "Tailte Eireann",
+          "role": "source-licence"
         }
       ],
       "downloads": [
@@ -7908,23 +7928,7 @@
         },
         {
           "label": "file",
-          "url": "https://opendata.arcgis.com/datasets/7f508baddb9644d8ac3c3921df39303a_0.geojson"
-        },
-        {
-          "label": "label",
-          "url": "KML"
-        },
-        {
-          "label": "file",
-          "url": "https://opendata.arcgis.com/datasets/7f508baddb9644d8ac3c3921df39303a_0.kml"
-        },
-        {
-          "label": "label",
-          "url": "Shapefile (ZIP)"
-        },
-        {
-          "label": "file",
-          "url": "https://opendata.arcgis.com/datasets/7f508baddb9644d8ac3c3921df39303a_0.zip"
+          "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/ed592af6f0444bf1b0becdb5925f9477/geojson?layers=0"
         },
         {
           "label": "geojson",
@@ -7937,13 +7941,146 @@
       ],
       "interactiveUrl": "/#layers=roi-local-authorities-2024",
       "browseUrl": "/browse/sources/map-source-roi-local-authorities-2024",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:roi-local-authorities-2024",
+          "targetEntityKind": "map",
+          "targetEntityId": "roi-local-authorities-2024",
+          "targetTitle": "Local Authorities 2024 source files",
+          "targetBrowseUrl": "/browse/maps/roi-local-authorities-2024",
+          "sourceItemCount": 1,
+          "confidence": "high-confidence",
+          "safetyClasses": [
+            "variant/source enrichment review"
+          ],
+          "formats": [
+            "GEOJSON"
+          ],
+          "providers": [
+            "Local source mirror"
+          ],
+          "categories": [
+            "standalone-spatial"
+          ],
+          "enrichmentTypes": [
+            "date/version metadata",
+            "download/source-file metadata",
+            "geometry lineage and boundary-version metadata",
+            "geospatial source-format metadata",
+            "scale/generalisation/edition metadata",
+            "source/provenance metadata"
+          ],
+          "provenanceSummary": "1 related provider/source row is staged as provenance for this existing Civgraph record; provider: Tailte Eireann, Local source mirror; formats: GEOJSON; 1 provider dataset link preserved as references; licence: Creative Commons Attribution 4.0; relationship: related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval.",
+          "sourceItems": [
+            {
+              "auditRowNumber": 521,
+              "title": "Local Authorities - National Statutory Boundaries - Ungeneralised - 2024",
+              "provider": "Tailte Eireann",
+              "category": "standalone-spatial",
+              "formats": [
+                "GEOJSON"
+              ],
+              "safetyClass": "variant/source enrichment review",
+              "approvalStatus": "user-approved-related-source-enrichment",
+              "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+              "providerDatasetUrl": "https://data.gov.ie/dataset/local-authorities-national-statutory-boundaries-ungeneralised-20241",
+              "licenseTitle": "Creative Commons Attribution 4.0",
+              "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+              "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+              "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+              "enrichmentTypes": [
+                "date/version metadata",
+                "download/source-file metadata",
+                "geometry lineage and boundary-version metadata",
+                "geospatial source-format metadata",
+                "scale/generalisation/edition metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "habitat-protected-sites"
+              ],
+              "siteFamiliesPresent": [
+                "habitat-protected-sites"
+              ],
+              "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "database-map",
+              "id": "roi-local-authorities-2024",
+              "title": "Local Authorities 2019",
+              "score": 0.71
+            },
+            {
+              "kind": "browse-source",
+              "id": "map-source:roi-local-authorities-2024",
+              "title": "Local Authorities - 2019 source files",
+              "score": 0.71
+            },
+            {
+              "kind": "browse-map",
+              "id": "roi-local-authorities-2024",
+              "title": "Local Authorities - 2019",
+              "score": 0.71
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 521,
+          "title": "Local Authorities - National Statutory Boundaries - Ungeneralised - 2024",
+          "provider": "Tailte Eireann",
+          "category": "standalone-spatial",
+          "formats": [
+            "GEOJSON"
+          ],
+          "safetyClass": "variant/source enrichment review",
+          "approvalStatus": "user-approved-related-source-enrichment",
+          "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+          "providerDatasetUrl": "https://data.gov.ie/dataset/local-authorities-national-statutory-boundaries-ungeneralised-20241",
+          "licenseTitle": "Creative Commons Attribution 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "enrichmentTypes": [
+            "date/version metadata",
+            "download/source-file metadata",
+            "geometry lineage and boundary-version metadata",
+            "geospatial source-format metadata",
+            "scale/generalisation/edition metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "habitat-protected-sites"
+          ],
+          "siteFamiliesPresent": [
+            "habitat-protected-sites"
+          ],
+          "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "date/version metadata",
+        "download/source-file metadata",
+        "geometry lineage and boundary-version metadata",
+        "geospatial source-format metadata",
+        "scale/generalisation/edition metadata",
+        "source/provenance metadata"
+      ],
+      "publicationStatus": "enriched",
       "rawMetadata": {
         "id": "roi-local-authorities-2024",
-        "name": "Local Authorities 2019",
+        "name": "Local Authorities 2024",
         "slug": "roi-local-authorities-2024",
         "category": "local-government",
         "featured": true,
-        "date": "2019",
+        "date": "2024",
         "provider": [
           "Tailte Éireann"
         ],
@@ -7962,45 +8099,28 @@
           "council",
           "county council",
           "city council",
-          "2019"
+          "2024",
+          "ungeneralised"
         ],
         "labelProperty": "ENG_NAME_VALUE",
         "defaultOn": true,
         "useLOD": true,
         "references": [
           {
-            "label": "Administrative Areas - National Statutory Boundaries - 2019 - Generalised 20m (data-osi.opendata.arcgis.com)",
-            "url": "https://data-osi.opendata.arcgis.com/datasets/osi::administrative-areas-national-statutory-boundaries-2019-generalised-20m",
-            "note": ""
+            "label": "Local Authorities - National Statutory Boundaries - Ungeneralised - 2024 (data.gov.ie)",
+            "url": "https://data.gov.ie/dataset/local-authorities-national-statutory-boundaries-ungeneralised-20241",
+            "note": "Source - Tailte Eireann, CC-BY 4.0"
           },
           {
-            "label": "Local Authorities 2019 — GeoJSON download",
-            "url": "https://opendata.arcgis.com/datasets/7f508baddb9644d8ac3c3921df39303a_0.geojson",
-            "note": ""
-          },
-          {
-            "label": "Local Authorities 2019 — KML download",
-            "url": "https://opendata.arcgis.com/datasets/7f508baddb9644d8ac3c3921df39303a_0.kml",
-            "note": ""
-          },
-          {
-            "label": "Local Authorities 2019 — Shapefile (ZIP) download",
-            "url": "https://opendata.arcgis.com/datasets/7f508baddb9644d8ac3c3921df39303a_0.zip",
-            "note": ""
+            "label": "Local Authorities 2024 - GeoJSON download",
+            "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/ed592af6f0444bf1b0becdb5925f9477/geojson?layers=0",
+            "note": "Live provider download matched the mirrored GeoJSON byte-for-byte during the 2026-06-27 review."
           }
         ],
         "sourceDownloads": [
           {
             "label": "GeoJSON",
-            "file": "https://opendata.arcgis.com/datasets/7f508baddb9644d8ac3c3921df39303a_0.geojson"
-          },
-          {
-            "label": "KML",
-            "file": "https://opendata.arcgis.com/datasets/7f508baddb9644d8ac3c3921df39303a_0.kml"
-          },
-          {
-            "label": "Shapefile (ZIP)",
-            "file": "https://opendata.arcgis.com/datasets/7f508baddb9644d8ac3c3921df39303a_0.zip"
+            "file": "https://data-osi.opendata.arcgis.com/api/download/v1/items/ed592af6f0444bf1b0becdb5925f9477/geojson?layers=0"
           }
         ]
       }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-27T17:15:03.361Z",
+  "generatedAt": "2026-06-27T23:06:29.632Z",
   "kind": "sources",
   "shard": "sources-036.json",
   "total": 200,
@@ -9208,23 +9208,50 @@
       "id": "map-source:dcc-dcc-public-cycle-parking-stands",
       "slug": "map-source-dcc-dcc-public-cycle-parking-stands",
       "type": "map-source",
-      "title": "Dcc Public Cycle Parking Stands (DCC) source files",
+      "title": "Public Cycle Parking Stands (DCC) source files",
       "subtitle": "Built Environment / Dublin City Council",
       "category": "Map sources",
       "provider": [
         "Dublin City Council"
       ],
-      "description": "Dcc Public Cycle Parking Stands (DCC) — published by Dublin City Council.",
+      "description": "Public Cycle Parking Stands (DCC) - published by Dublin City Council. 1 related provider/source row is staged as provenance for this existing Civgraph record; provider: Dublin City Council, data.gov.ie; formats: CSV, DB_TABLE, KML, WMS; 1 provider dataset link preserved as references; licence: Creative Commons Attribution 4.0; relationship: related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval.",
       "sourceMapId": "dcc-dcc-public-cycle-parking-stands",
       "thumbnail": {
         "kind": "placeholder",
-        "label": "DP",
+        "label": "PC",
         "type": "map"
       },
       "references": [
         {
-          "label": "Source — data.gov.ie",
-          "url": "https://data.gov.ie/"
+          "label": "Cycle Parking DCC (data.gov.ie)",
+          "url": "https://data.gov.ie/dataset/cycle-parking-dcc",
+          "note": "Source - Dublin City Council, CC-BY 4.0"
+        },
+        {
+          "label": "Existing Civgraph record: Public Cycle Parking Stands (DCC) source files",
+          "url": "/browse/maps/dcc-dcc-public-cycle-parking-stands",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:dcc-dcc-public-cycle-parking-stands",
+          "url": "/browse/sources/map-source-dcc-dcc-public-cycle-parking-stands",
+          "source": "Civgraph",
+          "role": "matched-source-record"
+        },
+        {
+          "label": "Provider dataset: Cycle Parking DCC",
+          "url": "https://data.gov.ie/dataset/cycle-parking-dcc",
+          "source": "Dublin City Council",
+          "role": "canonical-provider-dataset",
+          "type": "CSV",
+          "note": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval / licence: Creative Commons Attribution 4.0"
+        },
+        {
+          "label": "Licence: Creative Commons Attribution 4.0",
+          "url": "https://creativecommons.org/licenses/by/4.0/",
+          "source": "Dublin City Council",
+          "role": "source-licence"
         }
       ],
       "downloads": [
@@ -9247,9 +9274,159 @@
       ],
       "interactiveUrl": "/#layers=dcc-dcc-public-cycle-parking-stands",
       "browseUrl": "/browse/sources/map-source-dcc-dcc-public-cycle-parking-stands",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:dcc-dcc-public-cycle-parking-stands",
+          "targetEntityKind": "map",
+          "targetEntityId": "dcc-dcc-public-cycle-parking-stands",
+          "targetTitle": "Public Cycle Parking Stands (DCC) source files",
+          "targetBrowseUrl": "/browse/maps/dcc-dcc-public-cycle-parking-stands",
+          "sourceItemCount": 1,
+          "confidence": "high-confidence",
+          "safetyClasses": [
+            "variant/source enrichment review"
+          ],
+          "formats": [
+            "CSV",
+            "DB_TABLE",
+            "KML",
+            "WMS"
+          ],
+          "providers": [
+            "data.gov.ie"
+          ],
+          "categories": [
+            "spatial"
+          ],
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geometry lineage and boundary-version metadata",
+            "geospatial source-format metadata",
+            "raw-source viewport candidate metadata",
+            "scale/generalisation/edition metadata",
+            "schema/table/attribute metadata",
+            "source/provenance metadata"
+          ],
+          "provenanceSummary": "1 related provider/source row is staged as provenance for this existing Civgraph record; provider: Dublin City Council, data.gov.ie; formats: CSV, DB_TABLE, KML, WMS; 1 provider dataset link preserved as references; licence: Creative Commons Attribution 4.0; relationship: related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval.",
+          "sourceItems": [
+            {
+              "auditRowNumber": 1005,
+              "title": "Cycle Parking DCC",
+              "provider": "Dublin City Council",
+              "category": "spatial",
+              "formats": [
+                "CSV",
+                "DB_TABLE",
+                "KML",
+                "WMS"
+              ],
+              "safetyClass": "variant/source enrichment review",
+              "approvalStatus": "user-approved-related-source-enrichment",
+              "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+              "providerDatasetUrl": "https://data.gov.ie/dataset/cycle-parking-dcc",
+              "licenseTitle": "Creative Commons Attribution 4.0",
+              "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+              "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+              "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+              "enrichmentTypes": [
+                "alternate-format metadata",
+                "download/source-file metadata",
+                "geometry lineage and boundary-version metadata",
+                "geospatial source-format metadata",
+                "raw-source viewport candidate metadata",
+                "scale/generalisation/edition metadata",
+                "schema/table/attribute metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "habitat-protected-sites"
+              ],
+              "siteFamiliesPresent": [
+                "habitat-protected-sites"
+              ],
+              "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "database-map",
+              "id": "dcc-dcc-public-cycle-parking-stands",
+              "title": "Dcc Public Cycle Parking Stands (DCC)",
+              "score": 0.7
+            },
+            {
+              "kind": "browse-source",
+              "id": "map-source:dcc-dcc-public-cycle-parking-stands",
+              "title": "Dcc Public Cycle Parking Stands (DCC) source files",
+              "score": 0.7
+            },
+            {
+              "kind": "browse-map",
+              "id": "dcc-dcc-public-cycle-parking-stands",
+              "title": "Dcc Public Cycle Parking Stands (DCC)",
+              "score": 0.7
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 1005,
+          "title": "Cycle Parking DCC",
+          "provider": "Dublin City Council",
+          "category": "spatial",
+          "formats": [
+            "CSV",
+            "DB_TABLE",
+            "KML",
+            "WMS"
+          ],
+          "safetyClass": "variant/source enrichment review",
+          "approvalStatus": "user-approved-related-source-enrichment",
+          "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+          "providerDatasetUrl": "https://data.gov.ie/dataset/cycle-parking-dcc",
+          "licenseTitle": "Creative Commons Attribution 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geometry lineage and boundary-version metadata",
+            "geospatial source-format metadata",
+            "raw-source viewport candidate metadata",
+            "scale/generalisation/edition metadata",
+            "schema/table/attribute metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "habitat-protected-sites"
+          ],
+          "siteFamiliesPresent": [
+            "habitat-protected-sites"
+          ],
+          "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "alternate-format metadata",
+        "download/source-file metadata",
+        "geometry lineage and boundary-version metadata",
+        "geospatial source-format metadata",
+        "raw-source viewport candidate metadata",
+        "scale/generalisation/edition metadata",
+        "schema/table/attribute metadata",
+        "source/provenance metadata"
+      ],
+      "publicationStatus": "enriched",
       "rawMetadata": {
         "id": "dcc-dcc-public-cycle-parking-stands",
-        "name": "Dcc Public Cycle Parking Stands (DCC)",
+        "name": "Public Cycle Parking Stands (DCC)",
         "slug": "dcc-dcc-public-cycle-parking-stands",
         "category": "built-environment",
         "provider": [
@@ -9279,12 +9456,12 @@
           "parking",
           "stands"
         ],
-        "description": "Dcc Public Cycle Parking Stands (DCC) — published by Dublin City Council.",
+        "description": "Public Cycle Parking Stands (DCC) - published by Dublin City Council.",
         "references": [
           {
-            "label": "Source — data.gov.ie",
-            "url": "https://data.gov.ie/",
-            "note": ""
+            "label": "Cycle Parking DCC (data.gov.ie)",
+            "url": "https://data.gov.ie/dataset/cycle-parking-dcc",
+            "note": "Source - Dublin City Council, CC-BY 4.0"
           }
         ],
         "labelProperty": "id"

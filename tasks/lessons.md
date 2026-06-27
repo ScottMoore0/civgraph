@@ -2649,3 +2649,47 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   1) for every requested source format, explicitly track whether the work produced structured rows, source-only records, or no coverage,
   2) do not describe a task as fully extracted unless each requested format has row-level extraction or a clearly accepted exception,
   3) validators for document extraction tasks should include per-format structured-row coverage, not only source-record coverage.
+
+### 199) Sensitive address-source holdings must not be implied by public artifacts
+- Mistake pattern: Recording private/source-discovery details in tracked task logs or generated public review sidecars while holding the source out of publication.
+- Impact: even without publishing the dataset, public metadata can imply possession or availability of a sensitive/proprietary address-level source.
+- Guardrail:
+  1) redact sensitive held rows from generated public review outputs,
+  2) keep tracked task logs generic about the hold reason,
+  3) do not publish source names, field schemas, local paths, provider app internals, or possession claims for sensitive address-level material,
+  4) validators should assert the sensitive row is withheld and that public outputs do not mention sensitive address schema fields.
+
+### 200) Dirty-tree cleanup advice must respect the requested packaging mode
+- Mistake pattern: recommending a clean branch/worktree as the primary cleanup path after the user has asked to stay in the current branch.
+- Impact: the cleanup plan can be technically sound but operationally mismatched, causing avoidable extra process.
+- Guardrail:
+  1) when the user rejects a new branch/worktree, research and present an in-place cleanup sequence,
+  2) split the current dirty tree into package groups with explicit keep/revert/stage decisions,
+  3) use non-destructive inventory and patch backups before any revert/delete,
+  4) reserve branch/worktree advice as a fallback, not the main path.
+
+### 201) Sensitive private source cleanup means redaction, not deletion
+- Mistake pattern: treating a sensitive private source as something to remove from the machine while trying to keep it out of public artifacts.
+- Impact: public disclosure risk is reduced at the cost of destroying or misplacing the user's private source archive.
+- Guardrail:
+  1) never delete sensitive private source files from local drives during repo cleanup,
+  2) never run cleanup commands against drive roots or private source directories,
+  3) only remove/redact public repo references, generated public sidecars, manifests, logs, and task notes that imply possession or publishability,
+  4) require an explicit path-scoped dry run before deleting any untracked repo file, and confirm the target is inside the repository.
+
+### 202) Dirty-tree cleanup must archive before removing repo leftovers
+- Mistake pattern: describing leftover cleanup with `git clean -f` or path restores without first making the no-data-loss archive path explicit.
+- Impact: even non-source generated files or scratch scripts can be lost unnecessarily during cleanup.
+- Guardrail:
+  1) make patch/status/untracked snapshots mandatory before path-scoped restores,
+  2) move untracked leftovers to an external archive folder instead of deleting them,
+  3) verify archived paths before removing them from the repo working tree,
+  4) use `git clean` only as a dry-run inventory tool unless the user explicitly approves deletion.
+
+### 203) Large generated JSON shards need byte budgets
+- Mistake pattern: sharding generated detail JSON by row count when row payload sizes vary widely.
+- Impact: validation can pass structurally while generated deployable files exceed Cloudflare Pages' per-file size limit.
+- Guardrail:
+  1) shard large generated JSON by serialized byte budget when rows can contain nested evidence arrays,
+  2) record shard byte counts in the generated index,
+  3) make validators assert both index byte metadata and actual file sizes against the Pages limit.

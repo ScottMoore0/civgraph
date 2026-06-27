@@ -18,8 +18,33 @@ function main() {
   const reviewRows = normalizeArray(enrichments.reviewRows);
   const appliedSourceItemCount = targets.reduce((sum, target) => sum + normalizeArray(target.sourceItems).length, 0);
   assert(targets.length > 0, 'expected at least one applied enrichment target');
-  assert(appliedSourceItemCount === 91, `expected 91 safe/high-confidence applied source rows, found ${appliedSourceItemCount}`);
-  assert(reviewRows.length === 1022, `expected 1022 review-only rows, found ${reviewRows.length}`);
+  assert(appliedSourceItemCount === 148, `expected 148 applied source rows, found ${appliedSourceItemCount}`);
+  assert(reviewRows.length === 964, `expected 964 public review-only rows, found ${reviewRows.length}`);
+  assert(enrichments.summary?.internalReviewRows === 965, 'expected 965 internal review rows before sensitive redaction');
+  assert(enrichments.summary?.withheldSensitiveReviewRows === 1, 'expected 1 sensitive review row to be withheld from public output');
+  assert(enrichments.policy?.withheldSensitiveReviewRows === 1, 'policy must record the sensitive withheld-row count without exposing row details');
+  const reviewRowNumbers = new Set(reviewRows.map((row) => Number(row.auditRowNumber)));
+  assert(!reviewRowNumbers.has(555), 'sensitive held row 555 must be withheld from public reviewRows');
+  for (const heldRow of [945]) {
+    assert(reviewRowNumbers.has(heldRow), `held row ${heldRow} must remain review-only`);
+  }
+  const sensitiveSchemaToken = String.fromCharCode(85, 80, 82, 78);
+  assert(!JSON.stringify(enrichments).includes(sensitiveSchemaToken), 'public already-on-site output must not mention sensitive address-source schema');
+  const appliedSourceItems = targets.flatMap((target) => normalizeArray(target.sourceItems));
+  const appliedRowNumbers = new Set(appliedSourceItems.map((item) => Number(item.auditRowNumber)));
+  for (const approvedRow of [521, 1005]) {
+    assert(appliedRowNumbers.has(approvedRow), `approved row ${approvedRow} must be applied`);
+  }
+  assert(
+    appliedSourceItems.some((item) => Number(item.auditRowNumber) === 521
+      && item.providerDatasetUrl === 'https://data.gov.ie/dataset/local-authorities-national-statutory-boundaries-ungeneralised-20241'),
+    'row 521 must use the resolved Tailte Eireann 2024 local-authorities package URL'
+  );
+  assert(
+    appliedSourceItems.some((item) => Number(item.auditRowNumber) === 1005
+      && item.providerDatasetUrl === 'https://data.gov.ie/dataset/cycle-parking-dcc'),
+    'row 1005 must use the live DCC cycle-parking package URL'
+  );
 
   for (const target of targets) {
     assert(target.sourceTargetId, 'each enrichment target needs sourceTargetId');

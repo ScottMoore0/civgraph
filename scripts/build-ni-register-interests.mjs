@@ -16,6 +16,7 @@ const PDF_TEXT_SCRIPT = path.join(ROOT, 'scripts', 'extract-pdf-text.py');
 const STRUCTURED_DATA_URL = '/data/database/ni-register-interests.json';
 const GENERATED_AT = new Date().toISOString();
 const INTEREST_SHARD_SIZE = 1000;
+const BROWSE_REGISTER_SHARD_TARGET_BYTES = 20 * 1024 * 1024;
 const PDF_EMPTY_INTEREST_TEXT = 'No registrable interests included under this category in the PDF text.';
 
 const START_PAGES = {
@@ -100,6 +101,7 @@ function main() {
     canonicalShardDir: '/data/database/ni-register-canonical-interests',
     browseLayout: 'sharded',
     browseShardSize: INTEREST_SHARD_SIZE,
+    browseShardMaxBytes: BROWSE_REGISTER_SHARD_TARGET_BYTES,
     browseShardDir: '/data/database/ni-register-browse-records',
     summary: compactObject({
       totalInterests: interests.length,
@@ -303,25 +305,62 @@ function writeBrowseRegisterShards(records) {
   rmSync(OUTPUT_BROWSE_REGISTER_SHARD_DIR, { recursive: true, force: true });
   mkdirSync(OUTPUT_BROWSE_REGISTER_SHARD_DIR, { recursive: true });
   const shards = [];
-  for (let index = 0; index < records.length; index += INTEREST_SHARD_SIZE) {
-    const shardIndex = Math.floor(index / INTEREST_SHARD_SIZE);
+  let index = 0;
+  let shardIndex = 0;
+  while (index < records.length) {
     const shardName = `ni-register-browse-records-${String(shardIndex).padStart(3, '0')}.json`;
-    const shardItems = records.slice(index, index + INTEREST_SHARD_SIZE);
-    writeJson(path.join(OUTPUT_BROWSE_REGISTER_SHARD_DIR, shardName), {
+    const shardItems = findByteBudgetedBrowseShard(records, index, shardName);
+    const payload = browseRegisterShardPayload(shardName, shardItems);
+    const bytes = Buffer.byteLength(`${JSON.stringify(payload, null, 2)}\n`, 'utf8');
+    if (bytes > BROWSE_REGISTER_SHARD_TARGET_BYTES) {
+      throw new Error(`NI register Browse shard ${shardName} is ${(bytes / 1024 / 1024).toFixed(2)} MB, over target`);
+    }
+    writeJson(path.join(OUTPUT_BROWSE_REGISTER_SHARD_DIR, shardName), payload);
+    shards.push({
+      name: shardName,
+      url: `/data/database/ni-register-browse-records/${shardName}`,
+      count: shardItems.length,
+      bytes
+    });
+    index += shardItems.length;
+    shardIndex += 1;
+  }
+  return shards;
+}
+
+function findByteBudgetedBrowseShard(records, startIndex, shardName) {
+  let low = startIndex + 1;
+  let high = Math.min(records.length, startIndex + INTEREST_SHARD_SIZE);
+  let best = low;
+
+  while (low <= high) {
+    const mid = Math.floor((low + high) / 2);
+    const shardItems = records.slice(startIndex, mid);
+    const bytes = browseRegisterShardPayloadBytes(shardName, shardItems);
+    if (bytes <= BROWSE_REGISTER_SHARD_TARGET_BYTES) {
+      best = mid;
+      low = mid + 1;
+    } else {
+      high = mid - 1;
+    }
+  }
+
+  return records.slice(startIndex, best);
+}
+
+function browseRegisterShardPayloadBytes(shardName, shardItems) {
+  return Buffer.byteLength(`${JSON.stringify(browseRegisterShardPayload(shardName, shardItems), null, 2)}\n`, 'utf8');
+}
+
+function browseRegisterShardPayload(shardName, shardItems) {
+  return {
       schemaVersion: 1,
       generatedAt: GENERATED_AT,
       kind: 'ni-register-browse-records',
       shard: shardName,
       total: shardItems.length,
       interests: shardItems
-    });
-    shards.push({
-      name: shardName,
-      url: `/data/database/ni-register-browse-records/${shardName}`,
-      count: shardItems.length
-    });
-  }
-  return shards;
+    };
 }
 
 function buildBrowseRegisterRecords(sourceRows) {

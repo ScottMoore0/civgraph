@@ -11,6 +11,63 @@ const APPLIED_SAFETY_CLASSES = new Set([
   'high-confidence enrichment candidate'
 ]);
 
+const USER_APPROVED_REVIEW_ONLY_ROWS = new Set([
+  7, 15, 22, 29, 54, 70, 86, 92, 103, 105, 148, 149, 155, 170, 182, 241,
+  247, 279, 283, 284, 285, 286, 287, 288, 301, 322, 358, 366, 373, 374,
+  430, 494, 621, 630, 653, 654, 656, 657, 662, 663, 664, 696, 697, 762,
+  810, 812, 868, 879, 880, 901, 906, 1000, 1001, 1003, 1005, 1032,
+  521
+]);
+
+const HELD_SAFE_RECOMMENDATION_ROWS = new Set([555, 945]);
+
+const SENSITIVE_PUBLIC_REVIEW_ROWS = new Set([555]);
+
+const STATUTORY_BOUNDARY_FAMILY_ROWS = new Set([15, 22, 29, 54, 70, 86, 92, 170, 182]);
+
+const RESOLVED_ROW_TARGETS = new Map([
+  [521, {
+    sourceTargetId: 'map-source:roi-local-authorities-2024',
+    targetEntityKind: 'map',
+    targetEntityId: 'roi-local-authorities-2024',
+    targetTitle: 'Local Authorities 2024 source files',
+    targetBrowseUrl: '/browse/maps/roi-local-authorities-2024'
+  }],
+  [1005, {
+    sourceTargetId: 'map-source:dcc-dcc-public-cycle-parking-stands',
+    targetEntityKind: 'map',
+    targetEntityId: 'dcc-dcc-public-cycle-parking-stands',
+    targetTitle: 'Public Cycle Parking Stands (DCC) source files',
+    targetBrowseUrl: '/browse/maps/dcc-dcc-public-cycle-parking-stands'
+  }]
+]);
+
+const ROW_PROVIDER_OVERRIDES = new Map([
+  [521, 'Tailte Eireann'],
+  [1005, 'Dublin City Council']
+]);
+
+const ROW_TITLE_OVERRIDES = new Map([
+  [521, 'Local Authorities - National Statutory Boundaries - Ungeneralised - 2024'],
+  [1005, 'Cycle Parking DCC']
+]);
+
+const ROW_PROVIDER_DATASET_URL_OVERRIDES = new Map([
+  [521, 'https://data.gov.ie/dataset/local-authorities-national-statutory-boundaries-ungeneralised-20241'],
+  [1005, 'https://data.gov.ie/dataset/cycle-parking-dcc']
+]);
+
+const ROW_LICENSE_OVERRIDES = new Map([
+  [521, {
+    title: 'Creative Commons Attribution 4.0',
+    url: 'https://creativecommons.org/licenses/by/4.0/'
+  }],
+  [1005, {
+    title: 'Creative Commons Attribution 4.0',
+    url: 'https://creativecommons.org/licenses/by/4.0/'
+  }]
+]);
+
 const REVIEW_ONLY_SAFETY_CLASSES = new Set([
   'variant/source enrichment review',
   'context-overlap review only',
@@ -25,8 +82,9 @@ function main() {
   }
 
   const rows = parseCsv(readFileSync(INPUT, 'utf8'));
-  const appliedRows = rows.filter((row) => APPLIED_SAFETY_CLASSES.has(cleanText(row.safetyClass)));
-  const reviewRows = rows.filter((row) => REVIEW_ONLY_SAFETY_CLASSES.has(cleanText(row.safetyClass)));
+  const appliedRows = rows.filter((row) => shouldApplyRow(row));
+  const reviewRows = rows.filter((row) => REVIEW_ONLY_SAFETY_CLASSES.has(cleanText(row.safetyClass)) && !shouldApplyRow(row));
+  const publicReviewRows = reviewRows.filter((row) => !SENSITIVE_PUBLIC_REVIEW_ROWS.has(Number(row.rowNumber) || 0));
   const groupedTargets = groupAppliedRows(appliedRows);
 
   const output = {
@@ -34,25 +92,37 @@ function main() {
     generatedAt: new Date().toISOString(),
     sourceReviewCsv: 'tasks/already-on-site-enrichment-review-2026-06-24.csv',
     policy: {
-      application: 'safe and high-confidence duplicate-match rows enrich existing source records only',
-      reviewOnly: 'variant, context-overlap, and weak feature-family rows remain staged for review and are not published as factual enrichment',
+      application: 'safe and high-confidence duplicate-match rows enrich existing source records only; user-approved related-source rows enrich existing records or source families as provenance only',
+      reviewOnly: 'unapproved variant, context-overlap, weak feature-family, and rights/source-URL-held rows remain staged for review and are not published as factual enrichment',
+      approvedRelatedSourceRows: [...USER_APPROVED_REVIEW_ONLY_ROWS].sort((a, b) => a - b),
+      heldSafeRecommendationRows: [...HELD_SAFE_RECOMMENDATION_ROWS].filter((rowNumber) => !SENSITIVE_PUBLIC_REVIEW_ROWS.has(rowNumber)).sort((a, b) => a - b),
+      statutoryBoundaryFamilyRows: [...STATUTORY_BOUNDARY_FAMILY_ROWS].sort((a, b) => a - b),
+      withheldSensitiveReviewRows: SENSITIVE_PUBLIC_REVIEW_ROWS.size,
       privacy: 'local filesystem paths are intentionally excluded from this public sidecar'
     },
     summary: {
       inputRows: rows.length,
       appliedRows: appliedRows.length,
       appliedTargets: groupedTargets.length,
-      reviewRows: reviewRows.length,
+      reviewRows: publicReviewRows.length,
+      internalReviewRows: reviewRows.length,
+      withheldSensitiveReviewRows: reviewRows.length - publicReviewRows.length,
       omittedRows: rows.length - appliedRows.length - reviewRows.length
     },
     targets: groupedTargets,
-    reviewRows: reviewRows.map(toReviewRow)
+    reviewRows: publicReviewRows.map(toReviewRow)
   };
 
   assertNoLocalPaths(output);
   mkdirSync(path.dirname(OUTPUT), { recursive: true });
   writeFileSync(OUTPUT, `${JSON.stringify(output, null, 2)}\n`);
-  console.log(`Wrote ${path.relative(ROOT, OUTPUT)} with ${groupedTargets.length} enriched targets from ${appliedRows.length} applied rows; ${reviewRows.length} rows remain review-only.`);
+  console.log(`Wrote ${path.relative(ROOT, OUTPUT)} with ${groupedTargets.length} enriched targets from ${appliedRows.length} applied rows; ${publicReviewRows.length} public review rows; ${reviewRows.length - publicReviewRows.length} sensitive review row(s) withheld.`);
+}
+
+function shouldApplyRow(row) {
+  const rowNumber = Number(row.rowNumber) || 0;
+  if (HELD_SAFE_RECOMMENDATION_ROWS.has(rowNumber)) return false;
+  return APPLIED_SAFETY_CLASSES.has(cleanText(row.safetyClass)) || USER_APPROVED_REVIEW_ONLY_ROWS.has(rowNumber);
 }
 
 function groupAppliedRows(rows) {
@@ -67,7 +137,7 @@ function groupAppliedRows(rows) {
         targetEntityId: target.targetEntityId,
         targetTitle: target.targetTitle,
         targetBrowseUrl: target.targetBrowseUrl,
-        sourceRecordBrowseUrl: `/browse/sources/${encodeURIComponent(slugify(target.sourceTargetId))}`,
+        sourceRecordBrowseUrl: sourceRecordBrowseUrlForTarget(target.sourceTargetId),
         evidence: [],
         sourceItems: [],
         safetyClasses: [],
@@ -100,7 +170,18 @@ function groupAppliedRows(rows) {
     .sort((a, b) => a.targetTitle.localeCompare(b.targetTitle) || a.sourceTargetId.localeCompare(b.sourceTargetId));
 }
 
+function sourceRecordBrowseUrlForTarget(sourceTargetId) {
+  if (String(sourceTargetId || '').startsWith('already-on-site-family:')) return null;
+  return `/browse/sources/${encodeURIComponent(slugify(sourceTargetId))}`;
+}
+
 function chooseTarget(row) {
+  const resolvedTarget = RESOLVED_ROW_TARGETS.get(Number(row.rowNumber) || 0);
+  if (resolvedTarget) return resolvedTarget;
+
+  const statutoryTarget = chooseApprovedStatutoryBoundaryFamilyTarget(row);
+  if (statutoryTarget) return statutoryTarget;
+
   const evidence = parseTargetEvidence(row.targetEvidence);
   const sourceEvidence = evidence.find((item) => item.kind === 'browse-source');
   if (sourceEvidence) {
@@ -156,6 +237,18 @@ function chooseTarget(row) {
   };
 }
 
+function chooseApprovedStatutoryBoundaryFamilyTarget(row) {
+  const rowNumber = Number(row.rowNumber) || 0;
+  if (!STATUTORY_BOUNDARY_FAMILY_ROWS.has(rowNumber)) return null;
+  return {
+    sourceTargetId: 'already-on-site-family:tailte-osi-2019-statutory-boundaries',
+    targetEntityKind: 'source-family',
+    targetEntityId: 'tailte-osi-2019-statutory-boundaries',
+    targetTitle: 'Tailte/OSI 2019 statutory-boundary source family',
+    targetBrowseUrl: null
+  };
+}
+
 function parseTargetEvidence(value) {
   return splitList(value, '|').map((part) => {
     const match = part.match(/^([^:()]+):([^()]+?)(?:\s*\((.*?)(?:;\s*([0-9.]+))?\))?$/);
@@ -174,13 +267,22 @@ function parseTargetEvidence(value) {
 }
 
 function toSourceItem(row) {
+  const rowNumber = Number(row.rowNumber) || cleanText(row.rowNumber);
+  const providerDatasetUrl = providerUrlForAuditRow(row);
+  const approvedRelatedSource = USER_APPROVED_REVIEW_ONLY_ROWS.has(Number(row.rowNumber) || 0);
+  const license = licenseForAuditRow(row);
   return compactObject({
-    auditRowNumber: Number(row.rowNumber) || cleanText(row.rowNumber),
-    title: cleanText(row.title),
-    provider: publicText(row.provider, 'Local source mirror'),
+    auditRowNumber: rowNumber,
+    title: titleForAuditRow(row),
+    provider: providerForAuditRow(row),
     category: publicText(row.category, 'Local source'),
     formats: splitList(row.formats, '|'),
     safetyClass: cleanText(row.safetyClass),
+    approvalStatus: approvedRelatedSource ? 'user-approved-related-source-enrichment' : null,
+    relationship: approvedRelatedSource ? relationshipForApprovedRow(row) : null,
+    providerDatasetUrl,
+    licenseTitle: approvedRelatedSource ? license.title : null,
+    licenseUrl: approvedRelatedSource ? license.url : null,
     recommendedAction: cleanText(row.cleanedRecommendation || row.recommendedEnrichmentAction),
     sourcePlacement: cleanText(row.sourcePlacement),
     geographyRecommendation: cleanText(row.geographyRecommendation),
@@ -189,6 +291,68 @@ function toSourceItem(row) {
     siteFamiliesPresent: splitList(row.siteFamiliesPresent, ';'),
     refinedStatus: cleanText(row.refinedStatus)
   });
+}
+
+function relationshipForApprovedRow(row) {
+  if (STATUTORY_BOUNDARY_FAMILY_ROWS.has(Number(row.rowNumber) || 0)) {
+    return 'related statutory-boundary source family evidence; not an exact geometry or map-parent equivalence';
+  }
+  return 'related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval';
+}
+
+function providerUrlForAuditRow(row) {
+  const rowNumber = Number(row.rowNumber) || 0;
+  if (ROW_PROVIDER_DATASET_URL_OVERRIDES.has(rowNumber)) {
+    return ROW_PROVIDER_DATASET_URL_OVERRIDES.get(rowNumber);
+  }
+  const provider = cleanText(row.provider).toLowerCase();
+  const slug = slugFromAuditPath(row.dPath);
+  if (!slug) return null;
+  if (provider.includes('open data ni')) return `https://admin.opendatani.gov.uk/dataset/${encodeURIComponent(slug)}`;
+  if (provider.includes('data.gov.ie') || provider.includes('tailte') || provider.includes('osi')) return `https://data.gov.ie/dataset/${encodeURIComponent(slug)}`;
+  return null;
+}
+
+function slugFromAuditPath(value) {
+  const text = cleanText(value);
+  if (!text || !text.includes('...')) return '';
+  const raw = text.split('...').pop().replaceAll('\\', '/').split('/').filter(Boolean).pop() || '';
+  return raw.replace(/\.(geojson|json|csv|xlsx?|zip|shp|kml|gpkg)$/i, '').trim();
+}
+
+function providerForAuditRow(row) {
+  const rowNumber = Number(row.rowNumber) || 0;
+  if (ROW_PROVIDER_OVERRIDES.has(rowNumber)) return ROW_PROVIDER_OVERRIDES.get(rowNumber);
+  return publicText(row.provider, 'Local source mirror');
+}
+
+function titleForAuditRow(row) {
+  const rowNumber = Number(row.rowNumber) || 0;
+  if (ROW_TITLE_OVERRIDES.has(rowNumber)) return ROW_TITLE_OVERRIDES.get(rowNumber);
+  return cleanText(row.title);
+}
+
+function licenseForAuditRow(row) {
+  const rowNumber = Number(row.rowNumber) || 0;
+  if (ROW_LICENSE_OVERRIDES.has(rowNumber)) return ROW_LICENSE_OVERRIDES.get(rowNumber);
+  return {
+    title: licenseTitleForProvider(row.provider),
+    url: licenseUrlForProvider(row.provider)
+  };
+}
+
+function licenseTitleForProvider(provider) {
+  const text = cleanText(provider).toLowerCase();
+  if (text.includes('open data ni')) return 'UK Open Government Licence (OGL)';
+  if (text.includes('data.gov.ie') || text.includes('tailte') || text.includes('osi')) return 'Creative Commons Attribution 4.0';
+  return null;
+}
+
+function licenseUrlForProvider(provider) {
+  const text = cleanText(provider).toLowerCase();
+  if (text.includes('open data ni')) return 'https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/';
+  if (text.includes('data.gov.ie') || text.includes('tailte') || text.includes('osi')) return 'https://creativecommons.org/licenses/by/4.0/';
+  return null;
 }
 
 function toReviewRow(row) {
