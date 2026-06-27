@@ -1,10 +1,12 @@
 param(
-  [ValidateSet('Index','Fetch','Both','Quick')]
+  [ValidateSet('Index','Fetch','Both','Quick','Discover','Capture')]
   [string]$Mode = 'Both',
   [ValidateSet('PowerShell','HttpClient')]
   [string]$Client = 'HttpClient',
   [ValidateSet('Branch','Page','Record')]
   [string]$QueueGranularity = 'Page',
+  [ValidateSet('InSession','Reopen')]
+  [string]$DiscoveryStrategy = 'InSession',
   [string[]]$Letters = @('A'),
   [switch]$AllLetters,
   [string]$BranchPathCsv = '',
@@ -27,6 +29,8 @@ param(
   [int]$WorkerId = 0,
   [string]$QueuePath = '',
   [string]$IndexPath = '',
+  [string]$DiscoveryPath = '',
+  [string]$DiscoveryPagesPath = '',
   [string]$SnapshotDir = '',
   [string]$OutDir = 'tmp/proni-corpus-crawl',
   [string]$UserAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/148 Safari/537.36'
@@ -36,6 +40,7 @@ $ErrorActionPreference = 'Stop'
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 $GlobalRpsWasProvided = $PSBoundParameters.ContainsKey('GlobalRps')
 $WorkerRpsWasProvided = $PSBoundParameters.ContainsKey('WorkerRps')
+$UsePageSnapshotsWasProvided = $PSBoundParameters.ContainsKey('UsePageSnapshots')
 
 function ConvertTo-BooleanFlag($Value, [bool]$Default = $false) {
   if ($null -eq $Value) { return $Default }
@@ -67,10 +72,26 @@ if ($Mode -eq 'Quick') {
   if (-not $WorkerRpsWasProvided) { $WorkerRps = 18.0 }
 }
 
+if ($Mode -eq 'Discover' -and -not $UsePageSnapshotsWasProvided) {
+  $UsePageSnapshots = $false
+}
+
 if (-not $IndexPath) {
   $IndexPath = Join-Path $OutDir 'records-index.jsonl'
 } elseif (-not [IO.Path]::IsPathRooted($IndexPath)) {
   $IndexPath = Join-Path (Get-Location) $IndexPath
+}
+
+if (-not $DiscoveryPath) {
+  $DiscoveryPath = Join-Path $OutDir 'branches-discovered.jsonl'
+} elseif (-not [IO.Path]::IsPathRooted($DiscoveryPath)) {
+  $DiscoveryPath = Join-Path (Get-Location) $DiscoveryPath
+}
+
+if (-not $DiscoveryPagesPath) {
+  $DiscoveryPagesPath = Join-Path $OutDir 'branch-pages-discovered.jsonl'
+} elseif (-not [IO.Path]::IsPathRooted($DiscoveryPagesPath)) {
+  $DiscoveryPagesPath = Join-Path (Get-Location) $DiscoveryPagesPath
 }
 
 if (-not $SnapshotDir) {
@@ -115,6 +136,7 @@ $script:Stats = [ordered]@{
   Mode = $Mode
   Client = $Client
   QueueGranularity = $QueueGranularity
+  DiscoveryStrategy = $DiscoveryStrategy
   UsePageSnapshots = [bool]$UsePageSnapshots
   FetchFromSnapshots = [bool]$FetchFromSnapshots
   ShardWorkerOutputs = [bool]$ShardWorkerOutputs
@@ -123,10 +145,15 @@ $script:Stats = [ordered]@{
   BranchesIndexed = 0
   BranchesFetched = 0
   BranchesQueued = 0
+  BranchesDiscovered = 0
   BranchPagesIndexed = 0
   BranchPagesFetched = 0
+  BranchPagesDiscovered = 0
+  CapturePagesProcessed = 0
   RecordsIndexed = 0
   RecordsQuickScanned = 0
+  DiscoveryLeafRows = 0
+  DiscoveryChildBranches = 0
   DetailsFetched = 0
   Mismatches = 0
   Failures = 0
@@ -211,6 +238,8 @@ function Get-TextLineCount([string]$Path) {
 }
 
 function Add-DerivedRunStats {
+  $script:Stats.DiscoveryRowsOnDisk = Get-TextLineCount $DiscoveryPath
+  $script:Stats.DiscoveryPageRowsOnDisk = Get-TextLineCount $DiscoveryPagesPath
   $script:Stats.IndexRowsOnDisk = Get-TextLineCount $IndexPath
   $script:Stats.QuickRowsOnDisk = Get-TextLineCount $QuickPath
   $script:Stats.DetailRowsOnDisk = Get-TextLineCount $DetailsPath
@@ -219,6 +248,8 @@ function Add-DerivedRunStats {
     $started = [DateTime]::Parse([string]$script:Stats.StartedAt).ToUniversalTime()
     $elapsed = [Math]::Max(0.001, ((Get-Date).ToUniversalTime() - $started).TotalSeconds)
     $script:Stats.ElapsedSeconds = [Math]::Round($elapsed, 3)
+    $script:Stats.DiscoveryRowsPerSecond = [Math]::Round(([double]$script:Stats.DiscoveryRowsOnDisk / $elapsed), 3)
+    $script:Stats.DiscoveryPagesPerSecond = [Math]::Round(([double]$script:Stats.DiscoveryPageRowsOnDisk / $elapsed), 3)
     $script:Stats.IndexRowsPerSecond = [Math]::Round(([double]$script:Stats.IndexRowsOnDisk / $elapsed), 3)
     $script:Stats.QuickRowsPerSecond = [Math]::Round(([double]$script:Stats.QuickRowsOnDisk / $elapsed), 3)
     $script:Stats.DetailRowsPerSecond = [Math]::Round(([double]$script:Stats.DetailRowsOnDisk / $elapsed), 3)
@@ -848,10 +879,10 @@ function Fetch-DetailRows([string]$PageHtml, [object]$Branch, [int]$PageNumber, 
   }
 }
 
-function Write-QuickRecord([object]$Branch, [int]$PageNumber, [object]$Row, [string]$ExpectedRef, [string]$PageHash, [object]$Snapshot) {
+function Write-QuickRecord([object]$Branch, [int]$PageNumber, [object]$Row, [string]$ExpectedRef, [string]$PageHash, [object]$Snapshot, [string]$ScanLevel = 'quick-index') {
   $record = [ordered]@{
     at = (Get-Date).ToUniversalTime().ToString('o')
-    scanLevel = 'quick-index'
+    scanLevel = $ScanLevel
     attributeCompleteness = 'listing-only'
     validationStatus = 'unvalidated-detail'
     detailFetchAttempted = $false
@@ -876,6 +907,39 @@ function Write-QuickRecord([object]$Branch, [int]$PageNumber, [object]$Row, [str
   $script:Stats.RecordsQuickScanned++
 }
 
+function Write-ListingRows([object]$Branch, [int]$PageNumber, [object[]]$LeafRows, [string]$PageHash, [object]$Snapshot, [bool]$WriteQuickRows = $false, [string]$ScanLevel = 'index') {
+  $branchKey = Get-BranchKey $Branch
+  foreach ($row in $LeafRows) {
+    if ($MaxRecords -gt 0 -and $script:Stats.RecordsIndexed -ge $MaxRecords) { break }
+    $expected = if ($row.ResultsSelect -and $row.ResultsSelect.Value) { [string]$row.ResultsSelect.Value } else { '' }
+    $index = [ordered]@{
+      at = (Get-Date).ToUniversalTime().ToString('o')
+      scanLevel = $ScanLevel
+      attributeCompleteness = 'listing-only'
+      validationStatus = 'unvalidated-detail'
+      branchKey = $branchKey
+      letter = $Branch.Letter
+      path = @($Branch.Path)
+      page = $PageNumber
+      ctl = $row.Ctl
+      expectedRef = $expected
+      rowText = $row.Text
+      pageHash = $PageHash
+      pageSnapshotPath = if ($Snapshot) { $Snapshot.HtmlPath } else { '' }
+      pageSnapshotMetadataPath = if ($Snapshot) { $Snapshot.MetadataPath } else { '' }
+      resultsViewName = if ($row.ResultsView) { $row.ResultsView.Name } else { '' }
+      resultsViewValue = if ($row.ResultsView) { $row.ResultsView.Value } else { '' }
+      resultsSelectName = if ($row.ResultsSelect) { $row.ResultsSelect.Name } else { '' }
+      resultsSelectValue = if ($row.ResultsSelect) { $row.ResultsSelect.Value } else { '' }
+    }
+    Write-JsonLine $IndexPath ([pscustomobject]$index)
+    if ($WriteQuickRows) {
+      Write-QuickRecord $Branch $PageNumber $row $expected $PageHash $Snapshot $ScanLevel
+    }
+    $script:Stats.RecordsIndexed++
+  }
+}
+
 function Index-Branch([object]$Branch, [switch]$FetchNow) {
   $branchKey = Get-BranchKey $Branch
   Write-Event 'branch-index-start' @{ branchKey=$branchKey; path=@($Branch.Path); letter=$Branch.Letter }
@@ -897,35 +961,8 @@ function Index-Branch([object]$Branch, [switch]$FetchNow) {
       $newBranches += $child
     }
 
-    foreach ($row in $leafRows) {
-      if ($MaxRecords -gt 0 -and $script:Stats.RecordsIndexed -ge $MaxRecords) { break }
-      $expected = if ($row.ResultsSelect -and $row.ResultsSelect.Value) { [string]$row.ResultsSelect.Value } else { '' }
-      $index = [ordered]@{
-        at = (Get-Date).ToUniversalTime().ToString('o')
-        scanLevel = if ($Mode -eq 'Quick') { 'quick-index' } else { 'index' }
-        attributeCompleteness = 'listing-only'
-        validationStatus = 'unvalidated-detail'
-        branchKey = $branchKey
-        letter = $Branch.Letter
-        path = @($Branch.Path)
-        page = $pageNumber
-        ctl = $row.Ctl
-        expectedRef = $expected
-        rowText = $row.Text
-        pageHash = $hash
-        pageSnapshotPath = if ($snapshot) { $snapshot.HtmlPath } else { '' }
-        pageSnapshotMetadataPath = if ($snapshot) { $snapshot.MetadataPath } else { '' }
-        resultsViewName = if ($row.ResultsView) { $row.ResultsView.Name } else { '' }
-        resultsViewValue = if ($row.ResultsView) { $row.ResultsView.Value } else { '' }
-        resultsSelectName = if ($row.ResultsSelect) { $row.ResultsSelect.Name } else { '' }
-        resultsSelectValue = if ($row.ResultsSelect) { $row.ResultsSelect.Value } else { '' }
-      }
-      Write-JsonLine $IndexPath ([pscustomobject]$index)
-      if ($Mode -eq 'Quick') {
-        Write-QuickRecord $Branch $pageNumber $row $expected $hash $snapshot
-      }
-      $script:Stats.RecordsIndexed++
-    }
+    $scanLevel = if ($Mode -eq 'Quick') { 'quick-index' } else { 'index' }
+    Write-ListingRows $Branch $pageNumber $leafRows $hash $snapshot ($Mode -eq 'Quick') $scanLevel
 
     if ($FetchNow -and $leafRows.Count) {
       Fetch-DetailRows $html $Branch $pageNumber $leafRows @{}
@@ -943,6 +980,290 @@ function Index-Branch([object]$Branch, [switch]$FetchNow) {
   Save-State
   Write-Event 'branch-index-complete' @{ branchKey=$branchKey; pages=$pageNumber; childBranches=$newBranches.Count }
   return $newBranches
+}
+
+function Write-DiscoveryPage([object]$Branch, [int]$PageNumber, [string]$PageHash, [object[]]$Rows, [object[]]$SelectableBranches, [object[]]$LeafRows, [object]$Snapshot, [bool]$HasNext) {
+  $record = [ordered]@{
+    at = (Get-Date).ToUniversalTime().ToString('o')
+    scanLevel = 'branch-discovery-page'
+    branchKey = Get-BranchKey $Branch
+    letter = $Branch.Letter
+    path = @($Branch.Path)
+    page = $PageNumber
+    pageHash = $PageHash
+    rowCount = @($Rows).Count
+    selectableBranchCount = @($SelectableBranches).Count
+    leafRowCount = @($LeafRows).Count
+    hasNextPage = $HasNext
+    pageSnapshotPath = if ($Snapshot) { $Snapshot.HtmlPath } else { '' }
+    pageSnapshotMetadataPath = if ($Snapshot) { $Snapshot.MetadataPath } else { '' }
+  }
+  Write-JsonLine $DiscoveryPagesPath ([pscustomobject]$record)
+  $script:Stats.BranchPagesDiscovered++
+  $script:Stats.DiscoveryLeafRows = [int]$script:Stats.DiscoveryLeafRows + @($LeafRows).Count
+  $script:Stats.DiscoveryChildBranches = [int]$script:Stats.DiscoveryChildBranches + @($SelectableBranches).Count
+}
+
+function Write-DiscoveryBranch([object]$Branch, [int]$PageCount, [int]$LeafRowCount, [object[]]$ChildBranches, [double]$ElapsedMs) {
+  $record = [ordered]@{
+    at = (Get-Date).ToUniversalTime().ToString('o')
+    scanLevel = 'branch-discovery'
+    branchKey = Get-BranchKey $Branch
+    letter = $Branch.Letter
+    path = @($Branch.Path)
+    depth = @($Branch.Path).Count
+    pageCount = $PageCount
+    leafRowCount = $LeafRowCount
+    childBranchCount = @($ChildBranches).Count
+    childRefs = @($ChildBranches | ForEach-Object { $_.Ref })
+    elapsedMs = [Math]::Round($ElapsedMs, 3)
+  }
+  Write-JsonLine $DiscoveryPath ([pscustomobject]$record)
+  $script:Stats.BranchesDiscovered++
+}
+
+function Discover-Branch([object]$Branch) {
+  $branchKey = Get-BranchKey $Branch
+  $sw = [Diagnostics.Stopwatch]::StartNew()
+  Write-Event 'branch-discovery-start' @{ branchKey=$branchKey; path=@($Branch.Path); letter=$Branch.Letter }
+  $html = Invoke-WithRetry { Open-BranchSnapshot $Branch } "Discover branch $branchKey"
+  $pageNumber = 1
+  $newBranches = @()
+  $leafCount = 0
+
+  while ($pageNumber -le $MaxPagesPerBranch) {
+    $rows = @(Parse-GridRows $html)
+    $selectableBranches = @($rows | Where-Object { $_.ResultsSelect -and -not $_.ResultsSelect.Disabled })
+    $leafRows = @($rows | Where-Object { $_.ResultsView -and (-not $_.ResultsSelect -or $_.ResultsSelect.Disabled) })
+    $hash = Get-PageHash $html
+    $next = Find-NextButton $html
+    $snapshot = Save-PageSnapshot $Branch $pageNumber $html $leafRows
+
+    foreach ($row in $selectableBranches) {
+      if (-not $row.ResultsSelect.Value) { continue }
+      $childPath = @(@($Branch.Path) + $row.ResultsSelect.Value)
+      $child = [pscustomobject]@{ Letter=$Branch.Letter; Path=$childPath; Depth=$childPath.Count; Ref=$row.ResultsSelect.Value; ParentKey=$branchKey; Text=$row.Text }
+      $newBranches += $child
+    }
+
+    $leafCount += $leafRows.Count
+    Write-DiscoveryPage $Branch $pageNumber $hash $rows $selectableBranches $leafRows $snapshot ([bool]$next)
+
+    if ($MaxRecords -gt 0 -and [int]$script:Stats.DiscoveryLeafRows -ge $MaxRecords) { break }
+    if (-not $next) { break }
+    $html = Invoke-WithRetry { Click-Next $html $next } "Discover next page $branchKey"
+    $pageNumber++
+  }
+
+  $sw.Stop()
+  Write-DiscoveryBranch $Branch $pageNumber $leafCount $newBranches $sw.Elapsed.TotalMilliseconds
+  Save-State
+  Write-Event 'branch-discovery-complete' @{ branchKey=$branchKey; pages=$pageNumber; childBranches=$newBranches.Count; leafRows=$leafCount; elapsedMs=[Math]::Round($sw.Elapsed.TotalMilliseconds, 3) }
+  return $newBranches
+}
+
+function Test-DiscoveryLimitReached {
+  if ($MaxBranches -gt 0 -and [int]$script:Stats.BranchesDiscovered -ge $MaxBranches) { return $true }
+  if ($MaxRecords -gt 0 -and [int]$script:Stats.DiscoveryLeafRows -ge $MaxRecords) { return $true }
+  return $false
+}
+
+function Discover-BranchInSession([object]$Branch, [string]$Html) {
+  if (Test-DiscoveryLimitReached) { return }
+  $branchKey = Get-BranchKey $Branch
+  if ($script:DiscoverySeen -and $script:DiscoverySeen.Contains($branchKey)) { return }
+  if (-not $script:DiscoverySeen) { $script:DiscoverySeen = New-Object 'System.Collections.Generic.HashSet[string]' }
+  [void]$script:DiscoverySeen.Add($branchKey)
+
+  $sw = [Diagnostics.Stopwatch]::StartNew()
+  Write-Event 'branch-discovery-start' @{ branchKey=$branchKey; path=@($Branch.Path); letter=$Branch.Letter; strategy='in-session' }
+  $pageNumber = 1
+  $leafCount = 0
+  $childTasks = @()
+
+  while ($pageNumber -le $MaxPagesPerBranch) {
+    if (Test-DiscoveryLimitReached) { break }
+    $rows = @(Parse-GridRows $Html)
+    $selectableBranches = @($rows | Where-Object { $_.ResultsSelect -and -not $_.ResultsSelect.Disabled })
+    $leafRows = @($rows | Where-Object { $_.ResultsView -and (-not $_.ResultsSelect -or $_.ResultsSelect.Disabled) })
+    $hash = Get-PageHash $Html
+    $next = Find-NextButton $Html
+    $snapshot = Save-PageSnapshot $Branch $pageNumber $Html $leafRows
+
+    foreach ($row in $selectableBranches) {
+      if (-not $row.ResultsSelect.Value) { continue }
+      $childPath = @(@($Branch.Path) + $row.ResultsSelect.Value)
+      $child = [pscustomobject]@{ Letter=$Branch.Letter; Path=$childPath; Depth=$childPath.Count; Ref=$row.ResultsSelect.Value; ParentKey=$branchKey; Text=$row.Text }
+      $childTasks += [pscustomobject]@{ Branch=$child; Row=$row; ParentHtml=$Html }
+    }
+
+    $leafCount += $leafRows.Count
+    Write-DiscoveryPage $Branch $pageNumber $hash $rows $selectableBranches $leafRows $snapshot ([bool]$next)
+
+    if (Test-DiscoveryLimitReached) { break }
+    if (-not $next) { break }
+    $Html = Invoke-WithRetry { Click-Next $Html $next } "Discover next page $branchKey"
+    $pageNumber++
+  }
+
+  $sw.Stop()
+  Write-DiscoveryBranch $Branch $pageNumber $leafCount @($childTasks | ForEach-Object { $_.Branch }) $sw.Elapsed.TotalMilliseconds
+  Save-State
+  Write-Event 'branch-discovery-complete' @{ branchKey=$branchKey; pages=$pageNumber; childBranches=$childTasks.Count; leafRows=$leafCount; elapsedMs=[Math]::Round($sw.Elapsed.TotalMilliseconds, 3); strategy='in-session' }
+
+  foreach ($task in $childTasks) {
+    if (Test-DiscoveryLimitReached) { break }
+    $child = $task.Branch
+    $childKey = Get-BranchKey $child
+    if ($script:DiscoverySeen.Contains($childKey)) { continue }
+    $script:Stats.BranchesQueued++
+    try {
+      $childHtml = Invoke-WithRetry { Click-Select ([string]$task.ParentHtml) $task.Row } "Discover child $childKey from parent page"
+      Discover-BranchInSession $child $childHtml
+    } catch {
+      Write-Event 'branch-discovery-in-session-fallback' @{ branchKey=$childKey; error=$_.Exception.Message }
+      $childHtml = Invoke-WithRetry { Open-BranchSnapshot $child } "Discover fallback open $childKey"
+      Discover-BranchInSession $child $childHtml
+    }
+  }
+}
+
+function Run-InSessionDiscoveryPass {
+  if (-not $Resume) {
+    foreach ($path in @($DiscoveryPath,$DiscoveryPagesPath,$FailuresPath,$EventsPath,$StatePath,$SummaryPath)) {
+      if (Test-Path $path) { Remove-Item -LiteralPath $path -Force }
+    }
+  }
+
+  $script:DiscoverySeen = New-Object 'System.Collections.Generic.HashSet[string]'
+
+  if ($BranchPathCsv.Trim()) {
+    $parts = @($BranchPathCsv -split ',' | ForEach-Object { $_.Trim() } | Where-Object { $_ })
+    if (-not $parts.Count) { throw 'BranchPathCsv was provided but no branch refs were parsed.' }
+    $letter = $parts[0].Substring(0,1).ToUpperInvariant()
+    $branch = [pscustomobject]@{ Letter=$letter; Path=$parts; Depth=$parts.Count; Ref=$parts[-1] }
+    $html = Invoke-WithRetry { Open-BranchSnapshot $branch } "Open discovery start branch $(Get-BranchKey $branch)"
+    Discover-BranchInSession $branch $html
+    Save-State
+    return
+  }
+
+  foreach ($letter in $Letters) {
+    if (Test-DiscoveryLimitReached) { break }
+    $branch = [pscustomobject]@{ Letter=$letter.ToUpperInvariant(); Path=@(); Depth=0; Ref="letter:$letter" }
+    $html = Invoke-WithRetry { Start-BrowseLetter $branch.Letter } "Open discovery letter $($branch.Letter)"
+    Discover-BranchInSession $branch $html
+  }
+  Save-State
+}
+
+function Run-DiscoveryPass {
+  if ($DiscoveryStrategy -eq 'InSession') {
+    Run-InSessionDiscoveryPass
+    return
+  }
+
+  if (-not $Resume) {
+    foreach ($path in @($DiscoveryPath,$DiscoveryPagesPath,$FailuresPath,$EventsPath,$StatePath,$SummaryPath)) {
+      if (Test-Path $path) { Remove-Item -LiteralPath $path -Force }
+    }
+  }
+
+  $queue = New-Object System.Collections.Queue
+  $seen = New-Object 'System.Collections.Generic.HashSet[string]'
+
+  if ($BranchPathCsv.Trim()) {
+    $parts = @($BranchPathCsv -split ',' | ForEach-Object { $_.Trim() } | Where-Object { $_ })
+    if (-not $parts.Count) { throw 'BranchPathCsv was provided but no branch refs were parsed.' }
+    $letter = $parts[0].Substring(0,1).ToUpperInvariant()
+    $queue.Enqueue([pscustomobject]@{ Letter=$letter; Path=$parts; Depth=$parts.Count; Ref=$parts[-1] })
+  } else {
+    foreach ($letter in $Letters) {
+      $queue.Enqueue([pscustomobject]@{ Letter=$letter.ToUpperInvariant(); Path=@(); Depth=0; Ref="letter:$letter" })
+    }
+  }
+
+  while ($queue.Count -gt 0) {
+    if ($MaxBranches -gt 0 -and $script:Stats.BranchesDiscovered -ge $MaxBranches) { break }
+    if ($MaxRecords -gt 0 -and [int]$script:Stats.DiscoveryLeafRows -ge $MaxRecords) { break }
+    $branch = $queue.Dequeue()
+    $branchKey = Get-BranchKey $branch
+    if ($seen.Contains($branchKey)) { continue }
+    [void]$seen.Add($branchKey)
+    $children = @(Discover-Branch $branch)
+    foreach ($child in $children) {
+      $childKey = Get-BranchKey $child
+      if (-not $seen.Contains($childKey)) { $queue.Enqueue($child); $script:Stats.BranchesQueued++ }
+    }
+  }
+  Save-State
+}
+
+function Get-DiscoveryPages {
+  if (-not (Test-Path $DiscoveryPagesPath)) { throw "No discovery page manifest found at $DiscoveryPagesPath" }
+  return @(Get-Content -Path $DiscoveryPagesPath | Where-Object { $_.Trim() } | ForEach-Object { $_ | ConvertFrom-Json })
+}
+
+function Capture-DiscoveredPage([object]$Page) {
+  if ($MaxRecords -gt 0 -and $script:Stats.RecordsIndexed -ge $MaxRecords) { return }
+  $branch = [pscustomobject]@{ Letter=[string]$Page.letter; Path=@($Page.path); BranchKey=[string]$Page.branchKey }
+  $pageNumber = [int]$Page.page
+  $html = ''
+  $snapshot = $null
+
+  if ($FetchFromSnapshots) {
+    $html = Read-PageSnapshot $Page
+    if ($html) {
+      Apply-PageSnapshotState $Page
+      $snapshot = [pscustomobject]@{
+        HtmlPath = [string](Get-ObjectValue $Page 'pageSnapshotPath' '')
+        MetadataPath = [string](Get-ObjectValue $Page 'pageSnapshotMetadataPath' '')
+        PageHash = [string](Get-ObjectValue $Page 'pageHash' '')
+      }
+      Write-Event 'capture-page-snapshot-hit' @{ branchKey=$Page.branchKey; page=$pageNumber }
+    }
+  }
+
+  if (-not $html) {
+    $opened = Open-BranchPageFromBrowse $branch $pageNumber
+    $html = [string]$opened.Html
+    if ([int]$opened.Page -ne $pageNumber) {
+      throw "Could not navigate to page $pageNumber for $($Page.branchKey); reached page $($opened.Page)"
+    }
+    Write-Event 'capture-page-browse-open' @{ branchKey=$Page.branchKey; page=$pageNumber }
+  }
+
+  $rows = @(Parse-GridRows $html)
+  $leafRows = @($rows | Where-Object { $_.ResultsView -and (-not $_.ResultsSelect -or $_.ResultsSelect.Disabled) })
+  $hash = Get-PageHash $html
+  if (-not $snapshot) {
+    $snapshot = Save-PageSnapshot $branch $pageNumber $html $leafRows
+  }
+  Write-ListingRows $branch $pageNumber $leafRows $hash $snapshot $true 'capture-index'
+  $script:Stats.CapturePagesProcessed++
+  Save-State
+  Write-Event 'capture-page-complete' @{ branchKey=$Page.branchKey; page=$pageNumber; leafRows=$leafRows.Count }
+}
+
+function Run-CapturePass {
+  if (-not $Resume) {
+    foreach ($path in @($IndexPath,$QuickPath,$FailuresPath,$EventsPath,$StatePath,$SummaryPath)) {
+      if (Test-Path $path) { Remove-Item -LiteralPath $path -Force }
+    }
+  }
+
+  $pages = @(Get-DiscoveryPages | Sort-Object branchKey, { [int]$_.page })
+  $seenBranches = New-Object 'System.Collections.Generic.HashSet[string]'
+  foreach ($page in $pages) {
+    if ($MaxRecords -gt 0 -and $script:Stats.RecordsIndexed -ge $MaxRecords) { break }
+    $branchKey = [string]$page.branchKey
+    if (-not $seenBranches.Contains($branchKey)) {
+      if ($MaxBranches -gt 0 -and $seenBranches.Count -ge $MaxBranches) { break }
+      [void]$seenBranches.Add($branchKey)
+    }
+    Capture-DiscoveredPage $page
+  }
+  Save-State
 }
 
 function Run-IndexPass([switch]$FetchNow) {
@@ -1321,6 +1642,10 @@ Write-Event 'run-start' @{ mode=$Mode; client=$Client; letters=($Letters -join '
 if ($WorkerMode) {
   if (-not $QueuePath) { throw 'WorkerMode requires QueuePath.' }
   Run-FetchWorker
+} elseif ($Mode -eq 'Discover') {
+  Run-DiscoveryPass
+} elseif ($Mode -eq 'Capture') {
+  Run-CapturePass
 } elseif ($Mode -eq 'Index') {
   Run-IndexPass
 } elseif ($Mode -eq 'Quick') {

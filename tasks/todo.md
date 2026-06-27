@@ -1,3 +1,16 @@
+# PRONI Branch Discovery / Record Capture Split
+
+- [x] Split PRONI Browse branch discovery from record data capture.
+  - Task: add an explicit branch/page discovery mode and a separate listing-row capture mode so Browse traversal overhead can be measured and optimized independently from quick or full detail capture.
+  - Scope: crawler tooling only; do not run an unbounded PRONI crawl. Keep full dynamic all-field detail capture unchanged.
+  - Verification plan: PowerShell parser check, diff check, bounded live discovery probes under `D:\PRONI\eCatalogue\...`, bounded capture-from-discovery probe, and scoped commit/push.
+  - Speed goal: maximize discovery throughput by skipping listing-row writes and page snapshots by default in discovery mode, while still writing enough branch/page manifest data for later capture.
+  - Completed: added `-Mode Discover` to emit branch/page manifests only, with `branches-discovered.jsonl` and `branch-pages-discovered.jsonl`, and defaulted discovery to avoid page-snapshot writes unless explicitly requested.
+  - Completed: added `-Mode Capture` to consume `branch-pages-discovered.jsonl` and emit listing-row/index outputs independently from detail-record capture.
+  - Completed: added `-DiscoveryStrategy InSession|Reopen`; `InSession` is now the default branch-discovery path and avoids reopening the whole Browse path for each child branch where the current WebForms session can safely click through.
+  - Verification evidence: PowerShell parse and `git diff --check` passed. A bounded discover probe for `AA > AA/1 > AA/1/2` produced 1 discovered branch, 1 page, 15 leaf rows, 0 failures, and 0 blocked responses; the matching capture probe consumed that page manifest and produced 8 capture-index rows, 0 detail rows, 0 failures, and 0 blocked responses.
+  - Speed finding: with `MaxBranches 30`, `MaxRecords 0`, no artificial rate limit, and snapshots disabled, the old reopen strategy discovered 30 branches / 43 pages in 30.399s, or 0.987 branches/sec and 1.415 pages/sec. The new in-session strategy discovered 30 branches / 57 pages in 16.493s, or 1.819 branches/sec and 3.456 pages/sec. That is about 1.8x faster by branch count and 2.4x faster by page count on the bounded live probe, with no failures, blocked responses, retries, or in-session fallbacks observed.
+
 # PRONI Full Browse Crawler Tooling
 
 - [x] Implement PRONI Quick scan mode.
