@@ -1,5 +1,6 @@
 const DATA_ROOT = '../data/browse';
-const BROWSE_DATA_VERSION = '20260627-ni-register-interests';
+const GRAPH_ROOT = '../data/graph';
+const BROWSE_DATA_VERSION = '20260628-semantic-graph';
 const THUMBNAIL_ASSET_VERSION = '20260604-tight-admin-frame';
 const ENTITY_CONFIG = {
   maps: { label: 'Maps', singular: 'Map', index: 'maps.json', detailDir: 'maps', action: 'Open in interactive map' },
@@ -28,6 +29,26 @@ const REGISTER_INTEREST_FILTERS = [
   { key: 'categories', label: 'Category' },
   { key: 'sourceKinds', label: 'Source kind' },
   { key: 'nilStatus', label: 'Interest status' }
+];
+
+const GRAPH_STATEMENT_PROPERTY_ORDER = [
+  'cg:property:register-record',
+  'cg:property:declared-interest',
+  'cg:property:has-candidature',
+  'cg:property:stood-in-election',
+  'cg:property:has-contest',
+  'cg:property:contest-in-election',
+  'cg:property:contest',
+  'cg:property:candidate',
+  'cg:property:member-of-political-party',
+  'cg:property:appeared-in-election',
+  'cg:property:elected-body',
+  'cg:property:political-office',
+  'cg:property:date',
+  'cg:property:constituency',
+  'cg:property:source',
+  'cg:property:instance-of',
+  'cg:property:name'
 ];
 
 const TECHNICAL_FIELD_KEYS = new Set([
@@ -127,6 +148,19 @@ const state = {
   query: '',
   indexes: new Map(),
   details: new Map(),
+  graph: {
+    manifest: null,
+    browseMapping: null,
+    entityIndex: null,
+    entitySummaryShards: new Map(),
+    entitySearch: null,
+    subjectMap: null,
+    subjectShards: new Map(),
+    reverseEntityMap: null,
+    reverseEntityShards: new Map(),
+    sourceStatementMap: null,
+    sourceStatementShards: new Map()
+  },
   selectedFeatureMap: null,
   loadedFeatureMap: null,
   auth: null,
@@ -259,6 +293,10 @@ function applyRoute() {
   state.activeType = route.type;
   state.activeId = route.id;
   state.selectedFeatureMap = route.params.get('map');
+  if (route.params.has('q')) {
+    state.query = route.params.get('q').trim();
+    if (els.search) els.search.value = state.query;
+  }
   renderGroups();
   renderCurrent();
 }
@@ -274,6 +312,7 @@ function parseRoute() {
   let type = params.get('type') || parts[0] || 'maps';
   let id = params.get('id') || parts[1] || null;
   if (type === 'people') type = 'persons';
+  if (type === 'entities') return { isHome: false, type, id, params };
   if (!ENTITY_CONFIG[type]) type = 'maps';
   return { isHome: false, type, id, params };
 }
@@ -303,6 +342,10 @@ async function renderCurrent() {
     state.currentDetail = null;
     setPortalHero();
     renderPortalLanding();
+    return;
+  }
+  if (state.activeType === 'entities') {
+    await renderEntityRoute(state.activeId);
     return;
   }
   const config = ENTITY_CONFIG[state.activeType];
@@ -688,6 +731,7 @@ async function renderDetail(type, indexItem) {
   state.currentDetail = { type, item };
   setHero(config, item);
   const isMap = type === 'maps';
+  const graphPanel = await renderGraphStatementsPanel(type, item);
   els.results.innerHTML = `
     <div class="browse-detail${isMap ? ' browse-detail--map' : ''}">
       ${renderDetailActions(config, item)}
@@ -695,6 +739,7 @@ async function renderDetail(type, indexItem) {
       ${isMap ? renderMapLeadPanel(item) : renderThumbnailPanel(item)}
       ${isMap ? renderMapMetadataPanel(item) : renderOverviewPanel(type, item)}
       ${isMap ? renderMapSourcePanel(item) : renderMetadataPanel(type, item)}
+      ${graphPanel}
       ${isMap ? '' : renderLinksPanel(item)}
       ${renderRelatedPanel(type, item)}
       ${renderTechnicalPanel(type, item)}
@@ -992,6 +1037,336 @@ function renderRegisterInterestRelated(item) {
       escapeHtml([row.sourcePageStart, row.sourcePageEnd && row.sourcePageEnd !== row.sourcePageStart ? row.sourcePageEnd : null].filter(Boolean).join('-'))
     ])}
   `;
+}
+
+async function renderEntityRoute(slug) {
+  state.currentDetail = null;
+  els.results.innerHTML = '<div class="browse-loading">Loading entity...</div>';
+  if (!slug) {
+    await renderEntitySearchRoute();
+    return;
+  }
+  const entityIndex = await loadGraphEntityIndex();
+  const entityId = entityIndex.bySlug?.[slug] || (entityIndex.byIdShard?.[slug] ? slug : '');
+  const entity = entityId ? await loadGraphEntitySummary(entityId) : null;
+  if (!entity) {
+    setHero({ label: 'Entities', singular: 'Entity' }, null);
+    els.results.innerHTML = '<div class="browse-empty">Entity not found.</div>';
+    return;
+  }
+  const graph = await loadGraphStatementsForEntity(entityId);
+  const related = await loadGraphRelatedForEntity(entityId);
+  const title = entity.label || entityId;
+  els.hero.innerHTML = `
+    <p class="browse-kicker">Entity</p>
+    <h1 class="browse-title">${escapeHtml(title)}</h1>
+    <p class="browse-description">${escapeHtml(entity.typeLabels?.join(', ') || entity.typeIds?.join(', ') || entityId)}</p>
+  `;
+  els.results.innerHTML = renderEntityPage(entityId, entity, graph.statements, related);
+}
+
+async function renderEntitySearchRoute() {
+  setHero({ label: 'Entities', singular: 'Entity' }, null);
+  const search = await loadGraphEntitySearch();
+  const query = normalizeSearchQuery(state.query);
+  const items = query
+    ? search.items.filter((item) => entitySearchText(item).includes(query)).slice(0, 200)
+    : search.items.slice(0, 200);
+  els.hero.innerHTML = `
+    <p class="browse-kicker">Entity Search</p>
+    <h1 class="browse-title">Graph entities</h1>
+    <p class="browse-description">${query ? `${formatNumber(items.length)} visible matches for "${escapeHtml(state.query)}"` : 'Search graph-backed people, parties, bodies, elections, map layers, feature groups, sources, providers, and sampled geography.'}</p>
+  `;
+  els.results.innerHTML = `
+    <div class="browse-grid">
+      ${items.map(renderEntitySearchCard).join('')}
+    </div>
+  `;
+}
+
+function entitySearchText(item) {
+  const typeLabels = item.typeLabels || item.types;
+  return normalizeSearchQuery([item.label, joinList(typeLabels), item.browseType, item.browseSlug, joinList(item.searchHints)].filter(Boolean).join(' '));
+}
+
+function renderEntitySearchCard(item) {
+  const typeLabels = item.typeLabels || item.types;
+  return `
+    <article class="browse-card">
+      <div class="browse-card__main">
+        <h2 class="browse-card__title"><a href="#/entities/${encodeURIComponent(item.slug)}" data-browse-link>${escapeHtml(item.label || item.entityId)}</a></h2>
+        <div class="browse-card__meta">${renderMeta([joinList(typeLabels), item.browseType])}</div>
+        ${item.description ? `<p class="browse-card__summary">${escapeHtml(item.description)}</p>` : ''}
+      </div>
+    </article>
+  `;
+}
+
+function renderEntityPage(entityId, entity, statements, related) {
+  const groups = groupGraphStatements(statements);
+  const browseHref = entity.browseType && entity.browseSlug ? `#/${entity.browseType}/${encodeURIComponent(entity.browseSlug)}` : '';
+  return `
+    <div class="browse-detail browse-entity">
+      <div class="browse-actions">
+        ${browseHref ? `<a class="browse-btn" href="${escapeAttr(browseHref)}" data-browse-link>Open legacy Browse page</a>` : ''}
+      </div>
+      <section class="browse-detail__panel browse-entity-header">
+        <h2>Entity</h2>
+        <div class="browse-detail__body">
+          ${renderDefinitionRows([
+            ['ID', entityId],
+            ['Types', joinList(entity.typeLabels || entity.typeIds)],
+            ['Legacy Browse type', entity.browseType],
+            ['Legacy Browse slug', entity.browseSlug]
+          ])}
+        </div>
+      </section>
+      <section class="browse-detail__panel browse-graph-panel">
+        <h2>Statements</h2>
+        <div class="browse-detail__body browse-graph">
+          <div class="browse-graph__summary">
+            <span>${escapeHtml(entityId)}</span>
+            <span>${formatNumber(statements.length)} statements</span>
+          </div>
+          <div class="browse-graph__groups">
+            ${groups.map(renderGraphStatementGroup).join('')}
+          </div>
+        </div>
+      </section>
+      ${renderEntityRelatedPanel(related)}
+    </div>
+  `;
+}
+
+function renderEntityRelatedPanel(related) {
+  const reverseRows = normalizeArray(related?.reverse).slice(0, 40).map((row) => [
+    row.subjectSlug ? `<a href="#/entities/${encodeURIComponent(row.subjectSlug)}" data-browse-link>${escapeHtml(row.subjectLabel || row.subjectId)}</a>` : escapeHtml(row.subjectLabel || row.subjectId),
+    escapeHtml(row.propertyLabel || row.propertyId || ''),
+    escapeHtml(joinList(row.subjectTypeLabels))
+  ]);
+  const sourceRows = normalizeArray(related?.sourceStatements).slice(0, 40).map((row) => [
+    row.subjectSlug ? `<a href="#/entities/${encodeURIComponent(row.subjectSlug)}" data-browse-link>${escapeHtml(row.subjectLabel || row.subjectId)}</a>` : escapeHtml(row.subjectLabel || row.subjectId),
+    escapeHtml(row.propertyLabel || row.propertyId || ''),
+    escapeHtml([row.sourceKind, row.date].filter(Boolean).join(' / '))
+  ]);
+  if (!reverseRows.length && !sourceRows.length) return '';
+  return `
+    ${renderTablePanel('Related Entities', ['Entity', 'Relationship', 'Type'], reverseRows)}
+    ${renderTablePanel('Source-Supported Statements', ['Entity', 'Statement', 'Reference'], sourceRows)}
+  `;
+}
+
+async function renderGraphStatementsPanel(type, item) {
+  let graph;
+  try {
+    graph = await loadGraphStatementsForBrowseItem(type, item);
+  } catch (error) {
+    console.warn('Graph statements could not be loaded for Browse detail page.', error);
+    return '';
+  }
+  if (!graph?.entityId || !graph.statements.length) return '';
+  const entitySummary = await loadGraphEntitySummary(graph.entityId);
+  const groups = groupGraphStatements(graph.statements);
+  const visibleGroups = groups.slice(0, 10);
+  const hiddenGroupCount = Math.max(0, groups.length - visibleGroups.length);
+  const entityHref = entitySummary?.slug ? `#/entities/${encodeURIComponent(entitySummary.slug)}` : '';
+  return `
+    <section class="browse-detail__panel browse-graph-panel">
+      <h2>Semantic statements</h2>
+      <div class="browse-detail__body browse-graph">
+        <div class="browse-graph__summary">
+          <span>${escapeHtml(graph.entityId)}</span>
+          <span>${formatNumber(graph.statements.length)} statements</span>
+          ${entityHref ? `<a href="${escapeAttr(entityHref)}" data-browse-link>Open entity view</a>` : ''}
+        </div>
+        <div class="browse-graph__groups">
+          ${visibleGroups.map(renderGraphStatementGroup).join('')}
+        </div>
+        ${hiddenGroupCount ? `<p class="browse-graph__more">${formatNumber(hiddenGroupCount)} further statement groups are available in the generated graph data.</p>` : ''}
+      </div>
+    </section>
+  `;
+}
+
+function renderGraphStatementGroup(group) {
+  const visibleStatements = group.statements.slice(0, 12);
+  const hiddenCount = Math.max(0, group.statements.length - visibleStatements.length);
+  return `
+    <div class="browse-graph-group">
+      <div class="browse-graph-group__property">${escapeHtml(group.label)}</div>
+      <div class="browse-graph-group__values">
+        ${visibleStatements.map(renderGraphStatement).join('')}
+        ${hiddenCount ? `<div class="browse-graph-statement browse-graph-statement--more">+ ${formatNumber(hiddenCount)} more</div>` : ''}
+      </div>
+    </div>
+  `;
+}
+
+function renderGraphStatement(statement) {
+  const value = graphStatementValueText(statement);
+  const description = statement.valueDescription && statement.valueDescription !== value ? statement.valueDescription : '';
+  const qualifiers = normalizeArray(statement.qualifiers)
+    .filter((qualifier) => qualifier.propertyId !== 'cg:property:name')
+    .slice(0, 8);
+  const references = normalizeArray(statement.references).slice(0, 4);
+  const omittedReferences = Math.max(0, Number(statement.referenceCount || 0) - references.length);
+  return `
+    <div class="browse-graph-statement">
+      <div class="browse-graph-statement__value">${escapeHtml(value)}</div>
+      ${description ? `<div class="browse-graph-statement__description">${escapeHtml(description)}</div>` : ''}
+      ${qualifiers.length ? `
+        <div class="browse-graph-statement__qualifiers">
+          ${qualifiers.map((qualifier) => `<span><b>${escapeHtml(qualifier.propertyLabel || qualifier.propertyId)}</b> ${escapeHtml(graphStatementValueText(qualifier))}</span>`).join('')}
+        </div>
+      ` : ''}
+      ${(references.length || omittedReferences) ? `
+        <div class="browse-graph-statement__references">
+          ${references.map((reference) => `<span>${escapeHtml(graphReferenceLabel(reference))}</span>`).join('')}
+          ${omittedReferences ? `<span>+ ${formatNumber(omittedReferences)} more</span>` : ''}
+        </div>
+      ` : ''}
+    </div>
+  `;
+}
+
+function graphStatementValueText(statement) {
+  return statement.valueLabel || statement.valueText || statement.valueId || '';
+}
+
+function graphReferenceLabel(reference) {
+  return [reference.sourceTitle || reference.sourceRecordId || reference.sourceKind || 'Source', reference.date].filter(Boolean).join(' / ');
+}
+
+function groupGraphStatements(statements) {
+  const byProperty = new Map();
+  for (const statement of statements) {
+    const key = statement.propertyId || 'unknown';
+    if (!byProperty.has(key)) {
+      byProperty.set(key, {
+        propertyId: key,
+        label: statement.propertyLabel || key,
+        statements: []
+      });
+    }
+    byProperty.get(key).statements.push(statement);
+  }
+  return [...byProperty.values()]
+    .sort((a, b) => graphPropertyRank(a.propertyId) - graphPropertyRank(b.propertyId) || a.label.localeCompare(b.label));
+}
+
+function graphPropertyRank(propertyId) {
+  const index = GRAPH_STATEMENT_PROPERTY_ORDER.indexOf(propertyId);
+  return index === -1 ? 999 : index;
+}
+
+async function loadGraphStatementsForBrowseItem(type, item) {
+  const entityId = await graphEntityIdForBrowseItem(type, item);
+  if (!entityId) return null;
+  return loadGraphStatementsForEntity(entityId);
+}
+
+async function loadGraphStatementsForEntity(entityId) {
+  const subjectMap = await loadGraphSubjectMap();
+  const shardUrl = subjectMap[entityId];
+  if (!shardUrl) return { entityId, statements: [] };
+  let shard = state.graph.subjectShards.get(shardUrl);
+  if (!shard) {
+    shard = await loadJson(shardUrl);
+    state.graph.subjectShards.set(shardUrl, shard);
+  }
+  return { entityId, statements: normalizeArray(shard.items?.[entityId]) };
+}
+
+async function graphEntityIdForBrowseItem(type, item) {
+  const mapping = await loadGraphBrowseMapping();
+  for (const key of graphBrowseKeys(type, item)) {
+    if (mapping[key]) return mapping[key];
+  }
+  return '';
+}
+
+function graphBrowseKeys(type, item) {
+  const keys = [];
+  for (const value of [item.slug, item.id, item.key, item.title, item.name]) {
+    if (!value) continue;
+    keys.push(`${type}:${value}`);
+    keys.push(`${type}:${slugify(value)}`);
+  }
+  return [...new Set(keys)];
+}
+
+async function loadGraphManifest() {
+  if (state.graph.manifest) return state.graph.manifest;
+  state.graph.manifest = await loadJson(`${GRAPH_ROOT}/manifest.json`);
+  return state.graph.manifest;
+}
+
+async function loadGraphBrowseMapping() {
+  if (state.graph.browseMapping) return state.graph.browseMapping;
+  const manifest = await loadGraphManifest();
+  const mapping = await loadJson(manifest.indexes.browseRecordToEntity);
+  state.graph.browseMapping = mapping.items || {};
+  return state.graph.browseMapping;
+}
+
+async function loadGraphEntityIndex() {
+  if (state.graph.entityIndex) return state.graph.entityIndex;
+  const manifest = await loadGraphManifest();
+  const index = await loadJson(manifest.indexes.entitySlugs);
+  state.graph.entityIndex = index;
+  return state.graph.entityIndex;
+}
+
+async function loadGraphEntitySearch() {
+  if (state.graph.entitySearch) return state.graph.entitySearch;
+  const manifest = await loadGraphManifest();
+  state.graph.entitySearch = await loadJson(manifest.indexes.entitySearch);
+  return state.graph.entitySearch;
+}
+
+async function loadGraphEntitySummary(entityId) {
+  const index = await loadGraphEntityIndex();
+  if (index.byId?.[entityId]) return index.byId[entityId];
+  const shardUrl = index.byIdShard?.[entityId];
+  if (!shardUrl) return null;
+  let shard = state.graph.entitySummaryShards.get(shardUrl);
+  if (!shard) {
+    shard = await loadJson(shardUrl);
+    state.graph.entitySummaryShards.set(shardUrl, shard);
+  }
+  return shard.items?.[entityId] || null;
+}
+
+async function loadGraphRelatedForEntity(entityId) {
+  const [reverse, sourceStatements] = await Promise.all([
+    loadGraphRelatedShard(entityId, 'reverseEntityMap', 'reverseEntityShards', 'reverseEntityValuesMap'),
+    loadGraphRelatedShard(entityId, 'sourceStatementMap', 'sourceStatementShards', 'sourceStatementsMap')
+  ]);
+  return { reverse, sourceStatements };
+}
+
+async function loadGraphRelatedShard(entityId, mapStateKey, shardStateKey, manifestIndexKey) {
+  const manifest = await loadGraphManifest();
+  if (!state.graph[mapStateKey]) {
+    const mapPayload = await loadJson(manifest.indexes[manifestIndexKey]);
+    state.graph[mapStateKey] = mapPayload.items || {};
+  }
+  const shardUrl = state.graph[mapStateKey][entityId];
+  if (!shardUrl) return [];
+  let shard = state.graph[shardStateKey].get(shardUrl);
+  if (!shard) {
+    shard = await loadJson(shardUrl);
+    state.graph[shardStateKey].set(shardUrl, shard);
+  }
+  return normalizeArray(shard.items?.[entityId]);
+}
+
+async function loadGraphSubjectMap() {
+  if (state.graph.subjectMap) return state.graph.subjectMap;
+  const manifest = await loadGraphManifest();
+  const subjectMap = await loadJson(manifest.indexes.statementsBySubjectMap);
+  state.graph.subjectMap = subjectMap.items || {};
+  return state.graph.subjectMap;
 }
 
 function sourceKindLabel(value) {
@@ -1778,6 +2153,14 @@ function renderMeta(parts) {
 
 function cleanStatus(value) {
   return String(value || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+}
+
+function normalizeSearchQuery(value) {
+  return String(value || '')
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim();
 }
 
 function joinList(value) {

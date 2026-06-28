@@ -948,6 +948,113 @@ a:hover {
   background: #f8fafc;
 }
 
+.browse-graph {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.browse-graph__summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+  color: var(--color-text-muted);
+  font-size: .78rem;
+  font-weight: 650;
+}
+
+.browse-graph__summary span {
+  padding: .16rem .45rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: #f8fafc;
+}
+
+.browse-graph__groups {
+  display: grid;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.browse-graph-group {
+  display: grid;
+  grid-template-columns: minmax(150px, 220px) minmax(0, 1fr);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.browse-graph-group:last-child {
+  border-bottom: 0;
+}
+
+.browse-graph-group__property {
+  padding: .55rem .7rem;
+  background: #f8fafc;
+  color: var(--color-text-muted);
+  font-size: .76rem;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.browse-graph-group__values {
+  display: grid;
+  min-width: 0;
+}
+
+.browse-graph-statement {
+  display: grid;
+  gap: .28rem;
+  min-width: 0;
+  padding: .55rem .7rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.browse-graph-statement:last-child {
+  border-bottom: 0;
+}
+
+.browse-graph-statement__value {
+  color: var(--color-text);
+  font-size: .86rem;
+  font-weight: 760;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.browse-graph-statement__description {
+  max-width: 92rem;
+  color: var(--color-text);
+  font-size: .78rem;
+  line-height: 1.38;
+  overflow-wrap: anywhere;
+}
+
+.browse-graph-statement__qualifiers,
+.browse-graph-statement__references {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .25rem .35rem;
+  color: var(--color-text-muted);
+  font-size: .7rem;
+  line-height: 1.25;
+}
+
+.browse-graph-statement__qualifiers span,
+.browse-graph-statement__references span {
+  padding: .12rem .34rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: #f8fafc;
+}
+
+.browse-graph-statement--more,
+.browse-graph__more {
+  color: var(--color-text-muted);
+  font-size: .78rem;
+  font-weight: 700;
+}
+
 .browse-technical {
   padding: 0;
 }
@@ -1536,6 +1643,14 @@ a:hover {
 
   .browse-link-groups {
     grid-template-columns: 1fr;
+  }
+
+  .browse-graph-group {
+    grid-template-columns: 1fr;
+  }
+
+  .browse-graph-group__property {
+    border-bottom: 1px solid var(--color-border);
   }
 }
 

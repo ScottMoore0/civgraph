@@ -1,0 +1,270 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-06-28T02:12:51.534Z",
+  "properties": [
+    {
+      "id": "cg:property:instance-of",
+      "label": "instance of",
+      "description": "Links an entity to its Civgraph entity type.",
+      "valueType": "entity"
+    },
+    {
+      "id": "cg:property:name",
+      "label": "name",
+      "description": "Human-readable name for an entity.",
+      "valueType": "string"
+    },
+    {
+      "id": "cg:property:elected-body",
+      "label": "elected body",
+      "description": "The elected body connected to a person, office, election, or register record.",
+      "valueType": "entity"
+    },
+    {
+      "id": "cg:property:political-office",
+      "label": "political office",
+      "description": "The office connected to a politician or register record.",
+      "valueType": "entity"
+    },
+    {
+      "id": "cg:property:member-of-political-party",
+      "label": "member of political party or label",
+      "description": "A party or electoral label associated with a person in the source data.",
+      "valueType": "entity"
+    },
+    {
+      "id": "cg:property:stood-in-election",
+      "label": "stood in election",
+      "description": "An election appearance for a person.",
+      "valueType": "entity"
+    },
+    {
+      "id": "cg:property:has-contest",
+      "label": "has contest",
+      "description": "An election contains a constituency, ward, DEA, or other result unit.",
+      "valueType": "entity"
+    },
+    {
+      "id": "cg:property:contest-in-election",
+      "label": "contest in election",
+      "description": "The parent election for an election contest.",
+      "valueType": "entity"
+    },
+    {
+      "id": "cg:property:has-candidature",
+      "label": "has candidature",
+      "description": "A person's candidature or appearance in an election contest.",
+      "valueType": "entity"
+    },
+    {
+      "id": "cg:property:candidate",
+      "label": "candidate",
+      "description": "The person attached to a candidature.",
+      "valueType": "entity"
+    },
+    {
+      "id": "cg:property:contest",
+      "label": "contest",
+      "description": "The election contest attached to a candidature.",
+      "valueType": "entity"
+    },
+    {
+      "id": "cg:property:appeared-in-election",
+      "label": "appeared in election",
+      "description": "A party or label appeared in an election.",
+      "valueType": "entity"
+    },
+    {
+      "id": "cg:property:register-record",
+      "label": "register of interests record",
+      "description": "A register of interests record connected to a person.",
+      "valueType": "entity"
+    },
+    {
+      "id": "cg:property:declared-interest",
+      "label": "declared interest",
+      "description": "A register interest entry declared in a register record.",
+      "valueType": "entity"
+    },
+    {
+      "id": "cg:property:interest-category",
+      "label": "interest category",
+      "description": "The source category of a register interest entry.",
+      "valueType": "string"
+    },
+    {
+      "id": "cg:property:source",
+      "label": "source",
+      "description": "A source used as evidence for an entity or statement.",
+      "valueType": "entity"
+    },
+    {
+      "id": "cg:property:source-file",
+      "label": "source file",
+      "description": "A source file used by a map layer, source record, or generated dataset.",
+      "valueType": "entity"
+    },
+    {
+      "id": "cg:property:download",
+      "label": "download",
+      "description": "A downloadable file or resource exposed by a map layer or source record.",
+      "valueType": "entity"
+    },
+    {
+      "id": "cg:property:provider",
+      "label": "provider",
+      "description": "A provider, publisher, or named source organisation.",
+      "valueType": "entity"
+    },
+    {
+      "id": "cg:property:file-format",
+      "label": "file format",
+      "description": "A source file or download format label.",
+      "valueType": "string"
+    },
+    {
+      "id": "cg:property:url",
+      "label": "URL",
+      "description": "A URL for an entity, source, file, download, or interactive page.",
+      "valueType": "url"
+    },
+    {
+      "id": "cg:property:interactive-url",
+      "label": "interactive URL",
+      "description": "A Civgraph interactive map or application URL.",
+      "valueType": "url"
+    },
+    {
+      "id": "cg:property:map-category",
+      "label": "map category",
+      "description": "A map category or catalogue grouping label.",
+      "valueType": "string"
+    },
+    {
+      "id": "cg:property:feature-in-layer",
+      "label": "feature in layer",
+      "description": "A feature group or feature belongs to a map layer.",
+      "valueType": "entity"
+    },
+    {
+      "id": "cg:property:has-feature",
+      "label": "has feature",
+      "description": "A feature group contains a sampled or indexed feature.",
+      "valueType": "entity"
+    },
+    {
+      "id": "cg:property:related-election",
+      "label": "related election",
+      "description": "An election related to a feature group or geography entity.",
+      "valueType": "entity"
+    },
+    {
+      "id": "cg:property:feature-count",
+      "label": "feature count",
+      "description": "Number of features in a feature group or source layer.",
+      "valueType": "number"
+    },
+    {
+      "id": "cg:property:bounding-box",
+      "label": "bounding box",
+      "description": "A geographic bounding box represented as a comma-separated minX,minY,maxX,maxY value.",
+      "valueType": "string"
+    },
+    {
+      "id": "cg:property:spatial-index",
+      "label": "spatial index",
+      "description": "A Civgraph spatial index URL for feature lookup.",
+      "valueType": "url"
+    },
+    {
+      "id": "cg:property:source-kind",
+      "label": "source kind",
+      "description": "A source class or extraction channel, such as NI Assembly PDF, NI Assembly HTML, NI Assembly API, or NI MP CSV.",
+      "valueType": "string"
+    },
+    {
+      "id": "cg:property:interest-text",
+      "label": "interest text",
+      "description": "The full extracted text for a register interest entry.",
+      "valueType": "string"
+    },
+    {
+      "id": "cg:property:nil-return",
+      "label": "nil return",
+      "description": "Whether the source record states that there are no interests to declare.",
+      "valueType": "boolean"
+    },
+    {
+      "id": "cg:property:candidature-status",
+      "label": "candidature status",
+      "description": "The status of a person in an election result, such as elected or not elected.",
+      "valueType": "string"
+    },
+    {
+      "id": "cg:property:elected",
+      "label": "elected",
+      "description": "Whether the person was elected in an election result.",
+      "valueType": "boolean"
+    },
+    {
+      "id": "cg:property:first-preference-votes",
+      "label": "first preference votes",
+      "description": "First preference or primary vote count where available in the source election data.",
+      "valueType": "number"
+    },
+    {
+      "id": "cg:property:votes",
+      "label": "votes",
+      "description": "Vote count where available in the source election data.",
+      "valueType": "number"
+    },
+    {
+      "id": "cg:property:seats",
+      "label": "seats",
+      "description": "Seat count where available in the source election data.",
+      "valueType": "number"
+    },
+    {
+      "id": "cg:property:stood",
+      "label": "stood",
+      "description": "Number of candidates who stood for a party or label in an election.",
+      "valueType": "number"
+    },
+    {
+      "id": "cg:property:vote-share",
+      "label": "vote share",
+      "description": "Percentage vote share where available in the source election data.",
+      "valueType": "number"
+    },
+    {
+      "id": "cg:property:source-row-count",
+      "label": "source row count",
+      "description": "Number of source rows merged into or supporting a generated public record.",
+      "valueType": "number"
+    },
+    {
+      "id": "cg:property:extraction-confidence",
+      "label": "extraction confidence",
+      "description": "Confidence label produced by an extraction pipeline.",
+      "valueType": "string"
+    },
+    {
+      "id": "cg:property:date",
+      "label": "date",
+      "description": "A date associated with an entity or statement.",
+      "valueType": "date"
+    },
+    {
+      "id": "cg:property:constituency",
+      "label": "constituency",
+      "description": "A constituency label attached to an election appearance or register record.",
+      "valueType": "string"
+    },
+    {
+      "id": "cg:property:jurisdiction",
+      "label": "jurisdiction",
+      "description": "A jurisdiction label attached to a body, person, or register record.",
+      "valueType": "string"
+    }
+  ]
+}

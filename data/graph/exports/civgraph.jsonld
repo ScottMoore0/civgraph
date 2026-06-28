@@ -1,0 +1,3379 @@
+{
+  "@context": {
+    "cg": "https://civgraph.org/id/",
+    "civgraph": "https://civgraph.org/ontology/",
+    "schema": "https://schema.org/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "id": "@id",
+    "type": "@type",
+    "label": "rdfs:label",
+    "description": "schema:description"
+  },
+  "@id": "https://civgraph.org/exports/civgraph.jsonld",
+  "@type": "civgraph:GraphExport",
+  "schemaVersion": 1,
+  "generatedAt": "2026-06-28T02:12:51.534Z",
+  "compression": "gzip",
+  "entityCount": 165095,
+  "statementCount": 1110482,
+  "entityShards": [
+    {
+      "name": "entities-jsonld-000.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/entity-shards/entities-jsonld-000.jsonld.gz",
+      "count": 5000,
+      "bytes": 332614,
+      "uncompressedBytes": 4855054
+    },
+    {
+      "name": "entities-jsonld-001.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/entity-shards/entities-jsonld-001.jsonld.gz",
+      "count": 5000,
+      "bytes": 353205,
+      "uncompressedBytes": 4836990
+    },
+    {
+      "name": "entities-jsonld-002.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/entity-shards/entities-jsonld-002.jsonld.gz",
+      "count": 5000,
+      "bytes": 351769,
+      "uncompressedBytes": 4827912
+    },
+    {
+      "name": "entities-jsonld-003.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/entity-shards/entities-jsonld-003.jsonld.gz",
+      "count": 5000,
+      "bytes": 319911,
+      "uncompressedBytes": 4865689
+    },
+    {
+      "name": "entities-jsonld-004.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/entity-shards/entities-jsonld-004.jsonld.gz",
+      "count": 5000,
+      "bytes": 340829,
+      "uncompressedBytes": 4848262
+    },
+    {
+      "name": "entities-jsonld-005.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/entity-shards/entities-jsonld-005.jsonld.gz",
+      "count": 5000,
+      "bytes": 329429,
+      "uncompressedBytes": 4866437
+    },
+    {
+      "name": "entities-jsonld-006.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/entity-shards/entities-jsonld-006.jsonld.gz",
+      "count": 5000,
+      "bytes": 176875,
+      "uncompressedBytes": 4643375
+    },
+    {
+      "name": "entities-jsonld-007.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/entity-shards/entities-jsonld-007.jsonld.gz",
+      "count": 5000,
+      "bytes": 188660,
+      "uncompressedBytes": 5978205
+    },
+    {
+      "name": "entities-jsonld-008.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/entity-shards/entities-jsonld-008.jsonld.gz",
+      "count": 5000,
+      "bytes": 328830,
+      "uncompressedBytes": 3972003
+    },
+    {
+      "name": "entities-jsonld-009.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/entity-shards/entities-jsonld-009.jsonld.gz",
+      "count": 5000,
+      "bytes": 373406,
+      "uncompressedBytes": 3369811
+    },
+    {
+      "name": "entities-jsonld-010.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/entity-shards/entities-jsonld-010.jsonld.gz",
+      "count": 5000,
+      "bytes": 359869,
+      "uncompressedBytes": 3295167
+    },
+    {
+      "name": "entities-jsonld-011.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/entity-shards/entities-jsonld-011.jsonld.gz",
+      "count": 5000,
+      "bytes": 258786,
+      "uncompressedBytes": 3742600
+    },
+    {
+      "name": "entities-jsonld-012.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/entity-shards/entities-jsonld-012.jsonld.gz",
+      "count": 5000,
+      "bytes": 302160,
+      "uncompressedBytes": 4149850
+    },
+    {
+      "name": "entities-jsonld-013.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/entity-shards/entities-jsonld-013.jsonld.gz",
+      "count": 5000,
+      "bytes": 295918,
+      "uncompressedBytes": 4131669
+    },
+    {
+      "name": "entities-jsonld-014.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/entity-shards/entities-jsonld-014.jsonld.gz",
+      "count": 5000,
+      "bytes": 287047,
+      "uncompressedBytes": 3777676
+    },
+    {
+      "name": "entities-jsonld-015.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/entity-shards/entities-jsonld-015.jsonld.gz",
+      "count": 5000,
+      "bytes": 295297,
+      "uncompressedBytes": 3757439
+    },
+    {
+      "name": "entities-jsonld-016.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/entity-shards/entities-jsonld-016.jsonld.gz",
+      "count": 5000,
+      "bytes": 293848,
+      "uncompressedBytes": 3747142
+    },
+    {
+      "name": "entities-jsonld-017.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/entity-shards/entities-jsonld-017.jsonld.gz",
+      "count": 5000,
+      "bytes": 294146,
+      "uncompressedBytes": 3745130
+    },
+    {
+      "name": "entities-jsonld-018.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/entity-shards/entities-jsonld-018.jsonld.gz",
+      "count": 5000,
+      "bytes": 294057,
+      "uncompressedBytes": 3732299
+    },
+    {
+      "name": "entities-jsonld-019.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/entity-shards/entities-jsonld-019.jsonld.gz",
+      "count": 5000,
+      "bytes": 296317,
+      "uncompressedBytes": 3742622
+    },
+    {
+      "name": "entities-jsonld-020.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/entity-shards/entities-jsonld-020.jsonld.gz",
+      "count": 5000,
+      "bytes": 293002,
+      "uncompressedBytes": 3735139
+    },
+    {
+      "name": "entities-jsonld-021.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/entity-shards/entities-jsonld-021.jsonld.gz",
+      "count": 5000,
+      "bytes": 294810,
+      "uncompressedBytes": 3753427
+    },
+    {
+      "name": "entities-jsonld-022.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/entity-shards/entities-jsonld-022.jsonld.gz",
+      "count": 5000,
+      "bytes": 294419,
+      "uncompressedBytes": 3746617
+    },
+    {
+      "name": "entities-jsonld-023.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/entity-shards/entities-jsonld-023.jsonld.gz",
+      "count": 5000,
+      "bytes": 293004,
+      "uncompressedBytes": 3746081
+    },
+    {
+      "name": "entities-jsonld-024.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/entity-shards/entities-jsonld-024.jsonld.gz",
+      "count": 5000,
+      "bytes": 392500,
+      "uncompressedBytes": 4485886
+    },
+    {
+      "name": "entities-jsonld-025.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/entity-shards/entities-jsonld-025.jsonld.gz",
+      "count": 5000,
+      "bytes": 588787,
+      "uncompressedBytes": 5825547
+    },
+    {
+      "name": "entities-jsonld-026.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/entity-shards/entities-jsonld-026.jsonld.gz",
+      "count": 5000,
+      "bytes": 306003,
+      "uncompressedBytes": 3539408
+    },
+    {
+      "name": "entities-jsonld-027.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/entity-shards/entities-jsonld-027.jsonld.gz",
+      "count": 5000,
+      "bytes": 304208,
+      "uncompressedBytes": 3914191
+    },
+    {
+      "name": "entities-jsonld-028.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/entity-shards/entities-jsonld-028.jsonld.gz",
+      "count": 5000,
+      "bytes": 270962,
+      "uncompressedBytes": 5295869
+    },
+    {
+      "name": "entities-jsonld-029.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/entity-shards/entities-jsonld-029.jsonld.gz",
+      "count": 5000,
+      "bytes": 228957,
+      "uncompressedBytes": 4598484
+    },
+    {
+      "name": "entities-jsonld-030.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/entity-shards/entities-jsonld-030.jsonld.gz",
+      "count": 5000,
+      "bytes": 176558,
+      "uncompressedBytes": 2823224
+    },
+    {
+      "name": "entities-jsonld-031.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/entity-shards/entities-jsonld-031.jsonld.gz",
+      "count": 5000,
+      "bytes": 227607,
+      "uncompressedBytes": 4004969
+    },
+    {
+      "name": "entities-jsonld-032.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/entity-shards/entities-jsonld-032.jsonld.gz",
+      "count": 5000,
+      "bytes": 261634,
+      "uncompressedBytes": 4568443
+    },
+    {
+      "name": "entities-jsonld-033.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/entity-shards/entities-jsonld-033.jsonld.gz",
+      "count": 95,
+      "bytes": 4626,
+      "uncompressedBytes": 50779
+    }
+  ],
+  "statementShards": [
+    {
+      "name": "statements-jsonld-000.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-000.jsonld.gz",
+      "count": 2500,
+      "bytes": 70764,
+      "uncompressedBytes": 1669220
+    },
+    {
+      "name": "statements-jsonld-001.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-001.jsonld.gz",
+      "count": 2500,
+      "bytes": 69994,
+      "uncompressedBytes": 1676373
+    },
+    {
+      "name": "statements-jsonld-002.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-002.jsonld.gz",
+      "count": 2500,
+      "bytes": 70707,
+      "uncompressedBytes": 1676607
+    },
+    {
+      "name": "statements-jsonld-003.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-003.jsonld.gz",
+      "count": 2500,
+      "bytes": 70620,
+      "uncompressedBytes": 1676000
+    },
+    {
+      "name": "statements-jsonld-004.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-004.jsonld.gz",
+      "count": 2500,
+      "bytes": 76357,
+      "uncompressedBytes": 1677891
+    },
+    {
+      "name": "statements-jsonld-005.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-005.jsonld.gz",
+      "count": 2500,
+      "bytes": 73717,
+      "uncompressedBytes": 1679051
+    },
+    {
+      "name": "statements-jsonld-006.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-006.jsonld.gz",
+      "count": 2500,
+      "bytes": 75380,
+      "uncompressedBytes": 1677738
+    },
+    {
+      "name": "statements-jsonld-007.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-007.jsonld.gz",
+      "count": 2500,
+      "bytes": 75910,
+      "uncompressedBytes": 1677958
+    },
+    {
+      "name": "statements-jsonld-008.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-008.jsonld.gz",
+      "count": 2500,
+      "bytes": 75202,
+      "uncompressedBytes": 1678756
+    },
+    {
+      "name": "statements-jsonld-009.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-009.jsonld.gz",
+      "count": 2500,
+      "bytes": 76527,
+      "uncompressedBytes": 1678514
+    },
+    {
+      "name": "statements-jsonld-010.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-010.jsonld.gz",
+      "count": 2500,
+      "bytes": 74996,
+      "uncompressedBytes": 1675872
+    },
+    {
+      "name": "statements-jsonld-011.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-011.jsonld.gz",
+      "count": 2500,
+      "bytes": 75576,
+      "uncompressedBytes": 1677583
+    },
+    {
+      "name": "statements-jsonld-012.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-012.jsonld.gz",
+      "count": 2500,
+      "bytes": 74655,
+      "uncompressedBytes": 1677354
+    },
+    {
+      "name": "statements-jsonld-013.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-013.jsonld.gz",
+      "count": 2500,
+      "bytes": 74625,
+      "uncompressedBytes": 1676136
+    },
+    {
+      "name": "statements-jsonld-014.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-014.jsonld.gz",
+      "count": 2500,
+      "bytes": 74367,
+      "uncompressedBytes": 1679708
+    },
+    {
+      "name": "statements-jsonld-015.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-015.jsonld.gz",
+      "count": 2500,
+      "bytes": 74860,
+      "uncompressedBytes": 1678950
+    },
+    {
+      "name": "statements-jsonld-016.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-016.jsonld.gz",
+      "count": 2500,
+      "bytes": 74954,
+      "uncompressedBytes": 1678447
+    },
+    {
+      "name": "statements-jsonld-017.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-017.jsonld.gz",
+      "count": 2500,
+      "bytes": 76118,
+      "uncompressedBytes": 1678546
+    },
+    {
+      "name": "statements-jsonld-018.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-018.jsonld.gz",
+      "count": 2500,
+      "bytes": 74224,
+      "uncompressedBytes": 1675107
+    },
+    {
+      "name": "statements-jsonld-019.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-019.jsonld.gz",
+      "count": 2500,
+      "bytes": 74126,
+      "uncompressedBytes": 1675898
+    },
+    {
+      "name": "statements-jsonld-020.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-020.jsonld.gz",
+      "count": 2500,
+      "bytes": 73655,
+      "uncompressedBytes": 1673792
+    },
+    {
+      "name": "statements-jsonld-021.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-021.jsonld.gz",
+      "count": 2500,
+      "bytes": 74366,
+      "uncompressedBytes": 1677884
+    },
+    {
+      "name": "statements-jsonld-022.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-022.jsonld.gz",
+      "count": 2500,
+      "bytes": 74774,
+      "uncompressedBytes": 1679175
+    },
+    {
+      "name": "statements-jsonld-023.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-023.jsonld.gz",
+      "count": 2500,
+      "bytes": 72984,
+      "uncompressedBytes": 1676079
+    },
+    {
+      "name": "statements-jsonld-024.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-024.jsonld.gz",
+      "count": 2500,
+      "bytes": 75265,
+      "uncompressedBytes": 1677400
+    },
+    {
+      "name": "statements-jsonld-025.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-025.jsonld.gz",
+      "count": 2500,
+      "bytes": 75460,
+      "uncompressedBytes": 1676184
+    },
+    {
+      "name": "statements-jsonld-026.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-026.jsonld.gz",
+      "count": 2500,
+      "bytes": 73200,
+      "uncompressedBytes": 1675670
+    },
+    {
+      "name": "statements-jsonld-027.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-027.jsonld.gz",
+      "count": 2500,
+      "bytes": 73454,
+      "uncompressedBytes": 1673612
+    },
+    {
+      "name": "statements-jsonld-028.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-028.jsonld.gz",
+      "count": 2500,
+      "bytes": 77028,
+      "uncompressedBytes": 1676707
+    },
+    {
+      "name": "statements-jsonld-029.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-029.jsonld.gz",
+      "count": 2500,
+      "bytes": 75820,
+      "uncompressedBytes": 1678536
+    },
+    {
+      "name": "statements-jsonld-030.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-030.jsonld.gz",
+      "count": 2500,
+      "bytes": 74405,
+      "uncompressedBytes": 1677266
+    },
+    {
+      "name": "statements-jsonld-031.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-031.jsonld.gz",
+      "count": 2500,
+      "bytes": 74163,
+      "uncompressedBytes": 1677809
+    },
+    {
+      "name": "statements-jsonld-032.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-032.jsonld.gz",
+      "count": 2500,
+      "bytes": 73149,
+      "uncompressedBytes": 1675613
+    },
+    {
+      "name": "statements-jsonld-033.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-033.jsonld.gz",
+      "count": 2500,
+      "bytes": 74939,
+      "uncompressedBytes": 1679026
+    },
+    {
+      "name": "statements-jsonld-034.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-034.jsonld.gz",
+      "count": 2500,
+      "bytes": 74260,
+      "uncompressedBytes": 1679040
+    },
+    {
+      "name": "statements-jsonld-035.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-035.jsonld.gz",
+      "count": 2500,
+      "bytes": 74343,
+      "uncompressedBytes": 1678766
+    },
+    {
+      "name": "statements-jsonld-036.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-036.jsonld.gz",
+      "count": 2500,
+      "bytes": 74948,
+      "uncompressedBytes": 1677570
+    },
+    {
+      "name": "statements-jsonld-037.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-037.jsonld.gz",
+      "count": 2500,
+      "bytes": 73925,
+      "uncompressedBytes": 1678044
+    },
+    {
+      "name": "statements-jsonld-038.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-038.jsonld.gz",
+      "count": 2500,
+      "bytes": 75554,
+      "uncompressedBytes": 1679224
+    },
+    {
+      "name": "statements-jsonld-039.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-039.jsonld.gz",
+      "count": 2500,
+      "bytes": 74838,
+      "uncompressedBytes": 1677307
+    },
+    {
+      "name": "statements-jsonld-040.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-040.jsonld.gz",
+      "count": 2500,
+      "bytes": 75163,
+      "uncompressedBytes": 1677086
+    },
+    {
+      "name": "statements-jsonld-041.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-041.jsonld.gz",
+      "count": 2500,
+      "bytes": 73063,
+      "uncompressedBytes": 1681059
+    },
+    {
+      "name": "statements-jsonld-042.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-042.jsonld.gz",
+      "count": 2500,
+      "bytes": 74481,
+      "uncompressedBytes": 1677062
+    },
+    {
+      "name": "statements-jsonld-043.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-043.jsonld.gz",
+      "count": 2500,
+      "bytes": 72910,
+      "uncompressedBytes": 1673410
+    },
+    {
+      "name": "statements-jsonld-044.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-044.jsonld.gz",
+      "count": 2500,
+      "bytes": 73896,
+      "uncompressedBytes": 1678130
+    },
+    {
+      "name": "statements-jsonld-045.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-045.jsonld.gz",
+      "count": 2500,
+      "bytes": 74852,
+      "uncompressedBytes": 1676823
+    },
+    {
+      "name": "statements-jsonld-046.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-046.jsonld.gz",
+      "count": 2500,
+      "bytes": 74887,
+      "uncompressedBytes": 1678078
+    },
+    {
+      "name": "statements-jsonld-047.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-047.jsonld.gz",
+      "count": 2500,
+      "bytes": 73845,
+      "uncompressedBytes": 1675031
+    },
+    {
+      "name": "statements-jsonld-048.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-048.jsonld.gz",
+      "count": 2500,
+      "bytes": 73980,
+      "uncompressedBytes": 1672711
+    },
+    {
+      "name": "statements-jsonld-049.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-049.jsonld.gz",
+      "count": 2500,
+      "bytes": 74427,
+      "uncompressedBytes": 1674745
+    },
+    {
+      "name": "statements-jsonld-050.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-050.jsonld.gz",
+      "count": 2500,
+      "bytes": 74979,
+      "uncompressedBytes": 1674538
+    },
+    {
+      "name": "statements-jsonld-051.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-051.jsonld.gz",
+      "count": 2500,
+      "bytes": 74585,
+      "uncompressedBytes": 1677531
+    },
+    {
+      "name": "statements-jsonld-052.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-052.jsonld.gz",
+      "count": 2500,
+      "bytes": 74008,
+      "uncompressedBytes": 1675945
+    },
+    {
+      "name": "statements-jsonld-053.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-053.jsonld.gz",
+      "count": 2500,
+      "bytes": 73483,
+      "uncompressedBytes": 1672767
+    },
+    {
+      "name": "statements-jsonld-054.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-054.jsonld.gz",
+      "count": 2500,
+      "bytes": 73692,
+      "uncompressedBytes": 1677108
+    },
+    {
+      "name": "statements-jsonld-055.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-055.jsonld.gz",
+      "count": 2500,
+      "bytes": 73708,
+      "uncompressedBytes": 1678228
+    },
+    {
+      "name": "statements-jsonld-056.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-056.jsonld.gz",
+      "count": 2500,
+      "bytes": 75301,
+      "uncompressedBytes": 1677065
+    },
+    {
+      "name": "statements-jsonld-057.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-057.jsonld.gz",
+      "count": 2500,
+      "bytes": 75600,
+      "uncompressedBytes": 1678509
+    },
+    {
+      "name": "statements-jsonld-058.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-058.jsonld.gz",
+      "count": 2500,
+      "bytes": 74985,
+      "uncompressedBytes": 1676756
+    },
+    {
+      "name": "statements-jsonld-059.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-059.jsonld.gz",
+      "count": 2500,
+      "bytes": 75893,
+      "uncompressedBytes": 1677517
+    },
+    {
+      "name": "statements-jsonld-060.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-060.jsonld.gz",
+      "count": 2500,
+      "bytes": 76874,
+      "uncompressedBytes": 1675935
+    },
+    {
+      "name": "statements-jsonld-061.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-061.jsonld.gz",
+      "count": 2500,
+      "bytes": 75520,
+      "uncompressedBytes": 1677769
+    },
+    {
+      "name": "statements-jsonld-062.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-062.jsonld.gz",
+      "count": 2500,
+      "bytes": 75318,
+      "uncompressedBytes": 1679609
+    },
+    {
+      "name": "statements-jsonld-063.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-063.jsonld.gz",
+      "count": 2500,
+      "bytes": 73499,
+      "uncompressedBytes": 1674307
+    },
+    {
+      "name": "statements-jsonld-064.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-064.jsonld.gz",
+      "count": 2500,
+      "bytes": 74373,
+      "uncompressedBytes": 1675939
+    },
+    {
+      "name": "statements-jsonld-065.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-065.jsonld.gz",
+      "count": 2500,
+      "bytes": 74354,
+      "uncompressedBytes": 1675606
+    },
+    {
+      "name": "statements-jsonld-066.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-066.jsonld.gz",
+      "count": 2500,
+      "bytes": 72589,
+      "uncompressedBytes": 1679296
+    },
+    {
+      "name": "statements-jsonld-067.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-067.jsonld.gz",
+      "count": 2500,
+      "bytes": 72397,
+      "uncompressedBytes": 1678684
+    },
+    {
+      "name": "statements-jsonld-068.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-068.jsonld.gz",
+      "count": 2500,
+      "bytes": 74145,
+      "uncompressedBytes": 1674473
+    },
+    {
+      "name": "statements-jsonld-069.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-069.jsonld.gz",
+      "count": 2500,
+      "bytes": 72276,
+      "uncompressedBytes": 1674346
+    },
+    {
+      "name": "statements-jsonld-070.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-070.jsonld.gz",
+      "count": 2500,
+      "bytes": 72580,
+      "uncompressedBytes": 1673498
+    },
+    {
+      "name": "statements-jsonld-071.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-071.jsonld.gz",
+      "count": 2500,
+      "bytes": 73791,
+      "uncompressedBytes": 1677159
+    },
+    {
+      "name": "statements-jsonld-072.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-072.jsonld.gz",
+      "count": 2500,
+      "bytes": 74153,
+      "uncompressedBytes": 1677580
+    },
+    {
+      "name": "statements-jsonld-073.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-073.jsonld.gz",
+      "count": 2500,
+      "bytes": 68533,
+      "uncompressedBytes": 1680588
+    },
+    {
+      "name": "statements-jsonld-074.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-074.jsonld.gz",
+      "count": 2500,
+      "bytes": 61901,
+      "uncompressedBytes": 1683587
+    },
+    {
+      "name": "statements-jsonld-075.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-075.jsonld.gz",
+      "count": 2500,
+      "bytes": 62014,
+      "uncompressedBytes": 1676577
+    },
+    {
+      "name": "statements-jsonld-076.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-076.jsonld.gz",
+      "count": 2500,
+      "bytes": 62006,
+      "uncompressedBytes": 1679227
+    },
+    {
+      "name": "statements-jsonld-077.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-077.jsonld.gz",
+      "count": 2500,
+      "bytes": 61910,
+      "uncompressedBytes": 1679026
+    },
+    {
+      "name": "statements-jsonld-078.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-078.jsonld.gz",
+      "count": 2500,
+      "bytes": 71617,
+      "uncompressedBytes": 1674569
+    },
+    {
+      "name": "statements-jsonld-079.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-079.jsonld.gz",
+      "count": 2500,
+      "bytes": 73980,
+      "uncompressedBytes": 1678829
+    },
+    {
+      "name": "statements-jsonld-080.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-080.jsonld.gz",
+      "count": 2500,
+      "bytes": 75196,
+      "uncompressedBytes": 1674916
+    },
+    {
+      "name": "statements-jsonld-081.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-081.jsonld.gz",
+      "count": 2500,
+      "bytes": 71385,
+      "uncompressedBytes": 1676239
+    },
+    {
+      "name": "statements-jsonld-082.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-082.jsonld.gz",
+      "count": 2500,
+      "bytes": 71980,
+      "uncompressedBytes": 1673376
+    },
+    {
+      "name": "statements-jsonld-083.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-083.jsonld.gz",
+      "count": 2500,
+      "bytes": 72232,
+      "uncompressedBytes": 1676893
+    },
+    {
+      "name": "statements-jsonld-084.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-084.jsonld.gz",
+      "count": 2500,
+      "bytes": 72431,
+      "uncompressedBytes": 1673564
+    },
+    {
+      "name": "statements-jsonld-085.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-085.jsonld.gz",
+      "count": 2500,
+      "bytes": 73410,
+      "uncompressedBytes": 1674954
+    },
+    {
+      "name": "statements-jsonld-086.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-086.jsonld.gz",
+      "count": 2500,
+      "bytes": 73680,
+      "uncompressedBytes": 1676002
+    },
+    {
+      "name": "statements-jsonld-087.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-087.jsonld.gz",
+      "count": 2500,
+      "bytes": 75660,
+      "uncompressedBytes": 1676691
+    },
+    {
+      "name": "statements-jsonld-088.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-088.jsonld.gz",
+      "count": 2500,
+      "bytes": 74039,
+      "uncompressedBytes": 1677395
+    },
+    {
+      "name": "statements-jsonld-089.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-089.jsonld.gz",
+      "count": 2500,
+      "bytes": 74702,
+      "uncompressedBytes": 1678591
+    },
+    {
+      "name": "statements-jsonld-090.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-090.jsonld.gz",
+      "count": 2500,
+      "bytes": 74915,
+      "uncompressedBytes": 1677235
+    },
+    {
+      "name": "statements-jsonld-091.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-091.jsonld.gz",
+      "count": 2500,
+      "bytes": 74123,
+      "uncompressedBytes": 1680969
+    },
+    {
+      "name": "statements-jsonld-092.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-092.jsonld.gz",
+      "count": 2500,
+      "bytes": 73740,
+      "uncompressedBytes": 1680822
+    },
+    {
+      "name": "statements-jsonld-093.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-093.jsonld.gz",
+      "count": 2500,
+      "bytes": 74739,
+      "uncompressedBytes": 1678816
+    },
+    {
+      "name": "statements-jsonld-094.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-094.jsonld.gz",
+      "count": 2500,
+      "bytes": 74548,
+      "uncompressedBytes": 1677904
+    },
+    {
+      "name": "statements-jsonld-095.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-095.jsonld.gz",
+      "count": 2500,
+      "bytes": 72806,
+      "uncompressedBytes": 1681483
+    },
+    {
+      "name": "statements-jsonld-096.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-096.jsonld.gz",
+      "count": 2500,
+      "bytes": 73907,
+      "uncompressedBytes": 1676796
+    },
+    {
+      "name": "statements-jsonld-097.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-097.jsonld.gz",
+      "count": 2500,
+      "bytes": 72222,
+      "uncompressedBytes": 1672961
+    },
+    {
+      "name": "statements-jsonld-098.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-098.jsonld.gz",
+      "count": 2500,
+      "bytes": 71395,
+      "uncompressedBytes": 1672936
+    },
+    {
+      "name": "statements-jsonld-099.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-099.jsonld.gz",
+      "count": 2500,
+      "bytes": 72999,
+      "uncompressedBytes": 1673225
+    },
+    {
+      "name": "statements-jsonld-100.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-100.jsonld.gz",
+      "count": 2500,
+      "bytes": 74239,
+      "uncompressedBytes": 1677202
+    },
+    {
+      "name": "statements-jsonld-101.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-101.jsonld.gz",
+      "count": 2500,
+      "bytes": 73711,
+      "uncompressedBytes": 1677655
+    },
+    {
+      "name": "statements-jsonld-102.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-102.jsonld.gz",
+      "count": 2500,
+      "bytes": 75093,
+      "uncompressedBytes": 1677436
+    },
+    {
+      "name": "statements-jsonld-103.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-103.jsonld.gz",
+      "count": 2500,
+      "bytes": 75066,
+      "uncompressedBytes": 1676993
+    },
+    {
+      "name": "statements-jsonld-104.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-104.jsonld.gz",
+      "count": 2500,
+      "bytes": 73056,
+      "uncompressedBytes": 1678416
+    },
+    {
+      "name": "statements-jsonld-105.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-105.jsonld.gz",
+      "count": 2500,
+      "bytes": 74604,
+      "uncompressedBytes": 1675413
+    },
+    {
+      "name": "statements-jsonld-106.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-106.jsonld.gz",
+      "count": 2500,
+      "bytes": 72969,
+      "uncompressedBytes": 1675376
+    },
+    {
+      "name": "statements-jsonld-107.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-107.jsonld.gz",
+      "count": 2500,
+      "bytes": 74929,
+      "uncompressedBytes": 1675437
+    },
+    {
+      "name": "statements-jsonld-108.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-108.jsonld.gz",
+      "count": 2500,
+      "bytes": 72400,
+      "uncompressedBytes": 1681199
+    },
+    {
+      "name": "statements-jsonld-109.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-109.jsonld.gz",
+      "count": 2500,
+      "bytes": 74388,
+      "uncompressedBytes": 1678077
+    },
+    {
+      "name": "statements-jsonld-110.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-110.jsonld.gz",
+      "count": 2500,
+      "bytes": 74162,
+      "uncompressedBytes": 1681332
+    },
+    {
+      "name": "statements-jsonld-111.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-111.jsonld.gz",
+      "count": 2500,
+      "bytes": 73028,
+      "uncompressedBytes": 1680821
+    },
+    {
+      "name": "statements-jsonld-112.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-112.jsonld.gz",
+      "count": 2500,
+      "bytes": 73189,
+      "uncompressedBytes": 1681711
+    },
+    {
+      "name": "statements-jsonld-113.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-113.jsonld.gz",
+      "count": 2500,
+      "bytes": 73944,
+      "uncompressedBytes": 1678908
+    },
+    {
+      "name": "statements-jsonld-114.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-114.jsonld.gz",
+      "count": 2500,
+      "bytes": 66425,
+      "uncompressedBytes": 1683584
+    },
+    {
+      "name": "statements-jsonld-115.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-115.jsonld.gz",
+      "count": 2500,
+      "bytes": 61982,
+      "uncompressedBytes": 1684566
+    },
+    {
+      "name": "statements-jsonld-116.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-116.jsonld.gz",
+      "count": 2500,
+      "bytes": 61955,
+      "uncompressedBytes": 1678122
+    },
+    {
+      "name": "statements-jsonld-117.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-117.jsonld.gz",
+      "count": 2500,
+      "bytes": 61916,
+      "uncompressedBytes": 1679738
+    },
+    {
+      "name": "statements-jsonld-118.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-118.jsonld.gz",
+      "count": 2500,
+      "bytes": 62023,
+      "uncompressedBytes": 1679946
+    },
+    {
+      "name": "statements-jsonld-119.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-119.jsonld.gz",
+      "count": 2500,
+      "bytes": 63236,
+      "uncompressedBytes": 1505156
+    },
+    {
+      "name": "statements-jsonld-120.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-120.jsonld.gz",
+      "count": 2500,
+      "bytes": 60904,
+      "uncompressedBytes": 1429686
+    },
+    {
+      "name": "statements-jsonld-121.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-121.jsonld.gz",
+      "count": 2500,
+      "bytes": 62893,
+      "uncompressedBytes": 1508891
+    },
+    {
+      "name": "statements-jsonld-122.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-122.jsonld.gz",
+      "count": 2500,
+      "bytes": 64015,
+      "uncompressedBytes": 1519938
+    },
+    {
+      "name": "statements-jsonld-123.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-123.jsonld.gz",
+      "count": 2500,
+      "bytes": 64132,
+      "uncompressedBytes": 1513306
+    },
+    {
+      "name": "statements-jsonld-124.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-124.jsonld.gz",
+      "count": 2500,
+      "bytes": 64537,
+      "uncompressedBytes": 1514528
+    },
+    {
+      "name": "statements-jsonld-125.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-125.jsonld.gz",
+      "count": 2500,
+      "bytes": 64754,
+      "uncompressedBytes": 1510991
+    },
+    {
+      "name": "statements-jsonld-126.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-126.jsonld.gz",
+      "count": 2500,
+      "bytes": 62891,
+      "uncompressedBytes": 1518461
+    },
+    {
+      "name": "statements-jsonld-127.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-127.jsonld.gz",
+      "count": 2500,
+      "bytes": 69267,
+      "uncompressedBytes": 1641923
+    },
+    {
+      "name": "statements-jsonld-128.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-128.jsonld.gz",
+      "count": 2500,
+      "bytes": 69351,
+      "uncompressedBytes": 1667020
+    },
+    {
+      "name": "statements-jsonld-129.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-129.jsonld.gz",
+      "count": 2500,
+      "bytes": 69077,
+      "uncompressedBytes": 1678976
+    },
+    {
+      "name": "statements-jsonld-130.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-130.jsonld.gz",
+      "count": 2500,
+      "bytes": 70732,
+      "uncompressedBytes": 1737124
+    },
+    {
+      "name": "statements-jsonld-131.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-131.jsonld.gz",
+      "count": 2500,
+      "bytes": 71522,
+      "uncompressedBytes": 1785672
+    },
+    {
+      "name": "statements-jsonld-132.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-132.jsonld.gz",
+      "count": 2500,
+      "bytes": 72745,
+      "uncompressedBytes": 1793779
+    },
+    {
+      "name": "statements-jsonld-133.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-133.jsonld.gz",
+      "count": 2500,
+      "bytes": 68645,
+      "uncompressedBytes": 1768692
+    },
+    {
+      "name": "statements-jsonld-134.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-134.jsonld.gz",
+      "count": 2500,
+      "bytes": 71674,
+      "uncompressedBytes": 1778682
+    },
+    {
+      "name": "statements-jsonld-135.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-135.jsonld.gz",
+      "count": 2500,
+      "bytes": 70743,
+      "uncompressedBytes": 1745791
+    },
+    {
+      "name": "statements-jsonld-136.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-136.jsonld.gz",
+      "count": 2500,
+      "bytes": 70641,
+      "uncompressedBytes": 1742759
+    },
+    {
+      "name": "statements-jsonld-137.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-137.jsonld.gz",
+      "count": 2500,
+      "bytes": 95654,
+      "uncompressedBytes": 1516585
+    },
+    {
+      "name": "statements-jsonld-138.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-138.jsonld.gz",
+      "count": 2500,
+      "bytes": 156210,
+      "uncompressedBytes": 1253555
+    },
+    {
+      "name": "statements-jsonld-139.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-139.jsonld.gz",
+      "count": 2500,
+      "bytes": 159391,
+      "uncompressedBytes": 1243321
+    },
+    {
+      "name": "statements-jsonld-140.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-140.jsonld.gz",
+      "count": 2500,
+      "bytes": 164825,
+      "uncompressedBytes": 1243585
+    },
+    {
+      "name": "statements-jsonld-141.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-141.jsonld.gz",
+      "count": 2500,
+      "bytes": 142762,
+      "uncompressedBytes": 1258374
+    },
+    {
+      "name": "statements-jsonld-142.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-142.jsonld.gz",
+      "count": 2500,
+      "bytes": 161048,
+      "uncompressedBytes": 1253801
+    },
+    {
+      "name": "statements-jsonld-143.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-143.jsonld.gz",
+      "count": 2500,
+      "bytes": 162281,
+      "uncompressedBytes": 1238591
+    },
+    {
+      "name": "statements-jsonld-144.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-144.jsonld.gz",
+      "count": 2500,
+      "bytes": 83204,
+      "uncompressedBytes": 1263524
+    },
+    {
+      "name": "statements-jsonld-145.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-145.jsonld.gz",
+      "count": 2500,
+      "bytes": 85899,
+      "uncompressedBytes": 1233881
+    },
+    {
+      "name": "statements-jsonld-146.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-146.jsonld.gz",
+      "count": 2500,
+      "bytes": 93562,
+      "uncompressedBytes": 1273103
+    },
+    {
+      "name": "statements-jsonld-147.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-147.jsonld.gz",
+      "count": 2500,
+      "bytes": 93269,
+      "uncompressedBytes": 1271232
+    },
+    {
+      "name": "statements-jsonld-148.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-148.jsonld.gz",
+      "count": 2500,
+      "bytes": 88603,
+      "uncompressedBytes": 1260323
+    },
+    {
+      "name": "statements-jsonld-149.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-149.jsonld.gz",
+      "count": 2500,
+      "bytes": 88459,
+      "uncompressedBytes": 1259198
+    },
+    {
+      "name": "statements-jsonld-150.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-150.jsonld.gz",
+      "count": 2500,
+      "bytes": 92929,
+      "uncompressedBytes": 1256632
+    },
+    {
+      "name": "statements-jsonld-151.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-151.jsonld.gz",
+      "count": 2500,
+      "bytes": 93097,
+      "uncompressedBytes": 1256195
+    },
+    {
+      "name": "statements-jsonld-152.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-152.jsonld.gz",
+      "count": 2500,
+      "bytes": 92887,
+      "uncompressedBytes": 1256027
+    },
+    {
+      "name": "statements-jsonld-153.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-153.jsonld.gz",
+      "count": 2500,
+      "bytes": 92433,
+      "uncompressedBytes": 1257226
+    },
+    {
+      "name": "statements-jsonld-154.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-154.jsonld.gz",
+      "count": 2500,
+      "bytes": 92477,
+      "uncompressedBytes": 1258303
+    },
+    {
+      "name": "statements-jsonld-155.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-155.jsonld.gz",
+      "count": 2500,
+      "bytes": 92899,
+      "uncompressedBytes": 1258682
+    },
+    {
+      "name": "statements-jsonld-156.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-156.jsonld.gz",
+      "count": 2500,
+      "bytes": 92953,
+      "uncompressedBytes": 1259649
+    },
+    {
+      "name": "statements-jsonld-157.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-157.jsonld.gz",
+      "count": 2500,
+      "bytes": 83568,
+      "uncompressedBytes": 1260831
+    },
+    {
+      "name": "statements-jsonld-158.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-158.jsonld.gz",
+      "count": 2500,
+      "bytes": 90748,
+      "uncompressedBytes": 1257227
+    },
+    {
+      "name": "statements-jsonld-159.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-159.jsonld.gz",
+      "count": 2500,
+      "bytes": 84142,
+      "uncompressedBytes": 1256730
+    },
+    {
+      "name": "statements-jsonld-160.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-160.jsonld.gz",
+      "count": 2500,
+      "bytes": 85552,
+      "uncompressedBytes": 1263171
+    },
+    {
+      "name": "statements-jsonld-161.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-161.jsonld.gz",
+      "count": 2500,
+      "bytes": 92988,
+      "uncompressedBytes": 1261255
+    },
+    {
+      "name": "statements-jsonld-162.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-162.jsonld.gz",
+      "count": 2500,
+      "bytes": 93677,
+      "uncompressedBytes": 1261491
+    },
+    {
+      "name": "statements-jsonld-163.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-163.jsonld.gz",
+      "count": 2500,
+      "bytes": 89575,
+      "uncompressedBytes": 1264109
+    },
+    {
+      "name": "statements-jsonld-164.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-164.jsonld.gz",
+      "count": 2500,
+      "bytes": 92845,
+      "uncompressedBytes": 1261284
+    },
+    {
+      "name": "statements-jsonld-165.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-165.jsonld.gz",
+      "count": 2500,
+      "bytes": 92717,
+      "uncompressedBytes": 1260874
+    },
+    {
+      "name": "statements-jsonld-166.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-166.jsonld.gz",
+      "count": 2500,
+      "bytes": 93058,
+      "uncompressedBytes": 1260584
+    },
+    {
+      "name": "statements-jsonld-167.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-167.jsonld.gz",
+      "count": 2500,
+      "bytes": 75339,
+      "uncompressedBytes": 1421057
+    },
+    {
+      "name": "statements-jsonld-168.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-168.jsonld.gz",
+      "count": 2500,
+      "bytes": 73925,
+      "uncompressedBytes": 1634642
+    },
+    {
+      "name": "statements-jsonld-169.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-169.jsonld.gz",
+      "count": 2500,
+      "bytes": 90784,
+      "uncompressedBytes": 1758744
+    },
+    {
+      "name": "statements-jsonld-170.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-170.jsonld.gz",
+      "count": 2500,
+      "bytes": 134302,
+      "uncompressedBytes": 3638467
+    },
+    {
+      "name": "statements-jsonld-171.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-171.jsonld.gz",
+      "count": 2500,
+      "bytes": 123605,
+      "uncompressedBytes": 3306780
+    },
+    {
+      "name": "statements-jsonld-172.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-172.jsonld.gz",
+      "count": 2500,
+      "bytes": 101574,
+      "uncompressedBytes": 2856818
+    },
+    {
+      "name": "statements-jsonld-173.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-173.jsonld.gz",
+      "count": 2500,
+      "bytes": 117057,
+      "uncompressedBytes": 3299268
+    },
+    {
+      "name": "statements-jsonld-174.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-174.jsonld.gz",
+      "count": 2500,
+      "bytes": 137250,
+      "uncompressedBytes": 3717898
+    },
+    {
+      "name": "statements-jsonld-175.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-175.jsonld.gz",
+      "count": 2500,
+      "bytes": 135923,
+      "uncompressedBytes": 3637577
+    },
+    {
+      "name": "statements-jsonld-176.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-176.jsonld.gz",
+      "count": 2500,
+      "bytes": 133607,
+      "uncompressedBytes": 3600811
+    },
+    {
+      "name": "statements-jsonld-177.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-177.jsonld.gz",
+      "count": 2500,
+      "bytes": 127872,
+      "uncompressedBytes": 3564952
+    },
+    {
+      "name": "statements-jsonld-178.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-178.jsonld.gz",
+      "count": 2500,
+      "bytes": 132568,
+      "uncompressedBytes": 3619884
+    },
+    {
+      "name": "statements-jsonld-179.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-179.jsonld.gz",
+      "count": 2500,
+      "bytes": 136119,
+      "uncompressedBytes": 3673187
+    },
+    {
+      "name": "statements-jsonld-180.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-180.jsonld.gz",
+      "count": 2500,
+      "bytes": 134158,
+      "uncompressedBytes": 3607450
+    },
+    {
+      "name": "statements-jsonld-181.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-181.jsonld.gz",
+      "count": 2500,
+      "bytes": 151166,
+      "uncompressedBytes": 4001068
+    },
+    {
+      "name": "statements-jsonld-182.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-182.jsonld.gz",
+      "count": 2500,
+      "bytes": 133508,
+      "uncompressedBytes": 3720847
+    },
+    {
+      "name": "statements-jsonld-183.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-183.jsonld.gz",
+      "count": 2500,
+      "bytes": 133378,
+      "uncompressedBytes": 3698382
+    },
+    {
+      "name": "statements-jsonld-184.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-184.jsonld.gz",
+      "count": 2500,
+      "bytes": 128801,
+      "uncompressedBytes": 3497121
+    },
+    {
+      "name": "statements-jsonld-185.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-185.jsonld.gz",
+      "count": 2500,
+      "bytes": 129034,
+      "uncompressedBytes": 3594673
+    },
+    {
+      "name": "statements-jsonld-186.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-186.jsonld.gz",
+      "count": 2500,
+      "bytes": 127276,
+      "uncompressedBytes": 3580297
+    },
+    {
+      "name": "statements-jsonld-187.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-187.jsonld.gz",
+      "count": 2500,
+      "bytes": 140533,
+      "uncompressedBytes": 3727510
+    },
+    {
+      "name": "statements-jsonld-188.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-188.jsonld.gz",
+      "count": 2500,
+      "bytes": 124514,
+      "uncompressedBytes": 3494294
+    },
+    {
+      "name": "statements-jsonld-189.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-189.jsonld.gz",
+      "count": 2500,
+      "bytes": 129655,
+      "uncompressedBytes": 3630474
+    },
+    {
+      "name": "statements-jsonld-190.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-190.jsonld.gz",
+      "count": 2500,
+      "bytes": 124136,
+      "uncompressedBytes": 3601828
+    },
+    {
+      "name": "statements-jsonld-191.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-191.jsonld.gz",
+      "count": 2500,
+      "bytes": 131793,
+      "uncompressedBytes": 3651870
+    },
+    {
+      "name": "statements-jsonld-192.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-192.jsonld.gz",
+      "count": 2500,
+      "bytes": 142317,
+      "uncompressedBytes": 3873644
+    },
+    {
+      "name": "statements-jsonld-193.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-193.jsonld.gz",
+      "count": 2500,
+      "bytes": 128470,
+      "uncompressedBytes": 3596198
+    },
+    {
+      "name": "statements-jsonld-194.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-194.jsonld.gz",
+      "count": 2500,
+      "bytes": 137604,
+      "uncompressedBytes": 3795268
+    },
+    {
+      "name": "statements-jsonld-195.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-195.jsonld.gz",
+      "count": 2500,
+      "bytes": 133511,
+      "uncompressedBytes": 3628661
+    },
+    {
+      "name": "statements-jsonld-196.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-196.jsonld.gz",
+      "count": 2500,
+      "bytes": 127788,
+      "uncompressedBytes": 3469521
+    },
+    {
+      "name": "statements-jsonld-197.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-197.jsonld.gz",
+      "count": 2500,
+      "bytes": 127606,
+      "uncompressedBytes": 3483840
+    },
+    {
+      "name": "statements-jsonld-198.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-198.jsonld.gz",
+      "count": 2500,
+      "bytes": 135689,
+      "uncompressedBytes": 3777851
+    },
+    {
+      "name": "statements-jsonld-199.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-199.jsonld.gz",
+      "count": 2500,
+      "bytes": 116175,
+      "uncompressedBytes": 3335902
+    },
+    {
+      "name": "statements-jsonld-200.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-200.jsonld.gz",
+      "count": 2500,
+      "bytes": 133280,
+      "uncompressedBytes": 3753147
+    },
+    {
+      "name": "statements-jsonld-201.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-201.jsonld.gz",
+      "count": 2500,
+      "bytes": 145574,
+      "uncompressedBytes": 3871059
+    },
+    {
+      "name": "statements-jsonld-202.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-202.jsonld.gz",
+      "count": 2500,
+      "bytes": 158425,
+      "uncompressedBytes": 4478038
+    },
+    {
+      "name": "statements-jsonld-203.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-203.jsonld.gz",
+      "count": 2500,
+      "bytes": 143102,
+      "uncompressedBytes": 4248075
+    },
+    {
+      "name": "statements-jsonld-204.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-204.jsonld.gz",
+      "count": 2500,
+      "bytes": 141932,
+      "uncompressedBytes": 3919897
+    },
+    {
+      "name": "statements-jsonld-205.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-205.jsonld.gz",
+      "count": 2500,
+      "bytes": 125413,
+      "uncompressedBytes": 3679731
+    },
+    {
+      "name": "statements-jsonld-206.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-206.jsonld.gz",
+      "count": 2500,
+      "bytes": 146372,
+      "uncompressedBytes": 3923609
+    },
+    {
+      "name": "statements-jsonld-207.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-207.jsonld.gz",
+      "count": 2500,
+      "bytes": 139557,
+      "uncompressedBytes": 3719297
+    },
+    {
+      "name": "statements-jsonld-208.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-208.jsonld.gz",
+      "count": 2500,
+      "bytes": 123804,
+      "uncompressedBytes": 3524853
+    },
+    {
+      "name": "statements-jsonld-209.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-209.jsonld.gz",
+      "count": 2500,
+      "bytes": 137192,
+      "uncompressedBytes": 3741589
+    },
+    {
+      "name": "statements-jsonld-210.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-210.jsonld.gz",
+      "count": 2500,
+      "bytes": 131492,
+      "uncompressedBytes": 3711437
+    },
+    {
+      "name": "statements-jsonld-211.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-211.jsonld.gz",
+      "count": 2500,
+      "bytes": 128084,
+      "uncompressedBytes": 3733305
+    },
+    {
+      "name": "statements-jsonld-212.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-212.jsonld.gz",
+      "count": 2500,
+      "bytes": 142900,
+      "uncompressedBytes": 3819705
+    },
+    {
+      "name": "statements-jsonld-213.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-213.jsonld.gz",
+      "count": 2500,
+      "bytes": 131950,
+      "uncompressedBytes": 3648437
+    },
+    {
+      "name": "statements-jsonld-214.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-214.jsonld.gz",
+      "count": 2500,
+      "bytes": 130838,
+      "uncompressedBytes": 3670084
+    },
+    {
+      "name": "statements-jsonld-215.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-215.jsonld.gz",
+      "count": 2500,
+      "bytes": 128363,
+      "uncompressedBytes": 3616262
+    },
+    {
+      "name": "statements-jsonld-216.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-216.jsonld.gz",
+      "count": 2500,
+      "bytes": 129976,
+      "uncompressedBytes": 3691543
+    },
+    {
+      "name": "statements-jsonld-217.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-217.jsonld.gz",
+      "count": 2500,
+      "bytes": 141112,
+      "uncompressedBytes": 4072758
+    },
+    {
+      "name": "statements-jsonld-218.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-218.jsonld.gz",
+      "count": 2500,
+      "bytes": 155045,
+      "uncompressedBytes": 4587435
+    },
+    {
+      "name": "statements-jsonld-219.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-219.jsonld.gz",
+      "count": 2500,
+      "bytes": 119804,
+      "uncompressedBytes": 2266705
+    },
+    {
+      "name": "statements-jsonld-220.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-220.jsonld.gz",
+      "count": 2500,
+      "bytes": 119032,
+      "uncompressedBytes": 2271476
+    },
+    {
+      "name": "statements-jsonld-221.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-221.jsonld.gz",
+      "count": 2500,
+      "bytes": 121342,
+      "uncompressedBytes": 2270864
+    },
+    {
+      "name": "statements-jsonld-222.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-222.jsonld.gz",
+      "count": 2500,
+      "bytes": 119668,
+      "uncompressedBytes": 2277467
+    },
+    {
+      "name": "statements-jsonld-223.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-223.jsonld.gz",
+      "count": 2500,
+      "bytes": 118709,
+      "uncompressedBytes": 2287281
+    },
+    {
+      "name": "statements-jsonld-224.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-224.jsonld.gz",
+      "count": 2500,
+      "bytes": 120208,
+      "uncompressedBytes": 2305633
+    },
+    {
+      "name": "statements-jsonld-225.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-225.jsonld.gz",
+      "count": 2500,
+      "bytes": 122395,
+      "uncompressedBytes": 2305178
+    },
+    {
+      "name": "statements-jsonld-226.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-226.jsonld.gz",
+      "count": 2500,
+      "bytes": 120958,
+      "uncompressedBytes": 2270166
+    },
+    {
+      "name": "statements-jsonld-227.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-227.jsonld.gz",
+      "count": 2500,
+      "bytes": 117686,
+      "uncompressedBytes": 2262310
+    },
+    {
+      "name": "statements-jsonld-228.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-228.jsonld.gz",
+      "count": 2500,
+      "bytes": 118630,
+      "uncompressedBytes": 2256926
+    },
+    {
+      "name": "statements-jsonld-229.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-229.jsonld.gz",
+      "count": 2500,
+      "bytes": 119031,
+      "uncompressedBytes": 2289115
+    },
+    {
+      "name": "statements-jsonld-230.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-230.jsonld.gz",
+      "count": 2500,
+      "bytes": 117380,
+      "uncompressedBytes": 2273880
+    },
+    {
+      "name": "statements-jsonld-231.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-231.jsonld.gz",
+      "count": 2500,
+      "bytes": 121524,
+      "uncompressedBytes": 2314103
+    },
+    {
+      "name": "statements-jsonld-232.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-232.jsonld.gz",
+      "count": 2500,
+      "bytes": 121611,
+      "uncompressedBytes": 2276109
+    },
+    {
+      "name": "statements-jsonld-233.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-233.jsonld.gz",
+      "count": 2500,
+      "bytes": 120064,
+      "uncompressedBytes": 2287819
+    },
+    {
+      "name": "statements-jsonld-234.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-234.jsonld.gz",
+      "count": 2500,
+      "bytes": 119942,
+      "uncompressedBytes": 2253772
+    },
+    {
+      "name": "statements-jsonld-235.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-235.jsonld.gz",
+      "count": 2500,
+      "bytes": 119301,
+      "uncompressedBytes": 2310365
+    },
+    {
+      "name": "statements-jsonld-236.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-236.jsonld.gz",
+      "count": 2500,
+      "bytes": 119433,
+      "uncompressedBytes": 2301927
+    },
+    {
+      "name": "statements-jsonld-237.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-237.jsonld.gz",
+      "count": 2500,
+      "bytes": 120362,
+      "uncompressedBytes": 2274370
+    },
+    {
+      "name": "statements-jsonld-238.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-238.jsonld.gz",
+      "count": 2500,
+      "bytes": 120373,
+      "uncompressedBytes": 2250389
+    },
+    {
+      "name": "statements-jsonld-239.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-239.jsonld.gz",
+      "count": 2500,
+      "bytes": 120953,
+      "uncompressedBytes": 2291631
+    },
+    {
+      "name": "statements-jsonld-240.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-240.jsonld.gz",
+      "count": 2500,
+      "bytes": 119256,
+      "uncompressedBytes": 2284237
+    },
+    {
+      "name": "statements-jsonld-241.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-241.jsonld.gz",
+      "count": 2500,
+      "bytes": 121552,
+      "uncompressedBytes": 2293098
+    },
+    {
+      "name": "statements-jsonld-242.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-242.jsonld.gz",
+      "count": 2500,
+      "bytes": 120365,
+      "uncompressedBytes": 2302623
+    },
+    {
+      "name": "statements-jsonld-243.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-243.jsonld.gz",
+      "count": 2500,
+      "bytes": 121749,
+      "uncompressedBytes": 2289127
+    },
+    {
+      "name": "statements-jsonld-244.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-244.jsonld.gz",
+      "count": 2500,
+      "bytes": 119404,
+      "uncompressedBytes": 2292242
+    },
+    {
+      "name": "statements-jsonld-245.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-245.jsonld.gz",
+      "count": 2500,
+      "bytes": 118860,
+      "uncompressedBytes": 2247409
+    },
+    {
+      "name": "statements-jsonld-246.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-246.jsonld.gz",
+      "count": 2500,
+      "bytes": 119362,
+      "uncompressedBytes": 2265828
+    },
+    {
+      "name": "statements-jsonld-247.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-247.jsonld.gz",
+      "count": 2500,
+      "bytes": 121653,
+      "uncompressedBytes": 2253744
+    },
+    {
+      "name": "statements-jsonld-248.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-248.jsonld.gz",
+      "count": 2500,
+      "bytes": 120222,
+      "uncompressedBytes": 2281924
+    },
+    {
+      "name": "statements-jsonld-249.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-249.jsonld.gz",
+      "count": 2500,
+      "bytes": 118480,
+      "uncompressedBytes": 2269577
+    },
+    {
+      "name": "statements-jsonld-250.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-250.jsonld.gz",
+      "count": 2500,
+      "bytes": 118490,
+      "uncompressedBytes": 2286902
+    },
+    {
+      "name": "statements-jsonld-251.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-251.jsonld.gz",
+      "count": 2500,
+      "bytes": 119255,
+      "uncompressedBytes": 2265911
+    },
+    {
+      "name": "statements-jsonld-252.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-252.jsonld.gz",
+      "count": 2500,
+      "bytes": 120105,
+      "uncompressedBytes": 2274984
+    },
+    {
+      "name": "statements-jsonld-253.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-253.jsonld.gz",
+      "count": 2500,
+      "bytes": 119380,
+      "uncompressedBytes": 2287200
+    },
+    {
+      "name": "statements-jsonld-254.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-254.jsonld.gz",
+      "count": 2500,
+      "bytes": 119500,
+      "uncompressedBytes": 2290967
+    },
+    {
+      "name": "statements-jsonld-255.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-255.jsonld.gz",
+      "count": 2500,
+      "bytes": 120562,
+      "uncompressedBytes": 2307063
+    },
+    {
+      "name": "statements-jsonld-256.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-256.jsonld.gz",
+      "count": 2500,
+      "bytes": 119894,
+      "uncompressedBytes": 2278594
+    },
+    {
+      "name": "statements-jsonld-257.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-257.jsonld.gz",
+      "count": 2500,
+      "bytes": 120424,
+      "uncompressedBytes": 2288383
+    },
+    {
+      "name": "statements-jsonld-258.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-258.jsonld.gz",
+      "count": 2500,
+      "bytes": 118905,
+      "uncompressedBytes": 2254134
+    },
+    {
+      "name": "statements-jsonld-259.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-259.jsonld.gz",
+      "count": 2500,
+      "bytes": 121588,
+      "uncompressedBytes": 2290049
+    },
+    {
+      "name": "statements-jsonld-260.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-260.jsonld.gz",
+      "count": 2500,
+      "bytes": 119046,
+      "uncompressedBytes": 2265009
+    },
+    {
+      "name": "statements-jsonld-261.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-261.jsonld.gz",
+      "count": 2500,
+      "bytes": 118477,
+      "uncompressedBytes": 2289770
+    },
+    {
+      "name": "statements-jsonld-262.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-262.jsonld.gz",
+      "count": 2500,
+      "bytes": 118588,
+      "uncompressedBytes": 2285587
+    },
+    {
+      "name": "statements-jsonld-263.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-263.jsonld.gz",
+      "count": 2500,
+      "bytes": 120715,
+      "uncompressedBytes": 2306275
+    },
+    {
+      "name": "statements-jsonld-264.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-264.jsonld.gz",
+      "count": 2500,
+      "bytes": 120660,
+      "uncompressedBytes": 2286571
+    },
+    {
+      "name": "statements-jsonld-265.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-265.jsonld.gz",
+      "count": 2500,
+      "bytes": 122115,
+      "uncompressedBytes": 2289978
+    },
+    {
+      "name": "statements-jsonld-266.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-266.jsonld.gz",
+      "count": 2500,
+      "bytes": 121219,
+      "uncompressedBytes": 2317723
+    },
+    {
+      "name": "statements-jsonld-267.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-267.jsonld.gz",
+      "count": 2500,
+      "bytes": 119663,
+      "uncompressedBytes": 2269322
+    },
+    {
+      "name": "statements-jsonld-268.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-268.jsonld.gz",
+      "count": 2500,
+      "bytes": 119925,
+      "uncompressedBytes": 2308484
+    },
+    {
+      "name": "statements-jsonld-269.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-269.jsonld.gz",
+      "count": 2500,
+      "bytes": 120868,
+      "uncompressedBytes": 2279195
+    },
+    {
+      "name": "statements-jsonld-270.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-270.jsonld.gz",
+      "count": 2500,
+      "bytes": 121074,
+      "uncompressedBytes": 2292600
+    },
+    {
+      "name": "statements-jsonld-271.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-271.jsonld.gz",
+      "count": 2500,
+      "bytes": 120440,
+      "uncompressedBytes": 2253434
+    },
+    {
+      "name": "statements-jsonld-272.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-272.jsonld.gz",
+      "count": 2500,
+      "bytes": 119469,
+      "uncompressedBytes": 2269265
+    },
+    {
+      "name": "statements-jsonld-273.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-273.jsonld.gz",
+      "count": 2500,
+      "bytes": 119432,
+      "uncompressedBytes": 2275430
+    },
+    {
+      "name": "statements-jsonld-274.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-274.jsonld.gz",
+      "count": 2500,
+      "bytes": 121001,
+      "uncompressedBytes": 2296878
+    },
+    {
+      "name": "statements-jsonld-275.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-275.jsonld.gz",
+      "count": 2500,
+      "bytes": 118294,
+      "uncompressedBytes": 2272619
+    },
+    {
+      "name": "statements-jsonld-276.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-276.jsonld.gz",
+      "count": 2500,
+      "bytes": 120573,
+      "uncompressedBytes": 2270825
+    },
+    {
+      "name": "statements-jsonld-277.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-277.jsonld.gz",
+      "count": 2500,
+      "bytes": 118014,
+      "uncompressedBytes": 2277873
+    },
+    {
+      "name": "statements-jsonld-278.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-278.jsonld.gz",
+      "count": 2500,
+      "bytes": 121558,
+      "uncompressedBytes": 2264246
+    },
+    {
+      "name": "statements-jsonld-279.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-279.jsonld.gz",
+      "count": 2500,
+      "bytes": 117082,
+      "uncompressedBytes": 2288978
+    },
+    {
+      "name": "statements-jsonld-280.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-280.jsonld.gz",
+      "count": 2500,
+      "bytes": 120517,
+      "uncompressedBytes": 2264993
+    },
+    {
+      "name": "statements-jsonld-281.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-281.jsonld.gz",
+      "count": 2500,
+      "bytes": 119077,
+      "uncompressedBytes": 2270221
+    },
+    {
+      "name": "statements-jsonld-282.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-282.jsonld.gz",
+      "count": 2500,
+      "bytes": 118082,
+      "uncompressedBytes": 2298217
+    },
+    {
+      "name": "statements-jsonld-283.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-283.jsonld.gz",
+      "count": 2500,
+      "bytes": 118630,
+      "uncompressedBytes": 2302269
+    },
+    {
+      "name": "statements-jsonld-284.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-284.jsonld.gz",
+      "count": 2500,
+      "bytes": 120295,
+      "uncompressedBytes": 2281542
+    },
+    {
+      "name": "statements-jsonld-285.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-285.jsonld.gz",
+      "count": 2500,
+      "bytes": 124716,
+      "uncompressedBytes": 2287934
+    },
+    {
+      "name": "statements-jsonld-286.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-286.jsonld.gz",
+      "count": 2500,
+      "bytes": 118817,
+      "uncompressedBytes": 2254811
+    },
+    {
+      "name": "statements-jsonld-287.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-287.jsonld.gz",
+      "count": 2500,
+      "bytes": 119510,
+      "uncompressedBytes": 2281417
+    },
+    {
+      "name": "statements-jsonld-288.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-288.jsonld.gz",
+      "count": 2500,
+      "bytes": 121072,
+      "uncompressedBytes": 2284825
+    },
+    {
+      "name": "statements-jsonld-289.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-289.jsonld.gz",
+      "count": 2500,
+      "bytes": 121710,
+      "uncompressedBytes": 2310903
+    },
+    {
+      "name": "statements-jsonld-290.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-290.jsonld.gz",
+      "count": 2500,
+      "bytes": 119570,
+      "uncompressedBytes": 2278641
+    },
+    {
+      "name": "statements-jsonld-291.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-291.jsonld.gz",
+      "count": 2500,
+      "bytes": 116814,
+      "uncompressedBytes": 2273875
+    },
+    {
+      "name": "statements-jsonld-292.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-292.jsonld.gz",
+      "count": 2500,
+      "bytes": 118451,
+      "uncompressedBytes": 2288614
+    },
+    {
+      "name": "statements-jsonld-293.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-293.jsonld.gz",
+      "count": 2500,
+      "bytes": 120302,
+      "uncompressedBytes": 2263903
+    },
+    {
+      "name": "statements-jsonld-294.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-294.jsonld.gz",
+      "count": 2500,
+      "bytes": 118563,
+      "uncompressedBytes": 2274438
+    },
+    {
+      "name": "statements-jsonld-295.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-295.jsonld.gz",
+      "count": 2500,
+      "bytes": 122394,
+      "uncompressedBytes": 2284395
+    },
+    {
+      "name": "statements-jsonld-296.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-296.jsonld.gz",
+      "count": 2500,
+      "bytes": 118025,
+      "uncompressedBytes": 2249716
+    },
+    {
+      "name": "statements-jsonld-297.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-297.jsonld.gz",
+      "count": 2500,
+      "bytes": 121508,
+      "uncompressedBytes": 2318495
+    },
+    {
+      "name": "statements-jsonld-298.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-298.jsonld.gz",
+      "count": 2500,
+      "bytes": 120424,
+      "uncompressedBytes": 2307375
+    },
+    {
+      "name": "statements-jsonld-299.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-299.jsonld.gz",
+      "count": 2500,
+      "bytes": 121808,
+      "uncompressedBytes": 2283487
+    },
+    {
+      "name": "statements-jsonld-300.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-300.jsonld.gz",
+      "count": 2500,
+      "bytes": 119816,
+      "uncompressedBytes": 2287444
+    },
+    {
+      "name": "statements-jsonld-301.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-301.jsonld.gz",
+      "count": 2500,
+      "bytes": 120954,
+      "uncompressedBytes": 2294349
+    },
+    {
+      "name": "statements-jsonld-302.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-302.jsonld.gz",
+      "count": 2500,
+      "bytes": 120046,
+      "uncompressedBytes": 2284071
+    },
+    {
+      "name": "statements-jsonld-303.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-303.jsonld.gz",
+      "count": 2500,
+      "bytes": 122825,
+      "uncompressedBytes": 2294969
+    },
+    {
+      "name": "statements-jsonld-304.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-304.jsonld.gz",
+      "count": 2500,
+      "bytes": 120291,
+      "uncompressedBytes": 2273575
+    },
+    {
+      "name": "statements-jsonld-305.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-305.jsonld.gz",
+      "count": 2500,
+      "bytes": 117815,
+      "uncompressedBytes": 2265183
+    },
+    {
+      "name": "statements-jsonld-306.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-306.jsonld.gz",
+      "count": 2500,
+      "bytes": 121113,
+      "uncompressedBytes": 2284593
+    },
+    {
+      "name": "statements-jsonld-307.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-307.jsonld.gz",
+      "count": 2500,
+      "bytes": 119493,
+      "uncompressedBytes": 2294247
+    },
+    {
+      "name": "statements-jsonld-308.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-308.jsonld.gz",
+      "count": 2500,
+      "bytes": 119530,
+      "uncompressedBytes": 2255541
+    },
+    {
+      "name": "statements-jsonld-309.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-309.jsonld.gz",
+      "count": 2500,
+      "bytes": 120141,
+      "uncompressedBytes": 2256523
+    },
+    {
+      "name": "statements-jsonld-310.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-310.jsonld.gz",
+      "count": 2500,
+      "bytes": 121040,
+      "uncompressedBytes": 2312939
+    },
+    {
+      "name": "statements-jsonld-311.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-311.jsonld.gz",
+      "count": 2500,
+      "bytes": 118859,
+      "uncompressedBytes": 2310880
+    },
+    {
+      "name": "statements-jsonld-312.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-312.jsonld.gz",
+      "count": 2500,
+      "bytes": 120961,
+      "uncompressedBytes": 2274390
+    },
+    {
+      "name": "statements-jsonld-313.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-313.jsonld.gz",
+      "count": 2500,
+      "bytes": 118812,
+      "uncompressedBytes": 2263554
+    },
+    {
+      "name": "statements-jsonld-314.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-314.jsonld.gz",
+      "count": 2500,
+      "bytes": 119633,
+      "uncompressedBytes": 2276456
+    },
+    {
+      "name": "statements-jsonld-315.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-315.jsonld.gz",
+      "count": 2500,
+      "bytes": 118601,
+      "uncompressedBytes": 2257607
+    },
+    {
+      "name": "statements-jsonld-316.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-316.jsonld.gz",
+      "count": 2500,
+      "bytes": 120444,
+      "uncompressedBytes": 2286185
+    },
+    {
+      "name": "statements-jsonld-317.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-317.jsonld.gz",
+      "count": 2500,
+      "bytes": 125726,
+      "uncompressedBytes": 2321102
+    },
+    {
+      "name": "statements-jsonld-318.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-318.jsonld.gz",
+      "count": 2500,
+      "bytes": 118527,
+      "uncompressedBytes": 2280540
+    },
+    {
+      "name": "statements-jsonld-319.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-319.jsonld.gz",
+      "count": 2500,
+      "bytes": 119091,
+      "uncompressedBytes": 2282346
+    },
+    {
+      "name": "statements-jsonld-320.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-320.jsonld.gz",
+      "count": 2500,
+      "bytes": 119456,
+      "uncompressedBytes": 2300463
+    },
+    {
+      "name": "statements-jsonld-321.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-321.jsonld.gz",
+      "count": 2500,
+      "bytes": 122530,
+      "uncompressedBytes": 2301398
+    },
+    {
+      "name": "statements-jsonld-322.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-322.jsonld.gz",
+      "count": 2500,
+      "bytes": 140015,
+      "uncompressedBytes": 3150489
+    },
+    {
+      "name": "statements-jsonld-323.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-323.jsonld.gz",
+      "count": 2500,
+      "bytes": 169036,
+      "uncompressedBytes": 4388558
+    },
+    {
+      "name": "statements-jsonld-324.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-324.jsonld.gz",
+      "count": 2500,
+      "bytes": 172813,
+      "uncompressedBytes": 4447473
+    },
+    {
+      "name": "statements-jsonld-325.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-325.jsonld.gz",
+      "count": 2500,
+      "bytes": 174586,
+      "uncompressedBytes": 4506545
+    },
+    {
+      "name": "statements-jsonld-326.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-326.jsonld.gz",
+      "count": 2500,
+      "bytes": 169755,
+      "uncompressedBytes": 4453631
+    },
+    {
+      "name": "statements-jsonld-327.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-327.jsonld.gz",
+      "count": 2500,
+      "bytes": 173858,
+      "uncompressedBytes": 4466425
+    },
+    {
+      "name": "statements-jsonld-328.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-328.jsonld.gz",
+      "count": 2500,
+      "bytes": 171965,
+      "uncompressedBytes": 4449093
+    },
+    {
+      "name": "statements-jsonld-329.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-329.jsonld.gz",
+      "count": 2500,
+      "bytes": 169351,
+      "uncompressedBytes": 4392544
+    },
+    {
+      "name": "statements-jsonld-330.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-330.jsonld.gz",
+      "count": 2500,
+      "bytes": 173010,
+      "uncompressedBytes": 4462467
+    },
+    {
+      "name": "statements-jsonld-331.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-331.jsonld.gz",
+      "count": 2500,
+      "bytes": 174011,
+      "uncompressedBytes": 4488693
+    },
+    {
+      "name": "statements-jsonld-332.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-332.jsonld.gz",
+      "count": 2500,
+      "bytes": 177542,
+      "uncompressedBytes": 4568437
+    },
+    {
+      "name": "statements-jsonld-333.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-333.jsonld.gz",
+      "count": 2500,
+      "bytes": 173387,
+      "uncompressedBytes": 4447695
+    },
+    {
+      "name": "statements-jsonld-334.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-334.jsonld.gz",
+      "count": 2500,
+      "bytes": 172291,
+      "uncompressedBytes": 4421652
+    },
+    {
+      "name": "statements-jsonld-335.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-335.jsonld.gz",
+      "count": 2500,
+      "bytes": 171946,
+      "uncompressedBytes": 4449233
+    },
+    {
+      "name": "statements-jsonld-336.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-336.jsonld.gz",
+      "count": 2500,
+      "bytes": 174537,
+      "uncompressedBytes": 4498587
+    },
+    {
+      "name": "statements-jsonld-337.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-337.jsonld.gz",
+      "count": 2500,
+      "bytes": 171427,
+      "uncompressedBytes": 4415400
+    },
+    {
+      "name": "statements-jsonld-338.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-338.jsonld.gz",
+      "count": 2500,
+      "bytes": 172137,
+      "uncompressedBytes": 4439513
+    },
+    {
+      "name": "statements-jsonld-339.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-339.jsonld.gz",
+      "count": 2500,
+      "bytes": 172805,
+      "uncompressedBytes": 4425353
+    },
+    {
+      "name": "statements-jsonld-340.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-340.jsonld.gz",
+      "count": 2500,
+      "bytes": 171595,
+      "uncompressedBytes": 4458978
+    },
+    {
+      "name": "statements-jsonld-341.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-341.jsonld.gz",
+      "count": 2500,
+      "bytes": 169995,
+      "uncompressedBytes": 4379881
+    },
+    {
+      "name": "statements-jsonld-342.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-342.jsonld.gz",
+      "count": 2500,
+      "bytes": 171629,
+      "uncompressedBytes": 4376049
+    },
+    {
+      "name": "statements-jsonld-343.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-343.jsonld.gz",
+      "count": 2500,
+      "bytes": 173304,
+      "uncompressedBytes": 4455095
+    },
+    {
+      "name": "statements-jsonld-344.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-344.jsonld.gz",
+      "count": 2500,
+      "bytes": 176240,
+      "uncompressedBytes": 4511569
+    },
+    {
+      "name": "statements-jsonld-345.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-345.jsonld.gz",
+      "count": 2500,
+      "bytes": 171353,
+      "uncompressedBytes": 4435628
+    },
+    {
+      "name": "statements-jsonld-346.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-346.jsonld.gz",
+      "count": 2500,
+      "bytes": 174491,
+      "uncompressedBytes": 4472307
+    },
+    {
+      "name": "statements-jsonld-347.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-347.jsonld.gz",
+      "count": 2500,
+      "bytes": 174334,
+      "uncompressedBytes": 4451711
+    },
+    {
+      "name": "statements-jsonld-348.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-348.jsonld.gz",
+      "count": 2500,
+      "bytes": 171087,
+      "uncompressedBytes": 4388568
+    },
+    {
+      "name": "statements-jsonld-349.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-349.jsonld.gz",
+      "count": 2500,
+      "bytes": 173119,
+      "uncompressedBytes": 4490546
+    },
+    {
+      "name": "statements-jsonld-350.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-350.jsonld.gz",
+      "count": 2500,
+      "bytes": 173167,
+      "uncompressedBytes": 4468429
+    },
+    {
+      "name": "statements-jsonld-351.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-351.jsonld.gz",
+      "count": 2500,
+      "bytes": 175267,
+      "uncompressedBytes": 4520791
+    },
+    {
+      "name": "statements-jsonld-352.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-352.jsonld.gz",
+      "count": 2500,
+      "bytes": 171996,
+      "uncompressedBytes": 4421564
+    },
+    {
+      "name": "statements-jsonld-353.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-353.jsonld.gz",
+      "count": 2500,
+      "bytes": 172223,
+      "uncompressedBytes": 4437700
+    },
+    {
+      "name": "statements-jsonld-354.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-354.jsonld.gz",
+      "count": 2500,
+      "bytes": 174664,
+      "uncompressedBytes": 4483814
+    },
+    {
+      "name": "statements-jsonld-355.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-355.jsonld.gz",
+      "count": 2500,
+      "bytes": 170104,
+      "uncompressedBytes": 4417620
+    },
+    {
+      "name": "statements-jsonld-356.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-356.jsonld.gz",
+      "count": 2500,
+      "bytes": 173457,
+      "uncompressedBytes": 4436392
+    },
+    {
+      "name": "statements-jsonld-357.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-357.jsonld.gz",
+      "count": 2500,
+      "bytes": 173434,
+      "uncompressedBytes": 4431183
+    },
+    {
+      "name": "statements-jsonld-358.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-358.jsonld.gz",
+      "count": 2500,
+      "bytes": 171319,
+      "uncompressedBytes": 4446541
+    },
+    {
+      "name": "statements-jsonld-359.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-359.jsonld.gz",
+      "count": 2500,
+      "bytes": 175168,
+      "uncompressedBytes": 4516402
+    },
+    {
+      "name": "statements-jsonld-360.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-360.jsonld.gz",
+      "count": 2500,
+      "bytes": 116738,
+      "uncompressedBytes": 2411554
+    },
+    {
+      "name": "statements-jsonld-361.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-361.jsonld.gz",
+      "count": 2500,
+      "bytes": 80028,
+      "uncompressedBytes": 1115487
+    },
+    {
+      "name": "statements-jsonld-362.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-362.jsonld.gz",
+      "count": 2500,
+      "bytes": 65878,
+      "uncompressedBytes": 1031338
+    },
+    {
+      "name": "statements-jsonld-363.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-363.jsonld.gz",
+      "count": 2500,
+      "bytes": 66177,
+      "uncompressedBytes": 1032400
+    },
+    {
+      "name": "statements-jsonld-364.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-364.jsonld.gz",
+      "count": 2500,
+      "bytes": 66133,
+      "uncompressedBytes": 1032435
+    },
+    {
+      "name": "statements-jsonld-365.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-365.jsonld.gz",
+      "count": 2500,
+      "bytes": 66366,
+      "uncompressedBytes": 1032194
+    },
+    {
+      "name": "statements-jsonld-366.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-366.jsonld.gz",
+      "count": 2500,
+      "bytes": 66452,
+      "uncompressedBytes": 1031766
+    },
+    {
+      "name": "statements-jsonld-367.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-367.jsonld.gz",
+      "count": 2500,
+      "bytes": 66249,
+      "uncompressedBytes": 1032062
+    },
+    {
+      "name": "statements-jsonld-368.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-368.jsonld.gz",
+      "count": 2500,
+      "bytes": 66708,
+      "uncompressedBytes": 1032807
+    },
+    {
+      "name": "statements-jsonld-369.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-369.jsonld.gz",
+      "count": 2500,
+      "bytes": 66403,
+      "uncompressedBytes": 1032283
+    },
+    {
+      "name": "statements-jsonld-370.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-370.jsonld.gz",
+      "count": 2500,
+      "bytes": 66248,
+      "uncompressedBytes": 1032568
+    },
+    {
+      "name": "statements-jsonld-371.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-371.jsonld.gz",
+      "count": 2500,
+      "bytes": 66216,
+      "uncompressedBytes": 1050729
+    },
+    {
+      "name": "statements-jsonld-372.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-372.jsonld.gz",
+      "count": 2500,
+      "bytes": 71670,
+      "uncompressedBytes": 1119090
+    },
+    {
+      "name": "statements-jsonld-373.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-373.jsonld.gz",
+      "count": 2500,
+      "bytes": 68358,
+      "uncompressedBytes": 1276759
+    },
+    {
+      "name": "statements-jsonld-374.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-374.jsonld.gz",
+      "count": 2500,
+      "bytes": 78196,
+      "uncompressedBytes": 1165088
+    },
+    {
+      "name": "statements-jsonld-375.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-375.jsonld.gz",
+      "count": 2500,
+      "bytes": 70732,
+      "uncompressedBytes": 1155404
+    },
+    {
+      "name": "statements-jsonld-376.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-376.jsonld.gz",
+      "count": 2500,
+      "bytes": 66721,
+      "uncompressedBytes": 1113050
+    },
+    {
+      "name": "statements-jsonld-377.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-377.jsonld.gz",
+      "count": 2500,
+      "bytes": 66599,
+      "uncompressedBytes": 1113390
+    },
+    {
+      "name": "statements-jsonld-378.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-378.jsonld.gz",
+      "count": 2500,
+      "bytes": 70173,
+      "uncompressedBytes": 1119165
+    },
+    {
+      "name": "statements-jsonld-379.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-379.jsonld.gz",
+      "count": 2500,
+      "bytes": 76111,
+      "uncompressedBytes": 1156318
+    },
+    {
+      "name": "statements-jsonld-380.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-380.jsonld.gz",
+      "count": 2500,
+      "bytes": 81869,
+      "uncompressedBytes": 1712689
+    },
+    {
+      "name": "statements-jsonld-381.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-381.jsonld.gz",
+      "count": 2500,
+      "bytes": 78438,
+      "uncompressedBytes": 1650639
+    },
+    {
+      "name": "statements-jsonld-382.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-382.jsonld.gz",
+      "count": 2500,
+      "bytes": 75973,
+      "uncompressedBytes": 1651670
+    },
+    {
+      "name": "statements-jsonld-383.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-383.jsonld.gz",
+      "count": 2500,
+      "bytes": 69129,
+      "uncompressedBytes": 1622827
+    },
+    {
+      "name": "statements-jsonld-384.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-384.jsonld.gz",
+      "count": 2500,
+      "bytes": 69964,
+      "uncompressedBytes": 1776384
+    },
+    {
+      "name": "statements-jsonld-385.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-385.jsonld.gz",
+      "count": 2500,
+      "bytes": 71502,
+      "uncompressedBytes": 1708765
+    },
+    {
+      "name": "statements-jsonld-386.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-386.jsonld.gz",
+      "count": 2500,
+      "bytes": 70368,
+      "uncompressedBytes": 1887845
+    },
+    {
+      "name": "statements-jsonld-387.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-387.jsonld.gz",
+      "count": 2500,
+      "bytes": 72858,
+      "uncompressedBytes": 1744624
+    },
+    {
+      "name": "statements-jsonld-388.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-388.jsonld.gz",
+      "count": 2500,
+      "bytes": 69283,
+      "uncompressedBytes": 1579979
+    },
+    {
+      "name": "statements-jsonld-389.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-389.jsonld.gz",
+      "count": 2500,
+      "bytes": 69227,
+      "uncompressedBytes": 1836831
+    },
+    {
+      "name": "statements-jsonld-390.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-390.jsonld.gz",
+      "count": 2500,
+      "bytes": 72279,
+      "uncompressedBytes": 1780611
+    },
+    {
+      "name": "statements-jsonld-391.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-391.jsonld.gz",
+      "count": 2500,
+      "bytes": 69395,
+      "uncompressedBytes": 1554772
+    },
+    {
+      "name": "statements-jsonld-392.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-392.jsonld.gz",
+      "count": 2500,
+      "bytes": 84861,
+      "uncompressedBytes": 1900183
+    },
+    {
+      "name": "statements-jsonld-393.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-393.jsonld.gz",
+      "count": 2500,
+      "bytes": 76770,
+      "uncompressedBytes": 1659190
+    },
+    {
+      "name": "statements-jsonld-394.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-394.jsonld.gz",
+      "count": 2500,
+      "bytes": 71094,
+      "uncompressedBytes": 1474416
+    },
+    {
+      "name": "statements-jsonld-395.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-395.jsonld.gz",
+      "count": 2500,
+      "bytes": 70228,
+      "uncompressedBytes": 1992505
+    },
+    {
+      "name": "statements-jsonld-396.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-396.jsonld.gz",
+      "count": 2500,
+      "bytes": 72290,
+      "uncompressedBytes": 1946980
+    },
+    {
+      "name": "statements-jsonld-397.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-397.jsonld.gz",
+      "count": 2500,
+      "bytes": 71796,
+      "uncompressedBytes": 1616135
+    },
+    {
+      "name": "statements-jsonld-398.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-398.jsonld.gz",
+      "count": 2500,
+      "bytes": 72802,
+      "uncompressedBytes": 1892251
+    },
+    {
+      "name": "statements-jsonld-399.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-399.jsonld.gz",
+      "count": 2500,
+      "bytes": 68972,
+      "uncompressedBytes": 2259815
+    },
+    {
+      "name": "statements-jsonld-400.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-400.jsonld.gz",
+      "count": 2500,
+      "bytes": 66927,
+      "uncompressedBytes": 1578800
+    },
+    {
+      "name": "statements-jsonld-401.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-401.jsonld.gz",
+      "count": 2500,
+      "bytes": 76937,
+      "uncompressedBytes": 1630996
+    },
+    {
+      "name": "statements-jsonld-402.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-402.jsonld.gz",
+      "count": 2500,
+      "bytes": 70810,
+      "uncompressedBytes": 1710661
+    },
+    {
+      "name": "statements-jsonld-403.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-403.jsonld.gz",
+      "count": 2500,
+      "bytes": 76177,
+      "uncompressedBytes": 1697765
+    },
+    {
+      "name": "statements-jsonld-404.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-404.jsonld.gz",
+      "count": 2500,
+      "bytes": 86702,
+      "uncompressedBytes": 1924850
+    },
+    {
+      "name": "statements-jsonld-405.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-405.jsonld.gz",
+      "count": 2500,
+      "bytes": 88460,
+      "uncompressedBytes": 2101537
+    },
+    {
+      "name": "statements-jsonld-406.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-406.jsonld.gz",
+      "count": 2500,
+      "bytes": 75551,
+      "uncompressedBytes": 1788090
+    },
+    {
+      "name": "statements-jsonld-407.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-407.jsonld.gz",
+      "count": 2500,
+      "bytes": 77525,
+      "uncompressedBytes": 1628603
+    },
+    {
+      "name": "statements-jsonld-408.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-408.jsonld.gz",
+      "count": 2500,
+      "bytes": 69205,
+      "uncompressedBytes": 1140642
+    },
+    {
+      "name": "statements-jsonld-409.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-409.jsonld.gz",
+      "count": 2500,
+      "bytes": 64421,
+      "uncompressedBytes": 1100720
+    },
+    {
+      "name": "statements-jsonld-410.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-410.jsonld.gz",
+      "count": 2500,
+      "bytes": 69504,
+      "uncompressedBytes": 1103228
+    },
+    {
+      "name": "statements-jsonld-411.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-411.jsonld.gz",
+      "count": 2500,
+      "bytes": 84081,
+      "uncompressedBytes": 1150849
+    },
+    {
+      "name": "statements-jsonld-412.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-412.jsonld.gz",
+      "count": 2500,
+      "bytes": 78501,
+      "uncompressedBytes": 1719040
+    },
+    {
+      "name": "statements-jsonld-413.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-413.jsonld.gz",
+      "count": 2500,
+      "bytes": 74856,
+      "uncompressedBytes": 1340006
+    },
+    {
+      "name": "statements-jsonld-414.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-414.jsonld.gz",
+      "count": 2500,
+      "bytes": 72289,
+      "uncompressedBytes": 1290989
+    },
+    {
+      "name": "statements-jsonld-415.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-415.jsonld.gz",
+      "count": 2500,
+      "bytes": 66243,
+      "uncompressedBytes": 1112801
+    },
+    {
+      "name": "statements-jsonld-416.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-416.jsonld.gz",
+      "count": 2500,
+      "bytes": 66812,
+      "uncompressedBytes": 1113243
+    },
+    {
+      "name": "statements-jsonld-417.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-417.jsonld.gz",
+      "count": 2500,
+      "bytes": 66808,
+      "uncompressedBytes": 1113846
+    },
+    {
+      "name": "statements-jsonld-418.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-418.jsonld.gz",
+      "count": 2500,
+      "bytes": 66341,
+      "uncompressedBytes": 1112719
+    },
+    {
+      "name": "statements-jsonld-419.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-419.jsonld.gz",
+      "count": 2500,
+      "bytes": 67039,
+      "uncompressedBytes": 1113580
+    },
+    {
+      "name": "statements-jsonld-420.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-420.jsonld.gz",
+      "count": 2500,
+      "bytes": 67413,
+      "uncompressedBytes": 1114032
+    },
+    {
+      "name": "statements-jsonld-421.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-421.jsonld.gz",
+      "count": 2500,
+      "bytes": 66582,
+      "uncompressedBytes": 1113076
+    },
+    {
+      "name": "statements-jsonld-422.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-422.jsonld.gz",
+      "count": 2500,
+      "bytes": 66955,
+      "uncompressedBytes": 1114132
+    },
+    {
+      "name": "statements-jsonld-423.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-423.jsonld.gz",
+      "count": 2500,
+      "bytes": 70044,
+      "uncompressedBytes": 1158899
+    },
+    {
+      "name": "statements-jsonld-424.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-424.jsonld.gz",
+      "count": 2500,
+      "bytes": 69373,
+      "uncompressedBytes": 1169343
+    },
+    {
+      "name": "statements-jsonld-425.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-425.jsonld.gz",
+      "count": 2500,
+      "bytes": 83588,
+      "uncompressedBytes": 1620334
+    },
+    {
+      "name": "statements-jsonld-426.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-426.jsonld.gz",
+      "count": 2500,
+      "bytes": 92704,
+      "uncompressedBytes": 1767573
+    },
+    {
+      "name": "statements-jsonld-427.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-427.jsonld.gz",
+      "count": 2500,
+      "bytes": 87791,
+      "uncompressedBytes": 1715060
+    },
+    {
+      "name": "statements-jsonld-428.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-428.jsonld.gz",
+      "count": 2500,
+      "bytes": 95009,
+      "uncompressedBytes": 1807529
+    },
+    {
+      "name": "statements-jsonld-429.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-429.jsonld.gz",
+      "count": 2500,
+      "bytes": 79961,
+      "uncompressedBytes": 1703367
+    },
+    {
+      "name": "statements-jsonld-430.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-430.jsonld.gz",
+      "count": 2500,
+      "bytes": 82778,
+      "uncompressedBytes": 1708648
+    },
+    {
+      "name": "statements-jsonld-431.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-431.jsonld.gz",
+      "count": 2500,
+      "bytes": 82745,
+      "uncompressedBytes": 1705107
+    },
+    {
+      "name": "statements-jsonld-432.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-432.jsonld.gz",
+      "count": 2500,
+      "bytes": 81446,
+      "uncompressedBytes": 1706365
+    },
+    {
+      "name": "statements-jsonld-433.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-433.jsonld.gz",
+      "count": 2500,
+      "bytes": 84005,
+      "uncompressedBytes": 1721265
+    },
+    {
+      "name": "statements-jsonld-434.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-434.jsonld.gz",
+      "count": 2500,
+      "bytes": 78643,
+      "uncompressedBytes": 1694604
+    },
+    {
+      "name": "statements-jsonld-435.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-435.jsonld.gz",
+      "count": 2500,
+      "bytes": 83490,
+      "uncompressedBytes": 1716141
+    },
+    {
+      "name": "statements-jsonld-436.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-436.jsonld.gz",
+      "count": 2500,
+      "bytes": 73402,
+      "uncompressedBytes": 1357708
+    },
+    {
+      "name": "statements-jsonld-437.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-437.jsonld.gz",
+      "count": 2500,
+      "bytes": 74410,
+      "uncompressedBytes": 1153044
+    },
+    {
+      "name": "statements-jsonld-438.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-438.jsonld.gz",
+      "count": 2500,
+      "bytes": 84002,
+      "uncompressedBytes": 1768517
+    },
+    {
+      "name": "statements-jsonld-439.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-439.jsonld.gz",
+      "count": 2500,
+      "bytes": 76923,
+      "uncompressedBytes": 1452189
+    },
+    {
+      "name": "statements-jsonld-440.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-440.jsonld.gz",
+      "count": 2500,
+      "bytes": 83824,
+      "uncompressedBytes": 1712219
+    },
+    {
+      "name": "statements-jsonld-441.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-441.jsonld.gz",
+      "count": 2500,
+      "bytes": 82825,
+      "uncompressedBytes": 1617509
+    },
+    {
+      "name": "statements-jsonld-442.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-442.jsonld.gz",
+      "count": 2500,
+      "bytes": 69828,
+      "uncompressedBytes": 1206031
+    },
+    {
+      "name": "statements-jsonld-443.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-443.jsonld.gz",
+      "count": 2500,
+      "bytes": 71132,
+      "uncompressedBytes": 1165553
+    },
+    {
+      "name": "statements-jsonld-444.jsonld.gz",
+      "url": "/data/graph/exports/jsonld/statement-shards/statements-jsonld-444.jsonld.gz",
+      "count": 482,
+      "bytes": 14910,
+      "uncompressedBytes": 212904
+    }
+  ]
+}
