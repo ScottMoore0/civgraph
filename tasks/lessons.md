@@ -2702,3 +2702,12 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
   2) archive repo-local private-source helpers and local review packs outside the repository instead of deleting them,
   3) remove any tracked helper that implies private-source possession and add an ignore guard for the local-only filename,
   4) keep committed task notes generic and free of local source paths.
+
+### 205) Do not create branches or worktrees without explicit approval
+- Mistake pattern: creating or recommending a separate branch/worktree after the user wants the current requested branch or mainline path used directly.
+- Impact: it adds process overhead, delays deployment, and can make the user feel the requested merge/deploy path is being avoided.
+- Guardrail:
+  1) do not create a new branch, worktree, or PR branch unless the user explicitly approves that exact action,
+  2) when a merge is requested, use the existing named source branch and `main` directly,
+  3) if a new branch/worktree would materially reduce risk, explain the tradeoff and wait for approval before creating it,
+  4) record the branch decision in `tasks/todo.md` for merge/deploy tasks.

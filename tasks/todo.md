@@ -7910,3 +7910,9 @@ Review:
   - Initial decision: reincorporate the raw-source Internet Archive mirror sidecar/tooling and generated public source/Browse/graph data; reincorporate the PRONI/test2 duplicate-result fix, PRONI quick-scan tool hardening, and generated public election/Browse/graph data; do not reincorporate the Jeffrey Donaldson PDF/output deliverables by default.
   - Completed: restored the IA mirror sidecar and raw-source scripts, raw-source public Browse/source outputs, PRONI/test2 duplicate-result fix and scanner hardening, generated election/test2 outputs, and regenerated semantic graph outputs. Left the Donaldson generated PDF/output deliverables and timestamp-only register-interest shard changes in the external archive.
   - Verification: `node --check` passed for restored scripts; `npm run check:raw-source-documents` passed with 252 IA-mirrored records and no local paths exposed; `npm run check:test2` passed with 0 blocking issues; `npm run check:graph` passed with 165,093 entities and 1,110,473 statements; `npm run check:pages-assets` passed with 11,854/18,500 deployable files; final `git diff --check` exited 0 with only LF-to-CRLF warnings; final `npm run check` passed.
+
+# Merge Semantic Graph Rollout Into Main
+
+- [ ] Merge `codex/semantic-graph-rollout` into `main` without creating any new branch.
+  - Task: commit the no-new-branches lesson/task tracking on the existing rollout branch, switch to `main`, merge the existing semantic graph rollout branch, run post-merge verification, push `main`, and confirm the final worktree is clean.
+  - Verification plan: fetch `origin`, confirm `main` is current, run aggregate checks after merge, push only after successful verification, and report exact commit hashes.
