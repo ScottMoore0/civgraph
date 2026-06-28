@@ -7913,6 +7913,8 @@ Review:
 
 # Merge Semantic Graph Rollout Into Main
 
-- [ ] Merge `codex/semantic-graph-rollout` into `main` without creating any new branch.
+- [x] Merge `codex/semantic-graph-rollout` into `main` without creating any new branch.
   - Task: commit the no-new-branches lesson/task tracking on the existing rollout branch, switch to `main`, merge the existing semantic graph rollout branch, run post-merge verification, push `main`, and confirm the final worktree is clean.
   - Verification plan: fetch `origin`, confirm `main` is current, run aggregate checks after merge, push only after successful verification, and report exact commit hashes.
+  - Completed: fetched `origin`, confirmed local `main` was up to date with `origin/main`, fast-forwarded `main` from `d54f956bb4` to `13c9579ff4`, then fixed the post-merge Pages file-budget failure by compacting `data/graph/indexes/entity-search.json` and updating the graph builder to keep that generated index compact.
+  - Verification: `npm run check:test2` passed before the file-budget fix; `node --check scripts/graph/build-semantic-graph.mjs`, `npm run check:pages-assets`, `npm run check:graph`, `git diff --check`, and final `npm run check` passed after the fix.

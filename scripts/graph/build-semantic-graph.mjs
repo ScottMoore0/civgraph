@@ -1676,7 +1676,7 @@ async function writeEntitySearchIndex(entitySummaryById) {
     generatedAt: GENERATED_AT,
     total: items.length,
     items
-  });
+  }, { pretty: false });
   return { url, count: items.length };
 }
 
@@ -2284,9 +2284,10 @@ async function readJson(filePath) {
   return JSON.parse(await fs.readFile(filePath, 'utf8'));
 }
 
-async function writeJson(filePath, data) {
+async function writeJson(filePath, data, options = {}) {
   await fs.mkdir(path.dirname(filePath), { recursive: true });
-  await fs.writeFile(filePath, `${JSON.stringify(data, null, 2)}\n`);
+  const pretty = options.pretty !== false;
+  await fs.writeFile(filePath, `${JSON.stringify(data, null, pretty ? 2 : 0)}\n`);
 }
 
 function siteUrlToPath(url) {
