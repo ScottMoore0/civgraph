@@ -7918,3 +7918,11 @@ Review:
   - Verification plan: fetch `origin`, confirm `main` is current, run aggregate checks after merge, push only after successful verification, and report exact commit hashes.
   - Completed: fetched `origin`, confirmed local `main` was up to date with `origin/main`, fast-forwarded `main` from `d54f956bb4` to `13c9579ff4`, then fixed the post-merge Pages file-budget failure by compacting `data/graph/indexes/entity-search.json` and updating the graph builder to keep that generated index compact.
   - Verification: `npm run check:test2` passed before the file-budget fix; `node --check scripts/graph/build-semantic-graph.mjs`, `npm run check:pages-assets`, `npm run check:graph`, `git diff --check`, and final `npm run check` passed after the fix.
+
+# Browse Readability And Decluttering
+
+- [x] Make Browse detail pages less cluttered and easier to understand without pushing live.
+  - Task: implement a compact reader-oriented Browse detail layout, with special handling for register-interest records, collapsed provenance/graph/technical sections, reduced duplicated fields, and local-only verification/browser review.
+  - Verification plan: syntax-check `browse/browse.js`, run focused Browse/graph validators, run a local dev server, inspect representative local Browse pages in the browser, commit locally only, and do not push.
+  - Completed: added reader-summary panels, custom register-interest interest cards, collapsed source/provenance, collapsed semantic-statement panels, compact entity profiles, and compact support-table styling in Browse.
+  - Verification: `node --check browse/browse.js`, `npm run check:pages-assets`, `npm run check:graph`, `npm run check:ni-register-interests`, `git diff --check`, and final `npm run check` passed. Local browser checks passed for `/browse/index.html#/register-interests/ni-register-record-f699e03fd7d27430`, `/browse/index.html#/entities/ni-register-record-f699e03fd7d27430`, and `/browse/index.html#/persons/name-carla-lockhart`; no console errors or horizontal overflow were detected.

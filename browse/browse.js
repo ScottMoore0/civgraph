@@ -548,12 +548,26 @@ function renderPortalStat(label, value) {
 
 function setHero(config, item) {
   const title = item ? item.title : config.label;
-  const description = item ? item.description || item.subtitle || '' : (state.manifest?.groups || []).find((group) => group.id === state.activeType)?.description || '';
+  const description = item ? heroDescriptionForItem(state.activeType, item) : (state.manifest?.groups || []).find((group) => group.id === state.activeType)?.description || '';
   els.hero.innerHTML = `
     <p class="browse-kicker">Browse</p>
     <h1 class="browse-title">${escapeHtml(title)}</h1>
     ${description ? `<p class="browse-description">${escapeHtml(description)}</p>` : ''}
   `;
+}
+
+function heroDescriptionForItem(type, item) {
+  if (type === 'register-interests') {
+    const parts = [
+      item.memberName,
+      item.electedBody,
+      formatDate(item.date),
+      item.interestCount ? `${formatNumber(item.interestCount)} grouped ${item.interestCount === 1 ? 'interest' : 'interests'}` : null,
+      item.nonNilInterestCount !== undefined ? `${formatNumber(item.nonNilInterestCount)} non-nil` : null
+    ].filter(Boolean);
+    return parts.join(' / ');
+  }
+  return item.description || item.subtitle || '';
 }
 
 function renderList(type, items) {
@@ -731,16 +745,20 @@ async function renderDetail(type, indexItem) {
   state.currentDetail = { type, item };
   setHero(config, item);
   const isMap = type === 'maps';
-  const graphPanel = await renderGraphStatementsPanel(type, item);
+  const graphPanel = await renderGraphStatementsPanel(type, item, { collapsed: true });
+  if (type === 'register-interests') {
+    els.results.innerHTML = renderRegisterInterestDetailPage(config, item, graphPanel);
+    return;
+  }
   els.results.innerHTML = `
-    <div class="browse-detail${isMap ? ' browse-detail--map' : ''}">
+    <div class="browse-detail browse-detail--reader${isMap ? ' browse-detail--map' : ''}">
       ${renderDetailActions(config, item)}
       ${renderContributorDetailActions(type, item)}
-      ${isMap ? renderMapLeadPanel(item) : renderThumbnailPanel(item)}
-      ${isMap ? renderMapMetadataPanel(item) : renderOverviewPanel(type, item)}
-      ${isMap ? renderMapSourcePanel(item) : renderMetadataPanel(type, item)}
+      ${isMap ? renderMapLeadPanel(item) : renderReaderSummaryPanel(type, item)}
+      ${isMap ? renderMapMetadataPanel(item) : renderMetadataPanel(type, item, { collapsed: true })}
+      ${isMap ? renderMapSourcePanel(item) : ''}
       ${graphPanel}
-      ${isMap ? '' : renderLinksPanel(item)}
+      ${isMap ? '' : renderLinksPanel(item, { collapsed: true })}
       ${renderRelatedPanel(type, item)}
       ${renderTechnicalPanel(type, item)}
     </div>
@@ -765,6 +783,283 @@ function renderContributorDetailActions(type, item) {
       <button type="button" class="contributor-btn" data-contributor-action="submit-map">Submit map</button>
     </div>
   `;
+}
+
+function renderReaderSummaryPanel(type, item) {
+  const rows = readerSummaryRows(type, item);
+  const summary = readerSummaryText(type, item);
+  return `
+    <section class="browse-detail__panel browse-reader-summary">
+      <div class="browse-detail__body">
+        ${summary ? `<p class="browse-reader-summary__lede">${escapeHtml(summary)}</p>` : ''}
+        ${renderDefinitionRows(rows, 'browse-reader-facts')}
+        ${renderBadges(item)}
+      </div>
+    </section>
+  `;
+}
+
+function readerSummaryText(type, item) {
+  if (type === 'elections') return item.description || `${formatNumber(item.totalConstituencies || 0)} constituencies/features in this election record.`;
+  if (type === 'persons') return joinList(item.parties?.slice(0, 4).map((party) => party.name)) || item.subtitle || '';
+  if (type === 'parties') return `${item.title || item.canonicalName} appears in ${formatNumber(item.relatedElectionCount || 0)} election summaries.`;
+  if (type === 'sources') return item.description || joinList(item.downloads?.slice(0, 2).map((link) => link.label)) || '';
+  return item.description || item.subtitle || '';
+}
+
+function readerSummaryRows(type, item) {
+  if (type === 'elections') {
+    if (item.entryKind && item.entryKind !== 'election') {
+      return [
+        ['Entry type', resultKindLabel(item.resultKind || item.entryKind)],
+        ['Election', item.parentTitle],
+        ['Date', formatDate(item.date)],
+        ['Geography', item.geography],
+        ['Result', item.resultName]
+      ];
+    }
+    return [
+      ['Body', item.body],
+      ['Date', formatDate(item.date)],
+      ['Geography', item.geography],
+      ['Constituencies', item.totalConstituencies],
+      ['Matched / unmatched', `${item.matchedCount || 0} / ${item.unmatchedCount || 0}`]
+    ];
+  }
+  if (type === 'parties') {
+    return [
+      ['Canonical name', item.canonicalName || item.title],
+      ['Years', item.subtitle],
+      ['Observed labels', item.observedNames?.length],
+      ['Election appearances', item.occurrenceCount]
+    ];
+  }
+  if (type === 'persons') {
+    return [
+      ['Name', item.name || item.title],
+      ['Years', item.subtitle],
+      ['Parties', joinList(item.parties?.slice(0, 5).map((party) => party.name))],
+      ['Contests', item.totals?.stood],
+      ['Elected', item.totals?.elected]
+    ];
+  }
+  if (type === 'sources') {
+    return [
+      ['Type', item.type],
+      ['Category', item.category],
+      ['Provider', joinList(item.provider)],
+      ['Date', item.date],
+      ['Downloads', item.downloads?.length],
+      ['Source files', item.sourceFiles?.length]
+    ];
+  }
+  return [
+    ['Category', item.category],
+    ['Group', item.group],
+    ['Status', item.status]
+  ];
+}
+
+function renderRegisterInterestDetailPage(config, item, graphPanel) {
+  return `
+    <div class="browse-detail browse-detail--reader browse-register-detail">
+      ${renderDetailActions(config, item)}
+      ${renderContributorDetailActions('register-interests', item)}
+      ${renderRegisterInterestSummaryPanel(item)}
+      ${renderRegisterInterestEntriesPanel(item)}
+      ${renderRegisterSourcePanel(item)}
+      ${graphPanel}
+      ${renderTechnicalPanel('register-interests', item)}
+    </div>
+  `;
+}
+
+function renderRegisterInterestSummaryPanel(item) {
+  const rows = [
+    ['Politician', item.memberName],
+    ['Body', item.electedBody],
+    ['Chamber', item.chamber],
+    ['Date', formatDate(item.date)],
+    ['Constituency', item.constituency || joinList(item.constituencies)],
+    ['Party', joinList(item.parties)],
+    ['Interests', item.interestCount],
+    ['Non-nil', item.nonNilInterestCount]
+  ];
+  const lede = item.isNone
+    ? `${item.memberName || 'This member'} had a nil return for this register edition.`
+    : `${item.memberName || 'This member'} had ${formatNumber(item.interestCount || 0)} grouped ${item.interestCount === 1 ? 'interest' : 'interests'} in this ${item.electedBody || 'register'} edition.`;
+  return `
+    <section class="browse-detail__panel browse-reader-summary browse-register-summary">
+      <div class="browse-detail__body">
+        <p class="browse-reader-summary__lede">${escapeHtml(lede)}</p>
+        ${renderDefinitionRows(rows, 'browse-reader-facts')}
+      </div>
+    </section>
+  `;
+}
+
+function renderRegisterInterestEntriesPanel(item) {
+  const interests = normalizeArray(item.interests);
+  if (!interests.length) {
+    const text = item.interestText || item.interestSummary || item.description || '';
+    if (!text) return '';
+    return `
+      <section class="browse-detail__panel browse-register-interests-panel">
+        <h2>Registered Interests</h2>
+        <div class="browse-detail__body">
+          <article class="browse-interest-entry">
+            ${renderInterestText(text)}
+          </article>
+        </div>
+      </section>
+    `;
+  }
+  return `
+    <section class="browse-detail__panel browse-register-interests-panel">
+      <h2>Registered Interests</h2>
+      <div class="browse-detail__body browse-interest-list">
+        ${interests.map((interest, index) => renderInterestEntry(interest, index)).join('')}
+      </div>
+    </section>
+  `;
+}
+
+function renderInterestEntry(interest, index) {
+  const sourceSummary = summarizeInterestSources(interest);
+  return `
+    <article class="browse-interest-entry">
+      <header class="browse-interest-entry__header">
+        <div>
+          <span class="browse-interest-entry__number">${formatNumber(index + 1)}</span>
+          <h3>${escapeHtml(interest.category || 'Registered interest')}</h3>
+        </div>
+        <span class="browse-interest-entry__status">${interest.isNone ? 'Nil' : 'Declared'}</span>
+      </header>
+      ${renderInterestText(interest.interestText || interest.interestSummary || '')}
+      ${sourceSummary ? `<div class="browse-interest-entry__sources">${sourceSummary}</div>` : ''}
+    </article>
+  `;
+}
+
+function renderInterestText(text) {
+  const parsed = parseInterestText(text);
+  if (parsed.fields.length >= 2) {
+    return `
+      ${parsed.leading ? `<p class="browse-interest-entry__text">${escapeHtml(parsed.leading)}</p>` : ''}
+      <dl class="browse-interest-facts">
+        ${parsed.fields.map(([label, value]) => `
+          <div>
+            <dt>${escapeHtml(label)}</dt>
+            <dd>${escapeHtml(value)}</dd>
+          </div>
+        `).join('')}
+      </dl>
+    `;
+  }
+  return `<p class="browse-interest-entry__text">${escapeHtml(cleanInterestText(text))}</p>`;
+}
+
+function parseInterestText(text) {
+  const normalized = cleanInterestText(text);
+  const labels = [
+    'Summary',
+    'Description',
+    'Regularity Of Payment',
+    'Period For Hours Worked',
+    'Payment Type',
+    'Monetary Value',
+    'Hours Worked',
+    'Registration Date',
+    'Published Date',
+    'Parent interest details',
+    'Job Title',
+    'Payer Name',
+    'Payer Public Address',
+    'Location',
+    'Property Owner Details',
+    'Is Land',
+    'Country',
+    'Land Use',
+    'Miscellaneous Interest Type',
+    'Name of donor',
+    'Address of donor',
+    'Amount of donation',
+    'Date received',
+    'Date accepted',
+    'Destination',
+    'Purpose of visit',
+    'Who paid',
+    'Value'
+  ];
+  const labelPattern = new RegExp(`(^|\\\\s)(${labels.map(escapeRegExp).join('|')}):\\\\s*`, 'gi');
+  const matches = [...normalized.matchAll(labelPattern)];
+  if (!matches.length) return { leading: normalized, fields: [] };
+  const fields = [];
+  const firstIndex = matches[0].index + matches[0][1].length;
+  const leading = normalized.slice(0, firstIndex).trim();
+  for (let i = 0; i < matches.length; i += 1) {
+    const match = matches[i];
+    const label = canonicalInterestLabel(match[2]);
+    const valueStart = match.index + match[0].length;
+    const valueEnd = i + 1 < matches.length ? matches[i + 1].index : normalized.length;
+    const value = normalized.slice(valueStart, valueEnd).trim();
+    if (value) fields.push([label, value]);
+  }
+  return { leading, fields };
+}
+
+function cleanInterestText(text) {
+  return String(text || '')
+    .replace(/([a-z)])([A-Z][a-z]+ interest details:)/g, '$1 $2')
+    .replace(/(\d{4})(Parent interest details:)/g, '$1 $2')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function canonicalInterestLabel(label) {
+  return String(label || '').replace(/\b(Of|For|And|The|In|Uk)\b/g, (match) => match.toLowerCase() === 'uk' ? 'UK' : match.toLowerCase());
+}
+
+function summarizeInterestSources(interest) {
+  const refs = normalizeArray(interest.sourceRefs);
+  const labels = [...new Set(refs.map((ref) => [ref.sourceTitle || sourceKindLabel(ref.sourceKind), formatDate(ref.date)].filter(Boolean).join(', ')).filter(Boolean))];
+  const sourceCount = interest.sourceCount || refs.length;
+  const parts = [
+    sourceCount ? `${formatNumber(sourceCount)} ${sourceCount === 1 ? 'source row' : 'source rows'}` : null,
+    labels.slice(0, 2).join(' / ')
+  ].filter(Boolean);
+  return parts.length ? parts.map((part) => `<span>${escapeHtml(part)}</span>`).join('') : '';
+}
+
+function renderRegisterSourcePanel(item) {
+  const sourceRows = normalizeArray(item.sourceRefs);
+  if (!sourceRows.length) return '';
+  const body = `
+    <div class="browse-detail__body browse-source-provenance">
+      <p class="browse-supporting-note">These are the source rows merged into the readable record above. They are kept here for audit and provenance rather than repeated in the main text.</p>
+      <div class="browse-table-wrap">
+        <table class="browse-table browse-table--compact">
+          <thead>
+            <tr><th>Date</th><th>Category</th><th>Source</th><th>Method</th><th>Confidence</th></tr>
+          </thead>
+          <tbody>
+            ${sourceRows.map((row) => `
+              <tr>
+                <td>${escapeHtml(formatDate(row.date || row.editionDate || row.latestDeclaration || row.earliestDeclaration))}</td>
+                <td>${escapeHtml(row.category || '')}</td>
+                <td>${row.sourceUrl ? `<a href="${escapeAttr(row.sourceUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(row.sourceTitle || row.sourceUrl)}</a>` : escapeHtml(row.sourceTitle || sourceKindLabel(row.sourceKind) || '')}</td>
+                <td>${escapeHtml(row.extractionMethod || '')}</td>
+                <td>${escapeHtml(row.extractionConfidence || '')}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+  return renderCollapsiblePanel('Sources and provenance', body, `${formatNumber(sourceRows.length)} source ${sourceRows.length === 1 ? 'row' : 'rows'}`, {
+    className: 'browse-detail__panel--supporting browse-source-panel'
+  });
 }
 
 function renderOverviewPanel(type, item) {
@@ -817,7 +1112,7 @@ function renderOverviewPanel(type, item) {
   `;
 }
 
-function renderMetadataPanel(type, item) {
+function renderMetadataPanel(type, item, options = {}) {
   const rows = [
     ['Status', item.status],
     ['Keywords', joinList(item.keywords)]
@@ -870,10 +1165,16 @@ function renderMetadataPanel(type, item) {
       ['Downloads', item.downloads?.length]
     );
   }
+  const body = `<div class="browse-detail__body">${renderDefinitionRows(rows)}</div>`;
+  if (options.collapsed) {
+    return renderCollapsiblePanel(options.title || 'Additional details', body, options.summary || 'Secondary fields and generated metadata', {
+      className: 'browse-detail__panel--supporting'
+    });
+  }
   return `
     <section class="browse-detail__panel">
       <h2>Details</h2>
-      <div class="browse-detail__body">${renderDefinitionRows(rows)}</div>
+      ${body}
     </section>
   `;
 }
@@ -1105,35 +1406,45 @@ function renderEntitySearchCard(item) {
 function renderEntityPage(entityId, entity, statements, related) {
   const groups = groupGraphStatements(statements);
   const browseHref = entity.browseType && entity.browseSlug ? `#/${entity.browseType}/${encodeURIComponent(entity.browseSlug)}` : '';
-  return `
-    <div class="browse-detail browse-entity">
-      <div class="browse-actions">
-        ${browseHref ? `<a class="browse-btn" href="${escapeAttr(browseHref)}" data-browse-link>Open legacy Browse page</a>` : ''}
+  const statementBody = `
+    <div class="browse-detail__body browse-graph">
+      <div class="browse-graph__summary">
+        <span>${escapeHtml(entityId)}</span>
+        <span>${formatNumber(statements.length)} statements</span>
       </div>
-      <section class="browse-detail__panel browse-entity-header">
+      <div class="browse-graph__groups">
+        ${groups.map(renderGraphStatementGroup).join('')}
+      </div>
+    </div>
+  `;
+  const identifierBody = `
+    <div class="browse-detail__body">
+      ${renderDefinitionRows([
+        ['ID', entityId],
+        ['Browse type', entity.browseType],
+        ['Browse slug', entity.browseSlug],
+        ['Type IDs', joinList(entity.typeIds)]
+      ])}
+    </div>
+  `;
+  return `
+    <div class="browse-detail browse-detail--reader browse-entity">
+      <div class="browse-actions">
+        ${browseHref ? `<a class="browse-btn" href="${escapeAttr(browseHref)}" data-browse-link>Open Browse record</a>` : ''}
+      </div>
+      <section class="browse-detail__panel browse-reader-summary browse-entity-header">
         <h2>Entity</h2>
         <div class="browse-detail__body">
+          ${entity.description ? `<p class="browse-reader-summary__lede">${escapeHtml(entity.description)}</p>` : ''}
           ${renderDefinitionRows([
-            ['ID', entityId],
             ['Types', joinList(entity.typeLabels || entity.typeIds)],
-            ['Legacy Browse type', entity.browseType],
-            ['Legacy Browse slug', entity.browseSlug]
-          ])}
+            ['Browse section', entity.browseType]
+          ], 'browse-reader-facts')}
         </div>
       </section>
-      <section class="browse-detail__panel browse-graph-panel">
-        <h2>Statements</h2>
-        <div class="browse-detail__body browse-graph">
-          <div class="browse-graph__summary">
-            <span>${escapeHtml(entityId)}</span>
-            <span>${formatNumber(statements.length)} statements</span>
-          </div>
-          <div class="browse-graph__groups">
-            ${groups.map(renderGraphStatementGroup).join('')}
-          </div>
-        </div>
-      </section>
+      ${renderCollapsiblePanel('Statements', statementBody, `${formatNumber(statements.length)} graph statements`, { className: 'browse-graph-panel browse-detail__panel--supporting' })}
       ${renderEntityRelatedPanel(related)}
+      ${renderCollapsiblePanel('Entity identifiers', identifierBody, 'IDs and generated Browse mapping', { className: 'browse-detail__panel--technical' })}
     </div>
   `;
 }
@@ -1150,13 +1461,20 @@ function renderEntityRelatedPanel(related) {
     escapeHtml([row.sourceKind, row.date].filter(Boolean).join(' / '))
   ]);
   if (!reverseRows.length && !sourceRows.length) return '';
+  const body = `
+    <div class="browse-detail__body browse-entity-related">
+      ${renderInlineTable('Related entities', ['Entity', 'Relationship', 'Type'], reverseRows)}
+      ${renderInlineTable('Source-supported statements', ['Entity', 'Statement', 'Reference'], sourceRows)}
+    </div>
+  `;
   return `
-    ${renderTablePanel('Related Entities', ['Entity', 'Relationship', 'Type'], reverseRows)}
-    ${renderTablePanel('Source-Supported Statements', ['Entity', 'Statement', 'Reference'], sourceRows)}
+    ${renderCollapsiblePanel('Related records', body, `${formatNumber(reverseRows.length + sourceRows.length)} related rows`, {
+      className: 'browse-detail__panel--supporting'
+    })}
   `;
 }
 
-async function renderGraphStatementsPanel(type, item) {
+async function renderGraphStatementsPanel(type, item, options = {}) {
   let graph;
   try {
     graph = await loadGraphStatementsForBrowseItem(type, item);
@@ -1170,20 +1488,28 @@ async function renderGraphStatementsPanel(type, item) {
   const visibleGroups = groups.slice(0, 10);
   const hiddenGroupCount = Math.max(0, groups.length - visibleGroups.length);
   const entityHref = entitySummary?.slug ? `#/entities/${encodeURIComponent(entitySummary.slug)}` : '';
+  const body = `
+    <div class="browse-detail__body browse-graph">
+      <div class="browse-graph__summary">
+        <span>${escapeHtml(graph.entityId)}</span>
+        <span>${formatNumber(graph.statements.length)} statements</span>
+        ${entityHref ? `<a href="${escapeAttr(entityHref)}" data-browse-link>Open entity view</a>` : ''}
+      </div>
+      <div class="browse-graph__groups">
+        ${visibleGroups.map(renderGraphStatementGroup).join('')}
+      </div>
+      ${hiddenGroupCount ? `<p class="browse-graph__more">${formatNumber(hiddenGroupCount)} further statement groups are available in the generated graph data.</p>` : ''}
+    </div>
+  `;
+  if (options.collapsed) {
+    return renderCollapsiblePanel('Semantic statements', body, `${formatNumber(graph.statements.length)} graph statements`, {
+      className: 'browse-graph-panel browse-detail__panel--supporting'
+    });
+  }
   return `
     <section class="browse-detail__panel browse-graph-panel">
       <h2>Semantic statements</h2>
-      <div class="browse-detail__body browse-graph">
-        <div class="browse-graph__summary">
-          <span>${escapeHtml(graph.entityId)}</span>
-          <span>${formatNumber(graph.statements.length)} statements</span>
-          ${entityHref ? `<a href="${escapeAttr(entityHref)}" data-browse-link>Open entity view</a>` : ''}
-        </div>
-        <div class="browse-graph__groups">
-          ${visibleGroups.map(renderGraphStatementGroup).join('')}
-        </div>
-        ${hiddenGroupCount ? `<p class="browse-graph__more">${formatNumber(hiddenGroupCount)} further statement groups are available in the generated graph data.</p>` : ''}
-      </div>
+      ${body}
     </section>
   `;
 }
@@ -1414,7 +1740,7 @@ function resultKindLabel(value) {
     .replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
-function renderLinksPanel(item) {
+function renderLinksPanel(item, options = {}) {
   const rows = [];
   if (item.url) rows.push(['Source link', item.title || item.name || item.url, item.url]);
   if (item.sourceUrl) rows.push(['Source link', item.sourceTitle || item.sourceUrl, item.sourceUrl]);
@@ -1422,6 +1748,27 @@ function renderLinksPanel(item) {
   for (const link of item.sourceFiles || []) rows.push(['Source file', link.label, link.url]);
   for (const ref of item.references || []) rows.push(['Reference', ref.label || ref.url, ref.url]);
   if (!rows.length) return '';
+  const body = `
+    <div class="browse-table-wrap">
+      <table class="browse-table browse-table--compact">
+        <thead><tr><th>Type</th><th>Label</th><th>Link</th></tr></thead>
+        <tbody>
+          ${rows.map((row) => `
+            <tr>
+              <td>${escapeHtml(row[0])}</td>
+              <td>${escapeHtml(row[1] || '')}</td>
+              <td>${row[2] ? `<a href="${escapeAttr(row[2])}" target="_blank" rel="noopener noreferrer">${escapeHtml(row[2])}</a>` : ''}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+  if (options.collapsed) {
+    return renderCollapsiblePanel('Sources, references, downloads', body, `${formatNumber(rows.length)} links`, {
+      className: 'browse-detail__panel--supporting'
+    });
+  }
   return renderTablePanel('Sources, References, Downloads', ['Type', 'Label', 'Link'], rows.map((row) => [
     escapeHtml(row[0]),
     escapeHtml(row[1] || ''),
@@ -1951,6 +2298,22 @@ function renderSimpleTable(title, headers, rows, mapper) {
   return renderTablePanel(title, headers, rows.map(mapper));
 }
 
+function renderCollapsiblePanel(title, bodyHtml, summaryText = '', options = {}) {
+  if (!bodyHtml) return '';
+  const className = ['browse-detail__panel', 'browse-collapsible-panel', options.className].filter(Boolean).join(' ');
+  return `
+    <section class="${escapeAttr(className)}">
+      <details class="browse-collapsible"${options.open ? ' open' : ''}>
+        <summary>
+          <span>${escapeHtml(title)}</span>
+          ${summaryText ? `<small>${escapeHtml(summaryText)}</small>` : ''}
+        </summary>
+        ${bodyHtml}
+      </details>
+    </section>
+  `;
+}
+
 function renderTablePanel(title, headers, rows) {
   if (!rows?.length) return '';
   return `
@@ -1958,6 +2321,21 @@ function renderTablePanel(title, headers, rows) {
       <h2>${escapeHtml(title)}</h2>
       <div class="browse-table-wrap">
         <table class="browse-table">
+          <thead><tr>${headers.map((header) => `<th>${escapeHtml(header)}</th>`).join('')}</tr></thead>
+          <tbody>${rows.map((row) => `<tr>${row.map((cell) => `<td>${cell ?? ''}</td>`).join('')}</tr>`).join('')}</tbody>
+        </table>
+      </div>
+    </section>
+  `;
+}
+
+function renderInlineTable(title, headers, rows) {
+  if (!rows?.length) return '';
+  return `
+    <section class="browse-inline-table">
+      <h3>${escapeHtml(title)}</h3>
+      <div class="browse-table-wrap">
+        <table class="browse-table browse-table--compact">
           <thead><tr>${headers.map((header) => `<th>${escapeHtml(header)}</th>`).join('')}</tr></thead>
           <tbody>${rows.map((row) => `<tr>${row.map((cell) => `<td>${cell ?? ''}</td>`).join('')}</tr>`).join('')}</tbody>
         </table>
@@ -2225,4 +2603,8 @@ function escapeHtml(value) {
 
 function escapeAttr(value) {
   return escapeHtml(value);
+}
+
+function escapeRegExp(value) {
+  return String(value || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
