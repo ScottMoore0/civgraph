@@ -50,6 +50,7 @@
 - **Simplicity First**: Make every change as simple as possible. Impact minimal code.
 - **No Laziness**: Find root causes. No temporary fixes. Senior developer standards.
 - **Minimal Impact**: Changes should only touch what's necessary. Avoid introducing bugs.
+- **Clean Worktree Always**: The worktree must be continuously kept clean throughout every turn and must not be allowed to remain dirty; rather than deleting files, move any files that need to be removed into an archival folder outside the repository so they can be recovered later if needed.
 
 ## Recurring Issue Prevention
 - You must identify recurring defects (same/similar bug appearing multiple times).
