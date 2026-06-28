@@ -1,6 +1,6 @@
 # Test2 Election Data Audit
 
-Generated: 2026-06-16T13:57:06.201Z
+Generated: 2026-06-28T20:39:23.197Z
 
 This is a repeatable repository-local audit of the generated /test2 election data, Browse election entries, source/reference records, transfer/count payload availability, and saved Wikipedia party-colour comparison outputs. It intentionally does not fetch live web pages, so CI can run it deterministically.
 
@@ -12,21 +12,21 @@ This is a repeatable repository-local audit of the generated /test2 election dat
 |manifest loadable elections|257|
 |manifest placeholders|19|
 |Browse parent election entries|276|
-|Browse constituency/DEA sub-entries|4696|
+|Browse constituency/DEA sub-entries|4695|
 |Browse overall sub-entries|276|
 |source detail records|276|
 |result bundles loaded|276|
-|result rows audited|4696|
+|result rows audited|4695|
 |candidate rows audited|29731|
 |rows with count detail|4644|
 |rows with animation payload|4644|
-|rows expected to have transfer/count data|2358|
-|expected transfer/count rows missing detail|29|
+|rows expected to have transfer/count data|2357|
+|expected transfer/count rows missing detail|28|
 |valid-poll review sidecar records|24|
-|candidate-row review sidecar records|29|
+|candidate-row review sidecar records|28|
 |party-colour review sidecar records|10|
 |blocking issues|0|
-|warnings|55|
+|warnings|54|
 
 ## Blocking Structural Issues
 
@@ -69,7 +69,6 @@ _None._
 |warning|valid-poll-review|local-government-local-government-districts__1981-05-20|Banbridge Area A first-preference sum 7876 exceeds valid poll ceiling 7576; review record status is source-review-required.|
 |warning|valid-poll-review|local-government-local-government-districts__1981-05-20|Craigavon Area B first-preference sum 8118 exceeds valid poll ceiling 5115; review record status is source-review-required.|
 |warning|valid-poll-review|local-government-local-government-districts__1981-05-20|Fermanagh Area B first-preference sum 5665 exceeds valid poll ceiling 109; review record status is source-review-required.|
-|warning|candidate-list-review|local-government-local-government-districts__1977-05-18|No candidates found for Area-A-corrected; review record status is source-review-required.|
 |warning|candidate-list-review|local-government-local-government-districts__1977-05-18|No candidates found for Area-F; review record status is source-review-required.|
 |warning|candidate-list-review|local-government-local-government-districts__1977-05-18|No candidates found for Area-G; review record status is source-review-required.|
 |warning|candidate-list-review|local-government-local-government-districts__1977-05-18|No candidates found for Area-H; review record status is source-review-required.|
@@ -102,7 +101,7 @@ _None._
 |source records with multiple references|276|
 |Browse sub-entries with no references|0|
 |Browse sub-entries with one reference|0|
-|Browse sub-entries with multiple references|4972|
+|Browse sub-entries with multiple references|4971|
 
 ## Party Colour Audit
 

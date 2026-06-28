@@ -1,65 +1,9 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-28T02:12:51.534Z",
+  "generatedAt": "2026-06-28T20:36:27.998Z",
   "shard": 19,
   "totalSubjects": 250,
   "items": {
-    "cg:contest:parliament-of-northern-ireland-1958-03-20-parliament-of-northern-ireland-1958-03-20-west-down": [
-      {
-        "id": "cg:statement:45ff042b5af4e466dbe3",
-        "propertyId": "cg:property:constituency",
-        "propertyLabel": "constituency",
-        "valueType": "string",
-        "valueLabel": "West Down",
-        "valueText": "West Down",
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-election-index",
-            "sourceTitle": "Civgraph Browse election index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:8cdf0f06cee9d201d4af",
-        "propertyId": "cg:property:contest-in-election",
-        "propertyLabel": "contest in election",
-        "valueType": "entity",
-        "valueId": "cg:election:parliament-of-northern-ireland-1958-03-20",
-        "valueLabel": "1958 Parliament of Northern Ireland election",
-        "valueText": "1958 Parliament of Northern Ireland election",
-        "valueDescription": "1958-03-20",
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-election-index",
-            "sourceTitle": "Civgraph Browse election index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:63ea4a378fc6a6b3199d",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:contest",
-        "valueLabel": "Election contest",
-        "valueText": "Election contest",
-        "valueDescription": "A constituency, ward, DEA, local area, or other result unit within an election.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:db9552e1e3c3cb575e92",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "West Down",
-        "valueText": "West Down",
-        "referenceCount": 0
-      }
-    ],
     "cg:contest:parliament-of-northern-ireland-1958-03-20-parliament-of-northern-ireland-1958-03-20-west-tyrone": [
       {
         "id": "cg:statement:a8db4f017784fded1852",
@@ -17506,6 +17450,61 @@
         "valueType": "string",
         "valueLabel": "Donegal East - 1918 Irish general election",
         "valueText": "Donegal East - 1918 Irish general election",
+        "referenceCount": 0
+      }
+    ],
+    "cg:election:dail-eireann-1918-12-14-donegal-north": [
+      {
+        "id": "cg:statement:c98159b29e6388b4f9a2",
+        "propertyId": "cg:property:date",
+        "propertyLabel": "date",
+        "valueType": "date",
+        "valueLabel": "1918-12-14",
+        "valueText": "1918-12-14",
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:4cb283b3e0dc8b8dc071",
+        "propertyId": "cg:property:elected-body",
+        "propertyLabel": "elected body",
+        "valueType": "entity",
+        "valueId": "cg:body:dail-eireann",
+        "valueLabel": "Dáil Éireann",
+        "valueText": "Dáil Éireann",
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:3956652cf7d32f77486a",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:election",
+        "valueLabel": "Election",
+        "valueText": "Election",
+        "valueDescription": "An election, referendum, recall petition, or election result bundle represented in Browse.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:f15d7aaddbf64a875af8",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Donegal North - 1918 Irish general election",
+        "valueText": "Donegal North - 1918 Irish general election",
         "referenceCount": 0
       }
     ]

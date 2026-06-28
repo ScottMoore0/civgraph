@@ -12,6 +12,7 @@
 
 import { createReadStream, createWriteStream } from "node:fs";
 import fsp from "node:fs/promises";
+import { Agent as HttpsAgent, request as httpsRequest } from "node:https";
 import path from "node:path";
 import { performance } from "node:perf_hooks";
 import readline from "node:readline";
@@ -33,6 +34,17 @@ function parseArgs(argv) {
     maxRetries: 2,
     maxGroupRetries: 3,
     retryMismatches: 2,
+    groupMode: "branch",
+    snapshotMode: "prefer",
+    httpClient: "https-agent",
+    httpConnections: 32,
+    httpPipelining: 0,
+    keepAliveMsecs: 10000,
+    retryDelayMs: 2500,
+    retryDelayMultiplier: 2,
+    maxRetryDelayMs: 30000,
+    errorWindowMs: 15000,
+    errorBurstThreshold: 8,
     timeoutMs: 30000,
     backoffMs: 750,
     stopOnBlocked: true,
@@ -65,6 +77,17 @@ function parseArgs(argv) {
       case "max-retries": out.maxRetries = Number(take()); break;
       case "max-group-retries": out.maxGroupRetries = Number(take()); break;
       case "retry-mismatches": out.retryMismatches = Number(take()); break;
+      case "group-mode": out.groupMode = take(); break;
+      case "snapshot-mode": out.snapshotMode = take(); break;
+      case "http-client": out.httpClient = take(); break;
+      case "http-connections": out.httpConnections = Number(take()); break;
+      case "http-pipelining": out.httpPipelining = Number(take()); break;
+      case "keep-alive-msecs": out.keepAliveMsecs = Number(take()); break;
+      case "retry-delay-ms": out.retryDelayMs = Number(take()); break;
+      case "retry-delay-multiplier": out.retryDelayMultiplier = Number(take()); break;
+      case "max-retry-delay-ms": out.maxRetryDelayMs = Number(take()); break;
+      case "error-window-ms": out.errorWindowMs = Number(take()); break;
+      case "error-burst-threshold": out.errorBurstThreshold = Number(take()); break;
       case "timeout-ms": out.timeoutMs = Number(take()); break;
       case "backoff-ms": out.backoffMs = Number(take()); break;
       case "stop-on-blocked": out.stopOnBlocked = true; break;
@@ -92,6 +115,10 @@ Key options:
   --max-workers 64           Maximum workers after adaptive ramp.
   --max-records 1000         Bounded records; use 0 for a full run.
   --max-groups 0             Optional group cap for testing.
+  --group-mode branch        Work-unit mode: branch or page.
+  --snapshot-mode prefer     Snapshot mode for page units: off, prefer, or only.
+  --http-client https-agent  HTTP backend: https-agent or fetch.
+  --http-connections 32      Keep-alive max sockets for https-agent mode.
   --max-group-retries 3      Requeue transient listing-page failures.
   --max-cooldown-ms 15000    Shared backoff ceiling after network errors.
   --no-adaptive              Disable worker ramp.
@@ -244,6 +271,83 @@ function splitSetCookie(header) {
   return String(header).split(/,(?=\s*[^;,]+=[^;,]+)/g);
 }
 
+function makeHeadersAdapter(headers) {
+  return {
+    get(name) {
+      const value = headers[String(name).toLowerCase()];
+      if (Array.isArray(value)) return value.join(", ");
+      return value ?? null;
+    },
+    getSetCookie() {
+      const value = headers["set-cookie"];
+      if (Array.isArray(value)) return value;
+      return value ? [value] : [];
+    },
+  };
+}
+
+async function requestTextWithHttpsAgent(options, method, urlString, headers, body, redirects = 0) {
+  return new Promise((resolve, reject) => {
+    const url = new URL(urlString);
+    const request = httpsRequest({
+      protocol: url.protocol,
+      hostname: url.hostname,
+      port: url.port || undefined,
+      method,
+      path: `${url.pathname}${url.search}`,
+      headers,
+      agent: options.httpAgent,
+      timeout: options.timeoutMs,
+    }, (response) => {
+      const chunks = [];
+      response.setEncoding("utf8");
+      response.on("data", (chunk) => chunks.push(chunk));
+      response.on("end", async () => {
+        const text = chunks.join("");
+        const status = response.statusCode || 0;
+        const location = response.headers.location;
+        if (location && status >= 300 && status < 400 && redirects < 5) {
+          try {
+            resolve(await requestTextWithHttpsAgent(
+              options,
+              "GET",
+              new URL(location, urlString).toString(),
+              headers,
+              null,
+              redirects + 1,
+            ));
+          } catch (error) {
+            reject(error);
+          }
+          return;
+        }
+        resolve({
+          status,
+          text,
+          headers: makeHeadersAdapter(response.headers),
+        });
+      });
+    });
+    request.on("timeout", () => request.destroy(new Error("timeout")));
+    request.on("error", reject);
+    if (body) request.write(body.toString());
+    request.end();
+  });
+}
+
+function recordRequestError(stats, options, attempt) {
+  const now = performance.now();
+  stats.errorEvents.push(now);
+  const cutoff = now - options.errorWindowMs;
+  while (stats.errorEvents.length && stats.errorEvents[0] < cutoff) stats.errorEvents.shift();
+  const burst = stats.errorEvents.length >= options.errorBurstThreshold;
+  const baseCooldown = Math.max(options.backoffMs, options.backoffMs * attempt * 3);
+  const cooldown = burst ? options.maxCooldownMs : Math.min(options.maxCooldownMs, baseCooldown);
+  if (burst) stats.errorBursts += 1;
+  stats.cooldownUntilMs = Math.max(stats.cooldownUntilMs || 0, now + cooldown);
+  return { cooldown, burst, recentErrorCount: stats.errorEvents.length };
+}
+
 class CookieJar {
   constructor() {
     this.cookies = new Map();
@@ -309,8 +413,7 @@ class Session {
     while (true) {
       const cooldownMs = Math.max(0, (this.stats.cooldownUntilMs || 0) - performance.now());
       if (cooldownMs > 0) await sleep(cooldownMs);
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), this.options.timeoutMs);
+      let timeout = null;
       const started = performance.now();
       try {
         const headers = {
@@ -320,44 +423,55 @@ class Session {
         const cookie = this.jar.header();
         if (cookie) headers.cookie = cookie;
         if (body) headers["content-type"] = "application/x-www-form-urlencoded";
-        const res = await fetch(url, {
-          method,
-          headers,
-          body: body ? body.toString() : undefined,
-          signal: controller.signal,
-          redirect: "follow",
-        });
-        const text = await res.text();
-        this.jar.update(res.headers);
-        clearTimeout(timeout);
+        let response;
+        if (this.options.httpClient === "https-agent") {
+          response = await requestTextWithHttpsAgent(this.options, method, url, headers, body);
+        } else {
+          const controller = new AbortController();
+          timeout = setTimeout(() => controller.abort(), this.options.timeoutMs);
+          const res = await fetch(url, {
+            method,
+            headers,
+            body: body ? body.toString() : undefined,
+            signal: controller.signal,
+            redirect: "follow",
+          });
+          response = {
+            status: res.status,
+            text: await res.text(),
+            headers: res.headers,
+          };
+        }
+        const text = response.text;
+        this.jar.update(response.headers);
+        if (timeout) clearTimeout(timeout);
         const ms = performance.now() - started;
         this.stats.requests += 1;
         this.stats.requestMs.push(ms);
         if (this.stats.requestMs.length > 5000) this.stats.requestMs.splice(0, this.stats.requestMs.length - 5000);
-        if (isBlocked(res.status, text)) {
-          const reason = blockedReason(res.status, text);
+        if (isBlocked(response.status, text)) {
+          const reason = blockedReason(response.status, text);
           this.stats.blocked += 1;
           await this.writers.failures.write({
             at: nowIso(),
             type: "request-blocked",
             workerId: this.workerId,
             context,
-            status: res.status,
+            status: response.status,
             ms: round(ms),
             reason,
           });
           if (this.options.stopOnBlocked) throw new Error(`${context}: ${reason}`);
-          return { ok: false, status: res.status, text, ms, reason };
+          return { ok: false, status: response.status, text, ms, reason };
         }
-        return { ok: true, status: res.status, text, ms };
+        return { ok: true, status: response.status, text, ms };
       } catch (error) {
-        clearTimeout(timeout);
+        if (timeout) clearTimeout(timeout);
         attempt += 1;
         const cause = error?.cause?.code || error?.cause?.name || "";
         const message = error?.name === "AbortError" ? "timeout" : [String(error?.message || error), cause].filter(Boolean).join(" / ");
         this.stats.requestErrors += 1;
-        const cooldown = Math.min(this.options.maxCooldownMs, Math.max(this.options.backoffMs, this.options.backoffMs * attempt * 3));
-        this.stats.cooldownUntilMs = Math.max(this.stats.cooldownUntilMs || 0, performance.now() + cooldown);
+        const cooldown = recordRequestError(this.stats, this.options, attempt);
         await this.writers.failures.write({
           at: nowIso(),
           type: "request-error",
@@ -365,6 +479,9 @@ class Session {
           context,
           attempt,
           error: message,
+          cooldownMs: cooldown.cooldown,
+          errorBurst: cooldown.burst,
+          recentErrorCount: cooldown.recentErrorCount,
         });
         if (attempt > this.options.maxRetries) throw error;
         await sleep(this.options.backoffMs * attempt);
@@ -457,7 +574,78 @@ async function clickMore(session, listingHtml, gridRow, expectedRef) {
   };
 }
 
-async function readIndexGroups(indexPath, options) {
+async function readSnapshotHtml(row, options) {
+  if (options.snapshotMode === "off") return null;
+  if (!row.pageSnapshotPath) return null;
+  try {
+    return await fsp.readFile(path.resolve(row.pageSnapshotPath), "utf8");
+  } catch (error) {
+    if (options.snapshotMode === "only") throw error;
+    return null;
+  }
+}
+
+function makeIndexRow(row) {
+  return {
+    branchKey: row.branchKey,
+    letter: row.letter,
+    path: row.path || [],
+    page: Number(row.page || 1),
+    ctl: row.ctl,
+    expectedRef: row.expectedRef || row.proniReference,
+    proniReference: row.proniReference,
+    resultsViewName: row.resultsViewName || "",
+    resultsViewValue: row.resultsViewValue || "",
+    pageSnapshotPath: row.pageSnapshotPath || "",
+    pageSnapshotMetadataPath: row.pageSnapshotMetadataPath || "",
+  };
+}
+
+function makePageUnit(rows) {
+  const sortedRows = rows.sort((a, b) => String(a.ctl).localeCompare(String(b.ctl), undefined, { numeric: true }));
+  const first = sortedRows[0] || {};
+  return {
+    type: "page",
+    branchKey: first.branchKey || "",
+    letter: first.letter || "",
+    path: first.path || [],
+    firstPage: Number(first.page || 1),
+    lastPage: Number(first.page || 1),
+    pageCount: 1,
+    rowCount: sortedRows.length,
+    rows: sortedRows,
+    pages: [{ page: Number(first.page || 1), rows: sortedRows }],
+  };
+}
+
+function makeBranchUnit(rows) {
+  const byPage = new Map();
+  for (const row of rows) {
+    if (!byPage.has(row.page)) byPage.set(row.page, []);
+    byPage.get(row.page).push(row);
+  }
+  const pages = [...byPage.entries()]
+    .sort((a, b) => Number(a[0]) - Number(b[0]))
+    .map(([page, pageRows]) => ({
+      page: Number(page),
+      rows: pageRows.sort((a, b) => String(a.ctl).localeCompare(String(b.ctl), undefined, { numeric: true })),
+    }));
+  const first = rows[0] || {};
+  return {
+    type: "branch",
+    branchKey: first.branchKey || "",
+    letter: first.letter || "",
+    path: first.path || [],
+    firstPage: pages[0]?.page || 1,
+    lastPage: pages[pages.length - 1]?.page || 1,
+    pageCount: pages.length,
+    rowCount: rows.length,
+    rows,
+    pages,
+  };
+}
+
+async function readIndexWorkUnits(indexPath, options) {
   const groups = new Map();
   let readRows = 0;
   const rl = readline.createInterface({
@@ -468,25 +656,23 @@ async function readIndexGroups(indexPath, options) {
   for await (const line of rl) {
     if (!line.trim()) continue;
     const row = JSON.parse(line);
-    const key = `${row.branchKey}::${row.page}`;
+    const key = options.groupMode === "branch" ? row.branchKey : `${row.branchKey}::${row.page}`;
     if (!groups.has(key)) groups.set(key, []);
-    groups.get(key).push({
-      branchKey: row.branchKey,
-      letter: row.letter,
-      path: row.path || [],
-      page: Number(row.page || 1),
-      ctl: row.ctl,
-      expectedRef: row.expectedRef || row.proniReference,
-      proniReference: row.proniReference,
-    });
+    groups.get(key).push(makeIndexRow(row));
     readRows += 1;
     if (options.maxRecords > 0 && readRows >= options.maxRecords) break;
   }
 
-  const groupList = [...groups.values()]
-    .map((rows) => rows.sort((a, b) => String(a.ctl).localeCompare(String(b.ctl), undefined, { numeric: true })))
-    .sort((a, b) => b.length - a.length);
-  return options.maxGroups > 0 ? groupList.slice(0, options.maxGroups) : groupList;
+  const units = [...groups.values()]
+    .map((rows) => (options.groupMode === "branch" ? makeBranchUnit(rows) : makePageUnit(rows)))
+    .sort((a, b) => {
+      const sizeDelta = b.rowCount - a.rowCount;
+      if (sizeDelta) return sizeDelta;
+      const pageDelta = b.pageCount - a.pageCount;
+      if (pageDelta) return pageDelta;
+      return String(a.branchKey).localeCompare(String(b.branchKey));
+    });
+  return options.maxGroups > 0 ? units.slice(0, options.maxGroups) : units;
 }
 
 function makeStats() {
@@ -504,6 +690,9 @@ function makeStats() {
     requestErrors: 0,
     requests: 0,
     requestMs: [],
+    errorEvents: [],
+    errorBursts: 0,
+    snapshotPagesUsed: 0,
     activeWorkers: 0,
     desiredWorkers: 0,
     spawnedWorkers: 0,
@@ -514,11 +703,11 @@ function makeStats() {
   };
 }
 
-async function processRowWithRetries(groupRows, row, writers, options, stats, workerId) {
+async function processRowWithRetries(row, writers, options, stats, workerId) {
   let attempt = 0;
   while (attempt <= options.retryMismatches) {
     const session = new Session(`${workerId}.${attempt + 1}`, options, writers, stats);
-    const listingHtml = await openBranchPage(session, groupRows[0]);
+    const listingHtml = await openBranchPage(session, row);
     const gridRows = parseGridRows(listingHtml);
     const gridRow = gridRows.find((candidate) => candidate.ResultsSelect?.value === row.expectedRef);
     if (!gridRow) throw new Error(`Could not find row ${row.expectedRef} on ${row.branchKey} page ${row.page}`);
@@ -540,13 +729,41 @@ async function processRowWithRetries(groupRows, row, writers, options, stats, wo
   return null;
 }
 
-async function processGroup(groupRows, writers, options, stats, workerId) {
-  const session = new Session(workerId, options, writers, stats);
-  const listingHtml = await openBranchPage(session, groupRows[0]);
+async function writeMatchedDetail(indexRow, detail, writers, stats, workerId, sourceRuntime) {
+  if (stats.completedRefs.has(indexRow.expectedRef)) return;
+  stats.completedRefs.add(indexRow.expectedRef);
+  await writers.details.write({
+    at: nowIso(),
+    workerId,
+    branchKey: indexRow.branchKey,
+    letter: indexRow.letter,
+    path: indexRow.path,
+    page: indexRow.page,
+    ctl: indexRow.ctl,
+    expectedRef: indexRow.expectedRef,
+    extractedRef: detail.extractedRef,
+    repository: detail.fields.repository,
+    proniReference: detail.fields.proniReference,
+    level: detail.fields.level,
+    access: detail.fields.access,
+    title: detail.fields.title,
+    dates: detail.fields.dates,
+    description: detail.fields.description,
+    digitalRecord: detail.fields.digitalRecord,
+    rawAttributeCount: detail.fields.rawAttributeCount,
+    attributeKeys: detail.fields.attributeKeys,
+    rawAttributes: detail.fields.rawAttributes,
+    requestMs: round(detail.requestMs),
+    sourceRuntime,
+  });
+  stats.detailsFetched += 1;
+}
+
+async function processRowsFromListing(session, listingHtml, rows, writers, options, stats, workerId, sourceRuntime) {
   const gridRows = parseGridRows(listingHtml);
   const byRef = new Map(gridRows.map((row) => [row.ResultsSelect?.value, row]));
 
-  for (const indexRow of groupRows) {
+  for (const indexRow of rows) {
     if (stats.completedRefs.has(indexRow.expectedRef)) continue;
     const gridRow = byRef.get(indexRow.expectedRef);
     if (!gridRow) {
@@ -564,7 +781,7 @@ async function processGroup(groupRows, writers, options, stats, workerId) {
 
     let detail = await clickMore(session, listingHtml, gridRow, indexRow.expectedRef);
     if (!detail.matched && options.retryMismatches > 0) {
-      const retried = await processRowWithRetries(groupRows, indexRow, writers, options, stats, workerId);
+      const retried = await processRowWithRetries(indexRow, writers, options, stats, workerId);
       if (retried) detail = retried;
     }
 
@@ -582,35 +799,53 @@ async function processGroup(groupRows, writers, options, stats, workerId) {
       continue;
     }
 
-    if (stats.completedRefs.has(indexRow.expectedRef)) continue;
-    stats.completedRefs.add(indexRow.expectedRef);
-    await writers.details.write({
-      at: nowIso(),
+    await writeMatchedDetail(indexRow, detail, writers, stats, workerId, sourceRuntime);
+  }
+}
+
+async function processPageUnit(unit, writers, options, stats, workerId) {
+  const session = new Session(workerId, options, writers, stats);
+  let listingHtml = await readSnapshotHtml(unit.rows[0], options);
+  let sourceRuntime = "raw-http-page-session-row-sequential";
+  if (listingHtml) {
+    stats.snapshotPagesUsed += 1;
+    sourceRuntime = "raw-http-page-snapshot-row-sequential";
+  } else {
+    if (options.snapshotMode === "only") throw new Error(`No snapshot for ${unit.branchKey} page ${unit.firstPage}`);
+    listingHtml = await openBranchPage(session, unit.rows[0]);
+  }
+  await processRowsFromListing(session, listingHtml, unit.rows, writers, options, stats, workerId, sourceRuntime);
+  stats.groupsCompleted += 1;
+}
+
+async function processBranchUnit(unit, writers, options, stats, workerId) {
+  const session = new Session(workerId, options, writers, stats);
+  let listingHtml = await openBranchPage(session, { ...unit.rows[0], page: unit.firstPage });
+  let currentPage = unit.firstPage;
+  for (const page of unit.pages) {
+    while (currentPage < page.page) {
+      const next = findNextButton(listingHtml);
+      if (!next) throw new Error(`Branch ${unit.branchKey} has no page ${page.page}`);
+      listingHtml = await clickNext(session, listingHtml, next);
+      currentPage += 1;
+    }
+    await processRowsFromListing(
+      session,
+      listingHtml,
+      page.rows,
+      writers,
+      options,
+      stats,
       workerId,
-      branchKey: indexRow.branchKey,
-      letter: indexRow.letter,
-      path: indexRow.path,
-      page: indexRow.page,
-      ctl: indexRow.ctl,
-      expectedRef: indexRow.expectedRef,
-      extractedRef: detail.extractedRef,
-      repository: detail.fields.repository,
-      proniReference: detail.fields.proniReference,
-      level: detail.fields.level,
-      access: detail.fields.access,
-      title: detail.fields.title,
-      dates: detail.fields.dates,
-      description: detail.fields.description,
-      digitalRecord: detail.fields.digitalRecord,
-      rawAttributeCount: detail.fields.rawAttributeCount,
-      attributeKeys: detail.fields.attributeKeys,
-      rawAttributes: detail.fields.rawAttributes,
-      requestMs: round(detail.requestMs),
-      sourceRuntime: "raw-http-branch-page-row-sequential",
-    });
-    stats.detailsFetched += 1;
+      "raw-http-branch-session-row-sequential",
+    );
   }
   stats.groupsCompleted += 1;
+}
+
+async function processUnit(unit, writers, options, stats, workerId) {
+  if (unit.type === "branch") return processBranchUnit(unit, writers, options, stats, workerId);
+  return processPageUnit(unit, writers, options, stats, workerId);
 }
 
 function currentSummary(options, stats) {
@@ -629,7 +864,9 @@ function currentSummary(options, stats) {
     retries: stats.retries,
     blocked: stats.blocked,
     requestErrors: stats.requestErrors,
+    errorBursts: stats.errorBursts,
     requests: stats.requests,
+    snapshotPagesUsed: stats.snapshotPagesUsed,
     activeWorkers: stats.activeWorkers,
     desiredWorkers: stats.desiredWorkers,
     spawnedWorkers: stats.spawnedWorkers,
@@ -642,15 +879,54 @@ function currentSummary(options, stats) {
   };
 }
 
-async function runWorker(workerId, groups, groupQueue, writers, options, stats) {
+function summaryOptions(options) {
+  return {
+    maxRecords: options.maxRecords,
+    maxGroups: options.maxGroups,
+    groupMode: options.groupMode,
+    snapshotMode: options.snapshotMode,
+    httpClient: options.httpClient,
+    httpConnections: options.httpConnections,
+    httpPipelining: options.httpPipelining,
+    initialWorkers: options.initialWorkers,
+    maxWorkers: options.maxWorkers,
+    rampWorkers: options.rampWorkers,
+    adaptive: options.adaptive,
+    maxGroupRetries: options.maxGroupRetries,
+    retryDelayMs: options.retryDelayMs,
+    maxRetryDelayMs: options.maxRetryDelayMs,
+    maxCooldownMs: options.maxCooldownMs,
+    retryMismatches: options.retryMismatches,
+    errorWindowMs: options.errorWindowMs,
+    errorBurstThreshold: options.errorBurstThreshold,
+  };
+}
+
+function describeUnit(unit) {
+  return {
+    type: unit?.type || "",
+    branchKey: unit?.branchKey || "",
+    firstPage: unit?.firstPage || "",
+    lastPage: unit?.lastPage || "",
+    pageCount: unit?.pageCount || 0,
+    rows: unit?.rowCount || 0,
+  };
+}
+
+async function runWorker(workerId, units, workQueue, writers, options, stats) {
   stats.activeWorkers += 1;
   try {
     while (!stats.stopped) {
-      const item = groupQueue.next();
-      if (!item) break;
+      const item = workQueue.next();
+      if (!item) {
+        if (!workQueue.hasPending()) break;
+        await sleep(Math.min(1000, Math.max(100, workQueue.nextDelayMs())));
+        continue;
+      }
       const { index, attempt } = item;
+      const unit = units[index];
       try {
-        await processGroup(groups[index], writers, options, stats, workerId);
+        await processUnit(unit, writers, options, stats, workerId);
       } catch (error) {
         const message = String(error?.message || error);
         const blocking = /waf request rejected|access denied|too many requests|rate-limit|request-blocked/i.test(message);
@@ -660,9 +936,7 @@ async function runWorker(workerId, groups, groupQueue, writers, options, stats) 
             at: nowIso(),
             type: "group-failed",
             workerId,
-            branchKey: groups[index]?.[0]?.branchKey || "",
-            page: groups[index]?.[0]?.page || "",
-            rows: groups[index]?.length || 0,
+            ...describeUnit(unit),
             attempt,
             blocking,
             error: String(error?.stack || error),
@@ -671,18 +945,29 @@ async function runWorker(workerId, groups, groupQueue, writers, options, stats) 
           stats.stopReason = stats.stopReason || message;
           throw error;
         }
-        const retryItem = groupQueue.retry(index);
+        const retryItem = workQueue.retry(index, attempt);
         if (retryItem) {
           stats.retries += 1;
+          await writers.retryQueue.write({
+            at: nowIso(),
+            type: "delayed-unit-retry",
+            workerId,
+            ...describeUnit(unit),
+            attempt,
+            nextAttempt: retryItem.attempt,
+            dueAt: new Date(Date.now() + retryItem.delayMs).toISOString(),
+            delayMs: retryItem.delayMs,
+            blocking,
+            error: String(error?.message || error),
+          });
           await writers.failures.write({
             at: nowIso(),
             type: "group-retry",
             workerId,
-            branchKey: groups[index]?.[0]?.branchKey || "",
-            page: groups[index]?.[0]?.page || "",
-            rows: groups[index]?.length || 0,
+            ...describeUnit(unit),
             attempt,
             nextAttempt: retryItem.attempt,
+            delayMs: retryItem.delayMs,
             blocking,
             error: String(error?.message || error),
           });
@@ -692,15 +977,12 @@ async function runWorker(workerId, groups, groupQueue, writers, options, stats) 
             at: nowIso(),
             type: "group-failed",
             workerId,
-            branchKey: groups[index]?.[0]?.branchKey || "",
-            page: groups[index]?.[0]?.page || "",
-            rows: groups[index]?.length || 0,
+            ...describeUnit(unit),
             attempt,
             blocking,
             error: String(error?.stack || error),
           });
         }
-        await sleep(Math.min(5000, options.backoffMs * Math.max(1, attempt)));
       }
     }
   } catch (error) {
@@ -719,25 +1001,62 @@ async function runWorker(workerId, groups, groupQueue, writers, options, stats) 
   }
 }
 
-function makeGroupQueue(groups, maxAttempts) {
-  const queue = groups.map((_, index) => ({ index, attempt: 1 }));
-  const attempts = new Map(queue.map((item) => [item.index, item.attempt]));
+function makeWorkQueue(units, options) {
+  const hot = units.map((_, index) => ({ index, attempt: 1 }));
+  const retry = [];
+  const attempts = new Map(hot.map((item) => [item.index, item.attempt]));
   return {
     next() {
-      return queue.shift() || null;
+      if (hot.length) return hot.shift();
+      const now = performance.now();
+      retry.sort((a, b) => a.dueMs - b.dueMs);
+      if (retry.length && retry[0].dueMs <= now) return retry.shift();
+      return null;
     },
-    retry(index) {
+    hasPending() {
+      return Boolean(hot.length || retry.length);
+    },
+    nextDelayMs() {
+      if (hot.length) return 0;
+      if (!retry.length) return 0;
+      retry.sort((a, b) => a.dueMs - b.dueMs);
+      return Math.max(0, retry[0].dueMs - performance.now());
+    },
+    retry(index, attempt = 1) {
       const nextAttempt = (attempts.get(index) || 1) + 1;
       attempts.set(index, nextAttempt);
-      if (nextAttempt > maxAttempts) return null;
-      const item = { index, attempt: nextAttempt };
-      queue.push(item);
+      if (nextAttempt > options.maxGroupRetries) return null;
+      const exponent = Math.max(0, nextAttempt - 2);
+      const delayMs = Math.min(
+        options.maxRetryDelayMs,
+        Math.max(options.retryDelayMs, options.retryDelayMs * (options.retryDelayMultiplier ** exponent)),
+      );
+      const item = { index, attempt: nextAttempt, dueMs: performance.now() + delayMs, delayMs };
+      retry.push(item);
       return item;
     },
   };
 }
 
 async function runScan(options) {
+  if (!["branch", "page"].includes(options.groupMode)) {
+    throw new Error(`--group-mode must be branch or page, got ${options.groupMode}`);
+  }
+  if (!["off", "prefer", "only"].includes(options.snapshotMode)) {
+    throw new Error(`--snapshot-mode must be off, prefer, or only, got ${options.snapshotMode}`);
+  }
+  if (!["https-agent", "fetch"].includes(options.httpClient)) {
+    throw new Error(`--http-client must be https-agent or fetch, got ${options.httpClient}`);
+  }
+  if (options.httpClient === "https-agent") {
+    options.httpAgent = new HttpsAgent({
+      keepAlive: true,
+      maxSockets: Math.max(1, options.httpConnections),
+      maxFreeSockets: Math.max(1, Math.ceil(options.httpConnections / 2)),
+      keepAliveMsecs: Math.max(1000, options.keepAliveMsecs),
+      scheduling: "lifo",
+    });
+  }
   if (!options.outDir) {
     options.outDir = path.join("D:\\PRONI\\eCatalogue\\detail-scans", `quick-scan-${nowIso().replace(/[:.]/g, "-")}`);
   }
@@ -747,20 +1066,21 @@ async function runScan(options) {
     failures: new BufferedJsonlWriter(path.join(options.outDir, "failures.jsonl"), options),
     mismatches: new BufferedJsonlWriter(path.join(options.outDir, "mismatches.jsonl"), options),
     progress: new BufferedJsonlWriter(path.join(options.outDir, "progress.jsonl"), options),
+    retryQueue: new BufferedJsonlWriter(path.join(options.outDir, "retry-queue.jsonl"), options),
   };
   const stats = makeStats();
-  const groups = await readIndexGroups(options.index, options);
-  stats.groupsLoaded = groups.length;
-  stats.recordsPlanned = groups.reduce((sum, group) => sum + group.length, 0);
-  stats.desiredWorkers = Math.min(options.initialWorkers, options.maxWorkers, groups.length || 1);
+  const units = await readIndexWorkUnits(options.index, options);
+  stats.groupsLoaded = units.length;
+  stats.recordsPlanned = units.reduce((sum, unit) => sum + unit.rowCount, 0);
+  stats.desiredWorkers = Math.min(options.initialWorkers, options.maxWorkers, units.length || 1);
 
-  const groupQueue = makeGroupQueue(groups, options.maxGroupRetries);
+  const workQueue = makeWorkQueue(units, options);
   const workerPromises = [];
   const workerErrors = [];
   const spawnWorker = () => {
     const workerId = stats.spawnedWorkers + 1;
     stats.spawnedWorkers = workerId;
-    const promise = runWorker(workerId, groups, groupQueue, writers, options, stats).catch((error) => {
+    const promise = runWorker(workerId, units, workQueue, writers, options, stats).catch((error) => {
       workerErrors.push(error);
       if (options.stopOnBlocked) stats.stopped = true;
     });
@@ -780,7 +1100,7 @@ async function runScan(options) {
       if (stats.desiredWorkers >= options.maxWorkers) return;
       const p95 = percentile(stats.requestMs, 0.95) || 0;
       if (p95 > 2500) return;
-      const nextDesired = Math.min(options.maxWorkers, stats.desiredWorkers + options.rampWorkers, groups.length);
+      const nextDesired = Math.min(options.maxWorkers, stats.desiredWorkers + options.rampWorkers, units.length);
       const toSpawn = nextDesired - stats.spawnedWorkers;
       stats.desiredWorkers = nextDesired;
       for (let i = 0; i < toSpawn; i += 1) spawnWorker();
@@ -806,20 +1126,11 @@ async function runScan(options) {
       index: path.resolve(options.index),
       outDir: path.resolve(options.outDir),
       fatalError: String(workerErrors[0]?.message || workerErrors[0]),
-      options: {
-        maxRecords: options.maxRecords,
-        maxGroups: options.maxGroups,
-        initialWorkers: options.initialWorkers,
-        maxWorkers: options.maxWorkers,
-        rampWorkers: options.rampWorkers,
-        adaptive: options.adaptive,
-        maxGroupRetries: options.maxGroupRetries,
-        maxCooldownMs: options.maxCooldownMs,
-        retryMismatches: options.retryMismatches,
-      },
+      options: summaryOptions(options),
     };
     await writers.progress.write(partialSummary);
     for (const writer of Object.values(writers)) await writer.close();
+    if (options.httpAgent) options.httpAgent.destroy();
     await fsp.writeFile(path.join(options.outDir, "summary.json"), `${JSON.stringify(partialSummary, null, 2)}\n`, "utf8");
     throw workerErrors[0];
   }
@@ -830,21 +1141,12 @@ async function runScan(options) {
     finishedAt: nowIso(),
     index: path.resolve(options.index),
     outDir: path.resolve(options.outDir),
-    options: {
-      maxRecords: options.maxRecords,
-      maxGroups: options.maxGroups,
-      initialWorkers: options.initialWorkers,
-      maxWorkers: options.maxWorkers,
-      rampWorkers: options.rampWorkers,
-      adaptive: options.adaptive,
-      maxGroupRetries: options.maxGroupRetries,
-      maxCooldownMs: options.maxCooldownMs,
-      retryMismatches: options.retryMismatches,
-    },
+    options: summaryOptions(options),
   };
 
   await writers.progress.write(summary);
   for (const writer of Object.values(writers)) await writer.close();
+  if (options.httpAgent) options.httpAgent.destroy();
   await fsp.writeFile(path.join(options.outDir, "summary.json"), `${JSON.stringify(summary, null, 2)}\n`, "utf8");
   return summary;
 }

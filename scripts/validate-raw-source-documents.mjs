@@ -4,6 +4,7 @@ import path from 'node:path';
 
 const ROOT = process.cwd();
 const SIDE_CAR = path.join(ROOT, 'data', 'database', 'raw-source-documents.json');
+const IA_MIRRORS = path.join(ROOT, 'data', 'database', 'raw-source-ia-mirrors.json');
 const BROWSE_SOURCES = path.join(ROOT, 'data', 'browse', 'sources.json');
 const SOURCE_SHARD_DIR = path.join(ROOT, 'data', 'browse', 'details', 'source-shards');
 
@@ -15,6 +16,8 @@ function main() {
   assert(!containsLocalPath(sidecar), 'raw-source-documents sidecar leaks a local filesystem path');
   const sources = normalizeArray(sidecar.sources);
   assert(sources.length === 252, `expected 252 raw source-document records, found ${sources.length}`);
+  const iaMirrors = existsSync(IA_MIRRORS) ? readJson(IA_MIRRORS) : null;
+  const mirroredSourceIds = validateIaMirrors(iaMirrors, new Set(sources.map((source) => source.id)));
 
   const ids = new Set();
   for (const source of sources) {
@@ -32,6 +35,11 @@ function main() {
     assert(normalizeArray(source.sourceItems).length === 1, `raw source ${source.id} should preserve one source item`);
     assert(!source.sourceItems[0].dPath, `raw source ${source.id} must not expose dPath`);
     assert(!containsLocalPath(source), `raw source ${source.id} leaks a local filesystem path`);
+    if (mirroredSourceIds.has(source.id)) {
+      assert(source.viewport?.internetArchiveUrl, `mirrored raw source ${source.id} is missing viewport.internetArchiveUrl`);
+      assert(normalizeArray(source.statusChips).includes('Mirror available'), `mirrored raw source ${source.id} needs Mirror available status chip`);
+      assert(normalizeArray(source.downloads).some((download) => /archive\.org\/download\//.test(download.url || '')), `mirrored raw source ${source.id} needs IA download URLs`);
+    }
   }
 
   const browse = readJson(BROWSE_SOURCES);
@@ -53,10 +61,35 @@ function main() {
     assert(detail.viewport?.status, `detail ${source.id} lost viewport metadata`);
     assert(normalizeArray(detail.sourceItems).length === 1, `detail ${source.id} lost source item`);
     assert(!containsLocalPath(detail), `detail ${source.id} leaks a local filesystem path`);
+    if (mirroredSourceIds.has(source.id)) {
+      assert(detail.viewport?.internetArchiveUrl, `mirrored detail ${source.id} is missing viewport.internetArchiveUrl`);
+      assert(normalizeArray(detail.statusChips).includes('Mirror available'), `mirrored detail ${source.id} needs Mirror available status chip`);
+      assert(normalizeArray(detail.downloads).some((download) => /archive\.org\/download\//.test(download.url || '')), `mirrored detail ${source.id} needs IA download URLs`);
+    }
     verifiedDetails += 1;
   }
 
-  console.log(`Raw source-document validation passed: ${sources.length} records, ${verifiedDetails} Browse details verified, no local paths exposed.`);
+  console.log(`Raw source-document validation passed: ${sources.length} records, ${verifiedDetails} Browse details verified, ${mirroredSourceIds.size} IA-mirrored records, no local paths exposed.`);
+}
+
+function validateIaMirrors(iaMirrors, sourceIds) {
+  if (!iaMirrors) return new Set();
+  assert(iaMirrors.schemaVersion === 1, 'raw-source IA mirrors must use schemaVersion 1');
+  assert(!containsLocalPath(iaMirrors), 'raw-source IA mirror sidecar leaks a local filesystem path');
+  const mirrored = new Set();
+  for (const source of normalizeArray(iaMirrors.sources)) {
+    assert(sourceIds.has(source.sourceId), `IA mirror sidecar references unknown raw source ${source.sourceId}`);
+    if (source.mirrorStatus !== 'mirrored') continue;
+    assert(source.itemUrl && /archive\.org\/details\//.test(source.itemUrl), `mirrored raw source ${source.sourceId} needs archive.org item URL`);
+    assert(normalizeArray(source.files).length > 0, `mirrored raw source ${source.sourceId} needs mirrored files`);
+    for (const file of normalizeArray(source.files)) {
+      assert(file.downloadUrl && /archive\.org\/download\//.test(file.downloadUrl), `mirrored raw source ${source.sourceId} file needs archive.org download URL`);
+      assert(file.verifiedAt, `mirrored raw source ${source.sourceId} file needs verifiedAt`);
+      assert(!containsLocalPath(file), `mirrored raw source ${source.sourceId} file leaks a local filesystem path`);
+    }
+    mirrored.add(source.sourceId);
+  }
+  return mirrored;
 }
 
 function readDetail(detailUrl, cache, id) {
@@ -74,7 +107,8 @@ function readJson(filePath) {
 }
 
 function containsLocalPath(value) {
-  return /[A-Z]:\\|\\\\|\/Users\/scomo/i.test(JSON.stringify(value));
+  const text = JSON.stringify(value);
+  return /[A-Z]:\\|\\\\|\/Users\/scomo|D:\s*drive|d-drive-content-blocker|local D:/i.test(text);
 }
 
 function normalizeArray(value) {

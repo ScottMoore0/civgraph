@@ -1,29 +1,9 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-28T02:12:51.534Z",
+  "generatedAt": "2026-06-28T20:36:27.998Z",
   "shard": 7,
   "total": 5000,
   "items": [
-    {
-      "id": "cg:contest:parliament-of-northern-ireland-1921-05-24-parliament-of-northern-ireland-1921-05-24-overall",
-      "label": "Overall results",
-      "description": "Overall results - 1921 Parliament of Northern Ireland election",
-      "kind": "entity",
-      "browseType": "elections",
-      "browseSlug": "parliament-of-northern-ireland-1921-05-24-overall-results",
-      "browseUrl": "/browse/elections/parliament-of-northern-ireland-1921-05-24-overall-results",
-      "attributes": {
-        "electionKey": "parliament-of-northern-ireland__1921-05-24",
-        "electionTitle": "1921 Parliament of Northern Ireland election",
-        "date": "1921-05-24",
-        "resultKind": "overall",
-        "constituency": "Overall results",
-        "createdFrom": "election-result-entry"
-      },
-      "typeIds": [
-        "cg:entity-type:contest"
-      ]
-    },
     {
       "id": "cg:contest:parliament-of-northern-ireland-1921-05-24-parliament-of-northern-ireland-2872cd6978e7",
       "label": "Fermanagh and Tyrone",
@@ -107137,12 +107117,11 @@
         "kind": "general",
         "votingSystem": "stv-gregory",
         "contestStatus": "contested",
-        "totalConstituencies": 102,
+        "totalConstituencies": 101,
         "unmatchedCount": 0,
         "searchHints": [
           "Local Government Districts",
           "Elections",
-          "Area-A-corrected",
           "Area-F",
           "Area-G",
           "Area-H",
@@ -107182,6 +107161,7 @@
           "Coleraine Area A",
           "Coleraine Area B",
           "Coleraine Area C",
+          "Cookstown Area A",
           "Antrim Area A - 1977 Northern Ireland local elections",
           "local-government-local-government-districts__1977-05-18::antrim-area-a",
           "Antrim Area C - 1977 Northern Ireland local elections",
@@ -107192,8 +107172,6 @@
           "local-government-local-government-districts__1977-05-18::ards-area-b",
           "Ards Area C - 1977 Northern Ireland local elections",
           "local-government-local-government-districts__1977-05-18::ards-area-c",
-          "Area-A-corrected - 1977 Northern Ireland local elections",
-          "local-government-local-government-districts__1977-05-18::area-a-corrected",
           "Area-F - 1977 Northern Ireland local elections",
           "local-government-local-government-districts__1977-05-18::area-f",
           "Area-G - 1977 Northern Ireland local elections",
@@ -107239,7 +107217,9 @@
           "Belfast Area F - 1977 Northern Ireland local elections",
           "local-government-local-government-districts__1977-05-18::belfast-area-f",
           "Belfast Area G - 1977 Northern Ireland local elections",
-          "local-government-local-government-districts__1977-05-18::belfast-area-g"
+          "local-government-local-government-districts__1977-05-18::belfast-area-g",
+          "Belfast Area H - 1977 Northern Ireland local elections",
+          "local-government-local-government-districts__1977-05-18::belfast-area-h"
         ]
       },
       "typeIds": [
@@ -107369,34 +107349,6 @@
       "browseUrl": "/browse/elections/local-government-local-government-districts-1977-05-18-ards-area-c",
       "attributes": {
         "key": "local-government-local-government-districts__1977-05-18::ards-area-c",
-        "entryKind": "election-constituency-result",
-        "body": "Local Government Districts",
-        "date": "1977-05-18",
-        "year": 1977,
-        "category": "Elections",
-        "contestType": "election",
-        "kind": "general",
-        "votingSystem": "stv-gregory",
-        "contestStatus": "contested",
-        "searchHints": [
-          "Local Government Districts",
-          "Elections"
-        ]
-      },
-      "typeIds": [
-        "cg:entity-type:election"
-      ]
-    },
-    {
-      "id": "cg:election:local-government-local-government-districts-1977-05-18-area-a-corrected",
-      "label": "Area-A-corrected - 1977 Northern Ireland local elections",
-      "description": "Constituency / DEA result / 1977 Northern Ireland local elections",
-      "kind": "entity",
-      "browseType": "elections",
-      "browseSlug": "local-government-local-government-districts-1977-05-18-area-a-corrected",
-      "browseUrl": "/browse/elections/local-government-local-government-districts-1977-05-18-area-a-corrected",
-      "attributes": {
-        "key": "local-government-local-government-districts__1977-05-18::area-a-corrected",
         "entryKind": "election-constituency-result",
         "body": "Local Government Districts",
         "date": "1977-05-18",
@@ -110022,7 +109974,7 @@
     {
       "id": "cg:election:local-government-local-government-districts-1977-05-18-overall",
       "label": "Overall results - 1977 Northern Ireland local elections",
-      "description": "Overall election result / 102 DEAs",
+      "description": "Overall election result / 101 DEAs",
       "kind": "entity",
       "browseType": "elections",
       "browseSlug": "local-government-local-government-districts-1977-05-18-overall-results",
@@ -110038,7 +109990,7 @@
         "kind": "general",
         "votingSystem": "stv-gregory",
         "contestStatus": "contested",
-        "totalConstituencies": 102,
+        "totalConstituencies": 101,
         "unmatchedCount": 0,
         "searchHints": [
           "Local Government Districts",
@@ -143058,6 +143010,62 @@
       "browseUrl": "/browse/elections/northern-ireland-assembly-2003-11-26-foyle",
       "attributes": {
         "key": "northern-ireland-assembly__2003-11-26::foyle",
+        "entryKind": "election-constituency-result",
+        "body": "Northern Ireland Assembly",
+        "date": "2003-11-26",
+        "year": 2003,
+        "category": "Elections",
+        "contestType": "election",
+        "kind": "general",
+        "votingSystem": "stv-gregory",
+        "contestStatus": "contested",
+        "searchHints": [
+          "Northern Ireland Assembly",
+          "Elections"
+        ]
+      },
+      "typeIds": [
+        "cg:entity-type:election"
+      ]
+    },
+    {
+      "id": "cg:election:northern-ireland-assembly-2003-11-26-lagan-valley",
+      "label": "Lagan Valley - 2003 Northern Ireland Assembly election",
+      "description": "Constituency / DEA result / 2003 Northern Ireland Assembly election",
+      "kind": "entity",
+      "browseType": "elections",
+      "browseSlug": "northern-ireland-assembly-2003-11-26-lagan-valley",
+      "browseUrl": "/browse/elections/northern-ireland-assembly-2003-11-26-lagan-valley",
+      "attributes": {
+        "key": "northern-ireland-assembly__2003-11-26::lagan-valley",
+        "entryKind": "election-constituency-result",
+        "body": "Northern Ireland Assembly",
+        "date": "2003-11-26",
+        "year": 2003,
+        "category": "Elections",
+        "contestType": "election",
+        "kind": "general",
+        "votingSystem": "stv-gregory",
+        "contestStatus": "contested",
+        "searchHints": [
+          "Northern Ireland Assembly",
+          "Elections"
+        ]
+      },
+      "typeIds": [
+        "cg:entity-type:election"
+      ]
+    },
+    {
+      "id": "cg:election:northern-ireland-assembly-2003-11-26-mid-ulster",
+      "label": "Mid Ulster - 2003 Northern Ireland Assembly election",
+      "description": "Constituency / DEA result / 2003 Northern Ireland Assembly election",
+      "kind": "entity",
+      "browseType": "elections",
+      "browseSlug": "northern-ireland-assembly-2003-11-26-mid-ulster",
+      "browseUrl": "/browse/elections/northern-ireland-assembly-2003-11-26-mid-ulster",
+      "attributes": {
+        "key": "northern-ireland-assembly__2003-11-26::mid-ulster",
         "entryKind": "election-constituency-result",
         "body": "Northern Ireland Assembly",
         "date": "2003-11-26",

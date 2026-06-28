@@ -188,6 +188,12 @@ const LOCAL_GOVERNMENT_CODE_PREFIXES = new Map([
   ['Strabane', 'Str']
 ]);
 
+const LOCAL_GOVERNMENT_DUPLICATE_RESULT_ALIASES = new Map([
+  ['local-government-local-government-districts__1977-05-18', new Map([
+    ['Area-A-corrected', 'Belfast Area A corrected']
+  ])]
+]);
+
 const PARTY_COLOURS = new Map([
   ['alliance', '#f6cb2f'],
   ['aontu', '#44532a'],
@@ -394,15 +400,15 @@ function buildUniqueElectionEntries(index) {
     if (group.bodies.length > 1) {
       group.displayTitle = canonicalElectionTitle(group);
       group.displayProvider = 'Local Government Districts';
-      byKey.set(`${group.body}|${group.date}`, {
+      byKey.set(`${group.body}|${group.date}`, applyDuplicateLocalGovernmentResultAliases({
         ...group,
         constituencies: unique(group.constituencies),
         bodies: [...group.bodies].sort((a, b) => a.localeCompare(b)),
         bodyIndexes: unique(group.bodyIndexes)
-      });
+      }));
     } else {
       const body = group.bodies[0] || group.body;
-      byKey.set(`${body}|${group.date}`, {
+      byKey.set(`${body}|${group.date}`, applyDuplicateLocalGovernmentResultAliases({
         ...group,
         body,
         displayTitle: canonicalElectionTitle({ ...group, body }),
@@ -410,13 +416,36 @@ function buildUniqueElectionEntries(index) {
         constituencies: unique(group.constituencies),
         bodies: [body],
         bodyIndexes: unique(group.bodyIndexes)
-      });
+      }));
     }
   }
   return [...byKey.values()].map((entry) => ({
     ...entry,
     displayTitle: entry.displayTitle || canonicalElectionTitle(entry)
   }));
+}
+
+function applyDuplicateLocalGovernmentResultAliases(entry) {
+  const aliases = LOCAL_GOVERNMENT_DUPLICATE_RESULT_ALIASES.get(electionKey(entry));
+  if (!aliases?.size) return entry;
+  const constituencySet = new Set(entry.constituencies || []);
+  const suppressed = [];
+  const constituencies = (entry.constituencies || []).filter((constituency) => {
+    const canonical = aliases.get(constituency);
+    if (!canonical || !constituencySet.has(canonical)) return true;
+    suppressed.push({ constituency, canonical });
+    return false;
+  });
+  if (!suppressed.length) return entry;
+  const localBodyByConstituency = { ...(entry.localBodyByConstituency || {}) };
+  for (const { constituency } of suppressed) {
+    delete localBodyByConstituency[constituency];
+  }
+  return {
+    ...entry,
+    constituencies,
+    localBodyByConstituency
+  };
 }
 
 function preserveExistingSummaryUrls(entries) {

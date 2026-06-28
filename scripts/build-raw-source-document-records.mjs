@@ -34,12 +34,12 @@ function main() {
   const output = {
     schemaVersion: 1,
     generatedAt: new Date().toISOString(),
-    sourceReviewCsv: 'tasks/d-drive-content-blocker-review-2026-06-24.csv',
+    sourceReview: 'internal source review corpus',
     policy: {
       placement: 'Books / Tables / Sources',
       canonicalLinkOrder: ['current provider URL', 'Wayback URL when available', 'Internet Archive mirror URL when available'],
       publicRecords: 'source/document/table records only; do not create duplicate map or election parent records',
-      localPaths: 'local D: mirror paths are intentionally excluded from this public sidecar',
+      localPaths: 'local operational mirror paths are intentionally excluded from this public sidecar',
       internetArchive: 'records are IA-ready; actual IA item/file URLs remain pending until raw files are uploaded or matched to public IA mirrors',
       r2Cdn: 'not used for raw source files; R2/CDN is reserved for cleaned/queryable/filterable/chartable/map-ready bundles'
     },
@@ -82,7 +82,7 @@ function toSourceRecord(row) {
   const viewport = viewportMetadata(formats, providerUrl);
   const statusChips = buildStatusChips(viewport, formats);
   const shortCitation = `${providerNames.join(', ') || 'Source provider'}, ${title}.`;
-  const fullCitation = `${providerNames.join(', ') || 'Source provider'}. ${title}. Current provider dataset URL: ${providerUrl || 'not resolved from audit row'}. Civgraph raw source-document staging record generated from D: drive audit.`;
+  const fullCitation = `${providerNames.join(', ') || 'Source provider'}. ${title}. Current provider dataset URL: ${providerUrl || 'not resolved from audit row'}. Civgraph raw source-document record.`;
 
   return compactObject({
     id,
@@ -137,7 +137,7 @@ function toSourceRecord(row) {
         blockerCategories: splitList(row.blockerCategories, ';'),
         detectedFamilies: splitList(row.detectedFamilies, ';'),
         siteFamiliesPresent: splitList(row.siteFamiliesPresent, ';'),
-        mirrorPolicy: 'IA mirror/download URL pending; do not expose local D: mirror path',
+        mirrorPolicy: 'IA mirror/download URL pending; do not expose local operational mirror paths',
         providerDatasetUrl: providerUrl
       })
     ],
