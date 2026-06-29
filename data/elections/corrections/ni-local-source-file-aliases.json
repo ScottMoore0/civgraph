@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "description": "Maps NI local-government result rows whose manifest constituency name does not slugify to their existing authoritative raw source file (historical apostrophe / ampersand / missing council-prefix naming, e.g. 'Area-G' -> belfast-area-g.json, \"Giant's Causeway\" -> giant-s-causeway.json). Surfaces already-present source candidate data; no values are synthesised. Resolved by cross-checking the Wikipedia STV election-box valid poll and seats against the raw file in the same election date directory.",
+  "provenance": "Wikipedia gap audit 2026-06-28; raw files verified present in election-viewer-package/data/elections/local-government/<date>/.",
+  "aliases": {
+    "local-government-local-government-districts__1973-05-30": {
+      "Area-G": "belfast-area-g.json",
+      "Area-H": "belfast-area-h.json"
+    },
+    "local-government-local-government-districts__1977-05-18": {
+      "Area-G": "belfast-area-g.json",
+      "Area-H": "belfast-area-h.json"
+    },
+    "local-government-local-government-districts__1981-05-20": {
+      "Area-G": "belfast-area-g.json",
+      "Area-H-corrected": "belfast-area-h-corrected.json"
+    },
+    "local-government-local-government-districts__1985-05-15": {
+      "Giant's Causeway": "giant-s-causeway.json"
+    },
+    "local-government-local-government-districts__1989-05-17": {
+      "Giant's Causeway": "giant-s-causeway.json"
+    },
+    "local-government-local-government-districts__1993-05-19": {
+      "Giant's Causeway": "giant-s-causeway.json",
+      "lg93-NoD-Ballyholme-&-Groomsport": "lg93-nod-ballyholme-groomsport.json"
+    },
+    "local-government-local-government-districts__1997-05-21": {
+      "Giant's Causeway": "giant-s-causeway.json"
+    },
+    "local-government-local-government-districts__2001-06-07": {
+      "Giant's Causeway": "giant-s-causeway.json",
+      "lg01-NoD-Ballyholme-&-Groomsport": "lg01-nod-ballyholme-groomsport.json"
+    },
+    "local-government-local-government-districts__2005-05-05": {
+      "Giant's Causeway": "giant-s-causeway.json",
+      "lg05-NoD-Ballyholme-&-Groomsport": "lg05-nod-ballyholme-groomsport.json"
+    }
+  }
+}
