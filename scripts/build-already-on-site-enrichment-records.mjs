@@ -3,7 +3,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
 const ROOT = process.cwd();
-const INPUT = path.join(ROOT, 'tasks', 'already-on-site-enrichment-review-2026-06-24.csv');
+const INPUT = path.join(ROOT, 'data', 'review-inputs', 'already-on-site-enrichment-review-2026-06-24.csv');
 const OUTPUT = path.join(ROOT, 'data', 'database', 'already-on-site-enrichments.json');
 
 const APPLIED_SAFETY_CLASSES = new Set([
@@ -12,18 +12,38 @@ const APPLIED_SAFETY_CLASSES = new Set([
 ]);
 
 const USER_APPROVED_REVIEW_ONLY_ROWS = new Set([
-  7, 15, 22, 29, 54, 70, 86, 92, 103, 105, 148, 149, 155, 170, 182, 241,
-  247, 279, 283, 284, 285, 286, 287, 288, 301, 322, 358, 366, 373, 374,
-  430, 494, 621, 630, 653, 654, 656, 657, 662, 663, 664, 696, 697, 762,
-  810, 812, 868, 879, 880, 901, 906, 1000, 1001, 1003, 1005, 1032,
-  521
+  7, 15, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+  31, 51, 52, 53, 54, 70, 86, 88, 89, 90, 91, 92,
+  93, 94, 95, 103, 105, 148, 149, 155, 159, 160, 161, 162,
+  163, 164, 165, 166, 167, 168, 169, 170, 174, 175, 176, 177,
+  178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189,
+  239, 240, 241, 247, 263, 279, 283, 284, 285, 286, 287,
+  288, 290, 291, 292, 293, 301, 322, 358, 366, 373, 374, 430,
+  494, 521, 621, 630, 653, 654, 656, 657, 662, 663, 664, 696,
+  697, 702, 703, 704, 705, 706, 707, 708, 709, 714, 715,
+  716, 717, 718, 719, 720, 721, 722, 723, 724, 725, 726, 727,
+  728, 729, 730, 731, 732, 733, 736, 737, 738, 739, 740, 741,
+  744, 745, 746, 747, 748, 749, 750, 751, 752, 753, 754, 755,
+  756, 757, 758, 759, 762, 810, 812, 868, 879, 880, 901, 906,
+  966, 1000, 1001, 1003, 1005, 1032
 ]);
 
 const HELD_SAFE_RECOMMENDATION_ROWS = new Set([555, 945]);
 
 const SENSITIVE_PUBLIC_REVIEW_ROWS = new Set([555]);
 
-const STATUTORY_BOUNDARY_FAMILY_ROWS = new Set([15, 22, 29, 54, 70, 86, 92, 170, 182]);
+const STATUTORY_BOUNDARY_FAMILY_ROWS = new Set([
+  15, 21, 22, 23, 24, 25, 27, 28, 29, 30, 31, 53,
+  54, 70, 86, 88, 89, 90, 91, 92, 93, 94, 95, 159,
+  160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 174,
+  175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186,
+  187, 188, 189, 239, 240, 263, 290, 291, 292, 293, 702, 703,
+  704, 705, 706, 707, 708, 709, 714, 715, 716, 717, 718, 719,
+  720, 721, 722, 723, 724, 725, 726, 727, 728, 729, 730, 731,
+  732, 733, 736, 737, 738, 739, 740, 741, 744, 745, 746, 747,
+  748, 749, 750, 751, 752, 753, 754, 755, 756, 757, 758, 759,
+  966
+]);
 
 const RESOLVED_ROW_TARGETS = new Map([
   [521, {
@@ -85,29 +105,36 @@ function main() {
   const appliedRows = rows.filter((row) => shouldApplyRow(row));
   const reviewRows = rows.filter((row) => REVIEW_ONLY_SAFETY_CLASSES.has(cleanText(row.safetyClass)) && !shouldApplyRow(row));
   const publicReviewRows = reviewRows.filter((row) => !SENSITIVE_PUBLIC_REVIEW_ROWS.has(Number(row.rowNumber) || 0));
+  const withheldSensitiveReviewRows = Math.max(
+    SENSITIVE_PUBLIC_REVIEW_ROWS.size,
+    reviewRows.length - publicReviewRows.length
+  );
+  const sourceReviewRows = rows.length + withheldSensitiveReviewRows;
+  const internalReviewRows = publicReviewRows.length + withheldSensitiveReviewRows;
   const groupedTargets = groupAppliedRows(appliedRows);
 
   const output = {
     schemaVersion: 1,
     generatedAt: new Date().toISOString(),
-    sourceReviewCsv: 'tasks/already-on-site-enrichment-review-2026-06-24.csv',
+    sourceReviewCsv: 'data/review-inputs/already-on-site-enrichment-review-2026-06-24.csv',
     policy: {
       application: 'safe and high-confidence duplicate-match rows enrich existing source records only; user-approved related-source rows enrich existing records or source families as provenance only',
       reviewOnly: 'unapproved variant, context-overlap, weak feature-family, and rights/source-URL-held rows remain staged for review and are not published as factual enrichment',
       approvedRelatedSourceRows: [...USER_APPROVED_REVIEW_ONLY_ROWS].sort((a, b) => a - b),
       heldSafeRecommendationRows: [...HELD_SAFE_RECOMMENDATION_ROWS].filter((rowNumber) => !SENSITIVE_PUBLIC_REVIEW_ROWS.has(rowNumber)).sort((a, b) => a - b),
       statutoryBoundaryFamilyRows: [...STATUTORY_BOUNDARY_FAMILY_ROWS].sort((a, b) => a - b),
-      withheldSensitiveReviewRows: SENSITIVE_PUBLIC_REVIEW_ROWS.size,
+      withheldSensitiveReviewRows,
       privacy: 'local filesystem paths are intentionally excluded from this public sidecar'
     },
     summary: {
-      inputRows: rows.length,
+      inputRows: sourceReviewRows,
+      trackedInputRows: rows.length,
       appliedRows: appliedRows.length,
       appliedTargets: groupedTargets.length,
       reviewRows: publicReviewRows.length,
-      internalReviewRows: reviewRows.length,
-      withheldSensitiveReviewRows: reviewRows.length - publicReviewRows.length,
-      omittedRows: rows.length - appliedRows.length - reviewRows.length
+      internalReviewRows,
+      withheldSensitiveReviewRows,
+      omittedRows: sourceReviewRows - appliedRows.length - internalReviewRows
     },
     targets: groupedTargets,
     reviewRows: publicReviewRows.map(toReviewRow)

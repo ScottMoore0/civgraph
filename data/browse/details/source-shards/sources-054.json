@@ -1,10 +1,730 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-28T20:35:32.210Z",
+  "generatedAt": "2026-06-29T22:34:58.850Z",
   "kind": "sources",
   "shard": "sources-054.json",
-  "total": 28,
+  "total": 39,
   "items": [
+    {
+      "id": "table:data-2021-no-car-settlement",
+      "slug": "table-data-2021-no-car-settlement",
+      "type": "table",
+      "title": "Households with no car or van (Census 2021, by Settlement)",
+      "subtitle": "data-population",
+      "category": "data-population",
+      "description": "Households with no car or van (Settlement) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "settlements-2015",
+        "url": "/assets/thumbnails/settlements-2015.webp",
+        "smallUrl": "/assets/thumbnails/settlements-2015-60.webp",
+        "alt": "Households with no car or van (Census 2021, by Settlement)"
+      },
+      "references": [
+        {
+          "label": "NISRA Census 2021, Main Statistics Phase 1, MS-E10 (Car or van availability)",
+          "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "ms-e10-no-car-settlement.csv",
+          "url": "data/census/derived/ms-e10-no-car-settlement.csv"
+        }
+      ],
+      "browseUrl": "/browse/sources/table-data-2021-no-car-settlement",
+      "rawMetadata": {
+        "id": "data-2021-no-car-settlement",
+        "type": "data-entry",
+        "name": "Households with no car or van (Census 2021, by Settlement)",
+        "slug": "data-2021-no-car-settlement",
+        "category": "data-population",
+        "description": "Households with no car or van (Settlement) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+        "geography": "settlements-2015",
+        "csv": "data/census/derived/ms-e10-no-car-settlement.csv",
+        "joinKey": "Code",
+        "csvKeyColumn": "GeographyCode",
+        "valueColumn": "NoCar_pct",
+        "ramp": "viridis",
+        "domain": [
+          3,
+          30
+        ],
+        "logarithmic": false,
+        "tableColumns": [
+          "Geography",
+          "Total",
+          "NoCar",
+          "NoCar_pct"
+        ],
+        "keywords": [
+          "census",
+          "2021",
+          "nisra",
+          "data",
+          "no car",
+          "settlement"
+        ],
+        "source": {
+          "title": "NISRA Census 2021, Main Statistics Phase 1, MS-E10 (Car or van availability)",
+          "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+        }
+      }
+    },
+    {
+      "id": "table:data-2021-no-car-ward",
+      "slug": "table-data-2021-no-car-ward",
+      "type": "table",
+      "title": "Households with no car or van (Census 2021, by Ward 2014)",
+      "subtitle": "data-population",
+      "category": "data-population",
+      "description": "Households with no car or van (Ward 2014) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "wards-2012",
+        "url": "/assets/thumbnails/wards-2012.webp",
+        "smallUrl": "/assets/thumbnails/wards-2012-60.webp",
+        "alt": "Households with no car or van (Census 2021, by Ward 2014)"
+      },
+      "references": [
+        {
+          "label": "NISRA Census 2021, Main Statistics Phase 1, MS-E10 (Car or van availability)",
+          "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "ms-e10-no-car-ward.csv",
+          "url": "data/census/derived/ms-e10-no-car-ward.csv"
+        }
+      ],
+      "browseUrl": "/browse/sources/table-data-2021-no-car-ward",
+      "rawMetadata": {
+        "id": "data-2021-no-car-ward",
+        "type": "data-entry",
+        "name": "Households with no car or van (Census 2021, by Ward 2014)",
+        "slug": "data-2021-no-car-ward",
+        "category": "data-population",
+        "description": "Households with no car or van (Ward 2014) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+        "geography": "wards-2012",
+        "csv": "data/census/derived/ms-e10-no-car-ward.csv",
+        "joinKey": "WardCode",
+        "csvKeyColumn": "GeographyCode",
+        "valueColumn": "NoCar_pct",
+        "ramp": "viridis",
+        "domain": [
+          3,
+          50
+        ],
+        "logarithmic": false,
+        "tableColumns": [
+          "Geography",
+          "Total",
+          "NoCar",
+          "NoCar_pct"
+        ],
+        "keywords": [
+          "census",
+          "2021",
+          "nisra",
+          "data",
+          "no car",
+          "ward 2014"
+        ],
+        "source": {
+          "title": "NISRA Census 2021, Main Statistics Phase 1, MS-E10 (Car or van availability)",
+          "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+        }
+      }
+    },
+    {
+      "id": "table:data-2021-no-quals-lgd",
+      "slug": "table-data-2021-no-quals-lgd",
+      "type": "table",
+      "title": "No qualifications (Census 2021, by LGD)",
+      "subtitle": "data-population",
+      "category": "data-population",
+      "description": "No qualifications (LGD) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "lgd-2012",
+        "url": "/assets/thumbnails/lgd-2012.webp",
+        "smallUrl": "/assets/thumbnails/lgd-2012-60.webp",
+        "alt": "No qualifications (Census 2021, by LGD)"
+      },
+      "references": [
+        {
+          "label": "NISRA Census 2021, Main Statistics Phase 1, MS-G01 (Highest level of qualifications)",
+          "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "ms-g01-no-quals-lgd.csv",
+          "url": "data/census/derived/ms-g01-no-quals-lgd.csv"
+        }
+      ],
+      "browseUrl": "/browse/sources/table-data-2021-no-quals-lgd",
+      "rawMetadata": {
+        "id": "data-2021-no-quals-lgd",
+        "type": "data-entry",
+        "name": "No qualifications (Census 2021, by LGD)",
+        "slug": "data-2021-no-quals-lgd",
+        "category": "data-population",
+        "description": "No qualifications (LGD) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+        "geography": "lgd-2012",
+        "csv": "data/census/derived/ms-g01-no-quals-lgd.csv",
+        "joinKey": "LGDCode",
+        "csvKeyColumn": "GeographyCode",
+        "valueColumn": "NoQuals_pct",
+        "ramp": "viridis",
+        "domain": [
+          17,
+          30
+        ],
+        "logarithmic": false,
+        "tableColumns": [
+          "Geography",
+          "Total",
+          "NoQuals",
+          "NoQuals_pct"
+        ],
+        "keywords": [
+          "census",
+          "2021",
+          "nisra",
+          "data",
+          "no quals",
+          "lgd"
+        ],
+        "source": {
+          "title": "NISRA Census 2021, Main Statistics Phase 1, MS-G01 (Highest level of qualifications)",
+          "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+        }
+      }
+    },
+    {
+      "id": "table:data-2021-no-quals-settlement",
+      "slug": "table-data-2021-no-quals-settlement",
+      "type": "table",
+      "title": "No qualifications (Census 2021, by Settlement)",
+      "subtitle": "data-population",
+      "category": "data-population",
+      "description": "No qualifications (Settlement) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "settlements-2015",
+        "url": "/assets/thumbnails/settlements-2015.webp",
+        "smallUrl": "/assets/thumbnails/settlements-2015-60.webp",
+        "alt": "No qualifications (Census 2021, by Settlement)"
+      },
+      "references": [
+        {
+          "label": "NISRA Census 2021, Main Statistics Phase 1, MS-G01 (Highest level of qualifications)",
+          "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "ms-g01-no-quals-settlement.csv",
+          "url": "data/census/derived/ms-g01-no-quals-settlement.csv"
+        }
+      ],
+      "browseUrl": "/browse/sources/table-data-2021-no-quals-settlement",
+      "rawMetadata": {
+        "id": "data-2021-no-quals-settlement",
+        "type": "data-entry",
+        "name": "No qualifications (Census 2021, by Settlement)",
+        "slug": "data-2021-no-quals-settlement",
+        "category": "data-population",
+        "description": "No qualifications (Settlement) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+        "geography": "settlements-2015",
+        "csv": "data/census/derived/ms-g01-no-quals-settlement.csv",
+        "joinKey": "Code",
+        "csvKeyColumn": "GeographyCode",
+        "valueColumn": "NoQuals_pct",
+        "ramp": "viridis",
+        "domain": [
+          10,
+          40
+        ],
+        "logarithmic": false,
+        "tableColumns": [
+          "Geography",
+          "Total",
+          "NoQuals",
+          "NoQuals_pct"
+        ],
+        "keywords": [
+          "census",
+          "2021",
+          "nisra",
+          "data",
+          "no quals",
+          "settlement"
+        ],
+        "source": {
+          "title": "NISRA Census 2021, Main Statistics Phase 1, MS-G01 (Highest level of qualifications)",
+          "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+        }
+      }
+    },
+    {
+      "id": "table:data-2021-no-quals-ward",
+      "slug": "table-data-2021-no-quals-ward",
+      "type": "table",
+      "title": "No qualifications (Census 2021, by Ward 2014)",
+      "subtitle": "data-population",
+      "category": "data-population",
+      "description": "No qualifications (Ward 2014) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "wards-2012",
+        "url": "/assets/thumbnails/wards-2012.webp",
+        "smallUrl": "/assets/thumbnails/wards-2012-60.webp",
+        "alt": "No qualifications (Census 2021, by Ward 2014)"
+      },
+      "references": [
+        {
+          "label": "NISRA Census 2021, Main Statistics Phase 1, MS-G01 (Highest level of qualifications)",
+          "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "ms-g01-no-quals-ward.csv",
+          "url": "data/census/derived/ms-g01-no-quals-ward.csv"
+        }
+      ],
+      "browseUrl": "/browse/sources/table-data-2021-no-quals-ward",
+      "rawMetadata": {
+        "id": "data-2021-no-quals-ward",
+        "type": "data-entry",
+        "name": "No qualifications (Census 2021, by Ward 2014)",
+        "slug": "data-2021-no-quals-ward",
+        "category": "data-population",
+        "description": "No qualifications (Ward 2014) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+        "geography": "wards-2012",
+        "csv": "data/census/derived/ms-g01-no-quals-ward.csv",
+        "joinKey": "WardCode",
+        "csvKeyColumn": "GeographyCode",
+        "valueColumn": "NoQuals_pct",
+        "ramp": "viridis",
+        "domain": [
+          10,
+          40
+        ],
+        "logarithmic": false,
+        "tableColumns": [
+          "Geography",
+          "Total",
+          "NoQuals",
+          "NoQuals_pct"
+        ],
+        "keywords": [
+          "census",
+          "2021",
+          "nisra",
+          "data",
+          "no quals",
+          "ward 2014"
+        ],
+        "source": {
+          "title": "NISRA Census 2021, Main Statistics Phase 1, MS-G01 (Highest level of qualifications)",
+          "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+        }
+      }
+    },
+    {
+      "id": "table:data-2021-owner-occupied-lgd",
+      "slug": "table-data-2021-owner-occupied-lgd",
+      "type": "table",
+      "title": "Owner-occupied households (Census 2021, by LGD)",
+      "subtitle": "data-population",
+      "category": "data-population",
+      "description": "Owner-occupied households (LGD) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "lgd-2012",
+        "url": "/assets/thumbnails/lgd-2012.webp",
+        "smallUrl": "/assets/thumbnails/lgd-2012-60.webp",
+        "alt": "Owner-occupied households (Census 2021, by LGD)"
+      },
+      "references": [
+        {
+          "label": "NISRA Census 2021, Main Statistics Phase 1, MS-E15 (Tenure — households)",
+          "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "ms-e15-owner-occupied-lgd.csv",
+          "url": "data/census/derived/ms-e15-owner-occupied-lgd.csv"
+        }
+      ],
+      "browseUrl": "/browse/sources/table-data-2021-owner-occupied-lgd",
+      "rawMetadata": {
+        "id": "data-2021-owner-occupied-lgd",
+        "type": "data-entry",
+        "name": "Owner-occupied households (Census 2021, by LGD)",
+        "slug": "data-2021-owner-occupied-lgd",
+        "category": "data-population",
+        "description": "Owner-occupied households (LGD) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+        "geography": "lgd-2012",
+        "csv": "data/census/derived/ms-e15-owner-occupied-lgd.csv",
+        "joinKey": "LGDCode",
+        "csvKeyColumn": "GeographyCode",
+        "valueColumn": "OwnerOccupied_pct",
+        "ramp": "viridis",
+        "domain": [
+          50,
+          75
+        ],
+        "logarithmic": false,
+        "tableColumns": [
+          "Geography",
+          "Total",
+          "OwnerOccupied",
+          "OwnerOccupied_pct"
+        ],
+        "keywords": [
+          "census",
+          "2021",
+          "nisra",
+          "data",
+          "owner occupied",
+          "lgd"
+        ],
+        "source": {
+          "title": "NISRA Census 2021, Main Statistics Phase 1, MS-E15 (Tenure — households)",
+          "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+        }
+      }
+    },
+    {
+      "id": "table:data-2021-owner-occupied-settlement",
+      "slug": "table-data-2021-owner-occupied-settlement",
+      "type": "table",
+      "title": "Owner-occupied households (Census 2021, by Settlement)",
+      "subtitle": "data-population",
+      "category": "data-population",
+      "description": "Owner-occupied households (Settlement) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "settlements-2015",
+        "url": "/assets/thumbnails/settlements-2015.webp",
+        "smallUrl": "/assets/thumbnails/settlements-2015-60.webp",
+        "alt": "Owner-occupied households (Census 2021, by Settlement)"
+      },
+      "references": [
+        {
+          "label": "NISRA Census 2021, Main Statistics Phase 1, MS-E15 (Tenure — households)",
+          "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "ms-e15-owner-occupied-settlement.csv",
+          "url": "data/census/derived/ms-e15-owner-occupied-settlement.csv"
+        }
+      ],
+      "browseUrl": "/browse/sources/table-data-2021-owner-occupied-settlement",
+      "rawMetadata": {
+        "id": "data-2021-owner-occupied-settlement",
+        "type": "data-entry",
+        "name": "Owner-occupied households (Census 2021, by Settlement)",
+        "slug": "data-2021-owner-occupied-settlement",
+        "category": "data-population",
+        "description": "Owner-occupied households (Settlement) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+        "geography": "settlements-2015",
+        "csv": "data/census/derived/ms-e15-owner-occupied-settlement.csv",
+        "joinKey": "Code",
+        "csvKeyColumn": "GeographyCode",
+        "valueColumn": "OwnerOccupied_pct",
+        "ramp": "viridis",
+        "domain": [
+          40,
+          90
+        ],
+        "logarithmic": false,
+        "tableColumns": [
+          "Geography",
+          "Total",
+          "OwnerOccupied",
+          "OwnerOccupied_pct"
+        ],
+        "keywords": [
+          "census",
+          "2021",
+          "nisra",
+          "data",
+          "owner occupied",
+          "settlement"
+        ],
+        "source": {
+          "title": "NISRA Census 2021, Main Statistics Phase 1, MS-E15 (Tenure — households)",
+          "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+        }
+      }
+    },
+    {
+      "id": "table:data-2021-owner-occupied-ward",
+      "slug": "table-data-2021-owner-occupied-ward",
+      "type": "table",
+      "title": "Owner-occupied households (Census 2021, by Ward 2014)",
+      "subtitle": "data-population",
+      "category": "data-population",
+      "description": "Owner-occupied households (Ward 2014) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "wards-2012",
+        "url": "/assets/thumbnails/wards-2012.webp",
+        "smallUrl": "/assets/thumbnails/wards-2012-60.webp",
+        "alt": "Owner-occupied households (Census 2021, by Ward 2014)"
+      },
+      "references": [
+        {
+          "label": "NISRA Census 2021, Main Statistics Phase 1, MS-E15 (Tenure — households)",
+          "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "ms-e15-owner-occupied-ward.csv",
+          "url": "data/census/derived/ms-e15-owner-occupied-ward.csv"
+        }
+      ],
+      "browseUrl": "/browse/sources/table-data-2021-owner-occupied-ward",
+      "rawMetadata": {
+        "id": "data-2021-owner-occupied-ward",
+        "type": "data-entry",
+        "name": "Owner-occupied households (Census 2021, by Ward 2014)",
+        "slug": "data-2021-owner-occupied-ward",
+        "category": "data-population",
+        "description": "Owner-occupied households (Ward 2014) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+        "geography": "wards-2012",
+        "csv": "data/census/derived/ms-e15-owner-occupied-ward.csv",
+        "joinKey": "WardCode",
+        "csvKeyColumn": "GeographyCode",
+        "valueColumn": "OwnerOccupied_pct",
+        "ramp": "viridis",
+        "domain": [
+          25,
+          90
+        ],
+        "logarithmic": false,
+        "tableColumns": [
+          "Geography",
+          "Total",
+          "OwnerOccupied",
+          "OwnerOccupied_pct"
+        ],
+        "keywords": [
+          "census",
+          "2021",
+          "nisra",
+          "data",
+          "owner occupied",
+          "ward 2014"
+        ],
+        "source": {
+          "title": "NISRA Census 2021, Main Statistics Phase 1, MS-E15 (Tenure — households)",
+          "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+        }
+      }
+    },
+    {
+      "id": "table:data-2021-population-dea",
+      "slug": "table-data-2021-population-dea",
+      "type": "table",
+      "title": "Usual resident population (Census 2021, by DEA)",
+      "subtitle": "data-population",
+      "category": "data-population",
+      "description": "Usual resident population (DEA) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by population on a viridis colour ramp; full numeric breakdown shown in the table panel that opens at the bottom right when the entry is loaded.",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "deas-2012",
+        "url": "/assets/thumbnails/deas-2012.webp",
+        "smallUrl": "/assets/thumbnails/deas-2012-60.webp",
+        "alt": "Usual resident population (Census 2021, by DEA)"
+      },
+      "references": [
+        {
+          "label": "NISRA Census 2021 Main Statistics Phase 1, MS-A01 (Usual resident population)",
+          "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "ms-a01-dea.csv",
+          "url": "data/census/derived/ms-a01-dea.csv"
+        }
+      ],
+      "browseUrl": "/browse/sources/table-data-2021-population-dea",
+      "rawMetadata": {
+        "id": "data-2021-population-dea",
+        "name": "Usual resident population (Census 2021, by DEA)",
+        "geography": "deas-2012",
+        "csv": "data/census/derived/ms-a01-dea.csv",
+        "joinKey": "FinalR_DEA",
+        "csvKeyColumn": "Geography",
+        "valueColumn": "AllUsualResidents",
+        "ramp": "viridis",
+        "domain": [
+          3000,
+          25000
+        ],
+        "type": "data-entry",
+        "slug": "data-2021-population-dea",
+        "category": "data-population",
+        "description": "Usual resident population (DEA) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by population on a viridis colour ramp; full numeric breakdown shown in the table panel that opens at the bottom right when the entry is loaded.",
+        "tableColumns": [
+          "Geography",
+          "AllUsualResidents"
+        ],
+        "keywords": [
+          "census",
+          "2021",
+          "population",
+          "demographics",
+          "nisra",
+          "data",
+          "usual residents"
+        ],
+        "source": {
+          "title": "NISRA Census 2021 Main Statistics Phase 1, MS-A01 (Usual resident population)",
+          "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+        }
+      }
+    },
+    {
+      "id": "table:data-2021-population-density-dea",
+      "slug": "table-data-2021-population-density-dea",
+      "type": "table",
+      "title": "Population density (Census 2021, by DEA)",
+      "subtitle": "data-population",
+      "category": "data-population",
+      "description": "Population density (DEA) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded on a viridis colour ramp; full numeric breakdown shown in the table panel that opens at the bottom right when the entry is loaded.",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "deas-2012",
+        "url": "/assets/thumbnails/deas-2012.webp",
+        "smallUrl": "/assets/thumbnails/deas-2012-60.webp",
+        "alt": "Population density (Census 2021, by DEA)"
+      },
+      "references": [
+        {
+          "label": "NISRA Census 2021, Main Statistics Phase 1, MS-A14 (Population density)",
+          "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "ms-a14-dea.csv",
+          "url": "data/census/derived/ms-a14-dea.csv"
+        }
+      ],
+      "browseUrl": "/browse/sources/table-data-2021-population-density-dea",
+      "rawMetadata": {
+        "id": "data-2021-population-density-dea",
+        "type": "data-entry",
+        "name": "Population density (Census 2021, by DEA)",
+        "slug": "data-2021-population-density-dea",
+        "category": "data-population",
+        "description": "Population density (DEA) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded on a viridis colour ramp; full numeric breakdown shown in the table panel that opens at the bottom right when the entry is loaded.",
+        "geography": "deas-2012",
+        "csv": "data/census/derived/ms-a14-dea.csv",
+        "joinKey": "FinalR_DEA",
+        "csvKeyColumn": "Geography",
+        "valueColumn": "PopulationDensity",
+        "ramp": "viridis",
+        "domain": [
+          0.3,
+          35
+        ],
+        "logarithmic": true,
+        "tableColumns": [
+          "Geography",
+          "PopulationDensity"
+        ],
+        "keywords": [
+          "census",
+          "2021",
+          "nisra",
+          "data",
+          "population density",
+          "dea"
+        ],
+        "source": {
+          "title": "NISRA Census 2021, Main Statistics Phase 1, MS-A14 (Population density)",
+          "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+        }
+      }
+    },
+    {
+      "id": "table:data-2021-population-density-dz",
+      "slug": "table-data-2021-population-density-dz",
+      "type": "table",
+      "title": "Population density (Census 2021, by Data Zone)",
+      "subtitle": "data-population",
+      "category": "data-population",
+      "description": "Population density (Data Zone) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded on a viridis colour ramp; full numeric breakdown shown in the table panel that opens at the bottom right when the entry is loaded.",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "dz-2021",
+        "url": "/assets/thumbnails/dz-2021.webp",
+        "smallUrl": "/assets/thumbnails/dz-2021-60.webp",
+        "alt": "Population density (Census 2021, by Data Zone)"
+      },
+      "references": [
+        {
+          "label": "NISRA Census 2021, Main Statistics Phase 1, MS-A14 (Population density)",
+          "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "ms-a14-dz.csv",
+          "url": "data/census/derived/ms-a14-dz.csv"
+        }
+      ],
+      "browseUrl": "/browse/sources/table-data-2021-population-density-dz",
+      "rawMetadata": {
+        "id": "data-2021-population-density-dz",
+        "type": "data-entry",
+        "name": "Population density (Census 2021, by Data Zone)",
+        "slug": "data-2021-population-density-dz",
+        "category": "data-population",
+        "description": "Population density (Data Zone) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded on a viridis colour ramp; full numeric breakdown shown in the table panel that opens at the bottom right when the entry is loaded.",
+        "geography": "dz-2021",
+        "csv": "data/census/derived/ms-a14-dz.csv",
+        "joinKey": "DZ2021_cd",
+        "csvKeyColumn": "GeographyCode",
+        "valueColumn": "PopulationDensity",
+        "ramp": "viridis",
+        "domain": [
+          0.3,
+          90
+        ],
+        "logarithmic": true,
+        "tableColumns": [
+          "Geography",
+          "PopulationDensity"
+        ],
+        "keywords": [
+          "census",
+          "2021",
+          "nisra",
+          "data",
+          "population density",
+          "data zone"
+        ],
+        "source": {
+          "title": "NISRA Census 2021, Main Statistics Phase 1, MS-A14 (Population density)",
+          "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+        }
+      }
+    },
     {
       "id": "table:data-2021-population-density-lgd",
       "slug": "table-data-2021-population-density-lgd",

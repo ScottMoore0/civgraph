@@ -6,14 +6,14 @@ const ROOT = process.cwd();
 const SIDE_CAR = path.join(ROOT, 'data', 'database', 'medium-priority-publication-sources.json');
 const BROWSE_SOURCES = path.join(ROOT, 'data', 'browse', 'sources.json');
 const SOURCE_SHARD_DIR = path.join(ROOT, 'data', 'browse', 'details', 'source-shards');
-const EXPECTED_TOTAL = 2347;
+const EXPECTED_TOTAL = 2346;
 const EXPECTED_READY = 1121;
-const EXPECTED_REVIEW = 1226;
+const EXPECTED_REVIEW = 1225;
 const EXPECTED_GROUPS = new Map([
   ['Irish election source/enrichment data', 176],
   ['Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA', 270],
   ['Open Data NI boundary and statistical-geography files', 93],
-  ['Local authority planning/property/open-data layers', 1638],
+  ['Local authority planning/property/open-data layers', 1637],
   ['Transport, roads, infrastructure, public assets', 170]
 ]);
 

@@ -76,10 +76,14 @@ function validateBrowseSources(peatlandSources, peatlandTargets) {
     assert(indexItem, `Browse source index is missing peatland enrichment target ${target.sourceTargetId}`);
     const detail = readDetail(indexItem, shardCache);
     assert(detail, `Browse source detail is missing enrichment target ${target.sourceTargetId}`);
-    const enrichment = normalizeArray(detail.alreadyOnSiteEnrichments).find((item) => item.sourceTargetId === target.sourceTargetId);
+    const expectedItemIds = normalizeArray(target.sourceItems).map((item) => item.arcgisItemId).filter(Boolean);
+    const enrichment = normalizeArray(detail.alreadyOnSiteEnrichments).find((item) => {
+      if (item.sourceTargetId !== target.sourceTargetId) return false;
+      const actualItemIds = new Set(normalizeArray(item.sourceItems).map((sourceItem) => sourceItem.arcgisItemId).filter(Boolean));
+      return expectedItemIds.every((itemId) => actualItemIds.has(itemId));
+    });
     assert(enrichment, `Browse detail ${indexItem.id} does not include peatland enrichment ${target.sourceTargetId}`);
     assert(normalizeArray(enrichment.sourceItems).length === normalizeArray(target.sourceItems).length, `Browse detail ${indexItem.id} has wrong peatland enrichment count`);
-    const expectedItemIds = normalizeArray(target.sourceItems).map((item) => item.arcgisItemId).filter(Boolean);
     assert(expectedItemIds.length > 0, `Peatland enrichment target ${target.sourceTargetId} has no ArcGIS item IDs`);
     assert(normalizeArray(enrichment.arcgisItemIds).length >= expectedItemIds.length, `Browse detail ${indexItem.id} lost peatland ArcGIS item IDs`);
     assert(/ArcGIS/i.test(enrichment.provenanceSummary || ''), `Browse detail ${indexItem.id} lost peatland ArcGIS provenance summary`);
@@ -125,7 +129,7 @@ function slugify(value) {
     .replace(/&/g, ' and ')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '')
-    .slice(0, 140) || 'item';
+    || 'item';
 }
 
 function assert(condition, message) {

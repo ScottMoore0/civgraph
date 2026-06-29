@@ -1,10 +1,1277 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-28T20:35:32.210Z",
+  "generatedAt": "2026-06-29T22:34:58.850Z",
   "kind": "sources",
   "shard": "sources-034.json",
   "total": 200,
   "items": [
+    {
+      "id": "election-source:european-parliament__2019-05-23",
+      "slug": "election-source-european-parliament-2019-05-23",
+      "type": "election-source",
+      "title": "2019 European election in Northern Ireland 2019-05-23",
+      "subtitle": "European Parliament / 1 constituencies",
+      "category": "Election sources",
+      "date": "2019-05-23",
+      "provider": [
+        "European Parliament"
+      ],
+      "description": "Generated election bundle for 2019 European election in Northern Ireland.",
+      "sourceMapId": "ni-1921",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "ni-1921",
+        "url": "/assets/thumbnails/ni-1921.webp",
+        "smallUrl": "/assets/thumbnails/ni-1921-60.webp",
+        "alt": "2019 European election in Northern Ireland"
+      },
+      "references": [
+        {
+          "label": "Wikipedia overview: 2019 European election in Northern Ireland",
+          "url": "https://en.wikipedia.org/wiki/2019_European_Parliament_election_in_Northern_Ireland",
+          "source": "Wikipedia",
+          "role": "election-overview",
+          "scope": "election"
+        },
+        {
+          "label": "ARK Elections / CAIN archive",
+          "url": "https://www.ark.ac.uk/elections/",
+          "note": "Used as a source/corroboration corpus for Northern Ireland election result data where available.",
+          "source": "ARK Elections / CAIN",
+          "role": "corroboration-source",
+          "scope": "election-corpus"
+        },
+        {
+          "label": "Electoral Office for Northern Ireland election results and statistics",
+          "url": "https://www.eoni.org.uk/Elections/Election-results-and-statistics",
+          "source": "EONI",
+          "role": "official-source-corpus",
+          "scope": "election-corpus"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "european-parliament__2019-05-23.json",
+          "url": "/test/metadata/elections-test2/european-parliament__2019-05-23.json"
+        },
+        {
+          "label": "ni-1921-vector-test.json",
+          "url": "/test/metadata/election-anchors-test2/ni-1921-vector-test.json"
+        }
+      ],
+      "interactiveUrl": "/#layers=election-european-parliament-2019-05-23",
+      "browseUrl": "/browse/sources/election-source-european-parliament-2019-05-23",
+      "rawMetadata": {
+        "manifest": {
+          "key": "european-parliament__2019-05-23",
+          "body": "European Parliament",
+          "date": "2019-05-23",
+          "bodySlug": "european-parliament",
+          "bodyGroup": null,
+          "displayTitle": "2019 European election in Northern Ireland",
+          "displaySubtitle": "1 constituencies",
+          "displayProvider": "European Parliament",
+          "contestType": "election",
+          "kind": "general",
+          "votingSystem": "stv-gregory",
+          "contestStatus": "contested",
+          "candidateRowsExpected": true,
+          "transferDataExpected": true,
+          "localBodies": null,
+          "constituencies": [
+            "Northern Ireland"
+          ],
+          "isByElection": false,
+          "sourceMapId": "ni-1921",
+          "layerId": "ni-1921-vector-test",
+          "labelProperty": "Name",
+          "councilSourceMapId": null,
+          "councilLayerId": null,
+          "councilLabelProperty": null,
+          "loadable": true,
+          "placeholder": false,
+          "matchedCount": 1,
+          "unmatchedCount": 0,
+          "totalConstituencies": 1,
+          "unmatchedConstituencySample": [],
+          "unmatchedConstituencySampleLimit": 30,
+          "unmatchedConstituencies": [],
+          "resultUrl": "/test/metadata/elections-test2/european-parliament__2019-05-23.json",
+          "anchorUrl": "/test/metadata/election-anchors-test2/ni-1921-vector-test.json",
+          "previousKey": "european-parliament__2014-05-22",
+          "previousDate": "2014-05-22",
+          "stylingModes": [
+            "winner",
+            "leadingParty",
+            "voteShare",
+            "turnout",
+            "majority",
+            "seats",
+            "quota"
+          ],
+          "summaryUrl": "/test/metadata/elections-test2-summaries/european-parliament__2019-05-23.json"
+        },
+        "resultUrl": "/test/metadata/elections-test2/european-parliament__2019-05-23.json",
+        "anchorUrl": "/test/metadata/election-anchors-test2/ni-1921-vector-test.json"
+      }
+    },
+    {
+      "id": "election-source:house-of-commons-of-the-united-kingdom__1922-11-15",
+      "slug": "election-source-house-of-commons-of-the-united-kingdom-1922-11-15",
+      "type": "election-source",
+      "title": "1922 UK general election in Northern Ireland 1922-11-15",
+      "subtitle": "House of Commons of the United Kingdom / 10 constituencies",
+      "category": "Election sources",
+      "date": "1922-11-15",
+      "provider": [
+        "House of Commons of the United Kingdom"
+      ],
+      "description": "Generated election bundle for 1922 UK general election in Northern Ireland.",
+      "sourceMapId": "pc-1920",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "pc-1920",
+        "url": "/assets/thumbnails/pc-1920.webp",
+        "smallUrl": "/assets/thumbnails/pc-1920-60.webp",
+        "alt": "1922 UK general election in Northern Ireland"
+      },
+      "references": [
+        {
+          "label": "Wikipedia overview: 1922 UK general election in Northern Ireland",
+          "url": "https://en.wikipedia.org/wiki/1922_United_Kingdom_general_election_in_Northern_Ireland",
+          "source": "Wikipedia",
+          "role": "election-overview",
+          "scope": "election"
+        },
+        {
+          "label": "ARK Elections / CAIN archive",
+          "url": "https://www.ark.ac.uk/elections/",
+          "note": "Used as a source/corroboration corpus for Northern Ireland election result data where available.",
+          "source": "ARK Elections / CAIN",
+          "role": "corroboration-source",
+          "scope": "election-corpus"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "house-of-commons-of-the-united-kingdom__1922-11-15.json",
+          "url": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__1922-11-15.json"
+        },
+        {
+          "label": "pc-1920-vector-test.json",
+          "url": "/test/metadata/election-anchors-test2/pc-1920-vector-test.json"
+        }
+      ],
+      "interactiveUrl": "/#layers=election-house-of-commons-of-the-united-kingdom-1922-11-15",
+      "browseUrl": "/browse/sources/election-source-house-of-commons-of-the-united-kingdom-1922-11-15",
+      "rawMetadata": {
+        "manifest": {
+          "key": "house-of-commons-of-the-united-kingdom__1922-11-15",
+          "body": "House of Commons of the United Kingdom",
+          "date": "1922-11-15",
+          "bodySlug": "house-of-commons-of-the-united-kingdom",
+          "bodyGroup": null,
+          "displayTitle": "1922 UK general election in Northern Ireland",
+          "displaySubtitle": "10 constituencies",
+          "displayProvider": "House of Commons of the United Kingdom",
+          "contestType": "election",
+          "kind": "general",
+          "votingSystem": "fptp",
+          "contestStatus": "contested",
+          "candidateRowsExpected": true,
+          "transferDataExpected": false,
+          "localBodies": null,
+          "constituencies": [
+            "Antrim",
+            "Armagh",
+            "Belfast East",
+            "Belfast North",
+            "Belfast South",
+            "Belfast West",
+            "Down",
+            "Fermanagh and Tyrone",
+            "Londonderry",
+            "Queen's University of Belfast"
+          ],
+          "isByElection": false,
+          "sourceMapId": "pc-1920",
+          "layerId": "pc-1920-vector-test",
+          "labelProperty": "Name",
+          "councilSourceMapId": null,
+          "councilLayerId": null,
+          "councilLabelProperty": null,
+          "loadable": true,
+          "placeholder": false,
+          "matchedCount": 10,
+          "unmatchedCount": 0,
+          "totalConstituencies": 10,
+          "unmatchedConstituencySample": [],
+          "unmatchedConstituencySampleLimit": 30,
+          "unmatchedConstituencies": [],
+          "resultUrl": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__1922-11-15.json",
+          "anchorUrl": "/test/metadata/election-anchors-test2/pc-1920-vector-test.json",
+          "previousKey": null,
+          "previousDate": null,
+          "stylingModes": [
+            "winner",
+            "leadingParty",
+            "voteShare",
+            "majority",
+            "seats"
+          ],
+          "summaryUrl": "/test/metadata/elections-test2-summaries/house-of-commons-of-the-united-kingdom__1922-11-15.json"
+        },
+        "resultUrl": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__1922-11-15.json",
+        "anchorUrl": "/test/metadata/election-anchors-test2/pc-1920-vector-test.json"
+      }
+    },
+    {
+      "id": "election-source:house-of-commons-of-the-united-kingdom__1923-12-06",
+      "slug": "election-source-house-of-commons-of-the-united-kingdom-1923-12-06",
+      "type": "election-source",
+      "title": "1923 UK general election in Northern Ireland 1923-12-06",
+      "subtitle": "House of Commons of the United Kingdom / 10 constituencies",
+      "category": "Election sources",
+      "date": "1923-12-06",
+      "provider": [
+        "House of Commons of the United Kingdom"
+      ],
+      "description": "Generated election bundle for 1923 UK general election in Northern Ireland.",
+      "sourceMapId": "pc-1920",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "pc-1920",
+        "url": "/assets/thumbnails/pc-1920.webp",
+        "smallUrl": "/assets/thumbnails/pc-1920-60.webp",
+        "alt": "1923 UK general election in Northern Ireland"
+      },
+      "references": [
+        {
+          "label": "Wikipedia overview: 1923 UK general election in Northern Ireland",
+          "url": "https://en.wikipedia.org/wiki/1923_United_Kingdom_general_election_in_Northern_Ireland",
+          "source": "Wikipedia",
+          "role": "election-overview",
+          "scope": "election"
+        },
+        {
+          "label": "ARK Elections / CAIN archive",
+          "url": "https://www.ark.ac.uk/elections/",
+          "note": "Used as a source/corroboration corpus for Northern Ireland election result data where available.",
+          "source": "ARK Elections / CAIN",
+          "role": "corroboration-source",
+          "scope": "election-corpus"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "house-of-commons-of-the-united-kingdom__1923-12-06.json",
+          "url": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__1923-12-06.json"
+        },
+        {
+          "label": "pc-1920-vector-test.json",
+          "url": "/test/metadata/election-anchors-test2/pc-1920-vector-test.json"
+        }
+      ],
+      "interactiveUrl": "/#layers=election-house-of-commons-of-the-united-kingdom-1923-12-06",
+      "browseUrl": "/browse/sources/election-source-house-of-commons-of-the-united-kingdom-1923-12-06",
+      "rawMetadata": {
+        "manifest": {
+          "key": "house-of-commons-of-the-united-kingdom__1923-12-06",
+          "body": "House of Commons of the United Kingdom",
+          "date": "1923-12-06",
+          "bodySlug": "house-of-commons-of-the-united-kingdom",
+          "bodyGroup": null,
+          "displayTitle": "1923 UK general election in Northern Ireland",
+          "displaySubtitle": "10 constituencies",
+          "displayProvider": "House of Commons of the United Kingdom",
+          "contestType": "election",
+          "kind": "general",
+          "votingSystem": "fptp",
+          "contestStatus": "contested",
+          "candidateRowsExpected": true,
+          "transferDataExpected": false,
+          "localBodies": null,
+          "constituencies": [
+            "Antrim",
+            "Armagh",
+            "Belfast East",
+            "Belfast North",
+            "Belfast South",
+            "Belfast West",
+            "Down",
+            "Fermanagh and Tyrone",
+            "Londonderry",
+            "Queen's University of Belfast"
+          ],
+          "isByElection": false,
+          "sourceMapId": "pc-1920",
+          "layerId": "pc-1920-vector-test",
+          "labelProperty": "Name",
+          "councilSourceMapId": null,
+          "councilLayerId": null,
+          "councilLabelProperty": null,
+          "loadable": true,
+          "placeholder": false,
+          "matchedCount": 10,
+          "unmatchedCount": 0,
+          "totalConstituencies": 10,
+          "unmatchedConstituencySample": [],
+          "unmatchedConstituencySampleLimit": 30,
+          "unmatchedConstituencies": [],
+          "resultUrl": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__1923-12-06.json",
+          "anchorUrl": "/test/metadata/election-anchors-test2/pc-1920-vector-test.json",
+          "previousKey": "house-of-commons-of-the-united-kingdom__1922-11-15",
+          "previousDate": "1922-11-15",
+          "stylingModes": [
+            "winner",
+            "leadingParty",
+            "voteShare",
+            "majority",
+            "seats"
+          ],
+          "summaryUrl": "/test/metadata/elections-test2-summaries/house-of-commons-of-the-united-kingdom__1923-12-06.json"
+        },
+        "resultUrl": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__1923-12-06.json",
+        "anchorUrl": "/test/metadata/election-anchors-test2/pc-1920-vector-test.json"
+      }
+    },
+    {
+      "id": "election-source:house-of-commons-of-the-united-kingdom__1924-10-29",
+      "slug": "election-source-house-of-commons-of-the-united-kingdom-1924-10-29",
+      "type": "election-source",
+      "title": "1924 UK general election in Northern Ireland 1924-10-29",
+      "subtitle": "House of Commons of the United Kingdom / 10 constituencies",
+      "category": "Election sources",
+      "date": "1924-10-29",
+      "provider": [
+        "House of Commons of the United Kingdom"
+      ],
+      "description": "Generated election bundle for 1924 UK general election in Northern Ireland.",
+      "sourceMapId": "pc-1920",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "pc-1920",
+        "url": "/assets/thumbnails/pc-1920.webp",
+        "smallUrl": "/assets/thumbnails/pc-1920-60.webp",
+        "alt": "1924 UK general election in Northern Ireland"
+      },
+      "references": [
+        {
+          "label": "Wikipedia overview: 1924 UK general election in Northern Ireland",
+          "url": "https://en.wikipedia.org/wiki/1924_United_Kingdom_general_election_in_Northern_Ireland",
+          "source": "Wikipedia",
+          "role": "election-overview",
+          "scope": "election"
+        },
+        {
+          "label": "ARK Elections / CAIN archive",
+          "url": "https://www.ark.ac.uk/elections/",
+          "note": "Used as a source/corroboration corpus for Northern Ireland election result data where available.",
+          "source": "ARK Elections / CAIN",
+          "role": "corroboration-source",
+          "scope": "election-corpus"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "house-of-commons-of-the-united-kingdom__1924-10-29.json",
+          "url": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__1924-10-29.json"
+        },
+        {
+          "label": "pc-1920-vector-test.json",
+          "url": "/test/metadata/election-anchors-test2/pc-1920-vector-test.json"
+        }
+      ],
+      "interactiveUrl": "/#layers=election-house-of-commons-of-the-united-kingdom-1924-10-29",
+      "browseUrl": "/browse/sources/election-source-house-of-commons-of-the-united-kingdom-1924-10-29",
+      "rawMetadata": {
+        "manifest": {
+          "key": "house-of-commons-of-the-united-kingdom__1924-10-29",
+          "body": "House of Commons of the United Kingdom",
+          "date": "1924-10-29",
+          "bodySlug": "house-of-commons-of-the-united-kingdom",
+          "bodyGroup": null,
+          "displayTitle": "1924 UK general election in Northern Ireland",
+          "displaySubtitle": "10 constituencies",
+          "displayProvider": "House of Commons of the United Kingdom",
+          "contestType": "election",
+          "kind": "general",
+          "votingSystem": "fptp",
+          "contestStatus": "contested",
+          "candidateRowsExpected": true,
+          "transferDataExpected": false,
+          "localBodies": null,
+          "constituencies": [
+            "Antrim",
+            "Armagh",
+            "Belfast East",
+            "Belfast North",
+            "Belfast South",
+            "Belfast West",
+            "Down",
+            "Fermanagh and Tyrone",
+            "Londonderry",
+            "Queen's University of Belfast"
+          ],
+          "isByElection": false,
+          "sourceMapId": "pc-1920",
+          "layerId": "pc-1920-vector-test",
+          "labelProperty": "Name",
+          "councilSourceMapId": null,
+          "councilLayerId": null,
+          "councilLabelProperty": null,
+          "loadable": true,
+          "placeholder": false,
+          "matchedCount": 10,
+          "unmatchedCount": 0,
+          "totalConstituencies": 10,
+          "unmatchedConstituencySample": [],
+          "unmatchedConstituencySampleLimit": 30,
+          "unmatchedConstituencies": [],
+          "resultUrl": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__1924-10-29.json",
+          "anchorUrl": "/test/metadata/election-anchors-test2/pc-1920-vector-test.json",
+          "previousKey": "house-of-commons-of-the-united-kingdom__1923-12-06",
+          "previousDate": "1923-12-06",
+          "stylingModes": [
+            "winner",
+            "leadingParty",
+            "voteShare",
+            "majority",
+            "seats"
+          ],
+          "summaryUrl": "/test/metadata/elections-test2-summaries/house-of-commons-of-the-united-kingdom__1924-10-29.json"
+        },
+        "resultUrl": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__1924-10-29.json",
+        "anchorUrl": "/test/metadata/election-anchors-test2/pc-1920-vector-test.json"
+      }
+    },
+    {
+      "id": "election-source:house-of-commons-of-the-united-kingdom__1929-01-29",
+      "slug": "election-source-house-of-commons-of-the-united-kingdom-1929-01-29",
+      "type": "election-source",
+      "title": "1929 Londonderry by-election 1929-01-29",
+      "subtitle": "House of Commons of the United Kingdom / 1 constituencies",
+      "category": "Election sources",
+      "date": "1929-01-29",
+      "provider": [
+        "House of Commons of the United Kingdom"
+      ],
+      "description": "Generated election bundle for 1929 Londonderry by-election.",
+      "sourceMapId": "pc-1920",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "pc-1920",
+        "url": "/assets/thumbnails/pc-1920.webp",
+        "smallUrl": "/assets/thumbnails/pc-1920-60.webp",
+        "alt": "1929 Londonderry by-election"
+      },
+      "references": [
+        {
+          "label": "Wikipedia overview: 1929 Londonderry by-election",
+          "url": "https://en.wikipedia.org/wiki/List_of_United_Kingdom_by-elections_in_Northern_Ireland",
+          "source": "Wikipedia",
+          "role": "election-overview",
+          "scope": "election"
+        },
+        {
+          "label": "ARK Elections / CAIN archive",
+          "url": "https://www.ark.ac.uk/elections/",
+          "note": "Used as a source/corroboration corpus for Northern Ireland election result data where available.",
+          "source": "ARK Elections / CAIN",
+          "role": "corroboration-source",
+          "scope": "election-corpus"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "house-of-commons-of-the-united-kingdom__1929-01-29.json",
+          "url": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__1929-01-29.json"
+        },
+        {
+          "label": "pc-1920-vector-test.json",
+          "url": "/test/metadata/election-anchors-test2/pc-1920-vector-test.json"
+        }
+      ],
+      "interactiveUrl": "/#layers=election-house-of-commons-of-the-united-kingdom-1929-01-29",
+      "browseUrl": "/browse/sources/election-source-house-of-commons-of-the-united-kingdom-1929-01-29",
+      "rawMetadata": {
+        "manifest": {
+          "key": "house-of-commons-of-the-united-kingdom__1929-01-29",
+          "body": "House of Commons of the United Kingdom",
+          "date": "1929-01-29",
+          "bodySlug": "house-of-commons-of-the-united-kingdom",
+          "bodyGroup": null,
+          "displayTitle": "1929 Londonderry by-election",
+          "displaySubtitle": "1 constituencies",
+          "displayProvider": "House of Commons of the United Kingdom",
+          "contestType": "election",
+          "kind": "by-election",
+          "votingSystem": "fptp",
+          "contestStatus": "contested",
+          "candidateRowsExpected": true,
+          "transferDataExpected": false,
+          "localBodies": null,
+          "constituencies": [
+            "Londonderry"
+          ],
+          "isByElection": true,
+          "sourceMapId": "pc-1920",
+          "layerId": "pc-1920-vector-test",
+          "labelProperty": "Name",
+          "councilSourceMapId": null,
+          "councilLayerId": null,
+          "councilLabelProperty": null,
+          "loadable": true,
+          "placeholder": false,
+          "matchedCount": 1,
+          "unmatchedCount": 0,
+          "totalConstituencies": 1,
+          "unmatchedConstituencySample": [],
+          "unmatchedConstituencySampleLimit": 30,
+          "unmatchedConstituencies": [],
+          "resultUrl": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__1929-01-29.json",
+          "anchorUrl": "/test/metadata/election-anchors-test2/pc-1920-vector-test.json",
+          "previousKey": "house-of-commons-of-the-united-kingdom__1924-10-29",
+          "previousDate": "1924-10-29",
+          "stylingModes": [
+            "winner",
+            "leadingParty",
+            "seats"
+          ],
+          "summaryUrl": "/test/metadata/elections-test2-summaries/house-of-commons-of-the-united-kingdom__1929-01-29.json"
+        },
+        "resultUrl": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__1929-01-29.json",
+        "anchorUrl": "/test/metadata/election-anchors-test2/pc-1920-vector-test.json"
+      }
+    },
+    {
+      "id": "election-source:house-of-commons-of-the-united-kingdom__1929-05-30",
+      "slug": "election-source-house-of-commons-of-the-united-kingdom-1929-05-30",
+      "type": "election-source",
+      "title": "1929 UK general election in Northern Ireland 1929-05-30",
+      "subtitle": "House of Commons of the United Kingdom / 10 constituencies",
+      "category": "Election sources",
+      "date": "1929-05-30",
+      "provider": [
+        "House of Commons of the United Kingdom"
+      ],
+      "description": "Generated election bundle for 1929 UK general election in Northern Ireland.",
+      "sourceMapId": "pc-1920",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "pc-1920",
+        "url": "/assets/thumbnails/pc-1920.webp",
+        "smallUrl": "/assets/thumbnails/pc-1920-60.webp",
+        "alt": "1929 UK general election in Northern Ireland"
+      },
+      "references": [
+        {
+          "label": "Wikipedia overview: 1929 UK general election in Northern Ireland",
+          "url": "https://en.wikipedia.org/wiki/1929_United_Kingdom_general_election_in_Northern_Ireland",
+          "source": "Wikipedia",
+          "role": "election-overview",
+          "scope": "election"
+        },
+        {
+          "label": "ARK Elections / CAIN archive",
+          "url": "https://www.ark.ac.uk/elections/",
+          "note": "Used as a source/corroboration corpus for Northern Ireland election result data where available.",
+          "source": "ARK Elections / CAIN",
+          "role": "corroboration-source",
+          "scope": "election-corpus"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "house-of-commons-of-the-united-kingdom__1929-05-30.json",
+          "url": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__1929-05-30.json"
+        },
+        {
+          "label": "pc-1920-vector-test.json",
+          "url": "/test/metadata/election-anchors-test2/pc-1920-vector-test.json"
+        }
+      ],
+      "interactiveUrl": "/#layers=election-house-of-commons-of-the-united-kingdom-1929-05-30",
+      "browseUrl": "/browse/sources/election-source-house-of-commons-of-the-united-kingdom-1929-05-30",
+      "rawMetadata": {
+        "manifest": {
+          "key": "house-of-commons-of-the-united-kingdom__1929-05-30",
+          "body": "House of Commons of the United Kingdom",
+          "date": "1929-05-30",
+          "bodySlug": "house-of-commons-of-the-united-kingdom",
+          "bodyGroup": null,
+          "displayTitle": "1929 UK general election in Northern Ireland",
+          "displaySubtitle": "10 constituencies",
+          "displayProvider": "House of Commons of the United Kingdom",
+          "contestType": "election",
+          "kind": "general",
+          "votingSystem": "fptp",
+          "contestStatus": "contested",
+          "candidateRowsExpected": true,
+          "transferDataExpected": false,
+          "localBodies": null,
+          "constituencies": [
+            "Antrim",
+            "Armagh",
+            "Belfast East",
+            "Belfast North",
+            "Belfast South",
+            "Belfast West",
+            "Down",
+            "Fermanagh and Tyrone",
+            "Londonderry",
+            "Queen's University of Belfast"
+          ],
+          "isByElection": false,
+          "sourceMapId": "pc-1920",
+          "layerId": "pc-1920-vector-test",
+          "labelProperty": "Name",
+          "councilSourceMapId": null,
+          "councilLayerId": null,
+          "councilLabelProperty": null,
+          "loadable": true,
+          "placeholder": false,
+          "matchedCount": 10,
+          "unmatchedCount": 0,
+          "totalConstituencies": 10,
+          "unmatchedConstituencySample": [],
+          "unmatchedConstituencySampleLimit": 30,
+          "unmatchedConstituencies": [],
+          "resultUrl": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__1929-05-30.json",
+          "anchorUrl": "/test/metadata/election-anchors-test2/pc-1920-vector-test.json",
+          "previousKey": "house-of-commons-of-the-united-kingdom__1924-10-29",
+          "previousDate": "1924-10-29",
+          "stylingModes": [
+            "winner",
+            "leadingParty",
+            "voteShare",
+            "majority",
+            "seats"
+          ],
+          "summaryUrl": "/test/metadata/elections-test2-summaries/house-of-commons-of-the-united-kingdom__1929-05-30.json"
+        },
+        "resultUrl": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__1929-05-30.json",
+        "anchorUrl": "/test/metadata/election-anchors-test2/pc-1920-vector-test.json"
+      }
+    },
+    {
+      "id": "election-source:house-of-commons-of-the-united-kingdom__1931-03-07",
+      "slug": "election-source-house-of-commons-of-the-united-kingdom-1931-03-07",
+      "type": "election-source",
+      "title": "1931 Fermanagh and Tyrone by-election 1931-03-07",
+      "subtitle": "House of Commons of the United Kingdom / 1 constituencies",
+      "category": "Election sources",
+      "date": "1931-03-07",
+      "provider": [
+        "House of Commons of the United Kingdom"
+      ],
+      "description": "Generated election bundle for 1931 Fermanagh and Tyrone by-election.",
+      "sourceMapId": "pc-1920",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "pc-1920",
+        "url": "/assets/thumbnails/pc-1920.webp",
+        "smallUrl": "/assets/thumbnails/pc-1920-60.webp",
+        "alt": "1931 Fermanagh and Tyrone by-election"
+      },
+      "references": [
+        {
+          "label": "Wikipedia overview: 1931 Fermanagh and Tyrone by-election",
+          "url": "https://en.wikipedia.org/wiki/List_of_United_Kingdom_by-elections_in_Northern_Ireland",
+          "source": "Wikipedia",
+          "role": "election-overview",
+          "scope": "election"
+        },
+        {
+          "label": "ARK Elections / CAIN archive",
+          "url": "https://www.ark.ac.uk/elections/",
+          "note": "Used as a source/corroboration corpus for Northern Ireland election result data where available.",
+          "source": "ARK Elections / CAIN",
+          "role": "corroboration-source",
+          "scope": "election-corpus"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "house-of-commons-of-the-united-kingdom__1931-03-07.json",
+          "url": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__1931-03-07.json"
+        },
+        {
+          "label": "pc-1920-vector-test.json",
+          "url": "/test/metadata/election-anchors-test2/pc-1920-vector-test.json"
+        }
+      ],
+      "interactiveUrl": "/#layers=election-house-of-commons-of-the-united-kingdom-1931-03-07",
+      "browseUrl": "/browse/sources/election-source-house-of-commons-of-the-united-kingdom-1931-03-07",
+      "rawMetadata": {
+        "manifest": {
+          "key": "house-of-commons-of-the-united-kingdom__1931-03-07",
+          "body": "House of Commons of the United Kingdom",
+          "date": "1931-03-07",
+          "bodySlug": "house-of-commons-of-the-united-kingdom",
+          "bodyGroup": null,
+          "displayTitle": "1931 Fermanagh and Tyrone by-election",
+          "displaySubtitle": "1 constituencies",
+          "displayProvider": "House of Commons of the United Kingdom",
+          "contestType": "election",
+          "kind": "by-election",
+          "votingSystem": "fptp",
+          "contestStatus": "contested",
+          "candidateRowsExpected": true,
+          "transferDataExpected": false,
+          "localBodies": null,
+          "constituencies": [
+            "Fermanagh and Tyrone"
+          ],
+          "isByElection": true,
+          "sourceMapId": "pc-1920",
+          "layerId": "pc-1920-vector-test",
+          "labelProperty": "Name",
+          "councilSourceMapId": null,
+          "councilLayerId": null,
+          "councilLabelProperty": null,
+          "loadable": true,
+          "placeholder": false,
+          "matchedCount": 1,
+          "unmatchedCount": 0,
+          "totalConstituencies": 1,
+          "unmatchedConstituencySample": [],
+          "unmatchedConstituencySampleLimit": 30,
+          "unmatchedConstituencies": [],
+          "resultUrl": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__1931-03-07.json",
+          "anchorUrl": "/test/metadata/election-anchors-test2/pc-1920-vector-test.json",
+          "previousKey": "house-of-commons-of-the-united-kingdom__1929-05-30",
+          "previousDate": "1929-05-30",
+          "stylingModes": [
+            "winner",
+            "leadingParty",
+            "seats"
+          ],
+          "summaryUrl": "/test/metadata/elections-test2-summaries/house-of-commons-of-the-united-kingdom__1931-03-07.json"
+        },
+        "resultUrl": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__1931-03-07.json",
+        "anchorUrl": "/test/metadata/election-anchors-test2/pc-1920-vector-test.json"
+      }
+    },
+    {
+      "id": "election-source:house-of-commons-of-the-united-kingdom__1931-10-27",
+      "slug": "election-source-house-of-commons-of-the-united-kingdom-1931-10-27",
+      "type": "election-source",
+      "title": "1931 UK general election in Northern Ireland 1931-10-27",
+      "subtitle": "House of Commons of the United Kingdom / 10 constituencies",
+      "category": "Election sources",
+      "date": "1931-10-27",
+      "provider": [
+        "House of Commons of the United Kingdom"
+      ],
+      "description": "Generated election bundle for 1931 UK general election in Northern Ireland.",
+      "sourceMapId": "pc-1920",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "pc-1920",
+        "url": "/assets/thumbnails/pc-1920.webp",
+        "smallUrl": "/assets/thumbnails/pc-1920-60.webp",
+        "alt": "1931 UK general election in Northern Ireland"
+      },
+      "references": [
+        {
+          "label": "Wikipedia overview: 1931 UK general election in Northern Ireland",
+          "url": "https://en.wikipedia.org/wiki/1931_United_Kingdom_general_election_in_Northern_Ireland",
+          "source": "Wikipedia",
+          "role": "election-overview",
+          "scope": "election"
+        },
+        {
+          "label": "ARK Elections / CAIN archive",
+          "url": "https://www.ark.ac.uk/elections/",
+          "note": "Used as a source/corroboration corpus for Northern Ireland election result data where available.",
+          "source": "ARK Elections / CAIN",
+          "role": "corroboration-source",
+          "scope": "election-corpus"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "house-of-commons-of-the-united-kingdom__1931-10-27.json",
+          "url": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__1931-10-27.json"
+        },
+        {
+          "label": "pc-1920-vector-test.json",
+          "url": "/test/metadata/election-anchors-test2/pc-1920-vector-test.json"
+        }
+      ],
+      "interactiveUrl": "/#layers=election-house-of-commons-of-the-united-kingdom-1931-10-27",
+      "browseUrl": "/browse/sources/election-source-house-of-commons-of-the-united-kingdom-1931-10-27",
+      "rawMetadata": {
+        "manifest": {
+          "key": "house-of-commons-of-the-united-kingdom__1931-10-27",
+          "body": "House of Commons of the United Kingdom",
+          "date": "1931-10-27",
+          "bodySlug": "house-of-commons-of-the-united-kingdom",
+          "bodyGroup": null,
+          "displayTitle": "1931 UK general election in Northern Ireland",
+          "displaySubtitle": "10 constituencies",
+          "displayProvider": "House of Commons of the United Kingdom",
+          "contestType": "election",
+          "kind": "general",
+          "votingSystem": "fptp",
+          "contestStatus": "contested",
+          "candidateRowsExpected": true,
+          "transferDataExpected": false,
+          "localBodies": null,
+          "constituencies": [
+            "Antrim",
+            "Armagh",
+            "Belfast East",
+            "Belfast North",
+            "Belfast South",
+            "Belfast West",
+            "Down",
+            "Fermanagh and Tyrone",
+            "Londonderry",
+            "Queen's University of Belfast"
+          ],
+          "isByElection": false,
+          "sourceMapId": "pc-1920",
+          "layerId": "pc-1920-vector-test",
+          "labelProperty": "Name",
+          "councilSourceMapId": null,
+          "councilLayerId": null,
+          "councilLabelProperty": null,
+          "loadable": true,
+          "placeholder": false,
+          "matchedCount": 10,
+          "unmatchedCount": 0,
+          "totalConstituencies": 10,
+          "unmatchedConstituencySample": [],
+          "unmatchedConstituencySampleLimit": 30,
+          "unmatchedConstituencies": [],
+          "resultUrl": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__1931-10-27.json",
+          "anchorUrl": "/test/metadata/election-anchors-test2/pc-1920-vector-test.json",
+          "previousKey": "house-of-commons-of-the-united-kingdom__1929-05-30",
+          "previousDate": "1929-05-30",
+          "stylingModes": [
+            "winner",
+            "leadingParty",
+            "voteShare",
+            "majority",
+            "seats"
+          ],
+          "summaryUrl": "/test/metadata/elections-test2-summaries/house-of-commons-of-the-united-kingdom__1931-10-27.json"
+        },
+        "resultUrl": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__1931-10-27.json",
+        "anchorUrl": "/test/metadata/election-anchors-test2/pc-1920-vector-test.json"
+      }
+    },
+    {
+      "id": "election-source:house-of-commons-of-the-united-kingdom__1934-06-27",
+      "slug": "election-source-house-of-commons-of-the-united-kingdom-1934-06-27",
+      "type": "election-source",
+      "title": "1934 Fermanagh and Tyrone by-election 1934-06-27",
+      "subtitle": "House of Commons of the United Kingdom / 1 constituencies",
+      "category": "Election sources",
+      "date": "1934-06-27",
+      "provider": [
+        "House of Commons of the United Kingdom"
+      ],
+      "description": "Generated election bundle for 1934 Fermanagh and Tyrone by-election.",
+      "sourceMapId": "pc-1920",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "pc-1920",
+        "url": "/assets/thumbnails/pc-1920.webp",
+        "smallUrl": "/assets/thumbnails/pc-1920-60.webp",
+        "alt": "1934 Fermanagh and Tyrone by-election"
+      },
+      "references": [
+        {
+          "label": "Wikipedia overview: 1934 Fermanagh and Tyrone by-election",
+          "url": "https://en.wikipedia.org/wiki/List_of_United_Kingdom_by-elections_in_Northern_Ireland",
+          "source": "Wikipedia",
+          "role": "election-overview",
+          "scope": "election"
+        },
+        {
+          "label": "ARK Elections / CAIN archive",
+          "url": "https://www.ark.ac.uk/elections/",
+          "note": "Used as a source/corroboration corpus for Northern Ireland election result data where available.",
+          "source": "ARK Elections / CAIN",
+          "role": "corroboration-source",
+          "scope": "election-corpus"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "house-of-commons-of-the-united-kingdom__1934-06-27.json",
+          "url": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__1934-06-27.json"
+        },
+        {
+          "label": "pc-1920-vector-test.json",
+          "url": "/test/metadata/election-anchors-test2/pc-1920-vector-test.json"
+        }
+      ],
+      "interactiveUrl": "/#layers=election-house-of-commons-of-the-united-kingdom-1934-06-27",
+      "browseUrl": "/browse/sources/election-source-house-of-commons-of-the-united-kingdom-1934-06-27",
+      "rawMetadata": {
+        "manifest": {
+          "key": "house-of-commons-of-the-united-kingdom__1934-06-27",
+          "body": "House of Commons of the United Kingdom",
+          "date": "1934-06-27",
+          "bodySlug": "house-of-commons-of-the-united-kingdom",
+          "bodyGroup": null,
+          "displayTitle": "1934 Fermanagh and Tyrone by-election",
+          "displaySubtitle": "1 constituencies",
+          "displayProvider": "House of Commons of the United Kingdom",
+          "contestType": "election",
+          "kind": "by-election",
+          "votingSystem": "fptp",
+          "contestStatus": "contested",
+          "candidateRowsExpected": true,
+          "transferDataExpected": false,
+          "localBodies": null,
+          "constituencies": [
+            "Fermanagh and Tyrone"
+          ],
+          "isByElection": true,
+          "sourceMapId": "pc-1920",
+          "layerId": "pc-1920-vector-test",
+          "labelProperty": "Name",
+          "councilSourceMapId": null,
+          "councilLayerId": null,
+          "councilLabelProperty": null,
+          "loadable": true,
+          "placeholder": false,
+          "matchedCount": 1,
+          "unmatchedCount": 0,
+          "totalConstituencies": 1,
+          "unmatchedConstituencySample": [],
+          "unmatchedConstituencySampleLimit": 30,
+          "unmatchedConstituencies": [],
+          "resultUrl": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__1934-06-27.json",
+          "anchorUrl": "/test/metadata/election-anchors-test2/pc-1920-vector-test.json",
+          "previousKey": "house-of-commons-of-the-united-kingdom__1931-10-27",
+          "previousDate": "1931-10-27",
+          "stylingModes": [
+            "winner",
+            "leadingParty",
+            "voteShare",
+            "majority",
+            "seats"
+          ],
+          "summaryUrl": "/test/metadata/elections-test2-summaries/house-of-commons-of-the-united-kingdom__1934-06-27.json"
+        },
+        "resultUrl": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__1934-06-27.json",
+        "anchorUrl": "/test/metadata/election-anchors-test2/pc-1920-vector-test.json"
+      }
+    },
+    {
+      "id": "election-source:house-of-commons-of-the-united-kingdom__1935-11-14",
+      "slug": "election-source-house-of-commons-of-the-united-kingdom-1935-11-14",
+      "type": "election-source",
+      "title": "1935 UK general election in Northern Ireland 1935-11-14",
+      "subtitle": "House of Commons of the United Kingdom / 10 constituencies",
+      "category": "Election sources",
+      "date": "1935-11-14",
+      "provider": [
+        "House of Commons of the United Kingdom"
+      ],
+      "description": "Generated election bundle for 1935 UK general election in Northern Ireland.",
+      "sourceMapId": "pc-1920",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "pc-1920",
+        "url": "/assets/thumbnails/pc-1920.webp",
+        "smallUrl": "/assets/thumbnails/pc-1920-60.webp",
+        "alt": "1935 UK general election in Northern Ireland"
+      },
+      "references": [
+        {
+          "label": "Wikipedia overview: 1935 UK general election in Northern Ireland",
+          "url": "https://en.wikipedia.org/wiki/1935_United_Kingdom_general_election_in_Northern_Ireland",
+          "source": "Wikipedia",
+          "role": "election-overview",
+          "scope": "election"
+        },
+        {
+          "label": "ARK Elections / CAIN archive",
+          "url": "https://www.ark.ac.uk/elections/",
+          "note": "Used as a source/corroboration corpus for Northern Ireland election result data where available.",
+          "source": "ARK Elections / CAIN",
+          "role": "corroboration-source",
+          "scope": "election-corpus"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "house-of-commons-of-the-united-kingdom__1935-11-14.json",
+          "url": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__1935-11-14.json"
+        },
+        {
+          "label": "pc-1920-vector-test.json",
+          "url": "/test/metadata/election-anchors-test2/pc-1920-vector-test.json"
+        }
+      ],
+      "interactiveUrl": "/#layers=election-house-of-commons-of-the-united-kingdom-1935-11-14",
+      "browseUrl": "/browse/sources/election-source-house-of-commons-of-the-united-kingdom-1935-11-14",
+      "rawMetadata": {
+        "manifest": {
+          "key": "house-of-commons-of-the-united-kingdom__1935-11-14",
+          "body": "House of Commons of the United Kingdom",
+          "date": "1935-11-14",
+          "bodySlug": "house-of-commons-of-the-united-kingdom",
+          "bodyGroup": null,
+          "displayTitle": "1935 UK general election in Northern Ireland",
+          "displaySubtitle": "10 constituencies",
+          "displayProvider": "House of Commons of the United Kingdom",
+          "contestType": "election",
+          "kind": "general",
+          "votingSystem": "fptp",
+          "contestStatus": "contested",
+          "candidateRowsExpected": true,
+          "transferDataExpected": false,
+          "localBodies": null,
+          "constituencies": [
+            "Antrim",
+            "Armagh",
+            "Belfast East",
+            "Belfast North",
+            "Belfast South",
+            "Belfast West",
+            "Down",
+            "Fermanagh and Tyrone",
+            "Londonderry",
+            "Queen's University of Belfast"
+          ],
+          "isByElection": false,
+          "sourceMapId": "pc-1920",
+          "layerId": "pc-1920-vector-test",
+          "labelProperty": "Name",
+          "councilSourceMapId": null,
+          "councilLayerId": null,
+          "councilLabelProperty": null,
+          "loadable": true,
+          "placeholder": false,
+          "matchedCount": 10,
+          "unmatchedCount": 0,
+          "totalConstituencies": 10,
+          "unmatchedConstituencySample": [],
+          "unmatchedConstituencySampleLimit": 30,
+          "unmatchedConstituencies": [],
+          "resultUrl": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__1935-11-14.json",
+          "anchorUrl": "/test/metadata/election-anchors-test2/pc-1920-vector-test.json",
+          "previousKey": "house-of-commons-of-the-united-kingdom__1931-10-27",
+          "previousDate": "1931-10-27",
+          "stylingModes": [
+            "winner",
+            "leadingParty",
+            "voteShare",
+            "majority",
+            "seats"
+          ],
+          "summaryUrl": "/test/metadata/elections-test2-summaries/house-of-commons-of-the-united-kingdom__1935-11-14.json"
+        },
+        "resultUrl": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__1935-11-14.json",
+        "anchorUrl": "/test/metadata/election-anchors-test2/pc-1920-vector-test.json"
+      }
+    },
+    {
+      "id": "election-source:house-of-commons-of-the-united-kingdom__1939-05-10",
+      "slug": "election-source-house-of-commons-of-the-united-kingdom-1939-05-10",
+      "type": "election-source",
+      "title": "1939 Down by-election 1939-05-10",
+      "subtitle": "House of Commons of the United Kingdom / 1 constituencies",
+      "category": "Election sources",
+      "date": "1939-05-10",
+      "provider": [
+        "House of Commons of the United Kingdom"
+      ],
+      "description": "Generated election bundle for 1939 Down by-election.",
+      "sourceMapId": "pc-1920",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "pc-1920",
+        "url": "/assets/thumbnails/pc-1920.webp",
+        "smallUrl": "/assets/thumbnails/pc-1920-60.webp",
+        "alt": "1939 Down by-election"
+      },
+      "references": [
+        {
+          "label": "Wikipedia overview: 1939 Down by-election",
+          "url": "https://en.wikipedia.org/wiki/List_of_United_Kingdom_by-elections_in_Northern_Ireland",
+          "source": "Wikipedia",
+          "role": "election-overview",
+          "scope": "election"
+        },
+        {
+          "label": "ARK Elections / CAIN archive",
+          "url": "https://www.ark.ac.uk/elections/",
+          "note": "Used as a source/corroboration corpus for Northern Ireland election result data where available.",
+          "source": "ARK Elections / CAIN",
+          "role": "corroboration-source",
+          "scope": "election-corpus"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "house-of-commons-of-the-united-kingdom__1939-05-10.json",
+          "url": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__1939-05-10.json"
+        },
+        {
+          "label": "pc-1920-vector-test.json",
+          "url": "/test/metadata/election-anchors-test2/pc-1920-vector-test.json"
+        }
+      ],
+      "interactiveUrl": "/#layers=election-house-of-commons-of-the-united-kingdom-1939-05-10",
+      "browseUrl": "/browse/sources/election-source-house-of-commons-of-the-united-kingdom-1939-05-10",
+      "rawMetadata": {
+        "manifest": {
+          "key": "house-of-commons-of-the-united-kingdom__1939-05-10",
+          "body": "House of Commons of the United Kingdom",
+          "date": "1939-05-10",
+          "bodySlug": "house-of-commons-of-the-united-kingdom",
+          "bodyGroup": null,
+          "displayTitle": "1939 Down by-election",
+          "displaySubtitle": "1 constituencies",
+          "displayProvider": "House of Commons of the United Kingdom",
+          "contestType": "election",
+          "kind": "by-election",
+          "votingSystem": "fptp",
+          "contestStatus": "contested",
+          "candidateRowsExpected": true,
+          "transferDataExpected": false,
+          "localBodies": null,
+          "constituencies": [
+            "Down"
+          ],
+          "isByElection": true,
+          "sourceMapId": "pc-1920",
+          "layerId": "pc-1920-vector-test",
+          "labelProperty": "Name",
+          "councilSourceMapId": null,
+          "councilLayerId": null,
+          "councilLabelProperty": null,
+          "loadable": true,
+          "placeholder": false,
+          "matchedCount": 1,
+          "unmatchedCount": 0,
+          "totalConstituencies": 1,
+          "unmatchedConstituencySample": [],
+          "unmatchedConstituencySampleLimit": 30,
+          "unmatchedConstituencies": [],
+          "resultUrl": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__1939-05-10.json",
+          "anchorUrl": "/test/metadata/election-anchors-test2/pc-1920-vector-test.json",
+          "previousKey": "house-of-commons-of-the-united-kingdom__1935-11-14",
+          "previousDate": "1935-11-14",
+          "stylingModes": [
+            "winner",
+            "leadingParty",
+            "seats"
+          ],
+          "summaryUrl": "/test/metadata/elections-test2-summaries/house-of-commons-of-the-united-kingdom__1939-05-10.json"
+        },
+        "resultUrl": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__1939-05-10.json",
+        "anchorUrl": "/test/metadata/election-anchors-test2/pc-1920-vector-test.json"
+      }
+    },
+    {
+      "id": "election-source:house-of-commons-of-the-united-kingdom__1940-02-08",
+      "slug": "election-source-house-of-commons-of-the-united-kingdom-1940-02-08",
+      "type": "election-source",
+      "title": "1940 Belfast East by-election 1940-02-08",
+      "subtitle": "House of Commons of the United Kingdom / 1 constituencies",
+      "category": "Election sources",
+      "date": "1940-02-08",
+      "provider": [
+        "House of Commons of the United Kingdom"
+      ],
+      "description": "Generated election bundle for 1940 Belfast East by-election.",
+      "sourceMapId": "pc-1920",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "pc-1920",
+        "url": "/assets/thumbnails/pc-1920.webp",
+        "smallUrl": "/assets/thumbnails/pc-1920-60.webp",
+        "alt": "1940 Belfast East by-election"
+      },
+      "references": [
+        {
+          "label": "Wikipedia overview: 1940 Belfast East by-election",
+          "url": "https://en.wikipedia.org/wiki/List_of_United_Kingdom_by-elections_in_Northern_Ireland",
+          "source": "Wikipedia",
+          "role": "election-overview",
+          "scope": "election"
+        },
+        {
+          "label": "ARK Elections / CAIN archive",
+          "url": "https://www.ark.ac.uk/elections/",
+          "note": "Used as a source/corroboration corpus for Northern Ireland election result data where available.",
+          "source": "ARK Elections / CAIN",
+          "role": "corroboration-source",
+          "scope": "election-corpus"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "house-of-commons-of-the-united-kingdom__1940-02-08.json",
+          "url": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__1940-02-08.json"
+        },
+        {
+          "label": "pc-1920-vector-test.json",
+          "url": "/test/metadata/election-anchors-test2/pc-1920-vector-test.json"
+        }
+      ],
+      "interactiveUrl": "/#layers=election-house-of-commons-of-the-united-kingdom-1940-02-08",
+      "browseUrl": "/browse/sources/election-source-house-of-commons-of-the-united-kingdom-1940-02-08",
+      "rawMetadata": {
+        "manifest": {
+          "key": "house-of-commons-of-the-united-kingdom__1940-02-08",
+          "body": "House of Commons of the United Kingdom",
+          "date": "1940-02-08",
+          "bodySlug": "house-of-commons-of-the-united-kingdom",
+          "bodyGroup": null,
+          "displayTitle": "1940 Belfast East by-election",
+          "displaySubtitle": "1 constituencies",
+          "displayProvider": "House of Commons of the United Kingdom",
+          "contestType": "election",
+          "kind": "by-election",
+          "votingSystem": "fptp",
+          "contestStatus": "contested",
+          "candidateRowsExpected": true,
+          "transferDataExpected": false,
+          "localBodies": null,
+          "constituencies": [
+            "Belfast East"
+          ],
+          "isByElection": true,
+          "sourceMapId": "pc-1920",
+          "layerId": "pc-1920-vector-test",
+          "labelProperty": "Name",
+          "councilSourceMapId": null,
+          "councilLayerId": null,
+          "councilLabelProperty": null,
+          "loadable": true,
+          "placeholder": false,
+          "matchedCount": 1,
+          "unmatchedCount": 0,
+          "totalConstituencies": 1,
+          "unmatchedConstituencySample": [],
+          "unmatchedConstituencySampleLimit": 30,
+          "unmatchedConstituencies": [],
+          "resultUrl": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__1940-02-08.json",
+          "anchorUrl": "/test/metadata/election-anchors-test2/pc-1920-vector-test.json",
+          "previousKey": "house-of-commons-of-the-united-kingdom__1935-11-14",
+          "previousDate": "1935-11-14",
+          "stylingModes": [
+            "winner",
+            "leadingParty",
+            "seats"
+          ],
+          "summaryUrl": "/test/metadata/elections-test2-summaries/house-of-commons-of-the-united-kingdom__1940-02-08.json"
+        },
+        "resultUrl": "/test/metadata/elections-test2/house-of-commons-of-the-united-kingdom__1940-02-08.json",
+        "anchorUrl": "/test/metadata/election-anchors-test2/pc-1920-vector-test.json"
+      }
+    },
     {
       "id": "election-source:house-of-commons-of-the-united-kingdom__1940-11-02",
       "slug": "election-source-house-of-commons-of-the-united-kingdom-1940-11-02",
@@ -23254,1304 +24521,6 @@
           "summaryUrl": "/test/metadata/elections-test2-summaries/parliament-of-northern-ireland__1950-04-04.json"
         },
         "resultUrl": "/test/metadata/elections-test2/parliament-of-northern-ireland__1950-04-04.json",
-        "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json"
-      }
-    },
-    {
-      "id": "election-source:parliament-of-northern-ireland__1950-10-31",
-      "slug": "election-source-parliament-of-northern-ireland-1950-10-31",
-      "type": "election-source",
-      "title": "1950 Belfast Bloomfield by-election 1950-10-31",
-      "subtitle": "Parliament of Northern Ireland / 1 constituencies",
-      "category": "Election sources",
-      "date": "1950-10-31",
-      "provider": [
-        "Parliament of Northern Ireland"
-      ],
-      "description": "Generated election bundle for 1950 Belfast Bloomfield by-election.",
-      "sourceMapId": "stormont-1929",
-      "thumbnail": {
-        "kind": "asset",
-        "id": "stormont-1929",
-        "url": "/assets/thumbnails/stormont-1929.webp",
-        "smallUrl": "/assets/thumbnails/stormont-1929-60.webp",
-        "alt": "1950 Belfast Bloomfield by-election"
-      },
-      "references": [
-        {
-          "label": "Wikipedia overview: 1950 Belfast Bloomfield by-election",
-          "url": "https://en.wikipedia.org/wiki/List_of_Northern_Ireland_Parliament_by-elections",
-          "source": "Wikipedia",
-          "role": "election-overview",
-          "scope": "election"
-        },
-        {
-          "label": "ARK Elections / CAIN archive",
-          "url": "https://www.ark.ac.uk/elections/",
-          "note": "Used as a source/corroboration corpus for Northern Ireland election result data where available.",
-          "source": "ARK Elections / CAIN",
-          "role": "corroboration-source",
-          "scope": "election-corpus"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "parliament-of-northern-ireland__1950-10-31.json",
-          "url": "/test/metadata/elections-test2/parliament-of-northern-ireland__1950-10-31.json"
-        },
-        {
-          "label": "stormont-1929-vector-test.json",
-          "url": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json"
-        }
-      ],
-      "interactiveUrl": "/#layers=election-parliament-of-northern-ireland-1950-10-31",
-      "browseUrl": "/browse/sources/election-source-parliament-of-northern-ireland-1950-10-31",
-      "rawMetadata": {
-        "manifest": {
-          "key": "parliament-of-northern-ireland__1950-10-31",
-          "body": "Parliament of Northern Ireland",
-          "date": "1950-10-31",
-          "bodySlug": "parliament-of-northern-ireland",
-          "bodyGroup": null,
-          "displayTitle": "1950 Belfast Bloomfield by-election",
-          "displaySubtitle": "1 constituencies",
-          "displayProvider": "Parliament of Northern Ireland",
-          "contestType": "election",
-          "kind": "by-election",
-          "votingSystem": "fptp",
-          "contestStatus": "contested",
-          "candidateRowsExpected": true,
-          "transferDataExpected": false,
-          "localBodies": null,
-          "constituencies": [
-            "Belfast Bloomfield"
-          ],
-          "isByElection": true,
-          "sourceMapId": "stormont-1929",
-          "layerId": "stormont-1929-vector-test",
-          "labelProperty": "NAME",
-          "councilSourceMapId": null,
-          "councilLayerId": null,
-          "councilLabelProperty": null,
-          "loadable": true,
-          "placeholder": false,
-          "matchedCount": 1,
-          "unmatchedCount": 0,
-          "totalConstituencies": 1,
-          "unmatchedConstituencySample": [],
-          "unmatchedConstituencySampleLimit": 30,
-          "unmatchedConstituencies": [],
-          "resultUrl": "/test/metadata/elections-test2/parliament-of-northern-ireland__1950-10-31.json",
-          "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json",
-          "previousKey": "parliament-of-northern-ireland__1949-02-10",
-          "previousDate": "1949-02-10",
-          "stylingModes": [
-            "winner",
-            "leadingParty",
-            "seats"
-          ],
-          "summaryUrl": "/test/metadata/elections-test2-summaries/parliament-of-northern-ireland__1950-10-31.json"
-        },
-        "resultUrl": "/test/metadata/elections-test2/parliament-of-northern-ireland__1950-10-31.json",
-        "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json"
-      }
-    },
-    {
-      "id": "election-source:parliament-of-northern-ireland__1950-12-06",
-      "slug": "election-source-parliament-of-northern-ireland-1950-12-06",
-      "type": "election-source",
-      "title": "1950 South Armagh by-election 1950-12-06",
-      "subtitle": "Parliament of Northern Ireland / 1 constituencies",
-      "category": "Election sources",
-      "date": "1950-12-06",
-      "provider": [
-        "Parliament of Northern Ireland"
-      ],
-      "description": "Generated election bundle for 1950 South Armagh by-election.",
-      "sourceMapId": "stormont-1929",
-      "thumbnail": {
-        "kind": "asset",
-        "id": "stormont-1929",
-        "url": "/assets/thumbnails/stormont-1929.webp",
-        "smallUrl": "/assets/thumbnails/stormont-1929-60.webp",
-        "alt": "1950 South Armagh by-election"
-      },
-      "references": [
-        {
-          "label": "Wikipedia overview: 1950 South Armagh by-election",
-          "url": "https://en.wikipedia.org/wiki/List_of_Northern_Ireland_Parliament_by-elections",
-          "source": "Wikipedia",
-          "role": "election-overview",
-          "scope": "election"
-        },
-        {
-          "label": "ARK Elections / CAIN archive",
-          "url": "https://www.ark.ac.uk/elections/",
-          "note": "Used as a source/corroboration corpus for Northern Ireland election result data where available.",
-          "source": "ARK Elections / CAIN",
-          "role": "corroboration-source",
-          "scope": "election-corpus"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "parliament-of-northern-ireland__1950-12-06.json",
-          "url": "/test/metadata/elections-test2/parliament-of-northern-ireland__1950-12-06.json"
-        },
-        {
-          "label": "stormont-1929-vector-test.json",
-          "url": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json"
-        }
-      ],
-      "interactiveUrl": "/#layers=election-parliament-of-northern-ireland-1950-12-06",
-      "browseUrl": "/browse/sources/election-source-parliament-of-northern-ireland-1950-12-06",
-      "rawMetadata": {
-        "manifest": {
-          "key": "parliament-of-northern-ireland__1950-12-06",
-          "body": "Parliament of Northern Ireland",
-          "date": "1950-12-06",
-          "bodySlug": "parliament-of-northern-ireland",
-          "bodyGroup": null,
-          "displayTitle": "1950 South Armagh by-election",
-          "displaySubtitle": "1 constituencies",
-          "displayProvider": "Parliament of Northern Ireland",
-          "contestType": "election",
-          "kind": "by-election",
-          "votingSystem": "fptp",
-          "contestStatus": "contested",
-          "candidateRowsExpected": true,
-          "transferDataExpected": false,
-          "localBodies": null,
-          "constituencies": [
-            "South Armagh"
-          ],
-          "isByElection": true,
-          "sourceMapId": "stormont-1929",
-          "layerId": "stormont-1929-vector-test",
-          "labelProperty": "NAME",
-          "councilSourceMapId": null,
-          "councilLayerId": null,
-          "councilLabelProperty": null,
-          "loadable": true,
-          "placeholder": false,
-          "matchedCount": 1,
-          "unmatchedCount": 0,
-          "totalConstituencies": 1,
-          "unmatchedConstituencySample": [],
-          "unmatchedConstituencySampleLimit": 30,
-          "unmatchedConstituencies": [],
-          "resultUrl": "/test/metadata/elections-test2/parliament-of-northern-ireland__1950-12-06.json",
-          "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json",
-          "previousKey": "parliament-of-northern-ireland__1949-02-10",
-          "previousDate": "1949-02-10",
-          "stylingModes": [
-            "winner",
-            "leadingParty",
-            "seats"
-          ],
-          "summaryUrl": "/test/metadata/elections-test2-summaries/parliament-of-northern-ireland__1950-12-06.json"
-        },
-        "resultUrl": "/test/metadata/elections-test2/parliament-of-northern-ireland__1950-12-06.json",
-        "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json"
-      }
-    },
-    {
-      "id": "election-source:parliament-of-northern-ireland__1951-02-02",
-      "slug": "election-source-parliament-of-northern-ireland-1951-02-02",
-      "type": "election-source",
-      "title": "1951 Antrim Borough by-election 1951-02-02",
-      "subtitle": "Parliament of Northern Ireland / 1 constituencies; 1 unmatched",
-      "category": "Election sources",
-      "date": "1951-02-02",
-      "provider": [
-        "Parliament of Northern Ireland"
-      ],
-      "description": "Generated election bundle for 1951 Antrim Borough by-election.",
-      "sourceMapId": "stormont-1929",
-      "thumbnail": {
-        "kind": "asset",
-        "id": "stormont-1929",
-        "url": "/assets/thumbnails/stormont-1929.webp",
-        "smallUrl": "/assets/thumbnails/stormont-1929-60.webp",
-        "alt": "1951 Antrim Borough by-election"
-      },
-      "references": [
-        {
-          "label": "Wikipedia overview: 1951 Antrim Borough by-election",
-          "url": "https://en.wikipedia.org/wiki/List_of_Northern_Ireland_Parliament_by-elections",
-          "source": "Wikipedia",
-          "role": "election-overview",
-          "scope": "election"
-        },
-        {
-          "label": "ARK Elections / CAIN archive",
-          "url": "https://www.ark.ac.uk/elections/",
-          "note": "Used as a source/corroboration corpus for Northern Ireland election result data where available.",
-          "source": "ARK Elections / CAIN",
-          "role": "corroboration-source",
-          "scope": "election-corpus"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "parliament-of-northern-ireland__1951-02-02.json",
-          "url": "/test/metadata/elections-test2/parliament-of-northern-ireland__1951-02-02.json"
-        },
-        {
-          "label": "stormont-1929-vector-test.json",
-          "url": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json"
-        }
-      ],
-      "interactiveUrl": "/#layers=election-parliament-of-northern-ireland-1951-02-02",
-      "browseUrl": "/browse/sources/election-source-parliament-of-northern-ireland-1951-02-02",
-      "rawMetadata": {
-        "manifest": {
-          "key": "parliament-of-northern-ireland__1951-02-02",
-          "body": "Parliament of Northern Ireland",
-          "date": "1951-02-02",
-          "bodySlug": "parliament-of-northern-ireland",
-          "bodyGroup": null,
-          "displayTitle": "1951 Antrim Borough by-election",
-          "displaySubtitle": "1 constituencies; 1 unmatched",
-          "displayProvider": "Parliament of Northern Ireland",
-          "contestType": "election",
-          "kind": "by-election",
-          "votingSystem": "fptp",
-          "contestStatus": "contested",
-          "candidateRowsExpected": true,
-          "transferDataExpected": false,
-          "localBodies": null,
-          "constituencies": [
-            "Antrim Borough"
-          ],
-          "isByElection": true,
-          "sourceMapId": "stormont-1929",
-          "layerId": "stormont-1929-vector-test",
-          "labelProperty": "NAME",
-          "councilSourceMapId": null,
-          "councilLayerId": null,
-          "councilLabelProperty": null,
-          "loadable": false,
-          "placeholder": true,
-          "matchedCount": 0,
-          "unmatchedCount": 1,
-          "totalConstituencies": 1,
-          "unmatchedConstituencySample": [
-            "Antrim Borough"
-          ],
-          "unmatchedConstituencySampleLimit": 30,
-          "unmatchedConstituencies": [
-            "Antrim Borough"
-          ],
-          "resultUrl": "/test/metadata/elections-test2/parliament-of-northern-ireland__1951-02-02.json",
-          "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json",
-          "previousKey": "parliament-of-northern-ireland__1949-02-10",
-          "previousDate": "1949-02-10",
-          "stylingModes": [],
-          "summaryUrl": "/test/metadata/elections-test2-summaries/parliament-of-northern-ireland__1951-02-02.json"
-        },
-        "resultUrl": "/test/metadata/elections-test2/parliament-of-northern-ireland__1951-02-02.json",
-        "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json"
-      }
-    },
-    {
-      "id": "election-source:parliament-of-northern-ireland__1951-06-18",
-      "slug": "election-source-parliament-of-northern-ireland-1951-06-18",
-      "type": "election-source",
-      "title": "1951 City of Londonderry by-election 1951-06-18",
-      "subtitle": "Parliament of Northern Ireland / 1 constituencies",
-      "category": "Election sources",
-      "date": "1951-06-18",
-      "provider": [
-        "Parliament of Northern Ireland"
-      ],
-      "description": "Generated election bundle for 1951 City of Londonderry by-election.",
-      "sourceMapId": "stormont-1929",
-      "thumbnail": {
-        "kind": "asset",
-        "id": "stormont-1929",
-        "url": "/assets/thumbnails/stormont-1929.webp",
-        "smallUrl": "/assets/thumbnails/stormont-1929-60.webp",
-        "alt": "1951 City of Londonderry by-election"
-      },
-      "references": [
-        {
-          "label": "Wikipedia overview: 1951 City of Londonderry by-election",
-          "url": "https://en.wikipedia.org/wiki/List_of_Northern_Ireland_Parliament_by-elections",
-          "source": "Wikipedia",
-          "role": "election-overview",
-          "scope": "election"
-        },
-        {
-          "label": "ARK Elections / CAIN archive",
-          "url": "https://www.ark.ac.uk/elections/",
-          "note": "Used as a source/corroboration corpus for Northern Ireland election result data where available.",
-          "source": "ARK Elections / CAIN",
-          "role": "corroboration-source",
-          "scope": "election-corpus"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "parliament-of-northern-ireland__1951-06-18.json",
-          "url": "/test/metadata/elections-test2/parliament-of-northern-ireland__1951-06-18.json"
-        },
-        {
-          "label": "stormont-1929-vector-test.json",
-          "url": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json"
-        }
-      ],
-      "interactiveUrl": "/#layers=election-parliament-of-northern-ireland-1951-06-18",
-      "browseUrl": "/browse/sources/election-source-parliament-of-northern-ireland-1951-06-18",
-      "rawMetadata": {
-        "manifest": {
-          "key": "parliament-of-northern-ireland__1951-06-18",
-          "body": "Parliament of Northern Ireland",
-          "date": "1951-06-18",
-          "bodySlug": "parliament-of-northern-ireland",
-          "bodyGroup": null,
-          "displayTitle": "1951 City of Londonderry by-election",
-          "displaySubtitle": "1 constituencies",
-          "displayProvider": "Parliament of Northern Ireland",
-          "contestType": "election",
-          "kind": "by-election",
-          "votingSystem": "fptp",
-          "contestStatus": "contested",
-          "candidateRowsExpected": true,
-          "transferDataExpected": false,
-          "localBodies": null,
-          "constituencies": [
-            "City of Londonderry"
-          ],
-          "isByElection": true,
-          "sourceMapId": "stormont-1929",
-          "layerId": "stormont-1929-vector-test",
-          "labelProperty": "NAME",
-          "councilSourceMapId": null,
-          "councilLayerId": null,
-          "councilLabelProperty": null,
-          "loadable": true,
-          "placeholder": false,
-          "matchedCount": 1,
-          "unmatchedCount": 0,
-          "totalConstituencies": 1,
-          "unmatchedConstituencySample": [],
-          "unmatchedConstituencySampleLimit": 30,
-          "unmatchedConstituencies": [],
-          "resultUrl": "/test/metadata/elections-test2/parliament-of-northern-ireland__1951-06-18.json",
-          "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json",
-          "previousKey": "parliament-of-northern-ireland__1949-02-10",
-          "previousDate": "1949-02-10",
-          "stylingModes": [
-            "winner",
-            "leadingParty",
-            "seats"
-          ],
-          "summaryUrl": "/test/metadata/elections-test2-summaries/parliament-of-northern-ireland__1951-06-18.json"
-        },
-        "resultUrl": "/test/metadata/elections-test2/parliament-of-northern-ireland__1951-06-18.json",
-        "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json"
-      }
-    },
-    {
-      "id": "election-source:parliament-of-northern-ireland__1951-12-10",
-      "slug": "election-source-parliament-of-northern-ireland-1951-12-10",
-      "type": "election-source",
-      "title": "1951 South Antrim by-election 1951-12-10",
-      "subtitle": "Parliament of Northern Ireland / 1 constituencies",
-      "category": "Election sources",
-      "date": "1951-12-10",
-      "provider": [
-        "Parliament of Northern Ireland"
-      ],
-      "description": "Generated election bundle for 1951 South Antrim by-election.",
-      "sourceMapId": "stormont-1929",
-      "thumbnail": {
-        "kind": "asset",
-        "id": "stormont-1929",
-        "url": "/assets/thumbnails/stormont-1929.webp",
-        "smallUrl": "/assets/thumbnails/stormont-1929-60.webp",
-        "alt": "1951 South Antrim by-election"
-      },
-      "references": [
-        {
-          "label": "Wikipedia overview: 1951 South Antrim by-election",
-          "url": "https://en.wikipedia.org/wiki/List_of_Northern_Ireland_Parliament_by-elections",
-          "source": "Wikipedia",
-          "role": "election-overview",
-          "scope": "election"
-        },
-        {
-          "label": "ARK Elections / CAIN archive",
-          "url": "https://www.ark.ac.uk/elections/",
-          "note": "Used as a source/corroboration corpus for Northern Ireland election result data where available.",
-          "source": "ARK Elections / CAIN",
-          "role": "corroboration-source",
-          "scope": "election-corpus"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "parliament-of-northern-ireland__1951-12-10.json",
-          "url": "/test/metadata/elections-test2/parliament-of-northern-ireland__1951-12-10.json"
-        },
-        {
-          "label": "stormont-1929-vector-test.json",
-          "url": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json"
-        }
-      ],
-      "interactiveUrl": "/#layers=election-parliament-of-northern-ireland-1951-12-10",
-      "browseUrl": "/browse/sources/election-source-parliament-of-northern-ireland-1951-12-10",
-      "rawMetadata": {
-        "manifest": {
-          "key": "parliament-of-northern-ireland__1951-12-10",
-          "body": "Parliament of Northern Ireland",
-          "date": "1951-12-10",
-          "bodySlug": "parliament-of-northern-ireland",
-          "bodyGroup": null,
-          "displayTitle": "1951 South Antrim by-election",
-          "displaySubtitle": "1 constituencies",
-          "displayProvider": "Parliament of Northern Ireland",
-          "contestType": "election",
-          "kind": "by-election",
-          "votingSystem": "fptp",
-          "contestStatus": "contested",
-          "candidateRowsExpected": true,
-          "transferDataExpected": false,
-          "localBodies": null,
-          "constituencies": [
-            "South Antrim"
-          ],
-          "isByElection": true,
-          "sourceMapId": "stormont-1929",
-          "layerId": "stormont-1929-vector-test",
-          "labelProperty": "NAME",
-          "councilSourceMapId": null,
-          "councilLayerId": null,
-          "councilLabelProperty": null,
-          "loadable": true,
-          "placeholder": false,
-          "matchedCount": 1,
-          "unmatchedCount": 0,
-          "totalConstituencies": 1,
-          "unmatchedConstituencySample": [],
-          "unmatchedConstituencySampleLimit": 30,
-          "unmatchedConstituencies": [],
-          "resultUrl": "/test/metadata/elections-test2/parliament-of-northern-ireland__1951-12-10.json",
-          "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json",
-          "previousKey": "parliament-of-northern-ireland__1949-02-10",
-          "previousDate": "1949-02-10",
-          "stylingModes": [
-            "winner",
-            "leadingParty",
-            "seats"
-          ],
-          "summaryUrl": "/test/metadata/elections-test2-summaries/parliament-of-northern-ireland__1951-12-10.json"
-        },
-        "resultUrl": "/test/metadata/elections-test2/parliament-of-northern-ireland__1951-12-10.json",
-        "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json"
-      }
-    },
-    {
-      "id": "election-source:parliament-of-northern-ireland__1953-10-22",
-      "slug": "election-source-parliament-of-northern-ireland-1953-10-22",
-      "type": "election-source",
-      "title": "1953 Parliament of Northern Ireland election 1953-10-22",
-      "subtitle": "Parliament of Northern Ireland / 49 constituencies; 1 unmatched",
-      "category": "Election sources",
-      "date": "1953-10-22",
-      "provider": [
-        "Parliament of Northern Ireland"
-      ],
-      "description": "Generated election bundle for 1953 Parliament of Northern Ireland election.",
-      "sourceMapId": "stormont-1929",
-      "thumbnail": {
-        "kind": "asset",
-        "id": "stormont-1929",
-        "url": "/assets/thumbnails/stormont-1929.webp",
-        "smallUrl": "/assets/thumbnails/stormont-1929-60.webp",
-        "alt": "1953 Parliament of Northern Ireland election"
-      },
-      "references": [
-        {
-          "label": "Wikipedia overview: 1953 Parliament of Northern Ireland election",
-          "url": "https://en.wikipedia.org/wiki/1953_Northern_Ireland_general_election",
-          "source": "Wikipedia",
-          "role": "election-overview",
-          "scope": "election"
-        },
-        {
-          "label": "ARK Elections / CAIN archive",
-          "url": "https://www.ark.ac.uk/elections/",
-          "note": "Used as a source/corroboration corpus for Northern Ireland election result data where available.",
-          "source": "ARK Elections / CAIN",
-          "role": "corroboration-source",
-          "scope": "election-corpus"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "parliament-of-northern-ireland__1953-10-22.json",
-          "url": "/test/metadata/elections-test2/parliament-of-northern-ireland__1953-10-22.json"
-        },
-        {
-          "label": "stormont-1929-vector-test.json",
-          "url": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json"
-        }
-      ],
-      "interactiveUrl": "/#layers=election-parliament-of-northern-ireland-1953-10-22",
-      "browseUrl": "/browse/sources/election-source-parliament-of-northern-ireland-1953-10-22",
-      "rawMetadata": {
-        "manifest": {
-          "key": "parliament-of-northern-ireland__1953-10-22",
-          "body": "Parliament of Northern Ireland",
-          "date": "1953-10-22",
-          "bodySlug": "parliament-of-northern-ireland",
-          "bodyGroup": null,
-          "displayTitle": "1953 Parliament of Northern Ireland election",
-          "displaySubtitle": "49 constituencies; 1 unmatched",
-          "displayProvider": "Parliament of Northern Ireland",
-          "contestType": "election",
-          "kind": "general",
-          "votingSystem": "fptp",
-          "contestStatus": "contested",
-          "candidateRowsExpected": true,
-          "transferDataExpected": false,
-          "localBodies": null,
-          "constituencies": [
-            "Antrim Borough",
-            "Ards",
-            "Bannside",
-            "Belfast Ballynafeigh",
-            "Belfast Bloomfield",
-            "Belfast Central",
-            "Belfast Clifton",
-            "Belfast Cromac",
-            "Belfast Dock",
-            "Belfast Duncairn",
-            "Belfast Falls",
-            "Belfast Oldpark",
-            "Belfast Pottinger",
-            "Belfast Shankill",
-            "Belfast St Anne's",
-            "Belfast Victoria",
-            "Belfast Willowfield",
-            "Belfast Windsor",
-            "Belfast Woodvale",
-            "Carrick",
-            "Central Armagh",
-            "City of Londonderry",
-            "East Down",
-            "East Tyrone",
-            "Enniskillen",
-            "Foyle",
-            "Iveagh",
-            "Larne",
-            "Lisnaskea",
-            "Mid Antrim",
-            "Mid Armagh",
-            "Mid Down",
-            "Mid Londonderry",
-            "Mid Tyrone",
-            "Mourne",
-            "North Antrim",
-            "North Armagh",
-            "North Down",
-            "North Londonderry",
-            "North Tyrone",
-            "Queen's University of Belfast",
-            "South Antrim",
-            "South Armagh",
-            "South Down",
-            "South Fermanagh",
-            "South Londonderry",
-            "South Tyrone",
-            "West Down",
-            "West Tyrone"
-          ],
-          "isByElection": false,
-          "sourceMapId": "stormont-1929",
-          "layerId": "stormont-1929-vector-test",
-          "labelProperty": "NAME",
-          "councilSourceMapId": null,
-          "councilLayerId": null,
-          "councilLabelProperty": null,
-          "loadable": true,
-          "placeholder": false,
-          "matchedCount": 48,
-          "unmatchedCount": 1,
-          "totalConstituencies": 49,
-          "unmatchedConstituencySample": [
-            "Antrim Borough"
-          ],
-          "unmatchedConstituencySampleLimit": 30,
-          "unmatchedConstituencies": [
-            "Antrim Borough"
-          ],
-          "resultUrl": "/test/metadata/elections-test2/parliament-of-northern-ireland__1953-10-22.json",
-          "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json",
-          "previousKey": "parliament-of-northern-ireland__1949-02-10",
-          "previousDate": "1949-02-10",
-          "stylingModes": [
-            "winner",
-            "leadingParty",
-            "voteShare",
-            "majority",
-            "seats"
-          ],
-          "summaryUrl": "/test/metadata/elections-test2-summaries/parliament-of-northern-ireland__1953-10-22.json"
-        },
-        "resultUrl": "/test/metadata/elections-test2/parliament-of-northern-ireland__1953-10-22.json",
-        "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json"
-      }
-    },
-    {
-      "id": "election-source:parliament-of-northern-ireland__1954-05-08",
-      "slug": "election-source-parliament-of-northern-ireland-1954-05-08",
-      "type": "election-source",
-      "title": "1954 Enniskillen by-election 1954-05-08",
-      "subtitle": "Parliament of Northern Ireland / 1 constituencies",
-      "category": "Election sources",
-      "date": "1954-05-08",
-      "provider": [
-        "Parliament of Northern Ireland"
-      ],
-      "description": "Generated election bundle for 1954 Enniskillen by-election.",
-      "sourceMapId": "stormont-1929",
-      "thumbnail": {
-        "kind": "asset",
-        "id": "stormont-1929",
-        "url": "/assets/thumbnails/stormont-1929.webp",
-        "smallUrl": "/assets/thumbnails/stormont-1929-60.webp",
-        "alt": "1954 Enniskillen by-election"
-      },
-      "references": [
-        {
-          "label": "Wikipedia overview: 1954 Enniskillen by-election",
-          "url": "https://en.wikipedia.org/wiki/List_of_Northern_Ireland_Parliament_by-elections",
-          "source": "Wikipedia",
-          "role": "election-overview",
-          "scope": "election"
-        },
-        {
-          "label": "ARK Elections / CAIN archive",
-          "url": "https://www.ark.ac.uk/elections/",
-          "note": "Used as a source/corroboration corpus for Northern Ireland election result data where available.",
-          "source": "ARK Elections / CAIN",
-          "role": "corroboration-source",
-          "scope": "election-corpus"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "parliament-of-northern-ireland__1954-05-08.json",
-          "url": "/test/metadata/elections-test2/parliament-of-northern-ireland__1954-05-08.json"
-        },
-        {
-          "label": "stormont-1929-vector-test.json",
-          "url": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json"
-        }
-      ],
-      "interactiveUrl": "/#layers=election-parliament-of-northern-ireland-1954-05-08",
-      "browseUrl": "/browse/sources/election-source-parliament-of-northern-ireland-1954-05-08",
-      "rawMetadata": {
-        "manifest": {
-          "key": "parliament-of-northern-ireland__1954-05-08",
-          "body": "Parliament of Northern Ireland",
-          "date": "1954-05-08",
-          "bodySlug": "parliament-of-northern-ireland",
-          "bodyGroup": null,
-          "displayTitle": "1954 Enniskillen by-election",
-          "displaySubtitle": "1 constituencies",
-          "displayProvider": "Parliament of Northern Ireland",
-          "contestType": "election",
-          "kind": "by-election",
-          "votingSystem": "fptp",
-          "contestStatus": "contested",
-          "candidateRowsExpected": true,
-          "transferDataExpected": false,
-          "localBodies": null,
-          "constituencies": [
-            "Enniskillen"
-          ],
-          "isByElection": true,
-          "sourceMapId": "stormont-1929",
-          "layerId": "stormont-1929-vector-test",
-          "labelProperty": "NAME",
-          "councilSourceMapId": null,
-          "councilLayerId": null,
-          "councilLabelProperty": null,
-          "loadable": true,
-          "placeholder": false,
-          "matchedCount": 1,
-          "unmatchedCount": 0,
-          "totalConstituencies": 1,
-          "unmatchedConstituencySample": [],
-          "unmatchedConstituencySampleLimit": 30,
-          "unmatchedConstituencies": [],
-          "resultUrl": "/test/metadata/elections-test2/parliament-of-northern-ireland__1954-05-08.json",
-          "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json",
-          "previousKey": "parliament-of-northern-ireland__1953-10-22",
-          "previousDate": "1953-10-22",
-          "stylingModes": [
-            "winner",
-            "leadingParty",
-            "seats"
-          ],
-          "summaryUrl": "/test/metadata/elections-test2-summaries/parliament-of-northern-ireland__1954-05-08.json"
-        },
-        "resultUrl": "/test/metadata/elections-test2/parliament-of-northern-ireland__1954-05-08.json",
-        "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json"
-      }
-    },
-    {
-      "id": "election-source:parliament-of-northern-ireland__1955-10-15",
-      "slug": "election-source-parliament-of-northern-ireland-1955-10-15",
-      "type": "election-source",
-      "title": "1955 Central Armagh by-election 1955-10-15",
-      "subtitle": "Parliament of Northern Ireland / 1 constituencies",
-      "category": "Election sources",
-      "date": "1955-10-15",
-      "provider": [
-        "Parliament of Northern Ireland"
-      ],
-      "description": "Generated election bundle for 1955 Central Armagh by-election.",
-      "sourceMapId": "stormont-1929",
-      "thumbnail": {
-        "kind": "asset",
-        "id": "stormont-1929",
-        "url": "/assets/thumbnails/stormont-1929.webp",
-        "smallUrl": "/assets/thumbnails/stormont-1929-60.webp",
-        "alt": "1955 Central Armagh by-election"
-      },
-      "references": [
-        {
-          "label": "Wikipedia overview: 1955 Central Armagh by-election",
-          "url": "https://en.wikipedia.org/wiki/List_of_Northern_Ireland_Parliament_by-elections",
-          "source": "Wikipedia",
-          "role": "election-overview",
-          "scope": "election"
-        },
-        {
-          "label": "ARK Elections / CAIN archive",
-          "url": "https://www.ark.ac.uk/elections/",
-          "note": "Used as a source/corroboration corpus for Northern Ireland election result data where available.",
-          "source": "ARK Elections / CAIN",
-          "role": "corroboration-source",
-          "scope": "election-corpus"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "parliament-of-northern-ireland__1955-10-15.json",
-          "url": "/test/metadata/elections-test2/parliament-of-northern-ireland__1955-10-15.json"
-        },
-        {
-          "label": "stormont-1929-vector-test.json",
-          "url": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json"
-        }
-      ],
-      "interactiveUrl": "/#layers=election-parliament-of-northern-ireland-1955-10-15",
-      "browseUrl": "/browse/sources/election-source-parliament-of-northern-ireland-1955-10-15",
-      "rawMetadata": {
-        "manifest": {
-          "key": "parliament-of-northern-ireland__1955-10-15",
-          "body": "Parliament of Northern Ireland",
-          "date": "1955-10-15",
-          "bodySlug": "parliament-of-northern-ireland",
-          "bodyGroup": null,
-          "displayTitle": "1955 Central Armagh by-election",
-          "displaySubtitle": "1 constituencies",
-          "displayProvider": "Parliament of Northern Ireland",
-          "contestType": "election",
-          "kind": "by-election",
-          "votingSystem": "fptp",
-          "contestStatus": "contested",
-          "candidateRowsExpected": true,
-          "transferDataExpected": false,
-          "localBodies": null,
-          "constituencies": [
-            "Central Armagh"
-          ],
-          "isByElection": true,
-          "sourceMapId": "stormont-1929",
-          "layerId": "stormont-1929-vector-test",
-          "labelProperty": "NAME",
-          "councilSourceMapId": null,
-          "councilLayerId": null,
-          "councilLabelProperty": null,
-          "loadable": true,
-          "placeholder": false,
-          "matchedCount": 1,
-          "unmatchedCount": 0,
-          "totalConstituencies": 1,
-          "unmatchedConstituencySample": [],
-          "unmatchedConstituencySampleLimit": 30,
-          "unmatchedConstituencies": [],
-          "resultUrl": "/test/metadata/elections-test2/parliament-of-northern-ireland__1955-10-15.json",
-          "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json",
-          "previousKey": "parliament-of-northern-ireland__1953-10-22",
-          "previousDate": "1953-10-22",
-          "stylingModes": [
-            "winner",
-            "leadingParty",
-            "seats"
-          ],
-          "summaryUrl": "/test/metadata/elections-test2-summaries/parliament-of-northern-ireland__1955-10-15.json"
-        },
-        "resultUrl": "/test/metadata/elections-test2/parliament-of-northern-ireland__1955-10-15.json",
-        "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json"
-      }
-    },
-    {
-      "id": "election-source:parliament-of-northern-ireland__1955-11-15",
-      "slug": "election-source-parliament-of-northern-ireland-1955-11-15",
-      "type": "election-source",
-      "title": "1955 Belfast Woodvale by-election 1955-11-15",
-      "subtitle": "Parliament of Northern Ireland / 1 constituencies",
-      "category": "Election sources",
-      "date": "1955-11-15",
-      "provider": [
-        "Parliament of Northern Ireland"
-      ],
-      "description": "Generated election bundle for 1955 Belfast Woodvale by-election.",
-      "sourceMapId": "stormont-1929",
-      "thumbnail": {
-        "kind": "asset",
-        "id": "stormont-1929",
-        "url": "/assets/thumbnails/stormont-1929.webp",
-        "smallUrl": "/assets/thumbnails/stormont-1929-60.webp",
-        "alt": "1955 Belfast Woodvale by-election"
-      },
-      "references": [
-        {
-          "label": "Wikipedia overview: 1955 Belfast Woodvale by-election",
-          "url": "https://en.wikipedia.org/wiki/List_of_Northern_Ireland_Parliament_by-elections",
-          "source": "Wikipedia",
-          "role": "election-overview",
-          "scope": "election"
-        },
-        {
-          "label": "ARK Elections / CAIN archive",
-          "url": "https://www.ark.ac.uk/elections/",
-          "note": "Used as a source/corroboration corpus for Northern Ireland election result data where available.",
-          "source": "ARK Elections / CAIN",
-          "role": "corroboration-source",
-          "scope": "election-corpus"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "parliament-of-northern-ireland__1955-11-15.json",
-          "url": "/test/metadata/elections-test2/parliament-of-northern-ireland__1955-11-15.json"
-        },
-        {
-          "label": "stormont-1929-vector-test.json",
-          "url": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json"
-        }
-      ],
-      "interactiveUrl": "/#layers=election-parliament-of-northern-ireland-1955-11-15",
-      "browseUrl": "/browse/sources/election-source-parliament-of-northern-ireland-1955-11-15",
-      "rawMetadata": {
-        "manifest": {
-          "key": "parliament-of-northern-ireland__1955-11-15",
-          "body": "Parliament of Northern Ireland",
-          "date": "1955-11-15",
-          "bodySlug": "parliament-of-northern-ireland",
-          "bodyGroup": null,
-          "displayTitle": "1955 Belfast Woodvale by-election",
-          "displaySubtitle": "1 constituencies",
-          "displayProvider": "Parliament of Northern Ireland",
-          "contestType": "election",
-          "kind": "by-election",
-          "votingSystem": "fptp",
-          "contestStatus": "contested",
-          "candidateRowsExpected": true,
-          "transferDataExpected": false,
-          "localBodies": null,
-          "constituencies": [
-            "Belfast Woodvale"
-          ],
-          "isByElection": true,
-          "sourceMapId": "stormont-1929",
-          "layerId": "stormont-1929-vector-test",
-          "labelProperty": "NAME",
-          "councilSourceMapId": null,
-          "councilLayerId": null,
-          "councilLabelProperty": null,
-          "loadable": true,
-          "placeholder": false,
-          "matchedCount": 1,
-          "unmatchedCount": 0,
-          "totalConstituencies": 1,
-          "unmatchedConstituencySample": [],
-          "unmatchedConstituencySampleLimit": 30,
-          "unmatchedConstituencies": [],
-          "resultUrl": "/test/metadata/elections-test2/parliament-of-northern-ireland__1955-11-15.json",
-          "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json",
-          "previousKey": "parliament-of-northern-ireland__1953-10-22",
-          "previousDate": "1953-10-22",
-          "stylingModes": [
-            "winner",
-            "leadingParty",
-            "voteShare",
-            "majority",
-            "seats"
-          ],
-          "summaryUrl": "/test/metadata/elections-test2-summaries/parliament-of-northern-ireland__1955-11-15.json"
-        },
-        "resultUrl": "/test/metadata/elections-test2/parliament-of-northern-ireland__1955-11-15.json",
-        "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json"
-      }
-    },
-    {
-      "id": "election-source:parliament-of-northern-ireland__1956-11-23",
-      "slug": "election-source-parliament-of-northern-ireland-1956-11-23",
-      "type": "election-source",
-      "title": "1956 Belfast Windsor by-election 1956-11-23",
-      "subtitle": "Parliament of Northern Ireland / 1 constituencies",
-      "category": "Election sources",
-      "date": "1956-11-23",
-      "provider": [
-        "Parliament of Northern Ireland"
-      ],
-      "description": "Generated election bundle for 1956 Belfast Windsor by-election.",
-      "sourceMapId": "stormont-1929",
-      "thumbnail": {
-        "kind": "asset",
-        "id": "stormont-1929",
-        "url": "/assets/thumbnails/stormont-1929.webp",
-        "smallUrl": "/assets/thumbnails/stormont-1929-60.webp",
-        "alt": "1956 Belfast Windsor by-election"
-      },
-      "references": [
-        {
-          "label": "Wikipedia overview: 1956 Belfast Windsor by-election",
-          "url": "https://en.wikipedia.org/wiki/List_of_Northern_Ireland_Parliament_by-elections",
-          "source": "Wikipedia",
-          "role": "election-overview",
-          "scope": "election"
-        },
-        {
-          "label": "ARK Elections / CAIN archive",
-          "url": "https://www.ark.ac.uk/elections/",
-          "note": "Used as a source/corroboration corpus for Northern Ireland election result data where available.",
-          "source": "ARK Elections / CAIN",
-          "role": "corroboration-source",
-          "scope": "election-corpus"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "parliament-of-northern-ireland__1956-11-23.json",
-          "url": "/test/metadata/elections-test2/parliament-of-northern-ireland__1956-11-23.json"
-        },
-        {
-          "label": "stormont-1929-vector-test.json",
-          "url": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json"
-        }
-      ],
-      "interactiveUrl": "/#layers=election-parliament-of-northern-ireland-1956-11-23",
-      "browseUrl": "/browse/sources/election-source-parliament-of-northern-ireland-1956-11-23",
-      "rawMetadata": {
-        "manifest": {
-          "key": "parliament-of-northern-ireland__1956-11-23",
-          "body": "Parliament of Northern Ireland",
-          "date": "1956-11-23",
-          "bodySlug": "parliament-of-northern-ireland",
-          "bodyGroup": null,
-          "displayTitle": "1956 Belfast Windsor by-election",
-          "displaySubtitle": "1 constituencies",
-          "displayProvider": "Parliament of Northern Ireland",
-          "contestType": "election",
-          "kind": "by-election",
-          "votingSystem": "fptp",
-          "contestStatus": "contested",
-          "candidateRowsExpected": true,
-          "transferDataExpected": false,
-          "localBodies": null,
-          "constituencies": [
-            "Belfast Windsor"
-          ],
-          "isByElection": true,
-          "sourceMapId": "stormont-1929",
-          "layerId": "stormont-1929-vector-test",
-          "labelProperty": "NAME",
-          "councilSourceMapId": null,
-          "councilLayerId": null,
-          "councilLabelProperty": null,
-          "loadable": true,
-          "placeholder": false,
-          "matchedCount": 1,
-          "unmatchedCount": 0,
-          "totalConstituencies": 1,
-          "unmatchedConstituencySample": [],
-          "unmatchedConstituencySampleLimit": 30,
-          "unmatchedConstituencies": [],
-          "resultUrl": "/test/metadata/elections-test2/parliament-of-northern-ireland__1956-11-23.json",
-          "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json",
-          "previousKey": "parliament-of-northern-ireland__1953-10-22",
-          "previousDate": "1953-10-22",
-          "stylingModes": [
-            "winner",
-            "leadingParty",
-            "seats"
-          ],
-          "summaryUrl": "/test/metadata/elections-test2-summaries/parliament-of-northern-ireland__1956-11-23.json"
-        },
-        "resultUrl": "/test/metadata/elections-test2/parliament-of-northern-ireland__1956-11-23.json",
-        "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json"
-      }
-    },
-    {
-      "id": "election-source:parliament-of-northern-ireland__1956-12-04",
-      "slug": "election-source-parliament-of-northern-ireland-1956-12-04",
-      "type": "election-source",
-      "title": "1956 Belfast Duncairn by-election 1956-12-04",
-      "subtitle": "Parliament of Northern Ireland / 1 constituencies",
-      "category": "Election sources",
-      "date": "1956-12-04",
-      "provider": [
-        "Parliament of Northern Ireland"
-      ],
-      "description": "Generated election bundle for 1956 Belfast Duncairn by-election.",
-      "sourceMapId": "stormont-1929",
-      "thumbnail": {
-        "kind": "asset",
-        "id": "stormont-1929",
-        "url": "/assets/thumbnails/stormont-1929.webp",
-        "smallUrl": "/assets/thumbnails/stormont-1929-60.webp",
-        "alt": "1956 Belfast Duncairn by-election"
-      },
-      "references": [
-        {
-          "label": "Wikipedia overview: 1956 Belfast Duncairn by-election",
-          "url": "https://en.wikipedia.org/wiki/List_of_Northern_Ireland_Parliament_by-elections",
-          "source": "Wikipedia",
-          "role": "election-overview",
-          "scope": "election"
-        },
-        {
-          "label": "ARK Elections / CAIN archive",
-          "url": "https://www.ark.ac.uk/elections/",
-          "note": "Used as a source/corroboration corpus for Northern Ireland election result data where available.",
-          "source": "ARK Elections / CAIN",
-          "role": "corroboration-source",
-          "scope": "election-corpus"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "parliament-of-northern-ireland__1956-12-04.json",
-          "url": "/test/metadata/elections-test2/parliament-of-northern-ireland__1956-12-04.json"
-        },
-        {
-          "label": "stormont-1929-vector-test.json",
-          "url": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json"
-        }
-      ],
-      "interactiveUrl": "/#layers=election-parliament-of-northern-ireland-1956-12-04",
-      "browseUrl": "/browse/sources/election-source-parliament-of-northern-ireland-1956-12-04",
-      "rawMetadata": {
-        "manifest": {
-          "key": "parliament-of-northern-ireland__1956-12-04",
-          "body": "Parliament of Northern Ireland",
-          "date": "1956-12-04",
-          "bodySlug": "parliament-of-northern-ireland",
-          "bodyGroup": null,
-          "displayTitle": "1956 Belfast Duncairn by-election",
-          "displaySubtitle": "1 constituencies",
-          "displayProvider": "Parliament of Northern Ireland",
-          "contestType": "election",
-          "kind": "by-election",
-          "votingSystem": "fptp",
-          "contestStatus": "contested",
-          "candidateRowsExpected": true,
-          "transferDataExpected": false,
-          "localBodies": null,
-          "constituencies": [
-            "Belfast Duncairn"
-          ],
-          "isByElection": true,
-          "sourceMapId": "stormont-1929",
-          "layerId": "stormont-1929-vector-test",
-          "labelProperty": "NAME",
-          "councilSourceMapId": null,
-          "councilLayerId": null,
-          "councilLabelProperty": null,
-          "loadable": true,
-          "placeholder": false,
-          "matchedCount": 1,
-          "unmatchedCount": 0,
-          "totalConstituencies": 1,
-          "unmatchedConstituencySample": [],
-          "unmatchedConstituencySampleLimit": 30,
-          "unmatchedConstituencies": [],
-          "resultUrl": "/test/metadata/elections-test2/parliament-of-northern-ireland__1956-12-04.json",
-          "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json",
-          "previousKey": "parliament-of-northern-ireland__1953-10-22",
-          "previousDate": "1953-10-22",
-          "stylingModes": [
-            "winner",
-            "leadingParty",
-            "seats"
-          ],
-          "summaryUrl": "/test/metadata/elections-test2-summaries/parliament-of-northern-ireland__1956-12-04.json"
-        },
-        "resultUrl": "/test/metadata/elections-test2/parliament-of-northern-ireland__1956-12-04.json",
-        "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json"
-      }
-    },
-    {
-      "id": "election-source:parliament-of-northern-ireland__1958-03-20",
-      "slug": "election-source-parliament-of-northern-ireland-1958-03-20",
-      "type": "election-source",
-      "title": "1958 Parliament of Northern Ireland election 1958-03-20",
-      "subtitle": "Parliament of Northern Ireland / 49 constituencies; 1 unmatched",
-      "category": "Election sources",
-      "date": "1958-03-20",
-      "provider": [
-        "Parliament of Northern Ireland"
-      ],
-      "description": "Generated election bundle for 1958 Parliament of Northern Ireland election.",
-      "sourceMapId": "stormont-1929",
-      "thumbnail": {
-        "kind": "asset",
-        "id": "stormont-1929",
-        "url": "/assets/thumbnails/stormont-1929.webp",
-        "smallUrl": "/assets/thumbnails/stormont-1929-60.webp",
-        "alt": "1958 Parliament of Northern Ireland election"
-      },
-      "references": [
-        {
-          "label": "Wikipedia overview: 1958 Parliament of Northern Ireland election",
-          "url": "https://en.wikipedia.org/wiki/1958_Northern_Ireland_general_election",
-          "source": "Wikipedia",
-          "role": "election-overview",
-          "scope": "election"
-        },
-        {
-          "label": "ARK Elections / CAIN archive",
-          "url": "https://www.ark.ac.uk/elections/",
-          "note": "Used as a source/corroboration corpus for Northern Ireland election result data where available.",
-          "source": "ARK Elections / CAIN",
-          "role": "corroboration-source",
-          "scope": "election-corpus"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "parliament-of-northern-ireland__1958-03-20.json",
-          "url": "/test/metadata/elections-test2/parliament-of-northern-ireland__1958-03-20.json"
-        },
-        {
-          "label": "stormont-1929-vector-test.json",
-          "url": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json"
-        }
-      ],
-      "interactiveUrl": "/#layers=election-parliament-of-northern-ireland-1958-03-20",
-      "browseUrl": "/browse/sources/election-source-parliament-of-northern-ireland-1958-03-20",
-      "rawMetadata": {
-        "manifest": {
-          "key": "parliament-of-northern-ireland__1958-03-20",
-          "body": "Parliament of Northern Ireland",
-          "date": "1958-03-20",
-          "bodySlug": "parliament-of-northern-ireland",
-          "bodyGroup": null,
-          "displayTitle": "1958 Parliament of Northern Ireland election",
-          "displaySubtitle": "49 constituencies; 1 unmatched",
-          "displayProvider": "Parliament of Northern Ireland",
-          "contestType": "election",
-          "kind": "general",
-          "votingSystem": "fptp",
-          "contestStatus": "contested",
-          "candidateRowsExpected": true,
-          "transferDataExpected": false,
-          "localBodies": null,
-          "constituencies": [
-            "Antrim Borough",
-            "Ards",
-            "Bannside",
-            "Belfast Ballynafeigh",
-            "Belfast Bloomfield",
-            "Belfast Central",
-            "Belfast Clifton",
-            "Belfast Cromac",
-            "Belfast Dock",
-            "Belfast Duncairn",
-            "Belfast Falls",
-            "Belfast Oldpark",
-            "Belfast Pottinger",
-            "Belfast Shankill",
-            "Belfast St Anne's",
-            "Belfast Victoria",
-            "Belfast Willowfield",
-            "Belfast Windsor",
-            "Belfast Woodvale",
-            "Carrick",
-            "Central Armagh",
-            "City of Londonderry",
-            "East Down",
-            "East Tyrone",
-            "Enniskillen",
-            "Foyle",
-            "Iveagh",
-            "Larne",
-            "Lisnaskea",
-            "Mid Antrim",
-            "Mid Armagh",
-            "Mid Down",
-            "Mid Londonderry",
-            "Mid Tyrone",
-            "Mourne",
-            "North Antrim",
-            "North Armagh",
-            "North Down",
-            "North Londonderry",
-            "North Tyrone",
-            "Queen's University of Belfast",
-            "South Antrim",
-            "South Armagh",
-            "South Down",
-            "South Fermanagh",
-            "South Londonderry",
-            "South Tyrone",
-            "West Down",
-            "West Tyrone"
-          ],
-          "isByElection": false,
-          "sourceMapId": "stormont-1929",
-          "layerId": "stormont-1929-vector-test",
-          "labelProperty": "NAME",
-          "councilSourceMapId": null,
-          "councilLayerId": null,
-          "councilLabelProperty": null,
-          "loadable": true,
-          "placeholder": false,
-          "matchedCount": 48,
-          "unmatchedCount": 1,
-          "totalConstituencies": 49,
-          "unmatchedConstituencySample": [
-            "Antrim Borough"
-          ],
-          "unmatchedConstituencySampleLimit": 30,
-          "unmatchedConstituencies": [
-            "Antrim Borough"
-          ],
-          "resultUrl": "/test/metadata/elections-test2/parliament-of-northern-ireland__1958-03-20.json",
-          "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json",
-          "previousKey": "parliament-of-northern-ireland__1953-10-22",
-          "previousDate": "1953-10-22",
-          "stylingModes": [
-            "winner",
-            "leadingParty",
-            "voteShare",
-            "majority",
-            "seats"
-          ],
-          "summaryUrl": "/test/metadata/elections-test2-summaries/parliament-of-northern-ireland__1958-03-20.json"
-        },
-        "resultUrl": "/test/metadata/elections-test2/parliament-of-northern-ireland__1958-03-20.json",
         "anchorUrl": "/test/metadata/election-anchors-test2/stormont-1929-vector-test.json"
       }
     }
