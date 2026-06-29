@@ -1,26 +1,26 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-28T20:39:23.197Z",
+  "generatedAt": "2026-06-29T23:29:07.120Z",
   "failOnBlocking": true,
   "stats": {
     "manifest": {
       "schemaVersion": 1,
-      "generatedAt": "2026-06-28T20:32:07.319Z",
+      "generatedAt": "2026-06-29T23:28:00.431Z",
       "entries": 276,
       "totals": {
         "elections": 276,
         "loadable": 257,
         "placeholders": 19,
-        "matchedConstituencies": 3844,
+        "matchedConstituencies": 3835,
         "unmatchedConstituencies": 851
       }
     },
     "browse": {
-      "total": 5247,
+      "total": 5238,
       "parents": 276,
-      "subEntries": 4971,
+      "subEntries": 4962,
       "overallSubEntries": 276,
-      "constituencySubEntries": 4695
+      "constituencySubEntries": 4686
     },
     "sources": {
       "sourceDetailFiles": 276,
@@ -32,616 +32,45 @@
       "sourceRecordsWithMultipleReferences": 276,
       "subEntriesWithNoReferences": 0,
       "subEntriesWithOneReference": 0,
-      "subEntriesWithMultipleReferences": 4971
+      "subEntriesWithMultipleReferences": 4962
     },
     "resultBundles": {
       "loaded": 276,
       "missing": 0,
-      "resultRows": 4695,
-      "matchedRows": 3844,
+      "resultRows": 4686,
+      "matchedRows": 3835,
       "unmatchedRows": 851,
-      "candidateRows": 29731,
-      "electedRows": 14221,
-      "rowsWithCountDetail": 4644,
-      "rowsWithAnimationPayload": 4644,
-      "rowsExpectedTransferData": 2357,
-      "rowsMissingExpectedTransferData": 28,
+      "candidateRows": 29867,
+      "electedRows": 14317,
+      "rowsWithCountDetail": 4663,
+      "rowsWithAnimationPayload": 4663,
+      "rowsExpectedTransferData": 2348,
+      "rowsMissingExpectedTransferData": 0,
       "candidateRowsWithoutParty": 0
     },
     "colours": {
-      "auditFilePresent": true,
-      "highConfidenceFilePresent": true,
+      "auditFilePresent": false,
+      "highConfidenceFilePresent": false,
       "reviewFilePresent": true,
-      "reviewedMismatches": 10,
-      "observations": 1032,
-      "matches": 73,
-      "mismatches": 135,
-      "highConfidenceMismatches": 85,
-      "noElectionColour": 777,
-      "noWikipediaMatch": 684,
-      "ambiguousWikipediaMatch": 31,
-      "examples": [
-        {
-          "party": "100% Redress",
-          "electionColour": "#C0C0C0",
-          "wikipediaName": "100% Redress",
-          "wikipediaColour": "#F90606",
-          "observations": 1,
-          "review": {
-            "party": "100% Redress",
-            "electionColour": "#C0C0C0",
-            "wikipediaName": "100% Redress",
-            "wikipediaColour": "#F90606",
-            "observations": 1,
-            "status": "needs-canonical-colour-decision",
-            "note": "Single-observation mismatch; verify whether Civgraph should keep a neutral local-label colour or adopt the saved Wikipedia colour."
-          }
-        },
-        {
-          "party": "An Rabharta Glas – Green Left",
-          "electionColour": "#C0C0C0",
-          "wikipediaName": "Rabharta",
-          "wikipediaColour": "#488A89",
-          "observations": 4,
-          "review": {
-            "party": "An Rabharta Glas - Green Left",
-            "electionColour": "#C0C0C0",
-            "wikipediaName": "Rabharta",
-            "wikipediaColour": "#488A89",
-            "observations": 4,
-            "status": "needs-canonical-colour-decision",
-            "note": "Verify label naming and whether the Wikipedia/Rabharta colour should be canonical for this election label."
-          }
-        },
-        {
-          "party": "Anti-Austerity Alliance",
-          "electionColour": "#E3170D",
-          "wikipediaName": "Anti-Austerity Alliance",
-          "wikipediaColour": "#FFFF00",
-          "observations": 46,
-          "review": {
-            "party": "Anti-Austerity Alliance",
-            "electionColour": "#E3170D",
-            "wikipediaName": "Anti-Austerity Alliance",
-            "wikipediaColour": "#FFFF00",
-            "observations": 46,
-            "status": "needs-canonical-colour-decision",
-            "note": "High-observation mismatch; decide whether historical Civgraph red or saved Wikipedia yellow is the canonical display colour."
-          }
-        },
-        {
-          "party": "Anti-Treaty Sinn Féin",
-          "electionColour": "#C0C0C0",
-          "wikipediaName": "Sinn Féin (Anti-Treaty)",
-          "wikipediaColour": "#326760",
-          "observations": 57,
-          "review": {
-            "party": "Anti-Treaty Sinn Fein",
-            "electionColour": "#C0C0C0",
-            "wikipediaName": "Sinn Fein (Anti-Treaty)",
-            "wikipediaColour": "#326760",
-            "observations": 57,
-            "status": "needs-canonical-colour-decision",
-            "note": "Historic Sinn Fein label mismatch; verify whether this should inherit modern Sinn Fein green or remain neutral."
-          }
-        },
-        {
-          "party": "Aontú",
-          "electionColour": "#C62828",
-          "wikipediaName": "Aontú",
-          "wikipediaColour": "#44532A",
-          "observations": 126,
-          "review": {
-            "party": "Aontu",
-            "electionColour": "#C62828",
-            "wikipediaName": "Aontu",
-            "wikipediaColour": "#44532A",
-            "observations": 126,
-            "status": "needs-canonical-colour-decision",
-            "note": "High-observation mismatch; likely canonical colour-map update candidate after checking existing Civgraph visual conventions."
-          }
-        },
-        {
-          "party": "Clann na Poblachta",
-          "electionColour": "#C0C0C0",
-          "wikipediaName": "Clann na Poblachta",
-          "wikipediaColour": "#BBE549",
-          "observations": 111,
-          "review": {
-            "party": "Clann na Poblachta",
-            "electionColour": "#C0C0C0",
-            "wikipediaName": "Clann na Poblachta",
-            "wikipediaColour": "#BBE549",
-            "observations": 111,
-            "status": "needs-canonical-colour-decision",
-            "note": "Historic party currently neutral; verify whether saved Wikipedia colour should be adopted."
-          }
-        },
-        {
-          "party": "Clann na Talmhan",
-          "electionColour": "#C0C0C0",
-          "wikipediaName": "Clann na Talmhan",
-          "wikipediaColour": "#BDB76B",
-          "observations": 50,
-          "review": {
-            "party": "Clann na Talmhan",
-            "electionColour": "#C0C0C0",
-            "wikipediaName": "Clann na Talmhan",
-            "wikipediaColour": "#BDB76B",
-            "observations": 50,
-            "status": "needs-canonical-colour-decision",
-            "note": "Historic party currently neutral; verify whether saved Wikipedia colour should be adopted."
-          }
-        },
-        {
-          "party": "Commonwealth Labour Party",
-          "electionColour": "#FF6666",
-          "wikipediaName": "Commonwealth Labour Party",
-          "wikipediaColour": "#B22222",
-          "observations": 6,
-          "review": {
-            "party": "Commonwealth Labour Party",
-            "electionColour": "#FF6666",
-            "wikipediaName": "Commonwealth Labour Party",
-            "wikipediaColour": "#B22222",
-            "observations": 6,
-            "status": "needs-canonical-colour-decision",
-            "note": "Low-observation historic label; verify whether to use the saved Wikipedia colour or existing Labour-family colour."
-          }
-        },
-        {
-          "party": "Communist Party of Ireland",
-          "electionColour": "#FF3300",
-          "wikipediaName": "Communist Party of Ireland",
-          "wikipediaColour": "#E3170D",
-          "observations": 6,
-          "review": {
-            "party": "Communist Party of Ireland",
-            "electionColour": "#FF3300",
-            "wikipediaName": "Communist Party of Ireland",
-            "wikipediaColour": "#E3170D",
-            "observations": 6,
-            "status": "needs-canonical-colour-decision",
-            "note": "Related red shades; verify whether exact Wikipedia shade should replace the existing display colour."
-          }
-        },
-        {
-          "party": "Communist Party of Ireland (Marxist-Leninist)",
-          "electionColour": "#E3170D",
-          "wikipediaName": "Communist Party of Ireland (Marxist–Leninist)",
-          "wikipediaColour": "#660000",
-          "observations": 3,
-          "review": {
-            "party": "Communist Party of Ireland (Marxist-Leninist)",
-            "electionColour": "#E3170D",
-            "wikipediaName": "Communist Party of Ireland (Marxist-Leninist)",
-            "wikipediaColour": "#660000",
-            "observations": 3,
-            "status": "needs-canonical-colour-decision",
-            "note": "Low-observation historic split label; verify before changing the canonical display colour."
-          }
-        },
-        {
-          "party": "Conservative",
-          "electionColour": "#0E7C42",
-          "wikipediaName": "Conservative and Unionist Party (UK)",
-          "wikipediaColour": "#0087DC",
-          "observations": 61,
-          "review": null
-        },
-        {
-          "party": "Conservative",
-          "electionColour": "#1F4E8C",
-          "wikipediaName": "Conservative and Unionist Party (UK)",
-          "wikipediaColour": "#0087DC",
-          "observations": 11,
-          "review": null
-        },
-        {
-          "party": "Conservative",
-          "electionColour": "#888888",
-          "wikipediaName": "Conservative and Unionist Party (UK)",
-          "wikipediaColour": "#0087DC",
-          "observations": 13,
-          "review": null
-        },
-        {
-          "party": "Conservative",
-          "electionColour": "#9E9E9E",
-          "wikipediaName": "Conservative and Unionist Party (UK)",
-          "wikipediaColour": "#0087DC",
-          "observations": 254,
-          "review": null
-        },
-        {
-          "party": "Cumann na nGaedheal",
-          "electionColour": "#C0C0C0",
-          "wikipediaName": "Cumann na nGaedheal",
-          "wikipediaColour": "#87CEFA",
-          "observations": 360,
-          "review": null
-        },
-        {
-          "party": "Democracy First",
-          "electionColour": "#000000",
-          "wikipediaName": "Democracy First",
-          "wikipediaColour": "#FF8C00",
-          "observations": 2,
-          "review": null
-        },
-        {
-          "party": "Democratic Left",
-          "electionColour": "#DC241F",
-          "wikipediaName": "Democratic Left (Ireland)",
-          "wikipediaColour": "#C700C7",
-          "observations": 21,
-          "review": null
-        },
-        {
-          "party": "Democratic Partnership",
-          "electionColour": "#FF9800",
-          "wikipediaName": "Democratic Partnership",
-          "wikipediaColour": "#F0E68C",
-          "observations": 10,
-          "review": null
-        },
-        {
-          "party": "Direct Democracy Ireland",
-          "electionColour": "#FFFF00",
-          "wikipediaName": "Direct Democracy Ireland",
-          "wikipediaColour": "#87CEFA",
-          "observations": 41,
-          "review": null
-        },
-        {
-          "party": "Éirígí",
-          "electionColour": "#C0C0C0",
-          "wikipediaName": "Éirígí",
-          "wikipediaColour": "#00A550",
-          "observations": 6,
-          "review": null
-        }
-      ]
+      "reviewedMismatches": 0,
+      "observations": 0,
+      "matches": 0,
+      "mismatches": 0,
+      "highConfidenceMismatches": 0,
+      "noElectionColour": 0,
+      "noWikipediaMatch": 0,
+      "ambiguousWikipediaMatch": 0,
+      "examples": []
     },
     "reviewSidecars": {
-      "validPollRecords": 24,
-      "candidateRowRecords": 28,
+      "validPollRecords": 0,
+      "candidateRowRecords": 0,
       "partyColourRecords": 10
     }
   },
   "issueSummary": {
-    "bySeverity": {
-      "warning": 54
-    },
-    "byCategory": {
-      "valid-poll-review": 26,
-      "candidate-list-review": 28
-    }
+    "bySeverity": {},
+    "byCategory": {}
   },
-  "issues": [
-    {
-      "severity": "warning",
-      "category": "valid-poll-review",
-      "key": "local-government-local-government-districts__2023-05-18",
-      "message": "Ballyarnett valid poll -179 is recorded as invalid; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "valid-poll-review",
-      "key": "local-government-local-government-districts__2023-05-18",
-      "message": "Magherafelt valid poll -49 is recorded as invalid; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "valid-poll-review",
-      "key": "local-government-local-government-districts__2011-05-05",
-      "message": "Downshire first-preference sum 7919 exceeds valid poll ceiling 5367; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-review",
-      "key": "local-government-local-government-districts__2005-05-05",
-      "message": "No candidates found for Giant's Causeway; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-review",
-      "key": "local-government-local-government-districts__2005-05-05",
-      "message": "No candidates found for lg05-NoD-Ballyholme-&-Groomsport; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-review",
-      "key": "local-government-local-government-districts__2001-06-07",
-      "message": "No candidates found for Giant's Causeway; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-review",
-      "key": "local-government-local-government-districts__2001-06-07",
-      "message": "No candidates found for lg01-NoD-Ballyholme-&-Groomsport; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "valid-poll-review",
-      "key": "local-government-local-government-districts__1997-05-21",
-      "message": "Ballymena South first-preference sum 5506 exceeds valid poll ceiling 5.51; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "valid-poll-review",
-      "key": "local-government-local-government-districts__1997-05-21",
-      "message": "Bann Valley first-preference sum 3975 exceeds valid poll ceiling 80; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "valid-poll-review",
-      "key": "local-government-local-government-districts__1997-05-21",
-      "message": "Bannside first-preference sum 5920 exceeds valid poll ceiling 5.92; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "valid-poll-review",
-      "key": "local-government-local-government-districts__1997-05-21",
-      "message": "Braid first-preference sum 5324 exceeds valid poll ceiling 5.32; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-review",
-      "key": "local-government-local-government-districts__1997-05-21",
-      "message": "No candidates found for Giant's Causeway; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "valid-poll-review",
-      "key": "local-government-local-government-districts__1993-05-19",
-      "message": "Castlereagh West first-preference sum 4535 exceeds valid poll ceiling 4.54; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-review",
-      "key": "local-government-local-government-districts__1993-05-19",
-      "message": "No candidates found for Giant's Causeway; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-review",
-      "key": "local-government-local-government-districts__1993-05-19",
-      "message": "No candidates found for lg93-NoD-Ballyholme-&-Groomsport; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "valid-poll-review",
-      "key": "local-government-local-government-districts__1993-05-19",
-      "message": "Lower Falls first-preference sum 13003 exceeds valid poll ceiling 13; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "valid-poll-review",
-      "key": "local-government-local-government-districts__1993-05-19",
-      "message": "Lower Falls first-preference sum 13003 exceeds valid poll ceiling 13; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "valid-poll-review",
-      "key": "local-government-local-government-districts__1993-05-19",
-      "message": "Victoria first-preference sum 13527 exceeds valid poll ceiling 13.53; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "valid-poll-review",
-      "key": "local-government-local-government-districts__1989-05-17",
-      "message": "Bushvale first-preference sum 2715 exceeds valid poll ceiling 2.71; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-review",
-      "key": "local-government-local-government-districts__1989-05-17",
-      "message": "No candidates found for Giant's Causeway; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "valid-poll-review",
-      "key": "local-government-local-government-districts__1989-05-17",
-      "message": "Kells Water first-preference sum 4537 exceeds valid poll ceiling 4.54; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "valid-poll-review",
-      "key": "local-government-local-government-districts__1989-05-17",
-      "message": "Upper Falls first-preference sum 12409 exceeds valid poll ceiling 12.41; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "valid-poll-review",
-      "key": "local-government-local-government-districts__1989-05-17",
-      "message": "Upper Falls first-preference sum 12409 exceeds valid poll ceiling 12.41; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "valid-poll-review",
-      "key": "local-government-local-government-districts__1985-05-15",
-      "message": "Dungannon Town first-preference sum 6044 exceeds valid poll ceiling 6.04; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "valid-poll-review",
-      "key": "local-government-local-government-districts__1985-05-15",
-      "message": "Erne North first-preference sum 6349 exceeds valid poll ceiling 67; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-review",
-      "key": "local-government-local-government-districts__1985-05-15",
-      "message": "No candidates found for Giant's Causeway; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-review",
-      "key": "local-government-local-government-districts__1981-05-20",
-      "message": "No candidates found for Area-F; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-review",
-      "key": "local-government-local-government-districts__1981-05-20",
-      "message": "No candidates found for Area-G; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-review",
-      "key": "local-government-local-government-districts__1981-05-20",
-      "message": "No candidates found for Area-H-corrected; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "valid-poll-review",
-      "key": "local-government-local-government-districts__1981-05-20",
-      "message": "Armagh Area B first-preference sum 8620 exceeds valid poll ceiling 5620; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "valid-poll-review",
-      "key": "local-government-local-government-districts__1981-05-20",
-      "message": "Banbridge Area A first-preference sum 7876 exceeds valid poll ceiling 7576; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "valid-poll-review",
-      "key": "local-government-local-government-districts__1981-05-20",
-      "message": "Craigavon Area B first-preference sum 8118 exceeds valid poll ceiling 5115; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "valid-poll-review",
-      "key": "local-government-local-government-districts__1981-05-20",
-      "message": "Fermanagh Area B first-preference sum 5665 exceeds valid poll ceiling 109; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-review",
-      "key": "local-government-local-government-districts__1977-05-18",
-      "message": "No candidates found for Area-F; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-review",
-      "key": "local-government-local-government-districts__1977-05-18",
-      "message": "No candidates found for Area-G; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-review",
-      "key": "local-government-local-government-districts__1977-05-18",
-      "message": "No candidates found for Area-H; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "valid-poll-review",
-      "key": "northern-ireland-constitutional-convention__1975-05-01",
-      "message": "Armagh first-preference sum 59388 exceeds valid poll ceiling 28136; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-review",
-      "key": "local-government-local-government-districts__1973-05-30",
-      "message": "No candidates found for Area-F; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-review",
-      "key": "local-government-local-government-districts__1973-05-30",
-      "message": "No candidates found for Area-G; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-review",
-      "key": "local-government-local-government-districts__1973-05-30",
-      "message": "No candidates found for Area-H; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "valid-poll-review",
-      "key": "local-government-local-government-districts__1973-05-30",
-      "message": "Armagh Area C first-preference sum 5439 exceeds valid poll ceiling 166; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "valid-poll-review",
-      "key": "local-government-local-government-districts__1973-05-30",
-      "message": "Belfast Area B first-preference sum 26403 exceeds valid poll ceiling 24814; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "valid-poll-review",
-      "key": "local-government-local-government-districts__1973-05-30",
-      "message": "Carrickfergus Area C first-preference sum 4156 exceeds valid poll ceiling 1456; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "valid-poll-review",
-      "key": "local-government-local-government-districts__1973-05-30",
-      "message": "Derry Area A first-preference sum 8262 exceeds valid poll ceiling 862; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-review",
-      "key": "dail-eireann__1957-03-05",
-      "message": "No candidates found for Kerry South; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-review",
-      "key": "dail-eireann__1938-06-17",
-      "message": "No candidates found for Kerry South; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-review",
-      "key": "dail-eireann__1922-06-16",
-      "message": "No candidates found for Cork East & North East; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-review",
-      "key": "dail-eireann__1922-06-16",
-      "message": "No candidates found for Cork Mid, North, South, South East & West; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-review",
-      "key": "dail-eireann__1922-06-16",
-      "message": "No candidates found for Mayo North & West; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-review",
-      "key": "dail-eireann__1922-06-16",
-      "message": "No candidates found for Tipperary Mid, North & South; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-review",
-      "key": "dail-eireann__1921-05-24",
-      "message": "No candidates found for Cork East & North East; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-review",
-      "key": "dail-eireann__1921-05-24",
-      "message": "No candidates found for Cork Mid, North, South, South East & West; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-review",
-      "key": "dail-eireann__1921-05-24",
-      "message": "No candidates found for Galway; review record status is source-review-required."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-review",
-      "key": "dail-eireann__1918-12-14",
-      "message": "No candidates found for Dublin University(Trinity College); review record status is source-review-required."
-    }
-  ]
+  "issues": []
 }

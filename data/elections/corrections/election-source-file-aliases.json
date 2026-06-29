@@ -1,20 +1,8 @@
 {
   "schemaVersion": 1,
-  "description": "Maps NI local-government result rows whose manifest constituency name does not slugify to their existing authoritative raw source file (historical apostrophe / ampersand / missing council-prefix naming, e.g. 'Area-G' -> belfast-area-g.json, \"Giant's Causeway\" -> giant-s-causeway.json). Surfaces already-present source candidate data; no values are synthesised. Resolved by cross-checking the Wikipedia STV election-box valid poll and seats against the raw file in the same election date directory.",
+  "description": "Maps election result rows whose manifest constituency name does not slugify to their existing authoritative raw source file (historical apostrophe / ampersand / 'and' / council-prefix naming). Covers NI local-government and Dáil Éireann combined 1921/1922 constituencies. Surfaces already-present source candidate data; no values are synthesised.",
   "provenance": "Wikipedia gap audit 2026-06-28; raw files verified present in election-viewer-package/data/elections/local-government/<date>/.",
   "aliases": {
-    "local-government-local-government-districts__1973-05-30": {
-      "Area-G": "belfast-area-g.json",
-      "Area-H": "belfast-area-h.json"
-    },
-    "local-government-local-government-districts__1977-05-18": {
-      "Area-G": "belfast-area-g.json",
-      "Area-H": "belfast-area-h.json"
-    },
-    "local-government-local-government-districts__1981-05-20": {
-      "Area-G": "belfast-area-g.json",
-      "Area-H-corrected": "belfast-area-h-corrected.json"
-    },
     "local-government-local-government-districts__1985-05-15": {
       "Giant's Causeway": "giant-s-causeway.json"
     },
@@ -35,6 +23,17 @@
     "local-government-local-government-districts__2005-05-05": {
       "Giant's Causeway": "giant-s-causeway.json",
       "lg05-NoD-Ballyholme-&-Groomsport": "lg05-nod-ballyholme-groomsport.json"
+    },
+    "dail-eireann__1922-06-16": {
+      "Cork East & North East": "cork-east-north-east.json",
+      "Cork Mid, North, South, South East & West": "cork-mid-north-south-south-east-west.json",
+      "Mayo North & West": "mayo-north-west.json",
+      "Tipperary Mid, North & South": "tipperary-mid-north-south.json"
+    },
+    "dail-eireann__1921-05-24": {
+      "Cork East & North East": "cork-east-north-east.json",
+      "Cork Mid, North, South, South East & West": "cork-mid-north-south-south-east-west.json"
     }
-  }
+  },
+  "note": "Belfast Area G/H placeholder rows are duplicates of populated 'Belfast Area G/H' rows and are handled by LOCAL_GOVERNMENT_DUPLICATE_RESULT_ALIASES suppression in build-test2-election-manifest.mjs, not by aliasing."
 }

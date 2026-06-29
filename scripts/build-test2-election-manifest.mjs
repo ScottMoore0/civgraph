@@ -26,6 +26,53 @@ const dailApprovedCandidateAliases = existsSync(DAIL_APPROVED_CANDIDATE_ALIASES)
   : { aliases: [] };
 let dailApprovedCandidateAliasIndex = new Map();
 
+// Election source-backed corrections (generated from the 2026-06-28/30 Wikipedia gap audit).
+// - Source-file aliases reconnect manifest constituency rows to existing authoritative raw files whose
+//   names predate the current slugify: NI local-government (e.g. 'Area-G' -> belfast-area-g.json,
+//   "Giant's Causeway" -> giant-s-causeway.json) and Dáil combined 1921/1922 constituencies
+//   (e.g. "Cork East & North East" -> cork-east-north-east.json).
+// - Valid-poll corrections overlay a Wikipedia-sourced Valid_Poll where the imported aggregate is corrupt
+//   (negative/truncated) while the candidate first-preference rows are intact.
+const ELECTION_SOURCE_ALIASES = path.join(ROOT, 'data', 'elections', 'corrections', 'election-source-file-aliases.json');
+const NI_LOCAL_VALID_POLL_CORRECTIONS = path.join(ROOT, 'data', 'elections', 'corrections', 'ni-local-valid-poll-corrections.json');
+const electionSourceAliasDoc = existsSync(ELECTION_SOURCE_ALIASES) ? readJson(ELECTION_SOURCE_ALIASES) : { aliases: {} };
+const niLocalValidPollDoc = existsSync(NI_LOCAL_VALID_POLL_CORRECTIONS) ? readJson(NI_LOCAL_VALID_POLL_CORRECTIONS) : { records: [] };
+const electionSourceAliasIndex = new Map(
+  Object.entries(electionSourceAliasDoc.aliases || {}).map(([electionKey, byConstituency]) => [
+    electionKey,
+    new Map(Object.entries(byConstituency).map(([constituency, file]) => [normalizeName(constituency), file]))
+  ])
+);
+const niLocalValidPollIndex = new Map(
+  (niLocalValidPollDoc.records || []).map((record) => [`${record.electionKey}::${normalizeName(record.constituency)}`, record])
+);
+
+function electionSourceAliasFile(electionKey, constituency, dateDir) {
+  const byConstituency = electionSourceAliasIndex.get(electionKey);
+  if (!byConstituency) return null;
+  const file = byConstituency.get(normalizeName(constituency));
+  if (!file) return null;
+  const full = path.join(dateDir, file);
+  return existsSync(full) ? full : null;
+}
+
+function applyNiLocalValidPollCorrection(electionKey, constituency, rawResult) {
+  const info = rawResult?.Constituency?.countInfo;
+  if (!info) return rawResult;
+  const record = niLocalValidPollIndex.get(`${electionKey}::${normalizeName(constituency)}`)
+    || (info.Constituency_Name
+      ? niLocalValidPollIndex.get(`${electionKey}::${normalizeName(info.Constituency_Name)}`)
+      : null);
+  if (!record) return rawResult;
+  info.Valid_Poll = String(record.validPoll);
+  if (record.spoilt != null) info.Spoiled = String(record.spoilt);
+  if (record.electorate != null && !parseNumber(info.Total_Electorate)) info.Total_Electorate = String(record.electorate);
+  const spoiled = parseNumber(info.Spoiled) || 0;
+  const totalPoll = parseNumber(info.Total_Poll);
+  if (totalPoll === null || totalPoll < record.validPoll) info.Total_Poll = String(record.validPoll + spoiled);
+  return rawResult;
+}
+
 const STYLE_MODES = ['winner', 'leadingParty', 'voteShare', 'turnout', 'majority', 'seats', 'quota'];
 const LOCAL_GOVERNMENT_BODIES = new Set([
   'Antrim and Newtownabbey',
@@ -189,8 +236,21 @@ const LOCAL_GOVERNMENT_CODE_PREFIXES = new Map([
 ]);
 
 const LOCAL_GOVERNMENT_DUPLICATE_RESULT_ALIASES = new Map([
+  ['local-government-local-government-districts__1973-05-30', new Map([
+    ['Area-F', 'Belfast Area F'],
+    ['Area-G', 'Belfast Area G'],
+    ['Area-H', 'Belfast Area H']
+  ])],
   ['local-government-local-government-districts__1977-05-18', new Map([
-    ['Area-A-corrected', 'Belfast Area A corrected']
+    ['Area-A-corrected', 'Belfast Area A corrected'],
+    ['Area-F', 'Belfast Area F'],
+    ['Area-G', 'Belfast Area G'],
+    ['Area-H', 'Belfast Area H']
+  ])],
+  ['local-government-local-government-districts__1981-05-20', new Map([
+    ['Area-F', 'Belfast Area F'],
+    ['Area-G', 'Belfast Area G'],
+    ['Area-H-corrected', 'Belfast Area H corrected']
   ])]
 ]);
 
@@ -786,10 +846,11 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
   const syntheticAnchorState = { count: 0 };
 
   for (const constituency of entry.constituencies || []) {
-    const resultPath = findResultFile(dateDir, constituency);
+    const resultPath = electionSourceAliasFile(key, constituency, dateDir) || findResultFile(dateDir, constituency);
     const rawResult = resultPath ? readJson(resultPath) : null;
     const officialRawResult = enrichDailResultWithOfficialData(entry, rawResult, constituency);
-    const enrichedRawResult = enrichDailResultWithWikipediaCounts(entry, resultPath, officialRawResult, constituency);
+    const wikiEnrichedRawResult = enrichDailResultWithWikipediaCounts(entry, resultPath, officialRawResult, constituency);
+    const enrichedRawResult = applyNiLocalValidPollCorrection(key, constituency, wikiEnrichedRawResult);
     if (officialRawResult) rawEntries.push({ constituency, raw: officialRawResult });
     const result = ElectionDomain.summarizeResult(enrichedRawResult, constituency);
     const resultMetadata = classifyElectionResult(entry, result, electionMetadata);
@@ -836,7 +897,8 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
       const rawResult = readJson(resultPath);
       const constituency = file.replace(/\.json$/, '');
       const officialRawResult = enrichDailResultWithOfficialData(entry, rawResult, constituency);
-      const enrichedRawResult = enrichDailResultWithWikipediaCounts(entry, resultPath, officialRawResult, constituency);
+      const wikiEnrichedRawResult = enrichDailResultWithWikipediaCounts(entry, resultPath, officialRawResult, constituency);
+      const enrichedRawResult = applyNiLocalValidPollCorrection(key, constituency, wikiEnrichedRawResult);
       rawEntries.push({ constituency, raw: officialRawResult });
       const result = ElectionDomain.summarizeResult(enrichedRawResult, constituency);
       const resultMetadata = classifyElectionResult(entry, result, electionMetadata);

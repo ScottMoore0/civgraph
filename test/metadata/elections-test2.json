@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-28T20:32:07.319Z",
+  "generatedAt": "2026-06-29T23:28:00.431Z",
   "source": "election-viewer-package/data/elections",
   "totals": {
     "elections": 276,
     "loadable": 257,
     "placeholders": 19,
-    "matchedConstituencies": 3844,
+    "matchedConstituencies": 3835,
     "unmatchedConstituencies": 851
   },
   "elections": [
@@ -6399,6 +6399,7 @@
         "winner",
         "leadingParty",
         "voteShare",
+        "turnout",
         "majority",
         "seats",
         "quota"
@@ -7668,6 +7669,7 @@
         "winner",
         "leadingParty",
         "voteShare",
+        "turnout",
         "majority",
         "seats",
         "quota"
@@ -8341,7 +8343,7 @@
       "bodySlug": "local-government",
       "bodyGroup": "local-government",
       "displayTitle": "1981 Northern Ireland local elections",
-      "displaySubtitle": "101 DEAs",
+      "displaySubtitle": "98 DEAs",
       "displayProvider": "Local Government Districts",
       "contestType": "election",
       "kind": "general",
@@ -8378,9 +8380,6 @@
         "Strabane"
       ],
       "constituencies": [
-        "Area-F",
-        "Area-G",
-        "Area-H-corrected",
         "Belfast Area A",
         "Belfast Area B",
         "Belfast Area C",
@@ -8489,9 +8488,9 @@
       "councilLabelProperty": "NAME",
       "loadable": true,
       "placeholder": false,
-      "matchedCount": 101,
+      "matchedCount": 98,
       "unmatchedCount": 0,
-      "totalConstituencies": 101,
+      "totalConstituencies": 98,
       "unmatchedConstituencySample": [],
       "unmatchedConstituencySampleLimit": 30,
       "unmatchedConstituencies": [],
@@ -8503,6 +8502,7 @@
         "winner",
         "leadingParty",
         "voteShare",
+        "turnout",
         "majority",
         "seats",
         "quota"
@@ -8889,7 +8889,7 @@
       "bodySlug": "local-government",
       "bodyGroup": "local-government",
       "displayTitle": "1977 Northern Ireland local elections",
-      "displaySubtitle": "101 DEAs",
+      "displaySubtitle": "98 DEAs",
       "displayProvider": "Local Government Districts",
       "contestType": "election",
       "kind": "general",
@@ -8926,9 +8926,6 @@
         "Strabane"
       ],
       "constituencies": [
-        "Area-F",
-        "Area-G",
-        "Area-H",
         "Belfast Area A corrected",
         "Belfast Area B",
         "Belfast Area C",
@@ -9037,9 +9034,9 @@
       "councilLabelProperty": "NAME",
       "loadable": true,
       "placeholder": false,
-      "matchedCount": 101,
+      "matchedCount": 98,
       "unmatchedCount": 0,
-      "totalConstituencies": 101,
+      "totalConstituencies": 98,
       "unmatchedConstituencySample": [],
       "unmatchedConstituencySampleLimit": 30,
       "unmatchedConstituencies": [],
@@ -9442,7 +9439,7 @@
       "bodySlug": "local-government",
       "bodyGroup": "local-government",
       "displayTitle": "1973 Northern Ireland local elections",
-      "displaySubtitle": "101 DEAs",
+      "displaySubtitle": "98 DEAs",
       "displayProvider": "Local Government Districts",
       "contestType": "election",
       "kind": "general",
@@ -9479,9 +9476,6 @@
         "Strabane"
       ],
       "constituencies": [
-        "Area-F",
-        "Area-G",
-        "Area-H",
         "Belfast Area A",
         "Belfast Area B",
         "Belfast Area C",
@@ -9590,9 +9584,9 @@
       "councilLabelProperty": "NAME",
       "loadable": true,
       "placeholder": false,
-      "matchedCount": 101,
+      "matchedCount": 98,
       "unmatchedCount": 0,
-      "totalConstituencies": 101,
+      "totalConstituencies": 98,
       "unmatchedConstituencySample": [],
       "unmatchedConstituencySampleLimit": 30,
       "unmatchedConstituencies": [],
@@ -9604,6 +9598,7 @@
         "winner",
         "leadingParty",
         "voteShare",
+        "turnout",
         "majority",
         "seats",
         "quota"
@@ -18272,7 +18267,7 @@
         "Monaghan",
         "National University",
         "Sligo Mayo East",
-        "Tipperary Mid, North & South",
+        "*Tipperary Mid, North & South",
         "Waterford Tipperary East",
         "Wexford"
       ],
@@ -18303,7 +18298,7 @@
         "Monaghan",
         "National University",
         "Sligo Mayo East",
-        "Tipperary Mid, North & South",
+        "*Tipperary Mid, North & South",
         "Waterford Tipperary East",
         "Wexford"
       ],
@@ -18641,7 +18636,8 @@
         "leadingParty",
         "voteShare",
         "majority",
-        "seats"
+        "seats",
+        "quota"
       ],
       "summaryUrl": "/test/metadata/elections-test2-summaries/dail-eireann__1918-12-14.json"
     }

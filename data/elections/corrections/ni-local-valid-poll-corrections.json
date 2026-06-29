@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "description": "Source-backed Valid_Poll corrections for NI local-government result rows whose imported aggregate Valid_Poll is corrupt (negative or truncated) while candidate first-preference rows are intact. validPoll/spoilt/electorate are from English Wikipedia STV election-box data; raw candidate rows are left unchanged and are overlaid only at build time.",
+  "description": "Source-backed Valid_Poll corrections for NI STV election result rows (local-government plus the 1975 Constitutional Convention) whose imported aggregate Valid_Poll is corrupt (negative or truncated) while candidate first-preference rows are intact. validPoll/spoilt/electorate are from English Wikipedia STV election-box data; raw candidate rows are left unchanged and are overlaid only at build time.",
   "provenance": "Wikipedia gap audit 2026-06-28.",
   "records": [
     {
@@ -301,6 +301,19 @@
       },
       "spoilt": 58,
       "electorate": 13741
+    },
+    {
+      "electionKey": "northern-ireland-constitutional-convention__1975-05-01",
+      "constituency": "Armagh",
+      "validPoll": 59388,
+      "previousValidPoll": 28136,
+      "spoilt": 2011,
+      "electorate": 90640,
+      "sourceFile": "election-viewer-package/data/elections/northern-ireland-constitutional-convention/1975-05-01/armagh.json",
+      "source": {
+        "pageTitle": "1975 Northern Ireland Constitutional Convention election (Armagh)",
+        "pageUrl": "https://en.wikipedia.org/wiki/1975_Northern_Ireland_Constitutional_Convention_election"
+      }
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-10T20:56:13.277Z",
+  "generatedAt": "2026-06-29T23:28:02.177Z",
   "item": {
     "id": "local-government-local-government-districts__1981-05-20",
     "key": "local-government-local-government-districts__1981-05-20",
@@ -12,7 +12,7 @@
     "date": "1981-05-20",
     "year": 1981,
     "decade": "1980s",
-    "subtitle": "101 DEAs",
+    "subtitle": "98 DEAs",
     "provider": "Local Government Districts",
     "category": "Elections",
     "geography": "Northern Ireland",
@@ -23,9 +23,6 @@
     "candidateRowsExpected": true,
     "transferDataExpected": true,
     "constituencies": [
-      "Area-F",
-      "Area-G",
-      "Area-H-corrected",
       "Belfast Area A",
       "Belfast Area B",
       "Belfast Area C",
@@ -62,10 +59,13 @@
       "Coleraine Area A",
       "Coleraine Area B",
       "Coleraine Area C",
-      "Cookstown Area A"
+      "Cookstown Area A",
+      "Cookstown Area B",
+      "Cookstown Area C",
+      "Craigavon Area A corrected"
     ],
-    "totalConstituencies": 101,
-    "matchedCount": 101,
+    "totalConstituencies": 98,
+    "matchedCount": 98,
     "unmatchedCount": 0,
     "sourceMapId": "deas-1972",
     "layerId": "deas-1972-vector-test",
@@ -89,6 +89,7 @@
       "winner",
       "leadingParty",
       "voteShare",
+      "turnout",
       "majority",
       "seats",
       "quota"
@@ -105,8 +106,8 @@
     ],
     "totals": {
       "seats": 527,
-      "validPoll": 654029,
-      "constituencies": 101
+      "validPoll": 665888,
+      "constituencies": 98
     },
     "references": [
       {
@@ -167,27 +168,6 @@
         "resultName": "Ards Area C",
         "resultKind": "constituency-result",
         "browseUrl": "/browse/elections/local-government-local-government-districts-1981-05-20-ards-area-c"
-      },
-      {
-        "key": "local-government-local-government-districts__1981-05-20::area-f",
-        "title": "Area-F - 1981 Northern Ireland local elections",
-        "resultName": "Area-F",
-        "resultKind": "constituency-result",
-        "browseUrl": "/browse/elections/local-government-local-government-districts-1981-05-20-area-f"
-      },
-      {
-        "key": "local-government-local-government-districts__1981-05-20::area-g",
-        "title": "Area-G - 1981 Northern Ireland local elections",
-        "resultName": "Area-G",
-        "resultKind": "constituency-result",
-        "browseUrl": "/browse/elections/local-government-local-government-districts-1981-05-20-area-g"
-      },
-      {
-        "key": "local-government-local-government-districts__1981-05-20::area-h-corrected",
-        "title": "Area-H-corrected - 1981 Northern Ireland local elections",
-        "resultName": "Area-H-corrected",
-        "resultKind": "constituency-result",
-        "browseUrl": "/browse/elections/local-government-local-government-districts-1981-05-20-area-h-corrected"
       },
       {
         "key": "local-government-local-government-districts__1981-05-20::armagh-area-a",
@@ -841,7 +821,7 @@
         "browseUrl": "/browse/elections/local-government-local-government-districts-1981-05-20-strabane-area-c-corrected"
       }
     ],
-    "resultEntryCount": 102,
+    "resultEntryCount": 99,
     "slug": "local-government-local-government-districts-1981-05-20",
     "rawMetadata": {
       "manifest": {
@@ -851,7 +831,7 @@
         "bodySlug": "local-government",
         "bodyGroup": "local-government",
         "displayTitle": "1981 Northern Ireland local elections",
-        "displaySubtitle": "101 DEAs",
+        "displaySubtitle": "98 DEAs",
         "displayProvider": "Local Government Districts",
         "contestType": "election",
         "kind": "general",
@@ -888,9 +868,6 @@
           "Strabane"
         ],
         "constituencies": [
-          "Area-F",
-          "Area-G",
-          "Area-H-corrected",
           "Belfast Area A",
           "Belfast Area B",
           "Belfast Area C",
@@ -999,9 +976,9 @@
         "councilLabelProperty": "NAME",
         "loadable": true,
         "placeholder": false,
-        "matchedCount": 101,
+        "matchedCount": 98,
         "unmatchedCount": 0,
-        "totalConstituencies": 101,
+        "totalConstituencies": 98,
         "unmatchedConstituencySample": [],
         "unmatchedConstituencySampleLimit": 30,
         "unmatchedConstituencies": [],
@@ -1013,6 +990,7 @@
           "winner",
           "leadingParty",
           "voteShare",
+          "turnout",
           "majority",
           "seats",
           "quota"
