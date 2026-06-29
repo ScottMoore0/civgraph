@@ -1,10 +1,860 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-29T22:34:58.850Z",
+  "generatedAt": "2026-06-29T23:18:02.002Z",
   "kind": "sources",
   "shard": "sources-040.json",
   "total": 200,
   "items": [
+    {
+      "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:cso-electoral-divisions-ungeneralised-national-statistical-boundaries-2015:00042",
+      "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-cso-electoral-divisions-ungeneralised-national-statistical-boundaries-2015-00042",
+      "type": "approved-medium-priority-source",
+      "title": "CSO Electoral Divisions Ungeneralised - National Statistical Boundaries - 2015",
+      "subtitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA / Tailte Éireann, Tailte/OSI/data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, GDB, GEOJSON, GPKG, HTML, KML, TXT, XLSX, ZIP / Source record; runtime review pending",
+      "category": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+      "date": "2015",
+      "provider": [
+        "Tailte Éireann",
+        "Tailte/OSI/data.gov.ie"
+      ],
+      "description": "CSO Electoral Divisions Ungeneralised - National Statistical Boundaries - 2015 is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; large-or-special-format-review: size/format decision remains before runtime publication.",
+      "url": "https://data.gov.ie/dataset/cso-electoral-divisions-ungeneralised-national-statistical-boundaries-2015",
+      "references": [
+        {
+          "label": "CSO Electoral Divisions Ungeneralised - National Statistical Boundaries - 2015 provider page",
+          "url": "https://data.gov.ie/dataset/cso-electoral-divisions-ungeneralised-national-statistical-boundaries-2015",
+          "source": "Tailte/OSI/data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "CSO Electoral Divisions Ungeneralised - National Statistical Boundaries - 2015 Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/cso-electoral-divisions-ungeneralised-national-statistical-boundaries-2015",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/cso-electoral-divisions-ungeneralised-national-statistical-boundaries-2015",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "source-record-with-runtime-review",
+        "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+        "boundary",
+        "Electoral Divisions",
+        "Republic of Ireland",
+        "hold-special-format",
+        "ARCGIS GEOSERVICES REST API",
+        "CSV",
+        "GDB",
+        "GEOJSON",
+        "GPKG",
+        "HTML",
+        "KML",
+        "TXT",
+        "XLSX",
+        "ZIP",
+        "review:duplicate-or-variant-review-no-existing-match-candidate",
+        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 43,
+          "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:cso-electoral-divisions-ungeneralised-national-statistical-boundaries-2015:00042",
+          "title": "CSO Electoral Divisions Ungeneralised - National Statistical Boundaries - 2015",
+          "cleanTitle": "CSO Electoral Divisions Ungeneralised - National Statistical Boundaries - 2015",
+          "provider": "Tailte/OSI/data.gov.ie",
+          "organisation": "Tailte Éireann",
+          "category": "spatial",
+          "roiGroup": "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+          "groupTitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+          "jurisdiction": "Republic of Ireland",
+          "topic": "boundary",
+          "featureUnit": "Electoral Divisions",
+          "formats": [
+            "ARCGIS GEOSERVICES REST API",
+            "CSV",
+            "GDB",
+            "GEOJSON",
+            "GPKG",
+            "HTML",
+            "KML",
+            "TXT",
+            "XLSX",
+            "ZIP"
+          ],
+          "isSpatial": true,
+          "isLargeOrSpecial": true,
+          "proposedAction": "hold-special-format",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "download/source viewport first",
+            "conversion": "Do not convert until size/format review approves an interactive derivative.",
+            "sourceFormats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GDB",
+              "GEOJSON",
+              "GPKG",
+              "HTML",
+              "KML",
+              "TXT",
+              "XLSX",
+              "ZIP"
+            ]
+          },
+          "approvalState": "ready-with-residual-review",
+          "sourcePublicationState": "public source record with runtime/semantic review still pending",
+          "confidence": 45,
+          "currentProviderUrl": "https://data.gov.ie/dataset/cso-electoral-divisions-ungeneralised-national-statistical-boundaries-2015",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/cso-electoral-divisions-ungeneralised-national-statistical-boundaries-2015",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "geography-crosswalk-and-versioning: geography family inferred",
+            "geography-matching: geography family inferred",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate",
+            "large-or-special-format-review: size/format decision remains before runtime publication"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        }
+      ],
+      "status": "Source only",
+      "statusChips": [
+        "Source record",
+        "Runtime review pending",
+        "Spatial source",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+        "Republic of Ireland",
+        "boundary",
+        "CSO Electoral Divisions Ungeneralised - National Statistical Boundaries - 2015"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "spreadsheet",
+          "download-only"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/cso-electoral-divisions-ungeneralised-national-statistical-boundaries-2015",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/cso-electoral-divisions-ungeneralised-national-statistical-boundaries-2015",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "Do not convert until size/format review approves an interactive derivative."
+      },
+      "shortCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie, CSO Electoral Divisions Ungeneralised - National Statistical Boundaries - 2015.",
+      "fullCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie. CSO Electoral Divisions Ungeneralised - National Statistical Boundaries - 2015. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/cso-electoral-divisions-ungeneralised-national-statistical-boundaries-2015. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/cso-electoral-divisions-ungeneralised-national-statistical-boundaries-2015.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:cso-electoral-divisions-ungeneralised-national-statistical-boundaries-2015:00042",
+        "sourceRowNumber": 43,
+        "approvalState": "ready-with-residual-review",
+        "recommendedAction": "publish source record; hold runtime conversion pending size/format review",
+        "proposedAction": "hold-special-format",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "download/source viewport first",
+          "conversion": "Do not convert until size/format review approves an interactive derivative.",
+          "sourceFormats": [
+            "ARCGIS GEOSERVICES REST API",
+            "CSV",
+            "GDB",
+            "GEOJSON",
+            "GPKG",
+            "HTML",
+            "KML",
+            "TXT",
+            "XLSX",
+            "ZIP"
+          ]
+        },
+        "confidence": 45,
+        "residualBlockers": [
+          "duplicate-or-variant-review: no existing match candidate",
+          "large-or-special-format-review: size/format decision remains before runtime publication"
+        ],
+        "resolvedBlockers": [
+          "geography-crosswalk-and-versioning: geography family inferred",
+          "geography-matching: geography family inferred",
+          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+        ],
+        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+        "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
+        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+      },
+      "publicationStatus": "source-record-with-runtime-review",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-cso-electoral-divisions-ungeneralised-national-statistical-boundaries-2015-00042",
+      "rawMetadata": {
+        "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:cso-electoral-divisions-ungeneralised-national-statistical-boundaries-2015:00042",
+        "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-cso-electoral-divisions-ungeneralised-national-statistical-boundaries-2015-00042",
+        "type": "approved-medium-priority-source",
+        "title": "CSO Electoral Divisions Ungeneralised - National Statistical Boundaries - 2015",
+        "subtitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA / Tailte Éireann, Tailte/OSI/data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, GDB, GEOJSON, GPKG, HTML, KML, TXT, XLSX, ZIP / Source record; runtime review pending",
+        "category": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+        "date": "2015",
+        "provider": [
+          "Tailte Éireann",
+          "Tailte/OSI/data.gov.ie"
+        ],
+        "description": "CSO Electoral Divisions Ungeneralised - National Statistical Boundaries - 2015 is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; large-or-special-format-review: size/format decision remains before runtime publication.",
+        "url": "https://data.gov.ie/dataset/cso-electoral-divisions-ungeneralised-national-statistical-boundaries-2015",
+        "references": [
+          {
+            "label": "CSO Electoral Divisions Ungeneralised - National Statistical Boundaries - 2015 provider page",
+            "url": "https://data.gov.ie/dataset/cso-electoral-divisions-ungeneralised-national-statistical-boundaries-2015",
+            "source": "Tailte/OSI/data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "CSO Electoral Divisions Ungeneralised - National Statistical Boundaries - 2015 Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/cso-electoral-divisions-ungeneralised-national-statistical-boundaries-2015",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/cso-electoral-divisions-ungeneralised-national-statistical-boundaries-2015",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source only",
+        "statusChips": [
+          "Source record",
+          "Runtime review pending",
+          "Spatial source",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+          "Republic of Ireland",
+          "boundary",
+          "CSO Electoral Divisions Ungeneralised - National Statistical Boundaries - 2015"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "spreadsheet",
+            "download-only"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/cso-electoral-divisions-ungeneralised-national-statistical-boundaries-2015",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/cso-electoral-divisions-ungeneralised-national-statistical-boundaries-2015",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "Do not convert until size/format review approves an interactive derivative."
+        },
+        "shortCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie, CSO Electoral Divisions Ungeneralised - National Statistical Boundaries - 2015.",
+        "fullCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie. CSO Electoral Divisions Ungeneralised - National Statistical Boundaries - 2015. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/cso-electoral-divisions-ungeneralised-national-statistical-boundaries-2015. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/cso-electoral-divisions-ungeneralised-national-statistical-boundaries-2015.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 43,
+            "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:cso-electoral-divisions-ungeneralised-national-statistical-boundaries-2015:00042",
+            "title": "CSO Electoral Divisions Ungeneralised - National Statistical Boundaries - 2015",
+            "cleanTitle": "CSO Electoral Divisions Ungeneralised - National Statistical Boundaries - 2015",
+            "provider": "Tailte/OSI/data.gov.ie",
+            "organisation": "Tailte Éireann",
+            "category": "spatial",
+            "roiGroup": "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+            "groupTitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+            "jurisdiction": "Republic of Ireland",
+            "topic": "boundary",
+            "featureUnit": "Electoral Divisions",
+            "formats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GDB",
+              "GEOJSON",
+              "GPKG",
+              "HTML",
+              "KML",
+              "TXT",
+              "XLSX",
+              "ZIP"
+            ],
+            "isSpatial": true,
+            "isLargeOrSpecial": true,
+            "proposedAction": "hold-special-format",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "download/source viewport first",
+              "conversion": "Do not convert until size/format review approves an interactive derivative.",
+              "sourceFormats": [
+                "ARCGIS GEOSERVICES REST API",
+                "CSV",
+                "GDB",
+                "GEOJSON",
+                "GPKG",
+                "HTML",
+                "KML",
+                "TXT",
+                "XLSX",
+                "ZIP"
+              ]
+            },
+            "approvalState": "ready-with-residual-review",
+            "sourcePublicationState": "public source record with runtime/semantic review still pending",
+            "confidence": 45,
+            "currentProviderUrl": "https://data.gov.ie/dataset/cso-electoral-divisions-ungeneralised-national-statistical-boundaries-2015",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/cso-electoral-divisions-ungeneralised-national-statistical-boundaries-2015",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "geography-crosswalk-and-versioning: geography family inferred",
+              "geography-matching: geography family inferred",
+              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+            ],
+            "residualBlockers": [
+              "duplicate-or-variant-review: no existing match candidate",
+              "large-or-special-format-review: size/format decision remains before runtime publication"
+            ],
+            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+            "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
+            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:cso-electoral-divisions-ungeneralised-national-statistical-boundaries-2015:00042",
+          "sourceRowNumber": 43,
+          "approvalState": "ready-with-residual-review",
+          "recommendedAction": "publish source record; hold runtime conversion pending size/format review",
+          "proposedAction": "hold-special-format",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "download/source viewport first",
+            "conversion": "Do not convert until size/format review approves an interactive derivative.",
+            "sourceFormats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GDB",
+              "GEOJSON",
+              "GPKG",
+              "HTML",
+              "KML",
+              "TXT",
+              "XLSX",
+              "ZIP"
+            ]
+          },
+          "confidence": 45,
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate",
+            "large-or-special-format-review: size/format decision remains before runtime publication"
+          ],
+          "resolvedBlockers": [
+            "geography-crosswalk-and-versioning: geography family inferred",
+            "geography-matching: geography family inferred",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        },
+        "publicationStatus": "source-record-with-runtime-review",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "source-record-with-runtime-review",
+          "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+          "boundary",
+          "Electoral Divisions",
+          "Republic of Ireland",
+          "hold-special-format",
+          "ARCGIS GEOSERVICES REST API",
+          "CSV",
+          "GDB",
+          "GEOJSON",
+          "GPKG",
+          "HTML",
+          "KML",
+          "TXT",
+          "XLSX",
+          "ZIP",
+          "review:duplicate-or-variant-review-no-existing-match-candidate",
+          "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-cso-electoral-divisions-ungeneralised-national-statistical-boundaries-2015-00042"
+      }
+    },
+    {
+      "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:cso-local-electoral-areas-national-statistical-boundaries-2022-generalised-100m1:00043",
+      "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-cso-local-electoral-areas-national-statistical-boundaries-2022-generalised-100m1-00043",
+      "type": "approved-medium-priority-source",
+      "title": "CSO Local Electoral Areas - National Statistical Boundaries - 2022 - Generalised 100m",
+      "subtitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA / Tailte Éireann, Tailte/OSI/data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, GDB, GEOJSON, GPKG, HTML, KML, TXT, XLSX, ZIP / Source record; runtime review pending",
+      "category": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+      "date": "2022",
+      "provider": [
+        "Tailte Éireann",
+        "Tailte/OSI/data.gov.ie"
+      ],
+      "description": "CSO Local Electoral Areas - National Statistical Boundaries - 2022 - Generalised 100m is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; geography-crosswalk-and-versioning: needs exact geography crosswalk; geography-matching: needs exact geography crosswalk; large-or-special-format-review: size/format decision remains before runtime publication.",
+      "url": "https://data.gov.ie/dataset/cso-local-electoral-areas-national-statistical-boundaries-2022-generalised-100m1",
+      "references": [
+        {
+          "label": "CSO Local Electoral Areas - National Statistical Boundaries - 2022 - Generalised 100m provider page",
+          "url": "https://data.gov.ie/dataset/cso-local-electoral-areas-national-statistical-boundaries-2022-generalised-100m1",
+          "source": "Tailte/OSI/data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "CSO Local Electoral Areas - National Statistical Boundaries - 2022 - Generalised 100m Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/cso-local-electoral-areas-national-statistical-boundaries-2022-generalised-100m1",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/cso-local-electoral-areas-national-statistical-boundaries-2022-generalised-100m1",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "source-record-with-runtime-review",
+        "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+        "boundary",
+        "features",
+        "Republic of Ireland",
+        "hold-special-format",
+        "ARCGIS GEOSERVICES REST API",
+        "CSV",
+        "GDB",
+        "GEOJSON",
+        "GPKG",
+        "HTML",
+        "KML",
+        "TXT",
+        "XLSX",
+        "ZIP",
+        "review:duplicate-or-variant-review-no-existing-match-candidate",
+        "review:geography-crosswalk-and-versioning-needs-exact-geography-crosswalk",
+        "review:geography-matching-needs-exact-geography-crosswalk",
+        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 44,
+          "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:cso-local-electoral-areas-national-statistical-boundaries-2022-generalised-100m1:00043",
+          "title": "CSO Local Electoral Areas - National Statistical Boundaries - 2022 - Generalised 100m",
+          "cleanTitle": "CSO Local Electoral Areas - National Statistical Boundaries - 2022 - Generalised 100m",
+          "provider": "Tailte/OSI/data.gov.ie",
+          "organisation": "Tailte Éireann",
+          "category": "spatial",
+          "roiGroup": "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+          "groupTitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+          "jurisdiction": "Republic of Ireland",
+          "topic": "boundary",
+          "featureUnit": "features",
+          "formats": [
+            "ARCGIS GEOSERVICES REST API",
+            "CSV",
+            "GDB",
+            "GEOJSON",
+            "GPKG",
+            "HTML",
+            "KML",
+            "TXT",
+            "XLSX",
+            "ZIP"
+          ],
+          "isSpatial": true,
+          "isLargeOrSpecial": true,
+          "proposedAction": "hold-special-format",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "download/source viewport first",
+            "conversion": "Do not convert until size/format review approves an interactive derivative.",
+            "sourceFormats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GDB",
+              "GEOJSON",
+              "GPKG",
+              "HTML",
+              "KML",
+              "TXT",
+              "XLSX",
+              "ZIP"
+            ]
+          },
+          "approvalState": "ready-with-residual-review",
+          "sourcePublicationState": "public source record with runtime/semantic review still pending",
+          "confidence": 45,
+          "currentProviderUrl": "https://data.gov.ie/dataset/cso-local-electoral-areas-national-statistical-boundaries-2022-generalised-100m1",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/cso-local-electoral-areas-national-statistical-boundaries-2022-generalised-100m1",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate",
+            "geography-crosswalk-and-versioning: needs exact geography crosswalk",
+            "geography-matching: needs exact geography crosswalk",
+            "large-or-special-format-review: size/format decision remains before runtime publication"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        }
+      ],
+      "status": "Source only",
+      "statusChips": [
+        "Source record",
+        "Runtime review pending",
+        "Spatial source",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+        "Republic of Ireland",
+        "boundary",
+        "CSO Local Electoral Areas - National Statistical Boundaries - 2022 - Generalised 100m"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "spreadsheet",
+          "download-only"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/cso-local-electoral-areas-national-statistical-boundaries-2022-generalised-100m1",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/cso-local-electoral-areas-national-statistical-boundaries-2022-generalised-100m1",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "Do not convert until size/format review approves an interactive derivative."
+      },
+      "shortCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie, CSO Local Electoral Areas - National Statistical Boundaries - 2022 - Generalised 100m.",
+      "fullCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie. CSO Local Electoral Areas - National Statistical Boundaries - 2022 - Generalised 100m. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/cso-local-electoral-areas-national-statistical-boundaries-2022-generalised-100m1. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/cso-local-electoral-areas-national-statistical-boundaries-2022-generalised-100m1.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:cso-local-electoral-areas-national-statistical-boundaries-2022-generalised-100m1:00043",
+        "sourceRowNumber": 44,
+        "approvalState": "ready-with-residual-review",
+        "recommendedAction": "publish source record; hold runtime conversion pending size/format review",
+        "proposedAction": "hold-special-format",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "download/source viewport first",
+          "conversion": "Do not convert until size/format review approves an interactive derivative.",
+          "sourceFormats": [
+            "ARCGIS GEOSERVICES REST API",
+            "CSV",
+            "GDB",
+            "GEOJSON",
+            "GPKG",
+            "HTML",
+            "KML",
+            "TXT",
+            "XLSX",
+            "ZIP"
+          ]
+        },
+        "confidence": 45,
+        "residualBlockers": [
+          "duplicate-or-variant-review: no existing match candidate",
+          "geography-crosswalk-and-versioning: needs exact geography crosswalk",
+          "geography-matching: needs exact geography crosswalk",
+          "large-or-special-format-review: size/format decision remains before runtime publication"
+        ],
+        "resolvedBlockers": [
+          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+        ],
+        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+      },
+      "publicationStatus": "source-record-with-runtime-review",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-cso-local-electoral-areas-national-statistical-boundaries-2022-generalised-100m1-00043",
+      "rawMetadata": {
+        "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:cso-local-electoral-areas-national-statistical-boundaries-2022-generalised-100m1:00043",
+        "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-cso-local-electoral-areas-national-statistical-boundaries-2022-generalised-100m1-00043",
+        "type": "approved-medium-priority-source",
+        "title": "CSO Local Electoral Areas - National Statistical Boundaries - 2022 - Generalised 100m",
+        "subtitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA / Tailte Éireann, Tailte/OSI/data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, GDB, GEOJSON, GPKG, HTML, KML, TXT, XLSX, ZIP / Source record; runtime review pending",
+        "category": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+        "date": "2022",
+        "provider": [
+          "Tailte Éireann",
+          "Tailte/OSI/data.gov.ie"
+        ],
+        "description": "CSO Local Electoral Areas - National Statistical Boundaries - 2022 - Generalised 100m is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; geography-crosswalk-and-versioning: needs exact geography crosswalk; geography-matching: needs exact geography crosswalk; large-or-special-format-review: size/format decision remains before runtime publication.",
+        "url": "https://data.gov.ie/dataset/cso-local-electoral-areas-national-statistical-boundaries-2022-generalised-100m1",
+        "references": [
+          {
+            "label": "CSO Local Electoral Areas - National Statistical Boundaries - 2022 - Generalised 100m provider page",
+            "url": "https://data.gov.ie/dataset/cso-local-electoral-areas-national-statistical-boundaries-2022-generalised-100m1",
+            "source": "Tailte/OSI/data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "CSO Local Electoral Areas - National Statistical Boundaries - 2022 - Generalised 100m Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/cso-local-electoral-areas-national-statistical-boundaries-2022-generalised-100m1",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/cso-local-electoral-areas-national-statistical-boundaries-2022-generalised-100m1",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source only",
+        "statusChips": [
+          "Source record",
+          "Runtime review pending",
+          "Spatial source",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+          "Republic of Ireland",
+          "boundary",
+          "CSO Local Electoral Areas - National Statistical Boundaries - 2022 - Generalised 100m"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "spreadsheet",
+            "download-only"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/cso-local-electoral-areas-national-statistical-boundaries-2022-generalised-100m1",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/cso-local-electoral-areas-national-statistical-boundaries-2022-generalised-100m1",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "Do not convert until size/format review approves an interactive derivative."
+        },
+        "shortCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie, CSO Local Electoral Areas - National Statistical Boundaries - 2022 - Generalised 100m.",
+        "fullCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie. CSO Local Electoral Areas - National Statistical Boundaries - 2022 - Generalised 100m. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/cso-local-electoral-areas-national-statistical-boundaries-2022-generalised-100m1. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/cso-local-electoral-areas-national-statistical-boundaries-2022-generalised-100m1.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 44,
+            "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:cso-local-electoral-areas-national-statistical-boundaries-2022-generalised-100m1:00043",
+            "title": "CSO Local Electoral Areas - National Statistical Boundaries - 2022 - Generalised 100m",
+            "cleanTitle": "CSO Local Electoral Areas - National Statistical Boundaries - 2022 - Generalised 100m",
+            "provider": "Tailte/OSI/data.gov.ie",
+            "organisation": "Tailte Éireann",
+            "category": "spatial",
+            "roiGroup": "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+            "groupTitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+            "jurisdiction": "Republic of Ireland",
+            "topic": "boundary",
+            "featureUnit": "features",
+            "formats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GDB",
+              "GEOJSON",
+              "GPKG",
+              "HTML",
+              "KML",
+              "TXT",
+              "XLSX",
+              "ZIP"
+            ],
+            "isSpatial": true,
+            "isLargeOrSpecial": true,
+            "proposedAction": "hold-special-format",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "download/source viewport first",
+              "conversion": "Do not convert until size/format review approves an interactive derivative.",
+              "sourceFormats": [
+                "ARCGIS GEOSERVICES REST API",
+                "CSV",
+                "GDB",
+                "GEOJSON",
+                "GPKG",
+                "HTML",
+                "KML",
+                "TXT",
+                "XLSX",
+                "ZIP"
+              ]
+            },
+            "approvalState": "ready-with-residual-review",
+            "sourcePublicationState": "public source record with runtime/semantic review still pending",
+            "confidence": 45,
+            "currentProviderUrl": "https://data.gov.ie/dataset/cso-local-electoral-areas-national-statistical-boundaries-2022-generalised-100m1",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/cso-local-electoral-areas-national-statistical-boundaries-2022-generalised-100m1",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+            ],
+            "residualBlockers": [
+              "duplicate-or-variant-review: no existing match candidate",
+              "geography-crosswalk-and-versioning: needs exact geography crosswalk",
+              "geography-matching: needs exact geography crosswalk",
+              "large-or-special-format-review: size/format decision remains before runtime publication"
+            ],
+            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:cso-local-electoral-areas-national-statistical-boundaries-2022-generalised-100m1:00043",
+          "sourceRowNumber": 44,
+          "approvalState": "ready-with-residual-review",
+          "recommendedAction": "publish source record; hold runtime conversion pending size/format review",
+          "proposedAction": "hold-special-format",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "download/source viewport first",
+            "conversion": "Do not convert until size/format review approves an interactive derivative.",
+            "sourceFormats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GDB",
+              "GEOJSON",
+              "GPKG",
+              "HTML",
+              "KML",
+              "TXT",
+              "XLSX",
+              "ZIP"
+            ]
+          },
+          "confidence": 45,
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate",
+            "geography-crosswalk-and-versioning: needs exact geography crosswalk",
+            "geography-matching: needs exact geography crosswalk",
+            "large-or-special-format-review: size/format decision remains before runtime publication"
+          ],
+          "resolvedBlockers": [
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        },
+        "publicationStatus": "source-record-with-runtime-review",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "source-record-with-runtime-review",
+          "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+          "boundary",
+          "features",
+          "Republic of Ireland",
+          "hold-special-format",
+          "ARCGIS GEOSERVICES REST API",
+          "CSV",
+          "GDB",
+          "GEOJSON",
+          "GPKG",
+          "HTML",
+          "KML",
+          "TXT",
+          "XLSX",
+          "ZIP",
+          "review:duplicate-or-variant-review-no-existing-match-candidate",
+          "review:geography-crosswalk-and-versioning-needs-exact-geography-crosswalk",
+          "review:geography-matching-needs-exact-geography-crosswalk",
+          "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-cso-local-electoral-areas-national-statistical-boundaries-2022-generalised-100m1-00043"
+      }
+    },
     {
       "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:cso-local-electoral-areas-national-statistical-boundaries-2022-generalised-20m1:00044",
       "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-cso-local-electoral-areas-national-statistical-boundaries-2022-generalised-20m1-00044",
@@ -79637,696 +80487,6 @@
           "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
         ],
         "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-townlands-national-statutory-boundaries-ungeneralised-2026-00089"
-      }
-    },
-    {
-      "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:townlandsfcc2:00133",
-      "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-townlandsfcc2-00133",
-      "type": "approved-medium-priority-source",
-      "title": "TownlandsFCC",
-      "subtitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA / Fingal County Council, data.gov.ie / Ireland / unspecified / ARCGIS GEOSERVICES REST API, CSV, GEOJSON, HTML, KML, ZIP / Approved source record",
-      "category": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-      "provider": [
-        "Fingal County Council",
-        "data.gov.ie"
-      ],
-      "description": "TownlandsFCC is published as a medium-priority Civgraph source/provenance record from Fingal County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/townlandsfcc2",
-      "references": [
-        {
-          "label": "TownlandsFCC provider page",
-          "url": "https://data.gov.ie/dataset/townlandsfcc2",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "TownlandsFCC Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/townlandsfcc2",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/townlandsfcc2",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "boundary",
-        "townlands",
-        "Ireland / unspecified",
-        "variant-child-map",
-        "ARCGIS GEOSERVICES REST API",
-        "CSV",
-        "GEOJSON",
-        "HTML",
-        "KML",
-        "ZIP"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 134,
-          "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:townlandsfcc2:00133",
-          "title": "TownlandsFCC",
-          "cleanTitle": "TownlandsFCC",
-          "provider": "data.gov.ie",
-          "organisation": "Fingal County Council",
-          "category": "spatial",
-          "roiGroup": "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "groupTitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "boundary",
-          "featureUnit": "townlands",
-          "formats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "GEOJSON",
-            "HTML",
-            "KML",
-            "ZIP"
-          ],
-          "isSpatial": true,
-          "isLargeOrSpecial": false,
-          "proposedAction": "variant-child-map",
-          "proposedPlacement": "Maps > boundary/geography variant",
-          "proposedRuntime": {
-            "desired": "MapLibre interactive layer",
-            "conversion": "Convert source geometry to PMTiles/vector tiles after approval.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GEOJSON",
-              "HTML",
-              "KML",
-              "ZIP"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 45,
-          "currentProviderUrl": "https://data.gov.ie/dataset/townlandsfcc2",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/townlandsfcc2",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "duplicate-or-variant-review: classified as variant-child-map",
-            "geography-crosswalk-and-versioning: geography family inferred",
-            "geography-matching: geography family inferred",
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Match to canonical townland generation/version; retain provider/source version as a variant if geometry differs.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Spatial source",
-        "Conversion pending",
-        "Download available",
-        "Provider link",
-        "Wayback link",
-        "Variant candidate"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "Ireland / unspecified",
-        "boundary",
-        "TownlandsFCC"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text",
-          "download-only"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/townlandsfcc2",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/townlandsfcc2",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "Convert source geometry to PMTiles/vector tiles after approval."
-      },
-      "shortCitation": "Fingal County Council, data.gov.ie, TownlandsFCC.",
-      "fullCitation": "Fingal County Council, data.gov.ie. TownlandsFCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/townlandsfcc2. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/townlandsfcc2.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:townlandsfcc2:00133",
-        "sourceRowNumber": 134,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish source record as candidate child/variant metadata",
-        "proposedAction": "variant-child-map",
-        "proposedPlacement": "Maps > boundary/geography variant",
-        "proposedRuntime": {
-          "desired": "MapLibre interactive layer",
-          "conversion": "Convert source geometry to PMTiles/vector tiles after approval.",
-          "sourceFormats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "GEOJSON",
-            "HTML",
-            "KML",
-            "ZIP"
-          ]
-        },
-        "confidence": 45,
-        "resolvedBlockers": [
-          "duplicate-or-variant-review: classified as variant-child-map",
-          "geography-crosswalk-and-versioning: geography family inferred",
-          "geography-matching: geography family inferred",
-          "large-or-special-format-review: normal source package; no special-format hold",
-          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-        ],
-        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-        "geographyRecommendation": "Match to canonical townland generation/version; retain provider/source version as a variant if geometry differs.",
-        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Maps > boundary/geography variant",
-      "relationship": "variant-source-candidate",
-      "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-townlandsfcc2-00133",
-      "rawMetadata": {
-        "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:townlandsfcc2:00133",
-        "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-townlandsfcc2-00133",
-        "type": "approved-medium-priority-source",
-        "title": "TownlandsFCC",
-        "subtitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA / Fingal County Council, data.gov.ie / Ireland / unspecified / ARCGIS GEOSERVICES REST API, CSV, GEOJSON, HTML, KML, ZIP / Approved source record",
-        "category": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "provider": [
-          "Fingal County Council",
-          "data.gov.ie"
-        ],
-        "description": "TownlandsFCC is published as a medium-priority Civgraph source/provenance record from Fingal County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/townlandsfcc2",
-        "references": [
-          {
-            "label": "TownlandsFCC provider page",
-            "url": "https://data.gov.ie/dataset/townlandsfcc2",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "TownlandsFCC Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/townlandsfcc2",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/townlandsfcc2",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Spatial source",
-          "Conversion pending",
-          "Download available",
-          "Provider link",
-          "Wayback link",
-          "Variant candidate"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "Ireland / unspecified",
-          "boundary",
-          "TownlandsFCC"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text",
-            "download-only"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/townlandsfcc2",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/townlandsfcc2",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "Convert source geometry to PMTiles/vector tiles after approval."
-        },
-        "shortCitation": "Fingal County Council, data.gov.ie, TownlandsFCC.",
-        "fullCitation": "Fingal County Council, data.gov.ie. TownlandsFCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/townlandsfcc2. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/townlandsfcc2.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 134,
-            "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:townlandsfcc2:00133",
-            "title": "TownlandsFCC",
-            "cleanTitle": "TownlandsFCC",
-            "provider": "data.gov.ie",
-            "organisation": "Fingal County Council",
-            "category": "spatial",
-            "roiGroup": "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-            "groupTitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "boundary",
-            "featureUnit": "townlands",
-            "formats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GEOJSON",
-              "HTML",
-              "KML",
-              "ZIP"
-            ],
-            "isSpatial": true,
-            "isLargeOrSpecial": false,
-            "proposedAction": "variant-child-map",
-            "proposedPlacement": "Maps > boundary/geography variant",
-            "proposedRuntime": {
-              "desired": "MapLibre interactive layer",
-              "conversion": "Convert source geometry to PMTiles/vector tiles after approval.",
-              "sourceFormats": [
-                "ARCGIS GEOSERVICES REST API",
-                "CSV",
-                "GEOJSON",
-                "HTML",
-                "KML",
-                "ZIP"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 45,
-            "currentProviderUrl": "https://data.gov.ie/dataset/townlandsfcc2",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/townlandsfcc2",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "duplicate-or-variant-review: classified as variant-child-map",
-              "geography-crosswalk-and-versioning: geography family inferred",
-              "geography-matching: geography family inferred",
-              "large-or-special-format-review: normal source package; no special-format hold",
-              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-            ],
-            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-            "geographyRecommendation": "Match to canonical townland generation/version; retain provider/source version as a variant if geometry differs.",
-            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:townlandsfcc2:00133",
-          "sourceRowNumber": 134,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish source record as candidate child/variant metadata",
-          "proposedAction": "variant-child-map",
-          "proposedPlacement": "Maps > boundary/geography variant",
-          "proposedRuntime": {
-            "desired": "MapLibre interactive layer",
-            "conversion": "Convert source geometry to PMTiles/vector tiles after approval.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GEOJSON",
-              "HTML",
-              "KML",
-              "ZIP"
-            ]
-          },
-          "confidence": 45,
-          "resolvedBlockers": [
-            "duplicate-or-variant-review: classified as variant-child-map",
-            "geography-crosswalk-and-versioning: geography family inferred",
-            "geography-matching: geography family inferred",
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Match to canonical townland generation/version; retain provider/source version as a variant if geometry differs.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Maps > boundary/geography variant",
-        "relationship": "variant-source-candidate",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "boundary",
-          "townlands",
-          "Ireland / unspecified",
-          "variant-child-map",
-          "ARCGIS GEOSERVICES REST API",
-          "CSV",
-          "GEOJSON",
-          "HTML",
-          "KML",
-          "ZIP"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-townlandsfcc2-00133"
-      }
-    },
-    {
-      "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:valuation-office-api:02005",
-      "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-valuation-office-api-02005",
-      "type": "approved-medium-priority-source",
-      "title": "Valuation Office API",
-      "subtitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA / Tailte Éireann, Tailte/OSI/data.gov.ie / Republic of Ireland / API / Source record; runtime review pending",
-      "category": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-      "provider": [
-        "Tailte Éireann",
-        "Tailte/OSI/data.gov.ie"
-      ],
-      "description": "Valuation Office API is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: geography-crosswalk-and-versioning: needs exact geography crosswalk.",
-      "url": "https://data.gov.ie/dataset/valuation-office-api",
-      "references": [
-        {
-          "label": "Valuation Office API provider page",
-          "url": "https://data.gov.ie/dataset/valuation-office-api",
-          "source": "Tailte/OSI/data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Valuation Office API Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/valuation-office-api",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/valuation-office-api",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "source-record-with-runtime-review",
-        "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "source-data",
-        "features",
-        "Republic of Ireland",
-        "source-download-only",
-        "API",
-        "review:geography-crosswalk-and-versioning-needs-exact-geography-crosswalk"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 2006,
-          "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:valuation-office-api:02005",
-          "title": "Valuation Office API",
-          "cleanTitle": "Valuation Office API",
-          "provider": "Tailte/OSI/data.gov.ie",
-          "organisation": "Tailte Éireann",
-          "category": "tabular",
-          "roiGroup": "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "groupTitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "jurisdiction": "Republic of Ireland",
-          "topic": "source-data",
-          "featureUnit": "features",
-          "formats": [
-            "API"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "source-download-only",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "API"
-            ]
-          },
-          "approvalState": "ready-with-residual-review",
-          "sourcePublicationState": "public source record with runtime/semantic review still pending",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/valuation-office-api",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/valuation-office-api",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "residualBlockers": [
-            "geography-crosswalk-and-versioning: needs exact geography crosswalk"
-          ],
-          "cleanedRecommendation": "Prepare boundary variant review; prefer child/variant records over duplicate parent maps.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source record",
-        "Runtime review pending",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "Republic of Ireland",
-        "source-data",
-        "Valuation Office API"
-      ],
-      "viewport": {
-        "status": "source-page-only",
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/valuation-office-api",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/valuation-office-api",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie, Valuation Office API.",
-      "fullCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie. Valuation Office API. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/valuation-office-api. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/valuation-office-api.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:valuation-office-api:02005",
-        "sourceRowNumber": 2006,
-        "approvalState": "ready-with-residual-review",
-        "recommendedAction": "publish as source/download record",
-        "proposedAction": "source-download-only",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "API"
-          ]
-        },
-        "confidence": 60,
-        "residualBlockers": [
-          "geography-crosswalk-and-versioning: needs exact geography crosswalk"
-        ],
-        "cleanedRecommendation": "Prepare boundary variant review; prefer child/variant records over duplicate parent maps.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-      },
-      "publicationStatus": "source-record-with-runtime-review",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-valuation-office-api-02005",
-      "rawMetadata": {
-        "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:valuation-office-api:02005",
-        "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-valuation-office-api-02005",
-        "type": "approved-medium-priority-source",
-        "title": "Valuation Office API",
-        "subtitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA / Tailte Éireann, Tailte/OSI/data.gov.ie / Republic of Ireland / API / Source record; runtime review pending",
-        "category": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "provider": [
-          "Tailte Éireann",
-          "Tailte/OSI/data.gov.ie"
-        ],
-        "description": "Valuation Office API is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: geography-crosswalk-and-versioning: needs exact geography crosswalk.",
-        "url": "https://data.gov.ie/dataset/valuation-office-api",
-        "references": [
-          {
-            "label": "Valuation Office API provider page",
-            "url": "https://data.gov.ie/dataset/valuation-office-api",
-            "source": "Tailte/OSI/data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Valuation Office API Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/valuation-office-api",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/valuation-office-api",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source record",
-          "Runtime review pending",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "Republic of Ireland",
-          "source-data",
-          "Valuation Office API"
-        ],
-        "viewport": {
-          "status": "source-page-only",
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/valuation-office-api",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/valuation-office-api",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie, Valuation Office API.",
-        "fullCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie. Valuation Office API. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/valuation-office-api. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/valuation-office-api.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 2006,
-            "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:valuation-office-api:02005",
-            "title": "Valuation Office API",
-            "cleanTitle": "Valuation Office API",
-            "provider": "Tailte/OSI/data.gov.ie",
-            "organisation": "Tailte Éireann",
-            "category": "tabular",
-            "roiGroup": "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-            "groupTitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-            "jurisdiction": "Republic of Ireland",
-            "topic": "source-data",
-            "featureUnit": "features",
-            "formats": [
-              "API"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "source-download-only",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "API"
-              ]
-            },
-            "approvalState": "ready-with-residual-review",
-            "sourcePublicationState": "public source record with runtime/semantic review still pending",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/valuation-office-api",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/valuation-office-api",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "residualBlockers": [
-              "geography-crosswalk-and-versioning: needs exact geography crosswalk"
-            ],
-            "cleanedRecommendation": "Prepare boundary variant review; prefer child/variant records over duplicate parent maps.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:valuation-office-api:02005",
-          "sourceRowNumber": 2006,
-          "approvalState": "ready-with-residual-review",
-          "recommendedAction": "publish as source/download record",
-          "proposedAction": "source-download-only",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "API"
-            ]
-          },
-          "confidence": 60,
-          "residualBlockers": [
-            "geography-crosswalk-and-versioning: needs exact geography crosswalk"
-          ],
-          "cleanedRecommendation": "Prepare boundary variant review; prefer child/variant records over duplicate parent maps.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        },
-        "publicationStatus": "source-record-with-runtime-review",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "source-record-with-runtime-review",
-          "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "source-data",
-          "features",
-          "Republic of Ireland",
-          "source-download-only",
-          "API",
-          "review:geography-crosswalk-and-versioning-needs-exact-geography-crosswalk"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-valuation-office-api-02005"
       }
     }
   ]

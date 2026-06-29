@@ -1,10 +1,674 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-29T22:34:58.850Z",
+  "generatedAt": "2026-06-29T23:18:02.002Z",
   "kind": "sources",
   "shard": "sources-050.json",
   "total": 200,
   "items": [
+    {
+      "id": "medium-priority:7-transport-roads-infrastructure-public-assets:ima08-bulk-traffic:02206",
+      "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-ima08-bulk-traffic-02206",
+      "type": "approved-medium-priority-source",
+      "title": "IMA08 - Bulk Traffic",
+      "subtitle": "Transport, roads, infrastructure, public assets / Irish Maritime Development Office, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
+      "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+      "provider": [
+        "Irish Maritime Development Office",
+        "data.gov.ie"
+      ],
+      "description": "IMA08 - Bulk Traffic is published as a medium-priority Civgraph source/provenance record from Irish Maritime Development Office, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/ima08-bulk-traffic",
+      "references": [
+        {
+          "label": "IMA08 - Bulk Traffic provider page",
+          "url": "https://data.gov.ie/dataset/ima08-bulk-traffic",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "IMA08 - Bulk Traffic Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ima08-bulk-traffic",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/ima08-bulk-traffic",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Transport, roads, infrastructure, public assets",
+        "transport-public-asset",
+        "features",
+        "Ireland / unspecified",
+        "transport-public-asset-batch-review",
+        "CSV",
+        "JSON-STAT",
+        "PX",
+        "XLSX"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 2207,
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:ima08-bulk-traffic:02206",
+          "title": "IMA08 - Bulk Traffic",
+          "cleanTitle": "IMA08 - Bulk Traffic",
+          "provider": "data.gov.ie",
+          "organisation": "Irish Maritime Development Office",
+          "category": "tabular",
+          "roiGroup": "7. Transport, roads, infrastructure, public assets",
+          "groupTitle": "Transport, roads, infrastructure, public assets",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "transport-public-asset",
+          "featureUnit": "features",
+          "formats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 55,
+          "currentProviderUrl": "https://data.gov.ie/dataset/ima08-bulk-traffic",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ima08-bulk-traffic",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "needs-provider-context-review: publication policy assigned",
+            "public-asset-batch-placement: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Transport, roads, infrastructure, public assets",
+        "Ireland / unspecified",
+        "transport-public-asset",
+        "IMA08 - Bulk Traffic"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "spreadsheet"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/ima08-bulk-traffic",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ima08-bulk-traffic",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Irish Maritime Development Office, data.gov.ie, IMA08 - Bulk Traffic.",
+      "fullCitation": "Irish Maritime Development Office, data.gov.ie. IMA08 - Bulk Traffic. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/ima08-bulk-traffic. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/ima08-bulk-traffic.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:ima08-bulk-traffic:02206",
+        "sourceRowNumber": 2207,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+        "proposedAction": "transport-public-asset-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ]
+        },
+        "confidence": 55,
+        "resolvedBlockers": [
+          "needs-provider-context-review: publication policy assigned",
+          "public-asset-batch-placement: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-ima08-bulk-traffic-02206",
+      "rawMetadata": {
+        "id": "medium-priority:7-transport-roads-infrastructure-public-assets:ima08-bulk-traffic:02206",
+        "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-ima08-bulk-traffic-02206",
+        "type": "approved-medium-priority-source",
+        "title": "IMA08 - Bulk Traffic",
+        "subtitle": "Transport, roads, infrastructure, public assets / Irish Maritime Development Office, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
+        "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+        "provider": [
+          "Irish Maritime Development Office",
+          "data.gov.ie"
+        ],
+        "description": "IMA08 - Bulk Traffic is published as a medium-priority Civgraph source/provenance record from Irish Maritime Development Office, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/ima08-bulk-traffic",
+        "references": [
+          {
+            "label": "IMA08 - Bulk Traffic provider page",
+            "url": "https://data.gov.ie/dataset/ima08-bulk-traffic",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "IMA08 - Bulk Traffic Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ima08-bulk-traffic",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/ima08-bulk-traffic",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Transport, roads, infrastructure, public assets",
+          "Ireland / unspecified",
+          "transport-public-asset",
+          "IMA08 - Bulk Traffic"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "spreadsheet"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/ima08-bulk-traffic",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ima08-bulk-traffic",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Irish Maritime Development Office, data.gov.ie, IMA08 - Bulk Traffic.",
+        "fullCitation": "Irish Maritime Development Office, data.gov.ie. IMA08 - Bulk Traffic. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/ima08-bulk-traffic. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/ima08-bulk-traffic.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 2207,
+            "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:ima08-bulk-traffic:02206",
+            "title": "IMA08 - Bulk Traffic",
+            "cleanTitle": "IMA08 - Bulk Traffic",
+            "provider": "data.gov.ie",
+            "organisation": "Irish Maritime Development Office",
+            "category": "tabular",
+            "roiGroup": "7. Transport, roads, infrastructure, public assets",
+            "groupTitle": "Transport, roads, infrastructure, public assets",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "transport-public-asset",
+            "featureUnit": "features",
+            "formats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "transport-public-asset-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV",
+                "JSON-STAT",
+                "PX",
+                "XLSX"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 55,
+            "currentProviderUrl": "https://data.gov.ie/dataset/ima08-bulk-traffic",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ima08-bulk-traffic",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "needs-provider-context-review: publication policy assigned",
+              "public-asset-batch-placement: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:ima08-bulk-traffic:02206",
+          "sourceRowNumber": 2207,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ]
+          },
+          "confidence": 55,
+          "resolvedBlockers": [
+            "needs-provider-context-review: publication policy assigned",
+            "public-asset-batch-placement: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Transport, roads, infrastructure, public assets",
+          "transport-public-asset",
+          "features",
+          "Ireland / unspecified",
+          "transport-public-asset-batch-review",
+          "CSV",
+          "JSON-STAT",
+          "PX",
+          "XLSX"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-ima08-bulk-traffic-02206"
+      }
+    },
+    {
+      "id": "medium-priority:7-transport-roads-infrastructure-public-assets:implementation-of-the-national-broadband-plan:02040",
+      "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-implementation-of-the-national-broadband-plan-02040",
+      "type": "approved-medium-priority-source",
+      "title": "Implementation of the National Broadband Plan",
+      "subtitle": "Transport, roads, infrastructure, public assets / Office of the Comptroller & Auditor General, data.gov.ie / Ireland / unspecified / PDF / Approved source record",
+      "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+      "provider": [
+        "Office of the Comptroller & Auditor General",
+        "data.gov.ie"
+      ],
+      "description": "Implementation of the National Broadband Plan is published as a medium-priority Civgraph source/provenance record from Office of the Comptroller & Auditor General, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/implementation-of-the-national-broadband-plan",
+      "references": [
+        {
+          "label": "Implementation of the National Broadband Plan provider page",
+          "url": "https://data.gov.ie/dataset/implementation-of-the-national-broadband-plan",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "Implementation of the National Broadband Plan Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/implementation-of-the-national-broadband-plan",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/implementation-of-the-national-broadband-plan",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Transport, roads, infrastructure, public assets",
+        "transport-public-asset",
+        "road features",
+        "Ireland / unspecified",
+        "transport-public-asset-batch-review",
+        "PDF"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 2041,
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:implementation-of-the-national-broadband-plan:02040",
+          "title": "Implementation of the National Broadband Plan",
+          "cleanTitle": "Implementation of the National Broadband Plan",
+          "provider": "data.gov.ie",
+          "organisation": "Office of the Comptroller & Auditor General",
+          "category": "tabular",
+          "roiGroup": "7. Transport, roads, infrastructure, public assets",
+          "groupTitle": "Transport, roads, infrastructure, public assets",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "transport-public-asset",
+          "featureUnit": "road features",
+          "formats": [
+            "PDF"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "PDF"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/implementation-of-the-national-broadband-plan",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/implementation-of-the-national-broadband-plan",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "public-asset-batch-placement: publication policy assigned",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Transport, roads, infrastructure, public assets",
+        "Ireland / unspecified",
+        "transport-public-asset",
+        "Implementation of the National Broadband Plan"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "pdf"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/implementation-of-the-national-broadband-plan",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/implementation-of-the-national-broadband-plan",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Office of the Comptroller & Auditor General, data.gov.ie, Implementation of the National Broadband Plan.",
+      "fullCitation": "Office of the Comptroller & Auditor General, data.gov.ie. Implementation of the National Broadband Plan. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/implementation-of-the-national-broadband-plan. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/implementation-of-the-national-broadband-plan.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:implementation-of-the-national-broadband-plan:02040",
+        "sourceRowNumber": 2041,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+        "proposedAction": "transport-public-asset-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "PDF"
+          ]
+        },
+        "confidence": 60,
+        "resolvedBlockers": [
+          "public-asset-batch-placement: publication policy assigned",
+          "source-page-and-ia-viewport-decision: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-implementation-of-the-national-broadband-plan-02040",
+      "rawMetadata": {
+        "id": "medium-priority:7-transport-roads-infrastructure-public-assets:implementation-of-the-national-broadband-plan:02040",
+        "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-implementation-of-the-national-broadband-plan-02040",
+        "type": "approved-medium-priority-source",
+        "title": "Implementation of the National Broadband Plan",
+        "subtitle": "Transport, roads, infrastructure, public assets / Office of the Comptroller & Auditor General, data.gov.ie / Ireland / unspecified / PDF / Approved source record",
+        "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+        "provider": [
+          "Office of the Comptroller & Auditor General",
+          "data.gov.ie"
+        ],
+        "description": "Implementation of the National Broadband Plan is published as a medium-priority Civgraph source/provenance record from Office of the Comptroller & Auditor General, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/implementation-of-the-national-broadband-plan",
+        "references": [
+          {
+            "label": "Implementation of the National Broadband Plan provider page",
+            "url": "https://data.gov.ie/dataset/implementation-of-the-national-broadband-plan",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "Implementation of the National Broadband Plan Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/implementation-of-the-national-broadband-plan",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/implementation-of-the-national-broadband-plan",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Transport, roads, infrastructure, public assets",
+          "Ireland / unspecified",
+          "transport-public-asset",
+          "Implementation of the National Broadband Plan"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "pdf"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/implementation-of-the-national-broadband-plan",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/implementation-of-the-national-broadband-plan",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Office of the Comptroller & Auditor General, data.gov.ie, Implementation of the National Broadband Plan.",
+        "fullCitation": "Office of the Comptroller & Auditor General, data.gov.ie. Implementation of the National Broadband Plan. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/implementation-of-the-national-broadband-plan. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/implementation-of-the-national-broadband-plan.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 2041,
+            "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:implementation-of-the-national-broadband-plan:02040",
+            "title": "Implementation of the National Broadband Plan",
+            "cleanTitle": "Implementation of the National Broadband Plan",
+            "provider": "data.gov.ie",
+            "organisation": "Office of the Comptroller & Auditor General",
+            "category": "tabular",
+            "roiGroup": "7. Transport, roads, infrastructure, public assets",
+            "groupTitle": "Transport, roads, infrastructure, public assets",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "transport-public-asset",
+            "featureUnit": "road features",
+            "formats": [
+              "PDF"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "transport-public-asset-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "PDF"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/implementation-of-the-national-broadband-plan",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/implementation-of-the-national-broadband-plan",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "public-asset-batch-placement: publication policy assigned",
+              "source-page-and-ia-viewport-decision: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:implementation-of-the-national-broadband-plan:02040",
+          "sourceRowNumber": 2041,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "PDF"
+            ]
+          },
+          "confidence": 60,
+          "resolvedBlockers": [
+            "public-asset-batch-placement: publication policy assigned",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Transport, roads, infrastructure, public assets",
+          "transport-public-asset",
+          "road features",
+          "Ireland / unspecified",
+          "transport-public-asset-batch-review",
+          "PDF"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-implementation-of-the-national-broadband-plan-02040"
+      }
+    },
     {
       "id": "medium-priority:7-transport-roads-infrastructure-public-assets:imq01-freight-traffic-roll-onroll-off:02207",
       "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-imq01-freight-traffic-roll-onroll-off-02207",
@@ -47655,240 +48319,6 @@
       "publicationStatus": "context-source-published",
       "proposedBrowsePath": "Books / Tables / Sources > Peatland Geoportal context",
       "browseUrl": "/browse/sources/peatland-geoportal-context-contact-info-b6c3d2029c774132ba02cb8a035fe05f"
-    },
-    {
-      "id": "peatland-geoportal:context:corine-land-cover-2012:0419d064040d4ae1870a02cdf0e8c25c",
-      "slug": "peatland-geoportal-context-corine-land-cover-2012-0419d064040d4ae1870a02cdf0e8c25c",
-      "type": "peatland-geoportal-context-source",
-      "title": "Corine Land Cover 2012",
-      "subtitle": "Web Map / EuropeanEnvironmentAgency / Web Map",
-      "category": "Peatland Geoportal context",
-      "date": "2026-03-06",
-      "provider": [
-        "EuropeanEnvironmentAgency"
-      ],
-      "description": "Corine Land Cover 2012 is a Web Map item from the Peatland Geoportal, owned by EuropeanEnvironmentAgency. not preferred for direct conversion; use as context/citation unless it points to an approved Feature Service/WFS dedupe by ArcGIS item ID and title ArcGIS item ID: 0419d064040d4ae1870a02cdf0e8c25c. Modified: 2026-03-06. The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion.",
-      "url": "https://www.arcgis.com/home/item.html?id=0419d064040d4ae1870a02cdf0e8c25c",
-      "references": [
-        {
-          "label": "Corine Land Cover 2012 ArcGIS item page",
-          "url": "https://www.arcgis.com/home/item.html?id=0419d064040d4ae1870a02cdf0e8c25c",
-          "source": "ArcGIS Online / Peatland Geoportal",
-          "role": "arcgis-item-page"
-        },
-        {
-          "label": "Peatland Geoportal",
-          "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/",
-          "source": "Queen's University Belfast / ArcGIS Hub",
-          "role": "source-portal"
-        },
-        {
-          "label": "Peatland Geoportal ArcGIS group search",
-          "url": "https://www.arcgis.com/sharing/rest/search?f=json&q=group:b5fdfbe3f6264c14a90afd43f8f51956&num=100&sortField=title",
-          "source": "ArcGIS Online",
-          "role": "source-group"
-        }
-      ],
-      "keywords": [
-        "peatland-geoportal",
-        "habitat-protected-site-context",
-        "source-context-record-not-map-layer",
-        "Web Map",
-        "EuropeanEnvironmentAgency",
-        "Corine",
-        "Land Cover",
-        "Land Use",
-        "CLC 2012",
-        "CLC",
-        "Version 18.4",
-        "temporal",
-        "imagery",
-        "earth observations"
-      ],
-      "sourceItems": [
-        {
-          "auditRowNumber": 94,
-          "title": "Corine Land Cover 2012",
-          "provider": "EuropeanEnvironmentAgency",
-          "category": "habitat-protected-site-context",
-          "formats": [
-            "Web Map"
-          ],
-          "arcgisItemId": "0419d064040d4ae1870a02cdf0e8c25c",
-          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=0419d064040d4ae1870a02cdf0e8c25c",
-          "modified": "2026-03-06T15:52:25.000Z",
-          "access": "public",
-          "tags": [
-            "Corine",
-            "Land Cover",
-            "Land Use",
-            "CLC 2012",
-            "CLC",
-            "Version 18.4",
-            "temporal",
-            "imagery",
-            "earth observations"
-          ],
-          "recommendedAction": "source-context-record-not-map-layer",
-          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
-        }
-      ],
-      "status": "Source context",
-      "statusChips": [
-        "Source context",
-        "Web Map"
-      ],
-      "sourceHierarchy": [
-        "Peatland Geoportal",
-        "Web maps, StoryMaps, apps, and context",
-        "habitat-protected-site-context"
-      ],
-      "viewport": {
-        "type": "web-context",
-        "status": "external-context-link",
-        "url": "https://www.arcgis.com/home/item.html?id=0419d064040d4ae1870a02cdf0e8c25c"
-      },
-      "shortCitation": "EuropeanEnvironmentAgency: Corine Land Cover 2012",
-      "fullCitation": "Corine Land Cover 2012. EuropeanEnvironmentAgency via Peatland Geoportal / ArcGIS item 0419d064040d4ae1870a02cdf0e8c25c, modified 2026-03-06.",
-      "license": {
-        "status": "licence-review-required",
-        "note": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
-      },
-      "approval": {
-        "recommendedAction": "publish as source/context page",
-        "conversionRecommendation": "not preferred for direct conversion; use as context/citation unless it points to an approved Feature Service/WFS",
-        "dedupeRecommendation": "dedupe by ArcGIS item ID and title",
-        "arcgisItemId": "0419d064040d4ae1870a02cdf0e8c25c",
-        "sourceType": "Web Map",
-        "confidence": "high"
-      },
-      "publicationStatus": "context-source-published",
-      "proposedBrowsePath": "Books / Tables / Sources > Peatland Geoportal context",
-      "browseUrl": "/browse/sources/peatland-geoportal-context-corine-land-cover-2012-0419d064040d4ae1870a02cdf0e8c25c"
-    },
-    {
-      "id": "peatland-geoportal:context:corine-land-cover-2018:f9a8ae48d60a49f1bd9b16dba0f2c5fe",
-      "slug": "peatland-geoportal-context-corine-land-cover-2018-f9a8ae48d60a49f1bd9b16dba0f2c5fe",
-      "type": "peatland-geoportal-context-source",
-      "title": "Corine Land Cover 2018",
-      "subtitle": "Web Map / EuropeanEnvironmentAgency / Web Map",
-      "category": "Peatland Geoportal context",
-      "date": "2025-11-12",
-      "provider": [
-        "EuropeanEnvironmentAgency"
-      ],
-      "description": "Corine Land Cover 2018 is a Web Map item from the Peatland Geoportal, owned by EuropeanEnvironmentAgency. not preferred for direct conversion; use as context/citation unless it points to an approved Feature Service/WFS dedupe by ArcGIS item ID and title ArcGIS item ID: f9a8ae48d60a49f1bd9b16dba0f2c5fe. Modified: 2025-11-12. The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion.",
-      "url": "https://www.arcgis.com/home/item.html?id=f9a8ae48d60a49f1bd9b16dba0f2c5fe",
-      "references": [
-        {
-          "label": "Corine Land Cover 2018 ArcGIS item page",
-          "url": "https://www.arcgis.com/home/item.html?id=f9a8ae48d60a49f1bd9b16dba0f2c5fe",
-          "source": "ArcGIS Online / Peatland Geoportal",
-          "role": "arcgis-item-page"
-        },
-        {
-          "label": "Peatland Geoportal",
-          "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/",
-          "source": "Queen's University Belfast / ArcGIS Hub",
-          "role": "source-portal"
-        },
-        {
-          "label": "Peatland Geoportal ArcGIS group search",
-          "url": "https://www.arcgis.com/sharing/rest/search?f=json&q=group:b5fdfbe3f6264c14a90afd43f8f51956&num=100&sortField=title",
-          "source": "ArcGIS Online",
-          "role": "source-group"
-        }
-      ],
-      "keywords": [
-        "peatland-geoportal",
-        "habitat-protected-site-context",
-        "source-context-record-not-map-layer",
-        "Web Map",
-        "EuropeanEnvironmentAgency",
-        "Corine",
-        "Land Cover",
-        "Land Use",
-        "CLC",
-        "temporal",
-        "imagery",
-        "earth observations",
-        "CLC 2018",
-        "2018",
-        "Sentinel-2",
-        "EEA39",
-        "Europe",
-        "CLMS",
-        "Copernicus Land Monitoring",
-        "Copernicus",
-        "clc_35_anniversary"
-      ],
-      "sourceItems": [
-        {
-          "auditRowNumber": 95,
-          "title": "Corine Land Cover 2018",
-          "provider": "EuropeanEnvironmentAgency",
-          "category": "habitat-protected-site-context",
-          "formats": [
-            "Web Map"
-          ],
-          "arcgisItemId": "f9a8ae48d60a49f1bd9b16dba0f2c5fe",
-          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=f9a8ae48d60a49f1bd9b16dba0f2c5fe",
-          "modified": "2025-11-12T17:47:40.000Z",
-          "access": "public",
-          "tags": [
-            "Corine",
-            "Land Cover",
-            "Land Use",
-            "CLC",
-            "temporal",
-            "imagery",
-            "earth observations",
-            "CLC 2018",
-            "2018",
-            "Sentinel-2",
-            "EEA39",
-            "Europe",
-            "CLMS",
-            "Copernicus Land Monitoring",
-            "Copernicus",
-            "clc_35_anniversary"
-          ],
-          "recommendedAction": "source-context-record-not-map-layer",
-          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
-        }
-      ],
-      "status": "Source context",
-      "statusChips": [
-        "Source context",
-        "Web Map"
-      ],
-      "sourceHierarchy": [
-        "Peatland Geoportal",
-        "Web maps, StoryMaps, apps, and context",
-        "habitat-protected-site-context"
-      ],
-      "viewport": {
-        "type": "web-context",
-        "status": "external-context-link",
-        "url": "https://www.arcgis.com/home/item.html?id=f9a8ae48d60a49f1bd9b16dba0f2c5fe"
-      },
-      "shortCitation": "EuropeanEnvironmentAgency: Corine Land Cover 2018",
-      "fullCitation": "Corine Land Cover 2018. EuropeanEnvironmentAgency via Peatland Geoportal / ArcGIS item f9a8ae48d60a49f1bd9b16dba0f2c5fe, modified 2025-11-12.",
-      "license": {
-        "status": "licence-review-required",
-        "note": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
-      },
-      "approval": {
-        "recommendedAction": "publish as source/context page",
-        "conversionRecommendation": "not preferred for direct conversion; use as context/citation unless it points to an approved Feature Service/WFS",
-        "dedupeRecommendation": "dedupe by ArcGIS item ID and title",
-        "arcgisItemId": "f9a8ae48d60a49f1bd9b16dba0f2c5fe",
-        "sourceType": "Web Map",
-        "confidence": "high"
-      },
-      "publicationStatus": "context-source-published",
-      "proposedBrowsePath": "Books / Tables / Sources > Peatland Geoportal context",
-      "browseUrl": "/browse/sources/peatland-geoportal-context-corine-land-cover-2018-f9a8ae48d60a49f1bd9b16dba0f2c5fe"
     }
   ]
 }

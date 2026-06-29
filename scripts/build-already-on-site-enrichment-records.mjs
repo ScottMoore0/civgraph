@@ -25,7 +25,13 @@ const USER_APPROVED_REVIEW_ONLY_ROWS = new Set([
   728, 729, 730, 731, 732, 733, 736, 737, 738, 739, 740, 741,
   744, 745, 746, 747, 748, 749, 750, 751, 752, 753, 754, 755,
   756, 757, 758, 759, 762, 810, 812, 868, 879, 880, 901, 906,
-  966, 1000, 1001, 1003, 1005, 1032
+  966, 1000, 1001, 1003, 1005, 1032,
+  4, 16, 17, 18, 19, 20, 34, 37, 38, 39, 40, 41,
+  42, 43, 44, 45, 46, 47, 48, 49, 50, 55, 56, 57,
+  58, 59, 60, 61, 62, 63, 71, 72, 73, 77, 81, 82,
+  83, 84, 85, 87, 135, 171, 172, 173, 226, 262, 538, 544,
+  545, 712, 790, 791, 799, 829, 830, 831, 833, 837, 839, 854,
+  855, 856, 857, 860, 863, 883, 884, 896, 897, 1033, 1034, 1090
 ]);
 
 const HELD_SAFE_RECOMMENDATION_ROWS = new Set([555, 945]);
@@ -44,6 +50,28 @@ const STATUTORY_BOUNDARY_FAMILY_ROWS = new Set([
   748, 749, 750, 751, 752, 753, 754, 755, 756, 757, 758, 759,
   966
 ]);
+
+const GOVERNMENT_ELECTORAL_BOUNDARY_FAMILY_ROWS = new Set([
+  16, 17, 18, 19, 20, 34, 37, 38, 39, 40, 41, 42,
+  43, 44, 45, 46, 47, 48, 49, 50, 55, 56, 57, 58,
+  59, 60, 61, 62, 63, 71, 72, 73, 77, 81, 82, 83,
+  84, 85, 87, 171, 172, 173, 226, 712
+]);
+
+const GEOLOGY_SOURCE_FAMILY_ROWS = new Set([
+  790, 791, 829, 830, 831, 833, 837, 839, 860, 883, 884, 896,
+  897
+]);
+
+const SOURCE_FAMILIES = [
+  { rows: STATUTORY_BOUNDARY_FAMILY_ROWS, sourceTargetId: 'already-on-site-family:tailte-osi-2019-statutory-boundaries', targetEntityId: 'tailte-osi-2019-statutory-boundaries', targetTitle: 'Tailte/OSI 2019 statutory-boundary source family', relationship: 'related statutory-boundary source family evidence; not an exact geometry or map-parent equivalence' },
+  { rows: GOVERNMENT_ELECTORAL_BOUNDARY_FAMILY_ROWS, sourceTargetId: 'already-on-site-family:tailte-osi-government-electoral-boundaries', targetEntityId: 'tailte-osi-government-electoral-boundaries', targetTitle: 'Tailte/OSI government & electoral boundary source family', relationship: 'related government/electoral-boundary source family evidence; not an exact geometry or map-parent equivalence' },
+  { rows: GEOLOGY_SOURCE_FAMILY_ROWS, sourceTargetId: 'already-on-site-family:gsi-gsni-geology-sources', targetEntityId: 'gsi-gsni-geology-sources', targetTitle: 'GSI/GSNI geology source family', relationship: 'related geological-survey source family evidence; not an exact geometry or map-parent equivalence' }
+];
+
+function sourceFamilyForRow(rowNumber) {
+  return SOURCE_FAMILIES.find((family) => family.rows.has(rowNumber)) || null;
+}
 
 const RESOLVED_ROW_TARGETS = new Map([
   [521, {
@@ -123,6 +151,8 @@ function main() {
       approvedRelatedSourceRows: [...USER_APPROVED_REVIEW_ONLY_ROWS].sort((a, b) => a - b),
       heldSafeRecommendationRows: [...HELD_SAFE_RECOMMENDATION_ROWS].filter((rowNumber) => !SENSITIVE_PUBLIC_REVIEW_ROWS.has(rowNumber)).sort((a, b) => a - b),
       statutoryBoundaryFamilyRows: [...STATUTORY_BOUNDARY_FAMILY_ROWS].sort((a, b) => a - b),
+      governmentElectoralBoundaryFamilyRows: [...GOVERNMENT_ELECTORAL_BOUNDARY_FAMILY_ROWS].sort((a, b) => a - b),
+      geologySourceFamilyRows: [...GEOLOGY_SOURCE_FAMILY_ROWS].sort((a, b) => a - b),
       withheldSensitiveReviewRows,
       privacy: 'local filesystem paths are intentionally excluded from this public sidecar'
     },
@@ -206,8 +236,8 @@ function chooseTarget(row) {
   const resolvedTarget = RESOLVED_ROW_TARGETS.get(Number(row.rowNumber) || 0);
   if (resolvedTarget) return resolvedTarget;
 
-  const statutoryTarget = chooseApprovedStatutoryBoundaryFamilyTarget(row);
-  if (statutoryTarget) return statutoryTarget;
+  const familyTarget = chooseApprovedSourceFamilyTarget(row);
+  if (familyTarget) return familyTarget;
 
   const evidence = parseTargetEvidence(row.targetEvidence);
   const sourceEvidence = evidence.find((item) => item.kind === 'browse-source');
@@ -264,14 +294,14 @@ function chooseTarget(row) {
   };
 }
 
-function chooseApprovedStatutoryBoundaryFamilyTarget(row) {
-  const rowNumber = Number(row.rowNumber) || 0;
-  if (!STATUTORY_BOUNDARY_FAMILY_ROWS.has(rowNumber)) return null;
+function chooseApprovedSourceFamilyTarget(row) {
+  const family = sourceFamilyForRow(Number(row.rowNumber) || 0);
+  if (!family) return null;
   return {
-    sourceTargetId: 'already-on-site-family:tailte-osi-2019-statutory-boundaries',
+    sourceTargetId: family.sourceTargetId,
     targetEntityKind: 'source-family',
-    targetEntityId: 'tailte-osi-2019-statutory-boundaries',
-    targetTitle: 'Tailte/OSI 2019 statutory-boundary source family',
+    targetEntityId: family.targetEntityId,
+    targetTitle: family.targetTitle,
     targetBrowseUrl: null
   };
 }
@@ -321,9 +351,8 @@ function toSourceItem(row) {
 }
 
 function relationshipForApprovedRow(row) {
-  if (STATUTORY_BOUNDARY_FAMILY_ROWS.has(Number(row.rowNumber) || 0)) {
-    return 'related statutory-boundary source family evidence; not an exact geometry or map-parent equivalence';
-  }
+  const family = sourceFamilyForRow(Number(row.rowNumber) || 0);
+  if (family) return family.relationship;
   return 'related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval';
 }
 

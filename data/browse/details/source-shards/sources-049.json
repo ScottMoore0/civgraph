@@ -1,10 +1,702 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-29T22:34:58.850Z",
+  "generatedAt": "2026-06-29T23:18:02.002Z",
   "kind": "sources",
   "shard": "sources-049.json",
   "total": 200,
   "items": [
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:theatres-dlr:00787",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-theatres-dlr-00787",
+      "type": "approved-medium-priority-source",
+      "title": "Theatres DLR",
+      "subtitle": "Local authority planning/property/open-data layers / Dún Laoghaire-Rathdown County Council, data.gov.ie / Northern Ireland / CSV, GEOJSON, ZIP / Source record; runtime review pending",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "provider": [
+        "Dún Laoghaire-Rathdown County Council",
+        "data.gov.ie"
+      ],
+      "description": "Theatres DLR is published as a medium-priority Civgraph source/provenance record from Dún Laoghaire-Rathdown County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
+      "url": "https://data.gov.ie/dataset/theatres-dlr",
+      "references": [
+        {
+          "label": "Theatres DLR provider page",
+          "url": "https://data.gov.ie/dataset/theatres-dlr",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "Theatres DLR Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/theatres-dlr",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/theatres-dlr",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "source-record-with-runtime-review",
+        "Local authority planning/property/open-data layers",
+        "source-data",
+        "features",
+        "Northern Ireland",
+        "local-authority-batch-review",
+        "CSV",
+        "GEOJSON",
+        "ZIP",
+        "review:duplicate-or-variant-review-no-existing-match-candidate"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 788,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:theatres-dlr:00787",
+          "title": "Theatres DLR",
+          "cleanTitle": "Theatres DLR",
+          "provider": "data.gov.ie",
+          "organisation": "Dún Laoghaire-Rathdown County Council",
+          "category": "spatial",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Northern Ireland",
+          "topic": "source-data",
+          "featureUnit": "features",
+          "formats": [
+            "CSV",
+            "GEOJSON",
+            "ZIP"
+          ],
+          "isSpatial": true,
+          "isLargeOrSpecial": false,
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "GEOJSON",
+              "ZIP"
+            ]
+          },
+          "approvalState": "ready-with-residual-review",
+          "sourcePublicationState": "public source record with runtime/semantic review still pending",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/theatres-dlr",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/theatres-dlr",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "large-or-special-format-review: normal source package; no special-format hold",
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        }
+      ],
+      "status": "Source only",
+      "statusChips": [
+        "Source record",
+        "Runtime review pending",
+        "Spatial source",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Northern Ireland",
+        "source-data",
+        "Theatres DLR"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "download-only"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/theatres-dlr",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/theatres-dlr",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Dún Laoghaire-Rathdown County Council, data.gov.ie, Theatres DLR.",
+      "fullCitation": "Dún Laoghaire-Rathdown County Council, data.gov.ie. Theatres DLR. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/theatres-dlr. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/theatres-dlr.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:theatres-dlr:00787",
+        "sourceRowNumber": 788,
+        "approvalState": "ready-with-residual-review",
+        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+        "proposedAction": "local-authority-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV",
+            "GEOJSON",
+            "ZIP"
+          ]
+        },
+        "confidence": 60,
+        "residualBlockers": [
+          "duplicate-or-variant-review: no existing match candidate"
+        ],
+        "resolvedBlockers": [
+          "large-or-special-format-review: normal source package; no special-format hold",
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+        ],
+        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+      },
+      "publicationStatus": "source-record-with-runtime-review",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-theatres-dlr-00787",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:theatres-dlr:00787",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-theatres-dlr-00787",
+        "type": "approved-medium-priority-source",
+        "title": "Theatres DLR",
+        "subtitle": "Local authority planning/property/open-data layers / Dún Laoghaire-Rathdown County Council, data.gov.ie / Northern Ireland / CSV, GEOJSON, ZIP / Source record; runtime review pending",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "provider": [
+          "Dún Laoghaire-Rathdown County Council",
+          "data.gov.ie"
+        ],
+        "description": "Theatres DLR is published as a medium-priority Civgraph source/provenance record from Dún Laoghaire-Rathdown County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
+        "url": "https://data.gov.ie/dataset/theatres-dlr",
+        "references": [
+          {
+            "label": "Theatres DLR provider page",
+            "url": "https://data.gov.ie/dataset/theatres-dlr",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "Theatres DLR Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/theatres-dlr",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/theatres-dlr",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source only",
+        "statusChips": [
+          "Source record",
+          "Runtime review pending",
+          "Spatial source",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Northern Ireland",
+          "source-data",
+          "Theatres DLR"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "download-only"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/theatres-dlr",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/theatres-dlr",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Dún Laoghaire-Rathdown County Council, data.gov.ie, Theatres DLR.",
+        "fullCitation": "Dún Laoghaire-Rathdown County Council, data.gov.ie. Theatres DLR. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/theatres-dlr. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/theatres-dlr.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 788,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:theatres-dlr:00787",
+            "title": "Theatres DLR",
+            "cleanTitle": "Theatres DLR",
+            "provider": "data.gov.ie",
+            "organisation": "Dún Laoghaire-Rathdown County Council",
+            "category": "spatial",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Northern Ireland",
+            "topic": "source-data",
+            "featureUnit": "features",
+            "formats": [
+              "CSV",
+              "GEOJSON",
+              "ZIP"
+            ],
+            "isSpatial": true,
+            "isLargeOrSpecial": false,
+            "proposedAction": "local-authority-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV",
+                "GEOJSON",
+                "ZIP"
+              ]
+            },
+            "approvalState": "ready-with-residual-review",
+            "sourcePublicationState": "public source record with runtime/semantic review still pending",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/theatres-dlr",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/theatres-dlr",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "large-or-special-format-review: normal source package; no special-format hold",
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+            ],
+            "residualBlockers": [
+              "duplicate-or-variant-review: no existing match candidate"
+            ],
+            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:theatres-dlr:00787",
+          "sourceRowNumber": 788,
+          "approvalState": "ready-with-residual-review",
+          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "GEOJSON",
+              "ZIP"
+            ]
+          },
+          "confidence": 60,
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate"
+          ],
+          "resolvedBlockers": [
+            "large-or-special-format-review: normal source package; no special-format hold",
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        },
+        "publicationStatus": "source-record-with-runtime-review",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "source-record-with-runtime-review",
+          "Local authority planning/property/open-data layers",
+          "source-data",
+          "features",
+          "Northern Ireland",
+          "local-authority-batch-review",
+          "CSV",
+          "GEOJSON",
+          "ZIP",
+          "review:duplicate-or-variant-review-no-existing-match-candidate"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-theatres-dlr-00787"
+      }
+    },
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:thermal-imaging-for-harbour-seals-2011:00284",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-thermal-imaging-for-harbour-seals-2011-00284",
+      "type": "approved-medium-priority-source",
+      "title": "Thermal imaging for Harbour seals 2011",
+      "subtitle": "Local authority planning/property/open-data layers / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / SHP / ZIP / Source record; runtime review pending",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "date": "2011",
+      "provider": [
+        "Department of Housing, Local Government and Heritage",
+        "data.gov.ie"
+      ],
+      "description": "Thermal imaging for Harbour seals 2011 is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
+      "url": "https://data.gov.ie/dataset/thermal-imaging-for-harbour-seals-2011",
+      "references": [
+        {
+          "label": "Thermal imaging for Harbour seals 2011 provider page",
+          "url": "https://data.gov.ie/dataset/thermal-imaging-for-harbour-seals-2011",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "Thermal imaging for Harbour seals 2011 Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/thermal-imaging-for-harbour-seals-2011",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/thermal-imaging-for-harbour-seals-2011",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "source-record-with-runtime-review",
+        "Local authority planning/property/open-data layers",
+        "source-data",
+        "features",
+        "Ireland / unspecified",
+        "local-authority-batch-review",
+        "SHP / ZIP",
+        "review:duplicate-or-variant-review-no-existing-match-candidate"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 285,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:thermal-imaging-for-harbour-seals-2011:00284",
+          "title": "Thermal imaging for Harbour seals 2011",
+          "cleanTitle": "Thermal imaging for Harbour seals 2011",
+          "provider": "data.gov.ie",
+          "organisation": "Department of Housing, Local Government and Heritage",
+          "category": "spatial",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "source-data",
+          "featureUnit": "features",
+          "formats": [
+            "SHP / ZIP"
+          ],
+          "isSpatial": true,
+          "isLargeOrSpecial": false,
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "SHP / ZIP"
+            ]
+          },
+          "approvalState": "ready-with-residual-review",
+          "sourcePublicationState": "public source record with runtime/semantic review still pending",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/thermal-imaging-for-harbour-seals-2011",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/thermal-imaging-for-harbour-seals-2011",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "large-or-special-format-review: normal source package; no special-format hold",
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        }
+      ],
+      "status": "Source only",
+      "statusChips": [
+        "Source record",
+        "Runtime review pending",
+        "Spatial source",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Ireland / unspecified",
+        "source-data",
+        "Thermal imaging for Harbour seals 2011"
+      ],
+      "viewport": {
+        "status": "source-page-only",
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/thermal-imaging-for-harbour-seals-2011",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/thermal-imaging-for-harbour-seals-2011",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, Thermal imaging for Harbour seals 2011.",
+      "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. Thermal imaging for Harbour seals 2011. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/thermal-imaging-for-harbour-seals-2011. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/thermal-imaging-for-harbour-seals-2011.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:thermal-imaging-for-harbour-seals-2011:00284",
+        "sourceRowNumber": 285,
+        "approvalState": "ready-with-residual-review",
+        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+        "proposedAction": "local-authority-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "SHP / ZIP"
+          ]
+        },
+        "confidence": 60,
+        "residualBlockers": [
+          "duplicate-or-variant-review: no existing match candidate"
+        ],
+        "resolvedBlockers": [
+          "large-or-special-format-review: normal source package; no special-format hold",
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+        ],
+        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+      },
+      "publicationStatus": "source-record-with-runtime-review",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-thermal-imaging-for-harbour-seals-2011-00284",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:thermal-imaging-for-harbour-seals-2011:00284",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-thermal-imaging-for-harbour-seals-2011-00284",
+        "type": "approved-medium-priority-source",
+        "title": "Thermal imaging for Harbour seals 2011",
+        "subtitle": "Local authority planning/property/open-data layers / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / SHP / ZIP / Source record; runtime review pending",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "date": "2011",
+        "provider": [
+          "Department of Housing, Local Government and Heritage",
+          "data.gov.ie"
+        ],
+        "description": "Thermal imaging for Harbour seals 2011 is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
+        "url": "https://data.gov.ie/dataset/thermal-imaging-for-harbour-seals-2011",
+        "references": [
+          {
+            "label": "Thermal imaging for Harbour seals 2011 provider page",
+            "url": "https://data.gov.ie/dataset/thermal-imaging-for-harbour-seals-2011",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "Thermal imaging for Harbour seals 2011 Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/thermal-imaging-for-harbour-seals-2011",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/thermal-imaging-for-harbour-seals-2011",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source only",
+        "statusChips": [
+          "Source record",
+          "Runtime review pending",
+          "Spatial source",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Ireland / unspecified",
+          "source-data",
+          "Thermal imaging for Harbour seals 2011"
+        ],
+        "viewport": {
+          "status": "source-page-only",
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/thermal-imaging-for-harbour-seals-2011",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/thermal-imaging-for-harbour-seals-2011",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, Thermal imaging for Harbour seals 2011.",
+        "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. Thermal imaging for Harbour seals 2011. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/thermal-imaging-for-harbour-seals-2011. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/thermal-imaging-for-harbour-seals-2011.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 285,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:thermal-imaging-for-harbour-seals-2011:00284",
+            "title": "Thermal imaging for Harbour seals 2011",
+            "cleanTitle": "Thermal imaging for Harbour seals 2011",
+            "provider": "data.gov.ie",
+            "organisation": "Department of Housing, Local Government and Heritage",
+            "category": "spatial",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "source-data",
+            "featureUnit": "features",
+            "formats": [
+              "SHP / ZIP"
+            ],
+            "isSpatial": true,
+            "isLargeOrSpecial": false,
+            "proposedAction": "local-authority-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "SHP / ZIP"
+              ]
+            },
+            "approvalState": "ready-with-residual-review",
+            "sourcePublicationState": "public source record with runtime/semantic review still pending",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/thermal-imaging-for-harbour-seals-2011",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/thermal-imaging-for-harbour-seals-2011",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "large-or-special-format-review: normal source package; no special-format hold",
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+            ],
+            "residualBlockers": [
+              "duplicate-or-variant-review: no existing match candidate"
+            ],
+            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:thermal-imaging-for-harbour-seals-2011:00284",
+          "sourceRowNumber": 285,
+          "approvalState": "ready-with-residual-review",
+          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "SHP / ZIP"
+            ]
+          },
+          "confidence": 60,
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate"
+          ],
+          "resolvedBlockers": [
+            "large-or-special-format-review: normal source package; no special-format hold",
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        },
+        "publicationStatus": "source-record-with-runtime-review",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "source-record-with-runtime-review",
+          "Local authority planning/property/open-data layers",
+          "source-data",
+          "features",
+          "Ireland / unspecified",
+          "local-authority-batch-review",
+          "SHP / ZIP",
+          "review:duplicate-or-variant-review-no-existing-match-candidate"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-thermal-imaging-for-harbour-seals-2011-00284"
+      }
+    },
     {
       "id": "medium-priority:5-local-authority-planning-property-open-data-layers:third-level-education-opendata3:01136",
       "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-third-level-education-opendata3-01136",
@@ -70019,670 +70711,6 @@
           "XLSX"
         ],
         "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-ima07-container-traffic-lift-onlift-off-02205"
-      }
-    },
-    {
-      "id": "medium-priority:7-transport-roads-infrastructure-public-assets:ima08-bulk-traffic:02206",
-      "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-ima08-bulk-traffic-02206",
-      "type": "approved-medium-priority-source",
-      "title": "IMA08 - Bulk Traffic",
-      "subtitle": "Transport, roads, infrastructure, public assets / Irish Maritime Development Office, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
-      "category": "Medium-priority: Transport, roads, infrastructure, public assets",
-      "provider": [
-        "Irish Maritime Development Office",
-        "data.gov.ie"
-      ],
-      "description": "IMA08 - Bulk Traffic is published as a medium-priority Civgraph source/provenance record from Irish Maritime Development Office, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/ima08-bulk-traffic",
-      "references": [
-        {
-          "label": "IMA08 - Bulk Traffic provider page",
-          "url": "https://data.gov.ie/dataset/ima08-bulk-traffic",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "IMA08 - Bulk Traffic Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ima08-bulk-traffic",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/ima08-bulk-traffic",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Transport, roads, infrastructure, public assets",
-        "transport-public-asset",
-        "features",
-        "Ireland / unspecified",
-        "transport-public-asset-batch-review",
-        "CSV",
-        "JSON-STAT",
-        "PX",
-        "XLSX"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 2207,
-          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:ima08-bulk-traffic:02206",
-          "title": "IMA08 - Bulk Traffic",
-          "cleanTitle": "IMA08 - Bulk Traffic",
-          "provider": "data.gov.ie",
-          "organisation": "Irish Maritime Development Office",
-          "category": "tabular",
-          "roiGroup": "7. Transport, roads, infrastructure, public assets",
-          "groupTitle": "Transport, roads, infrastructure, public assets",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "transport-public-asset",
-          "featureUnit": "features",
-          "formats": [
-            "CSV",
-            "JSON-STAT",
-            "PX",
-            "XLSX"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "transport-public-asset-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "JSON-STAT",
-              "PX",
-              "XLSX"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 55,
-          "currentProviderUrl": "https://data.gov.ie/dataset/ima08-bulk-traffic",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ima08-bulk-traffic",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "needs-provider-context-review: publication policy assigned",
-            "public-asset-batch-placement: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Transport, roads, infrastructure, public assets",
-        "Ireland / unspecified",
-        "transport-public-asset",
-        "IMA08 - Bulk Traffic"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text",
-          "spreadsheet"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/ima08-bulk-traffic",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ima08-bulk-traffic",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Irish Maritime Development Office, data.gov.ie, IMA08 - Bulk Traffic.",
-      "fullCitation": "Irish Maritime Development Office, data.gov.ie. IMA08 - Bulk Traffic. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/ima08-bulk-traffic. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/ima08-bulk-traffic.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:ima08-bulk-traffic:02206",
-        "sourceRowNumber": 2207,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
-        "proposedAction": "transport-public-asset-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "CSV",
-            "JSON-STAT",
-            "PX",
-            "XLSX"
-          ]
-        },
-        "confidence": 55,
-        "resolvedBlockers": [
-          "needs-provider-context-review: publication policy assigned",
-          "public-asset-batch-placement: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-ima08-bulk-traffic-02206",
-      "rawMetadata": {
-        "id": "medium-priority:7-transport-roads-infrastructure-public-assets:ima08-bulk-traffic:02206",
-        "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-ima08-bulk-traffic-02206",
-        "type": "approved-medium-priority-source",
-        "title": "IMA08 - Bulk Traffic",
-        "subtitle": "Transport, roads, infrastructure, public assets / Irish Maritime Development Office, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
-        "category": "Medium-priority: Transport, roads, infrastructure, public assets",
-        "provider": [
-          "Irish Maritime Development Office",
-          "data.gov.ie"
-        ],
-        "description": "IMA08 - Bulk Traffic is published as a medium-priority Civgraph source/provenance record from Irish Maritime Development Office, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/ima08-bulk-traffic",
-        "references": [
-          {
-            "label": "IMA08 - Bulk Traffic provider page",
-            "url": "https://data.gov.ie/dataset/ima08-bulk-traffic",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "IMA08 - Bulk Traffic Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ima08-bulk-traffic",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/ima08-bulk-traffic",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Transport, roads, infrastructure, public assets",
-          "Ireland / unspecified",
-          "transport-public-asset",
-          "IMA08 - Bulk Traffic"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text",
-            "spreadsheet"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/ima08-bulk-traffic",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ima08-bulk-traffic",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Irish Maritime Development Office, data.gov.ie, IMA08 - Bulk Traffic.",
-        "fullCitation": "Irish Maritime Development Office, data.gov.ie. IMA08 - Bulk Traffic. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/ima08-bulk-traffic. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/ima08-bulk-traffic.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 2207,
-            "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:ima08-bulk-traffic:02206",
-            "title": "IMA08 - Bulk Traffic",
-            "cleanTitle": "IMA08 - Bulk Traffic",
-            "provider": "data.gov.ie",
-            "organisation": "Irish Maritime Development Office",
-            "category": "tabular",
-            "roiGroup": "7. Transport, roads, infrastructure, public assets",
-            "groupTitle": "Transport, roads, infrastructure, public assets",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "transport-public-asset",
-            "featureUnit": "features",
-            "formats": [
-              "CSV",
-              "JSON-STAT",
-              "PX",
-              "XLSX"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "transport-public-asset-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "CSV",
-                "JSON-STAT",
-                "PX",
-                "XLSX"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 55,
-            "currentProviderUrl": "https://data.gov.ie/dataset/ima08-bulk-traffic",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ima08-bulk-traffic",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "needs-provider-context-review: publication policy assigned",
-              "public-asset-batch-placement: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:ima08-bulk-traffic:02206",
-          "sourceRowNumber": 2207,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
-          "proposedAction": "transport-public-asset-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "JSON-STAT",
-              "PX",
-              "XLSX"
-            ]
-          },
-          "confidence": 55,
-          "resolvedBlockers": [
-            "needs-provider-context-review: publication policy assigned",
-            "public-asset-batch-placement: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Transport, roads, infrastructure, public assets",
-          "transport-public-asset",
-          "features",
-          "Ireland / unspecified",
-          "transport-public-asset-batch-review",
-          "CSV",
-          "JSON-STAT",
-          "PX",
-          "XLSX"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-ima08-bulk-traffic-02206"
-      }
-    },
-    {
-      "id": "medium-priority:7-transport-roads-infrastructure-public-assets:implementation-of-the-national-broadband-plan:02040",
-      "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-implementation-of-the-national-broadband-plan-02040",
-      "type": "approved-medium-priority-source",
-      "title": "Implementation of the National Broadband Plan",
-      "subtitle": "Transport, roads, infrastructure, public assets / Office of the Comptroller & Auditor General, data.gov.ie / Ireland / unspecified / PDF / Approved source record",
-      "category": "Medium-priority: Transport, roads, infrastructure, public assets",
-      "provider": [
-        "Office of the Comptroller & Auditor General",
-        "data.gov.ie"
-      ],
-      "description": "Implementation of the National Broadband Plan is published as a medium-priority Civgraph source/provenance record from Office of the Comptroller & Auditor General, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/implementation-of-the-national-broadband-plan",
-      "references": [
-        {
-          "label": "Implementation of the National Broadband Plan provider page",
-          "url": "https://data.gov.ie/dataset/implementation-of-the-national-broadband-plan",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Implementation of the National Broadband Plan Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/implementation-of-the-national-broadband-plan",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/implementation-of-the-national-broadband-plan",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Transport, roads, infrastructure, public assets",
-        "transport-public-asset",
-        "road features",
-        "Ireland / unspecified",
-        "transport-public-asset-batch-review",
-        "PDF"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 2041,
-          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:implementation-of-the-national-broadband-plan:02040",
-          "title": "Implementation of the National Broadband Plan",
-          "cleanTitle": "Implementation of the National Broadband Plan",
-          "provider": "data.gov.ie",
-          "organisation": "Office of the Comptroller & Auditor General",
-          "category": "tabular",
-          "roiGroup": "7. Transport, roads, infrastructure, public assets",
-          "groupTitle": "Transport, roads, infrastructure, public assets",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "transport-public-asset",
-          "featureUnit": "road features",
-          "formats": [
-            "PDF"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "transport-public-asset-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "PDF"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/implementation-of-the-national-broadband-plan",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/implementation-of-the-national-broadband-plan",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "public-asset-batch-placement: publication policy assigned",
-            "source-page-and-ia-viewport-decision: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Transport, roads, infrastructure, public assets",
-        "Ireland / unspecified",
-        "transport-public-asset",
-        "Implementation of the National Broadband Plan"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "pdf"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/implementation-of-the-national-broadband-plan",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/implementation-of-the-national-broadband-plan",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Office of the Comptroller & Auditor General, data.gov.ie, Implementation of the National Broadband Plan.",
-      "fullCitation": "Office of the Comptroller & Auditor General, data.gov.ie. Implementation of the National Broadband Plan. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/implementation-of-the-national-broadband-plan. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/implementation-of-the-national-broadband-plan.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:implementation-of-the-national-broadband-plan:02040",
-        "sourceRowNumber": 2041,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
-        "proposedAction": "transport-public-asset-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "PDF"
-          ]
-        },
-        "confidence": 60,
-        "resolvedBlockers": [
-          "public-asset-batch-placement: publication policy assigned",
-          "source-page-and-ia-viewport-decision: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-implementation-of-the-national-broadband-plan-02040",
-      "rawMetadata": {
-        "id": "medium-priority:7-transport-roads-infrastructure-public-assets:implementation-of-the-national-broadband-plan:02040",
-        "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-implementation-of-the-national-broadband-plan-02040",
-        "type": "approved-medium-priority-source",
-        "title": "Implementation of the National Broadband Plan",
-        "subtitle": "Transport, roads, infrastructure, public assets / Office of the Comptroller & Auditor General, data.gov.ie / Ireland / unspecified / PDF / Approved source record",
-        "category": "Medium-priority: Transport, roads, infrastructure, public assets",
-        "provider": [
-          "Office of the Comptroller & Auditor General",
-          "data.gov.ie"
-        ],
-        "description": "Implementation of the National Broadband Plan is published as a medium-priority Civgraph source/provenance record from Office of the Comptroller & Auditor General, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/implementation-of-the-national-broadband-plan",
-        "references": [
-          {
-            "label": "Implementation of the National Broadband Plan provider page",
-            "url": "https://data.gov.ie/dataset/implementation-of-the-national-broadband-plan",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Implementation of the National Broadband Plan Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/implementation-of-the-national-broadband-plan",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/implementation-of-the-national-broadband-plan",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Transport, roads, infrastructure, public assets",
-          "Ireland / unspecified",
-          "transport-public-asset",
-          "Implementation of the National Broadband Plan"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "pdf"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/implementation-of-the-national-broadband-plan",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/implementation-of-the-national-broadband-plan",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Office of the Comptroller & Auditor General, data.gov.ie, Implementation of the National Broadband Plan.",
-        "fullCitation": "Office of the Comptroller & Auditor General, data.gov.ie. Implementation of the National Broadband Plan. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/implementation-of-the-national-broadband-plan. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/implementation-of-the-national-broadband-plan.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 2041,
-            "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:implementation-of-the-national-broadband-plan:02040",
-            "title": "Implementation of the National Broadband Plan",
-            "cleanTitle": "Implementation of the National Broadband Plan",
-            "provider": "data.gov.ie",
-            "organisation": "Office of the Comptroller & Auditor General",
-            "category": "tabular",
-            "roiGroup": "7. Transport, roads, infrastructure, public assets",
-            "groupTitle": "Transport, roads, infrastructure, public assets",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "transport-public-asset",
-            "featureUnit": "road features",
-            "formats": [
-              "PDF"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "transport-public-asset-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "PDF"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/implementation-of-the-national-broadband-plan",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/implementation-of-the-national-broadband-plan",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "public-asset-batch-placement: publication policy assigned",
-              "source-page-and-ia-viewport-decision: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:implementation-of-the-national-broadband-plan:02040",
-          "sourceRowNumber": 2041,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
-          "proposedAction": "transport-public-asset-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "PDF"
-            ]
-          },
-          "confidence": 60,
-          "resolvedBlockers": [
-            "public-asset-batch-placement: publication policy assigned",
-            "source-page-and-ia-viewport-decision: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Transport, roads, infrastructure, public assets",
-          "transport-public-asset",
-          "road features",
-          "Ireland / unspecified",
-          "transport-public-asset-batch-review",
-          "PDF"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-implementation-of-the-national-broadband-plan-02040"
       }
     }
   ]

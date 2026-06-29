@@ -1,10 +1,504 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-29T22:34:58.850Z",
+  "generatedAt": "2026-06-29T23:18:02.002Z",
   "kind": "sources",
   "shard": "sources-037.json",
   "total": 200,
   "items": [
+    {
+      "id": "map-source:dlr-bicycle-maintenance-stands",
+      "slug": "map-source-dlr-bicycle-maintenance-stands",
+      "type": "map-source",
+      "title": "Bicycle Maintenance Stands (DLR) source files",
+      "subtitle": "Built Environment / Dún Laoghaire-Rathdown County Council",
+      "category": "Map sources",
+      "provider": [
+        "Dún Laoghaire-Rathdown County Council"
+      ],
+      "description": "Bicycle Maintenance Stands (DLR) — published by Dún Laoghaire-Rathdown County Council. 1 related provider/source row is staged as provenance for this existing Civgraph record; provider: data.gov.ie; formats: CSV, GEOJSON, ZIP; 1 provider dataset link preserved as references.",
+      "sourceMapId": "dlr-bicycle-maintenance-stands",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "BM",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Source — data.gov.ie",
+          "url": "https://data.gov.ie/"
+        },
+        {
+          "label": "Existing Civgraph record: Bicycle Maintenance Stands (DLR) source files",
+          "url": "/browse/maps/dlr-bicycle-maintenance-stands",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:dlr-bicycle-maintenance-stands",
+          "url": "/browse/sources/map-source-dlr-bicycle-maintenance-stands",
+          "source": "Civgraph",
+          "role": "matched-source-record"
+        },
+        {
+          "label": "Provider dataset: Bicycle Maintenance Stands DLR",
+          "url": "https://data.gov.ie/dataset/bicycle-maintenance-stands-dlr",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-dataset",
+          "type": "CSV"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/roi-dlr/dlr-bicycle-maintenance-stands.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/roi-dlr/dlr-bicycle-maintenance-stands.geojson"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/roi-dlr/dlr-bicycle-maintenance-stands.geojson"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/roi-dlr/dlr-bicycle-maintenance-stands.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/roi-dlr/dlr-bicycle-maintenance-stands.geojson"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/roi-dlr/dlr-bicycle-maintenance-stands.geojson"
+        }
+      ],
+      "interactiveUrl": "/#layers=dlr-bicycle-maintenance-stands",
+      "browseUrl": "/browse/sources/map-source-dlr-bicycle-maintenance-stands",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:dlr-bicycle-maintenance-stands",
+          "targetEntityKind": "map",
+          "targetEntityId": "dlr-bicycle-maintenance-stands",
+          "targetTitle": "Bicycle Maintenance Stands (DLR) source files",
+          "targetBrowseUrl": "/browse/maps/dlr-bicycle-maintenance-stands",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "CSV",
+            "GEOJSON",
+            "ZIP"
+          ],
+          "providers": [
+            "data.gov.ie"
+          ],
+          "categories": [
+            "spatial"
+          ],
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geometry lineage and boundary-version metadata",
+            "geospatial source-format metadata",
+            "raw-source viewport candidate metadata",
+            "schema/table/attribute metadata",
+            "source/provenance metadata"
+          ],
+          "provenanceSummary": "1 related provider/source row is staged as provenance for this existing Civgraph record; provider: data.gov.ie; formats: CSV, GEOJSON, ZIP; 1 provider dataset link preserved as references.",
+          "sourceItems": [
+            {
+              "auditRowNumber": 317,
+              "title": "Bicycle Maintenance Stands DLR",
+              "provider": "data.gov.ie",
+              "category": "spatial",
+              "formats": [
+                "CSV",
+                "GEOJSON",
+                "ZIP"
+              ],
+              "safetyClass": "safe metadata enrichment candidate",
+              "providerDatasetUrl": "https://data.gov.ie/dataset/bicycle-maintenance-stands-dlr",
+              "recommendedAction": "Do not publish as new; enrich existing record only if source/provenance is missing.",
+              "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews.",
+              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+              "enrichmentTypes": [
+                "alternate-format metadata",
+                "download/source-file metadata",
+                "geometry lineage and boundary-version metadata",
+                "geospatial source-format metadata",
+                "raw-source viewport candidate metadata",
+                "schema/table/attribute metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "habitat-protected-sites"
+              ],
+              "siteFamiliesPresent": [
+                "habitat-protected-sites"
+              ],
+              "refinedStatus": "already represented or very strong exact match"
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "database-map",
+              "id": "dlr-bicycle-maintenance-stands",
+              "title": "Bicycle Maintenance Stands (DLR)",
+              "score": 1.8
+            },
+            {
+              "kind": "browse-map",
+              "id": "dlr-bicycle-maintenance-stands",
+              "title": "Bicycle Maintenance Stands (DLR)",
+              "score": 1.8
+            },
+            {
+              "kind": "browse-source",
+              "id": "map-source:dlr-bicycle-maintenance-stands",
+              "title": "Bicycle Maintenance Stands (DLR) source files",
+              "score": 0.8
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 317,
+          "title": "Bicycle Maintenance Stands DLR",
+          "provider": "data.gov.ie",
+          "category": "spatial",
+          "formats": [
+            "CSV",
+            "GEOJSON",
+            "ZIP"
+          ],
+          "safetyClass": "safe metadata enrichment candidate",
+          "providerDatasetUrl": "https://data.gov.ie/dataset/bicycle-maintenance-stands-dlr",
+          "recommendedAction": "Do not publish as new; enrich existing record only if source/provenance is missing.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geometry lineage and boundary-version metadata",
+            "geospatial source-format metadata",
+            "raw-source viewport candidate metadata",
+            "schema/table/attribute metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "habitat-protected-sites"
+          ],
+          "siteFamiliesPresent": [
+            "habitat-protected-sites"
+          ],
+          "refinedStatus": "already represented or very strong exact match"
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "alternate-format metadata",
+        "download/source-file metadata",
+        "geometry lineage and boundary-version metadata",
+        "geospatial source-format metadata",
+        "raw-source viewport candidate metadata",
+        "schema/table/attribute metadata",
+        "source/provenance metadata"
+      ],
+      "publicationStatus": "enriched",
+      "rawMetadata": {
+        "id": "dlr-bicycle-maintenance-stands",
+        "name": "Bicycle Maintenance Stands (DLR)",
+        "slug": "dlr-bicycle-maintenance-stands",
+        "category": "built-environment",
+        "provider": [
+          "Dún Laoghaire-Rathdown County Council"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/roi-dlr/dlr-bicycle-maintenance-stands.fgb",
+          "downloads": {
+            "geojson": "https://data.civgraph.net/data/maps/roi-dlr/dlr-bicycle-maintenance-stands.geojson"
+          },
+          "geojson": "https://data.civgraph.net/data/maps/roi-dlr/dlr-bicycle-maintenance-stands.geojson"
+        },
+        "style": {
+          "color": "#0091EA",
+          "weight": 1,
+          "fillOpacity": 0.4
+        },
+        "keywords": [
+          "ROI",
+          "ireland",
+          "dublin",
+          "dlr",
+          "amenity",
+          "council",
+          "bicycle",
+          "maintenance",
+          "stands"
+        ],
+        "description": "Bicycle Maintenance Stands (DLR) — published by Dún Laoghaire-Rathdown County Council.",
+        "references": [
+          {
+            "label": "Source — data.gov.ie",
+            "url": "https://data.gov.ie/",
+            "note": ""
+          }
+        ],
+        "labelProperty": "covered"
+      }
+    },
+    {
+      "id": "map-source:dlr-bicycle-parking-stands",
+      "slug": "map-source-dlr-bicycle-parking-stands",
+      "type": "map-source",
+      "title": "Bicycle Parking Stands (DLR) source files",
+      "subtitle": "Built Environment / Dún Laoghaire-Rathdown County Council",
+      "category": "Map sources",
+      "provider": [
+        "Dún Laoghaire-Rathdown County Council"
+      ],
+      "description": "Bicycle Parking Stands (DLR) — published by Dún Laoghaire-Rathdown County Council. 1 related provider/source row is staged as provenance for this existing Civgraph record; provider: data.gov.ie; formats: CSV, GEOJSON, ZIP; 1 provider dataset link preserved as references.",
+      "sourceMapId": "dlr-bicycle-parking-stands",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "BP",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Source — data.gov.ie",
+          "url": "https://data.gov.ie/"
+        },
+        {
+          "label": "Existing Civgraph record: Bicycle Parking Stands (DLR) source files",
+          "url": "/browse/maps/dlr-bicycle-parking-stands",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:dlr-bicycle-parking-stands",
+          "url": "/browse/sources/map-source-dlr-bicycle-parking-stands",
+          "source": "Civgraph",
+          "role": "matched-source-record"
+        },
+        {
+          "label": "Provider dataset: Bicycle Parking Stands DLR",
+          "url": "https://data.gov.ie/dataset/bicycle-parking-stands-dlr",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-dataset",
+          "type": "CSV"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/roi-dlr/dlr-bicycle-parking-stands.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/roi-dlr/dlr-bicycle-parking-stands.geojson"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/roi-dlr/dlr-bicycle-parking-stands.geojson"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/roi-dlr/dlr-bicycle-parking-stands.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/roi-dlr/dlr-bicycle-parking-stands.geojson"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/roi-dlr/dlr-bicycle-parking-stands.geojson"
+        }
+      ],
+      "interactiveUrl": "/#layers=dlr-bicycle-parking-stands",
+      "browseUrl": "/browse/sources/map-source-dlr-bicycle-parking-stands",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:dlr-bicycle-parking-stands",
+          "targetEntityKind": "map",
+          "targetEntityId": "dlr-bicycle-parking-stands",
+          "targetTitle": "Bicycle Parking Stands (DLR) source files",
+          "targetBrowseUrl": "/browse/maps/dlr-bicycle-parking-stands",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "CSV",
+            "GEOJSON",
+            "ZIP"
+          ],
+          "providers": [
+            "data.gov.ie"
+          ],
+          "categories": [
+            "spatial"
+          ],
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geometry lineage and boundary-version metadata",
+            "geospatial source-format metadata",
+            "raw-source viewport candidate metadata",
+            "schema/table/attribute metadata",
+            "source/provenance metadata"
+          ],
+          "provenanceSummary": "1 related provider/source row is staged as provenance for this existing Civgraph record; provider: data.gov.ie; formats: CSV, GEOJSON, ZIP; 1 provider dataset link preserved as references.",
+          "sourceItems": [
+            {
+              "auditRowNumber": 319,
+              "title": "Bicycle Parking Stands DLR",
+              "provider": "data.gov.ie",
+              "category": "spatial",
+              "formats": [
+                "CSV",
+                "GEOJSON",
+                "ZIP"
+              ],
+              "safetyClass": "safe metadata enrichment candidate",
+              "providerDatasetUrl": "https://data.gov.ie/dataset/bicycle-parking-stands-dlr",
+              "recommendedAction": "Do not publish as new; enrich existing record only if source/provenance is missing.",
+              "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews.",
+              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+              "enrichmentTypes": [
+                "alternate-format metadata",
+                "download/source-file metadata",
+                "geometry lineage and boundary-version metadata",
+                "geospatial source-format metadata",
+                "raw-source viewport candidate metadata",
+                "schema/table/attribute metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "habitat-protected-sites"
+              ],
+              "siteFamiliesPresent": [
+                "habitat-protected-sites"
+              ],
+              "refinedStatus": "already represented or very strong exact match"
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "database-map",
+              "id": "dlr-bicycle-parking-stands",
+              "title": "Bicycle Parking Stands (DLR)",
+              "score": 1.8
+            },
+            {
+              "kind": "browse-map",
+              "id": "dlr-bicycle-parking-stands",
+              "title": "Bicycle Parking Stands (DLR)",
+              "score": 1.8
+            },
+            {
+              "kind": "browse-source",
+              "id": "map-source:dlr-bicycle-parking-stands",
+              "title": "Bicycle Parking Stands (DLR) source files",
+              "score": 0.8
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 319,
+          "title": "Bicycle Parking Stands DLR",
+          "provider": "data.gov.ie",
+          "category": "spatial",
+          "formats": [
+            "CSV",
+            "GEOJSON",
+            "ZIP"
+          ],
+          "safetyClass": "safe metadata enrichment candidate",
+          "providerDatasetUrl": "https://data.gov.ie/dataset/bicycle-parking-stands-dlr",
+          "recommendedAction": "Do not publish as new; enrich existing record only if source/provenance is missing.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geometry lineage and boundary-version metadata",
+            "geospatial source-format metadata",
+            "raw-source viewport candidate metadata",
+            "schema/table/attribute metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "habitat-protected-sites"
+          ],
+          "siteFamiliesPresent": [
+            "habitat-protected-sites"
+          ],
+          "refinedStatus": "already represented or very strong exact match"
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "alternate-format metadata",
+        "download/source-file metadata",
+        "geometry lineage and boundary-version metadata",
+        "geospatial source-format metadata",
+        "raw-source viewport candidate metadata",
+        "schema/table/attribute metadata",
+        "source/provenance metadata"
+      ],
+      "publicationStatus": "enriched",
+      "rawMetadata": {
+        "id": "dlr-bicycle-parking-stands",
+        "name": "Bicycle Parking Stands (DLR)",
+        "slug": "dlr-bicycle-parking-stands",
+        "category": "built-environment",
+        "provider": [
+          "Dún Laoghaire-Rathdown County Council"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/roi-dlr/dlr-bicycle-parking-stands.fgb",
+          "downloads": {
+            "geojson": "https://data.civgraph.net/data/maps/roi-dlr/dlr-bicycle-parking-stands.geojson"
+          },
+          "geojson": "https://data.civgraph.net/data/maps/roi-dlr/dlr-bicycle-parking-stands.geojson"
+        },
+        "style": {
+          "color": "#0091EA",
+          "weight": 1,
+          "fillOpacity": 0.4
+        },
+        "keywords": [
+          "ROI",
+          "ireland",
+          "dublin",
+          "dlr",
+          "amenity",
+          "council",
+          "bicycle",
+          "parking",
+          "stands"
+        ],
+        "description": "Bicycle Parking Stands (DLR) — published by Dún Laoghaire-Rathdown County Council.",
+        "references": [
+          {
+            "label": "Source — data.gov.ie",
+            "url": "https://data.gov.ie/",
+            "note": ""
+          }
+        ],
+        "labelProperty": "covered"
+      }
+    },
     {
       "id": "map-source:dlr-boundary-plan-areas",
       "slug": "map-source-dlr-boundary-plan-areas",
@@ -33664,7 +34158,7 @@
       "provider": [
         "NIEA"
       ],
-      "description": "NIEA Catchment Stakeholder Groups — published by NIEA Water Management Unit (Water Framework Directive boundaries).",
+      "description": "NIEA Catchment Stakeholder Groups — published by NIEA Water Management Unit (Water Framework Directive boundaries). 1 related provider/source row is staged as provenance for this existing Civgraph record; provider: Open Data NI; formats: GML, SHP; 1 provider dataset link preserved as references; licence: UK Open Government Licence (OGL); relationship: related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval.",
       "sourceMapId": "niea-catchment-stakeholder-groups",
       "thumbnail": {
         "kind": "placeholder",
@@ -33675,6 +34169,32 @@
         {
           "label": "Source — admin.opendatani.gov.uk",
           "url": "https://admin.opendatani.gov.uk/"
+        },
+        {
+          "label": "Existing Civgraph record: NIEA Catchment Stakeholder Groups source files",
+          "url": "/browse/maps/niea-catchment-stakeholder-groups",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:niea-catchment-stakeholder-groups",
+          "url": "/browse/sources/map-source-niea-catchment-stakeholder-groups",
+          "source": "Civgraph",
+          "role": "matched-source-record"
+        },
+        {
+          "label": "Provider dataset: Northern Ireland Catchment Stakeholder Groups",
+          "url": "https://admin.opendatani.gov.uk/dataset/northern-ireland-catchment-stakeholder-groups",
+          "source": "Open Data NI",
+          "role": "canonical-provider-dataset",
+          "type": "GML",
+          "note": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval / licence: UK Open Government Licence (OGL)"
+        },
+        {
+          "label": "Licence: UK Open Government Licence (OGL)",
+          "url": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+          "source": "Open Data NI",
+          "role": "source-licence"
         }
       ],
       "downloads": [
@@ -33697,6 +34217,142 @@
       ],
       "interactiveUrl": "/#layers=niea-catchment-stakeholder-groups",
       "browseUrl": "/browse/sources/map-source-niea-catchment-stakeholder-groups",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:niea-catchment-stakeholder-groups",
+          "targetEntityKind": "map",
+          "targetEntityId": "niea-catchment-stakeholder-groups",
+          "targetTitle": "NIEA Catchment Stakeholder Groups source files",
+          "targetBrowseUrl": "/browse/maps/niea-catchment-stakeholder-groups",
+          "sourceItemCount": 1,
+          "confidence": "high-confidence",
+          "safetyClasses": [
+            "variant/source enrichment review"
+          ],
+          "formats": [
+            "GML",
+            "SHP"
+          ],
+          "providers": [
+            "Open Data NI"
+          ],
+          "categories": [
+            "spatial"
+          ],
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "scale/generalisation/edition metadata",
+            "source/provenance metadata"
+          ],
+          "provenanceSummary": "1 related provider/source row is staged as provenance for this existing Civgraph record; provider: Open Data NI; formats: GML, SHP; 1 provider dataset link preserved as references; licence: UK Open Government Licence (OGL); relationship: related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval.",
+          "sourceItems": [
+            {
+              "auditRowNumber": 262,
+              "title": "Northern Ireland Catchment Stakeholder Groups",
+              "provider": "Open Data NI",
+              "category": "spatial",
+              "formats": [
+                "GML",
+                "SHP"
+              ],
+              "safetyClass": "variant/source enrichment review",
+              "approvalStatus": "user-approved-related-source-enrichment",
+              "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+              "providerDatasetUrl": "https://admin.opendatani.gov.uk/dataset/northern-ireland-catchment-stakeholder-groups",
+              "licenseTitle": "UK Open Government Licence (OGL)",
+              "licenseUrl": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+              "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+              "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+              "enrichmentTypes": [
+                "alternate-format metadata",
+                "download/source-file metadata",
+                "geospatial source-format metadata",
+                "scale/generalisation/edition metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "rivers-water-flood",
+                "habitat-protected-sites"
+              ],
+              "siteFamiliesPresent": [
+                "rivers-water-flood",
+                "habitat-protected-sites"
+              ],
+              "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "database-map",
+              "id": "niea-catchment-stakeholder-groups",
+              "title": "NIEA Catchment Stakeholder Groups",
+              "score": 0.64
+            },
+            {
+              "kind": "browse-source",
+              "id": "map-source:niea-catchment-stakeholder-groups",
+              "title": "NIEA Catchment Stakeholder Groups source files",
+              "score": 0.64
+            },
+            {
+              "kind": "browse-map",
+              "id": "niea-catchment-stakeholder-groups",
+              "title": "NIEA Catchment Stakeholder Groups",
+              "score": 0.64
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 262,
+          "title": "Northern Ireland Catchment Stakeholder Groups",
+          "provider": "Open Data NI",
+          "category": "spatial",
+          "formats": [
+            "GML",
+            "SHP"
+          ],
+          "safetyClass": "variant/source enrichment review",
+          "approvalStatus": "user-approved-related-source-enrichment",
+          "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+          "providerDatasetUrl": "https://admin.opendatani.gov.uk/dataset/northern-ireland-catchment-stakeholder-groups",
+          "licenseTitle": "UK Open Government Licence (OGL)",
+          "licenseUrl": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+          "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "scale/generalisation/edition metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "rivers-water-flood",
+            "habitat-protected-sites"
+          ],
+          "siteFamiliesPresent": [
+            "rivers-water-flood",
+            "habitat-protected-sites"
+          ],
+          "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "alternate-format metadata",
+        "download/source-file metadata",
+        "geospatial source-format metadata",
+        "scale/generalisation/edition metadata",
+        "source/provenance metadata"
+      ],
+      "publicationStatus": "enriched",
       "rawMetadata": {
         "id": "niea-catchment-stakeholder-groups",
         "name": "NIEA Catchment Stakeholder Groups",
@@ -34513,192 +35169,6 @@
         ],
         "labelProperty": "RWB_CD",
         "useLOD": true
-      }
-    },
-    {
-      "id": "map-source:niea-transitional-water-bodies",
-      "slug": "map-source-niea-transitional-water-bodies",
-      "type": "map-source",
-      "title": "NIEA Transitional Water Bodies source files",
-      "subtitle": "Water Quality / NIEA",
-      "category": "Map sources",
-      "provider": [
-        "NIEA"
-      ],
-      "description": "NIEA Transitional Water Bodies — published by NIEA Water Management Unit (Water Framework Directive boundaries).",
-      "sourceMapId": "niea-transitional-water-bodies",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "NT",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "Source — admin.opendatani.gov.uk",
-          "url": "https://admin.opendatani.gov.uk/"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/niea-transitional-water-bodies.fgb"
-        },
-        {
-          "label": "zip",
-          "url": "https://data.civgraph.net/data/maps/water-quality/niea-transitional-water-bodies.zip"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/niea-transitional-water-bodies.fgb"
-        },
-        {
-          "label": "zip",
-          "url": "https://data.civgraph.net/data/maps/water-quality/niea-transitional-water-bodies.zip"
-        }
-      ],
-      "interactiveUrl": "/#layers=niea-transitional-water-bodies",
-      "browseUrl": "/browse/sources/map-source-niea-transitional-water-bodies",
-      "rawMetadata": {
-        "id": "niea-transitional-water-bodies",
-        "name": "NIEA Transitional Water Bodies",
-        "slug": "niea-transitional-water-bodies",
-        "category": "water-quality",
-        "provider": [
-          "NIEA"
-        ],
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/water-quality/niea-transitional-water-bodies.fgb",
-          "downloads": {
-            "zip": "https://data.civgraph.net/data/maps/water-quality/niea-transitional-water-bodies.zip"
-          }
-        },
-        "style": {
-          "color": "#0277BD",
-          "weight": 1,
-          "fillOpacity": 0.4
-        },
-        "keywords": [
-          "NIEA",
-          "water",
-          "WFD",
-          "niea transitional water bodies"
-        ],
-        "description": "NIEA Transitional Water Bodies — published by NIEA Water Management Unit (Water Framework Directive boundaries).",
-        "references": [
-          {
-            "label": "Source — admin.opendatani.gov.uk",
-            "url": "https://admin.opendatani.gov.uk/",
-            "note": ""
-          }
-        ],
-        "labelProperty": "EU_CD"
-      }
-    },
-    {
-      "id": "map-source:niea-waste-sites-2021",
-      "slug": "map-source-niea-waste-sites-2021",
-      "type": "map-source",
-      "title": "NIEA Authorised Waste Sites (Feb 2021) source files",
-      "subtitle": "Environment / NIEA",
-      "category": "Map sources",
-      "date": "2021-02-01",
-      "provider": [
-        "NIEA"
-      ],
-      "description": "Locations of 32,519 authorised waste treatment and storage sites in Northern Ireland (as of February 2021). Spatially chunked into 45 cells with LOD overview; full set only loads features in the current viewport.",
-      "sourceMapId": "niea-waste-sites-2021",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "NA",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "Source — admin.opendatani.gov.uk",
-          "url": "https://admin.opendatani.gov.uk/"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/environment/niea-waste-sites-2021.fgb"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/environment/niea-waste-sites-2021.geojson"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/environment/niea-waste-sites-2021.geojson"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/environment/niea-waste-sites-2021.fgb"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/environment/niea-waste-sites-2021.geojson"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/environment/niea-waste-sites-2021.geojson"
-        }
-      ],
-      "interactiveUrl": "/#layers=niea-waste-sites-2021",
-      "browseUrl": "/browse/sources/map-source-niea-waste-sites-2021",
-      "rawMetadata": {
-        "id": "niea-waste-sites-2021",
-        "name": "NIEA Authorised Waste Sites (Feb 2021)",
-        "slug": "niea-waste-sites-2021",
-        "category": "environment",
-        "provider": [
-          "NIEA"
-        ],
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/environment/niea-waste-sites-2021.fgb",
-          "downloads": {
-            "geojson": "https://data.civgraph.net/data/maps/environment/niea-waste-sites-2021.geojson"
-          },
-          "geojson": "https://data.civgraph.net/data/maps/environment/niea-waste-sites-2021.geojson"
-        },
-        "chunked": true,
-        "useLOD": true,
-        "enforceChunkOnly": true,
-        "maxLODLevel": 1,
-        "style": {
-          "color": "#37474F",
-          "weight": 1,
-          "fillOpacity": 0.4
-        },
-        "keywords": [
-          "NIEA",
-          "waste",
-          "treatment",
-          "storage",
-          "environment",
-          "pollution",
-          "recycling"
-        ],
-        "description": "Locations of 32,519 authorised waste treatment and storage sites in Northern Ireland (as of February 2021). Spatially chunked into 45 cells with LOD overview; full set only loads features in the current viewport.",
-        "references": [
-          {
-            "label": "Source — admin.opendatani.gov.uk",
-            "url": "https://admin.opendatani.gov.uk/",
-            "note": ""
-          }
-        ],
-        "date": "2021-02-01",
-        "labelProperty": "RefID",
-        "bounds": [
-          [
-            54,
-            -8.2
-          ],
-          [
-            55.5,
-            -5.2
-          ]
-        ]
       }
     }
   ]

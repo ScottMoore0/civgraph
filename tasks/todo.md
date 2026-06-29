@@ -7945,3 +7945,20 @@ Review:
   - Verification plan: syntax-check `browse/browse.js`, run focused Browse/graph validators, run a local dev server, inspect representative local Browse pages in the browser, commit locally only, and do not push.
   - Completed: added reader-summary panels, custom register-interest interest cards, collapsed source/provenance, collapsed semantic-statement panels, compact entity profiles, and compact support-table styling in Browse.
   - Verification: `node --check browse/browse.js`, `npm run check:pages-assets`, `npm run check:graph`, `npm run check:ni-register-interests`, `git diff --check`, and final `npm run check` passed. Local browser checks passed for `/browse/index.html#/register-interests/ni-register-record-f699e03fd7d27430`, `/browse/index.html#/entities/ni-register-record-f699e03fd7d27430`, and `/browse/index.html#/persons/name-carla-lockhart`; no console errors or horizontal overflow were detected.
+
+## Decision-queue execution (2026-06-30)
+
+Executed (already-on-site provenance enrichment, gate-green):
+- Approved 44 Tailte/OSI government & electoral boundary rows -> new neutral
+  `tailte-osi-government-electoral-boundaries` source family (were mis-matched to counties-ireland).
+- Approved 13 GSI/GSNI geology rows -> new neutral `gsi-gsni-geology-sources` family
+  (specific record matches were wrong; family routing avoids false equivalence).
+- Approved 15 OPW/hydro rows -> their correctly-matched opw-* records (generic path).
+- Net: applied 245 -> 317; public review 866 -> 794.
+
+Confirmed (keep as-is, no data change):
+- #11 The 75 local-authority topic rows stay OUT of direct enrichment (future dedicated LA source-records batch).
+- #12 Tier-2 (38) + 337 runtime-conversion holds remain deferred. Highest-leverage unblocks:
+  build the CSO/NISRA geography crosswalk (gates tier-2 and variant-child), and set an
+  ESRI/OGC-service "downloadable vector vs REST service" policy (275 of the holds).
+- #13 ~621 low-confidence/overlap/weak long-tail rows deferred; row 555 permanently withheld; row 945 held (rights-blocked local source).

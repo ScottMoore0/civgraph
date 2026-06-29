@@ -1,10 +1,142 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-29T22:34:58.850Z",
+  "generatedAt": "2026-06-29T23:18:02.002Z",
   "kind": "sources",
   "shard": "sources-054.json",
-  "total": 39,
+  "total": 41,
   "items": [
+    {
+      "id": "table:data-2021-limiting-condition-ward",
+      "slug": "table-data-2021-limiting-condition-ward",
+      "type": "table",
+      "title": "Day-to-day activities limited (Census 2021, by Ward 2014)",
+      "subtitle": "data-population",
+      "category": "data-population",
+      "description": "Day-to-day activities limited (Ward 2014) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "wards-2012",
+        "url": "/assets/thumbnails/wards-2012.webp",
+        "smallUrl": "/assets/thumbnails/wards-2012-60.webp",
+        "alt": "Day-to-day activities limited (Census 2021, by Ward 2014)"
+      },
+      "references": [
+        {
+          "label": "NISRA Census 2021, Main Statistics Phase 1, MS-D02 (Long-term health problem or disability)",
+          "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "ms-d02-limiting-condition-ward.csv",
+          "url": "data/census/derived/ms-d02-limiting-condition-ward.csv"
+        }
+      ],
+      "browseUrl": "/browse/sources/table-data-2021-limiting-condition-ward",
+      "rawMetadata": {
+        "id": "data-2021-limiting-condition-ward",
+        "type": "data-entry",
+        "name": "Day-to-day activities limited (Census 2021, by Ward 2014)",
+        "slug": "data-2021-limiting-condition-ward",
+        "category": "data-population",
+        "description": "Day-to-day activities limited (Ward 2014) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+        "geography": "wards-2012",
+        "csv": "data/census/derived/ms-d02-limiting-condition-ward.csv",
+        "joinKey": "WardCode",
+        "csvKeyColumn": "GeographyCode",
+        "valueColumn": "LimitingCondition_pct",
+        "ramp": "viridis",
+        "domain": [
+          12,
+          35
+        ],
+        "logarithmic": false,
+        "tableColumns": [
+          "Geography",
+          "Total",
+          "LimitingCondition",
+          "LimitingCondition_pct"
+        ],
+        "keywords": [
+          "census",
+          "2021",
+          "nisra",
+          "data",
+          "limiting condition",
+          "ward 2014"
+        ],
+        "source": {
+          "title": "NISRA Census 2021, Main Statistics Phase 1, MS-D02 (Long-term health problem or disability)",
+          "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+        }
+      }
+    },
+    {
+      "id": "table:data-2021-no-car-lgd",
+      "slug": "table-data-2021-no-car-lgd",
+      "type": "table",
+      "title": "Households with no car or van (Census 2021, by LGD)",
+      "subtitle": "data-population",
+      "category": "data-population",
+      "description": "Households with no car or van (LGD) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "lgd-2012",
+        "url": "/assets/thumbnails/lgd-2012.webp",
+        "smallUrl": "/assets/thumbnails/lgd-2012-60.webp",
+        "alt": "Households with no car or van (Census 2021, by LGD)"
+      },
+      "references": [
+        {
+          "label": "NISRA Census 2021, Main Statistics Phase 1, MS-E10 (Car or van availability)",
+          "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "ms-e10-no-car-lgd.csv",
+          "url": "data/census/derived/ms-e10-no-car-lgd.csv"
+        }
+      ],
+      "browseUrl": "/browse/sources/table-data-2021-no-car-lgd",
+      "rawMetadata": {
+        "id": "data-2021-no-car-lgd",
+        "type": "data-entry",
+        "name": "Households with no car or van (Census 2021, by LGD)",
+        "slug": "data-2021-no-car-lgd",
+        "category": "data-population",
+        "description": "Households with no car or van (LGD) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+        "geography": "lgd-2012",
+        "csv": "data/census/derived/ms-e10-no-car-lgd.csv",
+        "joinKey": "LGDCode",
+        "csvKeyColumn": "GeographyCode",
+        "valueColumn": "NoCar_pct",
+        "ramp": "viridis",
+        "domain": [
+          12,
+          35
+        ],
+        "logarithmic": false,
+        "tableColumns": [
+          "Geography",
+          "Total",
+          "NoCar",
+          "NoCar_pct"
+        ],
+        "keywords": [
+          "census",
+          "2021",
+          "nisra",
+          "data",
+          "no car",
+          "lgd"
+        ],
+        "source": {
+          "title": "NISRA Census 2021, Main Statistics Phase 1, MS-E10 (Car or van availability)",
+          "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+        }
+      }
+    },
     {
       "id": "table:data-2021-no-car-settlement",
       "slug": "table-data-2021-no-car-settlement",

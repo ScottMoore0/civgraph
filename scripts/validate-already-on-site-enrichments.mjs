@@ -29,11 +29,11 @@ function main() {
   const reviewRows = normalizeArray(enrichments.reviewRows);
   const appliedSourceItemCount = targets.reduce((sum, target) => sum + normalizeArray(target.sourceItems).length, 0);
   assert(targets.length > 0, 'expected at least one applied enrichment target');
-  assert(appliedSourceItemCount === 245, `expected 245 applied source rows, found ${appliedSourceItemCount}`);
-  assert(reviewRows.length === 866, `expected 866 public review-only rows, found ${reviewRows.length}`);
+  assert(appliedSourceItemCount === 317, `expected 317 applied source rows, found ${appliedSourceItemCount}`);
+  assert(reviewRows.length === 794, `expected 794 public review-only rows, found ${reviewRows.length}`);
   assert(enrichments.summary?.inputRows === 1113, 'expected 1113 original review rows including withheld sensitive input');
   assert(enrichments.summary?.trackedInputRows === 1112, 'expected 1112 tracked sanitized input rows');
-  assert(enrichments.summary?.internalReviewRows === 867, 'expected 867 internal review rows before sensitive redaction');
+  assert(enrichments.summary?.internalReviewRows === 795, 'expected 795 internal review rows before sensitive redaction');
   assert(enrichments.summary?.withheldSensitiveReviewRows === 1, 'expected 1 sensitive review row to be withheld from public output');
   assert(enrichments.policy?.withheldSensitiveReviewRows === 1, 'policy must record the sensitive withheld-row count without exposing row details');
   const reviewRowNumbers = new Set(reviewRows.map((row) => Number(row.auditRowNumber)));
@@ -61,6 +61,24 @@ function main() {
   for (const row of NON_STATUTORY_TAILTE_OSI_ROWS) {
     assert(!statutoryRows.has(row), `non-boundary census/statistical row ${row} must not route to statutory-boundary family`);
   }
+
+  // Newly approved batches: government/electoral-boundary + geology source families, and OPW/hydro matched-record enrichment.
+  const GOV_ELECTORAL_ROWS = [16, 17, 18, 19, 20, 34, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 55, 56, 57, 58, 59, 60, 61, 62, 63, 71, 72, 73, 77, 81, 82, 83, 84, 85, 87, 171, 172, 173, 226, 712];
+  const GEOLOGY_ROWS = [790, 791, 829, 830, 831, 833, 837, 839, 860, 883, 884, 896, 897];
+  const OPW_MATCHED_ROWS = [4, 135, 262, 538, 544, 545, 799, 854, 855, 856, 857, 863, 1033, 1034, 1090];
+  for (const row of [...GOV_ELECTORAL_ROWS, ...GEOLOGY_ROWS, ...OPW_MATCHED_ROWS]) {
+    assert(appliedRowNumbers.has(row), `approved row ${row} must be applied`);
+  }
+  const govFamily = targets.find((target) => target.sourceTargetId === 'already-on-site-family:tailte-osi-government-electoral-boundaries');
+  assert(govFamily, 'government/electoral-boundary source family target must exist');
+  const govRows = new Set(normalizeArray(govFamily.sourceItems).map((item) => Number(item.auditRowNumber)));
+  for (const row of GOV_ELECTORAL_ROWS) assert(govRows.has(row), `gov/electoral row ${row} must route to its source family`);
+  const geoFamily = targets.find((target) => target.sourceTargetId === 'already-on-site-family:gsi-gsni-geology-sources');
+  assert(geoFamily, 'geology source family target must exist');
+  const geoRows = new Set(normalizeArray(geoFamily.sourceItems).map((item) => Number(item.auditRowNumber)));
+  for (const row of GEOLOGY_ROWS) assert(geoRows.has(row), `geology row ${row} must route to its source family`);
+  const familyRowNumbers = new Set(targets.filter((target) => String(target.sourceTargetId).startsWith('already-on-site-family:')).flatMap((target) => normalizeArray(target.sourceItems).map((item) => Number(item.auditRowNumber))));
+  for (const row of OPW_MATCHED_ROWS) assert(!familyRowNumbers.has(row), `OPW row ${row} must attach to its matched record, not a neutral family`);
   assert(
     appliedSourceItems.some((item) => Number(item.auditRowNumber) === 521
       && item.providerDatasetUrl === 'https://data.gov.ie/dataset/local-authorities-national-statutory-boundaries-ungeneralised-20241'),

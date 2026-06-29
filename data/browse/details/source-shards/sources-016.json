@@ -1,10 +1,372 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-29T22:34:58.850Z",
+  "generatedAt": "2026-06-29T23:18:02.002Z",
   "kind": "sources",
   "shard": "sources-016.json",
   "total": 200,
   "items": [
+    {
+      "id": "approved-publication:source-doc-03594-eiieea22-transport-energy-consumption-from-renewable-sources",
+      "slug": "approved-publication-source-doc-03594-eiieea22-transport-energy-consumption-from-renewable-sources",
+      "type": "approved-table-source",
+      "title": "EIIEEA22 - Transport energy consumption from renewable sources",
+      "subtitle": "Sustainable Energy Authority of Ireland, data.gov.ie / transport / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "provider": [
+        "Sustainable Energy Authority of Ireland",
+        "data.gov.ie"
+      ],
+      "description": "Source candidate from data.gov.ie / Sustainable Energy Authority of Ireland. / Resolved table-like source with no strong duplicate evidence; suitable for Browse/Tables after approval.",
+      "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/EIIEEA22/CSV/1.0/en",
+      "references": [
+        {
+          "label": "CSV from data.gov.ie",
+          "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/EIIEEA22/CSV/1.0/en",
+          "source": "data.gov.ie",
+          "role": "source-download"
+        },
+        {
+          "label": "file from data.gov.ie local mirror",
+          "url": "https://data.gov.ie/dataset/eiieea22-transport-energy-consumption-from-renewable-sources",
+          "source": "data.gov.ie local mirror",
+          "role": "source-download"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "en",
+          "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/EIIEEA22/CSV/1.0/en",
+          "type": "CSV"
+        },
+        {
+          "label": "en",
+          "url": "https://data.gov.ie/dataset/eiieea22-transport-energy-consumption-from-renewable-sources",
+          "type": "file"
+        }
+      ],
+      "keywords": [
+        "transport",
+        "table",
+        "data.gov.ie",
+        "resolved-local-source",
+        "publish",
+        "approved-publication"
+      ],
+      "sourceItems": [
+        {
+          "kind": "reference",
+          "label": "CSV from data.gov.ie",
+          "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/EIIEEA22/CSV/1.0/en",
+          "source": "data.gov.ie"
+        },
+        {
+          "kind": "reference",
+          "label": "file from data.gov.ie local mirror",
+          "url": "https://data.gov.ie/dataset/eiieea22-transport-energy-consumption-from-renewable-sources",
+          "source": "data.gov.ie local mirror"
+        },
+        {
+          "kind": "download",
+          "label": "en",
+          "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/EIIEEA22/CSV/1.0/en",
+          "type": "CSV",
+          "bytes": 9707
+        },
+        {
+          "kind": "download",
+          "label": "en",
+          "url": "https://data.gov.ie/dataset/eiieea22-transport-energy-consumption-from-renewable-sources",
+          "type": "file",
+          "bytes": 9707
+        }
+      ],
+      "approval": {
+        "stagingId": "source-doc-03594-eiieea22-transport-energy-consumption-from-renewable-sources",
+        "recommendedAction": "publish",
+        "batchId": "cat3-publish-data-gov-ie-transport-001",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-local-source",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-browse-table-source-after-approval",
+        "defaultConfidence": "high"
+      },
+      "publicationStatus": "approved-staged",
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "browseUrl": "/browse/sources/approved-publication-source-doc-03594-eiieea22-transport-energy-consumption-from-renewable-sources",
+      "rawMetadata": {
+        "id": "approved-publication:source-doc-03594-eiieea22-transport-energy-consumption-from-renewable-sources",
+        "slug": "approved-publication-source-doc-03594-eiieea22-transport-energy-consumption-from-renewable-sources",
+        "type": "approved-table-source",
+        "title": "EIIEEA22 - Transport energy consumption from renewable sources",
+        "subtitle": "Sustainable Energy Authority of Ireland, data.gov.ie / transport / Browse/Tables plus Sources",
+        "category": "Approved tables",
+        "provider": [
+          "Sustainable Energy Authority of Ireland",
+          "data.gov.ie"
+        ],
+        "description": "Source candidate from data.gov.ie / Sustainable Energy Authority of Ireland. / Resolved table-like source with no strong duplicate evidence; suitable for Browse/Tables after approval.",
+        "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/EIIEEA22/CSV/1.0/en",
+        "references": [
+          {
+            "label": "CSV from data.gov.ie",
+            "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/EIIEEA22/CSV/1.0/en",
+            "source": "data.gov.ie",
+            "role": "source-download",
+            "status": "ok"
+          },
+          {
+            "label": "file from data.gov.ie local mirror",
+            "url": "https://data.gov.ie/dataset/eiieea22-transport-energy-consumption-from-renewable-sources",
+            "source": "data.gov.ie local mirror",
+            "role": "source-download",
+            "status": "ok"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "en",
+            "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/EIIEEA22/CSV/1.0/en",
+            "type": "CSV",
+            "bytes": 9707
+          },
+          {
+            "label": "en",
+            "url": "https://data.gov.ie/dataset/eiieea22-transport-energy-consumption-from-renewable-sources",
+            "type": "file",
+            "bytes": 9707
+          }
+        ],
+        "keywords": [
+          "transport",
+          "table",
+          "data.gov.ie",
+          "resolved-local-source",
+          "publish",
+          "approved-publication"
+        ],
+        "sourceItems": [
+          {
+            "kind": "reference",
+            "label": "CSV from data.gov.ie",
+            "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/EIIEEA22/CSV/1.0/en",
+            "source": "data.gov.ie"
+          },
+          {
+            "kind": "reference",
+            "label": "file from data.gov.ie local mirror",
+            "url": "https://data.gov.ie/dataset/eiieea22-transport-energy-consumption-from-renewable-sources",
+            "source": "data.gov.ie local mirror"
+          },
+          {
+            "kind": "download",
+            "label": "en",
+            "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/EIIEEA22/CSV/1.0/en",
+            "type": "CSV",
+            "bytes": 9707
+          },
+          {
+            "kind": "download",
+            "label": "en",
+            "url": "https://data.gov.ie/dataset/eiieea22-transport-energy-consumption-from-renewable-sources",
+            "type": "file",
+            "bytes": 9707
+          }
+        ],
+        "proposedBrowsePath": "Browse/Tables plus Sources",
+        "publicationStatus": "approved-staged",
+        "approval": {
+          "stagingId": "source-doc-03594-eiieea22-transport-energy-consumption-from-renewable-sources",
+          "recommendedAction": "publish",
+          "batchId": "cat3-publish-data-gov-ie-transport-001",
+          "reviewState": "approval-ready",
+          "sourceResolutionStatus": "resolved-local-source",
+          "sourceResolutionConfidence": "high",
+          "defaultAction": "publish-as-browse-table-source-after-approval",
+          "defaultConfidence": "high"
+        }
+      }
+    },
+    {
+      "id": "approved-publication:source-doc-03595-eiieea26-public-transport-passenger-journeys",
+      "slug": "approved-publication-source-doc-03595-eiieea26-public-transport-passenger-journeys",
+      "type": "approved-table-source",
+      "title": "EIIEEA26 - Public transport passenger journeys",
+      "subtitle": "Central Statistics Office, data.gov.ie / transport / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "provider": [
+        "Central Statistics Office",
+        "data.gov.ie"
+      ],
+      "description": "Source candidate from data.gov.ie / Central Statistics Office. / Resolved table-like source with no strong duplicate evidence; suitable for Browse/Tables after approval.",
+      "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/EIIEEA26/CSV/1.0/en",
+      "references": [
+        {
+          "label": "CSV from data.gov.ie",
+          "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/EIIEEA26/CSV/1.0/en",
+          "source": "data.gov.ie",
+          "role": "source-download"
+        },
+        {
+          "label": "file from data.gov.ie local mirror",
+          "url": "https://data.gov.ie/dataset/eiieea26-public-transport-passenger-journeys",
+          "source": "data.gov.ie local mirror",
+          "role": "source-download"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "en",
+          "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/EIIEEA26/CSV/1.0/en",
+          "type": "CSV"
+        },
+        {
+          "label": "en",
+          "url": "https://data.gov.ie/dataset/eiieea26-public-transport-passenger-journeys",
+          "type": "file"
+        }
+      ],
+      "keywords": [
+        "transport",
+        "table",
+        "data.gov.ie",
+        "resolved-local-source",
+        "publish",
+        "approved-publication"
+      ],
+      "sourceItems": [
+        {
+          "kind": "reference",
+          "label": "CSV from data.gov.ie",
+          "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/EIIEEA26/CSV/1.0/en",
+          "source": "data.gov.ie"
+        },
+        {
+          "kind": "reference",
+          "label": "file from data.gov.ie local mirror",
+          "url": "https://data.gov.ie/dataset/eiieea26-public-transport-passenger-journeys",
+          "source": "data.gov.ie local mirror"
+        },
+        {
+          "kind": "download",
+          "label": "en",
+          "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/EIIEEA26/CSV/1.0/en",
+          "type": "CSV",
+          "bytes": 14020
+        },
+        {
+          "kind": "download",
+          "label": "en",
+          "url": "https://data.gov.ie/dataset/eiieea26-public-transport-passenger-journeys",
+          "type": "file",
+          "bytes": 14020
+        }
+      ],
+      "approval": {
+        "stagingId": "source-doc-03595-eiieea26-public-transport-passenger-journeys",
+        "recommendedAction": "publish",
+        "batchId": "cat3-publish-data-gov-ie-transport-001",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-local-source",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-browse-table-source-after-approval",
+        "defaultConfidence": "high"
+      },
+      "publicationStatus": "approved-staged",
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "browseUrl": "/browse/sources/approved-publication-source-doc-03595-eiieea26-public-transport-passenger-journeys",
+      "rawMetadata": {
+        "id": "approved-publication:source-doc-03595-eiieea26-public-transport-passenger-journeys",
+        "slug": "approved-publication-source-doc-03595-eiieea26-public-transport-passenger-journeys",
+        "type": "approved-table-source",
+        "title": "EIIEEA26 - Public transport passenger journeys",
+        "subtitle": "Central Statistics Office, data.gov.ie / transport / Browse/Tables plus Sources",
+        "category": "Approved tables",
+        "provider": [
+          "Central Statistics Office",
+          "data.gov.ie"
+        ],
+        "description": "Source candidate from data.gov.ie / Central Statistics Office. / Resolved table-like source with no strong duplicate evidence; suitable for Browse/Tables after approval.",
+        "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/EIIEEA26/CSV/1.0/en",
+        "references": [
+          {
+            "label": "CSV from data.gov.ie",
+            "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/EIIEEA26/CSV/1.0/en",
+            "source": "data.gov.ie",
+            "role": "source-download",
+            "status": "ok"
+          },
+          {
+            "label": "file from data.gov.ie local mirror",
+            "url": "https://data.gov.ie/dataset/eiieea26-public-transport-passenger-journeys",
+            "source": "data.gov.ie local mirror",
+            "role": "source-download",
+            "status": "ok"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "en",
+            "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/EIIEEA26/CSV/1.0/en",
+            "type": "CSV",
+            "bytes": 14020
+          },
+          {
+            "label": "en",
+            "url": "https://data.gov.ie/dataset/eiieea26-public-transport-passenger-journeys",
+            "type": "file",
+            "bytes": 14020
+          }
+        ],
+        "keywords": [
+          "transport",
+          "table",
+          "data.gov.ie",
+          "resolved-local-source",
+          "publish",
+          "approved-publication"
+        ],
+        "sourceItems": [
+          {
+            "kind": "reference",
+            "label": "CSV from data.gov.ie",
+            "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/EIIEEA26/CSV/1.0/en",
+            "source": "data.gov.ie"
+          },
+          {
+            "kind": "reference",
+            "label": "file from data.gov.ie local mirror",
+            "url": "https://data.gov.ie/dataset/eiieea26-public-transport-passenger-journeys",
+            "source": "data.gov.ie local mirror"
+          },
+          {
+            "kind": "download",
+            "label": "en",
+            "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/EIIEEA26/CSV/1.0/en",
+            "type": "CSV",
+            "bytes": 14020
+          },
+          {
+            "kind": "download",
+            "label": "en",
+            "url": "https://data.gov.ie/dataset/eiieea26-public-transport-passenger-journeys",
+            "type": "file",
+            "bytes": 14020
+          }
+        ],
+        "proposedBrowsePath": "Browse/Tables plus Sources",
+        "publicationStatus": "approved-staged",
+        "approval": {
+          "stagingId": "source-doc-03595-eiieea26-public-transport-passenger-journeys",
+          "recommendedAction": "publish",
+          "batchId": "cat3-publish-data-gov-ie-transport-001",
+          "reviewState": "approval-ready",
+          "sourceResolutionStatus": "resolved-local-source",
+          "sourceResolutionConfidence": "high",
+          "defaultAction": "publish-as-browse-table-source-after-approval",
+          "defaultConfidence": "high"
+        }
+      }
+    },
     {
       "id": "approved-publication:source-doc-03596-eqa74-individuals-who-experienced-discrimination-in-accessingusing-transport-ser",
       "slug": "approved-publication-source-doc-03596-eqa74-individuals-who-experienced-discrimination-in-accessingusing-transport-ser",
@@ -32060,268 +32422,6 @@
           "stagingId": "source-doc-03837-hspao15-general-health-status",
           "recommendedAction": "publish",
           "batchId": "cat3-publish-data-gov-ie-health-001",
-          "reviewState": "approval-ready",
-          "sourceResolutionStatus": "resolved-local-source",
-          "sourceResolutionConfidence": "high",
-          "defaultAction": "publish-as-browse-table-source-after-approval",
-          "defaultConfidence": "high"
-        }
-      }
-    },
-    {
-      "id": "approved-publication:source-doc-03838-hspao17-general-health-status",
-      "slug": "approved-publication-source-doc-03838-hspao17-general-health-status",
-      "type": "approved-table-source",
-      "title": "HSPAO17 - General health status",
-      "subtitle": "Department of Health, data.gov.ie / health / Browse/Tables plus Sources",
-      "category": "Approved tables",
-      "provider": [
-        "Department of Health",
-        "data.gov.ie"
-      ],
-      "description": "Source candidate from data.gov.ie / Department of Health. / Resolved table-like source with no strong duplicate evidence; suitable for Browse/Tables after approval.",
-      "url": "https://data.gov.ie/dataset/hspao17-general-health-status",
-      "references": [
-        {
-          "label": "file from data.gov.ie local mirror",
-          "url": "https://data.gov.ie/dataset/hspao17-general-health-status",
-          "source": "data.gov.ie local mirror",
-          "role": "source-download"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "en",
-          "url": "https://data.gov.ie/dataset/hspao17-general-health-status",
-          "type": "file"
-        }
-      ],
-      "keywords": [
-        "health",
-        "table",
-        "data.gov.ie",
-        "resolved-local-source",
-        "publish",
-        "approved-publication"
-      ],
-      "sourceItems": [
-        {
-          "kind": "reference",
-          "label": "file from data.gov.ie local mirror",
-          "url": "https://data.gov.ie/dataset/hspao17-general-health-status",
-          "source": "data.gov.ie local mirror"
-        },
-        {
-          "kind": "download",
-          "label": "en",
-          "url": "https://data.gov.ie/dataset/hspao17-general-health-status",
-          "type": "file",
-          "bytes": 6301
-        }
-      ],
-      "approval": {
-        "stagingId": "source-doc-03838-hspao17-general-health-status",
-        "recommendedAction": "publish",
-        "batchId": "cat3-publish-data-gov-ie-health-001",
-        "reviewState": "approval-ready",
-        "sourceResolutionStatus": "resolved-local-source",
-        "sourceResolutionConfidence": "high",
-        "defaultAction": "publish-as-browse-table-source-after-approval",
-        "defaultConfidence": "high"
-      },
-      "publicationStatus": "approved-staged",
-      "proposedBrowsePath": "Browse/Tables plus Sources",
-      "browseUrl": "/browse/sources/approved-publication-source-doc-03838-hspao17-general-health-status",
-      "rawMetadata": {
-        "id": "approved-publication:source-doc-03838-hspao17-general-health-status",
-        "slug": "approved-publication-source-doc-03838-hspao17-general-health-status",
-        "type": "approved-table-source",
-        "title": "HSPAO17 - General health status",
-        "subtitle": "Department of Health, data.gov.ie / health / Browse/Tables plus Sources",
-        "category": "Approved tables",
-        "provider": [
-          "Department of Health",
-          "data.gov.ie"
-        ],
-        "description": "Source candidate from data.gov.ie / Department of Health. / Resolved table-like source with no strong duplicate evidence; suitable for Browse/Tables after approval.",
-        "url": "https://data.gov.ie/dataset/hspao17-general-health-status",
-        "references": [
-          {
-            "label": "file from data.gov.ie local mirror",
-            "url": "https://data.gov.ie/dataset/hspao17-general-health-status",
-            "source": "data.gov.ie local mirror",
-            "role": "source-download",
-            "status": "ok"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "en",
-            "url": "https://data.gov.ie/dataset/hspao17-general-health-status",
-            "type": "file",
-            "bytes": 6301
-          }
-        ],
-        "keywords": [
-          "health",
-          "table",
-          "data.gov.ie",
-          "resolved-local-source",
-          "publish",
-          "approved-publication"
-        ],
-        "sourceItems": [
-          {
-            "kind": "reference",
-            "label": "file from data.gov.ie local mirror",
-            "url": "https://data.gov.ie/dataset/hspao17-general-health-status",
-            "source": "data.gov.ie local mirror"
-          },
-          {
-            "kind": "download",
-            "label": "en",
-            "url": "https://data.gov.ie/dataset/hspao17-general-health-status",
-            "type": "file",
-            "bytes": 6301
-          }
-        ],
-        "proposedBrowsePath": "Browse/Tables plus Sources",
-        "publicationStatus": "approved-staged",
-        "approval": {
-          "stagingId": "source-doc-03838-hspao17-general-health-status",
-          "recommendedAction": "publish",
-          "batchId": "cat3-publish-data-gov-ie-health-001",
-          "reviewState": "approval-ready",
-          "sourceResolutionStatus": "resolved-local-source",
-          "sourceResolutionConfidence": "high",
-          "defaultAction": "publish-as-browse-table-source-after-approval",
-          "defaultConfidence": "high"
-        }
-      }
-    },
-    {
-      "id": "approved-publication:source-doc-03839-hspao18-general-practitioner-visit-or-medical-card",
-      "slug": "approved-publication-source-doc-03839-hspao18-general-practitioner-visit-or-medical-card",
-      "type": "approved-table-source",
-      "title": "HSPAO18 - General Practitioner visit or Medical card",
-      "subtitle": "Department of Health, data.gov.ie / general-reference / Browse/Tables plus Sources",
-      "category": "Approved tables",
-      "provider": [
-        "Department of Health",
-        "data.gov.ie"
-      ],
-      "description": "Source candidate from data.gov.ie / Department of Health. / Resolved table-like source with no strong duplicate evidence; suitable for Browse/Tables after approval.",
-      "url": "https://data.gov.ie/dataset/hspao18-general-practitioner-visit-or-medical-card",
-      "references": [
-        {
-          "label": "file from data.gov.ie local mirror",
-          "url": "https://data.gov.ie/dataset/hspao18-general-practitioner-visit-or-medical-card",
-          "source": "data.gov.ie local mirror",
-          "role": "source-download"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "en",
-          "url": "https://data.gov.ie/dataset/hspao18-general-practitioner-visit-or-medical-card",
-          "type": "file"
-        }
-      ],
-      "keywords": [
-        "general-reference",
-        "table",
-        "data.gov.ie",
-        "resolved-local-source",
-        "publish",
-        "approved-publication"
-      ],
-      "sourceItems": [
-        {
-          "kind": "reference",
-          "label": "file from data.gov.ie local mirror",
-          "url": "https://data.gov.ie/dataset/hspao18-general-practitioner-visit-or-medical-card",
-          "source": "data.gov.ie local mirror"
-        },
-        {
-          "kind": "download",
-          "label": "en",
-          "url": "https://data.gov.ie/dataset/hspao18-general-practitioner-visit-or-medical-card",
-          "type": "file",
-          "bytes": 18332
-        }
-      ],
-      "approval": {
-        "stagingId": "source-doc-03839-hspao18-general-practitioner-visit-or-medical-card",
-        "recommendedAction": "publish",
-        "batchId": "cat3-publish-data-gov-ie-general-reference-003",
-        "reviewState": "approval-ready",
-        "sourceResolutionStatus": "resolved-local-source",
-        "sourceResolutionConfidence": "high",
-        "defaultAction": "publish-as-browse-table-source-after-approval",
-        "defaultConfidence": "high"
-      },
-      "publicationStatus": "approved-staged",
-      "proposedBrowsePath": "Browse/Tables plus Sources",
-      "browseUrl": "/browse/sources/approved-publication-source-doc-03839-hspao18-general-practitioner-visit-or-medical-card",
-      "rawMetadata": {
-        "id": "approved-publication:source-doc-03839-hspao18-general-practitioner-visit-or-medical-card",
-        "slug": "approved-publication-source-doc-03839-hspao18-general-practitioner-visit-or-medical-card",
-        "type": "approved-table-source",
-        "title": "HSPAO18 - General Practitioner visit or Medical card",
-        "subtitle": "Department of Health, data.gov.ie / general-reference / Browse/Tables plus Sources",
-        "category": "Approved tables",
-        "provider": [
-          "Department of Health",
-          "data.gov.ie"
-        ],
-        "description": "Source candidate from data.gov.ie / Department of Health. / Resolved table-like source with no strong duplicate evidence; suitable for Browse/Tables after approval.",
-        "url": "https://data.gov.ie/dataset/hspao18-general-practitioner-visit-or-medical-card",
-        "references": [
-          {
-            "label": "file from data.gov.ie local mirror",
-            "url": "https://data.gov.ie/dataset/hspao18-general-practitioner-visit-or-medical-card",
-            "source": "data.gov.ie local mirror",
-            "role": "source-download",
-            "status": "ok"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "en",
-            "url": "https://data.gov.ie/dataset/hspao18-general-practitioner-visit-or-medical-card",
-            "type": "file",
-            "bytes": 18332
-          }
-        ],
-        "keywords": [
-          "general-reference",
-          "table",
-          "data.gov.ie",
-          "resolved-local-source",
-          "publish",
-          "approved-publication"
-        ],
-        "sourceItems": [
-          {
-            "kind": "reference",
-            "label": "file from data.gov.ie local mirror",
-            "url": "https://data.gov.ie/dataset/hspao18-general-practitioner-visit-or-medical-card",
-            "source": "data.gov.ie local mirror"
-          },
-          {
-            "kind": "download",
-            "label": "en",
-            "url": "https://data.gov.ie/dataset/hspao18-general-practitioner-visit-or-medical-card",
-            "type": "file",
-            "bytes": 18332
-          }
-        ],
-        "proposedBrowsePath": "Browse/Tables plus Sources",
-        "publicationStatus": "approved-staged",
-        "approval": {
-          "stagingId": "source-doc-03839-hspao18-general-practitioner-visit-or-medical-card",
-          "recommendedAction": "publish",
-          "batchId": "cat3-publish-data-gov-ie-general-reference-003",
           "reviewState": "approval-ready",
           "sourceResolutionStatus": "resolved-local-source",
           "sourceResolutionConfidence": "high",

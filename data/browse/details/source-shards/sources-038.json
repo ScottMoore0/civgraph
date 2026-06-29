@@ -1,10 +1,196 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-29T22:34:58.850Z",
+  "generatedAt": "2026-06-29T23:18:02.002Z",
   "kind": "sources",
   "shard": "sources-038.json",
   "total": 200,
   "items": [
+    {
+      "id": "map-source:niea-transitional-water-bodies",
+      "slug": "map-source-niea-transitional-water-bodies",
+      "type": "map-source",
+      "title": "NIEA Transitional Water Bodies source files",
+      "subtitle": "Water Quality / NIEA",
+      "category": "Map sources",
+      "provider": [
+        "NIEA"
+      ],
+      "description": "NIEA Transitional Water Bodies — published by NIEA Water Management Unit (Water Framework Directive boundaries).",
+      "sourceMapId": "niea-transitional-water-bodies",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "NT",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Source — admin.opendatani.gov.uk",
+          "url": "https://admin.opendatani.gov.uk/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/water-quality/niea-transitional-water-bodies.fgb"
+        },
+        {
+          "label": "zip",
+          "url": "https://data.civgraph.net/data/maps/water-quality/niea-transitional-water-bodies.zip"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/water-quality/niea-transitional-water-bodies.fgb"
+        },
+        {
+          "label": "zip",
+          "url": "https://data.civgraph.net/data/maps/water-quality/niea-transitional-water-bodies.zip"
+        }
+      ],
+      "interactiveUrl": "/#layers=niea-transitional-water-bodies",
+      "browseUrl": "/browse/sources/map-source-niea-transitional-water-bodies",
+      "rawMetadata": {
+        "id": "niea-transitional-water-bodies",
+        "name": "NIEA Transitional Water Bodies",
+        "slug": "niea-transitional-water-bodies",
+        "category": "water-quality",
+        "provider": [
+          "NIEA"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/water-quality/niea-transitional-water-bodies.fgb",
+          "downloads": {
+            "zip": "https://data.civgraph.net/data/maps/water-quality/niea-transitional-water-bodies.zip"
+          }
+        },
+        "style": {
+          "color": "#0277BD",
+          "weight": 1,
+          "fillOpacity": 0.4
+        },
+        "keywords": [
+          "NIEA",
+          "water",
+          "WFD",
+          "niea transitional water bodies"
+        ],
+        "description": "NIEA Transitional Water Bodies — published by NIEA Water Management Unit (Water Framework Directive boundaries).",
+        "references": [
+          {
+            "label": "Source — admin.opendatani.gov.uk",
+            "url": "https://admin.opendatani.gov.uk/",
+            "note": ""
+          }
+        ],
+        "labelProperty": "EU_CD"
+      }
+    },
+    {
+      "id": "map-source:niea-waste-sites-2021",
+      "slug": "map-source-niea-waste-sites-2021",
+      "type": "map-source",
+      "title": "NIEA Authorised Waste Sites (Feb 2021) source files",
+      "subtitle": "Environment / NIEA",
+      "category": "Map sources",
+      "date": "2021-02-01",
+      "provider": [
+        "NIEA"
+      ],
+      "description": "Locations of 32,519 authorised waste treatment and storage sites in Northern Ireland (as of February 2021). Spatially chunked into 45 cells with LOD overview; full set only loads features in the current viewport.",
+      "sourceMapId": "niea-waste-sites-2021",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "NA",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Source — admin.opendatani.gov.uk",
+          "url": "https://admin.opendatani.gov.uk/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/environment/niea-waste-sites-2021.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/environment/niea-waste-sites-2021.geojson"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/environment/niea-waste-sites-2021.geojson"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/environment/niea-waste-sites-2021.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/environment/niea-waste-sites-2021.geojson"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/environment/niea-waste-sites-2021.geojson"
+        }
+      ],
+      "interactiveUrl": "/#layers=niea-waste-sites-2021",
+      "browseUrl": "/browse/sources/map-source-niea-waste-sites-2021",
+      "rawMetadata": {
+        "id": "niea-waste-sites-2021",
+        "name": "NIEA Authorised Waste Sites (Feb 2021)",
+        "slug": "niea-waste-sites-2021",
+        "category": "environment",
+        "provider": [
+          "NIEA"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/environment/niea-waste-sites-2021.fgb",
+          "downloads": {
+            "geojson": "https://data.civgraph.net/data/maps/environment/niea-waste-sites-2021.geojson"
+          },
+          "geojson": "https://data.civgraph.net/data/maps/environment/niea-waste-sites-2021.geojson"
+        },
+        "chunked": true,
+        "useLOD": true,
+        "enforceChunkOnly": true,
+        "maxLODLevel": 1,
+        "style": {
+          "color": "#37474F",
+          "weight": 1,
+          "fillOpacity": 0.4
+        },
+        "keywords": [
+          "NIEA",
+          "waste",
+          "treatment",
+          "storage",
+          "environment",
+          "pollution",
+          "recycling"
+        ],
+        "description": "Locations of 32,519 authorised waste treatment and storage sites in Northern Ireland (as of February 2021). Spatially chunked into 45 cells with LOD overview; full set only loads features in the current viewport.",
+        "references": [
+          {
+            "label": "Source — admin.opendatani.gov.uk",
+            "url": "https://admin.opendatani.gov.uk/",
+            "note": ""
+          }
+        ],
+        "date": "2021-02-01",
+        "labelProperty": "RefID",
+        "bounds": [
+          [
+            54,
+            -8.2
+          ],
+          [
+            55.5,
+            -5.2
+          ]
+        ]
+      }
+    },
     {
       "id": "map-source:nra",
       "slug": "map-source-nra",
@@ -616,7 +802,7 @@
       "provider": [
         "Office of Public Works"
       ],
-      "description": "OPW national coastal flood extent mapping (2021) under current climate. Multi-return-period coastal flood envelopes. 1 related provider/source row is staged as provenance for this existing Civgraph record; provider: data.gov.ie; formats: SHP; 1 provider dataset link preserved as references.",
+      "description": "OPW national coastal flood extent mapping (2021) under current climate. Multi-return-period coastal flood envelopes. 6 related provider/source rows are staged as provenance for this existing Civgraph record; provider: data.gov.ie; formats: SHP, GEOTIFF; 6 provider dataset links preserved as references; licence: Creative Commons Attribution 4.0; relationship: related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval.",
       "sourceMapId": "opw-coastal-flood-extents-2021-current",
       "thumbnail": {
         "kind": "asset",
@@ -644,28 +830,66 @@
           "targetEntityId": "opw-coastal-flood-extents-2021-current",
           "targetTitle": "National Coastal Flood Extents 2021 ? Current Scenario source files",
           "targetBrowseUrl": "/browse/maps/opw-coastal-flood-extents-2021-current",
-          "sourceItemCount": 1,
+          "sourceItemCount": 6,
           "confidence": "safe",
           "safetyClasses": [
+            "variant/source enrichment review",
             "safe metadata enrichment candidate"
           ],
           "formats": [
-            "SHP"
+            "SHP",
+            "GEOTIFF"
           ],
           "providers": [
             "data.gov.ie"
           ],
           "categories": [
-            "spatial"
+            "spatial",
+            "tabular"
           ],
           "enrichmentTypes": [
-            "date/version metadata",
             "download/source-file metadata",
             "geospatial source-format metadata",
-            "source/provenance metadata"
+            "scale/generalisation/edition metadata",
+            "source/provenance metadata",
+            "date/version metadata",
+            "large raster/imagery preview or download metadata"
           ],
-          "provenanceSummary": "1 related provider/source row is staged as provenance for this existing Civgraph record; provider: data.gov.ie; formats: SHP; 1 provider dataset link preserved as references.",
+          "provenanceSummary": "6 related provider/source rows are staged as provenance for this existing Civgraph record; provider: data.gov.ie; formats: SHP, GEOTIFF; 6 provider dataset links preserved as references; licence: Creative Commons Attribution 4.0; relationship: related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval.",
           "sourceItems": [
+            {
+              "auditRowNumber": 799,
+              "title": "Community-Scale Coastal Flood Extents - High-End Future Scenario",
+              "provider": "data.gov.ie",
+              "category": "spatial",
+              "formats": [
+                "SHP"
+              ],
+              "safetyClass": "variant/source enrichment review",
+              "approvalStatus": "user-approved-related-source-enrichment",
+              "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+              "providerDatasetUrl": "https://data.gov.ie/dataset/community-scale-coastal-flood-extents-high-end-future-scenario",
+              "licenseTitle": "Creative Commons Attribution 4.0",
+              "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+              "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+              "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+              "enrichmentTypes": [
+                "download/source-file metadata",
+                "geospatial source-format metadata",
+                "scale/generalisation/edition metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "rivers-water-flood",
+                "habitat-protected-sites"
+              ],
+              "siteFamiliesPresent": [
+                "rivers-water-flood",
+                "habitat-protected-sites"
+              ],
+              "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+            },
             {
               "auditRowNumber": 852,
               "title": "National Coastal Flood Extents 2021 - Current Scenario",
@@ -694,6 +918,140 @@
                 "habitat-protected-sites"
               ],
               "refinedStatus": "already represented or very strong exact match"
+            },
+            {
+              "auditRowNumber": 854,
+              "title": "National Coastal Flood Extents 2021 - High+ End Future Scenario",
+              "provider": "data.gov.ie",
+              "category": "spatial",
+              "formats": [
+                "SHP"
+              ],
+              "safetyClass": "variant/source enrichment review",
+              "approvalStatus": "user-approved-related-source-enrichment",
+              "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+              "providerDatasetUrl": "https://data.gov.ie/dataset/national-coastal-flood-extents-2021-high-end-plus-future-scenario",
+              "licenseTitle": "Creative Commons Attribution 4.0",
+              "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+              "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+              "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+              "enrichmentTypes": [
+                "date/version metadata",
+                "download/source-file metadata",
+                "geospatial source-format metadata",
+                "scale/generalisation/edition metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "rivers-water-flood",
+                "habitat-protected-sites"
+              ],
+              "siteFamiliesPresent": [
+                "rivers-water-flood",
+                "habitat-protected-sites"
+              ],
+              "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+            },
+            {
+              "auditRowNumber": 855,
+              "title": "National Coastal Flood Extents 2021 - High++ End Future Scenario",
+              "provider": "data.gov.ie",
+              "category": "spatial",
+              "formats": [
+                "SHP"
+              ],
+              "safetyClass": "variant/source enrichment review",
+              "approvalStatus": "user-approved-related-source-enrichment",
+              "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+              "providerDatasetUrl": "https://data.gov.ie/dataset/national-coastal-flood-extents-2021-high-end-plus-plus-future-scenario",
+              "licenseTitle": "Creative Commons Attribution 4.0",
+              "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+              "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+              "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+              "enrichmentTypes": [
+                "date/version metadata",
+                "download/source-file metadata",
+                "geospatial source-format metadata",
+                "scale/generalisation/edition metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "rivers-water-flood",
+                "habitat-protected-sites"
+              ],
+              "siteFamiliesPresent": [
+                "rivers-water-flood",
+                "habitat-protected-sites"
+              ],
+              "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+            },
+            {
+              "auditRowNumber": 856,
+              "title": "National Coastal Flood Extents 2021 - Mid-Range Future Scenario",
+              "provider": "data.gov.ie",
+              "category": "spatial",
+              "formats": [
+                "SHP"
+              ],
+              "safetyClass": "variant/source enrichment review",
+              "approvalStatus": "user-approved-related-source-enrichment",
+              "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+              "providerDatasetUrl": "https://data.gov.ie/dataset/national-coastal-flood-extents-2021-mid-range-future-scenario",
+              "licenseTitle": "Creative Commons Attribution 4.0",
+              "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+              "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+              "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+              "enrichmentTypes": [
+                "date/version metadata",
+                "download/source-file metadata",
+                "geospatial source-format metadata",
+                "scale/generalisation/edition metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "rivers-water-flood",
+                "habitat-protected-sites"
+              ],
+              "siteFamiliesPresent": [
+                "rivers-water-flood",
+                "habitat-protected-sites"
+              ],
+              "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+            },
+            {
+              "auditRowNumber": 1090,
+              "title": "National Coastal Flood Depths 2021 - High End Future Scenario",
+              "provider": "data.gov.ie",
+              "category": "tabular",
+              "formats": [
+                "GEOTIFF"
+              ],
+              "safetyClass": "variant/source enrichment review",
+              "approvalStatus": "user-approved-related-source-enrichment",
+              "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+              "providerDatasetUrl": "https://data.gov.ie/dataset/national-coastal-flood-depths-2021-high-end-future-scenario",
+              "licenseTitle": "Creative Commons Attribution 4.0",
+              "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+              "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+              "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews.",
+              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+              "enrichmentTypes": [
+                "date/version metadata",
+                "download/source-file metadata",
+                "large raster/imagery preview or download metadata",
+                "scale/generalisation/edition metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "rivers-water-flood"
+              ],
+              "siteFamiliesPresent": [
+                "rivers-water-flood"
+              ],
+              "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
             }
           ],
           "evidence": [
@@ -701,24 +1059,57 @@
               "kind": "database-map",
               "id": "opw-coastal-flood-extents-2021-current",
               "title": "National Coastal Flood Extents 2021 ? Current Scenario",
-              "score": 1.73
-            },
-            {
-              "kind": "browse-map",
-              "id": "opw-coastal-flood-extents-2021-current",
-              "title": "National Coastal Flood Extents 2021 ? Current Scenario",
-              "score": 1.73
+              "score": 0.43
             },
             {
               "kind": "browse-source",
               "id": "map-source:opw-coastal-flood-extents-2021-current",
               "title": "National Coastal Flood Extents 2021 ? Current Scenario source files",
-              "score": 0.73
+              "score": 0.43
+            },
+            {
+              "kind": "browse-map",
+              "id": "opw-coastal-flood-extents-2021-current",
+              "title": "National Coastal Flood Extents 2021 ? Current Scenario",
+              "score": 0.43
             }
           ]
         }
       ],
       "sourceItems": [
+        {
+          "auditRowNumber": 799,
+          "title": "Community-Scale Coastal Flood Extents - High-End Future Scenario",
+          "provider": "data.gov.ie",
+          "category": "spatial",
+          "formats": [
+            "SHP"
+          ],
+          "safetyClass": "variant/source enrichment review",
+          "approvalStatus": "user-approved-related-source-enrichment",
+          "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+          "providerDatasetUrl": "https://data.gov.ie/dataset/community-scale-coastal-flood-extents-high-end-future-scenario",
+          "licenseTitle": "Creative Commons Attribution 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "enrichmentTypes": [
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "scale/generalisation/edition metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "rivers-water-flood",
+            "habitat-protected-sites"
+          ],
+          "siteFamiliesPresent": [
+            "rivers-water-flood",
+            "habitat-protected-sites"
+          ],
+          "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+        },
         {
           "auditRowNumber": 852,
           "title": "National Coastal Flood Extents 2021 - Current Scenario",
@@ -747,6 +1138,140 @@
             "habitat-protected-sites"
           ],
           "refinedStatus": "already represented or very strong exact match"
+        },
+        {
+          "auditRowNumber": 854,
+          "title": "National Coastal Flood Extents 2021 - High+ End Future Scenario",
+          "provider": "data.gov.ie",
+          "category": "spatial",
+          "formats": [
+            "SHP"
+          ],
+          "safetyClass": "variant/source enrichment review",
+          "approvalStatus": "user-approved-related-source-enrichment",
+          "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+          "providerDatasetUrl": "https://data.gov.ie/dataset/national-coastal-flood-extents-2021-high-end-plus-future-scenario",
+          "licenseTitle": "Creative Commons Attribution 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "enrichmentTypes": [
+            "date/version metadata",
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "scale/generalisation/edition metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "rivers-water-flood",
+            "habitat-protected-sites"
+          ],
+          "siteFamiliesPresent": [
+            "rivers-water-flood",
+            "habitat-protected-sites"
+          ],
+          "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+        },
+        {
+          "auditRowNumber": 855,
+          "title": "National Coastal Flood Extents 2021 - High++ End Future Scenario",
+          "provider": "data.gov.ie",
+          "category": "spatial",
+          "formats": [
+            "SHP"
+          ],
+          "safetyClass": "variant/source enrichment review",
+          "approvalStatus": "user-approved-related-source-enrichment",
+          "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+          "providerDatasetUrl": "https://data.gov.ie/dataset/national-coastal-flood-extents-2021-high-end-plus-plus-future-scenario",
+          "licenseTitle": "Creative Commons Attribution 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "enrichmentTypes": [
+            "date/version metadata",
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "scale/generalisation/edition metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "rivers-water-flood",
+            "habitat-protected-sites"
+          ],
+          "siteFamiliesPresent": [
+            "rivers-water-flood",
+            "habitat-protected-sites"
+          ],
+          "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+        },
+        {
+          "auditRowNumber": 856,
+          "title": "National Coastal Flood Extents 2021 - Mid-Range Future Scenario",
+          "provider": "data.gov.ie",
+          "category": "spatial",
+          "formats": [
+            "SHP"
+          ],
+          "safetyClass": "variant/source enrichment review",
+          "approvalStatus": "user-approved-related-source-enrichment",
+          "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+          "providerDatasetUrl": "https://data.gov.ie/dataset/national-coastal-flood-extents-2021-mid-range-future-scenario",
+          "licenseTitle": "Creative Commons Attribution 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "enrichmentTypes": [
+            "date/version metadata",
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "scale/generalisation/edition metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "rivers-water-flood",
+            "habitat-protected-sites"
+          ],
+          "siteFamiliesPresent": [
+            "rivers-water-flood",
+            "habitat-protected-sites"
+          ],
+          "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+        },
+        {
+          "auditRowNumber": 1090,
+          "title": "National Coastal Flood Depths 2021 - High End Future Scenario",
+          "provider": "data.gov.ie",
+          "category": "tabular",
+          "formats": [
+            "GEOTIFF"
+          ],
+          "safetyClass": "variant/source enrichment review",
+          "approvalStatus": "user-approved-related-source-enrichment",
+          "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+          "providerDatasetUrl": "https://data.gov.ie/dataset/national-coastal-flood-depths-2021-high-end-future-scenario",
+          "licenseTitle": "Creative Commons Attribution 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "enrichmentTypes": [
+            "date/version metadata",
+            "download/source-file metadata",
+            "large raster/imagery preview or download metadata",
+            "scale/generalisation/edition metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "rivers-water-flood"
+          ],
+          "siteFamiliesPresent": [
+            "rivers-water-flood"
+          ],
+          "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
         }
       ],
       "references": [
@@ -763,20 +1288,68 @@
           "role": "matched-source-record"
         },
         {
+          "label": "Provider dataset: Community-Scale Coastal Flood Extents - High-End Future Scenario",
+          "url": "https://data.gov.ie/dataset/community-scale-coastal-flood-extents-high-end-future-scenario",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-dataset",
+          "type": "SHP",
+          "note": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval / licence: Creative Commons Attribution 4.0"
+        },
+        {
+          "label": "Licence: Creative Commons Attribution 4.0",
+          "url": "https://creativecommons.org/licenses/by/4.0/",
+          "source": "data.gov.ie",
+          "role": "source-licence"
+        },
+        {
           "label": "Provider dataset: National Coastal Flood Extents 2021 - Current Scenario",
           "url": "https://data.gov.ie/dataset/national-coastal-flood-extents-2021-current-scenario",
           "source": "data.gov.ie",
           "role": "canonical-provider-dataset",
           "type": "SHP"
+        },
+        {
+          "label": "Provider dataset: National Coastal Flood Extents 2021 - High+ End Future Scenario",
+          "url": "https://data.gov.ie/dataset/national-coastal-flood-extents-2021-high-end-plus-future-scenario",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-dataset",
+          "type": "SHP",
+          "note": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval / licence: Creative Commons Attribution 4.0"
+        },
+        {
+          "label": "Provider dataset: National Coastal Flood Extents 2021 - High++ End Future Scenario",
+          "url": "https://data.gov.ie/dataset/national-coastal-flood-extents-2021-high-end-plus-plus-future-scenario",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-dataset",
+          "type": "SHP",
+          "note": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval / licence: Creative Commons Attribution 4.0"
+        },
+        {
+          "label": "Provider dataset: National Coastal Flood Extents 2021 - Mid-Range Future Scenario",
+          "url": "https://data.gov.ie/dataset/national-coastal-flood-extents-2021-mid-range-future-scenario",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-dataset",
+          "type": "SHP",
+          "note": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval / licence: Creative Commons Attribution 4.0"
+        },
+        {
+          "label": "Provider dataset: National Coastal Flood Depths 2021 - High End Future Scenario",
+          "url": "https://data.gov.ie/dataset/national-coastal-flood-depths-2021-high-end-future-scenario",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-dataset",
+          "type": "GEOTIFF",
+          "note": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval / licence: Creative Commons Attribution 4.0"
         }
       ],
       "keywords": [
         "already-on-site-enrichment",
         "duplicate-source-match",
-        "date/version metadata",
         "download/source-file metadata",
         "geospatial source-format metadata",
-        "source/provenance metadata"
+        "scale/generalisation/edition metadata",
+        "source/provenance metadata",
+        "date/version metadata",
+        "large raster/imagery preview or download metadata"
       ],
       "publicationStatus": "enriched",
       "rawMetadata": {
@@ -824,7 +1397,7 @@
       "provider": [
         "Office of Public Works"
       ],
-      "description": "OPW Flood Studies Update — gauged catchment boundaries (2025 release). Catchments associated with hydrometric monitoring stations. 2 related provider/source rows are staged as provenance for this existing Civgraph record; provider: data.gov.ie; formats: SHP; 2 provider dataset links preserved as references.",
+      "description": "OPW Flood Studies Update — gauged catchment boundaries (2025 release). Catchments associated with hydrometric monitoring stations. 4 related provider/source rows are staged as provenance for this existing Civgraph record; provider: data.gov.ie; formats: SHP, GEOJSON; 4 provider dataset links preserved as references; licence: Creative Commons Attribution 4.0; relationship: related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval.",
       "sourceMapId": "opw-fsu-catchments-gauged",
       "thumbnail": {
         "kind": "asset",
@@ -852,13 +1425,15 @@
           "targetEntityId": "opw-fsu-catchments-gauged",
           "targetTitle": "FSU Catchment Boundaries ? Gauged 2025 source files",
           "targetBrowseUrl": "/browse/maps/opw-fsu-catchments-gauged",
-          "sourceItemCount": 2,
+          "sourceItemCount": 4,
           "confidence": "high-confidence",
           "safetyClasses": [
-            "high-confidence enrichment candidate"
+            "high-confidence enrichment candidate",
+            "variant/source enrichment review"
           ],
           "formats": [
-            "SHP"
+            "SHP",
+            "GEOJSON"
           ],
           "providers": [
             "data.gov.ie"
@@ -874,7 +1449,7 @@
             "scale/generalisation/edition metadata",
             "source/provenance metadata"
           ],
-          "provenanceSummary": "2 related provider/source rows are staged as provenance for this existing Civgraph record; provider: data.gov.ie; formats: SHP; 2 provider dataset links preserved as references.",
+          "provenanceSummary": "4 related provider/source rows are staged as provenance for this existing Civgraph record; provider: data.gov.ie; formats: SHP, GEOJSON; 4 provider dataset links preserved as references; licence: Creative Commons Attribution 4.0; relationship: related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval.",
           "sourceItems": [
             {
               "auditRowNumber": 134,
@@ -891,6 +1466,40 @@
               "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
               "enrichmentTypes": [
                 "date/version metadata",
+                "download/source-file metadata",
+                "geometry lineage and boundary-version metadata",
+                "geospatial source-format metadata",
+                "scale/generalisation/edition metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "rivers-water-flood",
+                "habitat-protected-sites"
+              ],
+              "siteFamiliesPresent": [
+                "rivers-water-flood",
+                "habitat-protected-sites"
+              ],
+              "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+            },
+            {
+              "auditRowNumber": 135,
+              "title": "Flood Studies Update (FSU) Catchment Boundaries (ungauged)",
+              "provider": "data.gov.ie",
+              "category": "spatial",
+              "formats": [
+                "SHP"
+              ],
+              "safetyClass": "variant/source enrichment review",
+              "approvalStatus": "user-approved-related-source-enrichment",
+              "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+              "providerDatasetUrl": "https://data.gov.ie/dataset/flood-studies-update-fsu-catchment-boundaries-ungauged",
+              "licenseTitle": "Creative Commons Attribution 4.0",
+              "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+              "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+              "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+              "enrichmentTypes": [
                 "download/source-file metadata",
                 "geometry lineage and boundary-version metadata",
                 "geospatial source-format metadata",
@@ -933,6 +1542,37 @@
               ],
               "siteFamiliesPresent": [
                 "rivers-water-flood",
+                "habitat-protected-sites"
+              ],
+              "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+            },
+            {
+              "auditRowNumber": 863,
+              "title": "OPW Hydrometric Network Station Details",
+              "provider": "data.gov.ie",
+              "category": "spatial",
+              "formats": [
+                "GEOJSON"
+              ],
+              "safetyClass": "variant/source enrichment review",
+              "approvalStatus": "user-approved-related-source-enrichment",
+              "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+              "providerDatasetUrl": "https://data.gov.ie/dataset/opw-hydrometric-network-station-details",
+              "licenseTitle": "Creative Commons Attribution 4.0",
+              "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+              "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+              "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+              "enrichmentTypes": [
+                "download/source-file metadata",
+                "geospatial source-format metadata",
+                "scale/generalisation/edition metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "habitat-protected-sites"
+              ],
+              "siteFamiliesPresent": [
                 "habitat-protected-sites"
               ],
               "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
@@ -993,6 +1633,40 @@
           "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
         },
         {
+          "auditRowNumber": 135,
+          "title": "Flood Studies Update (FSU) Catchment Boundaries (ungauged)",
+          "provider": "data.gov.ie",
+          "category": "spatial",
+          "formats": [
+            "SHP"
+          ],
+          "safetyClass": "variant/source enrichment review",
+          "approvalStatus": "user-approved-related-source-enrichment",
+          "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+          "providerDatasetUrl": "https://data.gov.ie/dataset/flood-studies-update-fsu-catchment-boundaries-ungauged",
+          "licenseTitle": "Creative Commons Attribution 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "enrichmentTypes": [
+            "download/source-file metadata",
+            "geometry lineage and boundary-version metadata",
+            "geospatial source-format metadata",
+            "scale/generalisation/edition metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "rivers-water-flood",
+            "habitat-protected-sites"
+          ],
+          "siteFamiliesPresent": [
+            "rivers-water-flood",
+            "habitat-protected-sites"
+          ],
+          "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+        },
+        {
           "auditRowNumber": 819,
           "title": "Flood Studies Update (FSU) Stations (gauged) 2025",
           "provider": "data.gov.ie",
@@ -1021,6 +1695,37 @@
             "habitat-protected-sites"
           ],
           "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+        },
+        {
+          "auditRowNumber": 863,
+          "title": "OPW Hydrometric Network Station Details",
+          "provider": "data.gov.ie",
+          "category": "spatial",
+          "formats": [
+            "GEOJSON"
+          ],
+          "safetyClass": "variant/source enrichment review",
+          "approvalStatus": "user-approved-related-source-enrichment",
+          "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+          "providerDatasetUrl": "https://data.gov.ie/dataset/opw-hydrometric-network-station-details",
+          "licenseTitle": "Creative Commons Attribution 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "enrichmentTypes": [
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "scale/generalisation/edition metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "habitat-protected-sites"
+          ],
+          "siteFamiliesPresent": [
+            "habitat-protected-sites"
+          ],
+          "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
         }
       ],
       "references": [
@@ -1044,11 +1749,33 @@
           "type": "SHP"
         },
         {
+          "label": "Provider dataset: Flood Studies Update (FSU) Catchment Boundaries (ungauged)",
+          "url": "https://data.gov.ie/dataset/flood-studies-update-fsu-catchment-boundaries-ungauged",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-dataset",
+          "type": "SHP",
+          "note": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval / licence: Creative Commons Attribution 4.0"
+        },
+        {
+          "label": "Licence: Creative Commons Attribution 4.0",
+          "url": "https://creativecommons.org/licenses/by/4.0/",
+          "source": "data.gov.ie",
+          "role": "source-licence"
+        },
+        {
           "label": "Provider dataset: Flood Studies Update (FSU) Stations (gauged) 2025",
           "url": "https://data.gov.ie/dataset/flood-studies-update-fsu-stations-gauged",
           "source": "data.gov.ie",
           "role": "canonical-provider-dataset",
           "type": "SHP"
+        },
+        {
+          "label": "Provider dataset: OPW Hydrometric Network Station Details",
+          "url": "https://data.gov.ie/dataset/opw-hydrometric-network-station-details",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-dataset",
+          "type": "GEOJSON",
+          "note": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval / licence: Creative Commons Attribution 4.0"
         }
       ],
       "keywords": [
@@ -1096,7 +1823,7 @@
       "provider": [
         "Office of Public Works"
       ],
-      "description": "OPW National Indicative Fluvial Mapping — modelled river flood extents under current climate (10/100/1000-year return periods). 2 related provider/source rows are staged as provenance for this existing Civgraph record; provider: data.gov.ie; formats: SHP, GEOTIFF; 2 provider dataset links preserved as references; licence: Creative Commons Attribution 4.0; relationship: related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval.",
+      "description": "OPW National Indicative Fluvial Mapping — modelled river flood extents under current climate (10/100/1000-year return periods). 7 related provider/source rows are staged as provenance for this existing Civgraph record; provider: data.gov.ie; formats: SHP, GEOTIFF; 7 provider dataset links preserved as references; licence: Creative Commons Attribution 4.0; relationship: related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval.",
       "sourceMapId": "opw-nifm-river-flood-extents-current",
       "thumbnail": {
         "kind": "asset",
@@ -1124,11 +1851,11 @@
           "targetEntityId": "opw-nifm-river-flood-extents-current",
           "targetTitle": "NIFM River Flood Extents ? Current Scenario source files",
           "targetBrowseUrl": "/browse/maps/opw-nifm-river-flood-extents-current",
-          "sourceItemCount": 2,
+          "sourceItemCount": 7,
           "confidence": "high-confidence",
           "safetyClasses": [
-            "high-confidence enrichment candidate",
-            "variant/source enrichment review"
+            "variant/source enrichment review",
+            "high-confidence enrichment candidate"
           ],
           "formats": [
             "SHP",
@@ -1148,8 +1875,41 @@
             "source/provenance metadata",
             "large raster/imagery preview or download metadata"
           ],
-          "provenanceSummary": "2 related provider/source rows are staged as provenance for this existing Civgraph record; provider: data.gov.ie; formats: SHP, GEOTIFF; 2 provider dataset links preserved as references; licence: Creative Commons Attribution 4.0; relationship: related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval.",
+          "provenanceSummary": "7 related provider/source rows are staged as provenance for this existing Civgraph record; provider: data.gov.ie; formats: SHP, GEOTIFF; 7 provider dataset links preserved as references; licence: Creative Commons Attribution 4.0; relationship: related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval.",
           "sourceItems": [
+            {
+              "auditRowNumber": 538,
+              "title": "Community-Scale River Flood Extents - Current Scenario",
+              "provider": "data.gov.ie",
+              "category": "spatial",
+              "formats": [
+                "SHP"
+              ],
+              "safetyClass": "variant/source enrichment review",
+              "approvalStatus": "user-approved-related-source-enrichment",
+              "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+              "providerDatasetUrl": "https://data.gov.ie/dataset/community-scale-river-flood-extents-current-scenario",
+              "licenseTitle": "Creative Commons Attribution 4.0",
+              "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+              "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+              "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+              "enrichmentTypes": [
+                "download/source-file metadata",
+                "geospatial source-format metadata",
+                "scale/generalisation/edition metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "rivers-water-flood",
+                "habitat-protected-sites"
+              ],
+              "siteFamiliesPresent": [
+                "rivers-water-flood",
+                "habitat-protected-sites"
+              ],
+              "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+            },
             {
               "auditRowNumber": 543,
               "title": "National Indicative Fluvial Mapping (NIFM) River Flood Extents - Current Scenario",
@@ -1175,6 +1935,103 @@
               ],
               "siteFamiliesPresent": [
                 "rivers-water-flood",
+                "habitat-protected-sites"
+              ],
+              "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+            },
+            {
+              "auditRowNumber": 544,
+              "title": "National Indicative Fluvial Mapping (NIFM) River Flood Extents - High-End Future Scenario",
+              "provider": "data.gov.ie",
+              "category": "spatial",
+              "formats": [
+                "SHP"
+              ],
+              "safetyClass": "variant/source enrichment review",
+              "approvalStatus": "user-approved-related-source-enrichment",
+              "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+              "providerDatasetUrl": "https://data.gov.ie/dataset/nifm-river-flood-extents-high-end-future-scenario",
+              "licenseTitle": "Creative Commons Attribution 4.0",
+              "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+              "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+              "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+              "enrichmentTypes": [
+                "download/source-file metadata",
+                "geospatial source-format metadata",
+                "scale/generalisation/edition metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "rivers-water-flood",
+                "habitat-protected-sites"
+              ],
+              "siteFamiliesPresent": [
+                "rivers-water-flood",
+                "habitat-protected-sites"
+              ],
+              "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+            },
+            {
+              "auditRowNumber": 545,
+              "title": "National Indicative Fluvial Mapping (NIFM) River Flood Extents - Mid-Range Future Scenario",
+              "provider": "data.gov.ie",
+              "category": "spatial",
+              "formats": [
+                "SHP"
+              ],
+              "safetyClass": "variant/source enrichment review",
+              "approvalStatus": "user-approved-related-source-enrichment",
+              "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+              "providerDatasetUrl": "https://data.gov.ie/dataset/nifm-river-flood-extents-mid-range-future-scenario",
+              "licenseTitle": "Creative Commons Attribution 4.0",
+              "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+              "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+              "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+              "enrichmentTypes": [
+                "download/source-file metadata",
+                "geospatial source-format metadata",
+                "scale/generalisation/edition metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "rivers-water-flood",
+                "habitat-protected-sites"
+              ],
+              "siteFamiliesPresent": [
+                "rivers-water-flood",
+                "habitat-protected-sites"
+              ],
+              "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+            },
+            {
+              "auditRowNumber": 857,
+              "title": "National Indicative Fluvial Mapping (NIFM) Model Nodes - Current Scenario",
+              "provider": "data.gov.ie",
+              "category": "spatial",
+              "formats": [
+                "SHP"
+              ],
+              "safetyClass": "variant/source enrichment review",
+              "approvalStatus": "user-approved-related-source-enrichment",
+              "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+              "providerDatasetUrl": "https://data.gov.ie/dataset/national-indicative-fluvial-mapping-nifm-model-nodes-current-scenario",
+              "licenseTitle": "Creative Commons Attribution 4.0",
+              "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+              "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+              "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+              "enrichmentTypes": [
+                "download/source-file metadata",
+                "geospatial source-format metadata",
+                "scale/generalisation/edition metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "habitat-protected-sites"
+              ],
+              "siteFamiliesPresent": [
                 "habitat-protected-sites"
               ],
               "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
@@ -1209,6 +2066,37 @@
                 "rivers-water-flood"
               ],
               "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+            },
+            {
+              "auditRowNumber": 1033,
+              "title": "National Indicative Fluvial Mapping (NIFM) River Flood Depth - Mid-Range Future Scenario",
+              "provider": "data.gov.ie",
+              "category": "tabular",
+              "formats": [
+                "GEOTIFF"
+              ],
+              "safetyClass": "variant/source enrichment review",
+              "approvalStatus": "user-approved-related-source-enrichment",
+              "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+              "providerDatasetUrl": "https://data.gov.ie/dataset/nifm-river-flood-depth-mid-range-future-scenario",
+              "licenseTitle": "Creative Commons Attribution 4.0",
+              "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+              "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+              "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews.",
+              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+              "enrichmentTypes": [
+                "download/source-file metadata",
+                "large raster/imagery preview or download metadata",
+                "scale/generalisation/edition metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "rivers-water-flood"
+              ],
+              "siteFamiliesPresent": [
+                "rivers-water-flood"
+              ],
+              "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
             }
           ],
           "evidence": [
@@ -1216,24 +2104,57 @@
               "kind": "database-map",
               "id": "opw-nifm-river-flood-extents-current",
               "title": "NIFM River Flood Extents ? Current Scenario",
-              "score": 0.79
+              "score": 0.58
             },
             {
               "kind": "browse-source",
               "id": "map-source:opw-nifm-river-flood-extents-current",
               "title": "NIFM River Flood Extents ? Current Scenario source files",
-              "score": 0.79
+              "score": 0.58
             },
             {
               "kind": "browse-map",
               "id": "opw-nifm-river-flood-extents-current",
               "title": "NIFM River Flood Extents ? Current Scenario",
-              "score": 0.79
+              "score": 0.58
             }
           ]
         }
       ],
       "sourceItems": [
+        {
+          "auditRowNumber": 538,
+          "title": "Community-Scale River Flood Extents - Current Scenario",
+          "provider": "data.gov.ie",
+          "category": "spatial",
+          "formats": [
+            "SHP"
+          ],
+          "safetyClass": "variant/source enrichment review",
+          "approvalStatus": "user-approved-related-source-enrichment",
+          "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+          "providerDatasetUrl": "https://data.gov.ie/dataset/community-scale-river-flood-extents-current-scenario",
+          "licenseTitle": "Creative Commons Attribution 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "enrichmentTypes": [
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "scale/generalisation/edition metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "rivers-water-flood",
+            "habitat-protected-sites"
+          ],
+          "siteFamiliesPresent": [
+            "rivers-water-flood",
+            "habitat-protected-sites"
+          ],
+          "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+        },
         {
           "auditRowNumber": 543,
           "title": "National Indicative Fluvial Mapping (NIFM) River Flood Extents - Current Scenario",
@@ -1259,6 +2180,103 @@
           ],
           "siteFamiliesPresent": [
             "rivers-water-flood",
+            "habitat-protected-sites"
+          ],
+          "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+        },
+        {
+          "auditRowNumber": 544,
+          "title": "National Indicative Fluvial Mapping (NIFM) River Flood Extents - High-End Future Scenario",
+          "provider": "data.gov.ie",
+          "category": "spatial",
+          "formats": [
+            "SHP"
+          ],
+          "safetyClass": "variant/source enrichment review",
+          "approvalStatus": "user-approved-related-source-enrichment",
+          "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+          "providerDatasetUrl": "https://data.gov.ie/dataset/nifm-river-flood-extents-high-end-future-scenario",
+          "licenseTitle": "Creative Commons Attribution 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "enrichmentTypes": [
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "scale/generalisation/edition metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "rivers-water-flood",
+            "habitat-protected-sites"
+          ],
+          "siteFamiliesPresent": [
+            "rivers-water-flood",
+            "habitat-protected-sites"
+          ],
+          "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+        },
+        {
+          "auditRowNumber": 545,
+          "title": "National Indicative Fluvial Mapping (NIFM) River Flood Extents - Mid-Range Future Scenario",
+          "provider": "data.gov.ie",
+          "category": "spatial",
+          "formats": [
+            "SHP"
+          ],
+          "safetyClass": "variant/source enrichment review",
+          "approvalStatus": "user-approved-related-source-enrichment",
+          "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+          "providerDatasetUrl": "https://data.gov.ie/dataset/nifm-river-flood-extents-mid-range-future-scenario",
+          "licenseTitle": "Creative Commons Attribution 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "enrichmentTypes": [
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "scale/generalisation/edition metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "rivers-water-flood",
+            "habitat-protected-sites"
+          ],
+          "siteFamiliesPresent": [
+            "rivers-water-flood",
+            "habitat-protected-sites"
+          ],
+          "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+        },
+        {
+          "auditRowNumber": 857,
+          "title": "National Indicative Fluvial Mapping (NIFM) Model Nodes - Current Scenario",
+          "provider": "data.gov.ie",
+          "category": "spatial",
+          "formats": [
+            "SHP"
+          ],
+          "safetyClass": "variant/source enrichment review",
+          "approvalStatus": "user-approved-related-source-enrichment",
+          "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+          "providerDatasetUrl": "https://data.gov.ie/dataset/national-indicative-fluvial-mapping-nifm-model-nodes-current-scenario",
+          "licenseTitle": "Creative Commons Attribution 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "enrichmentTypes": [
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "scale/generalisation/edition metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "habitat-protected-sites"
+          ],
+          "siteFamiliesPresent": [
             "habitat-protected-sites"
           ],
           "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
@@ -1293,6 +2311,37 @@
             "rivers-water-flood"
           ],
           "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+        },
+        {
+          "auditRowNumber": 1033,
+          "title": "National Indicative Fluvial Mapping (NIFM) River Flood Depth - Mid-Range Future Scenario",
+          "provider": "data.gov.ie",
+          "category": "tabular",
+          "formats": [
+            "GEOTIFF"
+          ],
+          "safetyClass": "variant/source enrichment review",
+          "approvalStatus": "user-approved-related-source-enrichment",
+          "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+          "providerDatasetUrl": "https://data.gov.ie/dataset/nifm-river-flood-depth-mid-range-future-scenario",
+          "licenseTitle": "Creative Commons Attribution 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "enrichmentTypes": [
+            "download/source-file metadata",
+            "large raster/imagery preview or download metadata",
+            "scale/generalisation/edition metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "rivers-water-flood"
+          ],
+          "siteFamiliesPresent": [
+            "rivers-water-flood"
+          ],
+          "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
         }
       ],
       "references": [
@@ -1309,11 +2358,49 @@
           "role": "matched-source-record"
         },
         {
+          "label": "Provider dataset: Community-Scale River Flood Extents - Current Scenario",
+          "url": "https://data.gov.ie/dataset/community-scale-river-flood-extents-current-scenario",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-dataset",
+          "type": "SHP",
+          "note": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval / licence: Creative Commons Attribution 4.0"
+        },
+        {
+          "label": "Licence: Creative Commons Attribution 4.0",
+          "url": "https://creativecommons.org/licenses/by/4.0/",
+          "source": "data.gov.ie",
+          "role": "source-licence"
+        },
+        {
           "label": "Provider dataset: National Indicative Fluvial Mapping (NIFM) River Flood Extents - Current Scenario",
           "url": "https://data.gov.ie/dataset/nifm-river-flood-extents-current-scenario",
           "source": "data.gov.ie",
           "role": "canonical-provider-dataset",
           "type": "SHP"
+        },
+        {
+          "label": "Provider dataset: National Indicative Fluvial Mapping (NIFM) River Flood Extents - High-End Future Scenario",
+          "url": "https://data.gov.ie/dataset/nifm-river-flood-extents-high-end-future-scenario",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-dataset",
+          "type": "SHP",
+          "note": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval / licence: Creative Commons Attribution 4.0"
+        },
+        {
+          "label": "Provider dataset: National Indicative Fluvial Mapping (NIFM) River Flood Extents - Mid-Range Future Scenario",
+          "url": "https://data.gov.ie/dataset/nifm-river-flood-extents-mid-range-future-scenario",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-dataset",
+          "type": "SHP",
+          "note": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval / licence: Creative Commons Attribution 4.0"
+        },
+        {
+          "label": "Provider dataset: National Indicative Fluvial Mapping (NIFM) Model Nodes - Current Scenario",
+          "url": "https://data.gov.ie/dataset/national-indicative-fluvial-mapping-nifm-model-nodes-current-scenario",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-dataset",
+          "type": "SHP",
+          "note": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval / licence: Creative Commons Attribution 4.0"
         },
         {
           "label": "Provider dataset: National Indicative Fluvial Mapping (NIFM) River Flood Depth - High-End Future Scenario",
@@ -1324,10 +2411,12 @@
           "note": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval / licence: Creative Commons Attribution 4.0"
         },
         {
-          "label": "Licence: Creative Commons Attribution 4.0",
-          "url": "https://creativecommons.org/licenses/by/4.0/",
+          "label": "Provider dataset: National Indicative Fluvial Mapping (NIFM) River Flood Depth - Mid-Range Future Scenario",
+          "url": "https://data.gov.ie/dataset/nifm-river-flood-depth-mid-range-future-scenario",
           "source": "data.gov.ie",
-          "role": "source-licence"
+          "role": "canonical-provider-dataset",
+          "type": "GEOTIFF",
+          "note": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval / licence: Creative Commons Attribution 4.0"
         }
       ],
       "keywords": [
@@ -7015,7 +8104,7 @@
       "provider": [
         "Department for Infrastructure - Rivers"
       ],
-      "description": "Modelled extreme sea levels around the NI coast at multiple return periods (2018 mapping). Used by DfI Rivers for coastal flood risk assessment.",
+      "description": "Modelled extreme sea levels around the NI coast at multiple return periods (2018 mapping). Used by DfI Rivers for coastal flood risk assessment. 1 related provider/source row is staged as provenance for this existing Civgraph record; provider: Open Data NI; formats: SHP; 1 provider dataset link preserved as references; licence: UK Open Government Licence (OGL); relationship: related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval.",
       "sourceMapId": "rivers-coastal-flood-2018",
       "thumbnail": {
         "kind": "asset",
@@ -7044,6 +8133,175 @@
       ],
       "interactiveUrl": "/#layers=rivers-coastal-flood-2018",
       "browseUrl": "/browse/sources/map-source-rivers-coastal-flood-2018",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:rivers-coastal-flood-2018",
+          "targetEntityKind": "map",
+          "targetEntityId": "rivers-coastal-flood-2018",
+          "targetTitle": "Coastal Flood Boundary ? Extreme Sea Levels (2018) source files",
+          "targetBrowseUrl": "/browse/maps/rivers-coastal-flood-2018",
+          "sourceItemCount": 1,
+          "confidence": "high-confidence",
+          "safetyClasses": [
+            "variant/source enrichment review"
+          ],
+          "formats": [
+            "SHP"
+          ],
+          "providers": [
+            "Open Data NI"
+          ],
+          "categories": [
+            "spatial"
+          ],
+          "enrichmentTypes": [
+            "census/statistical provenance and concept context",
+            "date/version metadata",
+            "download/source-file metadata",
+            "geometry lineage and boundary-version metadata",
+            "geospatial source-format metadata",
+            "scale/generalisation/edition metadata",
+            "source/provenance metadata"
+          ],
+          "provenanceSummary": "1 related provider/source row is staged as provenance for this existing Civgraph record; provider: Open Data NI; formats: SHP; 1 provider dataset link preserved as references; licence: UK Open Government Licence (OGL); relationship: related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval.",
+          "sourceItems": [
+            {
+              "auditRowNumber": 4,
+              "title": "Coastal Flood Boundary Extreme Sea Levels (2018) - NI Extract",
+              "provider": "Open Data NI",
+              "category": "spatial",
+              "formats": [
+                "SHP"
+              ],
+              "safetyClass": "variant/source enrichment review",
+              "approvalStatus": "user-approved-related-source-enrichment",
+              "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+              "providerDatasetUrl": "https://admin.opendatani.gov.uk/dataset/coastal-flood-boundary-extreme-sea-levels-2018-ni-extract-irish-grid-projection",
+              "licenseTitle": "UK Open Government Licence (OGL)",
+              "licenseUrl": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+              "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+              "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+              "enrichmentTypes": [
+                "census/statistical provenance and concept context",
+                "date/version metadata",
+                "download/source-file metadata",
+                "geometry lineage and boundary-version metadata",
+                "geospatial source-format metadata",
+                "scale/generalisation/edition metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "rivers-water-flood",
+                "habitat-protected-sites"
+              ],
+              "siteFamiliesPresent": [
+                "rivers-water-flood",
+                "habitat-protected-sites"
+              ],
+              "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "database-map",
+              "id": "rivers-coastal-flood-2018",
+              "title": "Coastal Flood Boundary ? Extreme Sea Levels (2018)",
+              "score": 0.64
+            },
+            {
+              "kind": "browse-source",
+              "id": "map-source:rivers-coastal-flood-2018",
+              "title": "Coastal Flood Boundary ? Extreme Sea Levels (2018) source files",
+              "score": 0.64
+            },
+            {
+              "kind": "browse-map",
+              "id": "rivers-coastal-flood-2018",
+              "title": "Coastal Flood Boundary ? Extreme Sea Levels (2018)",
+              "score": 0.64
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 4,
+          "title": "Coastal Flood Boundary Extreme Sea Levels (2018) - NI Extract",
+          "provider": "Open Data NI",
+          "category": "spatial",
+          "formats": [
+            "SHP"
+          ],
+          "safetyClass": "variant/source enrichment review",
+          "approvalStatus": "user-approved-related-source-enrichment",
+          "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+          "providerDatasetUrl": "https://admin.opendatani.gov.uk/dataset/coastal-flood-boundary-extreme-sea-levels-2018-ni-extract-irish-grid-projection",
+          "licenseTitle": "UK Open Government Licence (OGL)",
+          "licenseUrl": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+          "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "enrichmentTypes": [
+            "census/statistical provenance and concept context",
+            "date/version metadata",
+            "download/source-file metadata",
+            "geometry lineage and boundary-version metadata",
+            "geospatial source-format metadata",
+            "scale/generalisation/edition metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "rivers-water-flood",
+            "habitat-protected-sites"
+          ],
+          "siteFamiliesPresent": [
+            "rivers-water-flood",
+            "habitat-protected-sites"
+          ],
+          "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+        }
+      ],
+      "references": [
+        {
+          "label": "Existing Civgraph record: Coastal Flood Boundary ? Extreme Sea Levels (2018) source files",
+          "url": "/browse/maps/rivers-coastal-flood-2018",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:rivers-coastal-flood-2018",
+          "url": "/browse/sources/map-source-rivers-coastal-flood-2018",
+          "source": "Civgraph",
+          "role": "matched-source-record"
+        },
+        {
+          "label": "Provider dataset: Coastal Flood Boundary Extreme Sea Levels (2018) - NI Extract",
+          "url": "https://admin.opendatani.gov.uk/dataset/coastal-flood-boundary-extreme-sea-levels-2018-ni-extract-irish-grid-projection",
+          "source": "Open Data NI",
+          "role": "canonical-provider-dataset",
+          "type": "SHP",
+          "note": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval / licence: UK Open Government Licence (OGL)"
+        },
+        {
+          "label": "Licence: UK Open Government Licence (OGL)",
+          "url": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+          "source": "Open Data NI",
+          "role": "source-licence"
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "census/statistical provenance and concept context",
+        "date/version metadata",
+        "download/source-file metadata",
+        "geometry lineage and boundary-version metadata",
+        "geospatial source-format metadata",
+        "scale/generalisation/edition metadata",
+        "source/provenance metadata"
+      ],
+      "publicationStatus": "enriched",
       "rawMetadata": {
         "id": "rivers-coastal-flood-2018",
         "name": "Coastal Flood Boundary — Extreme Sea Levels (2018)",
@@ -35809,700 +37067,6 @@
           "TXT"
         ],
         "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-dunsany-daily-data-02178"
-      }
-    },
-    {
-      "id": "medium-priority:2-irish-election-source-enrichment-data:eda93-junior-and-leaving-certificate-examination-candidates:02179",
-      "slug": "medium-priority-2-irish-election-source-enrichment-data-eda93-junior-and-leaving-certificate-examination-candidates-02179",
-      "type": "approved-medium-priority-source",
-      "title": "EDA93 - Junior and Leaving Certificate Examination Candidates",
-      "subtitle": "Irish election source/enrichment data / Department of Education and Youth, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
-      "category": "Medium-priority: Irish election source/enrichment data",
-      "provider": [
-        "Department of Education and Youth",
-        "data.gov.ie"
-      ],
-      "description": "EDA93 - Junior and Leaving Certificate Examination Candidates is published as a medium-priority Civgraph source/provenance record from Department of Education and Youth, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/eda93-junior-and-leaving-certificate-examination-candidates",
-      "references": [
-        {
-          "label": "EDA93 - Junior and Leaving Certificate Examination Candidates provider page",
-          "url": "https://data.gov.ie/dataset/eda93-junior-and-leaving-certificate-examination-candidates",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "EDA93 - Junior and Leaving Certificate Examination Candidates Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/eda93-junior-and-leaving-certificate-examination-candidates",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/eda93-junior-and-leaving-certificate-examination-candidates",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Irish election source/enrichment data",
-        "election",
-        "features",
-        "Ireland / unspecified",
-        "enrich-existing-election",
-        "CSV",
-        "JSON-STAT",
-        "PX",
-        "XLSX"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 2180,
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:eda93-junior-and-leaving-certificate-examination-candidates:02179",
-          "title": "EDA93 - Junior and Leaving Certificate Examination Candidates",
-          "cleanTitle": "EDA93 - Junior and Leaving Certificate Examination Candidates",
-          "provider": "data.gov.ie",
-          "organisation": "Department of Education and Youth",
-          "category": "tabular",
-          "roiGroup": "2. Irish election source/enrichment data",
-          "groupTitle": "Irish election source/enrichment data",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "election",
-          "featureUnit": "features",
-          "formats": [
-            "CSV",
-            "JSON-STAT",
-            "PX",
-            "XLSX"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": true,
-          "proposedAction": "enrich-existing-election",
-          "proposedPlacement": "Elections/source provenance",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "JSON-STAT",
-              "PX",
-              "XLSX"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/eda93-junior-and-leaving-certificate-examination-candidates",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/eda93-junior-and-leaving-certificate-examination-candidates",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "election-model-merge-and-provenance-review: election staging action assigned",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Download available",
-        "Provider link",
-        "Wayback link",
-        "Election provenance"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Irish election source/enrichment data",
-        "Ireland / unspecified",
-        "election",
-        "EDA93 - Junior and Leaving Certificate Examination Candidates"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text",
-          "spreadsheet"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/eda93-junior-and-leaving-certificate-examination-candidates",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/eda93-junior-and-leaving-certificate-examination-candidates",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Department of Education and Youth, data.gov.ie, EDA93 - Junior and Leaving Certificate Examination Candidates.",
-      "fullCitation": "Department of Education and Youth, data.gov.ie. EDA93 - Junior and Leaving Certificate Examination Candidates. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/eda93-junior-and-leaving-certificate-examination-candidates. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/eda93-junior-and-leaving-certificate-examination-candidates.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:2-irish-election-source-enrichment-data:eda93-junior-and-leaving-certificate-examination-candidates:02179",
-        "sourceRowNumber": 2180,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish election source/provenance enrichment",
-        "proposedAction": "enrich-existing-election",
-        "proposedPlacement": "Elections/source provenance",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "CSV",
-            "JSON-STAT",
-            "PX",
-            "XLSX"
-          ]
-        },
-        "confidence": 60,
-        "resolvedBlockers": [
-          "election-model-merge-and-provenance-review: election staging action assigned",
-          "needs-provider-context-review: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Elections/source provenance",
-      "relationship": "election-source-enrichment",
-      "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-eda93-junior-and-leaving-certificate-examination-candidates-02179",
-      "rawMetadata": {
-        "id": "medium-priority:2-irish-election-source-enrichment-data:eda93-junior-and-leaving-certificate-examination-candidates:02179",
-        "slug": "medium-priority-2-irish-election-source-enrichment-data-eda93-junior-and-leaving-certificate-examination-candidates-02179",
-        "type": "approved-medium-priority-source",
-        "title": "EDA93 - Junior and Leaving Certificate Examination Candidates",
-        "subtitle": "Irish election source/enrichment data / Department of Education and Youth, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
-        "category": "Medium-priority: Irish election source/enrichment data",
-        "provider": [
-          "Department of Education and Youth",
-          "data.gov.ie"
-        ],
-        "description": "EDA93 - Junior and Leaving Certificate Examination Candidates is published as a medium-priority Civgraph source/provenance record from Department of Education and Youth, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/eda93-junior-and-leaving-certificate-examination-candidates",
-        "references": [
-          {
-            "label": "EDA93 - Junior and Leaving Certificate Examination Candidates provider page",
-            "url": "https://data.gov.ie/dataset/eda93-junior-and-leaving-certificate-examination-candidates",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "EDA93 - Junior and Leaving Certificate Examination Candidates Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/eda93-junior-and-leaving-certificate-examination-candidates",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/eda93-junior-and-leaving-certificate-examination-candidates",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Download available",
-          "Provider link",
-          "Wayback link",
-          "Election provenance"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Irish election source/enrichment data",
-          "Ireland / unspecified",
-          "election",
-          "EDA93 - Junior and Leaving Certificate Examination Candidates"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text",
-            "spreadsheet"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/eda93-junior-and-leaving-certificate-examination-candidates",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/eda93-junior-and-leaving-certificate-examination-candidates",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Department of Education and Youth, data.gov.ie, EDA93 - Junior and Leaving Certificate Examination Candidates.",
-        "fullCitation": "Department of Education and Youth, data.gov.ie. EDA93 - Junior and Leaving Certificate Examination Candidates. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/eda93-junior-and-leaving-certificate-examination-candidates. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/eda93-junior-and-leaving-certificate-examination-candidates.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 2180,
-            "stagingId": "medium-prep:2-irish-election-source-enrichment-data:eda93-junior-and-leaving-certificate-examination-candidates:02179",
-            "title": "EDA93 - Junior and Leaving Certificate Examination Candidates",
-            "cleanTitle": "EDA93 - Junior and Leaving Certificate Examination Candidates",
-            "provider": "data.gov.ie",
-            "organisation": "Department of Education and Youth",
-            "category": "tabular",
-            "roiGroup": "2. Irish election source/enrichment data",
-            "groupTitle": "Irish election source/enrichment data",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "election",
-            "featureUnit": "features",
-            "formats": [
-              "CSV",
-              "JSON-STAT",
-              "PX",
-              "XLSX"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": true,
-            "proposedAction": "enrich-existing-election",
-            "proposedPlacement": "Elections/source provenance",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "CSV",
-                "JSON-STAT",
-                "PX",
-                "XLSX"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/eda93-junior-and-leaving-certificate-examination-candidates",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/eda93-junior-and-leaving-certificate-examination-candidates",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "election-model-merge-and-provenance-review: election staging action assigned",
-              "needs-provider-context-review: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:eda93-junior-and-leaving-certificate-examination-candidates:02179",
-          "sourceRowNumber": 2180,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish election source/provenance enrichment",
-          "proposedAction": "enrich-existing-election",
-          "proposedPlacement": "Elections/source provenance",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "JSON-STAT",
-              "PX",
-              "XLSX"
-            ]
-          },
-          "confidence": 60,
-          "resolvedBlockers": [
-            "election-model-merge-and-provenance-review: election staging action assigned",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Elections/source provenance",
-        "relationship": "election-source-enrichment",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Irish election source/enrichment data",
-          "election",
-          "features",
-          "Ireland / unspecified",
-          "enrich-existing-election",
-          "CSV",
-          "JSON-STAT",
-          "PX",
-          "XLSX"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-eda93-junior-and-leaving-certificate-examination-candidates-02179"
-      }
-    },
-    {
-      "id": "medium-priority:2-irish-election-source-enrichment-data:eda94-leaving-certificate-candidates-and-results:02180",
-      "slug": "medium-priority-2-irish-election-source-enrichment-data-eda94-leaving-certificate-candidates-and-results-02180",
-      "type": "approved-medium-priority-source",
-      "title": "EDA94 - Leaving Certificate Candidates and Results",
-      "subtitle": "Irish election source/enrichment data / Department of Education and Youth, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
-      "category": "Medium-priority: Irish election source/enrichment data",
-      "provider": [
-        "Department of Education and Youth",
-        "data.gov.ie"
-      ],
-      "description": "EDA94 - Leaving Certificate Candidates and Results is published as a medium-priority Civgraph source/provenance record from Department of Education and Youth, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/eda94-leaving-certificate-candidates-and-results",
-      "references": [
-        {
-          "label": "EDA94 - Leaving Certificate Candidates and Results provider page",
-          "url": "https://data.gov.ie/dataset/eda94-leaving-certificate-candidates-and-results",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "EDA94 - Leaving Certificate Candidates and Results Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/eda94-leaving-certificate-candidates-and-results",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/eda94-leaving-certificate-candidates-and-results",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Irish election source/enrichment data",
-        "election",
-        "features",
-        "Ireland / unspecified",
-        "enrich-existing-election",
-        "CSV",
-        "JSON-STAT",
-        "PX",
-        "XLSX"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 2181,
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:eda94-leaving-certificate-candidates-and-results:02180",
-          "title": "EDA94 - Leaving Certificate Candidates and Results",
-          "cleanTitle": "EDA94 - Leaving Certificate Candidates and Results",
-          "provider": "data.gov.ie",
-          "organisation": "Department of Education and Youth",
-          "category": "tabular",
-          "roiGroup": "2. Irish election source/enrichment data",
-          "groupTitle": "Irish election source/enrichment data",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "election",
-          "featureUnit": "features",
-          "formats": [
-            "CSV",
-            "JSON-STAT",
-            "PX",
-            "XLSX"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": true,
-          "proposedAction": "enrich-existing-election",
-          "proposedPlacement": "Elections/source provenance",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "JSON-STAT",
-              "PX",
-              "XLSX"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/eda94-leaving-certificate-candidates-and-results",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/eda94-leaving-certificate-candidates-and-results",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "election-model-merge-and-provenance-review: election staging action assigned",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Download available",
-        "Provider link",
-        "Wayback link",
-        "Election provenance"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Irish election source/enrichment data",
-        "Ireland / unspecified",
-        "election",
-        "EDA94 - Leaving Certificate Candidates and Results"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text",
-          "spreadsheet"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/eda94-leaving-certificate-candidates-and-results",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/eda94-leaving-certificate-candidates-and-results",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Department of Education and Youth, data.gov.ie, EDA94 - Leaving Certificate Candidates and Results.",
-      "fullCitation": "Department of Education and Youth, data.gov.ie. EDA94 - Leaving Certificate Candidates and Results. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/eda94-leaving-certificate-candidates-and-results. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/eda94-leaving-certificate-candidates-and-results.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:2-irish-election-source-enrichment-data:eda94-leaving-certificate-candidates-and-results:02180",
-        "sourceRowNumber": 2181,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish election source/provenance enrichment",
-        "proposedAction": "enrich-existing-election",
-        "proposedPlacement": "Elections/source provenance",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "CSV",
-            "JSON-STAT",
-            "PX",
-            "XLSX"
-          ]
-        },
-        "confidence": 60,
-        "resolvedBlockers": [
-          "election-model-merge-and-provenance-review: election staging action assigned",
-          "needs-provider-context-review: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Elections/source provenance",
-      "relationship": "election-source-enrichment",
-      "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-eda94-leaving-certificate-candidates-and-results-02180",
-      "rawMetadata": {
-        "id": "medium-priority:2-irish-election-source-enrichment-data:eda94-leaving-certificate-candidates-and-results:02180",
-        "slug": "medium-priority-2-irish-election-source-enrichment-data-eda94-leaving-certificate-candidates-and-results-02180",
-        "type": "approved-medium-priority-source",
-        "title": "EDA94 - Leaving Certificate Candidates and Results",
-        "subtitle": "Irish election source/enrichment data / Department of Education and Youth, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
-        "category": "Medium-priority: Irish election source/enrichment data",
-        "provider": [
-          "Department of Education and Youth",
-          "data.gov.ie"
-        ],
-        "description": "EDA94 - Leaving Certificate Candidates and Results is published as a medium-priority Civgraph source/provenance record from Department of Education and Youth, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/eda94-leaving-certificate-candidates-and-results",
-        "references": [
-          {
-            "label": "EDA94 - Leaving Certificate Candidates and Results provider page",
-            "url": "https://data.gov.ie/dataset/eda94-leaving-certificate-candidates-and-results",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "EDA94 - Leaving Certificate Candidates and Results Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/eda94-leaving-certificate-candidates-and-results",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/eda94-leaving-certificate-candidates-and-results",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Download available",
-          "Provider link",
-          "Wayback link",
-          "Election provenance"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Irish election source/enrichment data",
-          "Ireland / unspecified",
-          "election",
-          "EDA94 - Leaving Certificate Candidates and Results"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text",
-            "spreadsheet"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/eda94-leaving-certificate-candidates-and-results",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/eda94-leaving-certificate-candidates-and-results",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Department of Education and Youth, data.gov.ie, EDA94 - Leaving Certificate Candidates and Results.",
-        "fullCitation": "Department of Education and Youth, data.gov.ie. EDA94 - Leaving Certificate Candidates and Results. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/eda94-leaving-certificate-candidates-and-results. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/eda94-leaving-certificate-candidates-and-results.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 2181,
-            "stagingId": "medium-prep:2-irish-election-source-enrichment-data:eda94-leaving-certificate-candidates-and-results:02180",
-            "title": "EDA94 - Leaving Certificate Candidates and Results",
-            "cleanTitle": "EDA94 - Leaving Certificate Candidates and Results",
-            "provider": "data.gov.ie",
-            "organisation": "Department of Education and Youth",
-            "category": "tabular",
-            "roiGroup": "2. Irish election source/enrichment data",
-            "groupTitle": "Irish election source/enrichment data",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "election",
-            "featureUnit": "features",
-            "formats": [
-              "CSV",
-              "JSON-STAT",
-              "PX",
-              "XLSX"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": true,
-            "proposedAction": "enrich-existing-election",
-            "proposedPlacement": "Elections/source provenance",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "CSV",
-                "JSON-STAT",
-                "PX",
-                "XLSX"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/eda94-leaving-certificate-candidates-and-results",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/eda94-leaving-certificate-candidates-and-results",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "election-model-merge-and-provenance-review: election staging action assigned",
-              "needs-provider-context-review: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:eda94-leaving-certificate-candidates-and-results:02180",
-          "sourceRowNumber": 2181,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish election source/provenance enrichment",
-          "proposedAction": "enrich-existing-election",
-          "proposedPlacement": "Elections/source provenance",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "JSON-STAT",
-              "PX",
-              "XLSX"
-            ]
-          },
-          "confidence": 60,
-          "resolvedBlockers": [
-            "election-model-merge-and-provenance-review: election staging action assigned",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Elections/source provenance",
-        "relationship": "election-source-enrichment",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Irish election source/enrichment data",
-          "election",
-          "features",
-          "Ireland / unspecified",
-          "enrich-existing-election",
-          "CSV",
-          "JSON-STAT",
-          "PX",
-          "XLSX"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-eda94-leaving-certificate-candidates-and-results-02180"
       }
     }
   ]
