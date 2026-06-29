@@ -3,11 +3,11 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
 const ROOT = process.cwd();
-const INPUT = path.join(ROOT, 'tasks', 'medium-priority-publication-prep-2026-06-25', 'row-staging-records.json');
+const INPUT = path.join(ROOT, 'data', 'review-inputs', 'medium-priority-publication-prep-2026-06-25', 'row-staging-records.json');
 const OUTPUT = path.join(ROOT, 'data', 'database', 'medium-priority-publication-sources.json');
-const EXPECTED_TOTAL = 2347;
+const EXPECTED_TOTAL = 2346;
 const EXPECTED_READY = 1121;
-const EXPECTED_REVIEW = 1226;
+const EXPECTED_REVIEW = 1225;
 
 main();
 
@@ -43,9 +43,9 @@ function main() {
     schemaVersion: 1,
     generatedAt: new Date().toISOString(),
     generatedFrom: {
-      stagingRecords: 'tasks/medium-priority-publication-prep-2026-06-25/row-staging-records.json',
-      stagingSummary: 'tasks/medium-priority-publication-prep-2026-06-25/summary.md',
-      stagingValidation: 'tasks/medium-priority-publication-prep-2026-06-25/validation-report.json'
+      stagingRecords: 'data/review-inputs/medium-priority-publication-prep-2026-06-25/row-staging-records.json',
+      stagingSummary: 'data/review-inputs/medium-priority-publication-prep-2026-06-25/README.md',
+      stagingValidation: 'data/review-inputs/medium-priority-publication-prep-2026-06-25/validation-report.json'
     },
     publicationPolicy: {
       scope: 'Public Browse/Books/Tables/Sources source and provenance records for the five approved medium-priority D: drive queues.',

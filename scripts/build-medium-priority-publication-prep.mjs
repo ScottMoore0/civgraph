@@ -2,9 +2,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const ROOT = process.cwd();
-const TASKS = path.join(ROOT, 'tasks');
-const INPUT = path.join(TASKS, 'd-drive-content-blocker-review-2026-06-24.csv');
-const OUT_DIR = path.join(TASKS, 'medium-priority-publication-prep-2026-06-25');
+const REVIEW_INPUT_DIR = path.join(ROOT, 'data', 'review-inputs');
+const INPUT = path.join(REVIEW_INPUT_DIR, 'content-blocker-review-2026-06-24.csv');
+const OUT_DIR = path.join(REVIEW_INPUT_DIR, 'medium-priority-publication-prep-2026-06-25');
 const TARGET_GROUPS = new Set([
   '2. Irish election source/enrichment data',
   '3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA',
@@ -17,7 +17,7 @@ const EXPECTED_COUNTS = new Map([
   ['2. Irish election source/enrichment data', 176],
   ['3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA', 270],
   ['4. Open Data NI boundary and statistical-geography files', 93],
-  ['5. Local authority planning/property/open-data layers', 1638],
+  ['5. Local authority planning/property/open-data layers', 1637],
   ['7. Transport, roads, infrastructure, public assets', 170],
 ]);
 
@@ -118,6 +118,7 @@ function splitList(value, separator = '|') {
 
 function scrubPublicText(value) {
   return String(value ?? '')
+    .replace(/\[local source path withheld\]/gi, 'Local standalone source')
     .replace(/\b[A-Z]:\\[^\s|]+/g, '[local source path withheld]')
     .replace(/\bD:\\\s*standalone\b/gi, 'Local standalone source')
     .replace(/\bD:\s*standalone\b/gi, 'Local standalone source')

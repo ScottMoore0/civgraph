@@ -3,10 +3,11 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
 const ROOT = process.cwd();
+const REVIEW_INPUT_DIR = path.join(ROOT, 'data', 'review-inputs');
 const ENRICHMENTS_PATH = path.join(ROOT, 'data', 'database', 'already-on-site-enrichments.json');
-const RANKINGS_PATH = path.join(ROOT, 'tasks', 'd-drive-remaining-decision-packs-2026-06-27', 'already-on-site-review-rankings.json');
-const LICENCE_RISK_PATH = path.join(ROOT, 'tasks', 'd-drive-remaining-decision-packs-2026-06-27', 'licence-risk-review.json');
-const OUT_DIR = path.join(ROOT, 'tasks', 'already-on-site-remaining-full-review-2026-06-27');
+const RANKINGS_PATH = path.join(REVIEW_INPUT_DIR, 'remaining-decision-packs-2026-06-27', 'already-on-site-review-rankings.json');
+const LICENCE_RISK_PATH = path.join(REVIEW_INPUT_DIR, 'remaining-decision-packs-2026-06-27', 'licence-risk-review.json');
+const OUT_DIR = path.join(REVIEW_INPUT_DIR, 'already-on-site-remaining-full-review-2026-06-27');
 
 const ROW_OVERRIDES = new Map([
   [945, {

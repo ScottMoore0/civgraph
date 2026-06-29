@@ -1,3 +1,22 @@
+# Enrichment Pipeline Portability Pass
+
+- [ ] Restore or reproduce the already-on-site enrichment review input.
+  - Task: locate `tasks/already-on-site-enrichment-review-2026-06-24.csv` in local ignored files, git history/stashes, backups, or the external source drive; if absent, identify and run the deterministic source script that rebuilds it.
+  - Verification plan: prove `node scripts/build-already-on-site-enrichment-records.mjs` reads from a tracked or documented reproducible input without relying on ignored local `tasks/` state.
+- [ ] Make ignored generator inputs reproducible.
+  - Task: audit scripts that read git-ignored `tasks/` files and either move sanitized copies into tracked data/review-input locations or add deterministic regeneration from documented external source inputs.
+  - Guardrails: do not commit local filesystem paths, address-granular datasets, or the withheld sensitive review row; keep raw/local artifacts outside public outputs.
+  - Verification plan: run focused sensitive-term/local-path scans over tracked additions and generated sidecars.
+- [ ] Document the data source chain.
+  - Task: add `docs/data-pipeline.md` listing each portable input artifact, its producer, the external source location category, and the consuming generator.
+  - Verification plan: confirm the doc avoids concrete local drive paths while still naming backup-worthy source holdings.
+- [ ] Apply the approved Tailte/OSI national-geospatial review batch.
+  - Task: add the 105 approved review rows to `USER_APPROVED_REVIEW_ONLY_ROWS` and route the 100 boundary-variant rows, excluding rows 26, 51, 52, 244, and 710, through `STATUTORY_BOUNDARY_FAMILY_ROWS`.
+  - Verification plan: report before/after applied and review counts from regenerated enrichment output.
+- [ ] Run the requested round-trip verification.
+  - Task: run `node scripts/build-already-on-site-enrichment-records.mjs`, `node scripts/build-browse-indexes.mjs`, enrichment/external/peatland validators as applicable, sensitive scans, and `npm run check`.
+  - Verification plan: record command results and any non-blocking warnings in this section before final handoff.
+
 # Civgraph Semantic Graph First Production Slice
 
 - [ ] Add the first generated semantic graph slice.

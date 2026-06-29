@@ -1,0 +1,57 @@
+{
+  "generatedAt": "2026-06-29T20:11:38.993Z",
+  "input": "data\\review-inputs\\already-on-site-source-review-2026-06-24.csv",
+  "outputs": [
+    "data\\review-inputs\\already-on-site-enrichment-review-2026-06-24.csv",
+    "data\\review-inputs\\already-on-site-enrichment-review-2026-06-24.md",
+    "data\\review-inputs\\already-on-site-enrichment-summary-2026-06-24.json"
+  ],
+  "totalRows": 1112,
+  "bySafetyClass": {
+    "variant/source enrichment review": 873,
+    "context-overlap review only": 143,
+    "safe metadata enrichment candidate": 66,
+    "high-confidence enrichment candidate": 25,
+    "weak feature-family match": 5
+  },
+  "byRoiGroup": {
+    "5. Local authority planning/property/open-data layers": 424,
+    "6. Environment, water, geology, protected sites, habitat and marine datasets": 362,
+    "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA": 195,
+    "4. Open Data NI boundary and statistical-geography files": 56,
+    "1. CSO/NISRA census and statistical data": 29,
+    "2. Irish election source/enrichment data": 28,
+    "7. Transport, roads, infrastructure, public assets": 12,
+    "9. Large raster/imagery/LiDAR/point-cloud/3D-style content": 5,
+    "10. Bulk low-priority data.gov.ie/CSO tables": 1
+  },
+  "byProvider": {
+    "data.gov.ie": 628,
+    "Open Data NI": 259,
+    "Tailte/OSI/data.gov.ie": 186,
+    "Tellus airborne standalone": 23,
+    "[local source path withheld]": 12,
+    "EONI standalone": 2,
+    "OSNI Fusion standalone": 2
+  },
+  "byEnrichmentType": {
+    "download/source-file metadata": 1112,
+    "source/provenance metadata": 1112,
+    "scale/generalisation/edition metadata": 1046,
+    "alternate-format metadata": 928,
+    "geospatial source-format metadata": 903,
+    "schema/table/attribute metadata": 901,
+    "raw-source viewport candidate metadata": 823,
+    "geometry lineage and boundary-version metadata": 757,
+    "date/version metadata": 397,
+    "census/statistical provenance and concept context": 281,
+    "election geography/source provenance": 100,
+    "large raster/imagery preview or download metadata": 80
+  },
+  "recommendedPolicy": {
+    "exactMatches": "Use for provenance/download/source metadata enrichment on existing records only.",
+    "highConfidenceMatches": "Confirm target IDs, then enrich existing source/map records; no duplicate parent records.",
+    "familyMatches": "Review as source, edition, scale, schema, or child/variant evidence before applying.",
+    "contextOverlaps": "Do not apply automatically; put into curator review batches."
+  }
+}

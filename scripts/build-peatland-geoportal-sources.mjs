@@ -3,7 +3,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
 const ROOT = process.cwd();
-const INPUT = path.join(ROOT, 'tasks', 'peatland-geoportal-duplicate-review-2026-06-25.csv');
+const INPUT = path.join(ROOT, 'data', 'review-inputs', 'peatland-geoportal-duplicate-review-2026-06-25.csv');
 const OUTPUT = path.join(ROOT, 'data', 'database', 'peatland-geoportal-sources.json');
 
 const PORTAL_URL = 'https://peatlands-geoportal-queensub.hub.arcgis.com/';
@@ -56,7 +56,7 @@ function main() {
   const output = {
     schemaVersion: 1,
     generatedAt: new Date().toISOString(),
-    sourceReviewCsv: 'tasks/peatland-geoportal-duplicate-review-2026-06-25.csv',
+    sourceReviewCsv: 'data/review-inputs/peatland-geoportal-duplicate-review-2026-06-25.csv',
     sourcePortal: {
       title: 'Peatland Geoportal',
       provider: ['Queen\'s University Belfast', 'DAERA', 'ArcGIS Hub'],

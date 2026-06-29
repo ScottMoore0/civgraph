@@ -3,10 +3,11 @@ import path from 'node:path';
 
 const ROOT = process.cwd();
 const DATE = '2026-06-24';
-const INPUT = path.join(ROOT, 'tasks', `d-drive-already-on-site-review-${DATE}.csv`);
-const OUT_CSV = path.join(ROOT, 'tasks', `already-on-site-enrichment-review-${DATE}.csv`);
-const OUT_MD = path.join(ROOT, 'tasks', `already-on-site-enrichment-review-${DATE}.md`);
-const OUT_JSON = path.join(ROOT, 'tasks', `already-on-site-enrichment-summary-${DATE}.json`);
+const REVIEW_INPUT_DIR = path.join(ROOT, 'data', 'review-inputs');
+const INPUT = path.join(REVIEW_INPUT_DIR, `already-on-site-source-review-${DATE}.csv`);
+const OUT_CSV = path.join(REVIEW_INPUT_DIR, `already-on-site-enrichment-review-${DATE}.csv`);
+const OUT_MD = path.join(REVIEW_INPUT_DIR, `already-on-site-enrichment-review-${DATE}.md`);
+const OUT_JSON = path.join(REVIEW_INPUT_DIR, `already-on-site-enrichment-summary-${DATE}.json`);
 
 function parseCsv(text) {
   const rows = [];
@@ -390,7 +391,7 @@ function main() {
 
 ## Scope
 
-This is a research-only review of the ${review.length} rows in \`${path.relative(ROOT, INPUT).replaceAll('\\', '/')}\`.
+This is a research-only review of the ${review.length} tracked sanitized rows in \`${path.relative(ROOT, INPUT).replaceAll('\\', '/')}\`.
 
 The goal is to identify what can be extracted from already-on-site or strong duplicate-match source rows without creating duplicate public records. No website catalogue/runtime records, R2/CDN assets, or Internet Archive uploads are changed by this script.
 
@@ -450,6 +451,7 @@ ${markdownTable(reviewExamples, ['Safety', 'Provider', 'Title', 'Formats', 'Acti
 - Machine-readable summary: \`${path.relative(ROOT, OUT_JSON).replaceAll('\\', '/')}\`
 `;
 
+  fs.mkdirSync(REVIEW_INPUT_DIR, { recursive: true });
   fs.writeFileSync(OUT_MD, md);
   fs.writeFileSync(OUT_JSON, `${JSON.stringify(summary, null, 2)}\n`);
   console.log(`Wrote ${path.relative(ROOT, OUT_CSV)}`);

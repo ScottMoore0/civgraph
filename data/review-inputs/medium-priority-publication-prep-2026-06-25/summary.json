@@ -1,0 +1,55 @@
+{
+  "generatedAt": "2026-06-29T20:11:40.671Z",
+  "input": "data\\review-inputs\\content-blocker-review-2026-06-24.csv",
+  "outputDir": "data\\review-inputs\\medium-priority-publication-prep-2026-06-25",
+  "totalRows": 2346,
+  "groupCounts": {
+    "5. Local authority planning/property/open-data layers": 1637,
+    "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA": 270,
+    "2. Irish election source/enrichment data": 176,
+    "7. Transport, roads, infrastructure, public assets": 170,
+    "4. Open Data NI boundary and statistical-geography files": 93
+  },
+  "actionCounts": {
+    "local-authority-batch-review": 1470,
+    "hold-special-format": 288,
+    "transport-public-asset-batch-review": 168,
+    "source-download-only": 118,
+    "enrich-existing-election": 96,
+    "enrich-existing-source": 95,
+    "variant-child-map": 67,
+    "new-interactive-map": 44
+  },
+  "approvalStateCounts": {
+    "ready-with-residual-review": 1225,
+    "ready-for-approval": 1121
+  },
+  "providerCounts": {
+    "data.gov.ie": 1972,
+    "Open Data NI": 188,
+    "Tailte/OSI/data.gov.ie": 180,
+    "Local standalone source": 5,
+    "EONI standalone": 1
+  },
+  "topicCounts": {
+    "source-data": 1316,
+    "transport-public-asset": 341,
+    "boundary": 264,
+    "planning-property": 246,
+    "election": 179
+  },
+  "residualBlockerRows": 1225,
+  "readyForApprovalRows": 1121,
+  "batches": 45,
+  "validation": {
+    "status": "passed",
+    "errors": [],
+    "checks": [
+      "target group counts match approved queue counts",
+      "each row has stable ID/title/action",
+      "no local Windows paths exposed in generated staging records",
+      "provider URLs generated for data.gov.ie and Open Data NI rows",
+      "all rows remain staged-only-not-published"
+    ]
+  }
+}

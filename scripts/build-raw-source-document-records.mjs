@@ -3,7 +3,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
 const ROOT = process.cwd();
-const INPUT = path.join(ROOT, 'tasks', 'd-drive-content-blocker-review-2026-06-24.csv');
+const INPUT = path.join(ROOT, 'data', 'review-inputs', 'content-blocker-review-2026-06-24.csv');
 const OUTPUT = path.join(ROOT, 'data', 'database', 'raw-source-documents.json');
 const TARGET_GROUP = '8. Raw source-document corpus';
 
@@ -34,7 +34,7 @@ function main() {
   const output = {
     schemaVersion: 1,
     generatedAt: new Date().toISOString(),
-    sourceReview: 'internal source review corpus',
+    sourceReview: 'data/review-inputs/content-blocker-review-2026-06-24.csv',
     policy: {
       placement: 'Books / Tables / Sources',
       canonicalLinkOrder: ['current provider URL', 'Wayback URL when available', 'Internet Archive mirror URL when available'],

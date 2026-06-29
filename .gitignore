@@ -294,3 +294,10 @@ data/provider-mirror-audit/
 scripts/audit-provider-mirrors.mjs
 scripts/audit-shapefile-site-coverage.mjs
 scripts/render-poster-assets.mjs
+
+# Large raw review corpora: kept local for regeneration, not committed.
+# Only upstream producers (not read by `npm run check`); their derived
+# outputs are tracked. Restore from the private quarantine archive and run
+# scripts/sanitize-review-inputs.mjs to rebuild. See docs/data-pipeline.md.
+data/review-inputs/content-blocker-review-2026-06-24.csv
+data/review-inputs/already-on-site-source-review-2026-06-24.csv
