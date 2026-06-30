@@ -32,6 +32,10 @@ const REGISTER_INTEREST_FILTERS = [
 ];
 
 const GRAPH_STATEMENT_PROPERTY_ORDER = [
+  'cg:property:name',
+  'cg:property:date',
+  'cg:property:year',
+  'cg:property:instance-of',
   'cg:property:register-record',
   'cg:property:declared-interest',
   'cg:property:has-candidature',
@@ -44,12 +48,31 @@ const GRAPH_STATEMENT_PROPERTY_ORDER = [
   'cg:property:appeared-in-election',
   'cg:property:elected-body',
   'cg:property:political-office',
-  'cg:property:date',
   'cg:property:constituency',
-  'cg:property:source',
-  'cg:property:instance-of',
-  'cg:property:name'
+  'cg:property:source'
 ];
+
+// Properties pinned into the header as "at a glance" facts, in display order.
+// Deliberately the concise, identifying statements — not the bulky relational
+// lists (candidatures, register records) that belong in the statement body.
+const GRAPH_HEADER_PINNED_PROPERTIES = [
+  'cg:property:instance-of',
+  'cg:property:political-office',
+  'cg:property:member-of-political-party',
+  'cg:property:elected-body',
+  'cg:property:constituency',
+  'cg:property:date'
+];
+
+// Statement properties that are maintenance/system wiring rather than facts a
+// lay reader needs up front (URLs, file-format records). They render inside a
+// collapsed sub-section of the Semantic statements panel.
+const GRAPH_TECHNICAL_PROPERTIES = new Set([
+  'cg:property:interactive-url',
+  'cg:property:browse-url',
+  'cg:property:source-file',
+  'cg:property:download'
+]);
 
 const TECHNICAL_FIELD_KEYS = new Set([
   'anchorUrl',
@@ -140,6 +163,10 @@ const PUBLIC_METADATA_KEYS = new Set([
   'years'
 ]);
 
+// Per-map feature attribute pages live on R2 (data.civgraph.net), sharded into
+// pages and fetched lazily by the map detail page only — never by the homepage.
+const MAP_FEATURES_BASE = 'https://data.civgraph.net/data/browse/map-features';
+
 const state = {
   manifest: null,
   isHome: true,
@@ -148,6 +175,7 @@ const state = {
   query: '',
   indexes: new Map(),
   details: new Map(),
+  featureTables: {},
   graph: {
     manifest: null,
     browseMapping: null,
@@ -218,6 +246,13 @@ function bindEvents() {
       event.preventDefault();
       const target = document.querySelector(portalJump.getAttribute('href'));
       target?.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+      return;
+    }
+
+    const loadMore = event.target.closest('[data-feature-load-more]');
+    if (loadMore) {
+      event.preventDefault();
+      handleFeatureLoadMore(loadMore);
       return;
     }
 
@@ -745,19 +780,40 @@ async function renderDetail(type, indexItem) {
   state.currentDetail = { type, item };
   setHero(config, item);
   const isMap = type === 'maps';
-  const graphPanel = await renderGraphStatementsPanel(type, item, { collapsed: true });
+  // Load the entity's statements once and reuse them for both the header (pinned
+  // facts) and the statements panel, so the page is a single view over the graph.
+  let graph = null;
+  try {
+    graph = await loadGraphStatementsForBrowseItem(type, item);
+  } catch (error) {
+    console.warn('Graph statements could not be loaded for Browse detail page.', error);
+  }
+  const pinnedRows = pinnedStatementRows(graph?.statements || []);
+  // Maps fold their downloadable files into the statements panel as a
+  // "Downloads & files" statement group, so the whole map body is one semantic
+  // view rather than a separate Downloads section.
+  const fileLinks = isMap ? collectFileLinks(item) : [];
+  // Tier 3: the semantic statements are the spine of the page, so they render
+  // expanded and high up. The register-interests page keeps them collapsed
+  // because it has its own purpose-built summary above them.
+  const graphPanel = await renderGraphStatementsPanel(type, item, { collapsed: type === 'register-interests', graph, fileLinks });
   if (type === 'register-interests') {
     els.results.innerHTML = renderRegisterInterestDetailPage(config, item, graphPanel);
     return;
   }
+  // Map layers get a table of the features that comprise them.
+  const featuresPanel = isMap ? await renderMapFeaturesTable(item, graph?.entityId) : '';
+  // Maps render their own header (thumbnail beside the title), so the generic
+  // hero would just duplicate the title — blank it for map detail pages.
+  if (isMap) els.hero.innerHTML = '';
   els.results.innerHTML = `
     <div class="browse-detail browse-detail--reader${isMap ? ' browse-detail--map' : ''}">
+      ${isMap ? renderMapHeaderPanel(item) : ''}
       ${renderDetailActions(config, item)}
       ${renderContributorDetailActions(type, item)}
-      ${isMap ? renderMapLeadPanel(item) : renderReaderSummaryPanel(type, item)}
-      ${isMap ? renderMapMetadataPanel(item) : renderMetadataPanel(type, item, { collapsed: true })}
-      ${isMap ? renderMapSourcePanel(item) : ''}
+      ${isMap ? '' : renderHeaderPanel(type, item, pinnedRows)}
       ${graphPanel}
+      ${featuresPanel}
       ${isMap ? '' : renderLinksPanel(item, { collapsed: true })}
       ${renderRelatedPanel(type, item)}
       ${renderTechnicalPanel(type, item)}
@@ -785,17 +841,43 @@ function renderContributorDetailActions(type, item) {
   `;
 }
 
-function renderReaderSummaryPanel(type, item) {
-  const rows = readerSummaryRows(type, item);
+// Tier 2 + 3: one header panel whose pinned facts are a projection of the
+// entity's semantic statements when the record is graph-backed. Statement facts
+// become the headline; the curated catalogue fields (and any other secondary
+// metadata) move into a single "More fields" disclosure. When the record has no
+// statements, the curated reader summary is the pinned fallback so non-graph
+// items still get a header.
+function renderHeaderPanel(type, item, pinnedRows = []) {
+  const curatedPinned = readerSummaryRows(type, item);
+  // Only let statements drive the header when they yield a substantive set of
+  // facts; sparse catalogue records keep their more informative curated header.
+  const usingStatements = pinnedRows.length >= 2;
+  const primary = usingStatements ? pinnedRows : curatedPinned;
+  const primaryLabels = summaryLabelSet(primary);
+  const secondarySource = usingStatements
+    ? [...curatedPinned, ...metadataRows(type, item)]
+    : metadataRows(type, item);
+  const secondary = dedupeRows(secondarySource)
+    .filter(([label, value]) => !isEmptyValue(value) && !primaryLabels.has(String(label).toLowerCase()));
   const summary = readerSummaryText(type, item);
   return `
     <section class="browse-detail__panel browse-reader-summary">
       <div class="browse-detail__body">
         ${summary ? `<p class="browse-reader-summary__lede">${escapeHtml(summary)}</p>` : ''}
-        ${renderDefinitionRows(rows, 'browse-reader-facts')}
+        ${renderDefinitionRows(primary, 'browse-reader-facts')}
         ${renderBadges(item)}
+        ${secondary.length ? renderMoreFields(secondary) : ''}
       </div>
     </section>
+  `;
+}
+
+function renderMoreFields(rows, label = 'More fields') {
+  return `
+    <details class="browse-more-fields">
+      <summary>${escapeHtml(label)}</summary>
+      ${renderDefinitionRows(rows)}
+    </details>
   `;
 }
 
@@ -848,9 +930,7 @@ function readerSummaryRows(type, item) {
       ['Type', item.type],
       ['Category', item.category],
       ['Provider', joinList(item.provider)],
-      ['Date', item.date],
-      ['Downloads', item.downloads?.length],
-      ['Source files', item.sourceFiles?.length]
+      ['Date', item.date]
     ];
   }
   return [
@@ -1112,7 +1192,9 @@ function renderOverviewPanel(type, item) {
   `;
 }
 
-function renderMetadataPanel(type, item, options = {}) {
+// Curated secondary fields for a record, as data. The header panel pins the
+// headline subset and tucks the rest behind its "More fields" disclosure.
+function metadataRows(type, item) {
   const rows = [
     ['Status', item.status],
     ['Keywords', joinList(item.keywords)]
@@ -1158,55 +1240,25 @@ function renderMetadataPanel(type, item, options = {}) {
       ['Parties', joinList(item.parties)],
       ['Election dates', joinList(item.electionDates)]
     );
-  } else if (type === 'sources') {
-    rows.push(
-      ['Source files', item.sourceFiles?.length],
-      ['References', item.references?.length],
-      ['Downloads', item.downloads?.length]
-    );
   }
-  const body = `<div class="browse-detail__body">${renderDefinitionRows(rows)}</div>`;
-  if (options.collapsed) {
-    return renderCollapsiblePanel(options.title || 'Additional details', body, options.summary || 'Secondary fields and generated metadata', {
-      className: 'browse-detail__panel--supporting'
-    });
-  }
-  return `
-    <section class="browse-detail__panel">
-      <h2>Details</h2>
-      ${body}
-    </section>
-  `;
+  return rows;
 }
 
-function renderMapLeadPanel(item) {
-  const summaryRows = [
-    ['Category', item.category],
-    ['Group', item.group],
-    ['Provider', joinList(item.provider)],
-    ['Date / years', item.date || joinList(item.years)],
-    ['Status', item.status]
-  ];
+// Map page header: thumbnail box (with asset name + link) on the left; title,
+// entry type, and year/date on the right. Every other attribute is a semantic
+// statement in the body below, so nothing else lives here.
+function renderMapHeaderPanel(item) {
+  const dateLabel = item.subtitle || (item.date !== undefined && item.date !== null && item.date !== '' ? String(item.date) : '') || joinList(item.years);
   return `
-    <section class="browse-detail__panel browse-map-lead" aria-labelledby="browse-map-overview-heading">
+    <section class="browse-detail__panel browse-map-lead browse-map-header">
       <div class="browse-map-lead__preview">
         ${renderThumbnail(item, 'detail')}
         ${renderMapThumbnailNote(item)}
       </div>
       <div class="browse-map-lead__content">
-        <h2 id="browse-map-overview-heading" class="browse-map-lead__heading">Overview</h2>
-        ${item.description ? `<p class="browse-map-lead__summary">${escapeHtml(item.description)}</p>` : ''}
-        <dl class="browse-map-facts">
-          ${summaryRows.filter(([, value]) => value !== undefined && value !== null && value !== '').map(([label, value]) => `
-            <div class="browse-map-fact">
-              <dt>${escapeHtml(label)}</dt>
-              <dd>${escapeHtml(String(value))}</dd>
-            </div>
-          `).join('')}
-        </dl>
-        <div class="browse-map-lead__badges">
-          ${renderBadges(item)}
-        </div>
+        <p class="browse-kicker">Map</p>
+        <h1 class="browse-title browse-map-header__title">${escapeHtml(item.title || '')}</h1>
+        ${dateLabel ? `<p class="browse-map-header__subtitle">${escapeHtml(String(dateLabel))}</p>` : ''}
       </div>
     </section>
   `;
@@ -1229,73 +1281,213 @@ function renderMapThumbnailNote(item) {
   `;
 }
 
-function renderMapMetadataPanel(item) {
-  const groups = [
-    ['Map', [
-      ['Layer title', item.title || item.name],
-      ['Status', item.status]
-    ]],
-    ['Catalogue', [
-      ['Parent card', item.parentCard],
-      ['Category', item.category],
-      ['Group', item.group],
-      ['Keywords', joinList(item.keywords)]
-    ]]
-  ];
+// Merge an item's downloadable artifacts into one list, de-duplicated by URL.
+// `downloads` and `sourceFiles` are identical for most maps (same file listed
+// twice), so collapsing by URL shows each file once; where they genuinely
+// differ (e.g. original upstream formats vs the converted CivGraph file) every
+// distinct file is preserved. `downloads` is taken first so its label wins.
+function collectFileLinks(item) {
+  const seen = new Set();
+  const out = [];
+  for (const link of [...(item.downloads || []), ...(item.sourceFiles || [])]) {
+    if (!link) continue;
+    const key = link.url || `label:${link.label || link.name || ''}`;
+    if (!key || seen.has(key)) continue;
+    seen.add(key);
+    out.push(link);
+  }
+  return out;
+}
+
+// A "Downloads & files" statement group: the actual downloadable artifacts,
+// rendered inside the Semantic statements panel rather than as a separate
+// section. Each file is a single clickable line (the filename).
+function renderDownloadStatementGroup(links) {
   return `
-    <section class="browse-detail__panel browse-map-metadata-panel">
-      <h2>Metadata</h2>
-      <div class="browse-detail__body browse-map-info-groups">
-        ${groups.map(([title, rows]) => renderMapInfoGroup(title, rows)).join('')}
+    <div class="browse-graph-group">
+      <div class="browse-graph-group__property">Downloads &amp; files</div>
+      <div class="browse-graph-group__values">
+        ${links.map((link) => {
+          const label = fileName(link.url) || link.label || link.name || link.type || 'File';
+          return `
+            <div class="browse-graph-statement">
+              <div class="browse-graph-statement__value">${link.url ? `<a href="${escapeAttr(link.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)}</a>` : escapeHtml(label)}</div>
+            </div>`;
+        }).join('')}
       </div>
-    </section>
+    </div>
   `;
 }
 
-function renderMapInfoGroup(title, rows) {
-  const filteredRows = rows.filter(([, value]) => value !== undefined && value !== null && value !== '');
-  if (!filteredRows.length) return '';
-  return `
-    <section class="browse-map-info-group">
-      <h3>${escapeHtml(title)}</h3>
-      <dl class="browse-map-info-list">
-        ${filteredRows.map(([label, value]) => `
-          <div>
-            <dt>${escapeHtml(label)}</dt>
-            <dd>${escapeHtml(String(value))}</dd>
-          </div>
-        `).join('')}
-      </dl>
-    </section>
-  `;
-}
+// Features table for a map layer. Prefers the full per-feature attributes
+// extracted from the source .fgb (data/browse/map-features/<id>.json, fetched
+// lazily only on this page); falls back to the sampled graph features (name +
+// bounding box) when no attribute file exists.
+async function renderMapFeaturesTable(item, entityId) {
+  let related;
+  try {
+    related = entityId ? await loadGraphRelatedForEntity(entityId) : null;
+  } catch (error) {
+    related = null;
+  }
+  const features = normalizeArray(related?.reverse).filter((row) =>
+    row.propertyId === 'cg:property:feature-in-layer' && (row.subjectTypeLabels || []).includes('Geographic feature'));
 
-function renderMapSourcePanel(item) {
-  const groups = [
-    ['Downloads', item.downloads || []],
-    ['Source files', item.sourceFiles || []],
-    ['References', item.references || []]
-  ].filter(([, links]) => links.length);
-  if (!groups.length) return '';
+  // Preferred: sharded per-feature attribute pages on R2, fetched lazily.
+  let meta = null;
+  try {
+    meta = await loadJson(`${MAP_FEATURES_BASE}/${encodeURIComponent(item.id)}/meta.json`);
+  } catch (error) {
+    meta = null;
+  }
+  if (meta && meta.total) {
+    const table = await renderMapFeaturesFromShards(item.id, meta, features);
+    if (table) return table;
+  }
+
+  if (!features.length) return '';
+  const MAX = 60;
+  const shown = features.slice(0, MAX);
+  const attrMaps = await Promise.all(shown.map(async (feature) => {
+    try {
+      const detail = await loadGraphStatementsForEntity(feature.subjectId);
+      const attrs = {};
+      for (const statement of detail.statements || []) {
+        if (['cg:property:name', 'cg:property:instance-of', 'cg:property:feature-in-layer'].includes(statement.propertyId)) continue;
+        attrs[statement.propertyLabel || statement.propertyId] = graphStatementValueText(statement);
+      }
+      return attrs;
+    } catch (error) {
+      return {};
+    }
+  }));
+  const columns = [];
+  for (const attrs of attrMaps) for (const key of Object.keys(attrs)) if (!columns.includes(key)) columns.push(key);
+  const headerRow = `<tr><th>Thumbnail</th><th>Feature</th>${columns.map((col) => `<th>${escapeHtml(col)}</th>`).join('')}</tr>`;
+  const bodyRows = shown.map((feature, index) => {
+    const link = `<a href="#/entities/${encodeURIComponent(feature.subjectId)}" data-browse-link>${escapeHtml(feature.subjectLabel || feature.subjectId)}</a>`;
+    const cells = columns.map((col) => {
+      const raw = attrMaps[index][col] || '';
+      return `<td>${isBoundingBoxColumn(col) ? renderBoundingBoxCell(raw) : escapeHtml(raw)}</td>`;
+    }).join('');
+    return `<tr><td class="browse-feature-thumb"></td><td>${link}</td>${cells}</tr>`;
+  }).join('');
+  const more = features.length > shown.length
+    ? `<p class="browse-graph__more">Showing the first ${formatNumber(shown.length)} of ${formatNumber(features.length)} features.</p>`
+    : '';
   return `
     <section class="browse-detail__panel">
-      <h2>Sources, References, Downloads</h2>
-      <div class="browse-link-groups">
-        ${groups.map(([label, links]) => `
-          <section class="browse-link-group">
-            <h3>${escapeHtml(label)}</h3>
-            <ul>
-              ${links.map((link) => `
-                <li>
-                  <span>${escapeHtml(link.label || link.name || link.type || 'Source')}</span>
-                  ${link.url ? `<a href="${escapeAttr(link.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(fileName(link.url) || link.url)}</a>` : ''}
-                </li>
-              `).join('')}
-            </ul>
-          </section>
-        `).join('')}
+      <h2>Features in this layer</h2>
+      <div class="browse-table-wrap">
+        <table class="browse-table browse-table--compact browse-features-table">
+          <thead>${headerRow}</thead>
+          <tbody>${bodyRows}</tbody>
+        </table>
       </div>
+      ${more}
     </section>
+  `;
+}
+
+// Render the features table from the sharded attribute pages on R2. The first
+// page is fetched now; further pages load on demand via the "Load more" button,
+// so even a 100k+ feature layer never fetches or renders more than is scrolled
+// to. Each source property is a column, the bounding box uses the rounded/
+// expandable cell, and each feature links to its graph entity when one exists.
+async function renderMapFeaturesFromShards(mapId, meta, graphFeatures) {
+  const base = `${MAP_FEATURES_BASE}/${encodeURIComponent(mapId)}`;
+  let firstPage;
+  try {
+    firstPage = await loadJson(`${base}/0.json`);
+  } catch (error) {
+    return '';
+  }
+  const linkBySlug = {};
+  for (const feature of normalizeArray(graphFeatures)) {
+    const key = feature.subjectSlug || slugify(feature.subjectLabel || '');
+    if (key && !linkBySlug[key]) linkBySlug[key] = feature.subjectId;
+  }
+  const nameKeys = new Set(['name', 'Name', 'NAME']);
+  const attrColumns = normalizeArray(meta.propertyKeys).filter((key) => !nameKeys.has(key));
+  const ctx = { base, attrColumns, linkBySlug, pageCount: meta.pageCount, total: meta.total, loaded: 0, nextPage: 1 };
+  state.featureTables[mapId] = ctx;
+  const rows = normalizeArray(firstPage).map((feature) => featureRowHtml(feature, ctx)).join('');
+  ctx.loaded = normalizeArray(firstPage).length;
+  const headerRow = `<tr><th>Thumbnail</th><th>Feature</th><th>Bounding box</th>${attrColumns.map((col) => `<th>${escapeHtml(col)}</th>`).join('')}</tr>`;
+  const tbodyId = `feature-rows-${slugify(mapId)}`;
+  const footer = ctx.nextPage < ctx.pageCount
+    ? `<div class="browse-feature-more"><button type="button" class="browse-btn browse-btn--small" data-feature-load-more data-feature-map="${escapeAttr(mapId)}">Load more (${formatNumber(ctx.loaded)} of ${formatNumber(ctx.total)})</button></div>`
+    : (ctx.total > ctx.loaded ? `<p class="browse-graph__more">Showing ${formatNumber(ctx.loaded)} of ${formatNumber(ctx.total)} features.</p>` : '');
+  return `
+    <section class="browse-detail__panel">
+      <h2>Features in this layer</h2>
+      <div class="browse-table-wrap">
+        <table class="browse-table browse-table--compact browse-features-table">
+          <thead>${headerRow}</thead>
+          <tbody id="${tbodyId}">${rows}</tbody>
+        </table>
+      </div>
+      ${footer}
+    </section>
+  `;
+}
+
+function featureRowHtml(feature, ctx) {
+  const entityId = ctx.linkBySlug[slugify(feature.name || '')];
+  const nameCell = entityId
+    ? `<a href="#/entities/${encodeURIComponent(entityId)}" data-browse-link>${escapeHtml(feature.name || '(unnamed)')}</a>`
+    : escapeHtml(feature.name || '(unnamed)');
+  const bboxCell = Array.isArray(feature.bbox) ? renderBoundingBoxCell(feature.bbox.join(',')) : '';
+  const attrCells = ctx.attrColumns.map((col) => {
+    const value = feature.properties ? feature.properties[col] : undefined;
+    return `<td>${value === null || value === undefined ? '' : escapeHtml(String(value))}</td>`;
+  }).join('');
+  return `<tr><td class="browse-feature-thumb"></td><td>${nameCell}</td><td>${bboxCell}</td>${attrCells}</tr>`;
+}
+
+async function handleFeatureLoadMore(button) {
+  const mapId = button.dataset.featureMap;
+  const ctx = state.featureTables[mapId];
+  if (!ctx) return;
+  button.disabled = true;
+  let page;
+  try {
+    page = await loadJson(`${ctx.base}/${ctx.nextPage}.json`);
+  } catch (error) {
+    button.disabled = false;
+    return;
+  }
+  const tbody = document.getElementById(`feature-rows-${slugify(mapId)}`);
+  if (tbody) tbody.insertAdjacentHTML('beforeend', normalizeArray(page).map((feature) => featureRowHtml(feature, ctx)).join(''));
+  ctx.loaded += normalizeArray(page).length;
+  ctx.nextPage += 1;
+  if (ctx.nextPage >= ctx.pageCount) {
+    button.closest('.browse-feature-more')?.remove();
+  } else {
+    button.disabled = false;
+    button.textContent = `Load more (${formatNumber(ctx.loaded)} of ${formatNumber(ctx.total)})`;
+  }
+}
+
+function isBoundingBoxColumn(col) {
+  return /bounding box|bbox|extent/i.test(String(col));
+}
+
+// A bounding box cell shows the coordinates rounded to 3 decimal places by
+// default; clicking it toggles the full-precision figures (pure <details>).
+function renderBoundingBoxCell(raw) {
+  const parts = String(raw).split(',').map((part) => part.trim()).filter(Boolean);
+  const numbers = parts.map(Number);
+  if (!parts.length || numbers.some((n) => !Number.isFinite(n))) return escapeHtml(String(raw || ''));
+  const rounded = numbers.map((n) => n.toFixed(3)).join(', ');
+  const full = parts.join(', ');
+  return `
+    <details class="browse-bbox">
+      <summary>
+        <span class="browse-bbox__short">${escapeHtml(rounded)}</span>
+        <span class="browse-bbox__full">${escapeHtml(full)}</span>
+      </summary>
+    </details>
   `;
 }
 
@@ -1316,8 +1508,40 @@ function renderRelatedPanel(type, item) {
     escapeHtml(row.status || (row.elected ? 'Elected' : ''))
   ]);
   if (type === 'register-interests') return renderRegisterInterestRelated(item);
-  if (type === 'maps') return renderSimpleTable('Variants', ['Title', 'Date', 'ID'], item.variants || [], (row) => [escapeHtml(row.title || row.id), escapeHtml(row.date || ''), escapeHtml(row.id || '')]);
+  if (type === 'maps') return renderMapVariants(item);
   return '';
+}
+
+// Variants are alternative editions/versions of the same map layer (e.g. a
+// redrawn or differently-styled cut). Each opens as its own layer in the
+// interactive map, so we give each one an Open button rather than a bare row.
+function renderMapVariants(item) {
+  const variants = normalizeArray(item.variants);
+  if (!variants.length) return '';
+  const rows = variants.map((variant) => {
+    const layerId = variant.id || variant.slug;
+    const open = layerId
+      ? `<a class="browse-btn browse-btn--small" href="/#layers=${encodeURIComponent(layerId)}">Open in interactive map</a>`
+      : '';
+    return `
+      <tr>
+        <td>${escapeHtml(variant.title || layerId || 'Variant')}</td>
+        <td>${escapeHtml(variant.date || '')}</td>
+        <td>${open}</td>
+      </tr>`;
+  }).join('');
+  return `
+    <section class="browse-detail__panel">
+      <h2>Variants</h2>
+      <p class="browse-supporting-note">Alternative editions or versions of this map layer. Each opens as its own layer in the interactive map.</p>
+      <div class="browse-table-wrap">
+        <table class="browse-table browse-table--compact">
+          <thead><tr><th>Variant</th><th>Date</th><th>Open</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    </section>
+  `;
 }
 
 function renderRegisterInterestRelated(item) {
@@ -1406,15 +1630,18 @@ function renderEntitySearchCard(item) {
 function renderEntityPage(entityId, entity, statements, related) {
   const groups = groupGraphStatements(statements);
   const browseHref = entity.browseType && entity.browseSlug ? `#/${entity.browseType}/${encodeURIComponent(entity.browseSlug)}` : '';
+  // Header facts are pinned from the entity's own statements; fall back to the
+  // declared types when nothing is pinnable. Browse mapping lives in the
+  // identifiers panel below, so it is not repeated up here.
+  const pinned = pinnedStatementRows(statements);
+  const headerFacts = pinned.length ? pinned : [['Types', joinList(entity.typeLabels || entity.typeIds)]];
   const statementBody = `
     <div class="browse-detail__body browse-graph">
       <div class="browse-graph__summary">
         <span>${escapeHtml(entityId)}</span>
         <span>${formatNumber(statements.length)} statements</span>
       </div>
-      <div class="browse-graph__groups">
-        ${groups.map(renderGraphStatementGroup).join('')}
-      </div>
+      ${renderStatementGroups(groups)}
     </div>
   `;
   const identifierBody = `
@@ -1436,13 +1663,13 @@ function renderEntityPage(entityId, entity, statements, related) {
         <h2>Entity</h2>
         <div class="browse-detail__body">
           ${entity.description ? `<p class="browse-reader-summary__lede">${escapeHtml(entity.description)}</p>` : ''}
-          ${renderDefinitionRows([
-            ['Types', joinList(entity.typeLabels || entity.typeIds)],
-            ['Browse section', entity.browseType]
-          ], 'browse-reader-facts')}
+          ${renderDefinitionRows(headerFacts, 'browse-reader-facts')}
         </div>
       </section>
-      ${renderCollapsiblePanel('Statements', statementBody, `${formatNumber(statements.length)} graph statements`, { className: 'browse-graph-panel browse-detail__panel--supporting' })}
+      <section class="browse-detail__panel browse-graph-panel">
+        <h2>Statements</h2>
+        ${statementBody}
+      </section>
       ${renderEntityRelatedPanel(related)}
       ${renderCollapsiblePanel('Entity identifiers', identifierBody, 'IDs and generated Browse mapping', { className: 'browse-detail__panel--technical' })}
     </div>
@@ -1461,48 +1688,47 @@ function renderEntityRelatedPanel(related) {
     escapeHtml([row.sourceKind, row.date].filter(Boolean).join(' / '))
   ]);
   if (!reverseRows.length && !sourceRows.length) return '';
-  const body = `
-    <div class="browse-detail__body browse-entity-related">
-      ${renderInlineTable('Related entities', ['Entity', 'Relationship', 'Type'], reverseRows)}
-      ${renderInlineTable('Source-supported statements', ['Entity', 'Statement', 'Reference'], sourceRows)}
-    </div>
-  `;
+  // Tier 3: reverse statements (where this entity is the object) are part of the
+  // statement view, not a separate buried "Related records" copy.
   return `
-    ${renderCollapsiblePanel('Related records', body, `${formatNumber(reverseRows.length + sourceRows.length)} related rows`, {
-      className: 'browse-detail__panel--supporting'
-    })}
+    <section class="browse-detail__panel browse-entity-related-panel">
+      <h2>Statements about this entity</h2>
+      <div class="browse-detail__body browse-entity-related">
+        ${renderInlineTable('Subject of statements by', ['Entity', 'Relationship', 'Type'], reverseRows)}
+        ${renderInlineTable('Source-supported statements', ['Entity', 'Statement', 'Reference'], sourceRows)}
+      </div>
+    </section>
   `;
 }
 
 async function renderGraphStatementsPanel(type, item, options = {}) {
-  let graph;
-  try {
-    graph = await loadGraphStatementsForBrowseItem(type, item);
-  } catch (error) {
-    console.warn('Graph statements could not be loaded for Browse detail page.', error);
-    return '';
+  let graph = options.graph;
+  if (graph === undefined) {
+    try {
+      graph = await loadGraphStatementsForBrowseItem(type, item);
+    } catch (error) {
+      console.warn('Graph statements could not be loaded for Browse detail page.', error);
+      return '';
+    }
   }
-  if (!graph?.entityId || !graph.statements.length) return '';
-  const entitySummary = await loadGraphEntitySummary(graph.entityId);
-  const groups = groupGraphStatements(graph.statements);
-  const visibleGroups = groups.slice(0, 10);
-  const hiddenGroupCount = Math.max(0, groups.length - visibleGroups.length);
+  const fileLinks = options.fileLinks || [];
+  const statements = graph?.statements || [];
+  if (!statements.length && !fileLinks.length) return '';
+  const entitySummary = graph?.entityId ? await loadGraphEntitySummary(graph.entityId) : null;
+  const groups = groupGraphStatements(statements);
   const entityHref = entitySummary?.slug ? `#/entities/${encodeURIComponent(entitySummary.slug)}` : '';
   const body = `
     <div class="browse-detail__body browse-graph">
       <div class="browse-graph__summary">
-        <span>${escapeHtml(graph.entityId)}</span>
-        <span>${formatNumber(graph.statements.length)} statements</span>
+        ${graph?.entityId ? `<span>${escapeHtml(graph.entityId)}</span>` : ''}
+        <span>${formatNumber(statements.length)} statements</span>
         ${entityHref ? `<a href="${escapeAttr(entityHref)}" data-browse-link>Open entity view</a>` : ''}
       </div>
-      <div class="browse-graph__groups">
-        ${visibleGroups.map(renderGraphStatementGroup).join('')}
-      </div>
-      ${hiddenGroupCount ? `<p class="browse-graph__more">${formatNumber(hiddenGroupCount)} further statement groups are available in the generated graph data.</p>` : ''}
+      ${renderStatementGroups(groups, fileLinks)}
     </div>
   `;
   if (options.collapsed) {
-    return renderCollapsiblePanel('Semantic statements', body, `${formatNumber(graph.statements.length)} graph statements`, {
+    return renderCollapsiblePanel('Semantic statements', body, `${formatNumber(statements.length)} graph statements`, {
       className: 'browse-graph-panel browse-detail__panel--supporting'
     });
   }
@@ -1511,6 +1737,32 @@ async function renderGraphStatementsPanel(type, item, options = {}) {
       <h2>Semantic statements</h2>
       ${body}
     </section>
+  `;
+}
+
+// Render statement groups with maintenance/system properties (URLs, file-format
+// records) tucked into a collapsed sub-section, so the lay-relevant statements
+// lead and the technical wiring stays available but out of the way. Downloadable
+// files are folded in as their own "Downloads & files" statement group.
+function renderStatementGroups(groups, fileLinks = []) {
+  const primary = groups.filter((group) => !GRAPH_TECHNICAL_PROPERTIES.has(group.propertyId));
+  const technical = groups.filter((group) => GRAPH_TECHNICAL_PROPERTIES.has(group.propertyId));
+  const visiblePrimary = primary.slice(0, 10);
+  const hiddenPrimary = Math.max(0, primary.length - visiblePrimary.length);
+  return `
+    <div class="browse-graph__groups">
+      ${visiblePrimary.map(renderGraphStatementGroup).join('')}
+      ${fileLinks.length ? renderDownloadStatementGroup(fileLinks) : ''}
+    </div>
+    ${hiddenPrimary ? `<p class="browse-graph__more">${formatNumber(hiddenPrimary)} further statement groups are available in the generated graph data.</p>` : ''}
+    ${technical.length ? `
+      <details class="browse-more-fields browse-graph-technical">
+        <summary>System &amp; technical statements</summary>
+        <div class="browse-graph__groups">
+          ${technical.map(renderGraphStatementGroup).join('')}
+        </div>
+      </details>
+    ` : ''}
   `;
 }
 
@@ -1530,7 +1782,6 @@ function renderGraphStatementGroup(group) {
 
 function renderGraphStatement(statement) {
   const value = graphStatementValueText(statement);
-  const description = statement.valueDescription && statement.valueDescription !== value ? statement.valueDescription : '';
   const qualifiers = normalizeArray(statement.qualifiers)
     .filter((qualifier) => qualifier.propertyId !== 'cg:property:name')
     .slice(0, 8);
@@ -1538,8 +1789,7 @@ function renderGraphStatement(statement) {
   const omittedReferences = Math.max(0, Number(statement.referenceCount || 0) - references.length);
   return `
     <div class="browse-graph-statement">
-      <div class="browse-graph-statement__value">${escapeHtml(value)}</div>
-      ${description ? `<div class="browse-graph-statement__description">${escapeHtml(description)}</div>` : ''}
+      <div class="browse-graph-statement__value">${graphStatementValueHtml(statement)}</div>
       ${qualifiers.length ? `
         <div class="browse-graph-statement__qualifiers">
           ${qualifiers.map((qualifier) => `<span><b>${escapeHtml(qualifier.propertyLabel || qualifier.propertyId)}</b> ${escapeHtml(graphStatementValueText(qualifier))}</span>`).join('')}
@@ -1557,6 +1807,20 @@ function renderGraphStatement(statement) {
 
 function graphStatementValueText(statement) {
   return statement.valueLabel || statement.valueText || statement.valueId || '';
+}
+
+// Render a statement value as a link to the value's own entity page when the
+// value is itself an entity (provider, elected body, instance-of, source file,
+// …). That page lists every other entity sharing the value via its reverse
+// statements — i.e. "show me everything else with this value". Literal values
+// (free-text dates, categories) have no entity page yet, so they stay plain.
+function graphStatementValueHtml(statement) {
+  const value = graphStatementValueText(statement);
+  if (!value) return '';
+  if (statement.valueType === 'entity' && statement.valueId) {
+    return `<a href="#/entities/${encodeURIComponent(statement.valueId)}" data-browse-link>${escapeHtml(value)}</a>`;
+  }
+  return escapeHtml(value);
 }
 
 function graphReferenceLabel(reference) {
@@ -1583,6 +1847,50 @@ function groupGraphStatements(statements) {
 function graphPropertyRank(propertyId) {
   const index = GRAPH_STATEMENT_PROPERTY_ORDER.indexOf(propertyId);
   return index === -1 ? 999 : index;
+}
+
+// Project an entity's statements into a short list of header facts. Each pinned
+// property contributes one row (its label and a compact summary of its values),
+// so the header is a view over the statement store rather than a separate
+// authored field list.
+function pinnedStatementRows(statements, limit = 6) {
+  if (!Array.isArray(statements) || !statements.length) return [];
+  const byProperty = new Map();
+  for (const group of groupGraphStatements(statements)) byProperty.set(group.propertyId, group);
+  const rows = [];
+  for (const propertyId of GRAPH_HEADER_PINNED_PROPERTIES) {
+    const group = byProperty.get(propertyId);
+    if (!group) continue;
+    const value = summarizeStatementValues(group.statements);
+    if (!value) continue;
+    rows.push([group.label, value]);
+    if (rows.length >= limit) break;
+  }
+  return rows;
+}
+
+function summarizeStatementValues(statements, max = 3) {
+  const values = [];
+  for (const statement of statements) {
+    const text = graphStatementValueText(statement);
+    if (text && !values.includes(text)) values.push(text);
+  }
+  if (!values.length) return '';
+  const shown = values.slice(0, max);
+  const extra = values.length - shown.length;
+  return extra > 0 ? `${shown.join(', ')} +${formatNumber(extra)} more` : shown.join(', ');
+}
+
+function dedupeRows(rows) {
+  const seen = new Set();
+  const out = [];
+  for (const [label, value] of rows) {
+    const key = String(label).toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push([label, value]);
+  }
+  return out;
 }
 
 async function loadGraphStatementsForBrowseItem(type, item) {
@@ -1741,12 +2049,21 @@ function resultKindLabel(value) {
 }
 
 function renderLinksPanel(item, options = {}) {
+  // Tier 3: references are citations and now live on the statements that use
+  // them, so this panel lists only the actual downloadable artifacts.
+  // De-duplicate by URL so a file listed as both a download and a source file
+  // (the common case) appears once; the first occurrence keeps its type label.
   const rows = [];
-  if (item.url) rows.push(['Source link', item.title || item.name || item.url, item.url]);
-  if (item.sourceUrl) rows.push(['Source link', item.sourceTitle || item.sourceUrl, item.sourceUrl]);
-  for (const link of item.downloads || []) rows.push(['Download', link.label, link.url]);
-  for (const link of item.sourceFiles || []) rows.push(['Source file', link.label, link.url]);
-  for (const ref of item.references || []) rows.push(['Reference', ref.label || ref.url, ref.url]);
+  const seenUrls = new Set();
+  const pushRow = (type, label, url) => {
+    if (url && seenUrls.has(url)) return;
+    if (url) seenUrls.add(url);
+    rows.push([type, label, url]);
+  };
+  if (item.url) pushRow('Source link', item.title || item.name || item.url, item.url);
+  if (item.sourceUrl) pushRow('Source link', item.sourceTitle || item.sourceUrl, item.sourceUrl);
+  for (const link of item.downloads || []) pushRow('Download', link.label, link.url);
+  for (const link of item.sourceFiles || []) pushRow('Source file', link.label, link.url);
   if (!rows.length) return '';
   const body = `
     <div class="browse-table-wrap">
@@ -1765,11 +2082,11 @@ function renderLinksPanel(item, options = {}) {
     </div>
   `;
   if (options.collapsed) {
-    return renderCollapsiblePanel('Sources, references, downloads', body, `${formatNumber(rows.length)} links`, {
+    return renderCollapsiblePanel('Downloads & files', body, `${formatNumber(rows.length)} ${rows.length === 1 ? 'file' : 'files'}`, {
       className: 'browse-detail__panel--supporting'
     });
   }
-  return renderTablePanel('Sources, References, Downloads', ['Type', 'Label', 'Link'], rows.map((row) => [
+  return renderTablePanel('Downloads & files', ['Type', 'Label', 'Link'], rows.map((row) => [
     escapeHtml(row[0]),
     escapeHtml(row[1] || ''),
     row[2] ? `<a href="${escapeAttr(row[2])}" target="_blank" rel="noopener noreferrer">${escapeHtml(row[2])}</a>` : ''
@@ -1912,19 +2229,22 @@ function thumbnailInitials(value) {
 
 function renderTechnicalPanel(type, item) {
   const technicalRows = technicalFieldEntries(type, item);
-  const publicHiddenRows = publicFieldEntries(type, item);
-  const rawJson = item.rawMetadata ? JSON.stringify(item.rawMetadata, null, 2) : '';
-  if (!technicalRows.length && !rawJson && !publicHiddenRows.length) return '';
+  // A wholesale field dump and the inline raw JSON each re-list the entire
+  // record, duplicating fields the curated panels already show. Keep raw JSON
+  // only for signed-in contributors (who need it to debug source-map wiring);
+  // regular readers get just the curated internal-ID fields.
+  const showRaw = Boolean(state.auth?.allowed) && Boolean(item.rawMetadata);
+  const rawJson = showRaw ? JSON.stringify(item.rawMetadata, null, 2) : '';
+  if (!technicalRows.length && !rawJson) return '';
   return `
     <section class="browse-detail__panel browse-detail__panel--technical">
       <details class="browse-technical">
         <summary>
           <span>Technical data</span>
-          <small>Internal IDs, generated fields, source-map wiring, and raw JSON</small>
+          <small>Internal IDs and source-map wiring${rawJson ? ', plus raw JSON' : ''}</small>
         </summary>
         <div class="browse-technical__body">
           ${technicalRows.length ? renderTechnicalTable('Technical fields', technicalRows) : ''}
-          ${publicHiddenRows.length ? renderTechnicalTable('Additional generated fields', publicHiddenRows) : ''}
           ${rawJson ? `
             <section class="browse-technical__raw">
               <h3>Raw source metadata</h3>
@@ -1941,17 +2261,7 @@ function technicalFieldEntries(type, item) {
   const entries = Object.entries(item)
     .filter(([key, value]) => isTechnicalField(type, key, value))
     .map(([key, value]) => [humanizeKey(key), renderFieldValue(value)]);
-  if (item.rawMetadata && !entries.some(([label]) => label === 'Raw metadata')) {
-    entries.push(['Raw metadata', escapeHtml('Available below')]);
-  }
   return entries;
-}
-
-function publicFieldEntries(type, item) {
-  return Object.entries(item)
-    .filter(([key, value]) => !isEmptyValue(value))
-    .filter(([key]) => !TECHNICAL_FIELD_KEYS.has(key) && !PUBLIC_METADATA_KEYS.has(key))
-    .map(([key, value]) => [humanizeKey(key), renderFieldValue(value)]);
 }
 
 function isTechnicalField(type, key, value) {
@@ -1961,7 +2271,7 @@ function isTechnicalField(type, key, value) {
   if (TECHNICAL_FIELD_KEYS.has(key)) return true;
   if (/^(.*Url|.*Id|.*Key)$/i.test(key)) return true;
   if (/(bbox|bounds|tile|pmtiles|spatial|index|geometry|geojson|mvt|chunk|lod)/i.test(key)) return true;
-  if (type === 'maps' && ['featured', 'loadable', 'placeholder'].includes(key)) return true;
+  if (type === 'maps' && ['featured', 'loadable', 'placeholder', 'slug', 'group', 'keywords', 'status'].includes(key)) return true;
   return false;
 }
 
@@ -2342,6 +2652,17 @@ function renderInlineTable(title, headers, rows) {
       </div>
     </section>
   `;
+}
+
+// Field-ownership guard: build a set of the (lowercased) labels a higher panel
+// has already shown, so secondary panels can drop any field that is a duplicate.
+// The first panel to render a field owns it; later panels skip it.
+function summaryLabelSet(rows) {
+  return new Set(
+    (rows || [])
+      .filter(([, value]) => !isEmptyValue(value))
+      .map(([label]) => String(label).toLowerCase())
+  );
 }
 
 function renderDefinitionRows(rows, className = 'browse-detail__meta') {

@@ -32,7 +32,10 @@ const TYPE = {
   provider: 'cg:entity-type:provider',
   source: 'cg:entity-type:source',
   registerRecord: 'cg:entity-type:register-record',
-  registerInterest: 'cg:entity-type:register-interest'
+  registerInterest: 'cg:entity-type:register-interest',
+  mapCategory: 'cg:entity-type:map-category',
+  dateYear: 'cg:entity-type:date-year',
+  dateMonth: 'cg:entity-type:date-month'
 };
 
 const PROP = {
@@ -78,9 +81,30 @@ const PROP = {
   sourceRowCount: 'cg:property:source-row-count',
   extractionConfidence: 'cg:property:extraction-confidence',
   date: 'cg:property:date',
+  year: 'cg:property:year',
   constituency: 'cg:property:constituency',
   jurisdiction: 'cg:property:jurisdiction'
 };
+
+// Parent-card values that correspond to an elected body, mapped (by slug key)
+// to the canonical body label so a map used as an election layer gets an
+// elected-body statement. Geographic/administrative parent cards are omitted.
+const PARENT_CARD_BODY = {
+  'uk-parliament': 'House of Commons',
+  'parliamentary-constituencies-before-1921': 'House of Commons',
+  'ni-parliament': 'Parliament of Northern Ireland',
+  'northern-ireland-1921': 'Parliament of Northern Ireland',
+  'northern-ireland-assembly': 'Northern Ireland Assembly',
+  'assembly': 'Northern Ireland Assembly',
+  'european-parliament-constituencies': 'European Parliament',
+  'constitutional-convention': 'Northern Ireland Constitutional Convention',
+  'forum': 'Northern Ireland Forum for Political Dialogue',
+  'local-government-districts': 'Local Government Districts',
+  'dail-eireann': 'Dáil Éireann',
+  'referendum-counting-areas': 'Referendum (Ireland)'
+};
+
+const MONTH_NAMES = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 const JSONLD_CONTEXT = {
   cg: 'https://civgraph.org/id/',
@@ -107,6 +131,9 @@ const sourceByRecordKey = new Map();
 const providerByName = new Map();
 const sourceFileByUrl = new Map();
 const mapLayerByKey = new Map();
+const mapCategoryByName = new Map();
+const dateYearByYear = new Map();
+const dateMonthByKey = new Map();
 let entityTypes = [];
 let properties = [];
 
@@ -289,11 +316,7 @@ function buildSourceEntities(items) {
       propertyId: PROP.sourceKind,
       value: stringValue(item.category)
     });
-    if (item.date) addStatement({
-      subjectId: id,
-      propertyId: PROP.date,
-      value: dateValue(item.date)
-    });
+    if (item.date) addDateStatements(id, item.date);
     if (item.url) addStatement({
       subjectId: id,
       propertyId: PROP.url,
@@ -374,13 +397,15 @@ function buildMapEntities(items) {
     if (item.category) addStatement({
       subjectId: id,
       propertyId: PROP.mapCategory,
-      value: stringValue(item.category)
+      value: entityValue(getMapCategoryEntity(item.category)) || stringValue(item.category)
     });
-    if (item.date) addStatement({
+    const electionBodyLabel = item.parentCard ? PARENT_CARD_BODY[slugify(item.parentCard)] : null;
+    if (electionBodyLabel) addStatement({
       subjectId: id,
-      propertyId: PROP.date,
-      value: dateValue(item.date)
+      propertyId: PROP.electedBody,
+      value: entityValue(getBodyEntity(electionBodyLabel))
     });
+    if (item.date) addDateStatements(id, item.date);
     if (item.interactiveUrl) addStatement({
       subjectId: id,
       propertyId: PROP.interactiveUrl,
@@ -608,12 +633,7 @@ function buildElectionEntities(items, browseElectionSource) {
       });
     }
     if (item.date) {
-      addStatement({
-        subjectId: id,
-        propertyId: PROP.date,
-        value: dateValue(item.date),
-        references: [browseReference(browseElectionSource)]
-      });
+      addDateStatements(id, item.date, [browseReference(browseElectionSource)]);
     }
     const contestInputs = contestInputsForElection(item);
     for (const contest of contestInputs) {
@@ -796,12 +816,7 @@ function buildPersonEntities(items, browsePersonSource) {
         value: numberValue(election.firstPrefs),
         references: [browseReference(browsePersonSource)]
       });
-      if (election.date) addStatement({
-        subjectId: candidatureId,
-        propertyId: PROP.date,
-        value: dateValue(election.date),
-        references: [browseReference(browsePersonSource)]
-      });
+      if (election.date) addDateStatements(candidatureId, election.date, [browseReference(browsePersonSource)]);
     }
   }
 }
@@ -870,12 +885,7 @@ function buildRegisterInterestEntities(records) {
       value: entityValue(officeId),
       references: recordReferences
     });
-    if (record.date) addStatement({
-      subjectId: recordId,
-      propertyId: PROP.date,
-      value: dateValue(record.date),
-      references: recordReferences
-    });
+    if (record.date) addDateStatements(recordId, record.date, recordReferences);
     if (record.constituency || firstArrayName(record.constituencies)) addStatement({
       subjectId: recordId,
       propertyId: PROP.constituency,
@@ -1328,6 +1338,93 @@ function getProviderEntity(value) {
   });
   providerByName.set(normalized, id);
   return id;
+}
+
+function getMapCategoryEntity(value) {
+  const label = cleanText(value);
+  if (!label) return null;
+  const normalized = normalizeKey(label);
+  const existingId = mapCategoryByName.get(normalized);
+  if (existingId) return existingId;
+  const id = makeEntityId('map-category', label);
+  addEntity(id, {
+    typeIds: [TYPE.mapCategory],
+    label,
+    description: `Map category: ${label}`,
+    attributes: { createdFrom: 'map-category-label' }
+  });
+  mapCategoryByName.set(normalized, id);
+  return id;
+}
+
+function extractYear(value) {
+  const text = cleanText(value);
+  if (!text) return null;
+  const match = text.match(/\b(1[5-9]\d{2}|20\d{2})\b/);
+  return match ? match[1] : null;
+}
+
+// Pull {year, month} from a date. Handles ISO (YYYY-MM-DD / YYYY-MM, including
+// ISO-prefixed referendum ids like 2015-05-22-equal-marriage) and bare years.
+function parseDateParts(value) {
+  const text = cleanText(value);
+  if (!text) return {};
+  const iso = text.match(/(\d{4})-(\d{2})(?:-\d{2})?/);
+  if (iso && Number(iso[2]) >= 1 && Number(iso[2]) <= 12) return { year: iso[1], month: iso[2] };
+  const year = extractYear(text);
+  return year ? { year } : {};
+}
+
+function getDateYearEntity(year) {
+  if (!year) return null;
+  const existingId = dateYearByYear.get(year);
+  if (existingId) return existingId;
+  const id = makeEntityId('date-year', year);
+  addEntity(id, {
+    typeIds: [TYPE.dateYear],
+    label: year,
+    description: `Entities dated ${year}`,
+    attributes: { createdFrom: 'date-year', year }
+  });
+  dateYearByYear.set(year, id);
+  return id;
+}
+
+function getDateMonthEntity(year, month) {
+  if (!year || !month) return null;
+  const key = `${year}-${month}`;
+  const existingId = dateMonthByKey.get(key);
+  if (existingId) return existingId;
+  const id = makeEntityId('date-month', key);
+  const label = `${MONTH_NAMES[Number(month)] || month} ${year}`;
+  addEntity(id, {
+    typeIds: [TYPE.dateMonth],
+    label,
+    description: `Entities dated ${label}`,
+    attributes: { createdFrom: 'date-month', year, month }
+  });
+  dateMonthByKey.set(key, id);
+  return id;
+}
+
+// Emit date statements that display the original date but link to a bucket
+// entity at the date's precision: a month bucket when the date has a month
+// (clicking lists everything in that month), otherwise the year bucket. When a
+// month is present, also add a `year` statement so the year bucket still
+// gathers every entity dated within that year.
+function addDateStatements(subjectId, dateText, references) {
+  const { year, month } = parseDateParts(dateText);
+  if (!year) {
+    addStatement({ subjectId, propertyId: PROP.date, value: dateValue(dateText), references });
+    return;
+  }
+  const label = cleanText(dateText) || year;
+  if (month) {
+    addStatement({ subjectId, propertyId: PROP.date, value: { type: 'entity', id: getDateMonthEntity(year, month), label }, references });
+    addStatement({ subjectId, propertyId: PROP.year, value: entityValue(getDateYearEntity(year)), references });
+  } else {
+    addStatement({ subjectId, propertyId: PROP.date, value: { type: 'entity', id: getDateYearEntity(year), label }, references });
+  }
 }
 
 function getMapLayerEntityId(value) {
@@ -2131,7 +2228,10 @@ function buildPublicEntityIdSet(items, mappedEntityIds) {
     TYPE.geographicFeature,
     TYPE.provider,
     TYPE.source,
-    TYPE.registerRecord
+    TYPE.registerRecord,
+    TYPE.mapCategory,
+    TYPE.dateYear,
+    TYPE.dateMonth
   ]);
   const ids = new Set(mappedEntityIds);
   for (const entity of items) {
@@ -2215,9 +2315,11 @@ function compactValue(value) {
   if (!value) return {};
   if (value.type === 'entity') {
     const entity = entities.get(value.id);
+    // An explicit value.label wins so a value can display its own text (e.g. a
+    // full date) while still linking to a coarser bucket entity (its year).
     return {
-      label: entity?.label || value.label || value.id,
-      text: entity?.label || value.label || value.id,
+      label: value.label || entity?.label || value.id,
+      text: value.label || entity?.label || value.id,
       description: truncateText(entity?.description || '', COMPACT_DESCRIPTION_LIMIT)
     };
   }

@@ -591,6 +591,12 @@ a:hover {
   background: #ebf4ff;
 }
 
+.browse-btn--small {
+  min-height: 28px;
+  padding: 2px var(--space-3);
+  font-size: .8rem;
+}
+
 .browse-btn--primary {
   color: #fff;
   background: var(--color-primary);
@@ -1148,6 +1154,30 @@ a:hover {
   border-top: 1px solid var(--color-border);
 }
 
+.browse-more-fields {
+  margin-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
+}
+
+.browse-more-fields > summary {
+  cursor: pointer;
+  padding: var(--space-3) 0 0;
+  color: var(--color-text-muted);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  list-style-position: inside;
+}
+
+.browse-more-fields > summary:hover {
+  color: var(--color-text);
+}
+
+.browse-more-fields[open] > summary {
+  margin-bottom: var(--space-2);
+}
+
 .browse-detail__panel--technical {
   border-style: dashed;
   background: #f8fafc;
@@ -1340,6 +1370,69 @@ a:hover {
   color: var(--color-text);
   font-size: .98rem;
   line-height: 1.5;
+}
+
+.browse-map-header .browse-kicker {
+  margin: 0 0 var(--space-1);
+}
+
+.browse-map-header__title {
+  margin: 0 0 var(--space-1);
+  font-size: 1.6rem;
+  line-height: 1.2;
+}
+
+.browse-map-header__subtitle {
+  margin: 0 0 var(--space-3);
+  color: var(--color-text-muted);
+  font-size: .95rem;
+  font-weight: 700;
+}
+
+.browse-features-table .browse-feature-thumb {
+  width: 56px;
+  min-width: 56px;
+  background: #f8fafc;
+}
+
+.browse-feature-more {
+  margin-top: var(--space-3);
+}
+
+.browse-feature-more button[disabled] {
+  opacity: .6;
+  cursor: progress;
+}
+
+.browse-bbox {
+  display: inline;
+}
+
+.browse-bbox > summary {
+  cursor: pointer;
+  list-style: none;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.browse-bbox > summary::-webkit-details-marker {
+  display: none;
+}
+
+.browse-bbox > summary:hover {
+  color: var(--color-primary);
+}
+
+.browse-bbox > summary .browse-bbox__full {
+  display: none;
+}
+
+.browse-bbox[open] > summary .browse-bbox__short {
+  display: none;
+}
+
+.browse-bbox[open] > summary .browse-bbox__full {
+  display: inline;
 }
 
 .browse-detail__panel .browse-map-lead__heading {
