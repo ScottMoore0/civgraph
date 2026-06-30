@@ -1,10 +1,89 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T18:48:24.834Z",
+  "generatedAt": "2026-06-30T18:57:58.248Z",
   "kind": "sources",
   "shard": "sources-038.json",
   "total": 200,
   "items": [
+    {
+      "id": "map-source:niea-local-management-areas",
+      "slug": "map-source-niea-local-management-areas",
+      "type": "map-source",
+      "title": "NIEA Local Management Areas source files",
+      "subtitle": "Water Quality / NIEA",
+      "category": "Map sources",
+      "provider": [
+        "NIEA"
+      ],
+      "description": "NIEA Local Management Areas — published by NIEA Water Management Unit (Water Framework Directive boundaries).",
+      "sourceMapId": "niea-local-management-areas",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "NL",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Source — admin.opendatani.gov.uk",
+          "url": "https://admin.opendatani.gov.uk/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/water-quality/niea-local-management-areas.fgb"
+        },
+        {
+          "label": "zip",
+          "url": "https://data.civgraph.net/data/maps/water-quality/niea-local-management-areas.zip"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/water-quality/niea-local-management-areas.fgb"
+        },
+        {
+          "label": "zip",
+          "url": "https://data.civgraph.net/data/maps/water-quality/niea-local-management-areas.zip"
+        }
+      ],
+      "interactiveUrl": "/#layers=niea-local-management-areas",
+      "browseUrl": "/browse/sources/map-source-niea-local-management-areas",
+      "rawMetadata": {
+        "id": "niea-local-management-areas",
+        "name": "NIEA Local Management Areas",
+        "slug": "niea-local-management-areas",
+        "category": "water-quality",
+        "provider": [
+          "NIEA"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/water-quality/niea-local-management-areas.fgb",
+          "downloads": {
+            "zip": "https://data.civgraph.net/data/maps/water-quality/niea-local-management-areas.zip"
+          }
+        },
+        "style": {
+          "color": "#03A9F4",
+          "weight": 1,
+          "fillOpacity": 0.4
+        },
+        "keywords": [
+          "NIEA",
+          "water",
+          "WFD",
+          "niea local management areas"
+        ],
+        "description": "NIEA Local Management Areas — published by NIEA Water Management Unit (Water Framework Directive boundaries).",
+        "references": [
+          {
+            "label": "Source — admin.opendatani.gov.uk",
+            "url": "https://admin.opendatani.gov.uk/",
+            "note": ""
+          }
+        ],
+        "labelProperty": "NAME"
+      }
+    },
     {
       "id": "map-source:niea-river-segments",
       "slug": "map-source-niea-river-segments",
@@ -3555,6 +3634,76 @@
           {
             "label": "Georeferenced sheets (TIF + TFW, ZIP)",
             "file": "https://admin.opendatani.gov.uk/dataset/48376012-8061-4369-8cf5-24961f2f02c6/resource/27c90279-f13d-4216-9349-23b7dceb3082/download/osni_opendata_midscaleraster.zip"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-source:osni-ni-outline",
+      "slug": "map-source-osni-ni-outline",
+      "type": "map-source",
+      "title": "Northern Ireland Outline (OSNI 50K) source files",
+      "subtitle": "OSNI Reference Layers / Land & Property Services (OSNI)",
+      "category": "Map sources",
+      "provider": [
+        "Land & Property Services (OSNI)"
+      ],
+      "description": "Northern Ireland outline at OSNI 50K scale — Land & Property Services (OSNI Open Data).",
+      "sourceMapId": "osni-ni-outline",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "NI",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Open Data NI — OSNI Open Data 50K Boundaries NI Outline",
+          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-boundaries-ni-outline"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/osni/OSNI_50K_NI_Outline.fgb"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/osni/OSNI_50K_NI_Outline.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=osni-ni-outline",
+      "browseUrl": "/browse/sources/map-source-osni-ni-outline",
+      "rawMetadata": {
+        "id": "osni-ni-outline",
+        "name": "Northern Ireland Outline (OSNI 50K)",
+        "slug": "osni-ni-outline",
+        "category": "osni-reference",
+        "provider": [
+          "Land & Property Services (OSNI)"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/osni/OSNI_50K_NI_Outline.fgb"
+        },
+        "style": {
+          "color": "#37474F",
+          "weight": 2,
+          "fillOpacity": 0
+        },
+        "keywords": [
+          "northern ireland",
+          "NI",
+          "OSNI",
+          "outline",
+          "boundary",
+          "50k",
+          "reference"
+        ],
+        "description": "Northern Ireland outline at OSNI 50K scale — Land & Property Services (OSNI Open Data).",
+        "references": [
+          {
+            "label": "Open Data NI — OSNI Open Data 50K Boundaries NI Outline",
+            "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-boundaries-ni-outline",
+            "note": ""
           }
         ]
       }
@@ -34706,776 +34855,6 @@
           "TXT"
         ],
         "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-cork-airport-daily-data-02155"
-      }
-    },
-    {
-      "id": "medium-priority:2-irish-election-source-enrichment-data:covid-19-hse-daily-booster-vaccination-figures:00913",
-      "slug": "medium-priority-2-irish-election-source-enrichment-data-covid-19-hse-daily-booster-vaccination-figures-00913",
-      "type": "approved-medium-priority-source",
-      "title": "COVID-19 HSE Daily Booster Vaccination Figures",
-      "subtitle": "Irish election source/enrichment data / Tailte Éireann, Tailte/OSI/data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, GEOJSON, HTML, KML, ZIP / Source record; runtime review pending",
-      "category": "Medium-priority: Irish election source/enrichment data",
-      "provider": [
-        "Tailte Éireann",
-        "Tailte/OSI/data.gov.ie"
-      ],
-      "description": "COVID-19 HSE Daily Booster Vaccination Figures is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; election-model-merge-and-provenance-review: requires exact election merge review.",
-      "url": "https://data.gov.ie/dataset/covid-19-hse-daily-booster-vaccination-figures",
-      "references": [
-        {
-          "label": "COVID-19 HSE Daily Booster Vaccination Figures provider page",
-          "url": "https://data.gov.ie/dataset/covid-19-hse-daily-booster-vaccination-figures",
-          "source": "Tailte/OSI/data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "COVID-19 HSE Daily Booster Vaccination Figures Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/covid-19-hse-daily-booster-vaccination-figures",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/covid-19-hse-daily-booster-vaccination-figures",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "source-record-with-runtime-review",
-        "Irish election source/enrichment data",
-        "election",
-        "features",
-        "Republic of Ireland",
-        "new-interactive-map",
-        "ARCGIS GEOSERVICES REST API",
-        "CSV",
-        "GEOJSON",
-        "HTML",
-        "KML",
-        "ZIP",
-        "review:duplicate-or-variant-review-no-existing-match-candidate",
-        "review:election-model-merge-and-provenance-review-requires-exact-election-merge-review"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 914,
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:covid-19-hse-daily-booster-vaccination-figures:00913",
-          "title": "COVID-19 HSE Daily Booster Vaccination Figures",
-          "cleanTitle": "COVID-19 HSE Daily Booster Vaccination Figures",
-          "provider": "Tailte/OSI/data.gov.ie",
-          "organisation": "Tailte Éireann",
-          "category": "spatial",
-          "roiGroup": "2. Irish election source/enrichment data",
-          "groupTitle": "Irish election source/enrichment data",
-          "jurisdiction": "Republic of Ireland",
-          "topic": "election",
-          "featureUnit": "features",
-          "formats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "GEOJSON",
-            "HTML",
-            "KML",
-            "ZIP"
-          ],
-          "isSpatial": true,
-          "isLargeOrSpecial": false,
-          "proposedAction": "new-interactive-map",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "MapLibre interactive layer",
-            "conversion": "Convert source geometry to PMTiles/vector tiles after approval.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GEOJSON",
-              "HTML",
-              "KML",
-              "ZIP"
-            ]
-          },
-          "approvalState": "ready-with-residual-review",
-          "sourcePublicationState": "public source record with runtime/semantic review still pending",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/covid-19-hse-daily-booster-vaccination-figures",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/covid-19-hse-daily-booster-vaccination-figures",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate",
-            "election-model-merge-and-provenance-review: requires exact election merge review"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source record",
-        "Runtime review pending",
-        "Spatial source",
-        "Conversion pending",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Irish election source/enrichment data",
-        "Republic of Ireland",
-        "election",
-        "COVID-19 HSE Daily Booster Vaccination Figures"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text",
-          "download-only"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/covid-19-hse-daily-booster-vaccination-figures",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/covid-19-hse-daily-booster-vaccination-figures",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "Convert source geometry to PMTiles/vector tiles after approval."
-      },
-      "shortCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie, COVID-19 HSE Daily Booster Vaccination Figures.",
-      "fullCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie. COVID-19 HSE Daily Booster Vaccination Figures. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/covid-19-hse-daily-booster-vaccination-figures. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/covid-19-hse-daily-booster-vaccination-figures.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:2-irish-election-source-enrichment-data:covid-19-hse-daily-booster-vaccination-figures:00913",
-        "sourceRowNumber": 914,
-        "approvalState": "ready-with-residual-review",
-        "recommendedAction": "publish source record; convert to interactive map in a later runtime pass",
-        "proposedAction": "new-interactive-map",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "MapLibre interactive layer",
-          "conversion": "Convert source geometry to PMTiles/vector tiles after approval.",
-          "sourceFormats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "GEOJSON",
-            "HTML",
-            "KML",
-            "ZIP"
-          ]
-        },
-        "confidence": 60,
-        "residualBlockers": [
-          "duplicate-or-variant-review: no existing match candidate",
-          "election-model-merge-and-provenance-review: requires exact election merge review"
-        ],
-        "resolvedBlockers": [
-          "large-or-special-format-review: normal source package; no special-format hold",
-          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-        ],
-        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-      },
-      "publicationStatus": "source-record-with-runtime-review",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record-runtime-conversion-pending",
-      "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-covid-19-hse-daily-booster-vaccination-figures-00913",
-      "rawMetadata": {
-        "id": "medium-priority:2-irish-election-source-enrichment-data:covid-19-hse-daily-booster-vaccination-figures:00913",
-        "slug": "medium-priority-2-irish-election-source-enrichment-data-covid-19-hse-daily-booster-vaccination-figures-00913",
-        "type": "approved-medium-priority-source",
-        "title": "COVID-19 HSE Daily Booster Vaccination Figures",
-        "subtitle": "Irish election source/enrichment data / Tailte Éireann, Tailte/OSI/data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, GEOJSON, HTML, KML, ZIP / Source record; runtime review pending",
-        "category": "Medium-priority: Irish election source/enrichment data",
-        "provider": [
-          "Tailte Éireann",
-          "Tailte/OSI/data.gov.ie"
-        ],
-        "description": "COVID-19 HSE Daily Booster Vaccination Figures is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; election-model-merge-and-provenance-review: requires exact election merge review.",
-        "url": "https://data.gov.ie/dataset/covid-19-hse-daily-booster-vaccination-figures",
-        "references": [
-          {
-            "label": "COVID-19 HSE Daily Booster Vaccination Figures provider page",
-            "url": "https://data.gov.ie/dataset/covid-19-hse-daily-booster-vaccination-figures",
-            "source": "Tailte/OSI/data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "COVID-19 HSE Daily Booster Vaccination Figures Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/covid-19-hse-daily-booster-vaccination-figures",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/covid-19-hse-daily-booster-vaccination-figures",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source record",
-          "Runtime review pending",
-          "Spatial source",
-          "Conversion pending",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Irish election source/enrichment data",
-          "Republic of Ireland",
-          "election",
-          "COVID-19 HSE Daily Booster Vaccination Figures"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text",
-            "download-only"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/covid-19-hse-daily-booster-vaccination-figures",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/covid-19-hse-daily-booster-vaccination-figures",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "Convert source geometry to PMTiles/vector tiles after approval."
-        },
-        "shortCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie, COVID-19 HSE Daily Booster Vaccination Figures.",
-        "fullCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie. COVID-19 HSE Daily Booster Vaccination Figures. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/covid-19-hse-daily-booster-vaccination-figures. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/covid-19-hse-daily-booster-vaccination-figures.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 914,
-            "stagingId": "medium-prep:2-irish-election-source-enrichment-data:covid-19-hse-daily-booster-vaccination-figures:00913",
-            "title": "COVID-19 HSE Daily Booster Vaccination Figures",
-            "cleanTitle": "COVID-19 HSE Daily Booster Vaccination Figures",
-            "provider": "Tailte/OSI/data.gov.ie",
-            "organisation": "Tailte Éireann",
-            "category": "spatial",
-            "roiGroup": "2. Irish election source/enrichment data",
-            "groupTitle": "Irish election source/enrichment data",
-            "jurisdiction": "Republic of Ireland",
-            "topic": "election",
-            "featureUnit": "features",
-            "formats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GEOJSON",
-              "HTML",
-              "KML",
-              "ZIP"
-            ],
-            "isSpatial": true,
-            "isLargeOrSpecial": false,
-            "proposedAction": "new-interactive-map",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "MapLibre interactive layer",
-              "conversion": "Convert source geometry to PMTiles/vector tiles after approval.",
-              "sourceFormats": [
-                "ARCGIS GEOSERVICES REST API",
-                "CSV",
-                "GEOJSON",
-                "HTML",
-                "KML",
-                "ZIP"
-              ]
-            },
-            "approvalState": "ready-with-residual-review",
-            "sourcePublicationState": "public source record with runtime/semantic review still pending",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/covid-19-hse-daily-booster-vaccination-figures",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/covid-19-hse-daily-booster-vaccination-figures",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "large-or-special-format-review: normal source package; no special-format hold",
-              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-            ],
-            "residualBlockers": [
-              "duplicate-or-variant-review: no existing match candidate",
-              "election-model-merge-and-provenance-review: requires exact election merge review"
-            ],
-            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:covid-19-hse-daily-booster-vaccination-figures:00913",
-          "sourceRowNumber": 914,
-          "approvalState": "ready-with-residual-review",
-          "recommendedAction": "publish source record; convert to interactive map in a later runtime pass",
-          "proposedAction": "new-interactive-map",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "MapLibre interactive layer",
-            "conversion": "Convert source geometry to PMTiles/vector tiles after approval.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GEOJSON",
-              "HTML",
-              "KML",
-              "ZIP"
-            ]
-          },
-          "confidence": 60,
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate",
-            "election-model-merge-and-provenance-review: requires exact election merge review"
-          ],
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        },
-        "publicationStatus": "source-record-with-runtime-review",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record-runtime-conversion-pending",
-        "keywords": [
-          "medium-priority-publication",
-          "source-record-with-runtime-review",
-          "Irish election source/enrichment data",
-          "election",
-          "features",
-          "Republic of Ireland",
-          "new-interactive-map",
-          "ARCGIS GEOSERVICES REST API",
-          "CSV",
-          "GEOJSON",
-          "HTML",
-          "KML",
-          "ZIP",
-          "review:duplicate-or-variant-review-no-existing-match-candidate",
-          "review:election-model-merge-and-provenance-review-requires-exact-election-merge-review"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-covid-19-hse-daily-booster-vaccination-figures-00913"
-      }
-    },
-    {
-      "id": "medium-priority:2-irish-election-source-enrichment-data:covid-19-hse-daily-vaccination-figures:00914",
-      "slug": "medium-priority-2-irish-election-source-enrichment-data-covid-19-hse-daily-vaccination-figures-00914",
-      "type": "approved-medium-priority-source",
-      "title": "COVID-19 HSE Daily Vaccination Figures",
-      "subtitle": "Irish election source/enrichment data / Tailte Éireann, Tailte/OSI/data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, GEOJSON, HTML, KML, ZIP / Source record; runtime review pending",
-      "category": "Medium-priority: Irish election source/enrichment data",
-      "provider": [
-        "Tailte Éireann",
-        "Tailte/OSI/data.gov.ie"
-      ],
-      "description": "COVID-19 HSE Daily Vaccination Figures is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; election-model-merge-and-provenance-review: requires exact election merge review.",
-      "url": "https://data.gov.ie/dataset/covid-19-hse-daily-vaccination-figures",
-      "references": [
-        {
-          "label": "COVID-19 HSE Daily Vaccination Figures provider page",
-          "url": "https://data.gov.ie/dataset/covid-19-hse-daily-vaccination-figures",
-          "source": "Tailte/OSI/data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "COVID-19 HSE Daily Vaccination Figures Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/covid-19-hse-daily-vaccination-figures",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/covid-19-hse-daily-vaccination-figures",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "source-record-with-runtime-review",
-        "Irish election source/enrichment data",
-        "election",
-        "features",
-        "Republic of Ireland",
-        "new-interactive-map",
-        "ARCGIS GEOSERVICES REST API",
-        "CSV",
-        "GEOJSON",
-        "HTML",
-        "KML",
-        "ZIP",
-        "review:duplicate-or-variant-review-no-existing-match-candidate",
-        "review:election-model-merge-and-provenance-review-requires-exact-election-merge-review"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 915,
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:covid-19-hse-daily-vaccination-figures:00914",
-          "title": "COVID-19 HSE Daily Vaccination Figures",
-          "cleanTitle": "COVID-19 HSE Daily Vaccination Figures",
-          "provider": "Tailte/OSI/data.gov.ie",
-          "organisation": "Tailte Éireann",
-          "category": "spatial",
-          "roiGroup": "2. Irish election source/enrichment data",
-          "groupTitle": "Irish election source/enrichment data",
-          "jurisdiction": "Republic of Ireland",
-          "topic": "election",
-          "featureUnit": "features",
-          "formats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "GEOJSON",
-            "HTML",
-            "KML",
-            "ZIP"
-          ],
-          "isSpatial": true,
-          "isLargeOrSpecial": false,
-          "proposedAction": "new-interactive-map",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "MapLibre interactive layer",
-            "conversion": "Convert source geometry to PMTiles/vector tiles after approval.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GEOJSON",
-              "HTML",
-              "KML",
-              "ZIP"
-            ]
-          },
-          "approvalState": "ready-with-residual-review",
-          "sourcePublicationState": "public source record with runtime/semantic review still pending",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/covid-19-hse-daily-vaccination-figures",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/covid-19-hse-daily-vaccination-figures",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate",
-            "election-model-merge-and-provenance-review: requires exact election merge review"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source record",
-        "Runtime review pending",
-        "Spatial source",
-        "Conversion pending",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Irish election source/enrichment data",
-        "Republic of Ireland",
-        "election",
-        "COVID-19 HSE Daily Vaccination Figures"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text",
-          "download-only"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/covid-19-hse-daily-vaccination-figures",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/covid-19-hse-daily-vaccination-figures",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "Convert source geometry to PMTiles/vector tiles after approval."
-      },
-      "shortCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie, COVID-19 HSE Daily Vaccination Figures.",
-      "fullCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie. COVID-19 HSE Daily Vaccination Figures. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/covid-19-hse-daily-vaccination-figures. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/covid-19-hse-daily-vaccination-figures.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:2-irish-election-source-enrichment-data:covid-19-hse-daily-vaccination-figures:00914",
-        "sourceRowNumber": 915,
-        "approvalState": "ready-with-residual-review",
-        "recommendedAction": "publish source record; convert to interactive map in a later runtime pass",
-        "proposedAction": "new-interactive-map",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "MapLibre interactive layer",
-          "conversion": "Convert source geometry to PMTiles/vector tiles after approval.",
-          "sourceFormats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "GEOJSON",
-            "HTML",
-            "KML",
-            "ZIP"
-          ]
-        },
-        "confidence": 60,
-        "residualBlockers": [
-          "duplicate-or-variant-review: no existing match candidate",
-          "election-model-merge-and-provenance-review: requires exact election merge review"
-        ],
-        "resolvedBlockers": [
-          "large-or-special-format-review: normal source package; no special-format hold",
-          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-        ],
-        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-      },
-      "publicationStatus": "source-record-with-runtime-review",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record-runtime-conversion-pending",
-      "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-covid-19-hse-daily-vaccination-figures-00914",
-      "rawMetadata": {
-        "id": "medium-priority:2-irish-election-source-enrichment-data:covid-19-hse-daily-vaccination-figures:00914",
-        "slug": "medium-priority-2-irish-election-source-enrichment-data-covid-19-hse-daily-vaccination-figures-00914",
-        "type": "approved-medium-priority-source",
-        "title": "COVID-19 HSE Daily Vaccination Figures",
-        "subtitle": "Irish election source/enrichment data / Tailte Éireann, Tailte/OSI/data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, GEOJSON, HTML, KML, ZIP / Source record; runtime review pending",
-        "category": "Medium-priority: Irish election source/enrichment data",
-        "provider": [
-          "Tailte Éireann",
-          "Tailte/OSI/data.gov.ie"
-        ],
-        "description": "COVID-19 HSE Daily Vaccination Figures is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; election-model-merge-and-provenance-review: requires exact election merge review.",
-        "url": "https://data.gov.ie/dataset/covid-19-hse-daily-vaccination-figures",
-        "references": [
-          {
-            "label": "COVID-19 HSE Daily Vaccination Figures provider page",
-            "url": "https://data.gov.ie/dataset/covid-19-hse-daily-vaccination-figures",
-            "source": "Tailte/OSI/data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "COVID-19 HSE Daily Vaccination Figures Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/covid-19-hse-daily-vaccination-figures",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/covid-19-hse-daily-vaccination-figures",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source record",
-          "Runtime review pending",
-          "Spatial source",
-          "Conversion pending",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Irish election source/enrichment data",
-          "Republic of Ireland",
-          "election",
-          "COVID-19 HSE Daily Vaccination Figures"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text",
-            "download-only"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/covid-19-hse-daily-vaccination-figures",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/covid-19-hse-daily-vaccination-figures",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "Convert source geometry to PMTiles/vector tiles after approval."
-        },
-        "shortCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie, COVID-19 HSE Daily Vaccination Figures.",
-        "fullCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie. COVID-19 HSE Daily Vaccination Figures. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/covid-19-hse-daily-vaccination-figures. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/covid-19-hse-daily-vaccination-figures.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 915,
-            "stagingId": "medium-prep:2-irish-election-source-enrichment-data:covid-19-hse-daily-vaccination-figures:00914",
-            "title": "COVID-19 HSE Daily Vaccination Figures",
-            "cleanTitle": "COVID-19 HSE Daily Vaccination Figures",
-            "provider": "Tailte/OSI/data.gov.ie",
-            "organisation": "Tailte Éireann",
-            "category": "spatial",
-            "roiGroup": "2. Irish election source/enrichment data",
-            "groupTitle": "Irish election source/enrichment data",
-            "jurisdiction": "Republic of Ireland",
-            "topic": "election",
-            "featureUnit": "features",
-            "formats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GEOJSON",
-              "HTML",
-              "KML",
-              "ZIP"
-            ],
-            "isSpatial": true,
-            "isLargeOrSpecial": false,
-            "proposedAction": "new-interactive-map",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "MapLibre interactive layer",
-              "conversion": "Convert source geometry to PMTiles/vector tiles after approval.",
-              "sourceFormats": [
-                "ARCGIS GEOSERVICES REST API",
-                "CSV",
-                "GEOJSON",
-                "HTML",
-                "KML",
-                "ZIP"
-              ]
-            },
-            "approvalState": "ready-with-residual-review",
-            "sourcePublicationState": "public source record with runtime/semantic review still pending",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/covid-19-hse-daily-vaccination-figures",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/covid-19-hse-daily-vaccination-figures",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "large-or-special-format-review: normal source package; no special-format hold",
-              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-            ],
-            "residualBlockers": [
-              "duplicate-or-variant-review: no existing match candidate",
-              "election-model-merge-and-provenance-review: requires exact election merge review"
-            ],
-            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:covid-19-hse-daily-vaccination-figures:00914",
-          "sourceRowNumber": 915,
-          "approvalState": "ready-with-residual-review",
-          "recommendedAction": "publish source record; convert to interactive map in a later runtime pass",
-          "proposedAction": "new-interactive-map",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "MapLibre interactive layer",
-            "conversion": "Convert source geometry to PMTiles/vector tiles after approval.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GEOJSON",
-              "HTML",
-              "KML",
-              "ZIP"
-            ]
-          },
-          "confidence": 60,
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate",
-            "election-model-merge-and-provenance-review: requires exact election merge review"
-          ],
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        },
-        "publicationStatus": "source-record-with-runtime-review",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record-runtime-conversion-pending",
-        "keywords": [
-          "medium-priority-publication",
-          "source-record-with-runtime-review",
-          "Irish election source/enrichment data",
-          "election",
-          "features",
-          "Republic of Ireland",
-          "new-interactive-map",
-          "ARCGIS GEOSERVICES REST API",
-          "CSV",
-          "GEOJSON",
-          "HTML",
-          "KML",
-          "ZIP",
-          "review:duplicate-or-variant-review-no-existing-match-candidate",
-          "review:election-model-merge-and-provenance-review-requires-exact-election-merge-review"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-covid-19-hse-daily-vaccination-figures-00914"
       }
     }
   ]

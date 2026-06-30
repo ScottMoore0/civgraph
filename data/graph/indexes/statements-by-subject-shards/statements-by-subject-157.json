@@ -1,9 +1,583 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T18:49:30.225Z",
+  "generatedAt": "2026-06-30T18:58:05.105Z",
   "shard": 157,
   "totalSubjects": 250,
   "items": {
+    "cg:person:name-sir-william-whitla": [
+      {
+        "id": "cg:statement:73530001b3474e47fb14",
+        "propertyId": "cg:property:has-candidature",
+        "propertyLabel": "has candidature",
+        "valueType": "entity",
+        "valueId": "cg:candidature:cg-person-name-sir-william-whitla-cg-contest-dail-eireann-1918-12-14-dai-8c9e2f3804a9",
+        "valueLabel": "Sir William Whitla - Queen's University Belfast",
+        "valueText": "Sir William Whitla - Queen's University Belfast",
+        "valueDescription": "1918 Irish general election / Unionist / Elected",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "1918-12-14",
+            "valueText": "1918-12-14"
+          },
+          {
+            "propertyId": "cg:property:constituency",
+            "propertyLabel": "constituency",
+            "valueType": "string",
+            "valueLabel": "Queen's University Belfast",
+            "valueText": "Queen's University Belfast"
+          },
+          {
+            "propertyId": "cg:property:candidature-status",
+            "propertyLabel": "candidature status",
+            "valueType": "string",
+            "valueLabel": "Elected",
+            "valueText": "Elected"
+          },
+          {
+            "propertyId": "cg:property:elected",
+            "propertyLabel": "elected",
+            "valueType": "boolean",
+            "valueLabel": "Yes",
+            "valueText": "Yes"
+          },
+          {
+            "propertyId": "cg:property:first-preference-votes",
+            "propertyLabel": "first preference votes",
+            "valueType": "number",
+            "valueLabel": "1487",
+            "valueText": "1487"
+          },
+          {
+            "propertyId": "cg:property:member-of-political-party",
+            "propertyLabel": "member of political party or label",
+            "valueType": "entity",
+            "valueId": "cg:party:unionist",
+            "valueLabel": "Unionist",
+            "valueText": "Unionist"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-person-index",
+            "sourceTitle": "Civgraph Browse person index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:69e659d6c10d7e910871",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:person",
+        "valueLabel": "Person",
+        "valueText": "Person",
+        "valueDescription": "A person who appears in Civgraph public data, including election candidates, MPs, and MLAs.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:dcab93db4f46334f3102",
+        "propertyId": "cg:property:member-of-political-party",
+        "propertyLabel": "member of political party or label",
+        "valueType": "entity",
+        "valueId": "cg:party:unionist",
+        "valueLabel": "Unionist",
+        "valueText": "Unionist",
+        "valueDescription": "1918 / 1 linked elections",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "Browse person party summary",
+            "valueText": "Browse person party summary"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-person-index",
+            "sourceTitle": "Civgraph Browse person index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:e937f464194e2b060ee5",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Sir William Whitla",
+        "valueText": "Sir William Whitla",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:1e54aa1ccaf51052128d",
+        "propertyId": "cg:property:stood-in-election",
+        "propertyLabel": "stood in election",
+        "valueType": "entity",
+        "valueId": "cg:election:dail-eireann-1918-12-14",
+        "valueLabel": "1918 Irish general election",
+        "valueText": "1918 Irish general election",
+        "valueDescription": "103 constituencies",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "1918-12-14",
+            "valueText": "1918-12-14"
+          },
+          {
+            "propertyId": "cg:property:constituency",
+            "propertyLabel": "constituency",
+            "valueType": "string",
+            "valueLabel": "Queen's University Belfast",
+            "valueText": "Queen's University Belfast"
+          },
+          {
+            "propertyId": "cg:property:candidature-status",
+            "propertyLabel": "candidature status",
+            "valueType": "string",
+            "valueLabel": "Elected",
+            "valueText": "Elected"
+          },
+          {
+            "propertyId": "cg:property:elected",
+            "propertyLabel": "elected",
+            "valueType": "boolean",
+            "valueLabel": "Yes",
+            "valueText": "Yes"
+          },
+          {
+            "propertyId": "cg:property:first-preference-votes",
+            "propertyLabel": "first preference votes",
+            "valueType": "number",
+            "valueLabel": "1487",
+            "valueText": "1487"
+          },
+          {
+            "propertyId": "cg:property:member-of-political-party",
+            "propertyLabel": "member of political party or label",
+            "valueType": "entity",
+            "valueId": "cg:party:unionist",
+            "valueLabel": "Unionist",
+            "valueText": "Unionist"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-person-index",
+            "sourceTitle": "Civgraph Browse person index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      }
+    ],
+    "cg:person:name-sir-wilson-hungerford": [
+      {
+        "id": "cg:statement:6cfcddbd421dcdda0b25",
+        "propertyId": "cg:property:has-candidature",
+        "propertyLabel": "has candidature",
+        "valueType": "entity",
+        "valueId": "cg:candidature:cg-person-name-sir-wilson-hungerford-cg-contest-parliament-of-northern-i-bbad002989b9",
+        "valueLabel": "Sir Wilson Hungerford - Belfast Oldpark",
+        "valueText": "Sir Wilson Hungerford - Belfast Oldpark",
+        "valueDescription": "1933 Parliament of Northern Ireland election / UUP",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "1933-11-30",
+            "valueText": "1933-11-30"
+          },
+          {
+            "propertyId": "cg:property:constituency",
+            "propertyLabel": "constituency",
+            "valueType": "string",
+            "valueLabel": "Belfast Oldpark",
+            "valueText": "Belfast Oldpark"
+          },
+          {
+            "propertyId": "cg:property:elected",
+            "propertyLabel": "elected",
+            "valueType": "boolean",
+            "valueLabel": "No",
+            "valueText": "No"
+          },
+          {
+            "propertyId": "cg:property:first-preference-votes",
+            "propertyLabel": "first preference votes",
+            "valueType": "number",
+            "valueLabel": "5427",
+            "valueText": "5427"
+          },
+          {
+            "propertyId": "cg:property:member-of-political-party",
+            "propertyLabel": "member of political party or label",
+            "valueType": "entity",
+            "valueId": "cg:party:uup",
+            "valueLabel": "UUP",
+            "valueText": "UUP"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-person-index",
+            "sourceTitle": "Civgraph Browse person index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:78fc7bf7485a9ed4962a",
+        "propertyId": "cg:property:has-candidature",
+        "propertyLabel": "has candidature",
+        "valueType": "entity",
+        "valueId": "cg:candidature:cg-person-name-sir-wilson-hungerford-cg-contest-parliament-of-northern-i-ba4e3c4ee81a",
+        "valueLabel": "Sir Wilson Hungerford - Belfast Oldpark",
+        "valueText": "Sir Wilson Hungerford - Belfast Oldpark",
+        "valueDescription": "1945 Parliament of Northern Ireland election / UUP",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "1945-06-14",
+            "valueText": "1945-06-14"
+          },
+          {
+            "propertyId": "cg:property:constituency",
+            "propertyLabel": "constituency",
+            "valueType": "string",
+            "valueLabel": "Belfast Oldpark",
+            "valueText": "Belfast Oldpark"
+          },
+          {
+            "propertyId": "cg:property:elected",
+            "propertyLabel": "elected",
+            "valueType": "boolean",
+            "valueLabel": "No",
+            "valueText": "No"
+          },
+          {
+            "propertyId": "cg:property:first-preference-votes",
+            "propertyLabel": "first preference votes",
+            "valueType": "number",
+            "valueLabel": "6390",
+            "valueText": "6390"
+          },
+          {
+            "propertyId": "cg:property:member-of-political-party",
+            "propertyLabel": "member of political party or label",
+            "valueType": "entity",
+            "valueId": "cg:party:uup",
+            "valueLabel": "UUP",
+            "valueText": "UUP"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-person-index",
+            "sourceTitle": "Civgraph Browse person index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:d7f8dc87bb1ba0eba786",
+        "propertyId": "cg:property:has-candidature",
+        "propertyLabel": "has candidature",
+        "valueType": "entity",
+        "valueId": "cg:candidature:cg-person-name-sir-wilson-hungerford-cg-contest-parliament-of-northern-i-8538e124e9d6",
+        "valueLabel": "Sir Wilson Hungerford - Belfast Oldpark",
+        "valueText": "Sir Wilson Hungerford - Belfast Oldpark",
+        "valueDescription": "1938 Parliament of Northern Ireland election / UUP / Elected",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "1938-02-09",
+            "valueText": "1938-02-09"
+          },
+          {
+            "propertyId": "cg:property:constituency",
+            "propertyLabel": "constituency",
+            "valueType": "string",
+            "valueLabel": "Belfast Oldpark",
+            "valueText": "Belfast Oldpark"
+          },
+          {
+            "propertyId": "cg:property:candidature-status",
+            "propertyLabel": "candidature status",
+            "valueType": "string",
+            "valueLabel": "Elected",
+            "valueText": "Elected"
+          },
+          {
+            "propertyId": "cg:property:elected",
+            "propertyLabel": "elected",
+            "valueType": "boolean",
+            "valueLabel": "Yes",
+            "valueText": "Yes"
+          },
+          {
+            "propertyId": "cg:property:first-preference-votes",
+            "propertyLabel": "first preference votes",
+            "valueType": "number",
+            "valueLabel": "7310",
+            "valueText": "7310"
+          },
+          {
+            "propertyId": "cg:property:member-of-political-party",
+            "propertyLabel": "member of political party or label",
+            "valueType": "entity",
+            "valueId": "cg:party:uup",
+            "valueLabel": "UUP",
+            "valueText": "UUP"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-person-index",
+            "sourceTitle": "Civgraph Browse person index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:a7e9d639fd2641dec275",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:person",
+        "valueLabel": "Person",
+        "valueText": "Person",
+        "valueDescription": "A person who appears in Civgraph public data, including election candidates, MPs, and MLAs.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:88dd3d6b0e73b692371c",
+        "propertyId": "cg:property:member-of-political-party",
+        "propertyLabel": "member of political party or label",
+        "valueType": "entity",
+        "valueId": "cg:party:uup",
+        "valueLabel": "UUP",
+        "valueText": "UUP",
+        "valueDescription": "1921-2024 / 148 linked elections",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "Browse person party summary",
+            "valueText": "Browse person party summary"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-person-index",
+            "sourceTitle": "Civgraph Browse person index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:e8512d983a1a3caa7fd5",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Sir Wilson Hungerford",
+        "valueText": "Sir Wilson Hungerford",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:260f7cea3d93d94377a2",
+        "propertyId": "cg:property:stood-in-election",
+        "propertyLabel": "stood in election",
+        "valueType": "entity",
+        "valueId": "cg:election:parliament-of-northern-ireland-1938-02-09",
+        "valueLabel": "1938 Parliament of Northern Ireland election",
+        "valueText": "1938 Parliament of Northern Ireland election",
+        "valueDescription": "49 constituencies; 1 unmatched",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "1938-02-09",
+            "valueText": "1938-02-09"
+          },
+          {
+            "propertyId": "cg:property:constituency",
+            "propertyLabel": "constituency",
+            "valueType": "string",
+            "valueLabel": "Belfast Oldpark",
+            "valueText": "Belfast Oldpark"
+          },
+          {
+            "propertyId": "cg:property:candidature-status",
+            "propertyLabel": "candidature status",
+            "valueType": "string",
+            "valueLabel": "Elected",
+            "valueText": "Elected"
+          },
+          {
+            "propertyId": "cg:property:elected",
+            "propertyLabel": "elected",
+            "valueType": "boolean",
+            "valueLabel": "Yes",
+            "valueText": "Yes"
+          },
+          {
+            "propertyId": "cg:property:first-preference-votes",
+            "propertyLabel": "first preference votes",
+            "valueType": "number",
+            "valueLabel": "7310",
+            "valueText": "7310"
+          },
+          {
+            "propertyId": "cg:property:member-of-political-party",
+            "propertyLabel": "member of political party or label",
+            "valueType": "entity",
+            "valueId": "cg:party:uup",
+            "valueLabel": "UUP",
+            "valueText": "UUP"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-person-index",
+            "sourceTitle": "Civgraph Browse person index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:b20b37ea055df463a58e",
+        "propertyId": "cg:property:stood-in-election",
+        "propertyLabel": "stood in election",
+        "valueType": "entity",
+        "valueId": "cg:election:parliament-of-northern-ireland-1933-11-30",
+        "valueLabel": "1933 Parliament of Northern Ireland election",
+        "valueText": "1933 Parliament of Northern Ireland election",
+        "valueDescription": "49 constituencies; 1 unmatched",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "1933-11-30",
+            "valueText": "1933-11-30"
+          },
+          {
+            "propertyId": "cg:property:constituency",
+            "propertyLabel": "constituency",
+            "valueType": "string",
+            "valueLabel": "Belfast Oldpark",
+            "valueText": "Belfast Oldpark"
+          },
+          {
+            "propertyId": "cg:property:elected",
+            "propertyLabel": "elected",
+            "valueType": "boolean",
+            "valueLabel": "No",
+            "valueText": "No"
+          },
+          {
+            "propertyId": "cg:property:first-preference-votes",
+            "propertyLabel": "first preference votes",
+            "valueType": "number",
+            "valueLabel": "5427",
+            "valueText": "5427"
+          },
+          {
+            "propertyId": "cg:property:member-of-political-party",
+            "propertyLabel": "member of political party or label",
+            "valueType": "entity",
+            "valueId": "cg:party:uup",
+            "valueLabel": "UUP",
+            "valueText": "UUP"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-person-index",
+            "sourceTitle": "Civgraph Browse person index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:c8363b839624de284a23",
+        "propertyId": "cg:property:stood-in-election",
+        "propertyLabel": "stood in election",
+        "valueType": "entity",
+        "valueId": "cg:election:parliament-of-northern-ireland-1945-06-14",
+        "valueLabel": "1945 Parliament of Northern Ireland election",
+        "valueText": "1945 Parliament of Northern Ireland election",
+        "valueDescription": "49 constituencies; 1 unmatched",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "1945-06-14",
+            "valueText": "1945-06-14"
+          },
+          {
+            "propertyId": "cg:property:constituency",
+            "propertyLabel": "constituency",
+            "valueType": "string",
+            "valueLabel": "Belfast Oldpark",
+            "valueText": "Belfast Oldpark"
+          },
+          {
+            "propertyId": "cg:property:elected",
+            "propertyLabel": "elected",
+            "valueType": "boolean",
+            "valueLabel": "No",
+            "valueText": "No"
+          },
+          {
+            "propertyId": "cg:property:first-preference-votes",
+            "propertyLabel": "first preference votes",
+            "valueType": "number",
+            "valueLabel": "6390",
+            "valueText": "6390"
+          },
+          {
+            "propertyId": "cg:property:member-of-political-party",
+            "propertyLabel": "member of political party or label",
+            "valueType": "entity",
+            "valueId": "cg:party:uup",
+            "valueLabel": "UUP",
+            "valueText": "UUP"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-person-index",
+            "sourceTitle": "Civgraph Browse person index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      }
+    ],
     "cg:person:name-sirena-campbell": [
       {
         "id": "cg:statement:5066f727ecfe4d8200a5",
@@ -93866,1794 +94440,6 @@
             "valueType": "number",
             "valueLabel": "931",
             "valueText": "931"
-          },
-          {
-            "propertyId": "cg:property:member-of-political-party",
-            "propertyLabel": "member of political party or label",
-            "valueType": "entity",
-            "valueId": "cg:party:uup",
-            "valueLabel": "UUP",
-            "valueText": "UUP"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      }
-    ],
-    "cg:person:name-sylvia-hermon": [
-      {
-        "id": "cg:statement:00ebe5632951b19f0245",
-        "propertyId": "cg:property:elected-body",
-        "propertyLabel": "elected body",
-        "valueType": "entity",
-        "valueId": "cg:body:house-of-commons",
-        "valueLabel": "House of Commons",
-        "valueText": "House of Commons",
-        "valueDescription": "House of Commons of the United Kingdom",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "2019-11-05",
-            "valueText": "2019-11-05"
-          },
-          {
-            "propertyId": "cg:property:political-office",
-            "propertyLabel": "political office",
-            "valueType": "entity",
-            "valueId": "cg:office:mp",
-            "valueLabel": "Member of Parliament",
-            "valueText": "Member of Parliament"
-          },
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "North Down",
-            "valueText": "North Down"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:ni-register-mp-full-csv",
-            "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
-            "sourceKind": "filtered-westminster-csv",
-            "sourceRecordId": "ni-register:mp:full-csv",
-            "date": "2019-11-05",
-            "extractionConfidence": "high"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:b894bc7a1e219f5e544b",
-        "propertyId": "cg:property:elected-body",
-        "propertyLabel": "elected body",
-        "valueType": "entity",
-        "valueId": "cg:body:house-of-commons",
-        "valueLabel": "House of Commons",
-        "valueText": "House of Commons",
-        "valueDescription": "House of Commons of the United Kingdom",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "2002-11-26",
-            "valueText": "2002-11-26"
-          },
-          {
-            "propertyId": "cg:property:political-office",
-            "propertyLabel": "political office",
-            "valueType": "entity",
-            "valueId": "cg:office:mp",
-            "valueLabel": "Member of Parliament",
-            "valueText": "Member of Parliament"
-          },
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "North Down",
-            "valueText": "North Down"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:ni-register-mp-full-csv",
-            "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
-            "sourceKind": "filtered-westminster-csv",
-            "sourceRecordId": "ni-register:mp:full-csv",
-            "date": "2002-11-26",
-            "extractionConfidence": "high"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:f77c33173d2720e775a5",
-        "propertyId": "cg:property:elected-body",
-        "propertyLabel": "elected body",
-        "valueType": "entity",
-        "valueId": "cg:body:house-of-commons",
-        "valueLabel": "House of Commons",
-        "valueText": "House of Commons",
-        "valueDescription": "House of Commons of the United Kingdom",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "2005-01-28",
-            "valueText": "2005-01-28"
-          },
-          {
-            "propertyId": "cg:property:political-office",
-            "propertyLabel": "political office",
-            "valueType": "entity",
-            "valueId": "cg:office:mp",
-            "valueLabel": "Member of Parliament",
-            "valueText": "Member of Parliament"
-          },
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "North Down",
-            "valueText": "North Down"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:ni-register-mp-full-csv",
-            "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
-            "sourceKind": "filtered-westminster-csv",
-            "sourceRecordId": "ni-register:mp:full-csv",
-            "date": "2005-01-28",
-            "extractionConfidence": "high"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:0964aef3aff9efb03a65",
-        "propertyId": "cg:property:has-candidature",
-        "propertyLabel": "has candidature",
-        "valueType": "entity",
-        "valueId": "cg:candidature:cg-person-name-sylvia-hermon-cg-contest-house-of-commons-of-the-united-k-7dbdcfba0c67",
-        "valueLabel": "Sylvia Hermon - North Down",
-        "valueText": "Sylvia Hermon - North Down",
-        "valueDescription": "2005 UK general election in Northern Ireland / UUP / Deemed elected",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "2005-05-05",
-            "valueText": "2005-05-05"
-          },
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "North Down",
-            "valueText": "North Down"
-          },
-          {
-            "propertyId": "cg:property:candidature-status",
-            "propertyLabel": "candidature status",
-            "valueType": "string",
-            "valueLabel": "Deemed elected",
-            "valueText": "Deemed elected"
-          },
-          {
-            "propertyId": "cg:property:elected",
-            "propertyLabel": "elected",
-            "valueType": "boolean",
-            "valueLabel": "Yes",
-            "valueText": "Yes"
-          },
-          {
-            "propertyId": "cg:property:first-preference-votes",
-            "propertyLabel": "first preference votes",
-            "valueType": "number",
-            "valueLabel": "16268",
-            "valueText": "16268"
-          },
-          {
-            "propertyId": "cg:property:member-of-political-party",
-            "propertyLabel": "member of political party or label",
-            "valueType": "entity",
-            "valueId": "cg:party:uup",
-            "valueLabel": "UUP",
-            "valueText": "UUP"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:6aa3093a29ee1bbb19b8",
-        "propertyId": "cg:property:has-candidature",
-        "propertyLabel": "has candidature",
-        "valueType": "entity",
-        "valueId": "cg:candidature:cg-person-name-sylvia-hermon-cg-contest-house-of-commons-of-the-united-k-59664436d587",
-        "valueLabel": "Sylvia Hermon - North Down",
-        "valueText": "Sylvia Hermon - North Down",
-        "valueDescription": "2010 UK general election in Northern Ireland / Independent Unionist / Deemed elected",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "2010-05-06",
-            "valueText": "2010-05-06"
-          },
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "North Down",
-            "valueText": "North Down"
-          },
-          {
-            "propertyId": "cg:property:candidature-status",
-            "propertyLabel": "candidature status",
-            "valueType": "string",
-            "valueLabel": "Deemed elected",
-            "valueText": "Deemed elected"
-          },
-          {
-            "propertyId": "cg:property:elected",
-            "propertyLabel": "elected",
-            "valueType": "boolean",
-            "valueLabel": "Yes",
-            "valueText": "Yes"
-          },
-          {
-            "propertyId": "cg:property:first-preference-votes",
-            "propertyLabel": "first preference votes",
-            "valueType": "number",
-            "valueLabel": "21181",
-            "valueText": "21181"
-          },
-          {
-            "propertyId": "cg:property:member-of-political-party",
-            "propertyLabel": "member of political party or label",
-            "valueType": "entity",
-            "valueId": "cg:party:independent-unionist",
-            "valueLabel": "Independent Unionist",
-            "valueText": "Independent Unionist"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:722474da8e200f85afdd",
-        "propertyId": "cg:property:has-candidature",
-        "propertyLabel": "has candidature",
-        "valueType": "entity",
-        "valueId": "cg:candidature:cg-person-name-sylvia-hermon-cg-contest-house-of-commons-of-the-united-k-bfa0d850b8e3",
-        "valueLabel": "Sylvia Hermon - North Down",
-        "valueText": "Sylvia Hermon - North Down",
-        "valueDescription": "2017 UK general election in Northern Ireland / Independent Unionist / Deemed elected",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "2017-06-08",
-            "valueText": "2017-06-08"
-          },
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "North Down",
-            "valueText": "North Down"
-          },
-          {
-            "propertyId": "cg:property:candidature-status",
-            "propertyLabel": "candidature status",
-            "valueType": "string",
-            "valueLabel": "Deemed elected",
-            "valueText": "Deemed elected"
-          },
-          {
-            "propertyId": "cg:property:elected",
-            "propertyLabel": "elected",
-            "valueType": "boolean",
-            "valueLabel": "Yes",
-            "valueText": "Yes"
-          },
-          {
-            "propertyId": "cg:property:first-preference-votes",
-            "propertyLabel": "first preference votes",
-            "valueType": "number",
-            "valueLabel": "16148",
-            "valueText": "16148"
-          },
-          {
-            "propertyId": "cg:property:member-of-political-party",
-            "propertyLabel": "member of political party or label",
-            "valueType": "entity",
-            "valueId": "cg:party:independent-unionist",
-            "valueLabel": "Independent Unionist",
-            "valueText": "Independent Unionist"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:807378947676c6834ba5",
-        "propertyId": "cg:property:has-candidature",
-        "propertyLabel": "has candidature",
-        "valueType": "entity",
-        "valueId": "cg:candidature:cg-person-name-sylvia-hermon-cg-contest-house-of-commons-of-the-united-k-a3c1642a703f",
-        "valueLabel": "Sylvia Hermon - North Down",
-        "valueText": "Sylvia Hermon - North Down",
-        "valueDescription": "2015 UK general election in Northern Ireland / Independent Unionist / Deemed elected",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "2015-05-07",
-            "valueText": "2015-05-07"
-          },
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "North Down",
-            "valueText": "North Down"
-          },
-          {
-            "propertyId": "cg:property:candidature-status",
-            "propertyLabel": "candidature status",
-            "valueType": "string",
-            "valueLabel": "Deemed elected",
-            "valueText": "Deemed elected"
-          },
-          {
-            "propertyId": "cg:property:elected",
-            "propertyLabel": "elected",
-            "valueType": "boolean",
-            "valueLabel": "Yes",
-            "valueText": "Yes"
-          },
-          {
-            "propertyId": "cg:property:first-preference-votes",
-            "propertyLabel": "first preference votes",
-            "valueType": "number",
-            "valueLabel": "17689",
-            "valueText": "17689"
-          },
-          {
-            "propertyId": "cg:property:member-of-political-party",
-            "propertyLabel": "member of political party or label",
-            "valueType": "entity",
-            "valueId": "cg:party:independent-unionist",
-            "valueLabel": "Independent Unionist",
-            "valueText": "Independent Unionist"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:8b0d3b16781f445ac3bd",
-        "propertyId": "cg:property:has-candidature",
-        "propertyLabel": "has candidature",
-        "valueType": "entity",
-        "valueId": "cg:candidature:cg-person-name-sylvia-hermon-cg-contest-house-of-commons-of-the-united-k-85594c47e2a2",
-        "valueLabel": "Sylvia Hermon - North Down",
-        "valueText": "Sylvia Hermon - North Down",
-        "valueDescription": "2001 UK general election in Northern Ireland / UUP / Deemed elected",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "2001-06-07",
-            "valueText": "2001-06-07"
-          },
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "North Down",
-            "valueText": "North Down"
-          },
-          {
-            "propertyId": "cg:property:candidature-status",
-            "propertyLabel": "candidature status",
-            "valueType": "string",
-            "valueLabel": "Deemed elected",
-            "valueText": "Deemed elected"
-          },
-          {
-            "propertyId": "cg:property:elected",
-            "propertyLabel": "elected",
-            "valueType": "boolean",
-            "valueLabel": "Yes",
-            "valueText": "Yes"
-          },
-          {
-            "propertyId": "cg:property:first-preference-votes",
-            "propertyLabel": "first preference votes",
-            "valueType": "number",
-            "valueLabel": "20833",
-            "valueText": "20833"
-          },
-          {
-            "propertyId": "cg:property:member-of-political-party",
-            "propertyLabel": "member of political party or label",
-            "valueType": "entity",
-            "valueId": "cg:party:uup",
-            "valueLabel": "UUP",
-            "valueText": "UUP"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:038d4ed0e02fc0046039",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:person",
-        "valueLabel": "Person",
-        "valueText": "Person",
-        "valueDescription": "A person who appears in Civgraph public data, including election candidates, MPs, and MLAs.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:0694761b8d2412d53de6",
-        "propertyId": "cg:property:member-of-political-party",
-        "propertyLabel": "member of political party or label",
-        "valueType": "entity",
-        "valueId": "cg:party:independent-unionist",
-        "valueLabel": "Independent Unionist",
-        "valueText": "Independent Unionist",
-        "valueDescription": "1918-2024 / 49 linked elections",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "2005-01-28",
-            "valueText": "2005-01-28"
-          },
-          {
-            "propertyId": "cg:property:elected-body",
-            "propertyLabel": "elected body",
-            "valueType": "entity",
-            "valueId": "cg:body:house-of-commons",
-            "valueLabel": "House of Commons",
-            "valueText": "House of Commons"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:ni-register-mp-full-csv",
-            "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
-            "sourceKind": "filtered-westminster-csv",
-            "sourceRecordId": "ni-register:mp:full-csv",
-            "date": "2005-01-28",
-            "extractionConfidence": "high"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:1401e00d9b5be8b4c306",
-        "propertyId": "cg:property:member-of-political-party",
-        "propertyLabel": "member of political party or label",
-        "valueType": "entity",
-        "valueId": "cg:party:uup",
-        "valueLabel": "UUP",
-        "valueText": "UUP",
-        "valueDescription": "1921-2024 / 148 linked elections",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "2005-01-28",
-            "valueText": "2005-01-28"
-          },
-          {
-            "propertyId": "cg:property:elected-body",
-            "propertyLabel": "elected body",
-            "valueType": "entity",
-            "valueId": "cg:body:house-of-commons",
-            "valueLabel": "House of Commons",
-            "valueText": "House of Commons"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:ni-register-mp-full-csv",
-            "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
-            "sourceKind": "filtered-westminster-csv",
-            "sourceRecordId": "ni-register:mp:full-csv",
-            "date": "2005-01-28",
-            "extractionConfidence": "high"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:8d2b8fd21798d75d649b",
-        "propertyId": "cg:property:member-of-political-party",
-        "propertyLabel": "member of political party or label",
-        "valueType": "entity",
-        "valueId": "cg:party:uup",
-        "valueLabel": "UUP",
-        "valueText": "UUP",
-        "valueDescription": "1921-2024 / 148 linked elections",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "2019-11-05",
-            "valueText": "2019-11-05"
-          },
-          {
-            "propertyId": "cg:property:elected-body",
-            "propertyLabel": "elected body",
-            "valueType": "entity",
-            "valueId": "cg:body:house-of-commons",
-            "valueLabel": "House of Commons",
-            "valueText": "House of Commons"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:ni-register-mp-full-csv",
-            "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
-            "sourceKind": "filtered-westminster-csv",
-            "sourceRecordId": "ni-register:mp:full-csv",
-            "date": "2019-11-05",
-            "extractionConfidence": "high"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:96182382c24e003149f3",
-        "propertyId": "cg:property:member-of-political-party",
-        "propertyLabel": "member of political party or label",
-        "valueType": "entity",
-        "valueId": "cg:party:independent-unionist",
-        "valueLabel": "Independent Unionist",
-        "valueText": "Independent Unionist",
-        "valueDescription": "1918-2024 / 49 linked elections",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "Browse person party summary",
-            "valueText": "Browse person party summary"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:9b22110e2ec85871b429",
-        "propertyId": "cg:property:member-of-political-party",
-        "propertyLabel": "member of political party or label",
-        "valueType": "entity",
-        "valueId": "cg:party:uup",
-        "valueLabel": "UUP",
-        "valueText": "UUP",
-        "valueDescription": "1921-2024 / 148 linked elections",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "Browse person party summary",
-            "valueText": "Browse person party summary"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:b4cb97596ddd39bd505e",
-        "propertyId": "cg:property:member-of-political-party",
-        "propertyLabel": "member of political party or label",
-        "valueType": "entity",
-        "valueId": "cg:party:uup",
-        "valueLabel": "UUP",
-        "valueText": "UUP",
-        "valueDescription": "1921-2024 / 148 linked elections",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "2002-11-26",
-            "valueText": "2002-11-26"
-          },
-          {
-            "propertyId": "cg:property:elected-body",
-            "propertyLabel": "elected body",
-            "valueType": "entity",
-            "valueId": "cg:body:house-of-commons",
-            "valueLabel": "House of Commons",
-            "valueText": "House of Commons"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:ni-register-mp-full-csv",
-            "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
-            "sourceKind": "filtered-westminster-csv",
-            "sourceRecordId": "ni-register:mp:full-csv",
-            "date": "2002-11-26",
-            "extractionConfidence": "high"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:e78e84a8cc8643d5a247",
-        "propertyId": "cg:property:member-of-political-party",
-        "propertyLabel": "member of political party or label",
-        "valueType": "entity",
-        "valueId": "cg:party:independent-unionist",
-        "valueLabel": "Independent Unionist",
-        "valueText": "Independent Unionist",
-        "valueDescription": "1918-2024 / 49 linked elections",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "2019-11-05",
-            "valueText": "2019-11-05"
-          },
-          {
-            "propertyId": "cg:property:elected-body",
-            "propertyLabel": "elected body",
-            "valueType": "entity",
-            "valueId": "cg:body:house-of-commons",
-            "valueLabel": "House of Commons",
-            "valueText": "House of Commons"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:ni-register-mp-full-csv",
-            "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
-            "sourceKind": "filtered-westminster-csv",
-            "sourceRecordId": "ni-register:mp:full-csv",
-            "date": "2019-11-05",
-            "extractionConfidence": "high"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:f14d208b821eda789e58",
-        "propertyId": "cg:property:member-of-political-party",
-        "propertyLabel": "member of political party or label",
-        "valueType": "entity",
-        "valueId": "cg:party:independent-unionist",
-        "valueLabel": "Independent Unionist",
-        "valueText": "Independent Unionist",
-        "valueDescription": "1918-2024 / 49 linked elections",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "2002-11-26",
-            "valueText": "2002-11-26"
-          },
-          {
-            "propertyId": "cg:property:elected-body",
-            "propertyLabel": "elected body",
-            "valueType": "entity",
-            "valueId": "cg:body:house-of-commons",
-            "valueLabel": "House of Commons",
-            "valueText": "House of Commons"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:ni-register-mp-full-csv",
-            "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
-            "sourceKind": "filtered-westminster-csv",
-            "sourceRecordId": "ni-register:mp:full-csv",
-            "date": "2002-11-26",
-            "extractionConfidence": "high"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:0aeb0967584e61794c2f",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Sylvia Hermon",
-        "valueText": "Sylvia Hermon",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:858d267c40736f236554",
-        "propertyId": "cg:property:register-record",
-        "propertyLabel": "register of interests record",
-        "valueType": "entity",
-        "valueId": "cg:register-record:ni-register-record-7fa51566e643ebeb",
-        "valueLabel": "Sylvia Hermon - House of Commons - 2005-01-28",
-        "valueText": "Sylvia Hermon - House of Commons - 2005-01-28",
-        "valueDescription": "Uncatagorised (format error): Nil.",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "2005-01-28",
-            "valueText": "2005-01-28"
-          },
-          {
-            "propertyId": "cg:property:elected-body",
-            "propertyLabel": "elected body",
-            "valueType": "entity",
-            "valueId": "cg:body:house-of-commons",
-            "valueLabel": "House of Commons",
-            "valueText": "House of Commons"
-          },
-          {
-            "propertyId": "cg:property:political-office",
-            "propertyLabel": "political office",
-            "valueType": "entity",
-            "valueId": "cg:office:mp",
-            "valueLabel": "Member of Parliament",
-            "valueText": "Member of Parliament"
-          },
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "North Down",
-            "valueText": "North Down"
-          },
-          {
-            "propertyId": "cg:property:source-row-count",
-            "propertyLabel": "source row count",
-            "valueType": "number",
-            "valueLabel": "1",
-            "valueText": "1"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:ni-register-mp-full-csv",
-            "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
-            "sourceKind": "filtered-westminster-csv",
-            "sourceRecordId": "ni-register:mp:full-csv",
-            "date": "2005-01-28",
-            "extractionConfidence": "high"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:b754e36bbc8fc6a1b399",
-        "propertyId": "cg:property:register-record",
-        "propertyLabel": "register of interests record",
-        "valueType": "entity",
-        "valueId": "cg:register-record:ni-register-record-e4ad78bf89f38616",
-        "valueLabel": "Sylvia Hermon - House of Commons - 2019-11-05",
-        "valueText": "Sylvia Hermon - House of Commons - 2019-11-05",
-        "valueDescription": "No declared interests: Nil interests were declared",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "2019-11-05",
-            "valueText": "2019-11-05"
-          },
-          {
-            "propertyId": "cg:property:elected-body",
-            "propertyLabel": "elected body",
-            "valueType": "entity",
-            "valueId": "cg:body:house-of-commons",
-            "valueLabel": "House of Commons",
-            "valueText": "House of Commons"
-          },
-          {
-            "propertyId": "cg:property:political-office",
-            "propertyLabel": "political office",
-            "valueType": "entity",
-            "valueId": "cg:office:mp",
-            "valueLabel": "Member of Parliament",
-            "valueText": "Member of Parliament"
-          },
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "North Down",
-            "valueText": "North Down"
-          },
-          {
-            "propertyId": "cg:property:source-row-count",
-            "propertyLabel": "source row count",
-            "valueType": "number",
-            "valueLabel": "1",
-            "valueText": "1"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:ni-register-mp-full-csv",
-            "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
-            "sourceKind": "filtered-westminster-csv",
-            "sourceRecordId": "ni-register:mp:full-csv",
-            "date": "2019-11-05",
-            "extractionConfidence": "high"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:dc0a71d66c8174b1f999",
-        "propertyId": "cg:property:register-record",
-        "propertyLabel": "register of interests record",
-        "valueType": "entity",
-        "valueId": "cg:register-record:ni-register-record-8ccd77103fe4c4df",
-        "valueLabel": "Sylvia Hermon - House of Commons - 2002-11-26",
-        "valueText": "Sylvia Hermon - House of Commons - 2002-11-26",
-        "valueDescription": "Uncatagorised (format error): Nil.",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "2002-11-26",
-            "valueText": "2002-11-26"
-          },
-          {
-            "propertyId": "cg:property:elected-body",
-            "propertyLabel": "elected body",
-            "valueType": "entity",
-            "valueId": "cg:body:house-of-commons",
-            "valueLabel": "House of Commons",
-            "valueText": "House of Commons"
-          },
-          {
-            "propertyId": "cg:property:political-office",
-            "propertyLabel": "political office",
-            "valueType": "entity",
-            "valueId": "cg:office:mp",
-            "valueLabel": "Member of Parliament",
-            "valueText": "Member of Parliament"
-          },
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "North Down",
-            "valueText": "North Down"
-          },
-          {
-            "propertyId": "cg:property:source-row-count",
-            "propertyLabel": "source row count",
-            "valueType": "number",
-            "valueLabel": "1",
-            "valueText": "1"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:ni-register-mp-full-csv",
-            "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
-            "sourceKind": "filtered-westminster-csv",
-            "sourceRecordId": "ni-register:mp:full-csv",
-            "date": "2002-11-26",
-            "extractionConfidence": "high"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:952179ddd1b7761f7969",
-        "propertyId": "cg:property:stood-in-election",
-        "propertyLabel": "stood in election",
-        "valueType": "entity",
-        "valueId": "cg:election:house-of-commons-of-the-united-kingdom-2010-05-06",
-        "valueLabel": "2010 UK general election in Northern Ireland",
-        "valueText": "2010 UK general election in Northern Ireland",
-        "valueDescription": "2010-05-06",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "2010-05-06",
-            "valueText": "2010-05-06"
-          },
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "North Down",
-            "valueText": "North Down"
-          },
-          {
-            "propertyId": "cg:property:candidature-status",
-            "propertyLabel": "candidature status",
-            "valueType": "string",
-            "valueLabel": "Deemed elected",
-            "valueText": "Deemed elected"
-          },
-          {
-            "propertyId": "cg:property:elected",
-            "propertyLabel": "elected",
-            "valueType": "boolean",
-            "valueLabel": "Yes",
-            "valueText": "Yes"
-          },
-          {
-            "propertyId": "cg:property:first-preference-votes",
-            "propertyLabel": "first preference votes",
-            "valueType": "number",
-            "valueLabel": "21181",
-            "valueText": "21181"
-          },
-          {
-            "propertyId": "cg:property:member-of-political-party",
-            "propertyLabel": "member of political party or label",
-            "valueType": "entity",
-            "valueId": "cg:party:independent-unionist",
-            "valueLabel": "Independent Unionist",
-            "valueText": "Independent Unionist"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:a266015e336ef3731f7b",
-        "propertyId": "cg:property:stood-in-election",
-        "propertyLabel": "stood in election",
-        "valueType": "entity",
-        "valueId": "cg:election:house-of-commons-of-the-united-kingdom-2015-05-07",
-        "valueLabel": "2015 UK general election in Northern Ireland",
-        "valueText": "2015 UK general election in Northern Ireland",
-        "valueDescription": "2015-05-07",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "2015-05-07",
-            "valueText": "2015-05-07"
-          },
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "North Down",
-            "valueText": "North Down"
-          },
-          {
-            "propertyId": "cg:property:candidature-status",
-            "propertyLabel": "candidature status",
-            "valueType": "string",
-            "valueLabel": "Deemed elected",
-            "valueText": "Deemed elected"
-          },
-          {
-            "propertyId": "cg:property:elected",
-            "propertyLabel": "elected",
-            "valueType": "boolean",
-            "valueLabel": "Yes",
-            "valueText": "Yes"
-          },
-          {
-            "propertyId": "cg:property:first-preference-votes",
-            "propertyLabel": "first preference votes",
-            "valueType": "number",
-            "valueLabel": "17689",
-            "valueText": "17689"
-          },
-          {
-            "propertyId": "cg:property:member-of-political-party",
-            "propertyLabel": "member of political party or label",
-            "valueType": "entity",
-            "valueId": "cg:party:independent-unionist",
-            "valueLabel": "Independent Unionist",
-            "valueText": "Independent Unionist"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:b203c49cd897bdadc9dc",
-        "propertyId": "cg:property:stood-in-election",
-        "propertyLabel": "stood in election",
-        "valueType": "entity",
-        "valueId": "cg:election:house-of-commons-of-the-united-kingdom-2005-05-05",
-        "valueLabel": "2005 UK general election in Northern Ireland",
-        "valueText": "2005 UK general election in Northern Ireland",
-        "valueDescription": "2005-05-05",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "2005-05-05",
-            "valueText": "2005-05-05"
-          },
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "North Down",
-            "valueText": "North Down"
-          },
-          {
-            "propertyId": "cg:property:candidature-status",
-            "propertyLabel": "candidature status",
-            "valueType": "string",
-            "valueLabel": "Deemed elected",
-            "valueText": "Deemed elected"
-          },
-          {
-            "propertyId": "cg:property:elected",
-            "propertyLabel": "elected",
-            "valueType": "boolean",
-            "valueLabel": "Yes",
-            "valueText": "Yes"
-          },
-          {
-            "propertyId": "cg:property:first-preference-votes",
-            "propertyLabel": "first preference votes",
-            "valueType": "number",
-            "valueLabel": "16268",
-            "valueText": "16268"
-          },
-          {
-            "propertyId": "cg:property:member-of-political-party",
-            "propertyLabel": "member of political party or label",
-            "valueType": "entity",
-            "valueId": "cg:party:uup",
-            "valueLabel": "UUP",
-            "valueText": "UUP"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:f65529132181d06f5334",
-        "propertyId": "cg:property:stood-in-election",
-        "propertyLabel": "stood in election",
-        "valueType": "entity",
-        "valueId": "cg:election:house-of-commons-of-the-united-kingdom-2017-06-08",
-        "valueLabel": "2017 UK general election in Northern Ireland",
-        "valueText": "2017 UK general election in Northern Ireland",
-        "valueDescription": "2017-06-08",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "2017-06-08",
-            "valueText": "2017-06-08"
-          },
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "North Down",
-            "valueText": "North Down"
-          },
-          {
-            "propertyId": "cg:property:candidature-status",
-            "propertyLabel": "candidature status",
-            "valueType": "string",
-            "valueLabel": "Deemed elected",
-            "valueText": "Deemed elected"
-          },
-          {
-            "propertyId": "cg:property:elected",
-            "propertyLabel": "elected",
-            "valueType": "boolean",
-            "valueLabel": "Yes",
-            "valueText": "Yes"
-          },
-          {
-            "propertyId": "cg:property:first-preference-votes",
-            "propertyLabel": "first preference votes",
-            "valueType": "number",
-            "valueLabel": "16148",
-            "valueText": "16148"
-          },
-          {
-            "propertyId": "cg:property:member-of-political-party",
-            "propertyLabel": "member of political party or label",
-            "valueType": "entity",
-            "valueId": "cg:party:independent-unionist",
-            "valueLabel": "Independent Unionist",
-            "valueText": "Independent Unionist"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:ff347c64e96354c669fb",
-        "propertyId": "cg:property:stood-in-election",
-        "propertyLabel": "stood in election",
-        "valueType": "entity",
-        "valueId": "cg:election:house-of-commons-of-the-united-kingdom-2001-06-07",
-        "valueLabel": "2001 UK general election in Northern Ireland",
-        "valueText": "2001 UK general election in Northern Ireland",
-        "valueDescription": "2001-06-07",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "2001-06-07",
-            "valueText": "2001-06-07"
-          },
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "North Down",
-            "valueText": "North Down"
-          },
-          {
-            "propertyId": "cg:property:candidature-status",
-            "propertyLabel": "candidature status",
-            "valueType": "string",
-            "valueLabel": "Deemed elected",
-            "valueText": "Deemed elected"
-          },
-          {
-            "propertyId": "cg:property:elected",
-            "propertyLabel": "elected",
-            "valueType": "boolean",
-            "valueLabel": "Yes",
-            "valueText": "Yes"
-          },
-          {
-            "propertyId": "cg:property:first-preference-votes",
-            "propertyLabel": "first preference votes",
-            "valueType": "number",
-            "valueLabel": "20833",
-            "valueText": "20833"
-          },
-          {
-            "propertyId": "cg:property:member-of-political-party",
-            "propertyLabel": "member of political party or label",
-            "valueType": "entity",
-            "valueId": "cg:party:uup",
-            "valueLabel": "UUP",
-            "valueText": "UUP"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      }
-    ],
-    "cg:person:name-sylvia-mcroberts": [
-      {
-        "id": "cg:statement:22a260c5e15a4bed69d3",
-        "propertyId": "cg:property:has-candidature",
-        "propertyLabel": "has candidature",
-        "valueType": "entity",
-        "valueId": "cg:candidature:cg-person-name-sylvia-mcroberts-cg-contest-local-government-local-govern-460cb8486027",
-        "valueLabel": "Sylvia McRoberts - Armagh City",
-        "valueText": "Sylvia McRoberts - Armagh City",
-        "valueDescription": "1993 Northern Ireland local elections / UUP / Elected",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "1993-05-19",
-            "valueText": "1993-05-19"
-          },
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "Armagh City",
-            "valueText": "Armagh City"
-          },
-          {
-            "propertyId": "cg:property:candidature-status",
-            "propertyLabel": "candidature status",
-            "valueType": "string",
-            "valueLabel": "Elected",
-            "valueText": "Elected"
-          },
-          {
-            "propertyId": "cg:property:elected",
-            "propertyLabel": "elected",
-            "valueType": "boolean",
-            "valueLabel": "Yes",
-            "valueText": "Yes"
-          },
-          {
-            "propertyId": "cg:property:first-preference-votes",
-            "propertyLabel": "first preference votes",
-            "valueType": "number",
-            "valueLabel": "644",
-            "valueText": "644"
-          },
-          {
-            "propertyId": "cg:property:member-of-political-party",
-            "propertyLabel": "member of political party or label",
-            "valueType": "entity",
-            "valueId": "cg:party:uup",
-            "valueLabel": "UUP",
-            "valueText": "UUP"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:4730389eadc068d0b10f",
-        "propertyId": "cg:property:has-candidature",
-        "propertyLabel": "has candidature",
-        "valueType": "entity",
-        "valueId": "cg:candidature:cg-person-name-sylvia-mcroberts-cg-contest-local-government-local-govern-cc53bd6584d6",
-        "valueLabel": "Sylvia McRoberts - Armagh City",
-        "valueText": "Sylvia McRoberts - Armagh City",
-        "valueDescription": "1997 Northern Ireland local elections / UUP / Elected",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "1997-05-21",
-            "valueText": "1997-05-21"
-          },
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "Armagh City",
-            "valueText": "Armagh City"
-          },
-          {
-            "propertyId": "cg:property:candidature-status",
-            "propertyLabel": "candidature status",
-            "valueType": "string",
-            "valueLabel": "Elected",
-            "valueText": "Elected"
-          },
-          {
-            "propertyId": "cg:property:elected",
-            "propertyLabel": "elected",
-            "valueType": "boolean",
-            "valueLabel": "Yes",
-            "valueText": "Yes"
-          },
-          {
-            "propertyId": "cg:property:first-preference-votes",
-            "propertyLabel": "first preference votes",
-            "valueType": "number",
-            "valueLabel": "898",
-            "valueText": "898"
-          },
-          {
-            "propertyId": "cg:property:member-of-political-party",
-            "propertyLabel": "member of political party or label",
-            "valueType": "entity",
-            "valueId": "cg:party:uup",
-            "valueLabel": "UUP",
-            "valueText": "UUP"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:a912f89190a8b5e69084",
-        "propertyId": "cg:property:has-candidature",
-        "propertyLabel": "has candidature",
-        "valueType": "entity",
-        "valueId": "cg:candidature:cg-person-name-sylvia-mcroberts-cg-contest-local-government-local-govern-ab38a8f20ab3",
-        "valueLabel": "Sylvia McRoberts - Armagh City",
-        "valueText": "Sylvia McRoberts - Armagh City",
-        "valueDescription": "2001 Northern Ireland local elections / UUP / Elected",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "2001-06-07",
-            "valueText": "2001-06-07"
-          },
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "Armagh City",
-            "valueText": "Armagh City"
-          },
-          {
-            "propertyId": "cg:property:candidature-status",
-            "propertyLabel": "candidature status",
-            "valueType": "string",
-            "valueLabel": "Elected",
-            "valueText": "Elected"
-          },
-          {
-            "propertyId": "cg:property:elected",
-            "propertyLabel": "elected",
-            "valueType": "boolean",
-            "valueLabel": "Yes",
-            "valueText": "Yes"
-          },
-          {
-            "propertyId": "cg:property:first-preference-votes",
-            "propertyLabel": "first preference votes",
-            "valueType": "number",
-            "valueLabel": "868",
-            "valueText": "868"
-          },
-          {
-            "propertyId": "cg:property:member-of-political-party",
-            "propertyLabel": "member of political party or label",
-            "valueType": "entity",
-            "valueId": "cg:party:uup",
-            "valueLabel": "UUP",
-            "valueText": "UUP"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:cc1fbdec5d5f1fefde08",
-        "propertyId": "cg:property:has-candidature",
-        "propertyLabel": "has candidature",
-        "valueType": "entity",
-        "valueId": "cg:candidature:cg-person-name-sylvia-mcroberts-cg-contest-house-of-commons-of-the-unite-35e0904803de",
-        "valueLabel": "Sylvia McRoberts - Newry and Armagh",
-        "valueText": "Sylvia McRoberts - Newry and Armagh",
-        "valueDescription": "2001 UK general election in Northern Ireland / UUP",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "2001-06-07",
-            "valueText": "2001-06-07"
-          },
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "Newry and Armagh",
-            "valueText": "Newry and Armagh"
-          },
-          {
-            "propertyId": "cg:property:elected",
-            "propertyLabel": "elected",
-            "valueType": "boolean",
-            "valueLabel": "No",
-            "valueText": "No"
-          },
-          {
-            "propertyId": "cg:property:first-preference-votes",
-            "propertyLabel": "first preference votes",
-            "valueType": "number",
-            "valueLabel": "6833",
-            "valueText": "6833"
-          },
-          {
-            "propertyId": "cg:property:member-of-political-party",
-            "propertyLabel": "member of political party or label",
-            "valueType": "entity",
-            "valueId": "cg:party:uup",
-            "valueLabel": "UUP",
-            "valueText": "UUP"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:d20db2d553597cdbbe65",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:person",
-        "valueLabel": "Person",
-        "valueText": "Person",
-        "valueDescription": "A person who appears in Civgraph public data, including election candidates, MPs, and MLAs.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:580b2b52b27d4d532023",
-        "propertyId": "cg:property:member-of-political-party",
-        "propertyLabel": "member of political party or label",
-        "valueType": "entity",
-        "valueId": "cg:party:uup",
-        "valueLabel": "UUP",
-        "valueText": "UUP",
-        "valueDescription": "1921-2024 / 148 linked elections",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "Browse person party summary",
-            "valueText": "Browse person party summary"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:4f9f4d46b554d30c084e",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Sylvia McRoberts",
-        "valueText": "Sylvia McRoberts",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:05b6a49498b191099887",
-        "propertyId": "cg:property:stood-in-election",
-        "propertyLabel": "stood in election",
-        "valueType": "entity",
-        "valueId": "cg:election:house-of-commons-of-the-united-kingdom-2001-06-07",
-        "valueLabel": "2001 UK general election in Northern Ireland",
-        "valueText": "2001 UK general election in Northern Ireland",
-        "valueDescription": "2001-06-07",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "2001-06-07",
-            "valueText": "2001-06-07"
-          },
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "Newry and Armagh",
-            "valueText": "Newry and Armagh"
-          },
-          {
-            "propertyId": "cg:property:elected",
-            "propertyLabel": "elected",
-            "valueType": "boolean",
-            "valueLabel": "No",
-            "valueText": "No"
-          },
-          {
-            "propertyId": "cg:property:first-preference-votes",
-            "propertyLabel": "first preference votes",
-            "valueType": "number",
-            "valueLabel": "6833",
-            "valueText": "6833"
-          },
-          {
-            "propertyId": "cg:property:member-of-political-party",
-            "propertyLabel": "member of political party or label",
-            "valueType": "entity",
-            "valueId": "cg:party:uup",
-            "valueLabel": "UUP",
-            "valueText": "UUP"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:2a3fcdd2d048c0f1ec03",
-        "propertyId": "cg:property:stood-in-election",
-        "propertyLabel": "stood in election",
-        "valueType": "entity",
-        "valueId": "cg:election:local-government-local-government-districts-1997-05-21",
-        "valueLabel": "1997 Northern Ireland local elections",
-        "valueText": "1997 Northern Ireland local elections",
-        "valueDescription": "1997-05-21",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "1997-05-21",
-            "valueText": "1997-05-21"
-          },
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "Armagh City",
-            "valueText": "Armagh City"
-          },
-          {
-            "propertyId": "cg:property:candidature-status",
-            "propertyLabel": "candidature status",
-            "valueType": "string",
-            "valueLabel": "Elected",
-            "valueText": "Elected"
-          },
-          {
-            "propertyId": "cg:property:elected",
-            "propertyLabel": "elected",
-            "valueType": "boolean",
-            "valueLabel": "Yes",
-            "valueText": "Yes"
-          },
-          {
-            "propertyId": "cg:property:first-preference-votes",
-            "propertyLabel": "first preference votes",
-            "valueType": "number",
-            "valueLabel": "898",
-            "valueText": "898"
-          },
-          {
-            "propertyId": "cg:property:member-of-political-party",
-            "propertyLabel": "member of political party or label",
-            "valueType": "entity",
-            "valueId": "cg:party:uup",
-            "valueLabel": "UUP",
-            "valueText": "UUP"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:a3c14fed2403f618c6a3",
-        "propertyId": "cg:property:stood-in-election",
-        "propertyLabel": "stood in election",
-        "valueType": "entity",
-        "valueId": "cg:election:local-government-local-government-districts-1993-05-19",
-        "valueLabel": "1993 Northern Ireland local elections",
-        "valueText": "1993 Northern Ireland local elections",
-        "valueDescription": "1993-05-19",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "1993-05-19",
-            "valueText": "1993-05-19"
-          },
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "Armagh City",
-            "valueText": "Armagh City"
-          },
-          {
-            "propertyId": "cg:property:candidature-status",
-            "propertyLabel": "candidature status",
-            "valueType": "string",
-            "valueLabel": "Elected",
-            "valueText": "Elected"
-          },
-          {
-            "propertyId": "cg:property:elected",
-            "propertyLabel": "elected",
-            "valueType": "boolean",
-            "valueLabel": "Yes",
-            "valueText": "Yes"
-          },
-          {
-            "propertyId": "cg:property:first-preference-votes",
-            "propertyLabel": "first preference votes",
-            "valueType": "number",
-            "valueLabel": "644",
-            "valueText": "644"
-          },
-          {
-            "propertyId": "cg:property:member-of-political-party",
-            "propertyLabel": "member of political party or label",
-            "valueType": "entity",
-            "valueId": "cg:party:uup",
-            "valueLabel": "UUP",
-            "valueText": "UUP"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:ea7e7db99bb7468c2e28",
-        "propertyId": "cg:property:stood-in-election",
-        "propertyLabel": "stood in election",
-        "valueType": "entity",
-        "valueId": "cg:election:local-government-local-government-districts-2001-06-07",
-        "valueLabel": "2001 Northern Ireland local elections",
-        "valueText": "2001 Northern Ireland local elections",
-        "valueDescription": "2001-06-07",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "2001-06-07",
-            "valueText": "2001-06-07"
-          },
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "Armagh City",
-            "valueText": "Armagh City"
-          },
-          {
-            "propertyId": "cg:property:candidature-status",
-            "propertyLabel": "candidature status",
-            "valueType": "string",
-            "valueLabel": "Elected",
-            "valueText": "Elected"
-          },
-          {
-            "propertyId": "cg:property:elected",
-            "propertyLabel": "elected",
-            "valueType": "boolean",
-            "valueLabel": "Yes",
-            "valueText": "Yes"
-          },
-          {
-            "propertyId": "cg:property:first-preference-votes",
-            "propertyLabel": "first preference votes",
-            "valueType": "number",
-            "valueLabel": "868",
-            "valueText": "868"
           },
           {
             "propertyId": "cg:property:member-of-political-party",

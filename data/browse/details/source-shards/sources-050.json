@@ -1,10 +1,664 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T18:48:24.834Z",
+  "generatedAt": "2026-06-30T18:57:58.248Z",
   "kind": "sources",
   "shard": "sources-050.json",
   "total": 200,
   "items": [
+    {
+      "id": "medium-priority:7-transport-roads-infrastructure-public-assets:greater-beflast-area-park-and-ride-sites:01730",
+      "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-greater-beflast-area-park-and-ride-sites-01730",
+      "type": "approved-medium-priority-source",
+      "title": "Greater Belfast Area Park and Ride Sites",
+      "subtitle": "Transport, roads, infrastructure, public assets / Department for Infrastructure - Roads, Open Data NI / Northern Ireland / CSV / Approved source record",
+      "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+      "provider": [
+        "Department for Infrastructure - Roads",
+        "Open Data NI"
+      ],
+      "description": "Greater Belfast Area Park and Ride Sites is published as a medium-priority Civgraph source/provenance record from Department for Infrastructure - Roads, Open Data NI. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://admin.opendatani.gov.uk/dataset/greater-beflast-area-park-and-ride-sites",
+      "references": [
+        {
+          "label": "Greater Belfast Area Park and Ride Sites provider page",
+          "url": "https://admin.opendatani.gov.uk/dataset/greater-beflast-area-park-and-ride-sites",
+          "source": "Open Data NI",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "Greater Belfast Area Park and Ride Sites Wayback captures",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/greater-beflast-area-park-and-ride-sites",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://admin.opendatani.gov.uk/dataset/greater-beflast-area-park-and-ride-sites",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Transport, roads, infrastructure, public assets",
+        "transport-public-asset",
+        "road features",
+        "Northern Ireland",
+        "transport-public-asset-batch-review",
+        "CSV"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 1731,
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:greater-beflast-area-park-and-ride-sites:01730",
+          "title": "Greater Belfast Area Park and Ride Sites",
+          "cleanTitle": "Greater Belfast Area Park and Ride Sites",
+          "provider": "Open Data NI",
+          "organisation": "Department for Infrastructure - Roads",
+          "category": "tabular",
+          "roiGroup": "7. Transport, roads, infrastructure, public assets",
+          "groupTitle": "Transport, roads, infrastructure, public assets",
+          "jurisdiction": "Northern Ireland",
+          "topic": "transport-public-asset",
+          "featureUnit": "road features",
+          "formats": [
+            "CSV"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 60,
+          "currentProviderUrl": "https://admin.opendatani.gov.uk/dataset/greater-beflast-area-park-and-ride-sites",
+          "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/greater-beflast-area-park-and-ride-sites",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "public-asset-batch-placement: publication policy assigned",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Transport, roads, infrastructure, public assets",
+        "Northern Ireland",
+        "transport-public-asset",
+        "Greater Belfast Area Park and Ride Sites"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text"
+        ],
+        "canonicalDatasetUrl": "https://admin.opendatani.gov.uk/dataset/greater-beflast-area-park-and-ride-sites",
+        "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/greater-beflast-area-park-and-ride-sites",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Department for Infrastructure - Roads, Open Data NI, Greater Belfast Area Park and Ride Sites.",
+      "fullCitation": "Department for Infrastructure - Roads, Open Data NI. Greater Belfast Area Park and Ride Sites. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://admin.opendatani.gov.uk/dataset/greater-beflast-area-park-and-ride-sites. Wayback capture index: https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/greater-beflast-area-park-and-ride-sites.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:greater-beflast-area-park-and-ride-sites:01730",
+        "sourceRowNumber": 1731,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+        "proposedAction": "transport-public-asset-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV"
+          ]
+        },
+        "confidence": 60,
+        "resolvedBlockers": [
+          "public-asset-batch-placement: publication policy assigned",
+          "source-page-and-ia-viewport-decision: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-greater-beflast-area-park-and-ride-sites-01730",
+      "rawMetadata": {
+        "id": "medium-priority:7-transport-roads-infrastructure-public-assets:greater-beflast-area-park-and-ride-sites:01730",
+        "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-greater-beflast-area-park-and-ride-sites-01730",
+        "type": "approved-medium-priority-source",
+        "title": "Greater Belfast Area Park and Ride Sites",
+        "subtitle": "Transport, roads, infrastructure, public assets / Department for Infrastructure - Roads, Open Data NI / Northern Ireland / CSV / Approved source record",
+        "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+        "provider": [
+          "Department for Infrastructure - Roads",
+          "Open Data NI"
+        ],
+        "description": "Greater Belfast Area Park and Ride Sites is published as a medium-priority Civgraph source/provenance record from Department for Infrastructure - Roads, Open Data NI. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://admin.opendatani.gov.uk/dataset/greater-beflast-area-park-and-ride-sites",
+        "references": [
+          {
+            "label": "Greater Belfast Area Park and Ride Sites provider page",
+            "url": "https://admin.opendatani.gov.uk/dataset/greater-beflast-area-park-and-ride-sites",
+            "source": "Open Data NI",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "Greater Belfast Area Park and Ride Sites Wayback captures",
+            "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/greater-beflast-area-park-and-ride-sites",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://admin.opendatani.gov.uk/dataset/greater-beflast-area-park-and-ride-sites",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Transport, roads, infrastructure, public assets",
+          "Northern Ireland",
+          "transport-public-asset",
+          "Greater Belfast Area Park and Ride Sites"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text"
+          ],
+          "canonicalDatasetUrl": "https://admin.opendatani.gov.uk/dataset/greater-beflast-area-park-and-ride-sites",
+          "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/greater-beflast-area-park-and-ride-sites",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Department for Infrastructure - Roads, Open Data NI, Greater Belfast Area Park and Ride Sites.",
+        "fullCitation": "Department for Infrastructure - Roads, Open Data NI. Greater Belfast Area Park and Ride Sites. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://admin.opendatani.gov.uk/dataset/greater-beflast-area-park-and-ride-sites. Wayback capture index: https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/greater-beflast-area-park-and-ride-sites.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 1731,
+            "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:greater-beflast-area-park-and-ride-sites:01730",
+            "title": "Greater Belfast Area Park and Ride Sites",
+            "cleanTitle": "Greater Belfast Area Park and Ride Sites",
+            "provider": "Open Data NI",
+            "organisation": "Department for Infrastructure - Roads",
+            "category": "tabular",
+            "roiGroup": "7. Transport, roads, infrastructure, public assets",
+            "groupTitle": "Transport, roads, infrastructure, public assets",
+            "jurisdiction": "Northern Ireland",
+            "topic": "transport-public-asset",
+            "featureUnit": "road features",
+            "formats": [
+              "CSV"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "transport-public-asset-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 60,
+            "currentProviderUrl": "https://admin.opendatani.gov.uk/dataset/greater-beflast-area-park-and-ride-sites",
+            "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/greater-beflast-area-park-and-ride-sites",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "public-asset-batch-placement: publication policy assigned",
+              "source-page-and-ia-viewport-decision: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:greater-beflast-area-park-and-ride-sites:01730",
+          "sourceRowNumber": 1731,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV"
+            ]
+          },
+          "confidence": 60,
+          "resolvedBlockers": [
+            "public-asset-batch-placement: publication policy assigned",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Transport, roads, infrastructure, public assets",
+          "transport-public-asset",
+          "road features",
+          "Northern Ireland",
+          "transport-public-asset-batch-review",
+          "CSV"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-greater-beflast-area-park-and-ride-sites-01730"
+      }
+    },
+    {
+      "id": "medium-priority:7-transport-roads-infrastructure-public-assets:highway-network:01731",
+      "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-highway-network-01731",
+      "type": "approved-medium-priority-source",
+      "title": "Highway Network",
+      "subtitle": "Transport, roads, infrastructure, public assets / Department for Infrastructure - Roads, Open Data NI / Northern Ireland / CSV, ESRI MAP, XML / Approved source record",
+      "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+      "provider": [
+        "Department for Infrastructure - Roads",
+        "Open Data NI"
+      ],
+      "description": "Highway Network is published as a medium-priority Civgraph source/provenance record from Department for Infrastructure - Roads, Open Data NI. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://admin.opendatani.gov.uk/dataset/highway-network",
+      "references": [
+        {
+          "label": "Highway Network provider page",
+          "url": "https://admin.opendatani.gov.uk/dataset/highway-network",
+          "source": "Open Data NI",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "Highway Network Wayback captures",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/highway-network",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://admin.opendatani.gov.uk/dataset/highway-network",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Transport, roads, infrastructure, public assets",
+        "transport-public-asset",
+        "road features",
+        "Northern Ireland",
+        "transport-public-asset-batch-review",
+        "CSV",
+        "ESRI MAP",
+        "XML"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 1732,
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:highway-network:01731",
+          "title": "Highway Network",
+          "cleanTitle": "Highway Network",
+          "provider": "Open Data NI",
+          "organisation": "Department for Infrastructure - Roads",
+          "category": "tabular",
+          "roiGroup": "7. Transport, roads, infrastructure, public assets",
+          "groupTitle": "Transport, roads, infrastructure, public assets",
+          "jurisdiction": "Northern Ireland",
+          "topic": "transport-public-asset",
+          "featureUnit": "road features",
+          "formats": [
+            "CSV",
+            "ESRI MAP",
+            "XML"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "ESRI MAP",
+              "XML"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 60,
+          "currentProviderUrl": "https://admin.opendatani.gov.uk/dataset/highway-network",
+          "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/highway-network",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "public-asset-batch-placement: publication policy assigned",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Transport, roads, infrastructure, public assets",
+        "Northern Ireland",
+        "transport-public-asset",
+        "Highway Network"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text"
+        ],
+        "canonicalDatasetUrl": "https://admin.opendatani.gov.uk/dataset/highway-network",
+        "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/highway-network",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Department for Infrastructure - Roads, Open Data NI, Highway Network.",
+      "fullCitation": "Department for Infrastructure - Roads, Open Data NI. Highway Network. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://admin.opendatani.gov.uk/dataset/highway-network. Wayback capture index: https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/highway-network.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:highway-network:01731",
+        "sourceRowNumber": 1732,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+        "proposedAction": "transport-public-asset-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV",
+            "ESRI MAP",
+            "XML"
+          ]
+        },
+        "confidence": 60,
+        "resolvedBlockers": [
+          "public-asset-batch-placement: publication policy assigned",
+          "source-page-and-ia-viewport-decision: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-highway-network-01731",
+      "rawMetadata": {
+        "id": "medium-priority:7-transport-roads-infrastructure-public-assets:highway-network:01731",
+        "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-highway-network-01731",
+        "type": "approved-medium-priority-source",
+        "title": "Highway Network",
+        "subtitle": "Transport, roads, infrastructure, public assets / Department for Infrastructure - Roads, Open Data NI / Northern Ireland / CSV, ESRI MAP, XML / Approved source record",
+        "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+        "provider": [
+          "Department for Infrastructure - Roads",
+          "Open Data NI"
+        ],
+        "description": "Highway Network is published as a medium-priority Civgraph source/provenance record from Department for Infrastructure - Roads, Open Data NI. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://admin.opendatani.gov.uk/dataset/highway-network",
+        "references": [
+          {
+            "label": "Highway Network provider page",
+            "url": "https://admin.opendatani.gov.uk/dataset/highway-network",
+            "source": "Open Data NI",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "Highway Network Wayback captures",
+            "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/highway-network",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://admin.opendatani.gov.uk/dataset/highway-network",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Transport, roads, infrastructure, public assets",
+          "Northern Ireland",
+          "transport-public-asset",
+          "Highway Network"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text"
+          ],
+          "canonicalDatasetUrl": "https://admin.opendatani.gov.uk/dataset/highway-network",
+          "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/highway-network",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Department for Infrastructure - Roads, Open Data NI, Highway Network.",
+        "fullCitation": "Department for Infrastructure - Roads, Open Data NI. Highway Network. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://admin.opendatani.gov.uk/dataset/highway-network. Wayback capture index: https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/highway-network.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 1732,
+            "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:highway-network:01731",
+            "title": "Highway Network",
+            "cleanTitle": "Highway Network",
+            "provider": "Open Data NI",
+            "organisation": "Department for Infrastructure - Roads",
+            "category": "tabular",
+            "roiGroup": "7. Transport, roads, infrastructure, public assets",
+            "groupTitle": "Transport, roads, infrastructure, public assets",
+            "jurisdiction": "Northern Ireland",
+            "topic": "transport-public-asset",
+            "featureUnit": "road features",
+            "formats": [
+              "CSV",
+              "ESRI MAP",
+              "XML"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "transport-public-asset-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV",
+                "ESRI MAP",
+                "XML"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 60,
+            "currentProviderUrl": "https://admin.opendatani.gov.uk/dataset/highway-network",
+            "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/highway-network",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "public-asset-batch-placement: publication policy assigned",
+              "source-page-and-ia-viewport-decision: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:highway-network:01731",
+          "sourceRowNumber": 1732,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "ESRI MAP",
+              "XML"
+            ]
+          },
+          "confidence": 60,
+          "resolvedBlockers": [
+            "public-asset-batch-placement: publication policy assigned",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Transport, roads, infrastructure, public assets",
+          "transport-public-asset",
+          "road features",
+          "Northern Ireland",
+          "transport-public-asset-batch-review",
+          "CSV",
+          "ESRI MAP",
+          "XML"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-highway-network-01731"
+      }
+    },
     {
       "id": "medium-priority:7-transport-roads-infrastructure-public-assets:ima01-freight-traffic-roll-onroll-off:02200",
       "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-ima01-freight-traffic-roll-onroll-off-02200",
@@ -49501,228 +50155,6 @@
       "publicationStatus": "context-source-published",
       "proposedBrowsePath": "Books / Tables / Sources > Peatland Geoportal context",
       "browseUrl": "/browse/sources/peatland-geoportal-context-3d-cave-hill-hillshade-315-az-45-alt-f32a7a91dd9d48b18f8ea18bb8d0f054"
-    },
-    {
-      "id": "peatland-geoportal:context:ballynahoneboghabitatmap:9736a0cffc2e4953ac6e5f3379ea6696",
-      "slug": "peatland-geoportal-context-ballynahoneboghabitatmap-9736a0cffc2e4953ac6e5f3379ea6696",
-      "type": "peatland-geoportal-context-source",
-      "title": "BallynahoneBogHabitatMap",
-      "subtitle": "Web Map / Megan.Ryan_DAERANI / Web Map",
-      "category": "Peatland Geoportal context",
-      "date": "2024-03-26",
-      "provider": [
-        "Megan.Ryan_DAERANI",
-        "DAERA / Open Data NI"
-      ],
-      "description": "BallynahoneBogHabitatMap is a Web Map item from the Peatland Geoportal, owned by Megan.Ryan_DAERANI. not preferred for direct conversion; use as context/citation unless it points to an approved Feature Service/WFS dedupe by ArcGIS item ID and title ArcGIS item ID: 9736a0cffc2e4953ac6e5f3379ea6696. Modified: 2024-03-26. The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion.",
-      "url": "https://www.arcgis.com/home/item.html?id=9736a0cffc2e4953ac6e5f3379ea6696",
-      "references": [
-        {
-          "label": "BallynahoneBogHabitatMap ArcGIS item page",
-          "url": "https://www.arcgis.com/home/item.html?id=9736a0cffc2e4953ac6e5f3379ea6696",
-          "source": "ArcGIS Online / Peatland Geoportal",
-          "role": "arcgis-item-page"
-        },
-        {
-          "label": "Peatland Geoportal",
-          "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/",
-          "source": "Queen's University Belfast / ArcGIS Hub",
-          "role": "source-portal"
-        },
-        {
-          "label": "Peatland Geoportal ArcGIS group search",
-          "url": "https://www.arcgis.com/sharing/rest/search?f=json&q=group:b5fdfbe3f6264c14a90afd43f8f51956&num=100&sortField=title",
-          "source": "ArcGIS Online",
-          "role": "source-group"
-        }
-      ],
-      "keywords": [
-        "peatland-geoportal",
-        "peatland-direct",
-        "source-context-record-not-map-layer",
-        "Web Map",
-        "Megan.Ryan_DAERANI",
-        "SAC",
-        "CMP",
-        "Management plan",
-        "Phase 1",
-        "Annex 1",
-        "EUNIS",
-        "Northern Ireland",
-        "United Kingdom",
-        "NI",
-        "UK",
-        "Habitat Map",
-        "Ballynahone Bog"
-      ],
-      "sourceItems": [
-        {
-          "auditRowNumber": 50,
-          "title": "BallynahoneBogHabitatMap",
-          "provider": "Megan.Ryan_DAERANI",
-          "category": "peatland-direct",
-          "formats": [
-            "Web Map"
-          ],
-          "arcgisItemId": "9736a0cffc2e4953ac6e5f3379ea6696",
-          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=9736a0cffc2e4953ac6e5f3379ea6696",
-          "modified": "2024-03-26T15:45:54.000Z",
-          "access": "public",
-          "tags": [
-            "SAC",
-            "CMP",
-            "Management plan",
-            "Phase 1",
-            "Annex 1",
-            "EUNIS",
-            "Northern Ireland",
-            "United Kingdom",
-            "NI",
-            "UK",
-            "Habitat Map",
-            "Ballynahone Bog"
-          ],
-          "recommendedAction": "source-context-record-not-map-layer",
-          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
-        }
-      ],
-      "status": "Source context",
-      "statusChips": [
-        "Source context",
-        "Web Map"
-      ],
-      "sourceHierarchy": [
-        "Peatland Geoportal",
-        "Web maps, StoryMaps, apps, and context",
-        "peatland-direct"
-      ],
-      "viewport": {
-        "type": "web-context",
-        "status": "external-context-link",
-        "url": "https://www.arcgis.com/home/item.html?id=9736a0cffc2e4953ac6e5f3379ea6696"
-      },
-      "shortCitation": "Megan.Ryan_DAERANI: BallynahoneBogHabitatMap",
-      "fullCitation": "BallynahoneBogHabitatMap. Megan.Ryan_DAERANI via Peatland Geoportal / ArcGIS item 9736a0cffc2e4953ac6e5f3379ea6696, modified 2024-03-26.",
-      "license": {
-        "status": "licence-review-required",
-        "note": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
-      },
-      "approval": {
-        "recommendedAction": "publish as source/context page",
-        "conversionRecommendation": "not preferred for direct conversion; use as context/citation unless it points to an approved Feature Service/WFS",
-        "dedupeRecommendation": "dedupe by ArcGIS item ID and title",
-        "arcgisItemId": "9736a0cffc2e4953ac6e5f3379ea6696",
-        "sourceType": "Web Map",
-        "confidence": "high"
-      },
-      "publicationStatus": "context-source-published",
-      "proposedBrowsePath": "Books / Tables / Sources > Peatland Geoportal context",
-      "browseUrl": "/browse/sources/peatland-geoportal-context-ballynahoneboghabitatmap-9736a0cffc2e4953ac6e5f3379ea6696"
-    },
-    {
-      "id": "peatland-geoportal:context:ballynahoneboglocationmap:795185e80f1c45c2abbcffaa93fd8b3c",
-      "slug": "peatland-geoportal-context-ballynahoneboglocationmap-795185e80f1c45c2abbcffaa93fd8b3c",
-      "type": "peatland-geoportal-context-source",
-      "title": "BallynahoneBogLocationMap",
-      "subtitle": "Web Map / Megan.Ryan_DAERANI / Web Map",
-      "category": "Peatland Geoportal context",
-      "date": "2024-03-14",
-      "provider": [
-        "Megan.Ryan_DAERANI",
-        "DAERA / Open Data NI"
-      ],
-      "description": "BallynahoneBogLocationMap is a Web Map item from the Peatland Geoportal, owned by Megan.Ryan_DAERANI. not preferred for direct conversion; use as context/citation unless it points to an approved Feature Service/WFS dedupe by ArcGIS item ID and title ArcGIS item ID: 795185e80f1c45c2abbcffaa93fd8b3c. Modified: 2024-03-14. The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion.",
-      "url": "https://www.arcgis.com/home/item.html?id=795185e80f1c45c2abbcffaa93fd8b3c",
-      "references": [
-        {
-          "label": "BallynahoneBogLocationMap ArcGIS item page",
-          "url": "https://www.arcgis.com/home/item.html?id=795185e80f1c45c2abbcffaa93fd8b3c",
-          "source": "ArcGIS Online / Peatland Geoportal",
-          "role": "arcgis-item-page"
-        },
-        {
-          "label": "Peatland Geoportal",
-          "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/",
-          "source": "Queen's University Belfast / ArcGIS Hub",
-          "role": "source-portal"
-        },
-        {
-          "label": "Peatland Geoportal ArcGIS group search",
-          "url": "https://www.arcgis.com/sharing/rest/search?f=json&q=group:b5fdfbe3f6264c14a90afd43f8f51956&num=100&sortField=title",
-          "source": "ArcGIS Online",
-          "role": "source-group"
-        }
-      ],
-      "keywords": [
-        "peatland-geoportal",
-        "peatland-direct",
-        "source-context-record-not-map-layer",
-        "Web Map",
-        "Megan.Ryan_DAERANI",
-        "SAC",
-        "Northern Ireland",
-        "NI",
-        "UK",
-        "United Kingdom",
-        "Ballynahone Bog"
-      ],
-      "sourceItems": [
-        {
-          "auditRowNumber": 51,
-          "title": "BallynahoneBogLocationMap",
-          "provider": "Megan.Ryan_DAERANI",
-          "category": "peatland-direct",
-          "formats": [
-            "Web Map"
-          ],
-          "arcgisItemId": "795185e80f1c45c2abbcffaa93fd8b3c",
-          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=795185e80f1c45c2abbcffaa93fd8b3c",
-          "modified": "2024-03-14T10:51:55.000Z",
-          "access": "public",
-          "tags": [
-            "SAC",
-            "Northern Ireland",
-            "NI",
-            "UK",
-            "United Kingdom",
-            "Ballynahone Bog"
-          ],
-          "recommendedAction": "source-context-record-not-map-layer",
-          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
-        }
-      ],
-      "status": "Source context",
-      "statusChips": [
-        "Source context",
-        "Web Map"
-      ],
-      "sourceHierarchy": [
-        "Peatland Geoportal",
-        "Web maps, StoryMaps, apps, and context",
-        "peatland-direct"
-      ],
-      "viewport": {
-        "type": "web-context",
-        "status": "external-context-link",
-        "url": "https://www.arcgis.com/home/item.html?id=795185e80f1c45c2abbcffaa93fd8b3c"
-      },
-      "shortCitation": "Megan.Ryan_DAERANI: BallynahoneBogLocationMap",
-      "fullCitation": "BallynahoneBogLocationMap. Megan.Ryan_DAERANI via Peatland Geoportal / ArcGIS item 795185e80f1c45c2abbcffaa93fd8b3c, modified 2024-03-14.",
-      "license": {
-        "status": "licence-review-required",
-        "note": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
-      },
-      "approval": {
-        "recommendedAction": "publish as source/context page",
-        "conversionRecommendation": "not preferred for direct conversion; use as context/citation unless it points to an approved Feature Service/WFS",
-        "dedupeRecommendation": "dedupe by ArcGIS item ID and title",
-        "arcgisItemId": "795185e80f1c45c2abbcffaa93fd8b3c",
-        "sourceType": "Web Map",
-        "confidence": "high"
-      },
-      "publicationStatus": "context-source-published",
-      "proposedBrowsePath": "Books / Tables / Sources > Peatland Geoportal context",
-      "browseUrl": "/browse/sources/peatland-geoportal-context-ballynahoneboglocationmap-795185e80f1c45c2abbcffaa93fd8b3c"
     }
   ]
 }

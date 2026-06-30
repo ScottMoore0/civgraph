@@ -1,9 +1,79 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T18:49:30.225Z",
+  "generatedAt": "2026-06-30T18:58:05.105Z",
   "shard": 31,
   "total": 5000,
   "items": [
+    {
+      "id": "cg:source:file-from-data-gov-ie-local-mirror-92b9c7aad3a7",
+      "label": "file from data.gov.ie local mirror",
+      "kind": "entity",
+      "sourceUrl": "https://data.gov.ie/dataset/fy059-on-aged-15-years-and-over-in-the-labour-force-usually-resident-and-present-in-the-state-a2f2",
+      "attributes": {
+        "sourceKind": "source-reference",
+        "role": "source-download",
+        "createdFrom": "external-reference"
+      },
+      "typeIds": [
+        "cg:entity-type:source"
+      ]
+    },
+    {
+      "id": "cg:source:file-from-data-gov-ie-local-mirror-92c73836c659",
+      "label": "file from data.gov.ie local mirror",
+      "kind": "entity",
+      "sourceUrl": "https://data.gov.ie/dataset/cd473-n-permanent-housing-units-by-average-number-of-rooms-per-household-and-persons-per-room-9f4a",
+      "attributes": {
+        "sourceKind": "source-reference",
+        "role": "source-download",
+        "createdFrom": "external-reference"
+      },
+      "typeIds": [
+        "cg:entity-type:source"
+      ]
+    },
+    {
+      "id": "cg:source:file-from-data-gov-ie-local-mirror-92c843413437",
+      "label": "file from data.gov.ie local mirror",
+      "kind": "entity",
+      "sourceUrl": "https://data.gov.ie/dataset/cd361-aged-15-years-and-over-by-principal-economic-status-employment-status-unemployment-rate-039b",
+      "attributes": {
+        "sourceKind": "source-reference",
+        "role": "source-download",
+        "createdFrom": "external-reference"
+      },
+      "typeIds": [
+        "cg:entity-type:source"
+      ]
+    },
+    {
+      "id": "cg:source:file-from-data-gov-ie-local-mirror-92ceeada618f",
+      "label": "file from data.gov.ie local mirror",
+      "kind": "entity",
+      "sourceUrl": "https://data.gov.ie/dataset/hfc11-household-financial-assets",
+      "attributes": {
+        "sourceKind": "source-reference",
+        "role": "source-download",
+        "createdFrom": "external-reference"
+      },
+      "typeIds": [
+        "cg:entity-type:source"
+      ]
+    },
+    {
+      "id": "cg:source:file-from-data-gov-ie-local-mirror-92e071c9ebe2",
+      "label": "file from data.gov.ie local mirror",
+      "kind": "entity",
+      "sourceUrl": "https://data.gov.ie/dataset/cd870-s-and-under-in-private-households-usually-resident-and-present-in-their-usual-residence-b3a5",
+      "attributes": {
+        "sourceKind": "source-reference",
+        "role": "source-download",
+        "createdFrom": "external-reference"
+      },
+      "typeIds": [
+        "cg:entity-type:source"
+      ]
+    },
     {
       "id": "cg:source:file-from-data-gov-ie-local-mirror-92e0d5726af6",
       "label": "file from data.gov.ie local mirror",
@@ -56334,6 +56404,24 @@
       ]
     },
     {
+      "id": "cg:source:map-source-ni-health-trust-boundaries",
+      "label": "Health & Social Care Trust Boundaries (NI) source files",
+      "description": "Northern Ireland Health & Social Care Trust boundaries (5 trusts), published by the Department of Health.",
+      "kind": "entity",
+      "browseType": "sources",
+      "browseSlug": "map-source-ni-health-trust-boundaries",
+      "browseUrl": "/browse/sources/map-source-ni-health-trust-boundaries",
+      "attributes": {
+        "sourceCategory": "Map sources",
+        "provider": "Department of Health (NI)",
+        "referenceCount": 1,
+        "downloadCount": 2
+      },
+      "typeIds": [
+        "cg:entity-type:source"
+      ]
+    },
+    {
       "id": "cg:source:map-source-ni-industrial-heritage",
       "label": "NI Industrial Heritage Record source files",
       "description": "NI Industrial Heritage Record — published by DfC Historic Environment Division.",
@@ -57057,6 +57145,24 @@
         "provider": "OSNI",
         "referenceCount": 1,
         "downloadCount": 3
+      },
+      "typeIds": [
+        "cg:entity-type:source"
+      ]
+    },
+    {
+      "id": "cg:source:map-source-osni-ni-outline",
+      "label": "Northern Ireland Outline (OSNI 50K) source files",
+      "description": "Northern Ireland outline at OSNI 50K scale — Land & Property Services (OSNI Open Data).",
+      "kind": "entity",
+      "browseType": "sources",
+      "browseSlug": "map-source-osni-ni-outline",
+      "browseUrl": "/browse/sources/map-source-osni-ni-outline",
+      "attributes": {
+        "sourceCategory": "Map sources",
+        "provider": "Land & Property Services (OSNI)",
+        "referenceCount": 1,
+        "downloadCount": 2
       },
       "typeIds": [
         "cg:entity-type:source"
@@ -78265,152 +78371,6 @@
         "sourceCategory": "Medium-priority: Local authority planning/property/open-data layers",
         "provider": "Dún Laoghaire-Rathdown County Council, data.gov.ie",
         "publicationStatus": "approved-source-record",
-        "referenceCount": 2,
-        "downloadCount": 4
-      },
-      "typeIds": [
-        "cg:entity-type:source"
-      ]
-    },
-    {
-      "id": "cg:source:medium-priority-5-local-authority-planning-property-open-data-layers-cou-289b51f22840",
-      "label": "County Galway Strategic Economic Corridor CDP 2022 2028",
-      "description": "County Galway Strategic Economic Corridor CDP 2022 2028 is published as a medium-priority Civgraph source/provenance record from Galway County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-      "kind": "entity",
-      "browseType": "sources",
-      "browseSlug": "medium-priority-5-local-authority-planning-property-open-data-layers-county-galway-strategic-economic-corridor-cdp-2022-2028-00487",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-county-galway-strategic-economic-corridor-cdp-2022-2028-00487",
-      "sourceUrl": "https://data.gov.ie/dataset/county-galway-strategic-economic-corridor-cdp-2022-2028",
-      "attributes": {
-        "sourceCategory": "Medium-priority: Local authority planning/property/open-data layers",
-        "provider": "Galway County Council, data.gov.ie",
-        "publicationStatus": "source-record-with-runtime-review",
-        "date": "2022",
-        "referenceCount": 2,
-        "downloadCount": 4
-      },
-      "typeIds": [
-        "cg:entity-type:source"
-      ]
-    },
-    {
-      "id": "cg:source:medium-priority-5-local-authority-planning-property-open-data-layers-cou-2bfc0ceec257",
-      "label": "Councillor Allowance and Expenses Q1 2025 SDCC",
-      "description": "Councillor Allowance and Expenses Q1 2025 SDCC is published as a medium-priority Civgraph source/provenance record from South Dublin County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-      "kind": "entity",
-      "browseType": "sources",
-      "browseSlug": "medium-priority-5-local-authority-planning-property-open-data-layers-councillor-allowance-and-expenses-q1-2025-sdcc-01214",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-councillor-allowance-and-expenses-q1-2025-sdcc-01214",
-      "sourceUrl": "https://data.gov.ie/dataset/councillor-allowance-and-expenses-q1-2025-sdcc",
-      "attributes": {
-        "sourceCategory": "Medium-priority: Local authority planning/property/open-data layers",
-        "provider": "South Dublin County Council, data.gov.ie",
-        "publicationStatus": "source-record-with-runtime-review",
-        "date": "2025",
-        "referenceCount": 2,
-        "downloadCount": 4
-      },
-      "typeIds": [
-        "cg:entity-type:source"
-      ]
-    },
-    {
-      "id": "cg:source:medium-priority-5-local-authority-planning-property-open-data-layers-cou-332b24ac3f25",
-      "label": "County Galway Flood Zone B CDP 2022 2028",
-      "description": "County Galway Flood Zone B CDP 2022 2028 is published as a medium-priority Civgraph source/provenance record from Galway County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-      "kind": "entity",
-      "browseType": "sources",
-      "browseSlug": "medium-priority-5-local-authority-planning-property-open-data-layers-county-galway-flood-zone-b-cdp-2022-2028-00478",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-county-galway-flood-zone-b-cdp-2022-2028-00478",
-      "sourceUrl": "https://data.gov.ie/dataset/county-galway-flood-zone-b-cdp-2022-2028",
-      "attributes": {
-        "sourceCategory": "Medium-priority: Local authority planning/property/open-data layers",
-        "provider": "Galway County Council, data.gov.ie",
-        "publicationStatus": "source-record-with-runtime-review",
-        "date": "2022",
-        "referenceCount": 2,
-        "downloadCount": 4
-      },
-      "typeIds": [
-        "cg:entity-type:source"
-      ]
-    },
-    {
-      "id": "cg:source:medium-priority-5-local-authority-planning-property-open-data-layers-cou-358bc0ff3725",
-      "label": "Council Allotments DLR",
-      "description": "Council Allotments DLR is published as a medium-priority Civgraph source/provenance record from Dún Laoghaire-Rathdown County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. The staging pass found no residual blockers for source-level publication.",
-      "kind": "entity",
-      "browseType": "sources",
-      "browseSlug": "medium-priority-5-local-authority-planning-property-open-data-layers-council-allotments-dlr-00473",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-council-allotments-dlr-00473",
-      "sourceUrl": "https://data.gov.ie/dataset/council-allotments-dlr",
-      "attributes": {
-        "sourceCategory": "Medium-priority: Local authority planning/property/open-data layers",
-        "provider": "Dún Laoghaire-Rathdown County Council, data.gov.ie",
-        "publicationStatus": "approved-source-record",
-        "referenceCount": 2,
-        "downloadCount": 4
-      },
-      "typeIds": [
-        "cg:entity-type:source"
-      ]
-    },
-    {
-      "id": "cg:source:medium-priority-5-local-authority-planning-property-open-data-layers-cou-379ffa8dd40f",
-      "label": "County Galway Landscape Sensitivity Ratings CDP 2015 2021",
-      "description": "County Galway Landscape Sensitivity Ratings CDP 2015 2021 is published as a medium-priority Civgraph source/provenance record from Galway County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-      "kind": "entity",
-      "browseType": "sources",
-      "browseSlug": "medium-priority-5-local-authority-planning-property-open-data-layers-county-galway-landscape-sensitivity-ratings-cdp-2015-20213-00482",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-county-galway-landscape-sensitivity-ratings-cdp-2015-20213-00482",
-      "sourceUrl": "https://data.gov.ie/dataset/county-galway-landscape-sensitivity-ratings-cdp-2015-20213",
-      "attributes": {
-        "sourceCategory": "Medium-priority: Local authority planning/property/open-data layers",
-        "provider": "Galway County Council, data.gov.ie",
-        "publicationStatus": "source-record-with-runtime-review",
-        "date": "2015",
-        "referenceCount": 2,
-        "downloadCount": 4
-      },
-      "typeIds": [
-        "cg:entity-type:source"
-      ]
-    },
-    {
-      "id": "cg:source:medium-priority-5-local-authority-planning-property-open-data-layers-cou-4389b95aa9d3",
-      "label": "Councillor Allowance and Expenses Q3 2025 SDCC",
-      "description": "Councillor Allowance and Expenses Q3 2025 SDCC is published as a medium-priority Civgraph source/provenance record from South Dublin County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-      "kind": "entity",
-      "browseType": "sources",
-      "browseSlug": "medium-priority-5-local-authority-planning-property-open-data-layers-councillor-allowance-and-expenses-q3-2025-sdcc-01216",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-councillor-allowance-and-expenses-q3-2025-sdcc-01216",
-      "sourceUrl": "https://data.gov.ie/dataset/councillor-allowance-and-expenses-q3-2025-sdcc",
-      "attributes": {
-        "sourceCategory": "Medium-priority: Local authority planning/property/open-data layers",
-        "provider": "South Dublin County Council, data.gov.ie",
-        "publicationStatus": "source-record-with-runtime-review",
-        "date": "2025",
-        "referenceCount": 2,
-        "downloadCount": 4
-      },
-      "typeIds": [
-        "cg:entity-type:source"
-      ]
-    },
-    {
-      "id": "cg:source:medium-priority-5-local-authority-planning-property-open-data-layers-cou-6098cd5f9297",
-      "label": "Councillor Allowance and Expenses Q2 2025 SDCC",
-      "description": "Councillor Allowance and Expenses Q2 2025 SDCC is published as a medium-priority Civgraph source/provenance record from South Dublin County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-      "kind": "entity",
-      "browseType": "sources",
-      "browseSlug": "medium-priority-5-local-authority-planning-property-open-data-layers-councillor-allowance-and-expenses-q2-2025-sdcc-01215",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-councillor-allowance-and-expenses-q2-2025-sdcc-01215",
-      "sourceUrl": "https://data.gov.ie/dataset/councillor-allowance-and-expenses-q2-2025-sdcc",
-      "attributes": {
-        "sourceCategory": "Medium-priority: Local authority planning/property/open-data layers",
-        "provider": "South Dublin County Council, data.gov.ie",
-        "publicationStatus": "source-record-with-runtime-review",
-        "date": "2025",
         "referenceCount": 2,
         "downloadCount": 4
       },

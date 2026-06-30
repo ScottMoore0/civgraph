@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T18:49:30.225Z",
+  "generatedAt": "2026-06-30T18:58:05.105Z",
   "shard": 102,
   "totalSubjects": 250,
   "items": {
@@ -514,6 +514,136 @@
             "valueType": "url",
             "valueLabel": "https://data.civgraph.net/data/maps/historic-environment/ni-defence-heritage.geojson",
             "valueText": "https://data.civgraph.net/data/maps/historic-environment/ni-defence-heritage.geojson"
+          }
+        ],
+        "referenceCount": 0
+      }
+    ],
+    "cg:map-layer:ni-health-trust-boundaries": [
+      {
+        "id": "cg:statement:1eadaa7ac7d0eb0139ff",
+        "propertyId": "cg:property:download",
+        "propertyLabel": "download",
+        "valueType": "entity",
+        "valueId": "cg:source-file:fgb-647a8b635d90",
+        "valueLabel": "fgb",
+        "valueText": "fgb",
+        "valueDescription": "fgb for Health & Social Care Trust Boundaries (NI) source files",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:file-format",
+            "propertyLabel": "file format",
+            "valueType": "string",
+            "valueLabel": "FGB",
+            "valueText": "FGB"
+          },
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://data.civgraph.net/data/maps/local-government/NI_Health_Trust_Boundaries.fgb",
+            "valueText": "https://data.civgraph.net/data/maps/local-government/NI_Health_Trust_Boundaries.fgb"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:5465ae3ef3e0d69092f6",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:map-layer",
+        "valueLabel": "Map layer",
+        "valueText": "Map layer",
+        "valueDescription": "A Civgraph map layer or map dataset exposed through Browse.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:8e55c5c6a8d9bb559a04",
+        "propertyId": "cg:property:interactive-url",
+        "propertyLabel": "interactive URL",
+        "valueType": "url",
+        "valueLabel": "/#layers=ni-health-trust-boundaries",
+        "valueText": "/#layers=ni-health-trust-boundaries",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:3837b7f865a51e127f62",
+        "propertyId": "cg:property:map-category",
+        "propertyLabel": "map category",
+        "valueType": "string",
+        "valueLabel": "Local Government Districts",
+        "valueText": "Local Government Districts",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:3435337923dec1f58152",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Health & Social Care Trust Boundaries (NI)",
+        "valueText": "Health & Social Care Trust Boundaries (NI)",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:d57cd0c0fa7fbf147506",
+        "propertyId": "cg:property:provider",
+        "propertyLabel": "provider",
+        "valueType": "entity",
+        "valueId": "cg:provider:department-of-health-ni",
+        "valueLabel": "Department of Health (NI)",
+        "valueText": "Department of Health (NI)",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:3f07a779a051e2e39930",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:department-of-health-trust-boundaries-provider-page-3269e92bf900",
+        "valueLabel": "Department of Health trust boundaries provider page",
+        "valueText": "Department of Health trust boundaries provider page",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://admin.opendatani.gov.uk/dataset/department-of-health-trust-boundaries",
+            "valueText": "https://admin.opendatani.gov.uk/dataset/department-of-health-trust-boundaries"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "map-reference",
+            "valueText": "map-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:57d1d02893a9015defff",
+        "propertyId": "cg:property:source-file",
+        "propertyLabel": "source file",
+        "valueType": "entity",
+        "valueId": "cg:source-file:fgb-647a8b635d90",
+        "valueLabel": "fgb",
+        "valueText": "fgb",
+        "valueDescription": "fgb for Health & Social Care Trust Boundaries (NI) source files",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:file-format",
+            "propertyLabel": "file format",
+            "valueType": "string",
+            "valueLabel": "fgb",
+            "valueText": "fgb"
+          },
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://data.civgraph.net/data/maps/local-government/NI_Health_Trust_Boundaries.fgb",
+            "valueText": "https://data.civgraph.net/data/maps/local-government/NI_Health_Trust_Boundaries.fgb"
           }
         ],
         "referenceCount": 0
@@ -6847,6 +6977,136 @@
             "valueType": "url",
             "valueLabel": "https://data.civgraph.net/data/maps/osni-raster/mid-scale-raster/{z}/{x}/{y}.png",
             "valueText": "https://data.civgraph.net/data/maps/osni-raster/mid-scale-raster/{z}/{x}/{y}.png"
+          }
+        ],
+        "referenceCount": 0
+      }
+    ],
+    "cg:map-layer:osni-ni-outline": [
+      {
+        "id": "cg:statement:22e452229247fdb6a5c4",
+        "propertyId": "cg:property:download",
+        "propertyLabel": "download",
+        "valueType": "entity",
+        "valueId": "cg:source-file:fgb-22a099524366",
+        "valueLabel": "fgb",
+        "valueText": "fgb",
+        "valueDescription": "fgb for Northern Ireland Outline (OSNI 50K) source files",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:file-format",
+            "propertyLabel": "file format",
+            "valueType": "string",
+            "valueLabel": "FGB",
+            "valueText": "FGB"
+          },
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://data.civgraph.net/data/maps/osni/OSNI_50K_NI_Outline.fgb",
+            "valueText": "https://data.civgraph.net/data/maps/osni/OSNI_50K_NI_Outline.fgb"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:5e2f62f1d4bf1dfc2043",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:map-layer",
+        "valueLabel": "Map layer",
+        "valueText": "Map layer",
+        "valueDescription": "A Civgraph map layer or map dataset exposed through Browse.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:95d97c376eb40a4290d4",
+        "propertyId": "cg:property:interactive-url",
+        "propertyLabel": "interactive URL",
+        "valueType": "url",
+        "valueLabel": "/#layers=osni-ni-outline",
+        "valueText": "/#layers=osni-ni-outline",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:a3b129f637f7f742dcdf",
+        "propertyId": "cg:property:map-category",
+        "propertyLabel": "map category",
+        "valueType": "string",
+        "valueLabel": "OSNI Reference Layers",
+        "valueText": "OSNI Reference Layers",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:ea414f4f2be5a80f05f2",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Northern Ireland Outline (OSNI 50K)",
+        "valueText": "Northern Ireland Outline (OSNI 50K)",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:2a491f43e5bd92fd9efc",
+        "propertyId": "cg:property:provider",
+        "propertyLabel": "provider",
+        "valueType": "entity",
+        "valueId": "cg:provider:land-and-property-services-osni",
+        "valueLabel": "Land & Property Services (OSNI)",
+        "valueText": "Land & Property Services (OSNI)",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:9d695395a779d391cab4",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:open-data-ni-osni-open-data-50k-boundaries-ni-outline-fd39f6b5fb15",
+        "valueLabel": "Open Data NI — OSNI Open Data 50K Boundaries NI Outline",
+        "valueText": "Open Data NI — OSNI Open Data 50K Boundaries NI Outline",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-boundaries-ni-outline",
+            "valueText": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-boundaries-ni-outline"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "map-reference",
+            "valueText": "map-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:961ba528770436bb0357",
+        "propertyId": "cg:property:source-file",
+        "propertyLabel": "source file",
+        "valueType": "entity",
+        "valueId": "cg:source-file:fgb-22a099524366",
+        "valueLabel": "fgb",
+        "valueText": "fgb",
+        "valueDescription": "fgb for Northern Ireland Outline (OSNI 50K) source files",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:file-format",
+            "propertyLabel": "file format",
+            "valueType": "string",
+            "valueLabel": "fgb",
+            "valueText": "fgb"
+          },
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://data.civgraph.net/data/maps/osni/OSNI_50K_NI_Outline.fgb",
+            "valueText": "https://data.civgraph.net/data/maps/osni/OSNI_50K_NI_Outline.fgb"
           }
         ],
         "referenceCount": 0
@@ -40951,176 +41211,6 @@
         "valueType": "string",
         "valueLabel": "Armagh Labour Party",
         "valueText": "Armagh Labour Party",
-        "referenceCount": 0
-      }
-    ],
-    "cg:party:belfast-labour": [
-      {
-        "id": "cg:statement:51d1a46e63f6c66aee57",
-        "propertyId": "cg:property:appeared-in-election",
-        "propertyLabel": "appeared in election",
-        "valueType": "entity",
-        "valueId": "cg:election:parliament-of-northern-ireland-1921-05-24",
-        "valueLabel": "1921 Parliament of Northern Ireland election",
-        "valueText": "1921 Parliament of Northern Ireland election",
-        "valueDescription": "1921-05-24",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "1921-05-24",
-            "valueText": "1921-05-24"
-          },
-          {
-            "propertyId": "cg:property:elected-body",
-            "propertyLabel": "elected body",
-            "valueType": "entity",
-            "valueId": "cg:body:parliament-of-northern-ireland",
-            "valueLabel": "Parliament of Northern Ireland",
-            "valueText": "Parliament of Northern Ireland"
-          },
-          {
-            "propertyId": "cg:property:stood",
-            "propertyLabel": "stood",
-            "valueType": "number",
-            "valueLabel": "3",
-            "valueText": "3"
-          },
-          {
-            "propertyId": "cg:property:seats",
-            "propertyLabel": "seats",
-            "valueType": "number",
-            "valueLabel": "0",
-            "valueText": "0"
-          },
-          {
-            "propertyId": "cg:property:votes",
-            "propertyLabel": "votes",
-            "valueType": "number",
-            "valueLabel": "1887",
-            "valueText": "1887"
-          },
-          {
-            "propertyId": "cg:property:vote-share",
-            "propertyLabel": "vote share",
-            "valueType": "number",
-            "valueLabel": "0.367949582912476",
-            "valueText": "0.367949582912476"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-election-index",
-            "sourceTitle": "Civgraph Browse election index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:977cf9554c0026787423",
-        "propertyId": "cg:property:appeared-in-election",
-        "propertyLabel": "appeared in election",
-        "valueType": "entity",
-        "valueId": "cg:election:parliament-of-northern-ireland-1921-05-24-overall",
-        "valueLabel": "Overall results - 1921 Parliament of Northern Ireland election",
-        "valueText": "Overall results - 1921 Parliament of Northern Ireland election",
-        "valueDescription": "Overall election result / 10 constituencies",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "1921-05-24",
-            "valueText": "1921-05-24"
-          },
-          {
-            "propertyId": "cg:property:elected-body",
-            "propertyLabel": "elected body",
-            "valueType": "entity",
-            "valueId": "cg:body:parliament-of-northern-ireland",
-            "valueLabel": "Parliament of Northern Ireland",
-            "valueText": "Parliament of Northern Ireland"
-          },
-          {
-            "propertyId": "cg:property:stood",
-            "propertyLabel": "stood",
-            "valueType": "number",
-            "valueLabel": "3",
-            "valueText": "3"
-          },
-          {
-            "propertyId": "cg:property:seats",
-            "propertyLabel": "seats",
-            "valueType": "number",
-            "valueLabel": "0",
-            "valueText": "0"
-          },
-          {
-            "propertyId": "cg:property:votes",
-            "propertyLabel": "votes",
-            "valueType": "number",
-            "valueLabel": "1887",
-            "valueText": "1887"
-          },
-          {
-            "propertyId": "cg:property:vote-share",
-            "propertyLabel": "vote share",
-            "valueType": "number",
-            "valueLabel": "0.367949582912476",
-            "valueText": "0.367949582912476"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-election-index",
-            "sourceTitle": "Civgraph Browse election index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:babf16d95e59089dcfc2",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:political-party",
-        "valueLabel": "Political party or label",
-        "valueText": "Political party or label",
-        "valueDescription": "A political party, electoral label, or observed candidature label.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:c05895f3969ead2daff0",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Belfast Labour",
-        "valueText": "Belfast Labour",
-        "referenceCount": 0
-      }
-    ],
-    "cg:party:better-bangor": [
-      {
-        "id": "cg:statement:5de017f130a58208a025",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:political-party",
-        "valueLabel": "Political party or label",
-        "valueText": "Political party or label",
-        "valueDescription": "A political party, electoral label, or observed candidature label.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:52fd27a6591f3aec0352",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Better Bangor",
-        "valueText": "Better Bangor",
         "referenceCount": 0
       }
     ]

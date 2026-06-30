@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T18:48:24.834Z",
+  "generatedAt": "2026-06-30T18:57:58.248Z",
   "kind": "sources",
   "shard": "sources-037.json",
   "total": 200,
@@ -32504,6 +32504,78 @@
       }
     },
     {
+      "id": "map-source:ni-health-trust-boundaries",
+      "slug": "map-source-ni-health-trust-boundaries",
+      "type": "map-source",
+      "title": "Health & Social Care Trust Boundaries (NI) source files",
+      "subtitle": "Local Government Districts / Department of Health (NI)",
+      "category": "Map sources",
+      "provider": [
+        "Department of Health (NI)"
+      ],
+      "description": "Northern Ireland Health & Social Care Trust boundaries (5 trusts), published by the Department of Health.",
+      "sourceMapId": "ni-health-trust-boundaries",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "H&",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Open Data NI — Department of Health trust boundaries",
+          "url": "https://admin.opendatani.gov.uk/dataset/department-of-health-trust-boundaries"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/local-government/NI_Health_Trust_Boundaries.fgb"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/local-government/NI_Health_Trust_Boundaries.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=ni-health-trust-boundaries",
+      "browseUrl": "/browse/sources/map-source-ni-health-trust-boundaries",
+      "rawMetadata": {
+        "id": "ni-health-trust-boundaries",
+        "name": "Health & Social Care Trust Boundaries (NI)",
+        "slug": "ni-health-trust-boundaries",
+        "category": "local-government",
+        "provider": [
+          "Department of Health (NI)"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/local-government/NI_Health_Trust_Boundaries.fgb"
+        },
+        "style": {
+          "color": "#00695C",
+          "weight": 2,
+          "fillOpacity": 0.35
+        },
+        "keywords": [
+          "northern ireland",
+          "NI",
+          "health",
+          "social care",
+          "HSC",
+          "trust",
+          "boundaries",
+          "department of health"
+        ],
+        "description": "Northern Ireland Health & Social Care Trust boundaries (5 trusts), published by the Department of Health.",
+        "references": [
+          {
+            "label": "Open Data NI — Department of Health trust boundaries",
+            "url": "https://admin.opendatani.gov.uk/dataset/department-of-health-trust-boundaries",
+            "note": ""
+          }
+        ],
+        "labelProperty": "TrustName"
+      }
+    },
+    {
       "id": "map-source:ni-industrial-heritage",
       "slug": "map-source-ni-industrial-heritage",
       "type": "map-source",
@@ -35084,85 +35156,6 @@
         ],
         "date": "2017-01-01",
         "labelProperty": "AuthRef1_31Dec2017"
-      }
-    },
-    {
-      "id": "map-source:niea-local-management-areas",
-      "slug": "map-source-niea-local-management-areas",
-      "type": "map-source",
-      "title": "NIEA Local Management Areas source files",
-      "subtitle": "Water Quality / NIEA",
-      "category": "Map sources",
-      "provider": [
-        "NIEA"
-      ],
-      "description": "NIEA Local Management Areas — published by NIEA Water Management Unit (Water Framework Directive boundaries).",
-      "sourceMapId": "niea-local-management-areas",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "NL",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "Source — admin.opendatani.gov.uk",
-          "url": "https://admin.opendatani.gov.uk/"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/niea-local-management-areas.fgb"
-        },
-        {
-          "label": "zip",
-          "url": "https://data.civgraph.net/data/maps/water-quality/niea-local-management-areas.zip"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/niea-local-management-areas.fgb"
-        },
-        {
-          "label": "zip",
-          "url": "https://data.civgraph.net/data/maps/water-quality/niea-local-management-areas.zip"
-        }
-      ],
-      "interactiveUrl": "/#layers=niea-local-management-areas",
-      "browseUrl": "/browse/sources/map-source-niea-local-management-areas",
-      "rawMetadata": {
-        "id": "niea-local-management-areas",
-        "name": "NIEA Local Management Areas",
-        "slug": "niea-local-management-areas",
-        "category": "water-quality",
-        "provider": [
-          "NIEA"
-        ],
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/water-quality/niea-local-management-areas.fgb",
-          "downloads": {
-            "zip": "https://data.civgraph.net/data/maps/water-quality/niea-local-management-areas.zip"
-          }
-        },
-        "style": {
-          "color": "#03A9F4",
-          "weight": 1,
-          "fillOpacity": 0.4
-        },
-        "keywords": [
-          "NIEA",
-          "water",
-          "WFD",
-          "niea local management areas"
-        ],
-        "description": "NIEA Local Management Areas — published by NIEA Water Management Unit (Water Framework Directive boundaries).",
-        "references": [
-          {
-            "label": "Source — admin.opendatani.gov.uk",
-            "url": "https://admin.opendatani.gov.uk/",
-            "note": ""
-          }
-        ],
-        "labelProperty": "NAME"
       }
     }
   ]

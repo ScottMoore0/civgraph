@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T18:49:30.225Z",
+  "generatedAt": "2026-06-30T18:58:05.105Z",
   "shard": 11,
   "total": 5000,
   "items": [
@@ -31209,6 +31209,33 @@
       ]
     },
     {
+      "id": "cg:map-layer:ni-health-trust-boundaries",
+      "label": "Health & Social Care Trust Boundaries (NI)",
+      "description": "Northern Ireland Health & Social Care Trust boundaries (5 trusts), published by the Department of Health.",
+      "kind": "entity",
+      "browseType": "maps",
+      "browseSlug": "ni-health-trust-boundaries",
+      "browseUrl": "/browse/maps/ni-health-trust-boundaries",
+      "attributes": {
+        "category": "Local Government Districts",
+        "categoryId": "local-government",
+        "group": "Elections and Government",
+        "provider": "Department of Health (NI)",
+        "status": "available",
+        "loadable": true,
+        "labelProperty": "TrustName",
+        "searchHints": [
+          "Local Government Districts",
+          "local-government",
+          "Elections and Government",
+          "Department of Health (NI)"
+        ]
+      },
+      "typeIds": [
+        "cg:entity-type:map-layer"
+      ]
+    },
+    {
       "id": "cg:map-layer:ni-industrial-heritage",
       "label": "NI Industrial Heritage Record",
       "description": "NI Industrial Heritage Record — published by DfC Historic Environment Division.",
@@ -32291,6 +32318,32 @@
           "osni-raster",
           "Built Environment",
           "OSNI"
+        ]
+      },
+      "typeIds": [
+        "cg:entity-type:map-layer"
+      ]
+    },
+    {
+      "id": "cg:map-layer:osni-ni-outline",
+      "label": "Northern Ireland Outline (OSNI 50K)",
+      "description": "Northern Ireland outline at OSNI 50K scale — Land & Property Services (OSNI Open Data).",
+      "kind": "entity",
+      "browseType": "maps",
+      "browseSlug": "osni-ni-outline",
+      "browseUrl": "/browse/maps/osni-ni-outline",
+      "attributes": {
+        "category": "OSNI Reference Layers",
+        "categoryId": "osni-reference",
+        "group": "Built Environment",
+        "provider": "Land & Property Services (OSNI)",
+        "status": "available",
+        "loadable": true,
+        "searchHints": [
+          "OSNI Reference Layers",
+          "osni-reference",
+          "Built Environment",
+          "Land & Property Services (OSNI)"
         ]
       },
       "typeIds": [
@@ -118475,56 +118528,6 @@
           "Ireland",
           "1974 Irish presidential election",
           "1951 Irish general election"
-        ]
-      },
-      "typeIds": [
-        "cg:entity-type:person"
-      ]
-    },
-    {
-      "id": "cg:person:name-cecil-a-p-beattie",
-      "label": "Cecil A P Beattie",
-      "description": "Offical Unionist Party / 1985 / 1 contests",
-      "kind": "entity",
-      "browseType": "persons",
-      "browseSlug": "name-cecil-a-p-beattie",
-      "browseUrl": "/browse/persons/name-cecil-a-p-beattie",
-      "attributes": {
-        "firstYear": 1985,
-        "lastYear": 1985,
-        "relatedElectionCount": 1,
-        "contestsStood": 1,
-        "contestsElected": 0,
-        "firstPreferenceVotes": 219,
-        "searchHints": [
-          "Offical Unionist Party",
-          "Mid Tyrone",
-          "1985 Northern Ireland local elections"
-        ]
-      },
-      "typeIds": [
-        "cg:entity-type:person"
-      ]
-    },
-    {
-      "id": "cg:person:name-cecil-allen",
-      "label": "Cecil Allen",
-      "description": "NI Labour / 1962 / 1 contests",
-      "kind": "entity",
-      "browseType": "persons",
-      "browseSlug": "name-cecil-allen",
-      "browseUrl": "/browse/persons/name-cecil-allen",
-      "attributes": {
-        "firstYear": 1962,
-        "lastYear": 1962,
-        "relatedElectionCount": 1,
-        "contestsStood": 1,
-        "contestsElected": 0,
-        "firstPreferenceVotes": 3225,
-        "searchHints": [
-          "NI Labour",
-          "Belfast Cromac",
-          "1962 Parliament of Northern Ireland election"
         ]
       },
       "typeIds": [
