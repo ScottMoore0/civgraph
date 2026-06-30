@@ -1,10 +1,1045 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-29T23:28:02.177Z",
+  "generatedAt": "2026-06-30T17:47:01.808Z",
   "kind": "sources",
   "shard": "sources-050.json",
   "total": 200,
   "items": [
+    {
+      "id": "medium-priority:7-transport-roads-infrastructure-public-assets:ima04-container-traffic-lift-onlift-off:02203",
+      "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-ima04-container-traffic-lift-onlift-off-02203",
+      "type": "approved-medium-priority-source",
+      "title": "IMA04 - Container Traffic (Lift On/Lift Off)",
+      "subtitle": "Transport, roads, infrastructure, public assets / Irish Maritime Development Office, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
+      "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+      "provider": [
+        "Irish Maritime Development Office",
+        "data.gov.ie"
+      ],
+      "description": "IMA04 - Container Traffic (Lift On/Lift Off) is published as a medium-priority Civgraph source/provenance record from Irish Maritime Development Office, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/ima04-container-traffic-lift-onlift-off",
+      "references": [
+        {
+          "label": "IMA04 - Container Traffic (Lift On/Lift Off) provider page",
+          "url": "https://data.gov.ie/dataset/ima04-container-traffic-lift-onlift-off",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "IMA04 - Container Traffic (Lift On/Lift Off) Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ima04-container-traffic-lift-onlift-off",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/ima04-container-traffic-lift-onlift-off",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Transport, roads, infrastructure, public assets",
+        "transport-public-asset",
+        "features",
+        "Ireland / unspecified",
+        "transport-public-asset-batch-review",
+        "CSV",
+        "JSON-STAT",
+        "PX",
+        "XLSX"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 2204,
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:ima04-container-traffic-lift-onlift-off:02203",
+          "title": "IMA04 - Container Traffic (Lift On/Lift Off)",
+          "cleanTitle": "IMA04 - Container Traffic (Lift On/Lift Off)",
+          "provider": "data.gov.ie",
+          "organisation": "Irish Maritime Development Office",
+          "category": "tabular",
+          "roiGroup": "7. Transport, roads, infrastructure, public assets",
+          "groupTitle": "Transport, roads, infrastructure, public assets",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "transport-public-asset",
+          "featureUnit": "features",
+          "formats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 55,
+          "currentProviderUrl": "https://data.gov.ie/dataset/ima04-container-traffic-lift-onlift-off",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ima04-container-traffic-lift-onlift-off",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "needs-provider-context-review: publication policy assigned",
+            "public-asset-batch-placement: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Transport, roads, infrastructure, public assets",
+        "Ireland / unspecified",
+        "transport-public-asset",
+        "IMA04 - Container Traffic (Lift On/Lift Off)"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "spreadsheet"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/ima04-container-traffic-lift-onlift-off",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ima04-container-traffic-lift-onlift-off",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Irish Maritime Development Office, data.gov.ie, IMA04 - Container Traffic (Lift On/Lift Off).",
+      "fullCitation": "Irish Maritime Development Office, data.gov.ie. IMA04 - Container Traffic (Lift On/Lift Off). Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/ima04-container-traffic-lift-onlift-off. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/ima04-container-traffic-lift-onlift-off.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:ima04-container-traffic-lift-onlift-off:02203",
+        "sourceRowNumber": 2204,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+        "proposedAction": "transport-public-asset-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ]
+        },
+        "confidence": 55,
+        "resolvedBlockers": [
+          "needs-provider-context-review: publication policy assigned",
+          "public-asset-batch-placement: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-ima04-container-traffic-lift-onlift-off-02203",
+      "rawMetadata": {
+        "id": "medium-priority:7-transport-roads-infrastructure-public-assets:ima04-container-traffic-lift-onlift-off:02203",
+        "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-ima04-container-traffic-lift-onlift-off-02203",
+        "type": "approved-medium-priority-source",
+        "title": "IMA04 - Container Traffic (Lift On/Lift Off)",
+        "subtitle": "Transport, roads, infrastructure, public assets / Irish Maritime Development Office, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
+        "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+        "provider": [
+          "Irish Maritime Development Office",
+          "data.gov.ie"
+        ],
+        "description": "IMA04 - Container Traffic (Lift On/Lift Off) is published as a medium-priority Civgraph source/provenance record from Irish Maritime Development Office, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/ima04-container-traffic-lift-onlift-off",
+        "references": [
+          {
+            "label": "IMA04 - Container Traffic (Lift On/Lift Off) provider page",
+            "url": "https://data.gov.ie/dataset/ima04-container-traffic-lift-onlift-off",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "IMA04 - Container Traffic (Lift On/Lift Off) Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ima04-container-traffic-lift-onlift-off",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/ima04-container-traffic-lift-onlift-off",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Transport, roads, infrastructure, public assets",
+          "Ireland / unspecified",
+          "transport-public-asset",
+          "IMA04 - Container Traffic (Lift On/Lift Off)"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "spreadsheet"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/ima04-container-traffic-lift-onlift-off",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ima04-container-traffic-lift-onlift-off",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Irish Maritime Development Office, data.gov.ie, IMA04 - Container Traffic (Lift On/Lift Off).",
+        "fullCitation": "Irish Maritime Development Office, data.gov.ie. IMA04 - Container Traffic (Lift On/Lift Off). Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/ima04-container-traffic-lift-onlift-off. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/ima04-container-traffic-lift-onlift-off.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 2204,
+            "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:ima04-container-traffic-lift-onlift-off:02203",
+            "title": "IMA04 - Container Traffic (Lift On/Lift Off)",
+            "cleanTitle": "IMA04 - Container Traffic (Lift On/Lift Off)",
+            "provider": "data.gov.ie",
+            "organisation": "Irish Maritime Development Office",
+            "category": "tabular",
+            "roiGroup": "7. Transport, roads, infrastructure, public assets",
+            "groupTitle": "Transport, roads, infrastructure, public assets",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "transport-public-asset",
+            "featureUnit": "features",
+            "formats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "transport-public-asset-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV",
+                "JSON-STAT",
+                "PX",
+                "XLSX"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 55,
+            "currentProviderUrl": "https://data.gov.ie/dataset/ima04-container-traffic-lift-onlift-off",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ima04-container-traffic-lift-onlift-off",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "needs-provider-context-review: publication policy assigned",
+              "public-asset-batch-placement: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:ima04-container-traffic-lift-onlift-off:02203",
+          "sourceRowNumber": 2204,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ]
+          },
+          "confidence": 55,
+          "resolvedBlockers": [
+            "needs-provider-context-review: publication policy assigned",
+            "public-asset-batch-placement: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Transport, roads, infrastructure, public assets",
+          "transport-public-asset",
+          "features",
+          "Ireland / unspecified",
+          "transport-public-asset-batch-review",
+          "CSV",
+          "JSON-STAT",
+          "PX",
+          "XLSX"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-ima04-container-traffic-lift-onlift-off-02203"
+      }
+    },
+    {
+      "id": "medium-priority:7-transport-roads-infrastructure-public-assets:ima06-container-traffic-lift-onlift-off:02204",
+      "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-ima06-container-traffic-lift-onlift-off-02204",
+      "type": "approved-medium-priority-source",
+      "title": "IMA06 - Container Traffic (Lift On/Lift Off)",
+      "subtitle": "Transport, roads, infrastructure, public assets / Irish Maritime Development Office, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
+      "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+      "provider": [
+        "Irish Maritime Development Office",
+        "data.gov.ie"
+      ],
+      "description": "IMA06 - Container Traffic (Lift On/Lift Off) is published as a medium-priority Civgraph source/provenance record from Irish Maritime Development Office, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/ima06-container-traffic-lift-onlift-off",
+      "references": [
+        {
+          "label": "IMA06 - Container Traffic (Lift On/Lift Off) provider page",
+          "url": "https://data.gov.ie/dataset/ima06-container-traffic-lift-onlift-off",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "IMA06 - Container Traffic (Lift On/Lift Off) Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ima06-container-traffic-lift-onlift-off",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/ima06-container-traffic-lift-onlift-off",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Transport, roads, infrastructure, public assets",
+        "transport-public-asset",
+        "features",
+        "Ireland / unspecified",
+        "transport-public-asset-batch-review",
+        "CSV",
+        "JSON-STAT",
+        "PX",
+        "XLSX"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 2205,
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:ima06-container-traffic-lift-onlift-off:02204",
+          "title": "IMA06 - Container Traffic (Lift On/Lift Off)",
+          "cleanTitle": "IMA06 - Container Traffic (Lift On/Lift Off)",
+          "provider": "data.gov.ie",
+          "organisation": "Irish Maritime Development Office",
+          "category": "tabular",
+          "roiGroup": "7. Transport, roads, infrastructure, public assets",
+          "groupTitle": "Transport, roads, infrastructure, public assets",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "transport-public-asset",
+          "featureUnit": "features",
+          "formats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 55,
+          "currentProviderUrl": "https://data.gov.ie/dataset/ima06-container-traffic-lift-onlift-off",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ima06-container-traffic-lift-onlift-off",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "needs-provider-context-review: publication policy assigned",
+            "public-asset-batch-placement: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Transport, roads, infrastructure, public assets",
+        "Ireland / unspecified",
+        "transport-public-asset",
+        "IMA06 - Container Traffic (Lift On/Lift Off)"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "spreadsheet"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/ima06-container-traffic-lift-onlift-off",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ima06-container-traffic-lift-onlift-off",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Irish Maritime Development Office, data.gov.ie, IMA06 - Container Traffic (Lift On/Lift Off).",
+      "fullCitation": "Irish Maritime Development Office, data.gov.ie. IMA06 - Container Traffic (Lift On/Lift Off). Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/ima06-container-traffic-lift-onlift-off. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/ima06-container-traffic-lift-onlift-off.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:ima06-container-traffic-lift-onlift-off:02204",
+        "sourceRowNumber": 2205,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+        "proposedAction": "transport-public-asset-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ]
+        },
+        "confidence": 55,
+        "resolvedBlockers": [
+          "needs-provider-context-review: publication policy assigned",
+          "public-asset-batch-placement: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-ima06-container-traffic-lift-onlift-off-02204",
+      "rawMetadata": {
+        "id": "medium-priority:7-transport-roads-infrastructure-public-assets:ima06-container-traffic-lift-onlift-off:02204",
+        "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-ima06-container-traffic-lift-onlift-off-02204",
+        "type": "approved-medium-priority-source",
+        "title": "IMA06 - Container Traffic (Lift On/Lift Off)",
+        "subtitle": "Transport, roads, infrastructure, public assets / Irish Maritime Development Office, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
+        "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+        "provider": [
+          "Irish Maritime Development Office",
+          "data.gov.ie"
+        ],
+        "description": "IMA06 - Container Traffic (Lift On/Lift Off) is published as a medium-priority Civgraph source/provenance record from Irish Maritime Development Office, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/ima06-container-traffic-lift-onlift-off",
+        "references": [
+          {
+            "label": "IMA06 - Container Traffic (Lift On/Lift Off) provider page",
+            "url": "https://data.gov.ie/dataset/ima06-container-traffic-lift-onlift-off",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "IMA06 - Container Traffic (Lift On/Lift Off) Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ima06-container-traffic-lift-onlift-off",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/ima06-container-traffic-lift-onlift-off",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Transport, roads, infrastructure, public assets",
+          "Ireland / unspecified",
+          "transport-public-asset",
+          "IMA06 - Container Traffic (Lift On/Lift Off)"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "spreadsheet"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/ima06-container-traffic-lift-onlift-off",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ima06-container-traffic-lift-onlift-off",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Irish Maritime Development Office, data.gov.ie, IMA06 - Container Traffic (Lift On/Lift Off).",
+        "fullCitation": "Irish Maritime Development Office, data.gov.ie. IMA06 - Container Traffic (Lift On/Lift Off). Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/ima06-container-traffic-lift-onlift-off. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/ima06-container-traffic-lift-onlift-off.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 2205,
+            "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:ima06-container-traffic-lift-onlift-off:02204",
+            "title": "IMA06 - Container Traffic (Lift On/Lift Off)",
+            "cleanTitle": "IMA06 - Container Traffic (Lift On/Lift Off)",
+            "provider": "data.gov.ie",
+            "organisation": "Irish Maritime Development Office",
+            "category": "tabular",
+            "roiGroup": "7. Transport, roads, infrastructure, public assets",
+            "groupTitle": "Transport, roads, infrastructure, public assets",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "transport-public-asset",
+            "featureUnit": "features",
+            "formats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "transport-public-asset-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV",
+                "JSON-STAT",
+                "PX",
+                "XLSX"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 55,
+            "currentProviderUrl": "https://data.gov.ie/dataset/ima06-container-traffic-lift-onlift-off",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ima06-container-traffic-lift-onlift-off",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "needs-provider-context-review: publication policy assigned",
+              "public-asset-batch-placement: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:ima06-container-traffic-lift-onlift-off:02204",
+          "sourceRowNumber": 2205,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ]
+          },
+          "confidence": 55,
+          "resolvedBlockers": [
+            "needs-provider-context-review: publication policy assigned",
+            "public-asset-batch-placement: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Transport, roads, infrastructure, public assets",
+          "transport-public-asset",
+          "features",
+          "Ireland / unspecified",
+          "transport-public-asset-batch-review",
+          "CSV",
+          "JSON-STAT",
+          "PX",
+          "XLSX"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-ima06-container-traffic-lift-onlift-off-02204"
+      }
+    },
+    {
+      "id": "medium-priority:7-transport-roads-infrastructure-public-assets:ima07-container-traffic-lift-onlift-off:02205",
+      "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-ima07-container-traffic-lift-onlift-off-02205",
+      "type": "approved-medium-priority-source",
+      "title": "IMA07 - Container Traffic (Lift On/Lift Off)",
+      "subtitle": "Transport, roads, infrastructure, public assets / Irish Maritime Development Office, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
+      "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+      "provider": [
+        "Irish Maritime Development Office",
+        "data.gov.ie"
+      ],
+      "description": "IMA07 - Container Traffic (Lift On/Lift Off) is published as a medium-priority Civgraph source/provenance record from Irish Maritime Development Office, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/ima07-container-traffic-lift-onlift-off",
+      "references": [
+        {
+          "label": "IMA07 - Container Traffic (Lift On/Lift Off) provider page",
+          "url": "https://data.gov.ie/dataset/ima07-container-traffic-lift-onlift-off",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "IMA07 - Container Traffic (Lift On/Lift Off) Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ima07-container-traffic-lift-onlift-off",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/ima07-container-traffic-lift-onlift-off",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Transport, roads, infrastructure, public assets",
+        "transport-public-asset",
+        "features",
+        "Ireland / unspecified",
+        "transport-public-asset-batch-review",
+        "CSV",
+        "JSON-STAT",
+        "PX",
+        "XLSX"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 2206,
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:ima07-container-traffic-lift-onlift-off:02205",
+          "title": "IMA07 - Container Traffic (Lift On/Lift Off)",
+          "cleanTitle": "IMA07 - Container Traffic (Lift On/Lift Off)",
+          "provider": "data.gov.ie",
+          "organisation": "Irish Maritime Development Office",
+          "category": "tabular",
+          "roiGroup": "7. Transport, roads, infrastructure, public assets",
+          "groupTitle": "Transport, roads, infrastructure, public assets",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "transport-public-asset",
+          "featureUnit": "features",
+          "formats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 55,
+          "currentProviderUrl": "https://data.gov.ie/dataset/ima07-container-traffic-lift-onlift-off",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ima07-container-traffic-lift-onlift-off",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "needs-provider-context-review: publication policy assigned",
+            "public-asset-batch-placement: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Transport, roads, infrastructure, public assets",
+        "Ireland / unspecified",
+        "transport-public-asset",
+        "IMA07 - Container Traffic (Lift On/Lift Off)"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "spreadsheet"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/ima07-container-traffic-lift-onlift-off",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ima07-container-traffic-lift-onlift-off",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Irish Maritime Development Office, data.gov.ie, IMA07 - Container Traffic (Lift On/Lift Off).",
+      "fullCitation": "Irish Maritime Development Office, data.gov.ie. IMA07 - Container Traffic (Lift On/Lift Off). Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/ima07-container-traffic-lift-onlift-off. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/ima07-container-traffic-lift-onlift-off.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:ima07-container-traffic-lift-onlift-off:02205",
+        "sourceRowNumber": 2206,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+        "proposedAction": "transport-public-asset-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ]
+        },
+        "confidence": 55,
+        "resolvedBlockers": [
+          "needs-provider-context-review: publication policy assigned",
+          "public-asset-batch-placement: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-ima07-container-traffic-lift-onlift-off-02205",
+      "rawMetadata": {
+        "id": "medium-priority:7-transport-roads-infrastructure-public-assets:ima07-container-traffic-lift-onlift-off:02205",
+        "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-ima07-container-traffic-lift-onlift-off-02205",
+        "type": "approved-medium-priority-source",
+        "title": "IMA07 - Container Traffic (Lift On/Lift Off)",
+        "subtitle": "Transport, roads, infrastructure, public assets / Irish Maritime Development Office, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
+        "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+        "provider": [
+          "Irish Maritime Development Office",
+          "data.gov.ie"
+        ],
+        "description": "IMA07 - Container Traffic (Lift On/Lift Off) is published as a medium-priority Civgraph source/provenance record from Irish Maritime Development Office, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/ima07-container-traffic-lift-onlift-off",
+        "references": [
+          {
+            "label": "IMA07 - Container Traffic (Lift On/Lift Off) provider page",
+            "url": "https://data.gov.ie/dataset/ima07-container-traffic-lift-onlift-off",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "IMA07 - Container Traffic (Lift On/Lift Off) Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ima07-container-traffic-lift-onlift-off",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/ima07-container-traffic-lift-onlift-off",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Transport, roads, infrastructure, public assets",
+          "Ireland / unspecified",
+          "transport-public-asset",
+          "IMA07 - Container Traffic (Lift On/Lift Off)"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "spreadsheet"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/ima07-container-traffic-lift-onlift-off",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ima07-container-traffic-lift-onlift-off",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Irish Maritime Development Office, data.gov.ie, IMA07 - Container Traffic (Lift On/Lift Off).",
+        "fullCitation": "Irish Maritime Development Office, data.gov.ie. IMA07 - Container Traffic (Lift On/Lift Off). Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/ima07-container-traffic-lift-onlift-off. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/ima07-container-traffic-lift-onlift-off.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 2206,
+            "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:ima07-container-traffic-lift-onlift-off:02205",
+            "title": "IMA07 - Container Traffic (Lift On/Lift Off)",
+            "cleanTitle": "IMA07 - Container Traffic (Lift On/Lift Off)",
+            "provider": "data.gov.ie",
+            "organisation": "Irish Maritime Development Office",
+            "category": "tabular",
+            "roiGroup": "7. Transport, roads, infrastructure, public assets",
+            "groupTitle": "Transport, roads, infrastructure, public assets",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "transport-public-asset",
+            "featureUnit": "features",
+            "formats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "transport-public-asset-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV",
+                "JSON-STAT",
+                "PX",
+                "XLSX"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 55,
+            "currentProviderUrl": "https://data.gov.ie/dataset/ima07-container-traffic-lift-onlift-off",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ima07-container-traffic-lift-onlift-off",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "needs-provider-context-review: publication policy assigned",
+              "public-asset-batch-placement: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:ima07-container-traffic-lift-onlift-off:02205",
+          "sourceRowNumber": 2206,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ]
+          },
+          "confidence": 55,
+          "resolvedBlockers": [
+            "needs-provider-context-review: publication policy assigned",
+            "public-asset-batch-placement: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Transport, roads, infrastructure, public assets",
+          "transport-public-asset",
+          "features",
+          "Ireland / unspecified",
+          "transport-public-asset-batch-review",
+          "CSV",
+          "JSON-STAT",
+          "PX",
+          "XLSX"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-ima07-container-traffic-lift-onlift-off-02205"
+      }
+    },
     {
       "id": "medium-priority:7-transport-roads-infrastructure-public-assets:ima08-bulk-traffic:02206",
       "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-ima08-bulk-traffic-02206",
@@ -47993,332 +49028,6 @@
       "publicationStatus": "context-source-published",
       "proposedBrowsePath": "Books / Tables / Sources > Peatland Geoportal context",
       "browseUrl": "/browse/sources/peatland-geoportal-context-breenwoodlocationmap-a2571572ce49463597dd103f686ee756"
-    },
-    {
-      "id": "peatland-geoportal:context:breenwoodsac-cmpstorymap:e3f8ebde7d3346d3aca427ffbfbeb3a1",
-      "slug": "peatland-geoportal-context-breenwoodsac-cmpstorymap-e3f8ebde7d3346d3aca427ffbfbeb3a1",
-      "type": "peatland-geoportal-context-source",
-      "title": "BreenWoodSAC_CMPStoryMap",
-      "subtitle": "StoryMap / Megan.Ryan_DAERANI / StoryMap",
-      "category": "Peatland Geoportal context",
-      "date": "2024-03-29",
-      "provider": [
-        "Megan.Ryan_DAERANI",
-        "DAERA / Open Data NI"
-      ],
-      "description": "BreenWoodSAC_CMPStoryMap is a StoryMap item from the Peatland Geoportal, owned by Megan.Ryan_DAERANI. not preferred for direct conversion; use as context/citation unless it points to an approved Feature Service/WFS dedupe by ArcGIS item ID and title ArcGIS item ID: e3f8ebde7d3346d3aca427ffbfbeb3a1. Modified: 2024-03-29. The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion.",
-      "url": "https://www.arcgis.com/home/item.html?id=e3f8ebde7d3346d3aca427ffbfbeb3a1",
-      "references": [
-        {
-          "label": "BreenWoodSAC_CMPStoryMap ArcGIS item page",
-          "url": "https://www.arcgis.com/home/item.html?id=e3f8ebde7d3346d3aca427ffbfbeb3a1",
-          "source": "ArcGIS Online / Peatland Geoportal",
-          "role": "arcgis-item-page"
-        },
-        {
-          "label": "Peatland Geoportal",
-          "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/",
-          "source": "Queen's University Belfast / ArcGIS Hub",
-          "role": "source-portal"
-        },
-        {
-          "label": "Peatland Geoportal ArcGIS group search",
-          "url": "https://www.arcgis.com/sharing/rest/search?f=json&q=group:b5fdfbe3f6264c14a90afd43f8f51956&num=100&sortField=title",
-          "source": "ArcGIS Online",
-          "role": "source-group"
-        },
-        {
-          "label": "BreenWoodSAC_CMPStoryMap service or source URL",
-          "url": "https://storymaps.arcgis.com/stories/e3f8ebde7d3346d3aca427ffbfbeb3a1",
-          "source": "Megan.Ryan_DAERANI",
-          "role": "source-url"
-        }
-      ],
-      "keywords": [
-        "peatland-geoportal",
-        "habitat-protected-site-context",
-        "source-context-record-not-map-layer",
-        "StoryMap",
-        "Megan.Ryan_DAERANI",
-        "Breen Wood SAC",
-        "SAC",
-        "CMP",
-        "Conservation Management Plan",
-        "Annex 1",
-        "Northern Ireland",
-        "United Kingdom",
-        "NI",
-        "UK"
-      ],
-      "sourceItems": [
-        {
-          "auditRowNumber": 67,
-          "title": "BreenWoodSAC_CMPStoryMap",
-          "provider": "Megan.Ryan_DAERANI",
-          "category": "habitat-protected-site-context",
-          "formats": [
-            "StoryMap"
-          ],
-          "arcgisItemId": "e3f8ebde7d3346d3aca427ffbfbeb3a1",
-          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=e3f8ebde7d3346d3aca427ffbfbeb3a1",
-          "serviceUrl": "https://storymaps.arcgis.com/stories/e3f8ebde7d3346d3aca427ffbfbeb3a1",
-          "modified": "2024-03-29T14:01:03.000Z",
-          "access": "public",
-          "tags": [
-            "Breen Wood SAC",
-            "SAC",
-            "CMP",
-            "Conservation Management Plan",
-            "Annex 1",
-            "Northern Ireland",
-            "United Kingdom",
-            "NI",
-            "UK"
-          ],
-          "recommendedAction": "source-context-record-not-map-layer",
-          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
-        }
-      ],
-      "status": "Source context",
-      "statusChips": [
-        "Source context",
-        "StoryMap"
-      ],
-      "sourceHierarchy": [
-        "Peatland Geoportal",
-        "Web maps, StoryMaps, apps, and context",
-        "habitat-protected-site-context"
-      ],
-      "viewport": {
-        "type": "web-context",
-        "status": "external-context-link",
-        "url": "https://www.arcgis.com/home/item.html?id=e3f8ebde7d3346d3aca427ffbfbeb3a1"
-      },
-      "shortCitation": "Megan.Ryan_DAERANI: BreenWoodSAC_CMPStoryMap",
-      "fullCitation": "BreenWoodSAC_CMPStoryMap. Megan.Ryan_DAERANI via Peatland Geoportal / ArcGIS item e3f8ebde7d3346d3aca427ffbfbeb3a1, modified 2024-03-29.",
-      "license": {
-        "status": "licence-review-required",
-        "note": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
-      },
-      "approval": {
-        "recommendedAction": "publish as source/context page",
-        "conversionRecommendation": "not preferred for direct conversion; use as context/citation unless it points to an approved Feature Service/WFS",
-        "dedupeRecommendation": "dedupe by ArcGIS item ID and title",
-        "arcgisItemId": "e3f8ebde7d3346d3aca427ffbfbeb3a1",
-        "sourceType": "StoryMap",
-        "confidence": "high"
-      },
-      "publicationStatus": "context-source-published",
-      "proposedBrowsePath": "Books / Tables / Sources > Peatland Geoportal context",
-      "browseUrl": "/browse/sources/peatland-geoportal-context-breenwoodsac-cmpstorymap-e3f8ebde7d3346d3aca427ffbfbeb3a1"
-    },
-    {
-      "id": "peatland-geoportal:context:carnglenshanehabitatmap:6936d9226e924218a702d424cee650e3",
-      "slug": "peatland-geoportal-context-carnglenshanehabitatmap-6936d9226e924218a702d424cee650e3",
-      "type": "peatland-geoportal-context-source",
-      "title": "CarnGlenshaneHabitatMap",
-      "subtitle": "Web Map / Megan.Ryan_DAERANI / Web Map",
-      "category": "Peatland Geoportal context",
-      "date": "2024-03-26",
-      "provider": [
-        "Megan.Ryan_DAERANI",
-        "DAERA / Open Data NI"
-      ],
-      "description": "CarnGlenshaneHabitatMap is a Web Map item from the Peatland Geoportal, owned by Megan.Ryan_DAERANI. not preferred for direct conversion; use as context/citation unless it points to an approved Feature Service/WFS dedupe by ArcGIS item ID and title ArcGIS item ID: 6936d9226e924218a702d424cee650e3. Modified: 2024-03-26. The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion.",
-      "url": "https://www.arcgis.com/home/item.html?id=6936d9226e924218a702d424cee650e3",
-      "references": [
-        {
-          "label": "CarnGlenshaneHabitatMap ArcGIS item page",
-          "url": "https://www.arcgis.com/home/item.html?id=6936d9226e924218a702d424cee650e3",
-          "source": "ArcGIS Online / Peatland Geoportal",
-          "role": "arcgis-item-page"
-        },
-        {
-          "label": "Peatland Geoportal",
-          "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/",
-          "source": "Queen's University Belfast / ArcGIS Hub",
-          "role": "source-portal"
-        },
-        {
-          "label": "Peatland Geoportal ArcGIS group search",
-          "url": "https://www.arcgis.com/sharing/rest/search?f=json&q=group:b5fdfbe3f6264c14a90afd43f8f51956&num=100&sortField=title",
-          "source": "ArcGIS Online",
-          "role": "source-group"
-        }
-      ],
-      "keywords": [
-        "peatland-geoportal",
-        "peatland-direct",
-        "source-context-record-not-map-layer",
-        "Web Map",
-        "Megan.Ryan_DAERANI",
-        "SAC",
-        "CMP",
-        "Management plan",
-        "Phase 1",
-        "Annex 1",
-        "EUNIS",
-        "Northern Ireland",
-        "United Kingdom",
-        "NI",
-        "UK",
-        "Habitat Map",
-        "Carn Glenshane"
-      ],
-      "sourceItems": [
-        {
-          "auditRowNumber": 75,
-          "title": "CarnGlenshaneHabitatMap",
-          "provider": "Megan.Ryan_DAERANI",
-          "category": "peatland-direct",
-          "formats": [
-            "Web Map"
-          ],
-          "arcgisItemId": "6936d9226e924218a702d424cee650e3",
-          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=6936d9226e924218a702d424cee650e3",
-          "modified": "2024-03-26T15:47:21.000Z",
-          "access": "public",
-          "tags": [
-            "SAC",
-            "CMP",
-            "Management plan",
-            "Phase 1",
-            "Annex 1",
-            "EUNIS",
-            "Northern Ireland",
-            "United Kingdom",
-            "NI",
-            "UK",
-            "Habitat Map",
-            "Carn Glenshane"
-          ],
-          "recommendedAction": "source-context-record-not-map-layer",
-          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
-        }
-      ],
-      "status": "Source context",
-      "statusChips": [
-        "Source context",
-        "Web Map"
-      ],
-      "sourceHierarchy": [
-        "Peatland Geoportal",
-        "Web maps, StoryMaps, apps, and context",
-        "peatland-direct"
-      ],
-      "viewport": {
-        "type": "web-context",
-        "status": "external-context-link",
-        "url": "https://www.arcgis.com/home/item.html?id=6936d9226e924218a702d424cee650e3"
-      },
-      "shortCitation": "Megan.Ryan_DAERANI: CarnGlenshaneHabitatMap",
-      "fullCitation": "CarnGlenshaneHabitatMap. Megan.Ryan_DAERANI via Peatland Geoportal / ArcGIS item 6936d9226e924218a702d424cee650e3, modified 2024-03-26.",
-      "license": {
-        "status": "licence-review-required",
-        "note": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
-      },
-      "approval": {
-        "recommendedAction": "publish as source/context page",
-        "conversionRecommendation": "not preferred for direct conversion; use as context/citation unless it points to an approved Feature Service/WFS",
-        "dedupeRecommendation": "dedupe by ArcGIS item ID and title",
-        "arcgisItemId": "6936d9226e924218a702d424cee650e3",
-        "sourceType": "Web Map",
-        "confidence": "high"
-      },
-      "publicationStatus": "context-source-published",
-      "proposedBrowsePath": "Books / Tables / Sources > Peatland Geoportal context",
-      "browseUrl": "/browse/sources/peatland-geoportal-context-carnglenshanehabitatmap-6936d9226e924218a702d424cee650e3"
-    },
-    {
-      "id": "peatland-geoportal:context:contact-info:b6c3d2029c774132ba02cb8a035fe05f",
-      "slug": "peatland-geoportal-context-contact-info-b6c3d2029c774132ba02cb8a035fe05f",
-      "type": "peatland-geoportal-context-source",
-      "title": "Contact Info",
-      "subtitle": "Hub Page / edelaney05_QueensUB / Hub Page",
-      "category": "Peatland Geoportal context",
-      "date": "2026-03-04",
-      "provider": [
-        "edelaney05_QueensUB",
-        "Queen's University Belfast"
-      ],
-      "description": "Contact Info is a Hub Page item from the Peatland Geoportal, owned by edelaney05_QueensUB. not preferred for direct conversion; use as context/citation unless it points to an approved Feature Service/WFS dedupe by ArcGIS item ID and title ArcGIS item ID: b6c3d2029c774132ba02cb8a035fe05f. Modified: 2026-03-04. The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion.",
-      "url": "https://www.arcgis.com/home/item.html?id=b6c3d2029c774132ba02cb8a035fe05f",
-      "references": [
-        {
-          "label": "Contact Info ArcGIS item page",
-          "url": "https://www.arcgis.com/home/item.html?id=b6c3d2029c774132ba02cb8a035fe05f",
-          "source": "ArcGIS Online / Peatland Geoportal",
-          "role": "arcgis-item-page"
-        },
-        {
-          "label": "Peatland Geoportal",
-          "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/",
-          "source": "Queen's University Belfast / ArcGIS Hub",
-          "role": "source-portal"
-        },
-        {
-          "label": "Peatland Geoportal ArcGIS group search",
-          "url": "https://www.arcgis.com/sharing/rest/search?f=json&q=group:b5fdfbe3f6264c14a90afd43f8f51956&num=100&sortField=title",
-          "source": "ArcGIS Online",
-          "role": "source-group"
-        }
-      ],
-      "keywords": [
-        "peatland-geoportal",
-        "unclear-or-supporting",
-        "source-context-record-not-map-layer",
-        "Hub Page",
-        "edelaney05_QueensUB"
-      ],
-      "sourceItems": [
-        {
-          "auditRowNumber": 93,
-          "title": "Contact Info",
-          "provider": "edelaney05_QueensUB",
-          "category": "unclear-or-supporting",
-          "formats": [
-            "Hub Page"
-          ],
-          "arcgisItemId": "b6c3d2029c774132ba02cb8a035fe05f",
-          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=b6c3d2029c774132ba02cb8a035fe05f",
-          "modified": "2026-03-04T10:42:05.000Z",
-          "access": "public",
-          "recommendedAction": "source-context-record-not-map-layer",
-          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
-        }
-      ],
-      "status": "Source context",
-      "statusChips": [
-        "Source context",
-        "Hub Page"
-      ],
-      "sourceHierarchy": [
-        "Peatland Geoportal",
-        "Web maps, StoryMaps, apps, and context",
-        "unclear-or-supporting"
-      ],
-      "viewport": {
-        "type": "web-context",
-        "status": "external-context-link",
-        "url": "https://www.arcgis.com/home/item.html?id=b6c3d2029c774132ba02cb8a035fe05f"
-      },
-      "shortCitation": "edelaney05_QueensUB: Contact Info",
-      "fullCitation": "Contact Info. edelaney05_QueensUB via Peatland Geoportal / ArcGIS item b6c3d2029c774132ba02cb8a035fe05f, modified 2026-03-04.",
-      "license": {
-        "status": "licence-review-required",
-        "note": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
-      },
-      "approval": {
-        "recommendedAction": "publish as source/context page",
-        "conversionRecommendation": "not preferred for direct conversion; use as context/citation unless it points to an approved Feature Service/WFS",
-        "dedupeRecommendation": "dedupe by ArcGIS item ID and title",
-        "arcgisItemId": "b6c3d2029c774132ba02cb8a035fe05f",
-        "sourceType": "Hub Page",
-        "confidence": "high"
-      },
-      "publicationStatus": "context-source-published",
-      "proposedBrowsePath": "Books / Tables / Sources > Peatland Geoportal context",
-      "browseUrl": "/browse/sources/peatland-geoportal-context-contact-info-b6c3d2029c774132ba02cb8a035fe05f"
     }
   ]
 }

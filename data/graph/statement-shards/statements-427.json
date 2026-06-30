@@ -1,9 +1,663 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-29T23:28:08.570Z",
+  "generatedAt": "2026-06-30T17:47:10.658Z",
   "shard": 427,
   "total": 2500,
   "items": [
+    {
+      "id": "cg:statement:e257f33ab88b81f610e9",
+      "subjectId": "cg:source:map-source-eds-roi-1970",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:munster-deds-wards-1970-0ad338611f48"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "FlatGeobuf"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Munster_1970.fgb"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:711ea77a55ee0e5d2795",
+      "subjectId": "cg:source:map-source-eds-roi-1970",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:35593adb9c511903e716",
+      "subjectId": "cg:source:map-source-eds-roi-1970",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "District Electoral Divisions/Wards 1970 source files"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:33feb45e895e7738f6b3",
+      "subjectId": "cg:source:map-source-eds-roi-1970",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:phelim-birch"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:7c27cc4f6ea32e71d552",
+      "subjectId": "cg:source:map-source-eds-roi-1970",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:paddy-matthews"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:0e6a4eb79f18ff826898",
+      "subjectId": "cg:source:map-source-eds-roi-1970",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:dublin-ward-definitions-1954-pdf-transcription-4ed0ff335ac0"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/documents/dublin-electoral-history/Dublin%20Wards%2014-06-1954%20(Minutes%20of%20Dublin%20City%20Council%201954%20Item%20144).pdf"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:277a1ebfee398efa5673",
+      "subjectId": "cg:source:map-source-eds-roi-1970",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:district-electoral-divisions-wards-1970-source-notes-47c5ec2c85ef"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/District Electoral Divisions Wards 1970.txt"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:661d8e62fa75fee2b799",
+      "subjectId": "cg:source:map-source-eds-roi-1970",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:existing-civgraph-source-record-map-source-eds-roi-1970-d1f94b8cef5c"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "/browse/sources/map-source-eds-roi-1970"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "matched-source-record"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:b22ce25321601b5ef5ca",
+      "subjectId": "cg:source:map-source-eds-roi-1970",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:existing-civgraph-record-district-electoral-divisions-wards-1970-3745e1f496c9"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "/browse/maps/eds-roi-1970"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "matched-existing-record"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:607b282486e9bc9b7eee",
+      "subjectId": "cg:source:map-source-eds-roi-1970",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Map sources"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:9fe47ded8b612e976545",
+      "subjectId": "cg:source:map-source-elb-1984",
+      "propertyId": "cg:property:date",
+      "value": {
+        "type": "date",
+        "value": "1984"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:206d3620f8ff46d58033",
+      "subjectId": "cg:source:map-source-elb-1984",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:fgb-e995a04ccc51"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "FGB"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/baronies-parishes/ELB1984.fgb"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:326a285acf5534436c60",
+      "subjectId": "cg:source:map-source-elb-1984",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:5b3ea3ad5643cc11057c",
+      "subjectId": "cg:source:map-source-elb-1984",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Education and Library Boards - 1984 source files"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:58243deec19fbed4c30f",
+      "subjectId": "cg:source:map-source-elb-1984",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:osni"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:d7b1a4265adea87f4f0c",
+      "subjectId": "cg:source:map-source-elb-1984",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Map sources"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:9673023bad851b95a0b8",
+      "subjectId": "cg:source:map-source-elb-1993",
+      "propertyId": "cg:property:date",
+      "value": {
+        "type": "date",
+        "value": "1993"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:51b5a3ea04ff8084c224",
+      "subjectId": "cg:source:map-source-elb-1993",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:fgb-98381e4e9949"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "FGB"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/baronies-parishes/ELB1993.fgb"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:845dcefca80c79c4db5a",
+      "subjectId": "cg:source:map-source-elb-1993",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:239055ede50823d55a10",
+      "subjectId": "cg:source:map-source-elb-1993",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Education and Library Boards - 1993 source files"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:7015c4c9ce7652a47731",
+      "subjectId": "cg:source:map-source-elb-1993",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:osni"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:30b7bb4735a94c0bafb0",
+      "subjectId": "cg:source:map-source-elb-1993",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Map sources"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:b7abb35d960b46ca6fd9",
+      "subjectId": "cg:source:map-source-env-noise-agglomeration-lden",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:fgb-e7fe8c19a313"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "FGB"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/environment/noise-agglomeration-lden-r3.fgb"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:37db0b3438874b40fd61",
+      "subjectId": "cg:source:map-source-env-noise-agglomeration-lden",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:b0f12d9521577aa9e83c",
+      "subjectId": "cg:source:map-source-env-noise-agglomeration-lden",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Environmental Noise — Belfast Agglomeration Lden (Round 3) source files"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:3ef867d61ebc7cd9a31a",
+      "subjectId": "cg:source:map-source-env-noise-agglomeration-lden",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:daera"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:2108aa7b77d8f1cbe857",
+      "subjectId": "cg:source:map-source-env-noise-agglomeration-lden",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:osni-open-data-environmental-noise-directive-round-3-1f57d42ce7c6"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://admin.opendatani.gov.uk/dataset/environmental-noise-directive-noise-mapping"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:eca4db9930e3e65b0119",
+      "subjectId": "cg:source:map-source-env-noise-agglomeration-lden",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Map sources"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:34da917dd103f324a33a",
+      "subjectId": "cg:source:map-source-env-noise-major-rail-lden",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:fgb-c177cc394807"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "FGB"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/environment/noise-major-rail-lden-r3.fgb"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:cd4f884124ce3c3a345e",
+      "subjectId": "cg:source:map-source-env-noise-major-rail-lden",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:2e7fb6be45f353d0721d",
+      "subjectId": "cg:source:map-source-env-noise-major-rail-lden",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Environmental Noise — Major Rail Lden (Round 3) source files"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:e34df1cc5aa1efd14342",
+      "subjectId": "cg:source:map-source-env-noise-major-rail-lden",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:daera"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:b2bb3cd9225ca8404043",
+      "subjectId": "cg:source:map-source-env-noise-major-rail-lden",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:osni-open-data-environmental-noise-directive-round-3-1f57d42ce7c6"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://admin.opendatani.gov.uk/dataset/environmental-noise-directive-noise-mapping"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:4302de509353838ba1c8",
+      "subjectId": "cg:source:map-source-env-noise-major-rail-lden",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Map sources"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:73ceafbf50251851cc9a",
+      "subjectId": "cg:source:map-source-env-noise-major-roads-lden",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:fgb-bffc9d2ac2b5"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "FGB"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/environment/noise-major-roads-lden-r3.fgb"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:2cd73b87433e281e3a2a",
+      "subjectId": "cg:source:map-source-env-noise-major-roads-lden",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:e394cf80d7f0cafab710",
+      "subjectId": "cg:source:map-source-env-noise-major-roads-lden",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Environmental Noise — Major Roads Lden (Round 3) source files"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:26c01f0336acd4e25f17",
+      "subjectId": "cg:source:map-source-env-noise-major-roads-lden",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:daera"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:d00fd88ff468b0853236",
+      "subjectId": "cg:source:map-source-env-noise-major-roads-lden",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:osni-open-data-environmental-noise-directive-round-3-1f57d42ce7c6"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://admin.opendatani.gov.uk/dataset/environmental-noise-directive-noise-mapping"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:ef64892a0d20e3f5df01",
+      "subjectId": "cg:source:map-source-env-noise-major-roads-lden",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Map sources"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:7931cf94c73e945760a6",
+      "subjectId": "cg:source:map-source-eoni-polling-stations",
+      "propertyId": "cg:property:date",
+      "value": {
+        "type": "date",
+        "value": "2026-04-27"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:ef6881bca1dd3a627d6e",
+      "subjectId": "cg:source:map-source-eoni-polling-stations",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:fgb-2aaf7745e657"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "FGB"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/polling/eoni-polling-stations.fgb"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:78a3a5f8052bf39bb922",
+      "subjectId": "cg:source:map-source-eoni-polling-stations",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
     {
       "id": "cg:statement:7ea13e10aa1a2fd71962",
       "subjectId": "cg:source:map-source-eoni-polling-stations",
@@ -24735,6 +25389,210 @@
       "rank": "normal"
     },
     {
+      "id": "cg:statement:6bc9d50db382132525db",
+      "subjectId": "cg:source:map-source-roi-lea-2014",
+      "propertyId": "cg:property:date",
+      "value": {
+        "type": "date",
+        "value": "2014"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:8458c94aa4532ca5e4c6",
+      "subjectId": "cg:source:map-source-roi-lea-2014",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:fgb-3f3df13667bc"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "FGB"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/local-government/ROI_LEA_2014.fgb"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:de845632595c7aa61565",
+      "subjectId": "cg:source:map-source-roi-lea-2014",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:3ff94285a0e75e9f4f5f",
+      "subjectId": "cg:source:map-source-roi-lea-2014",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Local Electoral Areas - 2014 source files"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:e32c888828481fa03a43",
+      "subjectId": "cg:source:map-source-roi-lea-2014",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:tailte-eireann"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:d29855030b1eea27162b",
+      "subjectId": "cg:source:map-source-roi-lea-2014",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:data-gov-ie-local-electoral-areas-boundaries-ungeneralised-national-admi-c8d2efc6a48a"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.gov.ie/dataset/local-electoral-areas-boundaries-ungeneralised-national-administrative-boundaries-20151"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:66fd4b85702e7638e2fc",
+      "subjectId": "cg:source:map-source-roi-lea-2014",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Map sources"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:462dda4374b86a343b37",
+      "subjectId": "cg:source:map-source-roi-lea-2019",
+      "propertyId": "cg:property:date",
+      "value": {
+        "type": "date",
+        "value": "2019"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:8d513aeb0a365c68ecab",
+      "subjectId": "cg:source:map-source-roi-lea-2019",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:fgb-2fdf74f7704c"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "FGB"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/local-government/ROI_LEA_2019.fgb"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:6c7c7de98b80cb3510c7",
+      "subjectId": "cg:source:map-source-roi-lea-2019",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:6ab60c148351b1d036f6",
+      "subjectId": "cg:source:map-source-roi-lea-2019",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Local Electoral Areas - 2019 source files"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:635b992c528809298ead",
+      "subjectId": "cg:source:map-source-roi-lea-2019",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:tailte-eireann"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:b0bab230602a6d6a025f",
+      "subjectId": "cg:source:map-source-roi-lea-2019",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:data-gov-ie-local-electoral-areas-national-statutory-boundaries-2019-2cf4af5e8751"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.gov.ie/dataset/local-electoral-areas-national-statutory-boundaries-20191"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:ad87719a2036160e4fa2",
+      "subjectId": "cg:source:map-source-roi-lea-2019",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Map sources"
+      },
+      "rank": "normal"
+    },
+    {
       "id": "cg:statement:8c239c00b59abeff7c46",
       "subjectId": "cg:source:map-source-roi-legal-towns-and-cities",
       "propertyId": "cg:property:date",
@@ -26505,6 +27363,108 @@
     {
       "id": "cg:statement:bf0fc5a1ab5218ae7484",
       "subjectId": "cg:source:map-source-roi-local-authorities-2024",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Map sources"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:523db47bc4a2343e6342",
+      "subjectId": "cg:source:map-source-roi-municipal-districts-2019",
+      "propertyId": "cg:property:date",
+      "value": {
+        "type": "date",
+        "value": "2019"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:e9caa2fdc81414b5cadd",
+      "subjectId": "cg:source:map-source-roi-municipal-districts-2019",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:fgb-5277ffe95b04"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "FGB"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/local-government/ROI_Municipal_Districts_2019.fgb"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:e8a7d7574734b2cfb640",
+      "subjectId": "cg:source:map-source-roi-municipal-districts-2019",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:e994b7106d251c6ec226",
+      "subjectId": "cg:source:map-source-roi-municipal-districts-2019",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Municipal Districts - 2019 source files"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:01a71d2becd6c55859e4",
+      "subjectId": "cg:source:map-source-roi-municipal-districts-2019",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:tailte-eireann"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:8f40afd3387004217925",
+      "subjectId": "cg:source:map-source-roi-municipal-districts-2019",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:data-gov-ie-municipal-districts-national-statutory-boundaries-2019-4a2508dc2fdd"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.gov.ie/dataset/municipal-districts-national-statutory-boundaries-20191"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:89607039a38ef0c959db",
+      "subjectId": "cg:source:map-source-roi-municipal-districts-2019",
       "propertyId": "cg:property:source-kind",
       "value": {
         "type": "string",
@@ -40814,982 +41774,6 @@
       "value": {
         "type": "entity",
         "id": "cg:provider:dublin-city-council"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:2873448b7f5ae5688bb8",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-candidates-for-2-53cfd991535b",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:candidates-for-2004-and-2009-local-elections-dcc-wayback-captures-15e2bb2d17d4"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://web.archive.org/web/*/https://data.gov.ie/dataset/candidates-for-2004-and-2009-local-elections"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "archive-captures"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:9f3522ec73ba829931bd",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-candidates-for-2-53cfd991535b",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:candidates-for-2004-and-2009-local-elections-dcc-provider-page-eb3dd2177c8d"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.gov.ie/dataset/candidates-for-2004-and-2009-local-elections"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "canonical-provider-url"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:8b937e02198e5887817d",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-candidates-for-2-53cfd991535b",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Medium-priority: Irish election source/enrichment data"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:d2356c71fcdcc11079bb",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-candidates-for-2-53cfd991535b",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.gov.ie/dataset/candidates-for-2004-and-2009-local-elections"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:6b5f06654edb901bb1f4",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-casement-daily-data-02137",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:provider-dataset-download-page-8cc941a56709"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "dataset-page"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.gov.ie/dataset/casement-daily-data"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:8dd3a3d5244c2c11d260",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-casement-daily-data-02137",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:6e0fc44436b1a2368093",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-casement-daily-data-02137",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Casement Daily Data"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:23aa5b241b9e3b54c19c",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-casement-daily-data-02137",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:data-gov-ie"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:e8d1c82837139b434022",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-casement-daily-data-02137",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:met-eireann"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:66310ca3bbecd5e56a13",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-casement-daily-data-02137",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:casement-daily-data-provider-page-8cc941a56709"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.gov.ie/dataset/casement-daily-data"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "canonical-provider-url"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:7d67f84d974e1348e022",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-casement-daily-data-02137",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:casement-daily-data-wayback-captures-48e522443e05"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://web.archive.org/web/*/https://data.gov.ie/dataset/casement-daily-data"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "archive-captures"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:0914de8b67415ae8fe90",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-casement-daily-data-02137",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Medium-priority: Irish election source/enrichment data"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:d69e40be15fe9e7e7206",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-casement-daily-data-02137",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.gov.ie/dataset/casement-daily-data"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:34f2dd4285a52f441574",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-cbm03-detailed-daily-card-payments-02142",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:provider-dataset-download-page-23b29a91fb57"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "dataset-page"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.gov.ie/dataset/cbm03-detailed-daily-card-payments"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:c4b8daa0d55d6177c5df",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-cbm03-detailed-daily-card-payments-02142",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:2b002067fc1795b11434",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-cbm03-detailed-daily-card-payments-02142",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "CBM03 - Detailed Daily Card Payments"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:be16336040b93adf0266",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-cbm03-detailed-daily-card-payments-02142",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:data-gov-ie"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:daa34665eaea58450409",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-cbm03-detailed-daily-card-payments-02142",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:central-bank-of-ireland"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:3db8598bb65b580b133c",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-cbm03-detailed-daily-card-payments-02142",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:cbm03-detailed-daily-card-payments-wayback-captures-4ffb38e9ac77"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://web.archive.org/web/*/https://data.gov.ie/dataset/cbm03-detailed-daily-card-payments"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "archive-captures"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:d08a67fe4c27c87df0f8",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-cbm03-detailed-daily-card-payments-02142",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:cbm03-detailed-daily-card-payments-provider-page-23b29a91fb57"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.gov.ie/dataset/cbm03-detailed-daily-card-payments"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "canonical-provider-url"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:b313c02bead73eee9c6f",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-cbm03-detailed-daily-card-payments-02142",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Medium-priority: Irish election source/enrichment data"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:74d0e5fa24c33dfd706c",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-cbm03-detailed-daily-card-payments-02142",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.gov.ie/dataset/cbm03-detailed-daily-card-payments"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:0cc54a1e77b35d84b468",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-claremorris-daily-data-02151",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:provider-dataset-download-page-a04691fec07c"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "dataset-page"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.gov.ie/dataset/claremorris-daily-data"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:6244a497a5c17b2e4d87",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-claremorris-daily-data-02151",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:53469572453a767e7600",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-claremorris-daily-data-02151",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Claremorris Daily Data"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:afa10b882c91e854e531",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-claremorris-daily-data-02151",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:met-eireann"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:eb381d4e5e07ad8532a6",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-claremorris-daily-data-02151",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:data-gov-ie"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:199b1b652493243c563e",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-claremorris-daily-data-02151",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:claremorris-daily-data-provider-page-a04691fec07c"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.gov.ie/dataset/claremorris-daily-data"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "canonical-provider-url"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:9e7a29c56772f2cf2ee5",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-claremorris-daily-data-02151",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:claremorris-daily-data-wayback-captures-65e26cdd6578"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://web.archive.org/web/*/https://data.gov.ie/dataset/claremorris-daily-data"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "archive-captures"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:aa90500043a4ae8d9484",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-claremorris-daily-data-02151",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Medium-priority: Irish election source/enrichment data"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:a65b46a78368e5871b5b",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-claremorris-daily-data-02151",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.gov.ie/dataset/claremorris-daily-data"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:a4e1966146187694378a",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-clones-daily-data-02152",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:provider-dataset-download-page-6efe1d268d14"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "dataset-page"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.gov.ie/dataset/clones-daily-data"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:8a9e624dfb54b7b617e6",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-clones-daily-data-02152",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:a2e4f6a891784081d269",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-clones-daily-data-02152",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Clones Daily Data"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:62775940c650bcee7add",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-clones-daily-data-02152",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:met-eireann"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:6281e6326e79484d031d",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-clones-daily-data-02152",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:data-gov-ie"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:51205d41dfe95dd4891e",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-clones-daily-data-02152",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:clones-daily-data-wayback-captures-aa46bf0d8cad"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://web.archive.org/web/*/https://data.gov.ie/dataset/clones-daily-data"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "archive-captures"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:9e5a4fa80714f04fcb62",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-clones-daily-data-02152",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:clones-daily-data-provider-page-6efe1d268d14"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.gov.ie/dataset/clones-daily-data"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "canonical-provider-url"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:03608e6d4cc2488ae65d",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-clones-daily-data-02152",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Medium-priority: Irish election source/enrichment data"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:d4729f184299179144e5",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-clones-daily-data-02152",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.gov.ie/dataset/clones-daily-data"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:191ceada68b15080294d",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-co-wicklow-polling-districts-00150",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:provider-dataset-download-page-06bafd6c8407"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "dataset-page"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.gov.ie/dataset/co-wicklow-polling-districts"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:a78a942bbeef70b4a11e",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-co-wicklow-polling-districts-00150",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:c0b1f15d2948faecc770",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-co-wicklow-polling-districts-00150",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Co. Wicklow Polling Districts"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:d9ef916a17ba9f6a169e",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-co-wicklow-polling-districts-00150",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:wicklow-county-council"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:f2ff0ba206318a290864",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-co-wicklow-polling-districts-00150",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:data-gov-ie"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:52499d1743f6568fd342",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-co-wicklow-polling-districts-00150",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:co-wicklow-polling-districts-provider-page-06bafd6c8407"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.gov.ie/dataset/co-wicklow-polling-districts"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "canonical-provider-url"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:fe7abb25024002a17f26",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-co-wicklow-polling-districts-00150",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:co-wicklow-polling-districts-wayback-captures-21fce09e0bd7"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://web.archive.org/web/*/https://data.gov.ie/dataset/co-wicklow-polling-districts"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "archive-captures"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:cf617e96cbe093abd3f3",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-co-wicklow-polling-districts-00150",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Medium-priority: Irish election source/enrichment data"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:45d6bf9d2766c428d83c",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-co-wicklow-polling-districts-00150",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.gov.ie/dataset/co-wicklow-polling-districts"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:f80cd3fcd95fd8937149",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-co-wicklow-polling-stations-00151",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:provider-dataset-download-page-baa01547e8dc"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "dataset-page"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.gov.ie/dataset/co-wicklow-polling-stations"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:dd681651f07265a1ebbb",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-co-wicklow-polling-stations-00151",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:7017684b4497fcede720",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-co-wicklow-polling-stations-00151",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Co. Wicklow Polling Stations"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:3c5bb40f1042d63dc6f4",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-co-wicklow-polling-stations-00151",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:data-gov-ie"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:3dc70e32451ffeb5114f",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-co-wicklow-polling-stations-00151",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:wicklow-county-council"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:36d35582136a023135af",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-co-wicklow-polling-stations-00151",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:co-wicklow-polling-stations-provider-page-baa01547e8dc"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.gov.ie/dataset/co-wicklow-polling-stations"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "canonical-provider-url"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:ea4015a0f4ee143ce598",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-co-wicklow-polling-stations-00151",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:co-wicklow-polling-stations-wayback-captures-3e8c12aea76e"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://web.archive.org/web/*/https://data.gov.ie/dataset/co-wicklow-polling-stations"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "archive-captures"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:a9d83ec72c268c65baed",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-co-wicklow-polling-stations-00151",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Medium-priority: Irish election source/enrichment data"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:e101c929c05a7e8ae870",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-co-wicklow-polling-stations-00151",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.gov.ie/dataset/co-wicklow-polling-stations"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:88125752d268dfee2ff5",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-constituency-bou-01ae9fd3d6a8",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "date",
-        "value": "2017"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:d93ce7231322908a7da6",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-constituency-bou-01ae9fd3d6a8",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:provider-dataset-download-page-ca20ab74e2a4"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "dataset-page"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.gov.ie/dataset/constituency-boundaries-ungeneralised-national-electoral-boundaries-20171"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:6fe8acd2326cad276101",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-constituency-bou-01ae9fd3d6a8",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:c42b3c0e7392fa796c23",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-constituency-bou-01ae9fd3d6a8",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Constituency Boundaries Ungeneralised - National Electoral Boundaries - 2017"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:206d20489143a888de23",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-constituency-bou-01ae9fd3d6a8",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:tailte-osi-data-gov-ie"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:caa8dfa1df27dc274d21",
-      "subjectId": "cg:source:medium-priority-2-irish-election-source-enrichment-data-constituency-bou-01ae9fd3d6a8",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:tailte-eireann"
       },
       "rank": "normal"
     }

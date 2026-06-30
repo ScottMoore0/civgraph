@@ -1,9 +1,2125 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-29T23:28:08.570Z",
+  "generatedAt": "2026-06-30T17:47:10.658Z",
   "shard": 185,
   "totalSubjects": 250,
   "items": {
+    "cg:register-record:ni-register-record-fdfe6e1a07e9d734": [
+      {
+        "id": "cg:statement:e504a49b63563f6b8b69",
+        "propertyId": "cg:property:constituency",
+        "propertyLabel": "constituency",
+        "valueType": "string",
+        "valueLabel": "Upper Bann",
+        "valueText": "Upper Bann",
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-mp-full-csv",
+            "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
+            "sourceKind": "filtered-westminster-csv",
+            "sourceRecordId": "ni-register:mp:full-csv",
+            "date": "2009-11-11",
+            "extractionConfidence": "high"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:91a2ef1fb7d48c22466d",
+        "propertyId": "cg:property:date",
+        "propertyLabel": "date",
+        "valueType": "date",
+        "valueLabel": "2009-11-11",
+        "valueText": "2009-11-11",
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-mp-full-csv",
+            "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
+            "sourceKind": "filtered-westminster-csv",
+            "sourceRecordId": "ni-register:mp:full-csv",
+            "date": "2009-11-11",
+            "extractionConfidence": "high"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:1b0a85473039e6a5af1e",
+        "propertyId": "cg:property:declared-interest",
+        "propertyLabel": "declared interest",
+        "valueType": "entity",
+        "valueId": "cg:register-interest:ni-register-record-interest-f33a721734ed78c5",
+        "valueLabel": "Remunerated employment, office, profession etc",
+        "valueText": "Remunerated employment, office, profession etc",
+        "valueDescription": "31 July 2009, received salary payment of £486.15 (net figure) . Hours: 20hrs. (Registered 29 July 2009)",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:interest-category",
+            "propertyLabel": "interest category",
+            "valueType": "string",
+            "valueLabel": "Remunerated employment, office, profession etc",
+            "valueText": "Remunerated employment, office, profession etc"
+          },
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2009-11-11",
+            "valueText": "2009-11-11"
+          },
+          {
+            "propertyId": "cg:property:nil-return",
+            "propertyLabel": "nil return",
+            "valueType": "boolean",
+            "valueLabel": "No",
+            "valueText": "No"
+          },
+          {
+            "propertyId": "cg:property:extraction-confidence",
+            "propertyLabel": "extraction confidence",
+            "valueType": "string",
+            "valueLabel": "high",
+            "valueText": "high"
+          },
+          {
+            "propertyId": "cg:property:source-row-count",
+            "propertyLabel": "source row count",
+            "valueType": "number",
+            "valueLabel": "1",
+            "valueText": "1"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-mp-full-csv",
+            "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
+            "sourceKind": "filtered-westminster-csv",
+            "sourceRecordId": "ni-register:mp:full-csv",
+            "sourceRowId": "ni-register-interest:mp:514790124c680ca7",
+            "date": "2009-11-11",
+            "extractionConfidence": "high"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:5bb3ecad16e11594971d",
+        "propertyId": "cg:property:declared-interest",
+        "propertyLabel": "declared interest",
+        "valueType": "entity",
+        "valueId": "cg:register-interest:ni-register-record-interest-2d1cc235f748e16a",
+        "valueLabel": "Remunerated directorships",
+        "valueText": "Remunerated directorships",
+        "valueDescription": "Received £1,000 net for August. Hours: 12hrs. (Registered 4 September 2009) .",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:interest-category",
+            "propertyLabel": "interest category",
+            "valueType": "string",
+            "valueLabel": "Remunerated directorships",
+            "valueText": "Remunerated directorships"
+          },
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2009-11-11",
+            "valueText": "2009-11-11"
+          },
+          {
+            "propertyId": "cg:property:nil-return",
+            "propertyLabel": "nil return",
+            "valueType": "boolean",
+            "valueLabel": "No",
+            "valueText": "No"
+          },
+          {
+            "propertyId": "cg:property:extraction-confidence",
+            "propertyLabel": "extraction confidence",
+            "valueType": "string",
+            "valueLabel": "high",
+            "valueText": "high"
+          },
+          {
+            "propertyId": "cg:property:source-row-count",
+            "propertyLabel": "source row count",
+            "valueType": "number",
+            "valueLabel": "1",
+            "valueText": "1"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-mp-full-csv",
+            "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
+            "sourceKind": "filtered-westminster-csv",
+            "sourceRecordId": "ni-register:mp:full-csv",
+            "sourceRowId": "ni-register-interest:mp:7c2e5d6e8b308c08",
+            "date": "2009-11-11",
+            "extractionConfidence": "high"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:ed944fc8675b02dfa0b4",
+        "propertyId": "cg:property:declared-interest",
+        "propertyLabel": "declared interest",
+        "valueType": "entity",
+        "valueId": "cg:register-interest:ni-register-record-interest-286aff7efa2e2d48",
+        "valueLabel": "Remunerated employment, office, profession etc",
+        "valueText": "Remunerated employment, office, profession etc",
+        "valueDescription": "29 July 2009, received salary payment of £609.07 (net figure) . Hours: 20hrs. (Registered 29 July 2009)",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:interest-category",
+            "propertyLabel": "interest category",
+            "valueType": "string",
+            "valueLabel": "Remunerated employment, office, profession etc",
+            "valueText": "Remunerated employment, office, profession etc"
+          },
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2009-11-11",
+            "valueText": "2009-11-11"
+          },
+          {
+            "propertyId": "cg:property:nil-return",
+            "propertyLabel": "nil return",
+            "valueType": "boolean",
+            "valueLabel": "No",
+            "valueText": "No"
+          },
+          {
+            "propertyId": "cg:property:extraction-confidence",
+            "propertyLabel": "extraction confidence",
+            "valueType": "string",
+            "valueLabel": "high",
+            "valueText": "high"
+          },
+          {
+            "propertyId": "cg:property:source-row-count",
+            "propertyLabel": "source row count",
+            "valueType": "number",
+            "valueLabel": "1",
+            "valueText": "1"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-mp-full-csv",
+            "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
+            "sourceKind": "filtered-westminster-csv",
+            "sourceRecordId": "ni-register:mp:full-csv",
+            "sourceRowId": "ni-register-interest:mp:1dfef046c4964ddc",
+            "date": "2009-11-11",
+            "extractionConfidence": "high"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:d843f750252b361a609a",
+        "propertyId": "cg:property:elected-body",
+        "propertyLabel": "elected body",
+        "valueType": "entity",
+        "valueId": "cg:body:house-of-commons",
+        "valueLabel": "House of Commons",
+        "valueText": "House of Commons",
+        "valueDescription": "House of Commons of the United Kingdom",
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-mp-full-csv",
+            "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
+            "sourceKind": "filtered-westminster-csv",
+            "sourceRecordId": "ni-register:mp:full-csv",
+            "date": "2009-11-11",
+            "extractionConfidence": "high"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:34517f0fdab42a6b917c",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:register-record",
+        "valueLabel": "Register of interests record",
+        "valueText": "Register of interests record",
+        "valueDescription": "A politician, elected body, and register-date tuple for a register of interests edition.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:5f53413a824276a8b33d",
+        "propertyId": "cg:property:jurisdiction",
+        "propertyLabel": "jurisdiction",
+        "valueType": "string",
+        "valueLabel": "Northern Ireland",
+        "valueText": "Northern Ireland",
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-mp-full-csv",
+            "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
+            "sourceKind": "filtered-westminster-csv",
+            "sourceRecordId": "ni-register:mp:full-csv",
+            "date": "2009-11-11",
+            "extractionConfidence": "high"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:92fe8f374d6094b1bffa",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "David Simpson - House of Commons - 2009-11-11",
+        "valueText": "David Simpson - House of Commons - 2009-11-11",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:6bdc1fd6286a8d7571b9",
+        "propertyId": "cg:property:political-office",
+        "propertyLabel": "political office",
+        "valueType": "entity",
+        "valueId": "cg:office:mp",
+        "valueLabel": "Member of Parliament",
+        "valueText": "Member of Parliament",
+        "valueDescription": "Member of Parliament in the House of Commons",
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-mp-full-csv",
+            "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
+            "sourceKind": "filtered-westminster-csv",
+            "sourceRecordId": "ni-register:mp:full-csv",
+            "date": "2009-11-11",
+            "extractionConfidence": "high"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:8bb49a36037da19c08b1",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:ni-register-mp-full-csv",
+        "valueLabel": "Northern Ireland MPs extracted from supplied Westminster register CSV",
+        "valueText": "Northern Ireland MPs extracted from supplied Westminster register CSV",
+        "valueDescription": "A generated NI-only extract from a supplied Westminster register of interests CSV. England, Scotland, and Wales MPs are excluded by matching member names to local Northern Ireland Westminster election winners.",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "filtered-westminster-csv",
+            "valueText": "filtered-westminster-csv"
+          },
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2009-11-11",
+            "valueText": "2009-11-11"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-mp-full-csv",
+            "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
+            "sourceKind": "filtered-westminster-csv",
+            "sourceRecordId": "ni-register:mp:full-csv",
+            "date": "2009-11-11",
+            "extractionConfidence": "high"
+          }
+        ]
+      }
+    ],
+    "cg:register-record:ni-register-record-fe0dc691d644b70c": [
+      {
+        "id": "cg:statement:00ec8d1a238efdafd852",
+        "propertyId": "cg:property:constituency",
+        "propertyLabel": "constituency",
+        "valueType": "string",
+        "valueLabel": "Newry and Armagh",
+        "valueText": "Newry and Armagh",
+        "referenceCount": 2,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-assembly-html-2298382502f72c7d",
+            "sourceTitle": "NI Assembly Register of Members Interests (15 January 2014)",
+            "sourceKind": "historical-html-register",
+            "sourceRecordId": "ni-register:assembly:html:2298382502f72c7d",
+            "date": "2014-01-15",
+            "extractionConfidence": "medium"
+          },
+          {
+            "sourceId": "cg:source:ni-register-assembly-html-2298382502f72c7d",
+            "sourceTitle": "NI Assembly Register of Members Interests (15 January 2014)",
+            "sourceKind": "historical-pdf-register",
+            "sourceRecordId": "ni-register:assembly:pdf:6d0ca375efb2f904",
+            "date": "2014-01-15",
+            "extractionConfidence": "medium"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:805811b20eff716ab62d",
+        "propertyId": "cg:property:date",
+        "propertyLabel": "date",
+        "valueType": "date",
+        "valueLabel": "2014-01-15",
+        "valueText": "2014-01-15",
+        "referenceCount": 2,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-assembly-html-2298382502f72c7d",
+            "sourceTitle": "NI Assembly Register of Members Interests (15 January 2014)",
+            "sourceKind": "historical-html-register",
+            "sourceRecordId": "ni-register:assembly:html:2298382502f72c7d",
+            "date": "2014-01-15",
+            "extractionConfidence": "medium"
+          },
+          {
+            "sourceId": "cg:source:ni-register-assembly-html-2298382502f72c7d",
+            "sourceTitle": "NI Assembly Register of Members Interests (15 January 2014)",
+            "sourceKind": "historical-pdf-register",
+            "sourceRecordId": "ni-register:assembly:pdf:6d0ca375efb2f904",
+            "date": "2014-01-15",
+            "extractionConfidence": "medium"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:056e610bbefdba6b06ab",
+        "propertyId": "cg:property:declared-interest",
+        "propertyLabel": "declared interest",
+        "valueType": "entity",
+        "valueId": "cg:register-interest:ni-register-record-interest-2139f6a2c4dc3319",
+        "valueLabel": "Directorships",
+        "valueText": "Directorships",
+        "valueDescription": "None. (Registered 3 July 2012)",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:interest-category",
+            "propertyLabel": "interest category",
+            "valueType": "string",
+            "valueLabel": "Directorships",
+            "valueText": "Directorships"
+          },
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2014-01-15",
+            "valueText": "2014-01-15"
+          },
+          {
+            "propertyId": "cg:property:nil-return",
+            "propertyLabel": "nil return",
+            "valueType": "boolean",
+            "valueLabel": "No",
+            "valueText": "No"
+          },
+          {
+            "propertyId": "cg:property:extraction-confidence",
+            "propertyLabel": "extraction confidence",
+            "valueType": "string",
+            "valueLabel": "medium",
+            "valueText": "medium"
+          },
+          {
+            "propertyId": "cg:property:source-row-count",
+            "propertyLabel": "source row count",
+            "valueType": "number",
+            "valueLabel": "2",
+            "valueText": "2"
+          }
+        ],
+        "referenceCount": 2,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-assembly-html-2298382502f72c7d",
+            "sourceTitle": "NI Assembly Register of Members Interests (15 January 2014)",
+            "sourceKind": "historical-pdf-register",
+            "sourceRecordId": "ni-register:assembly:pdf:6d0ca375efb2f904",
+            "sourceRowId": "ni-register-interest:mla-pdf:c18ad3b3630929fb",
+            "date": "2014-01-15",
+            "extractionConfidence": "medium"
+          },
+          {
+            "sourceId": "cg:source:ni-register-assembly-html-2298382502f72c7d",
+            "sourceTitle": "NI Assembly Register of Members Interests (15 January 2014)",
+            "sourceKind": "historical-html-register",
+            "sourceRecordId": "ni-register:assembly:html:2298382502f72c7d",
+            "sourceRowId": "ni-register-interest:mla-html:6fccc3971fa4f477",
+            "date": "2014-01-15",
+            "extractionConfidence": "medium"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:1127db7c508a1b4002e5",
+        "propertyId": "cg:property:declared-interest",
+        "propertyLabel": "declared interest",
+        "valueType": "entity",
+        "valueId": "cg:register-interest:ni-register-record-interest-a62c5d08c8dc051b",
+        "valueLabel": "Shareholdings",
+        "valueText": "Shareholdings",
+        "valueDescription": "None. (Registered 3 July 2012)",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:interest-category",
+            "propertyLabel": "interest category",
+            "valueType": "string",
+            "valueLabel": "Shareholdings",
+            "valueText": "Shareholdings"
+          },
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2014-01-15",
+            "valueText": "2014-01-15"
+          },
+          {
+            "propertyId": "cg:property:nil-return",
+            "propertyLabel": "nil return",
+            "valueType": "boolean",
+            "valueLabel": "No",
+            "valueText": "No"
+          },
+          {
+            "propertyId": "cg:property:extraction-confidence",
+            "propertyLabel": "extraction confidence",
+            "valueType": "string",
+            "valueLabel": "medium",
+            "valueText": "medium"
+          },
+          {
+            "propertyId": "cg:property:source-row-count",
+            "propertyLabel": "source row count",
+            "valueType": "number",
+            "valueLabel": "2",
+            "valueText": "2"
+          }
+        ],
+        "referenceCount": 2,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-assembly-html-2298382502f72c7d",
+            "sourceTitle": "NI Assembly Register of Members Interests (15 January 2014)",
+            "sourceKind": "historical-pdf-register",
+            "sourceRecordId": "ni-register:assembly:pdf:6d0ca375efb2f904",
+            "sourceRowId": "ni-register-interest:mla-pdf:2f77911e64c04d86",
+            "date": "2014-01-15",
+            "extractionConfidence": "medium"
+          },
+          {
+            "sourceId": "cg:source:ni-register-assembly-html-2298382502f72c7d",
+            "sourceTitle": "NI Assembly Register of Members Interests (15 January 2014)",
+            "sourceKind": "historical-html-register",
+            "sourceRecordId": "ni-register:assembly:html:2298382502f72c7d",
+            "sourceRowId": "ni-register-interest:mla-html:6a30ed0e7d44956b",
+            "date": "2014-01-15",
+            "extractionConfidence": "medium"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:12991c52921dcfcae12f",
+        "propertyId": "cg:property:declared-interest",
+        "propertyLabel": "declared interest",
+        "valueType": "entity",
+        "valueId": "cg:register-interest:ni-register-record-interest-b666fa5269af835d",
+        "valueLabel": "Unremunerated interests",
+        "valueText": "Unremunerated interests",
+        "valueDescription": "None. (Registered 3 July 2012)",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:interest-category",
+            "propertyLabel": "interest category",
+            "valueType": "string",
+            "valueLabel": "Unremunerated interests",
+            "valueText": "Unremunerated interests"
+          },
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2014-01-15",
+            "valueText": "2014-01-15"
+          },
+          {
+            "propertyId": "cg:property:nil-return",
+            "propertyLabel": "nil return",
+            "valueType": "boolean",
+            "valueLabel": "No",
+            "valueText": "No"
+          },
+          {
+            "propertyId": "cg:property:extraction-confidence",
+            "propertyLabel": "extraction confidence",
+            "valueType": "string",
+            "valueLabel": "medium",
+            "valueText": "medium"
+          },
+          {
+            "propertyId": "cg:property:source-row-count",
+            "propertyLabel": "source row count",
+            "valueType": "number",
+            "valueLabel": "1",
+            "valueText": "1"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-assembly-html-2298382502f72c7d",
+            "sourceTitle": "NI Assembly Register of Members Interests (15 January 2014)",
+            "sourceKind": "historical-html-register",
+            "sourceRecordId": "ni-register:assembly:html:2298382502f72c7d",
+            "sourceRowId": "ni-register-interest:mla-html:21bc2223bc028e73",
+            "date": "2014-01-15",
+            "extractionConfidence": "medium"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:174a46103c87cbf2e231",
+        "propertyId": "cg:property:declared-interest",
+        "propertyLabel": "declared interest",
+        "valueType": "entity",
+        "valueId": "cg:register-interest:ni-register-record-interest-d033cabe9fd414a5",
+        "valueLabel": "Elected/Public Office",
+        "valueText": "Elected/Public Office",
+        "valueDescription": "None (Registered 3 July 2012)",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:interest-category",
+            "propertyLabel": "interest category",
+            "valueType": "string",
+            "valueLabel": "Elected/Public Office",
+            "valueText": "Elected/Public Office"
+          },
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2014-01-15",
+            "valueText": "2014-01-15"
+          },
+          {
+            "propertyId": "cg:property:nil-return",
+            "propertyLabel": "nil return",
+            "valueType": "boolean",
+            "valueLabel": "No",
+            "valueText": "No"
+          },
+          {
+            "propertyId": "cg:property:extraction-confidence",
+            "propertyLabel": "extraction confidence",
+            "valueType": "string",
+            "valueLabel": "medium",
+            "valueText": "medium"
+          },
+          {
+            "propertyId": "cg:property:source-row-count",
+            "propertyLabel": "source row count",
+            "valueType": "number",
+            "valueLabel": "2",
+            "valueText": "2"
+          }
+        ],
+        "referenceCount": 2,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-assembly-html-2298382502f72c7d",
+            "sourceTitle": "NI Assembly Register of Members Interests (15 January 2014)",
+            "sourceKind": "historical-pdf-register",
+            "sourceRecordId": "ni-register:assembly:pdf:6d0ca375efb2f904",
+            "sourceRowId": "ni-register-interest:mla-pdf:12769ae2b53f0cb6",
+            "date": "2014-01-15",
+            "extractionConfidence": "medium"
+          },
+          {
+            "sourceId": "cg:source:ni-register-assembly-html-2298382502f72c7d",
+            "sourceTitle": "NI Assembly Register of Members Interests (15 January 2014)",
+            "sourceKind": "historical-html-register",
+            "sourceRecordId": "ni-register:assembly:html:2298382502f72c7d",
+            "sourceRowId": "ni-register-interest:mla-html:d84aff2537ec61b6",
+            "date": "2014-01-15",
+            "extractionConfidence": "medium"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:342eb741fd09fdca1f96",
+        "propertyId": "cg:property:declared-interest",
+        "propertyLabel": "declared interest",
+        "valueType": "entity",
+        "valueId": "cg:register-interest:ni-register-record-interest-dc8bccb634641745",
+        "valueLabel": "Land and Property",
+        "valueText": "Land and Property",
+        "valueDescription": "None. (Registered 3 July 2012)",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:interest-category",
+            "propertyLabel": "interest category",
+            "valueType": "string",
+            "valueLabel": "Land and Property",
+            "valueText": "Land and Property"
+          },
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2014-01-15",
+            "valueText": "2014-01-15"
+          },
+          {
+            "propertyId": "cg:property:nil-return",
+            "propertyLabel": "nil return",
+            "valueType": "boolean",
+            "valueLabel": "No",
+            "valueText": "No"
+          },
+          {
+            "propertyId": "cg:property:extraction-confidence",
+            "propertyLabel": "extraction confidence",
+            "valueType": "string",
+            "valueLabel": "medium",
+            "valueText": "medium"
+          },
+          {
+            "propertyId": "cg:property:source-row-count",
+            "propertyLabel": "source row count",
+            "valueType": "number",
+            "valueLabel": "2",
+            "valueText": "2"
+          }
+        ],
+        "referenceCount": 2,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-assembly-html-2298382502f72c7d",
+            "sourceTitle": "NI Assembly Register of Members Interests (15 January 2014)",
+            "sourceKind": "historical-pdf-register",
+            "sourceRecordId": "ni-register:assembly:pdf:6d0ca375efb2f904",
+            "sourceRowId": "ni-register-interest:mla-pdf:6e9d69720de6837b",
+            "date": "2014-01-15",
+            "extractionConfidence": "medium"
+          },
+          {
+            "sourceId": "cg:source:ni-register-assembly-html-2298382502f72c7d",
+            "sourceTitle": "NI Assembly Register of Members Interests (15 January 2014)",
+            "sourceKind": "historical-html-register",
+            "sourceRecordId": "ni-register:assembly:html:2298382502f72c7d",
+            "sourceRowId": "ni-register-interest:mla-html:9d22bbd0217c9b47",
+            "date": "2014-01-15",
+            "extractionConfidence": "medium"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:49be0264e6a00fff01c5",
+        "propertyId": "cg:property:declared-interest",
+        "propertyLabel": "declared interest",
+        "valueType": "entity",
+        "valueId": "cg:register-interest:ni-register-record-interest-6da7e9955be957dc",
+        "valueLabel": "Overseas visits",
+        "valueText": "Overseas visits",
+        "valueDescription": "None. (Registered 3 July 2012)",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:interest-category",
+            "propertyLabel": "interest category",
+            "valueType": "string",
+            "valueLabel": "Overseas visits",
+            "valueText": "Overseas visits"
+          },
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2014-01-15",
+            "valueText": "2014-01-15"
+          },
+          {
+            "propertyId": "cg:property:nil-return",
+            "propertyLabel": "nil return",
+            "valueType": "boolean",
+            "valueLabel": "No",
+            "valueText": "No"
+          },
+          {
+            "propertyId": "cg:property:extraction-confidence",
+            "propertyLabel": "extraction confidence",
+            "valueType": "string",
+            "valueLabel": "medium",
+            "valueText": "medium"
+          },
+          {
+            "propertyId": "cg:property:source-row-count",
+            "propertyLabel": "source row count",
+            "valueType": "number",
+            "valueLabel": "2",
+            "valueText": "2"
+          }
+        ],
+        "referenceCount": 2,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-assembly-html-2298382502f72c7d",
+            "sourceTitle": "NI Assembly Register of Members Interests (15 January 2014)",
+            "sourceKind": "historical-pdf-register",
+            "sourceRecordId": "ni-register:assembly:pdf:6d0ca375efb2f904",
+            "sourceRowId": "ni-register-interest:mla-pdf:744440d3e71cefe0",
+            "date": "2014-01-15",
+            "extractionConfidence": "medium"
+          },
+          {
+            "sourceId": "cg:source:ni-register-assembly-html-2298382502f72c7d",
+            "sourceTitle": "NI Assembly Register of Members Interests (15 January 2014)",
+            "sourceKind": "historical-html-register",
+            "sourceRecordId": "ni-register:assembly:html:2298382502f72c7d",
+            "sourceRowId": "ni-register-interest:mla-html:9e8d53a465b6ab93",
+            "date": "2014-01-15",
+            "extractionConfidence": "medium"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:ad187089c4415e73987b",
+        "propertyId": "cg:property:declared-interest",
+        "propertyLabel": "declared interest",
+        "valueType": "entity",
+        "valueId": "cg:register-interest:ni-register-record-interest-fe99f3cd0f85c230",
+        "valueLabel": "Gifts, benefits and hospitality (UK)",
+        "valueText": "Gifts, benefits and hospitality (UK)",
+        "valueDescription": "None. (Registered 3 July 2012)",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:interest-category",
+            "propertyLabel": "interest category",
+            "valueType": "string",
+            "valueLabel": "Gifts, benefits and hospitality (UK)",
+            "valueText": "Gifts, benefits and hospitality (UK)"
+          },
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2014-01-15",
+            "valueText": "2014-01-15"
+          },
+          {
+            "propertyId": "cg:property:nil-return",
+            "propertyLabel": "nil return",
+            "valueType": "boolean",
+            "valueLabel": "No",
+            "valueText": "No"
+          },
+          {
+            "propertyId": "cg:property:extraction-confidence",
+            "propertyLabel": "extraction confidence",
+            "valueType": "string",
+            "valueLabel": "medium",
+            "valueText": "medium"
+          },
+          {
+            "propertyId": "cg:property:source-row-count",
+            "propertyLabel": "source row count",
+            "valueType": "number",
+            "valueLabel": "2",
+            "valueText": "2"
+          }
+        ],
+        "referenceCount": 2,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-assembly-html-2298382502f72c7d",
+            "sourceTitle": "NI Assembly Register of Members Interests (15 January 2014)",
+            "sourceKind": "historical-pdf-register",
+            "sourceRecordId": "ni-register:assembly:pdf:6d0ca375efb2f904",
+            "sourceRowId": "ni-register-interest:mla-pdf:5d7d33f8dd01144a",
+            "date": "2014-01-15",
+            "extractionConfidence": "medium"
+          },
+          {
+            "sourceId": "cg:source:ni-register-assembly-html-2298382502f72c7d",
+            "sourceTitle": "NI Assembly Register of Members Interests (15 January 2014)",
+            "sourceKind": "historical-html-register",
+            "sourceRecordId": "ni-register:assembly:html:2298382502f72c7d",
+            "sourceRowId": "ni-register-interest:mla-html:61862266f91b024a",
+            "date": "2014-01-15",
+            "extractionConfidence": "medium"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:be322a6e670ad39e4cf0",
+        "propertyId": "cg:property:declared-interest",
+        "propertyLabel": "declared interest",
+        "valueType": "entity",
+        "valueId": "cg:register-interest:ni-register-record-interest-13beacb46706a19b",
+        "valueLabel": "Overseas benefits and gifts",
+        "valueText": "Overseas benefits and gifts",
+        "valueDescription": "None. (Registered 3 July 2012)",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:interest-category",
+            "propertyLabel": "interest category",
+            "valueType": "string",
+            "valueLabel": "Overseas benefits and gifts",
+            "valueText": "Overseas benefits and gifts"
+          },
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2014-01-15",
+            "valueText": "2014-01-15"
+          },
+          {
+            "propertyId": "cg:property:nil-return",
+            "propertyLabel": "nil return",
+            "valueType": "boolean",
+            "valueLabel": "No",
+            "valueText": "No"
+          },
+          {
+            "propertyId": "cg:property:extraction-confidence",
+            "propertyLabel": "extraction confidence",
+            "valueType": "string",
+            "valueLabel": "medium",
+            "valueText": "medium"
+          },
+          {
+            "propertyId": "cg:property:source-row-count",
+            "propertyLabel": "source row count",
+            "valueType": "number",
+            "valueLabel": "2",
+            "valueText": "2"
+          }
+        ],
+        "referenceCount": 2,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-assembly-html-2298382502f72c7d",
+            "sourceTitle": "NI Assembly Register of Members Interests (15 January 2014)",
+            "sourceKind": "historical-pdf-register",
+            "sourceRecordId": "ni-register:assembly:pdf:6d0ca375efb2f904",
+            "sourceRowId": "ni-register-interest:mla-pdf:725051333b208bb0",
+            "date": "2014-01-15",
+            "extractionConfidence": "medium"
+          },
+          {
+            "sourceId": "cg:source:ni-register-assembly-html-2298382502f72c7d",
+            "sourceTitle": "NI Assembly Register of Members Interests (15 January 2014)",
+            "sourceKind": "historical-html-register",
+            "sourceRecordId": "ni-register:assembly:html:2298382502f72c7d",
+            "sourceRowId": "ni-register-interest:mla-html:d5771000e6804264",
+            "date": "2014-01-15",
+            "extractionConfidence": "medium"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:d7022a963d8ba4520410",
+        "propertyId": "cg:property:declared-interest",
+        "propertyLabel": "declared interest",
+        "valueType": "entity",
+        "valueId": "cg:register-interest:ni-register-record-interest-8865c79b9426f6c6",
+        "valueLabel": "Miscellaneous Interests",
+        "valueText": "Miscellaneous Interests",
+        "valueDescription": "None. (Registered 3 July 2012)",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:interest-category",
+            "propertyLabel": "interest category",
+            "valueType": "string",
+            "valueLabel": "Miscellaneous Interests",
+            "valueText": "Miscellaneous Interests"
+          },
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2014-01-15",
+            "valueText": "2014-01-15"
+          },
+          {
+            "propertyId": "cg:property:nil-return",
+            "propertyLabel": "nil return",
+            "valueType": "boolean",
+            "valueLabel": "No",
+            "valueText": "No"
+          },
+          {
+            "propertyId": "cg:property:extraction-confidence",
+            "propertyLabel": "extraction confidence",
+            "valueType": "string",
+            "valueLabel": "medium",
+            "valueText": "medium"
+          },
+          {
+            "propertyId": "cg:property:source-row-count",
+            "propertyLabel": "source row count",
+            "valueType": "number",
+            "valueLabel": "2",
+            "valueText": "2"
+          }
+        ],
+        "referenceCount": 2,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-assembly-html-2298382502f72c7d",
+            "sourceTitle": "NI Assembly Register of Members Interests (15 January 2014)",
+            "sourceKind": "historical-pdf-register",
+            "sourceRecordId": "ni-register:assembly:pdf:6d0ca375efb2f904",
+            "sourceRowId": "ni-register-interest:mla-pdf:6d700fa6cae9a809",
+            "date": "2014-01-15",
+            "extractionConfidence": "medium"
+          },
+          {
+            "sourceId": "cg:source:ni-register-assembly-html-2298382502f72c7d",
+            "sourceTitle": "NI Assembly Register of Members Interests (15 January 2014)",
+            "sourceKind": "historical-html-register",
+            "sourceRecordId": "ni-register:assembly:html:2298382502f72c7d",
+            "sourceRowId": "ni-register-interest:mla-html:0f32d8cde2736ed0",
+            "date": "2014-01-15",
+            "extractionConfidence": "medium"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:dfbe74cafad55449ef83",
+        "propertyId": "cg:property:declared-interest",
+        "propertyLabel": "declared interest",
+        "valueType": "entity",
+        "valueId": "cg:register-interest:ni-register-record-interest-e9f682274a00dec3",
+        "valueLabel": "Family members who benefit from Office Cost Expenditure",
+        "valueText": "Family members who benefit from Office Cost Expenditure",
+        "valueDescription": "None. (Registered 3 July 2012)",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:interest-category",
+            "propertyLabel": "interest category",
+            "valueType": "string",
+            "valueLabel": "Family members who benefit from Office Cost Expenditure",
+            "valueText": "Family members who benefit from Office Cost Expenditure"
+          },
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2014-01-15",
+            "valueText": "2014-01-15"
+          },
+          {
+            "propertyId": "cg:property:nil-return",
+            "propertyLabel": "nil return",
+            "valueType": "boolean",
+            "valueLabel": "No",
+            "valueText": "No"
+          },
+          {
+            "propertyId": "cg:property:extraction-confidence",
+            "propertyLabel": "extraction confidence",
+            "valueType": "string",
+            "valueLabel": "medium",
+            "valueText": "medium"
+          },
+          {
+            "propertyId": "cg:property:source-row-count",
+            "propertyLabel": "source row count",
+            "valueType": "number",
+            "valueLabel": "1",
+            "valueText": "1"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-assembly-html-2298382502f72c7d",
+            "sourceTitle": "NI Assembly Register of Members Interests (15 January 2014)",
+            "sourceKind": "historical-html-register",
+            "sourceRecordId": "ni-register:assembly:html:2298382502f72c7d",
+            "sourceRowId": "ni-register-interest:mla-html:e639d0e625cdaf87",
+            "date": "2014-01-15",
+            "extractionConfidence": "medium"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:f01f926f861220f58e5b",
+        "propertyId": "cg:property:declared-interest",
+        "propertyLabel": "declared interest",
+        "valueType": "entity",
+        "valueId": "cg:register-interest:ni-register-record-interest-6e0dc34092fbb3cf",
+        "valueLabel": "Unremunerated Interests",
+        "valueText": "Unremunerated Interests",
+        "valueDescription": "None. (Registered 3 July 2012) 12. Family members who benefit from Office Cost Expenditure None. (Registered 3 July 2012)",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:interest-category",
+            "propertyLabel": "interest category",
+            "valueType": "string",
+            "valueLabel": "Unremunerated Interests",
+            "valueText": "Unremunerated Interests"
+          },
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2014-01-15",
+            "valueText": "2014-01-15"
+          },
+          {
+            "propertyId": "cg:property:nil-return",
+            "propertyLabel": "nil return",
+            "valueType": "boolean",
+            "valueLabel": "No",
+            "valueText": "No"
+          },
+          {
+            "propertyId": "cg:property:extraction-confidence",
+            "propertyLabel": "extraction confidence",
+            "valueType": "string",
+            "valueLabel": "medium",
+            "valueText": "medium"
+          },
+          {
+            "propertyId": "cg:property:source-row-count",
+            "propertyLabel": "source row count",
+            "valueType": "number",
+            "valueLabel": "1",
+            "valueText": "1"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-assembly-html-2298382502f72c7d",
+            "sourceTitle": "NI Assembly Register of Members Interests (15 January 2014)",
+            "sourceKind": "historical-pdf-register",
+            "sourceRecordId": "ni-register:assembly:pdf:6d0ca375efb2f904",
+            "sourceRowId": "ni-register-interest:mla-pdf:6165ccbc4add2769",
+            "date": "2014-01-15",
+            "extractionConfidence": "medium"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:f4a8df6b09841c132883",
+        "propertyId": "cg:property:declared-interest",
+        "propertyLabel": "declared interest",
+        "valueType": "entity",
+        "valueId": "cg:register-interest:ni-register-record-interest-f716b3cb4195af1e",
+        "valueLabel": "Electoral Support and Political Donations",
+        "valueText": "Electoral Support and Political Donations",
+        "valueDescription": "None. (Registered 3 July 2012)",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:interest-category",
+            "propertyLabel": "interest category",
+            "valueType": "string",
+            "valueLabel": "Electoral Support and Political Donations",
+            "valueText": "Electoral Support and Political Donations"
+          },
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2014-01-15",
+            "valueText": "2014-01-15"
+          },
+          {
+            "propertyId": "cg:property:nil-return",
+            "propertyLabel": "nil return",
+            "valueType": "boolean",
+            "valueLabel": "No",
+            "valueText": "No"
+          },
+          {
+            "propertyId": "cg:property:extraction-confidence",
+            "propertyLabel": "extraction confidence",
+            "valueType": "string",
+            "valueLabel": "medium",
+            "valueText": "medium"
+          },
+          {
+            "propertyId": "cg:property:source-row-count",
+            "propertyLabel": "source row count",
+            "valueType": "number",
+            "valueLabel": "2",
+            "valueText": "2"
+          }
+        ],
+        "referenceCount": 2,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-assembly-html-2298382502f72c7d",
+            "sourceTitle": "NI Assembly Register of Members Interests (15 January 2014)",
+            "sourceKind": "historical-pdf-register",
+            "sourceRecordId": "ni-register:assembly:pdf:6d0ca375efb2f904",
+            "sourceRowId": "ni-register-interest:mla-pdf:13283168268fc7ae",
+            "date": "2014-01-15",
+            "extractionConfidence": "medium"
+          },
+          {
+            "sourceId": "cg:source:ni-register-assembly-html-2298382502f72c7d",
+            "sourceTitle": "NI Assembly Register of Members Interests (15 January 2014)",
+            "sourceKind": "historical-html-register",
+            "sourceRecordId": "ni-register:assembly:html:2298382502f72c7d",
+            "sourceRowId": "ni-register-interest:mla-html:ba3edc7174de7c3c",
+            "date": "2014-01-15",
+            "extractionConfidence": "medium"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:f87f23ab9c7beccd94f2",
+        "propertyId": "cg:property:declared-interest",
+        "propertyLabel": "declared interest",
+        "valueType": "entity",
+        "valueId": "cg:register-interest:ni-register-record-interest-32ab5fd7e1e6a34b",
+        "valueLabel": "Remunerated Employment, Office, Profession, etc",
+        "valueText": "Remunerated Employment, Office, Profession, etc",
+        "valueDescription": "None. (Registered 3 July 2012)",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:interest-category",
+            "propertyLabel": "interest category",
+            "valueType": "string",
+            "valueLabel": "Remunerated Employment, Office, Profession, etc",
+            "valueText": "Remunerated Employment, Office, Profession, etc"
+          },
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2014-01-15",
+            "valueText": "2014-01-15"
+          },
+          {
+            "propertyId": "cg:property:nil-return",
+            "propertyLabel": "nil return",
+            "valueType": "boolean",
+            "valueLabel": "No",
+            "valueText": "No"
+          },
+          {
+            "propertyId": "cg:property:extraction-confidence",
+            "propertyLabel": "extraction confidence",
+            "valueType": "string",
+            "valueLabel": "medium",
+            "valueText": "medium"
+          },
+          {
+            "propertyId": "cg:property:source-row-count",
+            "propertyLabel": "source row count",
+            "valueType": "number",
+            "valueLabel": "2",
+            "valueText": "2"
+          }
+        ],
+        "referenceCount": 2,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-assembly-html-2298382502f72c7d",
+            "sourceTitle": "NI Assembly Register of Members Interests (15 January 2014)",
+            "sourceKind": "historical-pdf-register",
+            "sourceRecordId": "ni-register:assembly:pdf:6d0ca375efb2f904",
+            "sourceRowId": "ni-register-interest:mla-pdf:ef9b519e1a0b0ee7",
+            "date": "2014-01-15",
+            "extractionConfidence": "medium"
+          },
+          {
+            "sourceId": "cg:source:ni-register-assembly-html-2298382502f72c7d",
+            "sourceTitle": "NI Assembly Register of Members Interests (15 January 2014)",
+            "sourceKind": "historical-html-register",
+            "sourceRecordId": "ni-register:assembly:html:2298382502f72c7d",
+            "sourceRowId": "ni-register-interest:mla-html:8cea28a415d14d1d",
+            "date": "2014-01-15",
+            "extractionConfidence": "medium"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:3de95d2a5e517e3d2465",
+        "propertyId": "cg:property:elected-body",
+        "propertyLabel": "elected body",
+        "valueType": "entity",
+        "valueId": "cg:body:northern-ireland-assembly",
+        "valueLabel": "Northern Ireland Assembly",
+        "valueText": "Northern Ireland Assembly",
+        "valueDescription": "Northern Ireland Assembly",
+        "referenceCount": 2,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-assembly-html-2298382502f72c7d",
+            "sourceTitle": "NI Assembly Register of Members Interests (15 January 2014)",
+            "sourceKind": "historical-html-register",
+            "sourceRecordId": "ni-register:assembly:html:2298382502f72c7d",
+            "date": "2014-01-15",
+            "extractionConfidence": "medium"
+          },
+          {
+            "sourceId": "cg:source:ni-register-assembly-html-2298382502f72c7d",
+            "sourceTitle": "NI Assembly Register of Members Interests (15 January 2014)",
+            "sourceKind": "historical-pdf-register",
+            "sourceRecordId": "ni-register:assembly:pdf:6d0ca375efb2f904",
+            "date": "2014-01-15",
+            "extractionConfidence": "medium"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:7354208c65adea5b82bc",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:register-record",
+        "valueLabel": "Register of interests record",
+        "valueText": "Register of interests record",
+        "valueDescription": "A politician, elected body, and register-date tuple for a register of interests edition.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:16360f80cece8a9e9795",
+        "propertyId": "cg:property:jurisdiction",
+        "propertyLabel": "jurisdiction",
+        "valueType": "string",
+        "valueLabel": "Northern Ireland",
+        "valueText": "Northern Ireland",
+        "referenceCount": 2,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-assembly-html-2298382502f72c7d",
+            "sourceTitle": "NI Assembly Register of Members Interests (15 January 2014)",
+            "sourceKind": "historical-html-register",
+            "sourceRecordId": "ni-register:assembly:html:2298382502f72c7d",
+            "date": "2014-01-15",
+            "extractionConfidence": "medium"
+          },
+          {
+            "sourceId": "cg:source:ni-register-assembly-html-2298382502f72c7d",
+            "sourceTitle": "NI Assembly Register of Members Interests (15 January 2014)",
+            "sourceKind": "historical-pdf-register",
+            "sourceRecordId": "ni-register:assembly:pdf:6d0ca375efb2f904",
+            "date": "2014-01-15",
+            "extractionConfidence": "medium"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:a61591957daade11b369",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Megan Fearon - Assembly - 2014-01-15",
+        "valueText": "Megan Fearon - Assembly - 2014-01-15",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:b24035820c24f7d2b1ea",
+        "propertyId": "cg:property:political-office",
+        "propertyLabel": "political office",
+        "valueType": "entity",
+        "valueId": "cg:office:mla",
+        "valueLabel": "Member of the Legislative Assembly",
+        "valueText": "Member of the Legislative Assembly",
+        "valueDescription": "Member of the Northern Ireland Assembly",
+        "referenceCount": 2,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-assembly-html-2298382502f72c7d",
+            "sourceTitle": "NI Assembly Register of Members Interests (15 January 2014)",
+            "sourceKind": "historical-html-register",
+            "sourceRecordId": "ni-register:assembly:html:2298382502f72c7d",
+            "date": "2014-01-15",
+            "extractionConfidence": "medium"
+          },
+          {
+            "sourceId": "cg:source:ni-register-assembly-html-2298382502f72c7d",
+            "sourceTitle": "NI Assembly Register of Members Interests (15 January 2014)",
+            "sourceKind": "historical-pdf-register",
+            "sourceRecordId": "ni-register:assembly:pdf:6d0ca375efb2f904",
+            "date": "2014-01-15",
+            "extractionConfidence": "medium"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:876ffe3287598f4bbbee",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:ni-register-assembly-html-2298382502f72c7d",
+        "valueLabel": "NI Assembly Register of Members Interests (15 January 2014)",
+        "valueText": "NI Assembly Register of Members Interests (15 January 2014)",
+        "valueDescription": "NI Assembly register of interests html. edition dated 15 January 2014. content type text/html; charset=utf-8",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "historical-pdf-register",
+            "valueText": "historical-pdf-register"
+          },
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2014-01-15",
+            "valueText": "2014-01-15"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-assembly-html-2298382502f72c7d",
+            "sourceTitle": "NI Assembly Register of Members Interests (15 January 2014)",
+            "sourceKind": "historical-pdf-register",
+            "sourceRecordId": "ni-register:assembly:pdf:6d0ca375efb2f904",
+            "date": "2014-01-15",
+            "extractionConfidence": "medium"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:c00a5d7355205b80b844",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:ni-register-assembly-html-2298382502f72c7d",
+        "valueLabel": "NI Assembly Register of Members Interests (15 January 2014)",
+        "valueText": "NI Assembly Register of Members Interests (15 January 2014)",
+        "valueDescription": "NI Assembly register of interests html. edition dated 15 January 2014. content type text/html; charset=utf-8",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "historical-html-register",
+            "valueText": "historical-html-register"
+          },
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2014-01-15",
+            "valueText": "2014-01-15"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-assembly-html-2298382502f72c7d",
+            "sourceTitle": "NI Assembly Register of Members Interests (15 January 2014)",
+            "sourceKind": "historical-html-register",
+            "sourceRecordId": "ni-register:assembly:html:2298382502f72c7d",
+            "date": "2014-01-15",
+            "extractionConfidence": "medium"
+          }
+        ]
+      }
+    ],
+    "cg:register-record:ni-register-record-fe0eece30ee6c580": [
+      {
+        "id": "cg:statement:c3929e06c049590fb90e",
+        "propertyId": "cg:property:constituency",
+        "propertyLabel": "constituency",
+        "valueType": "string",
+        "valueLabel": "West Tyrone",
+        "valueText": "West Tyrone",
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-assembly-pdf-e469360c83cc8729",
+            "sourceTitle": "NI Assembly Register of Members Interests (4 July 2016)",
+            "sourceKind": "historical-pdf-register",
+            "sourceRecordId": "ni-register:assembly:pdf:e469360c83cc8729",
+            "date": "2016-07-04",
+            "extractionConfidence": "medium"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:b0e37f57fd14d5ab9129",
+        "propertyId": "cg:property:date",
+        "propertyLabel": "date",
+        "valueType": "date",
+        "valueLabel": "2016-07-04",
+        "valueText": "2016-07-04",
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-assembly-pdf-e469360c83cc8729",
+            "sourceTitle": "NI Assembly Register of Members Interests (4 July 2016)",
+            "sourceKind": "historical-pdf-register",
+            "sourceRecordId": "ni-register:assembly:pdf:e469360c83cc8729",
+            "date": "2016-07-04",
+            "extractionConfidence": "medium"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:449bacec8987c3ed7816",
+        "propertyId": "cg:property:declared-interest",
+        "propertyLabel": "declared interest",
+        "valueType": "entity",
+        "valueId": "cg:register-interest:ni-register-record-interest-67d651182385552e",
+        "valueLabel": "Shareholdings",
+        "valueText": "Shareholdings",
+        "valueDescription": "None.",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:interest-category",
+            "propertyLabel": "interest category",
+            "valueType": "string",
+            "valueLabel": "Shareholdings",
+            "valueText": "Shareholdings"
+          },
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2016-07-04",
+            "valueText": "2016-07-04"
+          },
+          {
+            "propertyId": "cg:property:nil-return",
+            "propertyLabel": "nil return",
+            "valueType": "boolean",
+            "valueLabel": "Yes",
+            "valueText": "Yes"
+          },
+          {
+            "propertyId": "cg:property:extraction-confidence",
+            "propertyLabel": "extraction confidence",
+            "valueType": "string",
+            "valueLabel": "medium",
+            "valueText": "medium"
+          },
+          {
+            "propertyId": "cg:property:source-row-count",
+            "propertyLabel": "source row count",
+            "valueType": "number",
+            "valueLabel": "1",
+            "valueText": "1"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-assembly-pdf-e469360c83cc8729",
+            "sourceTitle": "NI Assembly Register of Members Interests (4 July 2016)",
+            "sourceKind": "historical-pdf-register",
+            "sourceRecordId": "ni-register:assembly:pdf:e469360c83cc8729",
+            "sourceRowId": "ni-register-interest:mla-pdf:de0cce5cb41a3797",
+            "date": "2016-07-04",
+            "extractionConfidence": "medium"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:4825c9322eaa669919e2",
+        "propertyId": "cg:property:declared-interest",
+        "propertyLabel": "declared interest",
+        "valueType": "entity",
+        "valueId": "cg:register-interest:ni-register-record-interest-a6d5b1bce9aa1344",
+        "valueLabel": "Unremunerated interests",
+        "valueText": "Unremunerated interests",
+        "valueDescription": "Chairperson, Kirlish Ulster Scots Association. Member, Loyal Orders. Member, Ulster Farmers' Union.",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:interest-category",
+            "propertyLabel": "interest category",
+            "valueType": "string",
+            "valueLabel": "Unremunerated interests",
+            "valueText": "Unremunerated interests"
+          },
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2016-07-04",
+            "valueText": "2016-07-04"
+          },
+          {
+            "propertyId": "cg:property:nil-return",
+            "propertyLabel": "nil return",
+            "valueType": "boolean",
+            "valueLabel": "No",
+            "valueText": "No"
+          },
+          {
+            "propertyId": "cg:property:extraction-confidence",
+            "propertyLabel": "extraction confidence",
+            "valueType": "string",
+            "valueLabel": "medium",
+            "valueText": "medium"
+          },
+          {
+            "propertyId": "cg:property:source-row-count",
+            "propertyLabel": "source row count",
+            "valueType": "number",
+            "valueLabel": "1",
+            "valueText": "1"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-assembly-pdf-e469360c83cc8729",
+            "sourceTitle": "NI Assembly Register of Members Interests (4 July 2016)",
+            "sourceKind": "historical-pdf-register",
+            "sourceRecordId": "ni-register:assembly:pdf:e469360c83cc8729",
+            "sourceRowId": "ni-register-interest:mla-pdf:14929803fceda320",
+            "date": "2016-07-04",
+            "extractionConfidence": "medium"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:87e8b11dad1934f31b99",
+        "propertyId": "cg:property:declared-interest",
+        "propertyLabel": "declared interest",
+        "valueType": "entity",
+        "valueId": "cg:register-interest:ni-register-record-interest-0d54ec980a0776f9",
+        "valueLabel": "Employment and Earnings",
+        "valueText": "Employment and Earnings",
+        "valueDescription": "None.",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:interest-category",
+            "propertyLabel": "interest category",
+            "valueType": "string",
+            "valueLabel": "Employment and Earnings",
+            "valueText": "Employment and Earnings"
+          },
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2016-07-04",
+            "valueText": "2016-07-04"
+          },
+          {
+            "propertyId": "cg:property:nil-return",
+            "propertyLabel": "nil return",
+            "valueType": "boolean",
+            "valueLabel": "Yes",
+            "valueText": "Yes"
+          },
+          {
+            "propertyId": "cg:property:extraction-confidence",
+            "propertyLabel": "extraction confidence",
+            "valueType": "string",
+            "valueLabel": "medium",
+            "valueText": "medium"
+          },
+          {
+            "propertyId": "cg:property:source-row-count",
+            "propertyLabel": "source row count",
+            "valueType": "number",
+            "valueLabel": "1",
+            "valueText": "1"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-assembly-pdf-e469360c83cc8729",
+            "sourceTitle": "NI Assembly Register of Members Interests (4 July 2016)",
+            "sourceKind": "historical-pdf-register",
+            "sourceRecordId": "ni-register:assembly:pdf:e469360c83cc8729",
+            "sourceRowId": "ni-register-interest:mla-pdf:96c23b1b677d83e2",
+            "date": "2016-07-04",
+            "extractionConfidence": "medium"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:9fc4b5086f30bcbf2062",
+        "propertyId": "cg:property:declared-interest",
+        "propertyLabel": "declared interest",
+        "valueType": "entity",
+        "valueId": "cg:register-interest:ni-register-record-interest-83f3b430e52be493",
+        "valueLabel": "Donations and other support",
+        "valueText": "Donations and other support",
+        "valueDescription": "None.",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:interest-category",
+            "propertyLabel": "interest category",
+            "valueType": "string",
+            "valueLabel": "Donations and other support",
+            "valueText": "Donations and other support"
+          },
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2016-07-04",
+            "valueText": "2016-07-04"
+          },
+          {
+            "propertyId": "cg:property:nil-return",
+            "propertyLabel": "nil return",
+            "valueType": "boolean",
+            "valueLabel": "Yes",
+            "valueText": "Yes"
+          },
+          {
+            "propertyId": "cg:property:extraction-confidence",
+            "propertyLabel": "extraction confidence",
+            "valueType": "string",
+            "valueLabel": "medium",
+            "valueText": "medium"
+          },
+          {
+            "propertyId": "cg:property:source-row-count",
+            "propertyLabel": "source row count",
+            "valueType": "number",
+            "valueLabel": "1",
+            "valueText": "1"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-assembly-pdf-e469360c83cc8729",
+            "sourceTitle": "NI Assembly Register of Members Interests (4 July 2016)",
+            "sourceKind": "historical-pdf-register",
+            "sourceRecordId": "ni-register:assembly:pdf:e469360c83cc8729",
+            "sourceRowId": "ni-register-interest:mla-pdf:de025440206963c8",
+            "date": "2016-07-04",
+            "extractionConfidence": "medium"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:aedd880099498f05c539",
+        "propertyId": "cg:property:declared-interest",
+        "propertyLabel": "declared interest",
+        "valueType": "entity",
+        "valueId": "cg:register-interest:ni-register-record-interest-2e539e056f6d62e9",
+        "valueLabel": "Land and Property",
+        "valueText": "Land and Property",
+        "valueDescription": "Small farm holding, Kirlish Road, Drumquin - SFP received.",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:interest-category",
+            "propertyLabel": "interest category",
+            "valueType": "string",
+            "valueLabel": "Land and Property",
+            "valueText": "Land and Property"
+          },
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2016-07-04",
+            "valueText": "2016-07-04"
+          },
+          {
+            "propertyId": "cg:property:nil-return",
+            "propertyLabel": "nil return",
+            "valueType": "boolean",
+            "valueLabel": "No",
+            "valueText": "No"
+          },
+          {
+            "propertyId": "cg:property:extraction-confidence",
+            "propertyLabel": "extraction confidence",
+            "valueType": "string",
+            "valueLabel": "medium",
+            "valueText": "medium"
+          },
+          {
+            "propertyId": "cg:property:source-row-count",
+            "propertyLabel": "source row count",
+            "valueType": "number",
+            "valueLabel": "1",
+            "valueText": "1"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-assembly-pdf-e469360c83cc8729",
+            "sourceTitle": "NI Assembly Register of Members Interests (4 July 2016)",
+            "sourceKind": "historical-pdf-register",
+            "sourceRecordId": "ni-register:assembly:pdf:e469360c83cc8729",
+            "sourceRowId": "ni-register-interest:mla-pdf:740e226ae3f0a218",
+            "date": "2016-07-04",
+            "extractionConfidence": "medium"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:bfbfa8232009bfd0c04f",
+        "propertyId": "cg:property:declared-interest",
+        "propertyLabel": "declared interest",
+        "valueType": "entity",
+        "valueId": "cg:register-interest:ni-register-record-interest-f43107609c6bc6cd",
+        "valueLabel": "Family members who benefit from Office Cost Expenditure",
+        "valueText": "Family members who benefit from Office Cost Expenditure",
+        "valueDescription": "None.",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:interest-category",
+            "propertyLabel": "interest category",
+            "valueType": "string",
+            "valueLabel": "Family members who benefit from Office Cost Expenditure",
+            "valueText": "Family members who benefit from Office Cost Expenditure"
+          },
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2016-07-04",
+            "valueText": "2016-07-04"
+          },
+          {
+            "propertyId": "cg:property:nil-return",
+            "propertyLabel": "nil return",
+            "valueType": "boolean",
+            "valueLabel": "Yes",
+            "valueText": "Yes"
+          },
+          {
+            "propertyId": "cg:property:extraction-confidence",
+            "propertyLabel": "extraction confidence",
+            "valueType": "string",
+            "valueLabel": "medium",
+            "valueText": "medium"
+          },
+          {
+            "propertyId": "cg:property:source-row-count",
+            "propertyLabel": "source row count",
+            "valueType": "number",
+            "valueLabel": "1",
+            "valueText": "1"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-assembly-pdf-e469360c83cc8729",
+            "sourceTitle": "NI Assembly Register of Members Interests (4 July 2016)",
+            "sourceKind": "historical-pdf-register",
+            "sourceRecordId": "ni-register:assembly:pdf:e469360c83cc8729",
+            "sourceRowId": "ni-register-interest:mla-pdf:410c5a519be19570",
+            "date": "2016-07-04",
+            "extractionConfidence": "medium"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:c7ef7bfe0a2d9c683e71",
+        "propertyId": "cg:property:declared-interest",
+        "propertyLabel": "declared interest",
+        "valueType": "entity",
+        "valueId": "cg:register-interest:ni-register-record-interest-741c85ac3b33a02a",
+        "valueLabel": "Miscellaneous",
+        "valueText": "Miscellaneous",
+        "valueDescription": "None.",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:interest-category",
+            "propertyLabel": "interest category",
+            "valueType": "string",
+            "valueLabel": "Miscellaneous",
+            "valueText": "Miscellaneous"
+          },
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2016-07-04",
+            "valueText": "2016-07-04"
+          },
+          {
+            "propertyId": "cg:property:nil-return",
+            "propertyLabel": "nil return",
+            "valueType": "boolean",
+            "valueLabel": "Yes",
+            "valueText": "Yes"
+          },
+          {
+            "propertyId": "cg:property:extraction-confidence",
+            "propertyLabel": "extraction confidence",
+            "valueType": "string",
+            "valueLabel": "medium",
+            "valueText": "medium"
+          },
+          {
+            "propertyId": "cg:property:source-row-count",
+            "propertyLabel": "source row count",
+            "valueType": "number",
+            "valueLabel": "1",
+            "valueText": "1"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-assembly-pdf-e469360c83cc8729",
+            "sourceTitle": "NI Assembly Register of Members Interests (4 July 2016)",
+            "sourceKind": "historical-pdf-register",
+            "sourceRecordId": "ni-register:assembly:pdf:e469360c83cc8729",
+            "sourceRowId": "ni-register-interest:mla-pdf:b4685a5a4a78c31d",
+            "date": "2016-07-04",
+            "extractionConfidence": "medium"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:cc29fc44392a88ba3a18",
+        "propertyId": "cg:property:declared-interest",
+        "propertyLabel": "declared interest",
+        "valueType": "entity",
+        "valueId": "cg:register-interest:ni-register-record-interest-60c4e52ef8aaa8ce",
+        "valueLabel": "Visits",
+        "valueText": "Visits",
+        "valueDescription": "None.",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:interest-category",
+            "propertyLabel": "interest category",
+            "valueType": "string",
+            "valueLabel": "Visits",
+            "valueText": "Visits"
+          },
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2016-07-04",
+            "valueText": "2016-07-04"
+          },
+          {
+            "propertyId": "cg:property:nil-return",
+            "propertyLabel": "nil return",
+            "valueType": "boolean",
+            "valueLabel": "Yes",
+            "valueText": "Yes"
+          },
+          {
+            "propertyId": "cg:property:extraction-confidence",
+            "propertyLabel": "extraction confidence",
+            "valueType": "string",
+            "valueLabel": "medium",
+            "valueText": "medium"
+          },
+          {
+            "propertyId": "cg:property:source-row-count",
+            "propertyLabel": "source row count",
+            "valueType": "number",
+            "valueLabel": "1",
+            "valueText": "1"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-assembly-pdf-e469360c83cc8729",
+            "sourceTitle": "NI Assembly Register of Members Interests (4 July 2016)",
+            "sourceKind": "historical-pdf-register",
+            "sourceRecordId": "ni-register:assembly:pdf:e469360c83cc8729",
+            "sourceRowId": "ni-register-interest:mla-pdf:2efaae95399363ad",
+            "date": "2016-07-04",
+            "extractionConfidence": "medium"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:d200eada4f1ba6a91407",
+        "propertyId": "cg:property:declared-interest",
+        "propertyLabel": "declared interest",
+        "valueType": "entity",
+        "valueId": "cg:register-interest:ni-register-record-interest-12de6c75cb546f61",
+        "valueLabel": "Gifts, benefits and hospitality",
+        "valueText": "Gifts, benefits and hospitality",
+        "valueDescription": "None.",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:interest-category",
+            "propertyLabel": "interest category",
+            "valueType": "string",
+            "valueLabel": "Gifts, benefits and hospitality",
+            "valueText": "Gifts, benefits and hospitality"
+          },
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2016-07-04",
+            "valueText": "2016-07-04"
+          },
+          {
+            "propertyId": "cg:property:nil-return",
+            "propertyLabel": "nil return",
+            "valueType": "boolean",
+            "valueLabel": "Yes",
+            "valueText": "Yes"
+          },
+          {
+            "propertyId": "cg:property:extraction-confidence",
+            "propertyLabel": "extraction confidence",
+            "valueType": "string",
+            "valueLabel": "medium",
+            "valueText": "medium"
+          },
+          {
+            "propertyId": "cg:property:source-row-count",
+            "propertyLabel": "source row count",
+            "valueType": "number",
+            "valueLabel": "1",
+            "valueText": "1"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-assembly-pdf-e469360c83cc8729",
+            "sourceTitle": "NI Assembly Register of Members Interests (4 July 2016)",
+            "sourceKind": "historical-pdf-register",
+            "sourceRecordId": "ni-register:assembly:pdf:e469360c83cc8729",
+            "sourceRowId": "ni-register-interest:mla-pdf:d04531e378fdd2a1",
+            "date": "2016-07-04",
+            "extractionConfidence": "medium"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:ce834e9a5669f413abb1",
+        "propertyId": "cg:property:elected-body",
+        "propertyLabel": "elected body",
+        "valueType": "entity",
+        "valueId": "cg:body:northern-ireland-assembly",
+        "valueLabel": "Northern Ireland Assembly",
+        "valueText": "Northern Ireland Assembly",
+        "valueDescription": "Northern Ireland Assembly",
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-assembly-pdf-e469360c83cc8729",
+            "sourceTitle": "NI Assembly Register of Members Interests (4 July 2016)",
+            "sourceKind": "historical-pdf-register",
+            "sourceRecordId": "ni-register:assembly:pdf:e469360c83cc8729",
+            "date": "2016-07-04",
+            "extractionConfidence": "medium"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:107553801a3ffe8dcbdd",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:register-record",
+        "valueLabel": "Register of interests record",
+        "valueText": "Register of interests record",
+        "valueDescription": "A politician, elected body, and register-date tuple for a register of interests edition.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:2418da2f48402217076a",
+        "propertyId": "cg:property:jurisdiction",
+        "propertyLabel": "jurisdiction",
+        "valueType": "string",
+        "valueLabel": "Northern Ireland",
+        "valueText": "Northern Ireland",
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-assembly-pdf-e469360c83cc8729",
+            "sourceTitle": "NI Assembly Register of Members Interests (4 July 2016)",
+            "sourceKind": "historical-pdf-register",
+            "sourceRecordId": "ni-register:assembly:pdf:e469360c83cc8729",
+            "date": "2016-07-04",
+            "extractionConfidence": "medium"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:fdbc838bdadd03aea654",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Thomas Buchanan - Assembly - 2016-07-04",
+        "valueText": "Thomas Buchanan - Assembly - 2016-07-04",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:d331a30ad3f6bd8f79ed",
+        "propertyId": "cg:property:political-office",
+        "propertyLabel": "political office",
+        "valueType": "entity",
+        "valueId": "cg:office:mla",
+        "valueLabel": "Member of the Legislative Assembly",
+        "valueText": "Member of the Legislative Assembly",
+        "valueDescription": "Member of the Northern Ireland Assembly",
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-assembly-pdf-e469360c83cc8729",
+            "sourceTitle": "NI Assembly Register of Members Interests (4 July 2016)",
+            "sourceKind": "historical-pdf-register",
+            "sourceRecordId": "ni-register:assembly:pdf:e469360c83cc8729",
+            "date": "2016-07-04",
+            "extractionConfidence": "medium"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:f8785c7593b21b9d97fe",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:ni-register-assembly-pdf-e469360c83cc8729",
+        "valueLabel": "NI Assembly Register of Members Interests (4 July 2016)",
+        "valueText": "NI Assembly Register of Members Interests (4 July 2016)",
+        "valueDescription": "NI Assembly register of interests pdf. edition dated 4 July 2016. content type application/pdf",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "historical-pdf-register",
+            "valueText": "historical-pdf-register"
+          },
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2016-07-04",
+            "valueText": "2016-07-04"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:ni-register-assembly-pdf-e469360c83cc8729",
+            "sourceTitle": "NI Assembly Register of Members Interests (4 July 2016)",
+            "sourceKind": "historical-pdf-register",
+            "sourceRecordId": "ni-register:assembly:pdf:e469360c83cc8729",
+            "date": "2016-07-04",
+            "extractionConfidence": "medium"
+          }
+        ]
+      }
+    ],
     "cg:register-record:ni-register-record-fe11c319cc3deca9": [
       {
         "id": "cg:statement:7f276354587f43022533",
@@ -30471,32 +32587,6 @@
         "referenceCount": 0
       },
       {
-        "id": "cg:statement:067cd5ac6e9de748b9e5",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:municipal-districts-national-statutory-boundaries-2019-provider-page-4a2508dc2fdd",
-        "valueLabel": "Municipal Districts - National Statutory Boundaries - 2019 provider page",
-        "valueText": "Municipal Districts - National Statutory Boundaries - 2019 provider page",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://data.gov.ie/dataset/municipal-districts-national-statutory-boundaries-20191",
-            "valueText": "https://data.gov.ie/dataset/municipal-districts-national-statutory-boundaries-20191"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "canonical-provider-dataset",
-            "valueText": "canonical-provider-dataset"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
         "id": "cg:statement:06873546b2c1923d9798",
         "propertyId": "cg:property:source",
         "propertyLabel": "source",
@@ -30563,32 +32653,6 @@
             "valueType": "url",
             "valueLabel": "https://data.gov.ie/dataset/settlements-generalised-50m-national-statistical-boundaries-20151",
             "valueText": "https://data.gov.ie/dataset/settlements-generalised-50m-national-statistical-boundaries-20151"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "canonical-provider-dataset",
-            "valueText": "canonical-provider-dataset"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:10b0952082858bf806a6",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:local-electoral-areas-national-statutory-boundaries-2019-provider-page-2cf4af5e8751",
-        "valueLabel": "Local Electoral Areas - National Statutory Boundaries - 2019 provider page",
-        "valueText": "Local Electoral Areas - National Statutory Boundaries - 2019 provider page",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://data.gov.ie/dataset/local-electoral-areas-national-statutory-boundaries-20191",
-            "valueText": "https://data.gov.ie/dataset/local-electoral-areas-national-statutory-boundaries-20191"
           },
           {
             "propertyId": "cg:property:source-kind",
@@ -31317,6 +33381,32 @@
             "valueType": "url",
             "valueLabel": "https://data.gov.ie/dataset/road-intersections-national-1m-map-of-ireland1",
             "valueText": "https://data.gov.ie/dataset/road-intersections-national-1m-map-of-ireland1"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "canonical-provider-dataset",
+            "valueText": "canonical-provider-dataset"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:54268f67a1b79ff162a4",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:data-gov-ie-local-electoral-areas-national-statutory-boundaries-2019-2cf4af5e8751",
+        "valueLabel": "data.gov.ie — Local Electoral Areas - National Statutory Boundaries - 2019",
+        "valueText": "data.gov.ie — Local Electoral Areas - National Statutory Boundaries - 2019",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://data.gov.ie/dataset/local-electoral-areas-national-statutory-boundaries-20191",
+            "valueText": "https://data.gov.ie/dataset/local-electoral-areas-national-statutory-boundaries-20191"
           },
           {
             "propertyId": "cg:property:source-kind",
@@ -32435,6 +34525,32 @@
             "valueType": "url",
             "valueLabel": "https://data.gov.ie/dataset/townlands-national-statutory-boundaries-2019-generalised-20m1",
             "valueText": "https://data.gov.ie/dataset/townlands-national-statutory-boundaries-2019-generalised-20m1"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "canonical-provider-dataset",
+            "valueText": "canonical-provider-dataset"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:bf3d8d8fe0814131820a",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:data-gov-ie-municipal-districts-national-statutory-boundaries-2019-4a2508dc2fdd",
+        "valueLabel": "data.gov.ie — Municipal Districts - National Statutory Boundaries - 2019",
+        "valueText": "data.gov.ie — Municipal Districts - National Statutory Boundaries - 2019",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://data.gov.ie/dataset/municipal-districts-national-statutory-boundaries-20191",
+            "valueText": "https://data.gov.ie/dataset/municipal-districts-national-statutory-boundaries-20191"
           },
           {
             "propertyId": "cg:property:source-kind",
@@ -33710,6 +35826,32 @@
         "referenceCount": 0
       },
       {
+        "id": "cg:statement:563f5889efbefbc1299d",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:data-gov-ie-local-electoral-areas-boundaries-ungeneralised-national-admi-c8d2efc6a48a",
+        "valueLabel": "data.gov.ie — Local Electoral Areas Boundaries Ungeneralised - National Administrative Boundaries - 2015",
+        "valueText": "data.gov.ie — Local Electoral Areas Boundaries Ungeneralised - National Administrative Boundaries - 2015",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://data.gov.ie/dataset/local-electoral-areas-boundaries-ungeneralised-national-administrative-boundaries-20151",
+            "valueText": "https://data.gov.ie/dataset/local-electoral-areas-boundaries-ungeneralised-national-administrative-boundaries-20151"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "canonical-provider-dataset",
+            "valueText": "canonical-provider-dataset"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
         "id": "cg:statement:56d0f3473c7d7b1996a8",
         "propertyId": "cg:property:source",
         "propertyLabel": "source",
@@ -33776,32 +35918,6 @@
             "valueType": "url",
             "valueLabel": "https://data.gov.ie/dataset/constituency-boundaries-ungeneralised-national-electoral-boundaries-20231",
             "valueText": "https://data.gov.ie/dataset/constituency-boundaries-ungeneralised-national-electoral-boundaries-20231"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "canonical-provider-dataset",
-            "valueText": "canonical-provider-dataset"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:6511475b006148f2af24",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:local-electoral-areas-boundaries-ungeneralised-national-administrative-b-91c0bd25b211",
-        "valueLabel": "Local Electoral Areas Boundaries Ungeneralised - National Administrative Boundaries - 2015 provider page",
-        "valueText": "Local Electoral Areas Boundaries Ungeneralised - National Administrative Boundaries - 2015 provider page",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://data.gov.ie/dataset/local-electoral-areas-boundaries-ungeneralised-national-administrative-boundaries-20151",
-            "valueText": "https://data.gov.ie/dataset/local-electoral-areas-boundaries-ungeneralised-national-administrative-boundaries-20151"
           },
           {
             "propertyId": "cg:property:source-kind",
@@ -36304,126 +38420,6 @@
         "valueType": "url",
         "valueLabel": "https://web.archive.org/web/*/https://data.gov.ie/dataset/an-aerial-survey-of-harbour-and-grey-seals-in-ireland-part-2-galway-bay-to-carlingford-lough",
         "valueText": "https://web.archive.org/web/*/https://data.gov.ie/dataset/an-aerial-survey-of-harbour-and-grey-seals-in-ireland-part-2-galway-bay-to-carlingford-lough",
-        "referenceCount": 0
-      }
-    ],
-    "cg:source:an-aerial-survey-of-harbour-and-grey-seals-in-ireland-part-2-galway-bay--f460574c0150": [
-      {
-        "id": "cg:statement:80725fe949b98dad6997",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:source",
-        "valueLabel": "Source",
-        "valueText": "Source",
-        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:69119ee34f81d1cd8ad4",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "An aerial survey of harbour and grey seals in Ireland: Part 2: Galway Bay to Carlingford Lough provider page",
-        "valueText": "An aerial survey of harbour and grey seals in Ireland: Part 2: Galway Bay to Carlingford Lough provider page",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:48674572b6e7f3e1a979",
-        "propertyId": "cg:property:source-kind",
-        "propertyLabel": "source kind",
-        "valueType": "string",
-        "valueLabel": "source-reference",
-        "valueText": "source-reference",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:1c3932a2786c16d4871c",
-        "propertyId": "cg:property:url",
-        "propertyLabel": "URL",
-        "valueType": "url",
-        "valueLabel": "https://data.gov.ie/dataset/an-aerial-survey-of-harbour-and-grey-seals-in-ireland-part-2-galway-bay-to-carlingford-lough",
-        "valueText": "https://data.gov.ie/dataset/an-aerial-survey-of-harbour-and-grey-seals-in-ireland-part-2-galway-bay-to-carlingford-lough",
-        "referenceCount": 0
-      }
-    ],
-    "cg:source:an-bearna-lap-2015-2021-provider-page-6666925b007a": [
-      {
-        "id": "cg:statement:93c33bb68637280aad6a",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:source",
-        "valueLabel": "Source",
-        "valueText": "Source",
-        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:bab25b9e933b54b3169f",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "An Bearna LAP 2015 2021 provider page",
-        "valueText": "An Bearna LAP 2015 2021 provider page",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:0ded6cc6b69ef0d6cbc3",
-        "propertyId": "cg:property:source-kind",
-        "propertyLabel": "source kind",
-        "valueType": "string",
-        "valueLabel": "source-reference",
-        "valueText": "source-reference",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:036bbc8035a65b7483f3",
-        "propertyId": "cg:property:url",
-        "propertyLabel": "URL",
-        "valueType": "url",
-        "valueLabel": "https://data.gov.ie/dataset/an-bearna-lap-2015-2021",
-        "valueText": "https://data.gov.ie/dataset/an-bearna-lap-2015-2021",
-        "referenceCount": 0
-      }
-    ],
-    "cg:source:an-bearna-lap-2015-2021-wayback-captures-93c9fe692549": [
-      {
-        "id": "cg:statement:04ee6a59a09a14b9ff8d",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:source",
-        "valueLabel": "Source",
-        "valueText": "Source",
-        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:ba7c6c73ec890562b327",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "An Bearna LAP 2015 2021 Wayback captures",
-        "valueText": "An Bearna LAP 2015 2021 Wayback captures",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:7523e665c90e2276cdf8",
-        "propertyId": "cg:property:source-kind",
-        "propertyLabel": "source kind",
-        "valueType": "string",
-        "valueLabel": "source-reference",
-        "valueText": "source-reference",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:2703476198bce262d262",
-        "propertyId": "cg:property:url",
-        "propertyLabel": "URL",
-        "valueType": "url",
-        "valueLabel": "https://web.archive.org/web/*/https://data.gov.ie/dataset/an-bearna-lap-2015-2021",
-        "valueText": "https://web.archive.org/web/*/https://data.gov.ie/dataset/an-bearna-lap-2015-2021",
         "referenceCount": 0
       }
     ]

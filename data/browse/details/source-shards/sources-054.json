@@ -1,10 +1,208 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-29T23:28:02.177Z",
+  "generatedAt": "2026-06-30T17:47:01.808Z",
   "kind": "sources",
   "shard": "sources-054.json",
-  "total": 41,
+  "total": 44,
   "items": [
+    {
+      "id": "table:data-2021-level-4-plus-ward",
+      "slug": "table-data-2021-level-4-plus-ward",
+      "type": "table",
+      "title": "Level 4+ qualifications (Census 2021, by Ward 2014)",
+      "subtitle": "data-population",
+      "category": "data-population",
+      "description": "Level 4+ qualifications (Ward 2014) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "wards-2012",
+        "url": "/assets/thumbnails/wards-2012.webp",
+        "smallUrl": "/assets/thumbnails/wards-2012-60.webp",
+        "alt": "Level 4+ qualifications (Census 2021, by Ward 2014)"
+      },
+      "references": [
+        {
+          "label": "NISRA Census 2021, Main Statistics Phase 1, MS-G01 (Highest level of qualifications)",
+          "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "ms-g01-level-4-plus-ward.csv",
+          "url": "data/census/derived/ms-g01-level-4-plus-ward.csv"
+        }
+      ],
+      "browseUrl": "/browse/sources/table-data-2021-level-4-plus-ward",
+      "rawMetadata": {
+        "id": "data-2021-level-4-plus-ward",
+        "type": "data-entry",
+        "name": "Level 4+ qualifications (Census 2021, by Ward 2014)",
+        "slug": "data-2021-level-4-plus-ward",
+        "category": "data-population",
+        "description": "Level 4+ qualifications (Ward 2014) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+        "geography": "wards-2012",
+        "csv": "data/census/derived/ms-g01-level-4-plus-ward.csv",
+        "joinKey": "WardCode",
+        "csvKeyColumn": "GeographyCode",
+        "valueColumn": "Level4Plus_pct",
+        "ramp": "viridis",
+        "domain": [
+          15,
+          55
+        ],
+        "logarithmic": false,
+        "tableColumns": [
+          "Geography",
+          "Total",
+          "Level4Plus",
+          "Level4Plus_pct"
+        ],
+        "keywords": [
+          "census",
+          "2021",
+          "nisra",
+          "data",
+          "level 4 plus",
+          "ward 2014"
+        ],
+        "source": {
+          "title": "NISRA Census 2021, Main Statistics Phase 1, MS-G01 (Highest level of qualifications)",
+          "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+        }
+      }
+    },
+    {
+      "id": "table:data-2021-limiting-condition-lgd",
+      "slug": "table-data-2021-limiting-condition-lgd",
+      "type": "table",
+      "title": "Day-to-day activities limited (Census 2021, by LGD)",
+      "subtitle": "data-population",
+      "category": "data-population",
+      "description": "Day-to-day activities limited (LGD) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "lgd-2012",
+        "url": "/assets/thumbnails/lgd-2012.webp",
+        "smallUrl": "/assets/thumbnails/lgd-2012-60.webp",
+        "alt": "Day-to-day activities limited (Census 2021, by LGD)"
+      },
+      "references": [
+        {
+          "label": "NISRA Census 2021, Main Statistics Phase 1, MS-D02 (Long-term health problem or disability)",
+          "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "ms-d02-limiting-condition-lgd.csv",
+          "url": "data/census/derived/ms-d02-limiting-condition-lgd.csv"
+        }
+      ],
+      "browseUrl": "/browse/sources/table-data-2021-limiting-condition-lgd",
+      "rawMetadata": {
+        "id": "data-2021-limiting-condition-lgd",
+        "type": "data-entry",
+        "name": "Day-to-day activities limited (Census 2021, by LGD)",
+        "slug": "data-2021-limiting-condition-lgd",
+        "category": "data-population",
+        "description": "Day-to-day activities limited (LGD) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+        "geography": "lgd-2012",
+        "csv": "data/census/derived/ms-d02-limiting-condition-lgd.csv",
+        "joinKey": "LGDCode",
+        "csvKeyColumn": "GeographyCode",
+        "valueColumn": "LimitingCondition_pct",
+        "ramp": "viridis",
+        "domain": [
+          20,
+          28
+        ],
+        "logarithmic": false,
+        "tableColumns": [
+          "Geography",
+          "Total",
+          "LimitingCondition",
+          "LimitingCondition_pct"
+        ],
+        "keywords": [
+          "census",
+          "2021",
+          "nisra",
+          "data",
+          "limiting condition",
+          "lgd"
+        ],
+        "source": {
+          "title": "NISRA Census 2021, Main Statistics Phase 1, MS-D02 (Long-term health problem or disability)",
+          "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+        }
+      }
+    },
+    {
+      "id": "table:data-2021-limiting-condition-settlement",
+      "slug": "table-data-2021-limiting-condition-settlement",
+      "type": "table",
+      "title": "Day-to-day activities limited (Census 2021, by Settlement)",
+      "subtitle": "data-population",
+      "category": "data-population",
+      "description": "Day-to-day activities limited (Settlement) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "settlements-2015",
+        "url": "/assets/thumbnails/settlements-2015.webp",
+        "smallUrl": "/assets/thumbnails/settlements-2015-60.webp",
+        "alt": "Day-to-day activities limited (Census 2021, by Settlement)"
+      },
+      "references": [
+        {
+          "label": "NISRA Census 2021, Main Statistics Phase 1, MS-D02 (Long-term health problem or disability)",
+          "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "ms-d02-limiting-condition-settlement.csv",
+          "url": "data/census/derived/ms-d02-limiting-condition-settlement.csv"
+        }
+      ],
+      "browseUrl": "/browse/sources/table-data-2021-limiting-condition-settlement",
+      "rawMetadata": {
+        "id": "data-2021-limiting-condition-settlement",
+        "type": "data-entry",
+        "name": "Day-to-day activities limited (Census 2021, by Settlement)",
+        "slug": "data-2021-limiting-condition-settlement",
+        "category": "data-population",
+        "description": "Day-to-day activities limited (Settlement) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
+        "geography": "settlements-2015",
+        "csv": "data/census/derived/ms-d02-limiting-condition-settlement.csv",
+        "joinKey": "Code",
+        "csvKeyColumn": "GeographyCode",
+        "valueColumn": "LimitingCondition_pct",
+        "ramp": "viridis",
+        "domain": [
+          13,
+          33
+        ],
+        "logarithmic": false,
+        "tableColumns": [
+          "Geography",
+          "Total",
+          "LimitingCondition",
+          "LimitingCondition_pct"
+        ],
+        "keywords": [
+          "census",
+          "2021",
+          "nisra",
+          "data",
+          "limiting condition",
+          "settlement"
+        ],
+        "source": {
+          "title": "NISRA Census 2021, Main Statistics Phase 1, MS-D02 (Long-term health problem or disability)",
+          "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+        }
+      }
+    },
     {
       "id": "table:data-2021-limiting-condition-ward",
       "slug": "table-data-2021-limiting-condition-ward",

@@ -1,10 +1,1078 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-29T23:28:02.177Z",
+  "generatedAt": "2026-06-30T17:47:01.808Z",
   "kind": "sources",
   "shard": "sources-053.json",
   "total": 200,
   "items": [
+    {
+      "id": "raw-source:data-gov-ie:hra19-hospital-discharges-including-deaths",
+      "slug": "raw-source-data-gov-ie-hra19-hospital-discharges-including-deaths",
+      "type": "raw-source-table",
+      "title": "HRA19 - Hospital Discharges (Including Deaths)",
+      "subtitle": "Health Research Board / data.gov.ie / CSV, JSON-STAT, PX, XLSX / Source-only",
+      "category": "Raw source tables",
+      "provider": [
+        "Health Research Board",
+        "data.gov.ie"
+      ],
+      "description": "HRA19 - Hospital Discharges (Including Deaths) is staged as a table source record from Health Research Board, data.gov.ie. The record is suitable for a Browse/Books/Tables source page with provider links now and IA-hotlinked viewport/download links once the public IA item/file URLs are attached. No map conversion or deep semantic modelling is implied by this source-only record. Formats observed in the local audit: CSV, JSON-STAT, PX, XLSX.",
+      "url": "https://data.gov.ie/dataset/hra19-hospital-discharges-including-deaths",
+      "references": [
+        {
+          "label": "HRA19 - Hospital Discharges (Including Deaths) provider dataset page",
+          "url": "https://data.gov.ie/dataset/hra19-hospital-discharges-including-deaths",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-dataset"
+        },
+        {
+          "label": "HRA19 - Hospital Discharges (Including Deaths) Internet Archive source mirror",
+          "url": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+          "source": "Internet Archive",
+          "role": "source-mirror"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset page",
+          "url": "https://data.gov.ie/dataset/hra19-hospital-discharges-including-deaths",
+          "type": "dataset-page"
+        },
+        {
+          "label": "Internet Archive mirror - hra19-hospital-discharges-including-deaths-csv.csv",
+          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Health%20Research%20Board/hra19-hospital-discharges-including-deaths/hra19-hospital-discharges-including-deaths-csv.csv",
+          "type": "CSV"
+        },
+        {
+          "label": "Internet Archive mirror - hra19-hospital-discharges-including-deaths-json-stat.json",
+          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Health%20Research%20Board/hra19-hospital-discharges-including-deaths/hra19-hospital-discharges-including-deaths-json-stat.json",
+          "type": "json-stat"
+        },
+        {
+          "label": "Internet Archive mirror - hra19-hospital-discharges-including-deaths-px.px",
+          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Health%20Research%20Board/hra19-hospital-discharges-including-deaths/hra19-hospital-discharges-including-deaths-px.px",
+          "type": "px"
+        },
+        {
+          "label": "Internet Archive mirror - hra19-hospital-discharges-including-deaths-xlsx.xlsx",
+          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Health%20Research%20Board/hra19-hospital-discharges-including-deaths/hra19-hospital-discharges-including-deaths-xlsx.xlsx",
+          "type": "XLSX"
+        }
+      ],
+      "keywords": [
+        "raw-source-document",
+        "ia-ready",
+        "source-only",
+        "table",
+        "data.gov.ie",
+        "Health Research Board",
+        "CSV",
+        "JSON-STAT",
+        "PX",
+        "XLSX",
+        "ni-district-electoral-areas",
+        "internet-archive-mirror",
+        "raw-source-mirrored"
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 5500,
+          "title": "HRA19 - Hospital Discharges (Including Deaths)",
+          "provider": "data.gov.ie",
+          "organisation": "Health Research Board",
+          "formats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ],
+          "category": "tabular",
+          "refinedStatus": "source-only or Browse/Books candidate",
+          "recommendedAction": "Publish as IA-hotlinked source/document/table records first; no runtime bundle unless cleaned/queryable.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download.",
+          "blockerCategories": [
+            "geography-matching",
+            "raw-source-hosting-and-viewport-policy",
+            "source-page-and-ia-viewport-decision"
+          ],
+          "detectedFamilies": [
+            "ni-district-electoral-areas"
+          ],
+          "siteFamiliesPresent": [
+            "ni-district-electoral-areas"
+          ],
+          "mirrorPolicy": "Internet Archive mirror verified; local mirror paths remain excluded from public output",
+          "providerDatasetUrl": "https://data.gov.ie/dataset/hra19-hospital-discharges-including-deaths",
+          "internetArchiveItem": "civgraph-data-gov-ie-raw-sources",
+          "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+          "internetArchiveFileCount": 4
+        }
+      ],
+      "status": "Source only",
+      "statusChips": [
+        "Source only",
+        "Preview available",
+        "Download available",
+        "Needs review",
+        "Mirror available"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "data.gov.ie",
+        "Health Research Board",
+        "HRA19 - Hospital Discharges (Including Deaths)"
+      ],
+      "viewport": {
+        "status": "mirror-preview-ready",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "spreadsheet"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/hra19-hospital-discharges-including-deaths",
+        "note": "Internet Archive mirror files are verified for durable public view/download; provider dataset page remains the canonical source.",
+        "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+        "fileUrl": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Health%20Research%20Board/hra19-hospital-discharges-including-deaths/hra19-hospital-discharges-including-deaths-csv.csv"
+      },
+      "shortCitation": "Health Research Board, data.gov.ie, HRA19 - Hospital Discharges (Including Deaths).",
+      "fullCitation": "Health Research Board, data.gov.ie. HRA19 - Hospital Discharges (Including Deaths). Current provider dataset URL: https://data.gov.ie/dataset/hra19-hospital-discharges-including-deaths. Civgraph raw source-document record.",
+      "relatedRecords": [
+        {
+          "kind": "database-map",
+          "id": "wq-rwq-soluble-phosphorus",
+          "title": "River Water Quality 1990–2018 — Soluble reactive phosphorus",
+          "score": 0.17
+        },
+        {
+          "kind": "database-map",
+          "id": "wq-rwq-alkalinity",
+          "title": "River Water Quality 1990–2018 — Alkalinity",
+          "score": 0.17
+        },
+        {
+          "kind": "database-map",
+          "id": "wq-rwq-conductivity",
+          "title": "River Water Quality 1990–2018 — Conductivity",
+          "score": 0.17
+        }
+      ],
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, and IA item metadata to confirm resource-level licence before structured reuse."
+      },
+      "approval": {
+        "recommendedAction": "publish as source/document/table record; do not create duplicate map or election parent",
+        "stagingId": "raw-source:data-gov-ie:hra19-hospital-discharges-including-deaths",
+        "confidence": "approved-convention",
+        "sourceType": "raw source-document corpus",
+        "provider": "Health Research Board; data.gov.ie"
+      },
+      "publicationStatus": "raw-source-staged; raw-source-mirrored-internet-archive",
+      "proposedBrowsePath": "Books / Tables / Sources > Raw source tables",
+      "browseUrl": "/browse/sources/raw-source-data-gov-ie-hra19-hospital-discharges-including-deaths",
+      "rawMetadata": {
+        "id": "raw-source:data-gov-ie:hra19-hospital-discharges-including-deaths",
+        "slug": "raw-source-data-gov-ie-hra19-hospital-discharges-including-deaths",
+        "type": "raw-source-table",
+        "title": "HRA19 - Hospital Discharges (Including Deaths)",
+        "subtitle": "Health Research Board / data.gov.ie / CSV, JSON-STAT, PX, XLSX / Source-only",
+        "category": "Raw source tables",
+        "provider": [
+          "Health Research Board",
+          "data.gov.ie"
+        ],
+        "description": "HRA19 - Hospital Discharges (Including Deaths) is staged as a table source record from Health Research Board, data.gov.ie. The record is suitable for a Browse/Books/Tables source page with provider links now and IA-hotlinked viewport/download links once the public IA item/file URLs are attached. No map conversion or deep semantic modelling is implied by this source-only record. Formats observed in the local audit: CSV, JSON-STAT, PX, XLSX.",
+        "url": "https://data.gov.ie/dataset/hra19-hospital-discharges-including-deaths",
+        "references": [
+          {
+            "label": "HRA19 - Hospital Discharges (Including Deaths) provider dataset page",
+            "url": "https://data.gov.ie/dataset/hra19-hospital-discharges-including-deaths",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-dataset",
+            "status": "inferred-from-provider-slug"
+          },
+          {
+            "label": "HRA19 - Hospital Discharges (Including Deaths) Internet Archive source mirror",
+            "url": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+            "source": "Internet Archive",
+            "role": "source-mirror",
+            "status": "verified"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset page",
+            "url": "https://data.gov.ie/dataset/hra19-hospital-discharges-including-deaths",
+            "type": "dataset-page",
+            "status": "resource downloads listed by provider dataset page"
+          },
+          {
+            "label": "Internet Archive mirror - hra19-hospital-discharges-including-deaths-csv.csv",
+            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Health%20Research%20Board/hra19-hospital-discharges-including-deaths/hra19-hospital-discharges-including-deaths-csv.csv",
+            "type": "CSV",
+            "size": 1726542,
+            "sha256": "423c6aa299a0f1115f245028e8905b694ba24f6bae34400a928d732f6354a6e3",
+            "status": "verified Internet Archive mirror",
+            "source": "Internet Archive"
+          },
+          {
+            "label": "Internet Archive mirror - hra19-hospital-discharges-including-deaths-json-stat.json",
+            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Health%20Research%20Board/hra19-hospital-discharges-including-deaths/hra19-hospital-discharges-including-deaths-json-stat.json",
+            "type": "json-stat",
+            "size": 66769,
+            "sha256": "235d67549686fc0dd9edaca4d987c8236bcb7facce8b7db5af45047db2e67118",
+            "status": "verified Internet Archive mirror",
+            "source": "Internet Archive"
+          },
+          {
+            "label": "Internet Archive mirror - hra19-hospital-discharges-including-deaths-px.px",
+            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Health%20Research%20Board/hra19-hospital-discharges-including-deaths/hra19-hospital-discharges-including-deaths-px.px",
+            "type": "px",
+            "size": 62235,
+            "sha256": "a09e6017861aa58b6422ac738704957625a1c3fcd97eb18ca69e9166666287a8",
+            "status": "verified Internet Archive mirror",
+            "source": "Internet Archive"
+          },
+          {
+            "label": "Internet Archive mirror - hra19-hospital-discharges-including-deaths-xlsx.xlsx",
+            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Health%20Research%20Board/hra19-hospital-discharges-including-deaths/hra19-hospital-discharges-including-deaths-xlsx.xlsx",
+            "type": "XLSX",
+            "size": 564704,
+            "sha256": "c70103f00f7827dce3b0b1de6409b9c97819161ef54c44bd050b30b169e29349",
+            "status": "verified Internet Archive mirror",
+            "source": "Internet Archive"
+          }
+        ],
+        "status": "Source only",
+        "statusChips": [
+          "Source only",
+          "Preview available",
+          "Download available",
+          "Needs review",
+          "Mirror available"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "data.gov.ie",
+          "Health Research Board",
+          "HRA19 - Hospital Discharges (Including Deaths)"
+        ],
+        "viewport": {
+          "status": "mirror-preview-ready",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "spreadsheet"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/hra19-hospital-discharges-including-deaths",
+          "note": "Internet Archive mirror files are verified for durable public view/download; provider dataset page remains the canonical source.",
+          "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+          "fileUrl": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Health%20Research%20Board/hra19-hospital-discharges-including-deaths/hra19-hospital-discharges-including-deaths-csv.csv"
+        },
+        "shortCitation": "Health Research Board, data.gov.ie, HRA19 - Hospital Discharges (Including Deaths).",
+        "fullCitation": "Health Research Board, data.gov.ie. HRA19 - Hospital Discharges (Including Deaths). Current provider dataset URL: https://data.gov.ie/dataset/hra19-hospital-discharges-including-deaths. Civgraph raw source-document record.",
+        "sourceItems": [
+          {
+            "auditRowNumber": 5500,
+            "title": "HRA19 - Hospital Discharges (Including Deaths)",
+            "provider": "data.gov.ie",
+            "organisation": "Health Research Board",
+            "formats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ],
+            "category": "tabular",
+            "refinedStatus": "source-only or Browse/Books candidate",
+            "recommendedAction": "Publish as IA-hotlinked source/document/table records first; no runtime bundle unless cleaned/queryable.",
+            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download.",
+            "blockerCategories": [
+              "geography-matching",
+              "raw-source-hosting-and-viewport-policy",
+              "source-page-and-ia-viewport-decision"
+            ],
+            "detectedFamilies": [
+              "ni-district-electoral-areas"
+            ],
+            "siteFamiliesPresent": [
+              "ni-district-electoral-areas"
+            ],
+            "mirrorPolicy": "Internet Archive mirror verified; local mirror paths remain excluded from public output",
+            "providerDatasetUrl": "https://data.gov.ie/dataset/hra19-hospital-discharges-including-deaths",
+            "internetArchiveItem": "civgraph-data-gov-ie-raw-sources",
+            "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+            "internetArchiveFileCount": 4
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, and IA item metadata to confirm resource-level licence before structured reuse."
+        },
+        "approval": {
+          "recommendedAction": "publish as source/document/table record; do not create duplicate map or election parent",
+          "stagingId": "raw-source:data-gov-ie:hra19-hospital-discharges-including-deaths",
+          "confidence": "approved-convention",
+          "sourceType": "raw source-document corpus",
+          "provider": "Health Research Board; data.gov.ie"
+        },
+        "publicationStatus": "raw-source-staged; raw-source-mirrored-internet-archive",
+        "proposedBrowsePath": "Books / Tables / Sources > Raw source tables",
+        "relatedRecords": [
+          {
+            "kind": "database-map",
+            "id": "wq-rwq-soluble-phosphorus",
+            "title": "River Water Quality 1990–2018 — Soluble reactive phosphorus",
+            "score": 0.17
+          },
+          {
+            "kind": "database-map",
+            "id": "wq-rwq-alkalinity",
+            "title": "River Water Quality 1990–2018 — Alkalinity",
+            "score": 0.17
+          },
+          {
+            "kind": "database-map",
+            "id": "wq-rwq-conductivity",
+            "title": "River Water Quality 1990–2018 — Conductivity",
+            "score": 0.17
+          }
+        ],
+        "keywords": [
+          "raw-source-document",
+          "ia-ready",
+          "source-only",
+          "table",
+          "data.gov.ie",
+          "Health Research Board",
+          "CSV",
+          "JSON-STAT",
+          "PX",
+          "XLSX",
+          "ni-district-electoral-areas",
+          "internet-archive-mirror",
+          "raw-source-mirrored"
+        ],
+        "browseUrl": "/browse/sources/raw-source-data-gov-ie-hra19-hospital-discharges-including-deaths",
+        "iaMirror": {
+          "itemIdentifier": "civgraph-data-gov-ie-raw-sources",
+          "itemUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+          "mirrorStatus": "mirrored",
+          "verifiedAt": "2026-06-28T02:10:52.845Z",
+          "fileCount": 4
+        }
+      }
+    },
+    {
+      "id": "raw-source:data-gov-ie:hra20-hospital-discharges-including-deaths",
+      "slug": "raw-source-data-gov-ie-hra20-hospital-discharges-including-deaths",
+      "type": "raw-source-table",
+      "title": "HRA20 - Hospital Discharges (Including Deaths)",
+      "subtitle": "Health Research Board / data.gov.ie / CSV, JSON-STAT, PX, XLSX / Source-only",
+      "category": "Raw source tables",
+      "provider": [
+        "Health Research Board",
+        "data.gov.ie"
+      ],
+      "description": "HRA20 - Hospital Discharges (Including Deaths) is staged as a table source record from Health Research Board, data.gov.ie. The record is suitable for a Browse/Books/Tables source page with provider links now and IA-hotlinked viewport/download links once the public IA item/file URLs are attached. No map conversion or deep semantic modelling is implied by this source-only record. Formats observed in the local audit: CSV, JSON-STAT, PX, XLSX.",
+      "url": "https://data.gov.ie/dataset/hra20-hospital-discharges-including-deaths",
+      "references": [
+        {
+          "label": "HRA20 - Hospital Discharges (Including Deaths) provider dataset page",
+          "url": "https://data.gov.ie/dataset/hra20-hospital-discharges-including-deaths",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-dataset"
+        },
+        {
+          "label": "HRA20 - Hospital Discharges (Including Deaths) Internet Archive source mirror",
+          "url": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+          "source": "Internet Archive",
+          "role": "source-mirror"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset page",
+          "url": "https://data.gov.ie/dataset/hra20-hospital-discharges-including-deaths",
+          "type": "dataset-page"
+        },
+        {
+          "label": "Internet Archive mirror - hra20-hospital-discharges-including-deaths-csv.csv",
+          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Health%20Research%20Board/hra20-hospital-discharges-including-deaths/hra20-hospital-discharges-including-deaths-csv.csv",
+          "type": "CSV"
+        },
+        {
+          "label": "Internet Archive mirror - hra20-hospital-discharges-including-deaths-json-stat.json",
+          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Health%20Research%20Board/hra20-hospital-discharges-including-deaths/hra20-hospital-discharges-including-deaths-json-stat.json",
+          "type": "json-stat"
+        },
+        {
+          "label": "Internet Archive mirror - hra20-hospital-discharges-including-deaths-px.px",
+          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Health%20Research%20Board/hra20-hospital-discharges-including-deaths/hra20-hospital-discharges-including-deaths-px.px",
+          "type": "px"
+        },
+        {
+          "label": "Internet Archive mirror - hra20-hospital-discharges-including-deaths-xlsx.xlsx",
+          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Health%20Research%20Board/hra20-hospital-discharges-including-deaths/hra20-hospital-discharges-including-deaths-xlsx.xlsx",
+          "type": "XLSX"
+        }
+      ],
+      "keywords": [
+        "raw-source-document",
+        "ia-ready",
+        "source-only",
+        "table",
+        "data.gov.ie",
+        "Health Research Board",
+        "CSV",
+        "JSON-STAT",
+        "PX",
+        "XLSX",
+        "ni-district-electoral-areas",
+        "internet-archive-mirror",
+        "raw-source-mirrored"
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 5501,
+          "title": "HRA20 - Hospital Discharges (Including Deaths)",
+          "provider": "data.gov.ie",
+          "organisation": "Health Research Board",
+          "formats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ],
+          "category": "tabular",
+          "refinedStatus": "source-only or Browse/Books candidate",
+          "recommendedAction": "Publish as IA-hotlinked source/document/table records first; no runtime bundle unless cleaned/queryable.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download.",
+          "blockerCategories": [
+            "geography-matching",
+            "raw-source-hosting-and-viewport-policy",
+            "source-page-and-ia-viewport-decision"
+          ],
+          "detectedFamilies": [
+            "ni-district-electoral-areas"
+          ],
+          "siteFamiliesPresent": [
+            "ni-district-electoral-areas"
+          ],
+          "mirrorPolicy": "Internet Archive mirror verified; local mirror paths remain excluded from public output",
+          "providerDatasetUrl": "https://data.gov.ie/dataset/hra20-hospital-discharges-including-deaths",
+          "internetArchiveItem": "civgraph-data-gov-ie-raw-sources",
+          "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+          "internetArchiveFileCount": 4
+        }
+      ],
+      "status": "Source only",
+      "statusChips": [
+        "Source only",
+        "Preview available",
+        "Download available",
+        "Needs review",
+        "Mirror available"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "data.gov.ie",
+        "Health Research Board",
+        "HRA20 - Hospital Discharges (Including Deaths)"
+      ],
+      "viewport": {
+        "status": "mirror-preview-ready",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "spreadsheet"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/hra20-hospital-discharges-including-deaths",
+        "note": "Internet Archive mirror files are verified for durable public view/download; provider dataset page remains the canonical source.",
+        "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+        "fileUrl": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Health%20Research%20Board/hra20-hospital-discharges-including-deaths/hra20-hospital-discharges-including-deaths-csv.csv"
+      },
+      "shortCitation": "Health Research Board, data.gov.ie, HRA20 - Hospital Discharges (Including Deaths).",
+      "fullCitation": "Health Research Board, data.gov.ie. HRA20 - Hospital Discharges (Including Deaths). Current provider dataset URL: https://data.gov.ie/dataset/hra20-hospital-discharges-including-deaths. Civgraph raw source-document record.",
+      "relatedRecords": [
+        {
+          "kind": "database-map",
+          "id": "wq-rwq-soluble-phosphorus",
+          "title": "River Water Quality 1990–2018 — Soluble reactive phosphorus",
+          "score": 0.17
+        },
+        {
+          "kind": "database-map",
+          "id": "wq-rwq-alkalinity",
+          "title": "River Water Quality 1990–2018 — Alkalinity",
+          "score": 0.17
+        },
+        {
+          "kind": "database-map",
+          "id": "wq-rwq-conductivity",
+          "title": "River Water Quality 1990–2018 — Conductivity",
+          "score": 0.17
+        }
+      ],
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, and IA item metadata to confirm resource-level licence before structured reuse."
+      },
+      "approval": {
+        "recommendedAction": "publish as source/document/table record; do not create duplicate map or election parent",
+        "stagingId": "raw-source:data-gov-ie:hra20-hospital-discharges-including-deaths",
+        "confidence": "approved-convention",
+        "sourceType": "raw source-document corpus",
+        "provider": "Health Research Board; data.gov.ie"
+      },
+      "publicationStatus": "raw-source-staged; raw-source-mirrored-internet-archive",
+      "proposedBrowsePath": "Books / Tables / Sources > Raw source tables",
+      "browseUrl": "/browse/sources/raw-source-data-gov-ie-hra20-hospital-discharges-including-deaths",
+      "rawMetadata": {
+        "id": "raw-source:data-gov-ie:hra20-hospital-discharges-including-deaths",
+        "slug": "raw-source-data-gov-ie-hra20-hospital-discharges-including-deaths",
+        "type": "raw-source-table",
+        "title": "HRA20 - Hospital Discharges (Including Deaths)",
+        "subtitle": "Health Research Board / data.gov.ie / CSV, JSON-STAT, PX, XLSX / Source-only",
+        "category": "Raw source tables",
+        "provider": [
+          "Health Research Board",
+          "data.gov.ie"
+        ],
+        "description": "HRA20 - Hospital Discharges (Including Deaths) is staged as a table source record from Health Research Board, data.gov.ie. The record is suitable for a Browse/Books/Tables source page with provider links now and IA-hotlinked viewport/download links once the public IA item/file URLs are attached. No map conversion or deep semantic modelling is implied by this source-only record. Formats observed in the local audit: CSV, JSON-STAT, PX, XLSX.",
+        "url": "https://data.gov.ie/dataset/hra20-hospital-discharges-including-deaths",
+        "references": [
+          {
+            "label": "HRA20 - Hospital Discharges (Including Deaths) provider dataset page",
+            "url": "https://data.gov.ie/dataset/hra20-hospital-discharges-including-deaths",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-dataset",
+            "status": "inferred-from-provider-slug"
+          },
+          {
+            "label": "HRA20 - Hospital Discharges (Including Deaths) Internet Archive source mirror",
+            "url": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+            "source": "Internet Archive",
+            "role": "source-mirror",
+            "status": "verified"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset page",
+            "url": "https://data.gov.ie/dataset/hra20-hospital-discharges-including-deaths",
+            "type": "dataset-page",
+            "status": "resource downloads listed by provider dataset page"
+          },
+          {
+            "label": "Internet Archive mirror - hra20-hospital-discharges-including-deaths-csv.csv",
+            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Health%20Research%20Board/hra20-hospital-discharges-including-deaths/hra20-hospital-discharges-including-deaths-csv.csv",
+            "type": "CSV",
+            "size": 236685,
+            "sha256": "8e38c72773ee5261961d080497f2dbfb7957d9f231667ca9c076e2dbf99cefa6",
+            "status": "verified Internet Archive mirror",
+            "source": "Internet Archive"
+          },
+          {
+            "label": "Internet Archive mirror - hra20-hospital-discharges-including-deaths-json-stat.json",
+            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Health%20Research%20Board/hra20-hospital-discharges-including-deaths/hra20-hospital-discharges-including-deaths-json-stat.json",
+            "type": "json-stat",
+            "size": 11488,
+            "sha256": "f064725de38818adc73dcd3757d66903aa6860918aba5b19e57e8f6846b79a34",
+            "status": "verified Internet Archive mirror",
+            "source": "Internet Archive"
+          },
+          {
+            "label": "Internet Archive mirror - hra20-hospital-discharges-including-deaths-px.px",
+            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Health%20Research%20Board/hra20-hospital-discharges-including-deaths/hra20-hospital-discharges-including-deaths-px.px",
+            "type": "px",
+            "size": 11141,
+            "sha256": "c9f270982576148f1fa1f5d081b1dfbd9cf41d4d3f489c01a97ee38edcd2be61",
+            "status": "verified Internet Archive mirror",
+            "source": "Internet Archive"
+          },
+          {
+            "label": "Internet Archive mirror - hra20-hospital-discharges-including-deaths-xlsx.xlsx",
+            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Health%20Research%20Board/hra20-hospital-discharges-including-deaths/hra20-hospital-discharges-including-deaths-xlsx.xlsx",
+            "type": "XLSX",
+            "size": 107928,
+            "sha256": "489888be85a9a7ddd90634423599dbbd2c3ae633f34370ac2ebc104f18d1a3a7",
+            "status": "verified Internet Archive mirror",
+            "source": "Internet Archive"
+          }
+        ],
+        "status": "Source only",
+        "statusChips": [
+          "Source only",
+          "Preview available",
+          "Download available",
+          "Needs review",
+          "Mirror available"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "data.gov.ie",
+          "Health Research Board",
+          "HRA20 - Hospital Discharges (Including Deaths)"
+        ],
+        "viewport": {
+          "status": "mirror-preview-ready",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "spreadsheet"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/hra20-hospital-discharges-including-deaths",
+          "note": "Internet Archive mirror files are verified for durable public view/download; provider dataset page remains the canonical source.",
+          "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+          "fileUrl": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Health%20Research%20Board/hra20-hospital-discharges-including-deaths/hra20-hospital-discharges-including-deaths-csv.csv"
+        },
+        "shortCitation": "Health Research Board, data.gov.ie, HRA20 - Hospital Discharges (Including Deaths).",
+        "fullCitation": "Health Research Board, data.gov.ie. HRA20 - Hospital Discharges (Including Deaths). Current provider dataset URL: https://data.gov.ie/dataset/hra20-hospital-discharges-including-deaths. Civgraph raw source-document record.",
+        "sourceItems": [
+          {
+            "auditRowNumber": 5501,
+            "title": "HRA20 - Hospital Discharges (Including Deaths)",
+            "provider": "data.gov.ie",
+            "organisation": "Health Research Board",
+            "formats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ],
+            "category": "tabular",
+            "refinedStatus": "source-only or Browse/Books candidate",
+            "recommendedAction": "Publish as IA-hotlinked source/document/table records first; no runtime bundle unless cleaned/queryable.",
+            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download.",
+            "blockerCategories": [
+              "geography-matching",
+              "raw-source-hosting-and-viewport-policy",
+              "source-page-and-ia-viewport-decision"
+            ],
+            "detectedFamilies": [
+              "ni-district-electoral-areas"
+            ],
+            "siteFamiliesPresent": [
+              "ni-district-electoral-areas"
+            ],
+            "mirrorPolicy": "Internet Archive mirror verified; local mirror paths remain excluded from public output",
+            "providerDatasetUrl": "https://data.gov.ie/dataset/hra20-hospital-discharges-including-deaths",
+            "internetArchiveItem": "civgraph-data-gov-ie-raw-sources",
+            "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+            "internetArchiveFileCount": 4
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, and IA item metadata to confirm resource-level licence before structured reuse."
+        },
+        "approval": {
+          "recommendedAction": "publish as source/document/table record; do not create duplicate map or election parent",
+          "stagingId": "raw-source:data-gov-ie:hra20-hospital-discharges-including-deaths",
+          "confidence": "approved-convention",
+          "sourceType": "raw source-document corpus",
+          "provider": "Health Research Board; data.gov.ie"
+        },
+        "publicationStatus": "raw-source-staged; raw-source-mirrored-internet-archive",
+        "proposedBrowsePath": "Books / Tables / Sources > Raw source tables",
+        "relatedRecords": [
+          {
+            "kind": "database-map",
+            "id": "wq-rwq-soluble-phosphorus",
+            "title": "River Water Quality 1990–2018 — Soluble reactive phosphorus",
+            "score": 0.17
+          },
+          {
+            "kind": "database-map",
+            "id": "wq-rwq-alkalinity",
+            "title": "River Water Quality 1990–2018 — Alkalinity",
+            "score": 0.17
+          },
+          {
+            "kind": "database-map",
+            "id": "wq-rwq-conductivity",
+            "title": "River Water Quality 1990–2018 — Conductivity",
+            "score": 0.17
+          }
+        ],
+        "keywords": [
+          "raw-source-document",
+          "ia-ready",
+          "source-only",
+          "table",
+          "data.gov.ie",
+          "Health Research Board",
+          "CSV",
+          "JSON-STAT",
+          "PX",
+          "XLSX",
+          "ni-district-electoral-areas",
+          "internet-archive-mirror",
+          "raw-source-mirrored"
+        ],
+        "browseUrl": "/browse/sources/raw-source-data-gov-ie-hra20-hospital-discharges-including-deaths",
+        "iaMirror": {
+          "itemIdentifier": "civgraph-data-gov-ie-raw-sources",
+          "itemUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+          "mirrorStatus": "mirrored",
+          "verifiedAt": "2026-06-28T02:10:52.845Z",
+          "fileCount": 4
+        }
+      }
+    },
+    {
+      "id": "raw-source:data-gov-ie:hra27-hospital-discharges-including-deaths",
+      "slug": "raw-source-data-gov-ie-hra27-hospital-discharges-including-deaths",
+      "type": "raw-source-table",
+      "title": "HRA27 - Hospital Discharges (Including Deaths)",
+      "subtitle": "Health Research Board / data.gov.ie / CSV, JSON-STAT, PX, XLSX / Source-only",
+      "category": "Raw source tables",
+      "provider": [
+        "Health Research Board",
+        "data.gov.ie"
+      ],
+      "description": "HRA27 - Hospital Discharges (Including Deaths) is staged as a table source record from Health Research Board, data.gov.ie. The record is suitable for a Browse/Books/Tables source page with provider links now and IA-hotlinked viewport/download links once the public IA item/file URLs are attached. No map conversion or deep semantic modelling is implied by this source-only record. Formats observed in the local audit: CSV, JSON-STAT, PX, XLSX.",
+      "url": "https://data.gov.ie/dataset/hra27-hospital-discharges-including-deaths",
+      "references": [
+        {
+          "label": "HRA27 - Hospital Discharges (Including Deaths) provider dataset page",
+          "url": "https://data.gov.ie/dataset/hra27-hospital-discharges-including-deaths",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-dataset"
+        },
+        {
+          "label": "HRA27 - Hospital Discharges (Including Deaths) Internet Archive source mirror",
+          "url": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+          "source": "Internet Archive",
+          "role": "source-mirror"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset page",
+          "url": "https://data.gov.ie/dataset/hra27-hospital-discharges-including-deaths",
+          "type": "dataset-page"
+        },
+        {
+          "label": "Internet Archive mirror - hra27-hospital-discharges-including-deaths-csv.csv",
+          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Health%20Research%20Board/hra27-hospital-discharges-including-deaths/hra27-hospital-discharges-including-deaths-csv.csv",
+          "type": "CSV"
+        },
+        {
+          "label": "Internet Archive mirror - hra27-hospital-discharges-including-deaths-json-stat.json",
+          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Health%20Research%20Board/hra27-hospital-discharges-including-deaths/hra27-hospital-discharges-including-deaths-json-stat.json",
+          "type": "json-stat"
+        },
+        {
+          "label": "Internet Archive mirror - hra27-hospital-discharges-including-deaths-px.px",
+          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Health%20Research%20Board/hra27-hospital-discharges-including-deaths/hra27-hospital-discharges-including-deaths-px.px",
+          "type": "px"
+        },
+        {
+          "label": "Internet Archive mirror - hra27-hospital-discharges-including-deaths-xlsx.xlsx",
+          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Health%20Research%20Board/hra27-hospital-discharges-including-deaths/hra27-hospital-discharges-including-deaths-xlsx.xlsx",
+          "type": "XLSX"
+        }
+      ],
+      "keywords": [
+        "raw-source-document",
+        "ia-ready",
+        "source-only",
+        "table",
+        "data.gov.ie",
+        "Health Research Board",
+        "CSV",
+        "JSON-STAT",
+        "PX",
+        "XLSX",
+        "ni-district-electoral-areas",
+        "internet-archive-mirror",
+        "raw-source-mirrored"
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 5502,
+          "title": "HRA27 - Hospital Discharges (Including Deaths)",
+          "provider": "data.gov.ie",
+          "organisation": "Health Research Board",
+          "formats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ],
+          "category": "tabular",
+          "refinedStatus": "source-only or Browse/Books candidate",
+          "recommendedAction": "Publish as IA-hotlinked source/document/table records first; no runtime bundle unless cleaned/queryable.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download.",
+          "blockerCategories": [
+            "geography-matching",
+            "raw-source-hosting-and-viewport-policy",
+            "source-page-and-ia-viewport-decision"
+          ],
+          "detectedFamilies": [
+            "ni-district-electoral-areas"
+          ],
+          "siteFamiliesPresent": [
+            "ni-district-electoral-areas"
+          ],
+          "mirrorPolicy": "Internet Archive mirror verified; local mirror paths remain excluded from public output",
+          "providerDatasetUrl": "https://data.gov.ie/dataset/hra27-hospital-discharges-including-deaths",
+          "internetArchiveItem": "civgraph-data-gov-ie-raw-sources",
+          "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+          "internetArchiveFileCount": 4
+        }
+      ],
+      "status": "Source only",
+      "statusChips": [
+        "Source only",
+        "Preview available",
+        "Download available",
+        "Needs review",
+        "Mirror available"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "data.gov.ie",
+        "Health Research Board",
+        "HRA27 - Hospital Discharges (Including Deaths)"
+      ],
+      "viewport": {
+        "status": "mirror-preview-ready",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "spreadsheet"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/hra27-hospital-discharges-including-deaths",
+        "note": "Internet Archive mirror files are verified for durable public view/download; provider dataset page remains the canonical source.",
+        "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+        "fileUrl": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Health%20Research%20Board/hra27-hospital-discharges-including-deaths/hra27-hospital-discharges-including-deaths-csv.csv"
+      },
+      "shortCitation": "Health Research Board, data.gov.ie, HRA27 - Hospital Discharges (Including Deaths).",
+      "fullCitation": "Health Research Board, data.gov.ie. HRA27 - Hospital Discharges (Including Deaths). Current provider dataset URL: https://data.gov.ie/dataset/hra27-hospital-discharges-including-deaths. Civgraph raw source-document record.",
+      "relatedRecords": [
+        {
+          "kind": "database-map",
+          "id": "wq-rwq-soluble-phosphorus",
+          "title": "River Water Quality 1990–2018 — Soluble reactive phosphorus",
+          "score": 0.17
+        },
+        {
+          "kind": "database-map",
+          "id": "wq-rwq-alkalinity",
+          "title": "River Water Quality 1990–2018 — Alkalinity",
+          "score": 0.17
+        },
+        {
+          "kind": "database-map",
+          "id": "wq-rwq-conductivity",
+          "title": "River Water Quality 1990–2018 — Conductivity",
+          "score": 0.17
+        }
+      ],
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, and IA item metadata to confirm resource-level licence before structured reuse."
+      },
+      "approval": {
+        "recommendedAction": "publish as source/document/table record; do not create duplicate map or election parent",
+        "stagingId": "raw-source:data-gov-ie:hra27-hospital-discharges-including-deaths",
+        "confidence": "approved-convention",
+        "sourceType": "raw source-document corpus",
+        "provider": "Health Research Board; data.gov.ie"
+      },
+      "publicationStatus": "raw-source-staged; raw-source-mirrored-internet-archive",
+      "proposedBrowsePath": "Books / Tables / Sources > Raw source tables",
+      "browseUrl": "/browse/sources/raw-source-data-gov-ie-hra27-hospital-discharges-including-deaths",
+      "rawMetadata": {
+        "id": "raw-source:data-gov-ie:hra27-hospital-discharges-including-deaths",
+        "slug": "raw-source-data-gov-ie-hra27-hospital-discharges-including-deaths",
+        "type": "raw-source-table",
+        "title": "HRA27 - Hospital Discharges (Including Deaths)",
+        "subtitle": "Health Research Board / data.gov.ie / CSV, JSON-STAT, PX, XLSX / Source-only",
+        "category": "Raw source tables",
+        "provider": [
+          "Health Research Board",
+          "data.gov.ie"
+        ],
+        "description": "HRA27 - Hospital Discharges (Including Deaths) is staged as a table source record from Health Research Board, data.gov.ie. The record is suitable for a Browse/Books/Tables source page with provider links now and IA-hotlinked viewport/download links once the public IA item/file URLs are attached. No map conversion or deep semantic modelling is implied by this source-only record. Formats observed in the local audit: CSV, JSON-STAT, PX, XLSX.",
+        "url": "https://data.gov.ie/dataset/hra27-hospital-discharges-including-deaths",
+        "references": [
+          {
+            "label": "HRA27 - Hospital Discharges (Including Deaths) provider dataset page",
+            "url": "https://data.gov.ie/dataset/hra27-hospital-discharges-including-deaths",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-dataset",
+            "status": "inferred-from-provider-slug"
+          },
+          {
+            "label": "HRA27 - Hospital Discharges (Including Deaths) Internet Archive source mirror",
+            "url": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+            "source": "Internet Archive",
+            "role": "source-mirror",
+            "status": "verified"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset page",
+            "url": "https://data.gov.ie/dataset/hra27-hospital-discharges-including-deaths",
+            "type": "dataset-page",
+            "status": "resource downloads listed by provider dataset page"
+          },
+          {
+            "label": "Internet Archive mirror - hra27-hospital-discharges-including-deaths-csv.csv",
+            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Health%20Research%20Board/hra27-hospital-discharges-including-deaths/hra27-hospital-discharges-including-deaths-csv.csv",
+            "type": "CSV",
+            "size": 230932,
+            "sha256": "508d86c03829a634f65e51e9ef4ffa269fd6a873d507b15308d5b094bfa290cf",
+            "status": "verified Internet Archive mirror",
+            "source": "Internet Archive"
+          },
+          {
+            "label": "Internet Archive mirror - hra27-hospital-discharges-including-deaths-json-stat.json",
+            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Health%20Research%20Board/hra27-hospital-discharges-including-deaths/hra27-hospital-discharges-including-deaths-json-stat.json",
+            "type": "json-stat",
+            "size": 10494,
+            "sha256": "a00bb540ec90afbb800b24bdad510b64871fa7cdbd70a76b505c5265aab7d32f",
+            "status": "verified Internet Archive mirror",
+            "source": "Internet Archive"
+          },
+          {
+            "label": "Internet Archive mirror - hra27-hospital-discharges-including-deaths-px.px",
+            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Health%20Research%20Board/hra27-hospital-discharges-including-deaths/hra27-hospital-discharges-including-deaths-px.px",
+            "type": "px",
+            "size": 10242,
+            "sha256": "cd5b889e6efa9fcd5906e4c90e4e40c688d87c021f5f5b6ab6a45e7b9e50675e",
+            "status": "verified Internet Archive mirror",
+            "source": "Internet Archive"
+          },
+          {
+            "label": "Internet Archive mirror - hra27-hospital-discharges-including-deaths-xlsx.xlsx",
+            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Health%20Research%20Board/hra27-hospital-discharges-including-deaths/hra27-hospital-discharges-including-deaths-xlsx.xlsx",
+            "type": "XLSX",
+            "size": 102649,
+            "sha256": "246df513a054808ca99c8026a90b3d9eba75f1e8112f53f4fb253b953fb1cd42",
+            "status": "verified Internet Archive mirror",
+            "source": "Internet Archive"
+          }
+        ],
+        "status": "Source only",
+        "statusChips": [
+          "Source only",
+          "Preview available",
+          "Download available",
+          "Needs review",
+          "Mirror available"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "data.gov.ie",
+          "Health Research Board",
+          "HRA27 - Hospital Discharges (Including Deaths)"
+        ],
+        "viewport": {
+          "status": "mirror-preview-ready",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "spreadsheet"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/hra27-hospital-discharges-including-deaths",
+          "note": "Internet Archive mirror files are verified for durable public view/download; provider dataset page remains the canonical source.",
+          "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+          "fileUrl": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Health%20Research%20Board/hra27-hospital-discharges-including-deaths/hra27-hospital-discharges-including-deaths-csv.csv"
+        },
+        "shortCitation": "Health Research Board, data.gov.ie, HRA27 - Hospital Discharges (Including Deaths).",
+        "fullCitation": "Health Research Board, data.gov.ie. HRA27 - Hospital Discharges (Including Deaths). Current provider dataset URL: https://data.gov.ie/dataset/hra27-hospital-discharges-including-deaths. Civgraph raw source-document record.",
+        "sourceItems": [
+          {
+            "auditRowNumber": 5502,
+            "title": "HRA27 - Hospital Discharges (Including Deaths)",
+            "provider": "data.gov.ie",
+            "organisation": "Health Research Board",
+            "formats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ],
+            "category": "tabular",
+            "refinedStatus": "source-only or Browse/Books candidate",
+            "recommendedAction": "Publish as IA-hotlinked source/document/table records first; no runtime bundle unless cleaned/queryable.",
+            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download.",
+            "blockerCategories": [
+              "geography-matching",
+              "raw-source-hosting-and-viewport-policy",
+              "source-page-and-ia-viewport-decision"
+            ],
+            "detectedFamilies": [
+              "ni-district-electoral-areas"
+            ],
+            "siteFamiliesPresent": [
+              "ni-district-electoral-areas"
+            ],
+            "mirrorPolicy": "Internet Archive mirror verified; local mirror paths remain excluded from public output",
+            "providerDatasetUrl": "https://data.gov.ie/dataset/hra27-hospital-discharges-including-deaths",
+            "internetArchiveItem": "civgraph-data-gov-ie-raw-sources",
+            "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+            "internetArchiveFileCount": 4
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, and IA item metadata to confirm resource-level licence before structured reuse."
+        },
+        "approval": {
+          "recommendedAction": "publish as source/document/table record; do not create duplicate map or election parent",
+          "stagingId": "raw-source:data-gov-ie:hra27-hospital-discharges-including-deaths",
+          "confidence": "approved-convention",
+          "sourceType": "raw source-document corpus",
+          "provider": "Health Research Board; data.gov.ie"
+        },
+        "publicationStatus": "raw-source-staged; raw-source-mirrored-internet-archive",
+        "proposedBrowsePath": "Books / Tables / Sources > Raw source tables",
+        "relatedRecords": [
+          {
+            "kind": "database-map",
+            "id": "wq-rwq-soluble-phosphorus",
+            "title": "River Water Quality 1990–2018 — Soluble reactive phosphorus",
+            "score": 0.17
+          },
+          {
+            "kind": "database-map",
+            "id": "wq-rwq-alkalinity",
+            "title": "River Water Quality 1990–2018 — Alkalinity",
+            "score": 0.17
+          },
+          {
+            "kind": "database-map",
+            "id": "wq-rwq-conductivity",
+            "title": "River Water Quality 1990–2018 — Conductivity",
+            "score": 0.17
+          }
+        ],
+        "keywords": [
+          "raw-source-document",
+          "ia-ready",
+          "source-only",
+          "table",
+          "data.gov.ie",
+          "Health Research Board",
+          "CSV",
+          "JSON-STAT",
+          "PX",
+          "XLSX",
+          "ni-district-electoral-areas",
+          "internet-archive-mirror",
+          "raw-source-mirrored"
+        ],
+        "browseUrl": "/browse/sources/raw-source-data-gov-ie-hra27-hospital-discharges-including-deaths",
+        "iaMirror": {
+          "itemIdentifier": "civgraph-data-gov-ie-raw-sources",
+          "itemUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+          "mirrorStatus": "mirrored",
+          "verifiedAt": "2026-06-28T02:10:52.845Z",
+          "fileCount": 4
+        }
+      }
+    },
     {
       "id": "raw-source:data-gov-ie:hra28-hospital-discharges-including-deaths",
       "slug": "raw-source-data-gov-ie-hra28-hospital-discharges-including-deaths",
@@ -58311,204 +59379,6 @@
         ],
         "source": {
           "title": "NISRA Census 2021, Main Statistics Phase 1, MS-G01 (Highest level of qualifications)",
-          "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
-        }
-      }
-    },
-    {
-      "id": "table:data-2021-level-4-plus-ward",
-      "slug": "table-data-2021-level-4-plus-ward",
-      "type": "table",
-      "title": "Level 4+ qualifications (Census 2021, by Ward 2014)",
-      "subtitle": "data-population",
-      "category": "data-population",
-      "description": "Level 4+ qualifications (Ward 2014) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
-      "thumbnail": {
-        "kind": "asset",
-        "id": "wards-2012",
-        "url": "/assets/thumbnails/wards-2012.webp",
-        "smallUrl": "/assets/thumbnails/wards-2012-60.webp",
-        "alt": "Level 4+ qualifications (Census 2021, by Ward 2014)"
-      },
-      "references": [
-        {
-          "label": "NISRA Census 2021, Main Statistics Phase 1, MS-G01 (Highest level of qualifications)",
-          "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "ms-g01-level-4-plus-ward.csv",
-          "url": "data/census/derived/ms-g01-level-4-plus-ward.csv"
-        }
-      ],
-      "browseUrl": "/browse/sources/table-data-2021-level-4-plus-ward",
-      "rawMetadata": {
-        "id": "data-2021-level-4-plus-ward",
-        "type": "data-entry",
-        "name": "Level 4+ qualifications (Census 2021, by Ward 2014)",
-        "slug": "data-2021-level-4-plus-ward",
-        "category": "data-population",
-        "description": "Level 4+ qualifications (Ward 2014) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
-        "geography": "wards-2012",
-        "csv": "data/census/derived/ms-g01-level-4-plus-ward.csv",
-        "joinKey": "WardCode",
-        "csvKeyColumn": "GeographyCode",
-        "valueColumn": "Level4Plus_pct",
-        "ramp": "viridis",
-        "domain": [
-          15,
-          55
-        ],
-        "logarithmic": false,
-        "tableColumns": [
-          "Geography",
-          "Total",
-          "Level4Plus",
-          "Level4Plus_pct"
-        ],
-        "keywords": [
-          "census",
-          "2021",
-          "nisra",
-          "data",
-          "level 4 plus",
-          "ward 2014"
-        ],
-        "source": {
-          "title": "NISRA Census 2021, Main Statistics Phase 1, MS-G01 (Highest level of qualifications)",
-          "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
-        }
-      }
-    },
-    {
-      "id": "table:data-2021-limiting-condition-lgd",
-      "slug": "table-data-2021-limiting-condition-lgd",
-      "type": "table",
-      "title": "Day-to-day activities limited (Census 2021, by LGD)",
-      "subtitle": "data-population",
-      "category": "data-population",
-      "description": "Day-to-day activities limited (LGD) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
-      "thumbnail": {
-        "kind": "asset",
-        "id": "lgd-2012",
-        "url": "/assets/thumbnails/lgd-2012.webp",
-        "smallUrl": "/assets/thumbnails/lgd-2012-60.webp",
-        "alt": "Day-to-day activities limited (Census 2021, by LGD)"
-      },
-      "references": [
-        {
-          "label": "NISRA Census 2021, Main Statistics Phase 1, MS-D02 (Long-term health problem or disability)",
-          "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "ms-d02-limiting-condition-lgd.csv",
-          "url": "data/census/derived/ms-d02-limiting-condition-lgd.csv"
-        }
-      ],
-      "browseUrl": "/browse/sources/table-data-2021-limiting-condition-lgd",
-      "rawMetadata": {
-        "id": "data-2021-limiting-condition-lgd",
-        "type": "data-entry",
-        "name": "Day-to-day activities limited (Census 2021, by LGD)",
-        "slug": "data-2021-limiting-condition-lgd",
-        "category": "data-population",
-        "description": "Day-to-day activities limited (LGD) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
-        "geography": "lgd-2012",
-        "csv": "data/census/derived/ms-d02-limiting-condition-lgd.csv",
-        "joinKey": "LGDCode",
-        "csvKeyColumn": "GeographyCode",
-        "valueColumn": "LimitingCondition_pct",
-        "ramp": "viridis",
-        "domain": [
-          20,
-          28
-        ],
-        "logarithmic": false,
-        "tableColumns": [
-          "Geography",
-          "Total",
-          "LimitingCondition",
-          "LimitingCondition_pct"
-        ],
-        "keywords": [
-          "census",
-          "2021",
-          "nisra",
-          "data",
-          "limiting condition",
-          "lgd"
-        ],
-        "source": {
-          "title": "NISRA Census 2021, Main Statistics Phase 1, MS-D02 (Long-term health problem or disability)",
-          "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
-        }
-      }
-    },
-    {
-      "id": "table:data-2021-limiting-condition-settlement",
-      "slug": "table-data-2021-limiting-condition-settlement",
-      "type": "table",
-      "title": "Day-to-day activities limited (Census 2021, by Settlement)",
-      "subtitle": "data-population",
-      "category": "data-population",
-      "description": "Day-to-day activities limited (Settlement) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
-      "thumbnail": {
-        "kind": "asset",
-        "id": "settlements-2015",
-        "url": "/assets/thumbnails/settlements-2015.webp",
-        "smallUrl": "/assets/thumbnails/settlements-2015-60.webp",
-        "alt": "Day-to-day activities limited (Census 2021, by Settlement)"
-      },
-      "references": [
-        {
-          "label": "NISRA Census 2021, Main Statistics Phase 1, MS-D02 (Long-term health problem or disability)",
-          "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "ms-d02-limiting-condition-settlement.csv",
-          "url": "data/census/derived/ms-d02-limiting-condition-settlement.csv"
-        }
-      ],
-      "browseUrl": "/browse/sources/table-data-2021-limiting-condition-settlement",
-      "rawMetadata": {
-        "id": "data-2021-limiting-condition-settlement",
-        "type": "data-entry",
-        "name": "Day-to-day activities limited (Census 2021, by Settlement)",
-        "slug": "data-2021-limiting-condition-settlement",
-        "category": "data-population",
-        "description": "Day-to-day activities limited (Settlement) from the 2021 NI Census, recorded by NISRA. Each polygon is shaded by the percentage on a viridis colour ramp; the table panel that opens at the bottom right shows the underlying count and population denominator.",
-        "geography": "settlements-2015",
-        "csv": "data/census/derived/ms-d02-limiting-condition-settlement.csv",
-        "joinKey": "Code",
-        "csvKeyColumn": "GeographyCode",
-        "valueColumn": "LimitingCondition_pct",
-        "ramp": "viridis",
-        "domain": [
-          13,
-          33
-        ],
-        "logarithmic": false,
-        "tableColumns": [
-          "Geography",
-          "Total",
-          "LimitingCondition",
-          "LimitingCondition_pct"
-        ],
-        "keywords": [
-          "census",
-          "2021",
-          "nisra",
-          "data",
-          "limiting condition",
-          "settlement"
-        ],
-        "source": {
-          "title": "NISRA Census 2021, Main Statistics Phase 1, MS-D02 (Long-term health problem or disability)",
           "url": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
         }
       }
