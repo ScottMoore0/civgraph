@@ -558,7 +558,18 @@
       "scope": "Republic of Ireland",
       "category": "local-government",
       "maps": [
-        "roi-lea-2008"
+        "roi-lea-2008",
+        "roi-lea-2014",
+        "roi-lea-2019"
+      ]
+    },
+    {
+      "id": "roi-municipal-districts",
+      "name": "Municipal Districts",
+      "scope": "Republic of Ireland",
+      "category": "local-government",
+      "maps": [
+        "roi-municipal-districts-2019"
       ]
     },
     {
@@ -2033,6 +2044,111 @@
       ],
       "labelProperty": "LEA",
       "useLOD": true
+    },
+    {
+      "id": "roi-lea-2019",
+      "name": "Local Electoral Areas 2019",
+      "slug": "roi-lea-2019",
+      "category": "local-government",
+      "date": "2019",
+      "provider": [
+        "Tailte Éireann"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/local-government/ROI_LEA_2019.fgb"
+      },
+      "style": {
+        "color": "#7B1FA2",
+        "weight": 2
+      },
+      "keywords": [
+        "local electoral areas",
+        "LEA",
+        "republic of ireland",
+        "ireland",
+        "council elections",
+        "national statutory boundaries",
+        "2019"
+      ],
+      "labelProperty": "ENGLISH",
+      "useLOD": true,
+      "references": [
+        {
+          "label": "data.gov.ie — Local Electoral Areas - National Statutory Boundaries - 2019",
+          "url": "https://data.gov.ie/dataset/local-electoral-areas-national-statutory-boundaries-20191",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "roi-lea-2014",
+      "name": "Local Electoral Areas 2014",
+      "slug": "roi-lea-2014",
+      "category": "local-government",
+      "date": "2014",
+      "provider": [
+        "Tailte Éireann"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/local-government/ROI_LEA_2014.fgb"
+      },
+      "style": {
+        "color": "#9C27B0",
+        "weight": 2
+      },
+      "keywords": [
+        "local electoral areas",
+        "LEA",
+        "republic of ireland",
+        "ireland",
+        "council elections",
+        "national administrative boundaries",
+        "2014"
+      ],
+      "labelProperty": "LE_ENGLISH",
+      "useLOD": true,
+      "references": [
+        {
+          "label": "data.gov.ie — Local Electoral Areas Boundaries Ungeneralised - National Administrative Boundaries - 2015",
+          "url": "https://data.gov.ie/dataset/local-electoral-areas-boundaries-ungeneralised-national-administrative-boundaries-20151",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "roi-municipal-districts-2019",
+      "name": "Municipal Districts 2019",
+      "slug": "roi-municipal-districts-2019",
+      "category": "local-government",
+      "date": "2019",
+      "provider": [
+        "Tailte Éireann"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/local-government/ROI_Municipal_Districts_2019.fgb"
+      },
+      "style": {
+        "color": "#00838F",
+        "weight": 2
+      },
+      "keywords": [
+        "municipal districts",
+        "MD",
+        "republic of ireland",
+        "ireland",
+        "local government",
+        "national statutory boundaries",
+        "2019"
+      ],
+      "labelProperty": "ENGLISH",
+      "useLOD": true,
+      "references": [
+        {
+          "label": "data.gov.ie — Municipal Districts - National Statutory Boundaries - 2019",
+          "url": "https://data.gov.ie/dataset/municipal-districts-national-statutory-boundaries-20191",
+          "note": ""
+        }
+      ]
     },
     {
       "id": "roi-small-areas-2022",
