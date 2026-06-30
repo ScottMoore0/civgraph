@@ -15,6 +15,7 @@ import fsp from "node:fs/promises";
 import { Agent as HttpsAgent, request as httpsRequest } from "node:https";
 import path from "node:path";
 import { performance } from "node:perf_hooks";
+import { pathToFileURL } from "node:url";
 import readline from "node:readline";
 
 const BASE = "https://apps.proni.gov.uk/eCatNI_IE/";
@@ -1191,18 +1192,36 @@ async function runScan(options) {
   return summary;
 }
 
-const options = parseArgs(process.argv.slice(2));
-if (options.help) {
-  console.log(usage());
-  process.exit(0);
-}
+export {
+  parseArgs,
+  makeStats,
+  Session,
+  startBrowseLetter,
+  clickSelect,
+  clickSelectByRef,
+  clickNext,
+  openBranchPage,
+  clickMore,
+  parseGridRows,
+  findNextButton,
+  extractDetailFields,
+  BASE,
+};
 
-runScan(options)
-  .then((summary) => {
-    console.log(`PRONI_DETAIL_QUICK_SCAN_SUMMARY ${path.join(summary.outDir, "summary.json")}`);
-    console.log(JSON.stringify(summary, null, 2));
-  })
-  .catch((error) => {
-    console.error(error);
-    process.exitCode = 1;
-  });
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  const options = parseArgs(process.argv.slice(2));
+  if (options.help) {
+    console.log(usage());
+    process.exit(0);
+  }
+
+  runScan(options)
+    .then((summary) => {
+      console.log(`PRONI_DETAIL_QUICK_SCAN_SUMMARY ${path.join(summary.outDir, "summary.json")}`);
+      console.log(JSON.stringify(summary, null, 2));
+    })
+    .catch((error) => {
+      console.error(error);
+      process.exitCode = 1;
+    });
+}
