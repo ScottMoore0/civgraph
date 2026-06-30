@@ -1,10 +1,1020 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T17:47:01.808Z",
+  "generatedAt": "2026-06-30T18:42:53.573Z",
   "kind": "sources",
   "shard": "sources-041.json",
   "total": 200,
   "items": [
+    {
+      "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:townlands-national-placenames-gazetteer1:00085",
+      "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-townlands-national-placenames-gazetteer1-00085",
+      "type": "approved-medium-priority-source",
+      "title": "Townlands - National Placenames Gazetteer",
+      "subtitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA / Tailte Éireann, Tailte/OSI/data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, GDB, GEOJSON, GPKG, HTML, KML, TXT, XLSX, ZIP / Source record; runtime review pending",
+      "category": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+      "provider": [
+        "Tailte Éireann",
+        "Tailte/OSI/data.gov.ie"
+      ],
+      "description": "Townlands - National Placenames Gazetteer is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; large-or-special-format-review: size/format decision remains before runtime publication.",
+      "url": "https://data.gov.ie/dataset/townlands-national-placenames-gazetteer1",
+      "references": [
+        {
+          "label": "Townlands - National Placenames Gazetteer provider page",
+          "url": "https://data.gov.ie/dataset/townlands-national-placenames-gazetteer1",
+          "source": "Tailte/OSI/data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "Townlands - National Placenames Gazetteer Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/townlands-national-placenames-gazetteer1",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/townlands-national-placenames-gazetteer1",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "source-record-with-runtime-review",
+        "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+        "boundary",
+        "townlands",
+        "Republic of Ireland",
+        "hold-special-format",
+        "ARCGIS GEOSERVICES REST API",
+        "CSV",
+        "GDB",
+        "GEOJSON",
+        "GPKG",
+        "HTML",
+        "KML",
+        "TXT",
+        "XLSX",
+        "ZIP",
+        "review:duplicate-or-variant-review-no-existing-match-candidate",
+        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 86,
+          "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:townlands-national-placenames-gazetteer1:00085",
+          "title": "Townlands - National Placenames Gazetteer",
+          "cleanTitle": "Townlands - National Placenames Gazetteer",
+          "provider": "Tailte/OSI/data.gov.ie",
+          "organisation": "Tailte Éireann",
+          "category": "spatial",
+          "roiGroup": "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+          "groupTitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+          "jurisdiction": "Republic of Ireland",
+          "topic": "boundary",
+          "featureUnit": "townlands",
+          "formats": [
+            "ARCGIS GEOSERVICES REST API",
+            "CSV",
+            "GDB",
+            "GEOJSON",
+            "GPKG",
+            "HTML",
+            "KML",
+            "TXT",
+            "XLSX",
+            "ZIP"
+          ],
+          "isSpatial": true,
+          "isLargeOrSpecial": true,
+          "proposedAction": "hold-special-format",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "download/source viewport first",
+            "conversion": "Do not convert until size/format review approves an interactive derivative.",
+            "sourceFormats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GDB",
+              "GEOJSON",
+              "GPKG",
+              "HTML",
+              "KML",
+              "TXT",
+              "XLSX",
+              "ZIP"
+            ]
+          },
+          "approvalState": "ready-with-residual-review",
+          "sourcePublicationState": "public source record with runtime/semantic review still pending",
+          "confidence": 45,
+          "currentProviderUrl": "https://data.gov.ie/dataset/townlands-national-placenames-gazetteer1",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/townlands-national-placenames-gazetteer1",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "geography-crosswalk-and-versioning: geography family inferred",
+            "geography-matching: geography family inferred",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate",
+            "large-or-special-format-review: size/format decision remains before runtime publication"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Match to canonical townland generation/version; retain provider/source version as a variant if geometry differs.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        }
+      ],
+      "status": "Source only",
+      "statusChips": [
+        "Source record",
+        "Runtime review pending",
+        "Spatial source",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+        "Republic of Ireland",
+        "boundary",
+        "Townlands - National Placenames Gazetteer"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "spreadsheet",
+          "download-only"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/townlands-national-placenames-gazetteer1",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/townlands-national-placenames-gazetteer1",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "Do not convert until size/format review approves an interactive derivative."
+      },
+      "shortCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie, Townlands - National Placenames Gazetteer.",
+      "fullCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie. Townlands - National Placenames Gazetteer. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/townlands-national-placenames-gazetteer1. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/townlands-national-placenames-gazetteer1.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:townlands-national-placenames-gazetteer1:00085",
+        "sourceRowNumber": 86,
+        "approvalState": "ready-with-residual-review",
+        "recommendedAction": "publish source record; hold runtime conversion pending size/format review",
+        "proposedAction": "hold-special-format",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "download/source viewport first",
+          "conversion": "Do not convert until size/format review approves an interactive derivative.",
+          "sourceFormats": [
+            "ARCGIS GEOSERVICES REST API",
+            "CSV",
+            "GDB",
+            "GEOJSON",
+            "GPKG",
+            "HTML",
+            "KML",
+            "TXT",
+            "XLSX",
+            "ZIP"
+          ]
+        },
+        "confidence": 45,
+        "residualBlockers": [
+          "duplicate-or-variant-review: no existing match candidate",
+          "large-or-special-format-review: size/format decision remains before runtime publication"
+        ],
+        "resolvedBlockers": [
+          "geography-crosswalk-and-versioning: geography family inferred",
+          "geography-matching: geography family inferred",
+          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+        ],
+        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+        "geographyRecommendation": "Match to canonical townland generation/version; retain provider/source version as a variant if geometry differs.",
+        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+      },
+      "publicationStatus": "source-record-with-runtime-review",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-townlands-national-placenames-gazetteer1-00085",
+      "rawMetadata": {
+        "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:townlands-national-placenames-gazetteer1:00085",
+        "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-townlands-national-placenames-gazetteer1-00085",
+        "type": "approved-medium-priority-source",
+        "title": "Townlands - National Placenames Gazetteer",
+        "subtitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA / Tailte Éireann, Tailte/OSI/data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, GDB, GEOJSON, GPKG, HTML, KML, TXT, XLSX, ZIP / Source record; runtime review pending",
+        "category": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+        "provider": [
+          "Tailte Éireann",
+          "Tailte/OSI/data.gov.ie"
+        ],
+        "description": "Townlands - National Placenames Gazetteer is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; large-or-special-format-review: size/format decision remains before runtime publication.",
+        "url": "https://data.gov.ie/dataset/townlands-national-placenames-gazetteer1",
+        "references": [
+          {
+            "label": "Townlands - National Placenames Gazetteer provider page",
+            "url": "https://data.gov.ie/dataset/townlands-national-placenames-gazetteer1",
+            "source": "Tailte/OSI/data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "Townlands - National Placenames Gazetteer Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/townlands-national-placenames-gazetteer1",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/townlands-national-placenames-gazetteer1",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source only",
+        "statusChips": [
+          "Source record",
+          "Runtime review pending",
+          "Spatial source",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+          "Republic of Ireland",
+          "boundary",
+          "Townlands - National Placenames Gazetteer"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "spreadsheet",
+            "download-only"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/townlands-national-placenames-gazetteer1",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/townlands-national-placenames-gazetteer1",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "Do not convert until size/format review approves an interactive derivative."
+        },
+        "shortCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie, Townlands - National Placenames Gazetteer.",
+        "fullCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie. Townlands - National Placenames Gazetteer. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/townlands-national-placenames-gazetteer1. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/townlands-national-placenames-gazetteer1.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 86,
+            "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:townlands-national-placenames-gazetteer1:00085",
+            "title": "Townlands - National Placenames Gazetteer",
+            "cleanTitle": "Townlands - National Placenames Gazetteer",
+            "provider": "Tailte/OSI/data.gov.ie",
+            "organisation": "Tailte Éireann",
+            "category": "spatial",
+            "roiGroup": "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+            "groupTitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+            "jurisdiction": "Republic of Ireland",
+            "topic": "boundary",
+            "featureUnit": "townlands",
+            "formats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GDB",
+              "GEOJSON",
+              "GPKG",
+              "HTML",
+              "KML",
+              "TXT",
+              "XLSX",
+              "ZIP"
+            ],
+            "isSpatial": true,
+            "isLargeOrSpecial": true,
+            "proposedAction": "hold-special-format",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "download/source viewport first",
+              "conversion": "Do not convert until size/format review approves an interactive derivative.",
+              "sourceFormats": [
+                "ARCGIS GEOSERVICES REST API",
+                "CSV",
+                "GDB",
+                "GEOJSON",
+                "GPKG",
+                "HTML",
+                "KML",
+                "TXT",
+                "XLSX",
+                "ZIP"
+              ]
+            },
+            "approvalState": "ready-with-residual-review",
+            "sourcePublicationState": "public source record with runtime/semantic review still pending",
+            "confidence": 45,
+            "currentProviderUrl": "https://data.gov.ie/dataset/townlands-national-placenames-gazetteer1",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/townlands-national-placenames-gazetteer1",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "geography-crosswalk-and-versioning: geography family inferred",
+              "geography-matching: geography family inferred",
+              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+            ],
+            "residualBlockers": [
+              "duplicate-or-variant-review: no existing match candidate",
+              "large-or-special-format-review: size/format decision remains before runtime publication"
+            ],
+            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+            "geographyRecommendation": "Match to canonical townland generation/version; retain provider/source version as a variant if geometry differs.",
+            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:townlands-national-placenames-gazetteer1:00085",
+          "sourceRowNumber": 86,
+          "approvalState": "ready-with-residual-review",
+          "recommendedAction": "publish source record; hold runtime conversion pending size/format review",
+          "proposedAction": "hold-special-format",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "download/source viewport first",
+            "conversion": "Do not convert until size/format review approves an interactive derivative.",
+            "sourceFormats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GDB",
+              "GEOJSON",
+              "GPKG",
+              "HTML",
+              "KML",
+              "TXT",
+              "XLSX",
+              "ZIP"
+            ]
+          },
+          "confidence": 45,
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate",
+            "large-or-special-format-review: size/format decision remains before runtime publication"
+          ],
+          "resolvedBlockers": [
+            "geography-crosswalk-and-versioning: geography family inferred",
+            "geography-matching: geography family inferred",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Match to canonical townland generation/version; retain provider/source version as a variant if geometry differs.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        },
+        "publicationStatus": "source-record-with-runtime-review",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "source-record-with-runtime-review",
+          "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+          "boundary",
+          "townlands",
+          "Republic of Ireland",
+          "hold-special-format",
+          "ARCGIS GEOSERVICES REST API",
+          "CSV",
+          "GDB",
+          "GEOJSON",
+          "GPKG",
+          "HTML",
+          "KML",
+          "TXT",
+          "XLSX",
+          "ZIP",
+          "review:duplicate-or-variant-review-no-existing-match-candidate",
+          "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-townlands-national-placenames-gazetteer1-00085"
+      }
+    },
+    {
+      "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:townlands-national-statutory-boundaries-2019-generalised-20m1:00087",
+      "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-townlands-national-statutory-boundaries-2019-generalised-20m1-00087",
+      "type": "approved-medium-priority-source",
+      "title": "Townlands - National Statutory Boundaries - 2019 - Generalised 20m",
+      "subtitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA / Tailte Éireann, Tailte/OSI/data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, GDB, GEOJSON, GPKG, HTML, KML, TXT, XLSX, ZIP / Source record; runtime review pending",
+      "category": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+      "date": "2019",
+      "provider": [
+        "Tailte Éireann",
+        "Tailte/OSI/data.gov.ie"
+      ],
+      "description": "Townlands - National Statutory Boundaries - 2019 - Generalised 20m is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; large-or-special-format-review: size/format decision remains before runtime publication. 1 ArcGIS metadata item staged as provenance for this existing Civgraph record; owner/provider: TailteEireannMapGenie; ArcGIS item ID: 1dc58c98ab004234ad0445e79a0f9af7; modified: 2026-02-05; access: public; 1 service link preserved as references; licence note: The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion.",
+      "url": "https://data.gov.ie/dataset/townlands-national-statutory-boundaries-2019-generalised-20m1",
+      "references": [
+        {
+          "label": "Townlands - National Statutory Boundaries - 2019 - Generalised 20m provider page",
+          "url": "https://data.gov.ie/dataset/townlands-national-statutory-boundaries-2019-generalised-20m1",
+          "source": "Tailte/OSI/data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "Townlands - National Statutory Boundaries - 2019 - Generalised 20m Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/townlands-national-statutory-boundaries-2019-generalised-20m1",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        },
+        {
+          "label": "Existing Civgraph record: Townlands - National Statutory Boundaries - 2019 - Generalised 20m",
+          "url": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-townlands-national-statutory-boundaries-2019-generalise",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:townlands-national-statutory-boundaries-2019-generalised-20m1:00087",
+          "url": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-townlands-national-statutory-boundaries-2019-generalise",
+          "source": "Civgraph",
+          "role": "matched-source-record"
+        },
+        {
+          "label": "ArcGIS item: Townlands - National Statutory Boundaries - 2019 - Generalised 20m",
+          "url": "https://www.arcgis.com/home/item.html?id=1dc58c98ab004234ad0445e79a0f9af7",
+          "source": "TailteEireannMapGenie",
+          "role": "arcgis-item-page",
+          "type": "Feature Service",
+          "note": "Item ID 1dc58c98ab004234ad0445e79a0f9af7 / modified 2026-02-05 / access public"
+        },
+        {
+          "label": "ArcGIS service: Townlands - National Statutory Boundaries - 2019 - Generalised 20m",
+          "url": "https://services-eu1.arcgis.com/FH5XCsx8rYXqnjF5/arcgis/rest/services/Townlands_OSi_National_Statutory_Boundaries___Generalised_20m/FeatureServer",
+          "source": "TailteEireannMapGenie",
+          "role": "arcgis-service-url",
+          "type": "ArcGIS service",
+          "note": "geometry: esriGeometryPolygon / capabilities: Query, Extract / 1 layers"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/townlands-national-statutory-boundaries-2019-generalised-20m1",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "source-record-with-runtime-review",
+        "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+        "boundary",
+        "townlands",
+        "Republic of Ireland",
+        "hold-special-format",
+        "ARCGIS GEOSERVICES REST API",
+        "CSV",
+        "GDB",
+        "GEOJSON",
+        "GPKG",
+        "HTML",
+        "KML",
+        "TXT",
+        "XLSX",
+        "ZIP",
+        "review:duplicate-or-variant-review-no-existing-match-candidate",
+        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication",
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 88,
+          "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:townlands-national-statutory-boundaries-2019-generalised-20m1:00087",
+          "title": "Townlands - National Statutory Boundaries - 2019 - Generalised 20m",
+          "cleanTitle": "Townlands - National Statutory Boundaries - 2019 - Generalised 20m",
+          "provider": "Tailte/OSI/data.gov.ie",
+          "organisation": "Tailte Éireann",
+          "category": "spatial",
+          "roiGroup": "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+          "groupTitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+          "jurisdiction": "Republic of Ireland",
+          "topic": "boundary",
+          "featureUnit": "townlands",
+          "formats": [
+            "ARCGIS GEOSERVICES REST API",
+            "CSV",
+            "GDB",
+            "GEOJSON",
+            "GPKG",
+            "HTML",
+            "KML",
+            "TXT",
+            "XLSX",
+            "ZIP"
+          ],
+          "isSpatial": true,
+          "isLargeOrSpecial": true,
+          "proposedAction": "hold-special-format",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "download/source viewport first",
+            "conversion": "Do not convert until size/format review approves an interactive derivative.",
+            "sourceFormats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GDB",
+              "GEOJSON",
+              "GPKG",
+              "HTML",
+              "KML",
+              "TXT",
+              "XLSX",
+              "ZIP"
+            ]
+          },
+          "approvalState": "ready-with-residual-review",
+          "sourcePublicationState": "public source record with runtime/semantic review still pending",
+          "confidence": 45,
+          "currentProviderUrl": "https://data.gov.ie/dataset/townlands-national-statutory-boundaries-2019-generalised-20m1",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/townlands-national-statutory-boundaries-2019-generalised-20m1",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "geography-crosswalk-and-versioning: geography family inferred",
+            "geography-matching: geography family inferred",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate",
+            "large-or-special-format-review: size/format decision remains before runtime publication"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Match to canonical townland generation/version; retain provider/source version as a variant if geometry differs.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        },
+        {
+          "auditRowNumber": 386,
+          "title": "Townlands - National Statutory Boundaries - 2019 - Generalised 20m",
+          "provider": "TailteEireannMapGenie",
+          "category": "habitat-protected-site-context",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "1dc58c98ab004234ad0445e79a0f9af7",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=1dc58c98ab004234ad0445e79a0f9af7",
+          "serviceUrl": "https://services-eu1.arcgis.com/FH5XCsx8rYXqnjF5/arcgis/rest/services/Townlands_OSi_National_Statutory_Boundaries___Generalised_20m/FeatureServer",
+          "modified": "2026-02-05T10:05:43.000Z",
+          "access": "public",
+          "tags": [
+            "dgigovernment",
+            "Statutory Boundaries",
+            "high-value-dataset",
+            "Geospatial"
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query",
+            "Extract"
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Townlands - National Statutory Boundaries - 2019 - Generalised 20m",
+          "civgraphMatchId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:townlands-national-statutory-boundaries-2019-generalised-20m1:00087",
+          "civgraphMatchTitle": "Townlands - National Statutory Boundaries - 2019 - Generalised 20m",
+          "civgraphMatchKind": "source",
+          "civgraphMatchScore": 1,
+          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+        }
+      ],
+      "status": "Source only",
+      "statusChips": [
+        "Source record",
+        "Runtime review pending",
+        "Spatial source",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+        "Republic of Ireland",
+        "boundary",
+        "Townlands - National Statutory Boundaries - 2019 - Generalised 20m"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "spreadsheet",
+          "download-only"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/townlands-national-statutory-boundaries-2019-generalised-20m1",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/townlands-national-statutory-boundaries-2019-generalised-20m1",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "Do not convert until size/format review approves an interactive derivative."
+      },
+      "shortCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie, Townlands - National Statutory Boundaries - 2019 - Generalised 20m.",
+      "fullCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie. Townlands - National Statutory Boundaries - 2019 - Generalised 20m. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/townlands-national-statutory-boundaries-2019-generalised-20m1. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/townlands-national-statutory-boundaries-2019-generalised-20m1.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:townlands-national-statutory-boundaries-2019-generalised-20m1:00087",
+        "sourceRowNumber": 88,
+        "approvalState": "ready-with-residual-review",
+        "recommendedAction": "publish source record; hold runtime conversion pending size/format review",
+        "proposedAction": "hold-special-format",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "download/source viewport first",
+          "conversion": "Do not convert until size/format review approves an interactive derivative.",
+          "sourceFormats": [
+            "ARCGIS GEOSERVICES REST API",
+            "CSV",
+            "GDB",
+            "GEOJSON",
+            "GPKG",
+            "HTML",
+            "KML",
+            "TXT",
+            "XLSX",
+            "ZIP"
+          ]
+        },
+        "confidence": 45,
+        "residualBlockers": [
+          "duplicate-or-variant-review: no existing match candidate",
+          "large-or-special-format-review: size/format decision remains before runtime publication"
+        ],
+        "resolvedBlockers": [
+          "geography-crosswalk-and-versioning: geography family inferred",
+          "geography-matching: geography family inferred",
+          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+        ],
+        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+        "geographyRecommendation": "Match to canonical townland generation/version; retain provider/source version as a variant if geometry differs.",
+        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+      },
+      "publicationStatus": "source-record-with-runtime-review",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-townlands-national-statutory-boundaries-2019-generalised-20m1-00087",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:townlands-national-statutory-boundaries-2019-generalised-20m1:00087",
+          "targetEntityKind": "source",
+          "targetEntityId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:townlands-national-statutory-boundaries-2019-generalised-20m1:00087",
+          "targetTitle": "Townlands - National Statutory Boundaries - 2019 - Generalised 20m",
+          "targetBrowseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-townlands-national-statutory-boundaries-2019-generalise",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "TailteEireannMapGenie"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "arcgisItemIds": [
+            "1dc58c98ab004234ad0445e79a0f9af7"
+          ],
+          "arcgisItemPages": [
+            "https://www.arcgis.com/home/item.html?id=1dc58c98ab004234ad0445e79a0f9af7"
+          ],
+          "serviceUrls": [
+            "https://services-eu1.arcgis.com/FH5XCsx8rYXqnjF5/arcgis/rest/services/Townlands_OSi_National_Statutory_Boundaries___Generalised_20m/FeatureServer"
+          ],
+          "modifiedDates": [
+            "2026-02-05T10:05:43.000Z"
+          ],
+          "accessStates": [
+            "public"
+          ],
+          "licenseNotes": [
+            "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+          ],
+          "provenanceSummary": "1 ArcGIS metadata item staged as provenance for this existing Civgraph record; owner/provider: TailteEireannMapGenie; ArcGIS item ID: 1dc58c98ab004234ad0445e79a0f9af7; modified: 2026-02-05; access: public; 1 service link preserved as references; licence note: The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion.",
+          "sourceItems": [
+            {
+              "auditRowNumber": 386,
+              "title": "Townlands - National Statutory Boundaries - 2019 - Generalised 20m",
+              "provider": "TailteEireannMapGenie",
+              "category": "habitat-protected-site-context",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "1dc58c98ab004234ad0445e79a0f9af7",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=1dc58c98ab004234ad0445e79a0f9af7",
+              "serviceUrl": "https://services-eu1.arcgis.com/FH5XCsx8rYXqnjF5/arcgis/rest/services/Townlands_OSi_National_Statutory_Boundaries___Generalised_20m/FeatureServer",
+              "modified": "2026-02-05T10:05:43.000Z",
+              "access": "public",
+              "tags": [
+                "dgigovernment",
+                "Statutory Boundaries",
+                "high-value-dataset",
+                "Geospatial"
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query",
+                "Extract"
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Townlands - National Statutory Boundaries - 2019 - Generalised 20m",
+              "civgraphMatchId": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:townlands-national-statutory-boundaries-2019-generalised-20m1:00087",
+              "civgraphMatchTitle": "Townlands - National Statutory Boundaries - 2019 - Generalised 20m",
+              "civgraphMatchKind": "source",
+              "civgraphMatchScore": 1,
+              "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "source",
+              "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:townlands-national-statutory-boundaries-2019-generalised-20m1:00087",
+              "title": "Townlands - National Statutory Boundaries - 2019 - Generalised 20m",
+              "score": 1
+            }
+          ]
+        }
+      ],
+      "rawMetadata": {
+        "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:townlands-national-statutory-boundaries-2019-generalised-20m1:00087",
+        "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-townlands-national-statutory-boundaries-2019-generalised-20m1-00087",
+        "type": "approved-medium-priority-source",
+        "title": "Townlands - National Statutory Boundaries - 2019 - Generalised 20m",
+        "subtitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA / Tailte Éireann, Tailte/OSI/data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, GDB, GEOJSON, GPKG, HTML, KML, TXT, XLSX, ZIP / Source record; runtime review pending",
+        "category": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+        "date": "2019",
+        "provider": [
+          "Tailte Éireann",
+          "Tailte/OSI/data.gov.ie"
+        ],
+        "description": "Townlands - National Statutory Boundaries - 2019 - Generalised 20m is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; large-or-special-format-review: size/format decision remains before runtime publication.",
+        "url": "https://data.gov.ie/dataset/townlands-national-statutory-boundaries-2019-generalised-20m1",
+        "references": [
+          {
+            "label": "Townlands - National Statutory Boundaries - 2019 - Generalised 20m provider page",
+            "url": "https://data.gov.ie/dataset/townlands-national-statutory-boundaries-2019-generalised-20m1",
+            "source": "Tailte/OSI/data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "Townlands - National Statutory Boundaries - 2019 - Generalised 20m Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/townlands-national-statutory-boundaries-2019-generalised-20m1",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/townlands-national-statutory-boundaries-2019-generalised-20m1",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source only",
+        "statusChips": [
+          "Source record",
+          "Runtime review pending",
+          "Spatial source",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+          "Republic of Ireland",
+          "boundary",
+          "Townlands - National Statutory Boundaries - 2019 - Generalised 20m"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "spreadsheet",
+            "download-only"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/townlands-national-statutory-boundaries-2019-generalised-20m1",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/townlands-national-statutory-boundaries-2019-generalised-20m1",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "Do not convert until size/format review approves an interactive derivative."
+        },
+        "shortCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie, Townlands - National Statutory Boundaries - 2019 - Generalised 20m.",
+        "fullCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie. Townlands - National Statutory Boundaries - 2019 - Generalised 20m. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/townlands-national-statutory-boundaries-2019-generalised-20m1. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/townlands-national-statutory-boundaries-2019-generalised-20m1.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 88,
+            "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:townlands-national-statutory-boundaries-2019-generalised-20m1:00087",
+            "title": "Townlands - National Statutory Boundaries - 2019 - Generalised 20m",
+            "cleanTitle": "Townlands - National Statutory Boundaries - 2019 - Generalised 20m",
+            "provider": "Tailte/OSI/data.gov.ie",
+            "organisation": "Tailte Éireann",
+            "category": "spatial",
+            "roiGroup": "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+            "groupTitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+            "jurisdiction": "Republic of Ireland",
+            "topic": "boundary",
+            "featureUnit": "townlands",
+            "formats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GDB",
+              "GEOJSON",
+              "GPKG",
+              "HTML",
+              "KML",
+              "TXT",
+              "XLSX",
+              "ZIP"
+            ],
+            "isSpatial": true,
+            "isLargeOrSpecial": true,
+            "proposedAction": "hold-special-format",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "download/source viewport first",
+              "conversion": "Do not convert until size/format review approves an interactive derivative.",
+              "sourceFormats": [
+                "ARCGIS GEOSERVICES REST API",
+                "CSV",
+                "GDB",
+                "GEOJSON",
+                "GPKG",
+                "HTML",
+                "KML",
+                "TXT",
+                "XLSX",
+                "ZIP"
+              ]
+            },
+            "approvalState": "ready-with-residual-review",
+            "sourcePublicationState": "public source record with runtime/semantic review still pending",
+            "confidence": 45,
+            "currentProviderUrl": "https://data.gov.ie/dataset/townlands-national-statutory-boundaries-2019-generalised-20m1",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/townlands-national-statutory-boundaries-2019-generalised-20m1",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "geography-crosswalk-and-versioning: geography family inferred",
+              "geography-matching: geography family inferred",
+              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+            ],
+            "residualBlockers": [
+              "duplicate-or-variant-review: no existing match candidate",
+              "large-or-special-format-review: size/format decision remains before runtime publication"
+            ],
+            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+            "geographyRecommendation": "Match to canonical townland generation/version; retain provider/source version as a variant if geometry differs.",
+            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:townlands-national-statutory-boundaries-2019-generalised-20m1:00087",
+          "sourceRowNumber": 88,
+          "approvalState": "ready-with-residual-review",
+          "recommendedAction": "publish source record; hold runtime conversion pending size/format review",
+          "proposedAction": "hold-special-format",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "download/source viewport first",
+            "conversion": "Do not convert until size/format review approves an interactive derivative.",
+            "sourceFormats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GDB",
+              "GEOJSON",
+              "GPKG",
+              "HTML",
+              "KML",
+              "TXT",
+              "XLSX",
+              "ZIP"
+            ]
+          },
+          "confidence": 45,
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate",
+            "large-or-special-format-review: size/format decision remains before runtime publication"
+          ],
+          "resolvedBlockers": [
+            "geography-crosswalk-and-versioning: geography family inferred",
+            "geography-matching: geography family inferred",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Match to canonical townland generation/version; retain provider/source version as a variant if geometry differs.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        },
+        "publicationStatus": "source-record-with-runtime-review",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "source-record-with-runtime-review",
+          "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+          "boundary",
+          "townlands",
+          "Republic of Ireland",
+          "hold-special-format",
+          "ARCGIS GEOSERVICES REST API",
+          "CSV",
+          "GDB",
+          "GEOJSON",
+          "GPKG",
+          "HTML",
+          "KML",
+          "TXT",
+          "XLSX",
+          "ZIP",
+          "review:duplicate-or-variant-review-no-existing-match-candidate",
+          "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-townlands-national-statutory-boundaries-2019-generalised-20m1-00087"
+      }
+    },
     {
       "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:townlands-national-statutory-boundaries-20191:00086",
       "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-townlands-national-statutory-boundaries-20191-00086",
@@ -70919,756 +71929,6 @@
           "review:duplicate-or-variant-review-no-existing-match-candidate"
         ],
         "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-annual-budget-2016-appendix-1-fcc2-01192"
-      }
-    },
-    {
-      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:annual-budget-2016-appendix-2-fcc2:01193",
-      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-annual-budget-2016-appendix-2-fcc2-01193",
-      "type": "approved-medium-priority-source",
-      "title": "Annual Budget 2016 Appendix 2 FCC",
-      "subtitle": "Local authority planning/property/open-data layers / Fingal County Council, data.gov.ie / Ireland / unspecified / ARCGIS GEOSERVICES REST API, CSV, HTML, KML, ZIP / Source record; runtime review pending",
-      "category": "Medium-priority: Local authority planning/property/open-data layers",
-      "date": "2016",
-      "provider": [
-        "Fingal County Council",
-        "data.gov.ie"
-      ],
-      "description": "Annual Budget 2016 Appendix 2 FCC is published as a medium-priority Civgraph source/provenance record from Fingal County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-      "url": "https://data.gov.ie/dataset/annual-budget-2016-appendix-2-fcc2",
-      "references": [
-        {
-          "label": "Annual Budget 2016 Appendix 2 FCC provider page",
-          "url": "https://data.gov.ie/dataset/annual-budget-2016-appendix-2-fcc2",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Annual Budget 2016 Appendix 2 FCC Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/annual-budget-2016-appendix-2-fcc2",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/annual-budget-2016-appendix-2-fcc2",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "source-record-with-runtime-review",
-        "Local authority planning/property/open-data layers",
-        "source-data",
-        "features",
-        "Ireland / unspecified",
-        "local-authority-batch-review",
-        "ARCGIS GEOSERVICES REST API",
-        "CSV",
-        "HTML",
-        "KML",
-        "ZIP",
-        "review:duplicate-or-variant-review-no-existing-match-candidate"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 1194,
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:annual-budget-2016-appendix-2-fcc2:01193",
-          "title": "Annual Budget 2016 Appendix 2 FCC",
-          "cleanTitle": "Annual Budget 2016 Appendix 2 FCC",
-          "provider": "data.gov.ie",
-          "organisation": "Fingal County Council",
-          "category": "spatial",
-          "roiGroup": "5. Local authority planning/property/open-data layers",
-          "groupTitle": "Local authority planning/property/open-data layers",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "source-data",
-          "featureUnit": "features",
-          "formats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "HTML",
-            "KML",
-            "ZIP"
-          ],
-          "isSpatial": true,
-          "isLargeOrSpecial": false,
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "HTML",
-              "KML",
-              "ZIP"
-            ]
-          },
-          "approvalState": "ready-with-residual-review",
-          "sourcePublicationState": "public source record with runtime/semantic review still pending",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/annual-budget-2016-appendix-2-fcc2",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/annual-budget-2016-appendix-2-fcc2",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source record",
-        "Runtime review pending",
-        "Spatial source",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Local authority planning/property/open-data layers",
-        "Ireland / unspecified",
-        "source-data",
-        "Annual Budget 2016 Appendix 2 FCC"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text",
-          "download-only"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/annual-budget-2016-appendix-2-fcc2",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/annual-budget-2016-appendix-2-fcc2",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Fingal County Council, data.gov.ie, Annual Budget 2016 Appendix 2 FCC.",
-      "fullCitation": "Fingal County Council, data.gov.ie. Annual Budget 2016 Appendix 2 FCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/annual-budget-2016-appendix-2-fcc2. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/annual-budget-2016-appendix-2-fcc2.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:annual-budget-2016-appendix-2-fcc2:01193",
-        "sourceRowNumber": 1194,
-        "approvalState": "ready-with-residual-review",
-        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-        "proposedAction": "local-authority-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "HTML",
-            "KML",
-            "ZIP"
-          ]
-        },
-        "confidence": 60,
-        "residualBlockers": [
-          "duplicate-or-variant-review: no existing match candidate"
-        ],
-        "resolvedBlockers": [
-          "large-or-special-format-review: normal source package; no special-format hold",
-          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-        ],
-        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-      },
-      "publicationStatus": "source-record-with-runtime-review",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-annual-budget-2016-appendix-2-fcc2-01193",
-      "rawMetadata": {
-        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:annual-budget-2016-appendix-2-fcc2:01193",
-        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-annual-budget-2016-appendix-2-fcc2-01193",
-        "type": "approved-medium-priority-source",
-        "title": "Annual Budget 2016 Appendix 2 FCC",
-        "subtitle": "Local authority planning/property/open-data layers / Fingal County Council, data.gov.ie / Ireland / unspecified / ARCGIS GEOSERVICES REST API, CSV, HTML, KML, ZIP / Source record; runtime review pending",
-        "category": "Medium-priority: Local authority planning/property/open-data layers",
-        "date": "2016",
-        "provider": [
-          "Fingal County Council",
-          "data.gov.ie"
-        ],
-        "description": "Annual Budget 2016 Appendix 2 FCC is published as a medium-priority Civgraph source/provenance record from Fingal County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-        "url": "https://data.gov.ie/dataset/annual-budget-2016-appendix-2-fcc2",
-        "references": [
-          {
-            "label": "Annual Budget 2016 Appendix 2 FCC provider page",
-            "url": "https://data.gov.ie/dataset/annual-budget-2016-appendix-2-fcc2",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Annual Budget 2016 Appendix 2 FCC Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/annual-budget-2016-appendix-2-fcc2",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/annual-budget-2016-appendix-2-fcc2",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source record",
-          "Runtime review pending",
-          "Spatial source",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Local authority planning/property/open-data layers",
-          "Ireland / unspecified",
-          "source-data",
-          "Annual Budget 2016 Appendix 2 FCC"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text",
-            "download-only"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/annual-budget-2016-appendix-2-fcc2",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/annual-budget-2016-appendix-2-fcc2",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Fingal County Council, data.gov.ie, Annual Budget 2016 Appendix 2 FCC.",
-        "fullCitation": "Fingal County Council, data.gov.ie. Annual Budget 2016 Appendix 2 FCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/annual-budget-2016-appendix-2-fcc2. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/annual-budget-2016-appendix-2-fcc2.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 1194,
-            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:annual-budget-2016-appendix-2-fcc2:01193",
-            "title": "Annual Budget 2016 Appendix 2 FCC",
-            "cleanTitle": "Annual Budget 2016 Appendix 2 FCC",
-            "provider": "data.gov.ie",
-            "organisation": "Fingal County Council",
-            "category": "spatial",
-            "roiGroup": "5. Local authority planning/property/open-data layers",
-            "groupTitle": "Local authority planning/property/open-data layers",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "source-data",
-            "featureUnit": "features",
-            "formats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "HTML",
-              "KML",
-              "ZIP"
-            ],
-            "isSpatial": true,
-            "isLargeOrSpecial": false,
-            "proposedAction": "local-authority-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "ARCGIS GEOSERVICES REST API",
-                "CSV",
-                "HTML",
-                "KML",
-                "ZIP"
-              ]
-            },
-            "approvalState": "ready-with-residual-review",
-            "sourcePublicationState": "public source record with runtime/semantic review still pending",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/annual-budget-2016-appendix-2-fcc2",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/annual-budget-2016-appendix-2-fcc2",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "large-or-special-format-review: normal source package; no special-format hold",
-              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-            ],
-            "residualBlockers": [
-              "duplicate-or-variant-review: no existing match candidate"
-            ],
-            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:annual-budget-2016-appendix-2-fcc2:01193",
-          "sourceRowNumber": 1194,
-          "approvalState": "ready-with-residual-review",
-          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "HTML",
-              "KML",
-              "ZIP"
-            ]
-          },
-          "confidence": 60,
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate"
-          ],
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        },
-        "publicationStatus": "source-record-with-runtime-review",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "source-record-with-runtime-review",
-          "Local authority planning/property/open-data layers",
-          "source-data",
-          "features",
-          "Ireland / unspecified",
-          "local-authority-batch-review",
-          "ARCGIS GEOSERVICES REST API",
-          "CSV",
-          "HTML",
-          "KML",
-          "ZIP",
-          "review:duplicate-or-variant-review-no-existing-match-candidate"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-annual-budget-2016-appendix-2-fcc2-01193"
-      }
-    },
-    {
-      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:annual-budget-2016-table-a-fcc2:01194",
-      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-annual-budget-2016-table-a-fcc2-01194",
-      "type": "approved-medium-priority-source",
-      "title": "Annual Budget 2016 Table A FCC",
-      "subtitle": "Local authority planning/property/open-data layers / Fingal County Council, data.gov.ie / Ireland / unspecified / ARCGIS GEOSERVICES REST API, CSV, HTML, KML, ZIP / Source record; runtime review pending",
-      "category": "Medium-priority: Local authority planning/property/open-data layers",
-      "date": "2016",
-      "provider": [
-        "Fingal County Council",
-        "data.gov.ie"
-      ],
-      "description": "Annual Budget 2016 Table A FCC is published as a medium-priority Civgraph source/provenance record from Fingal County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-      "url": "https://data.gov.ie/dataset/annual-budget-2016-table-a-fcc2",
-      "references": [
-        {
-          "label": "Annual Budget 2016 Table A FCC provider page",
-          "url": "https://data.gov.ie/dataset/annual-budget-2016-table-a-fcc2",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Annual Budget 2016 Table A FCC Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/annual-budget-2016-table-a-fcc2",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/annual-budget-2016-table-a-fcc2",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "source-record-with-runtime-review",
-        "Local authority planning/property/open-data layers",
-        "source-data",
-        "features",
-        "Ireland / unspecified",
-        "local-authority-batch-review",
-        "ARCGIS GEOSERVICES REST API",
-        "CSV",
-        "HTML",
-        "KML",
-        "ZIP",
-        "review:duplicate-or-variant-review-no-existing-match-candidate"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 1195,
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:annual-budget-2016-table-a-fcc2:01194",
-          "title": "Annual Budget 2016 Table A FCC",
-          "cleanTitle": "Annual Budget 2016 Table A FCC",
-          "provider": "data.gov.ie",
-          "organisation": "Fingal County Council",
-          "category": "spatial",
-          "roiGroup": "5. Local authority planning/property/open-data layers",
-          "groupTitle": "Local authority planning/property/open-data layers",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "source-data",
-          "featureUnit": "features",
-          "formats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "HTML",
-            "KML",
-            "ZIP"
-          ],
-          "isSpatial": true,
-          "isLargeOrSpecial": false,
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "HTML",
-              "KML",
-              "ZIP"
-            ]
-          },
-          "approvalState": "ready-with-residual-review",
-          "sourcePublicationState": "public source record with runtime/semantic review still pending",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/annual-budget-2016-table-a-fcc2",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/annual-budget-2016-table-a-fcc2",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source record",
-        "Runtime review pending",
-        "Spatial source",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Local authority planning/property/open-data layers",
-        "Ireland / unspecified",
-        "source-data",
-        "Annual Budget 2016 Table A FCC"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text",
-          "download-only"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/annual-budget-2016-table-a-fcc2",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/annual-budget-2016-table-a-fcc2",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Fingal County Council, data.gov.ie, Annual Budget 2016 Table A FCC.",
-      "fullCitation": "Fingal County Council, data.gov.ie. Annual Budget 2016 Table A FCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/annual-budget-2016-table-a-fcc2. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/annual-budget-2016-table-a-fcc2.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:annual-budget-2016-table-a-fcc2:01194",
-        "sourceRowNumber": 1195,
-        "approvalState": "ready-with-residual-review",
-        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-        "proposedAction": "local-authority-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "HTML",
-            "KML",
-            "ZIP"
-          ]
-        },
-        "confidence": 60,
-        "residualBlockers": [
-          "duplicate-or-variant-review: no existing match candidate"
-        ],
-        "resolvedBlockers": [
-          "large-or-special-format-review: normal source package; no special-format hold",
-          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-        ],
-        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-      },
-      "publicationStatus": "source-record-with-runtime-review",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-annual-budget-2016-table-a-fcc2-01194",
-      "rawMetadata": {
-        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:annual-budget-2016-table-a-fcc2:01194",
-        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-annual-budget-2016-table-a-fcc2-01194",
-        "type": "approved-medium-priority-source",
-        "title": "Annual Budget 2016 Table A FCC",
-        "subtitle": "Local authority planning/property/open-data layers / Fingal County Council, data.gov.ie / Ireland / unspecified / ARCGIS GEOSERVICES REST API, CSV, HTML, KML, ZIP / Source record; runtime review pending",
-        "category": "Medium-priority: Local authority planning/property/open-data layers",
-        "date": "2016",
-        "provider": [
-          "Fingal County Council",
-          "data.gov.ie"
-        ],
-        "description": "Annual Budget 2016 Table A FCC is published as a medium-priority Civgraph source/provenance record from Fingal County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-        "url": "https://data.gov.ie/dataset/annual-budget-2016-table-a-fcc2",
-        "references": [
-          {
-            "label": "Annual Budget 2016 Table A FCC provider page",
-            "url": "https://data.gov.ie/dataset/annual-budget-2016-table-a-fcc2",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Annual Budget 2016 Table A FCC Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/annual-budget-2016-table-a-fcc2",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/annual-budget-2016-table-a-fcc2",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source record",
-          "Runtime review pending",
-          "Spatial source",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Local authority planning/property/open-data layers",
-          "Ireland / unspecified",
-          "source-data",
-          "Annual Budget 2016 Table A FCC"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text",
-            "download-only"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/annual-budget-2016-table-a-fcc2",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/annual-budget-2016-table-a-fcc2",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Fingal County Council, data.gov.ie, Annual Budget 2016 Table A FCC.",
-        "fullCitation": "Fingal County Council, data.gov.ie. Annual Budget 2016 Table A FCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/annual-budget-2016-table-a-fcc2. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/annual-budget-2016-table-a-fcc2.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 1195,
-            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:annual-budget-2016-table-a-fcc2:01194",
-            "title": "Annual Budget 2016 Table A FCC",
-            "cleanTitle": "Annual Budget 2016 Table A FCC",
-            "provider": "data.gov.ie",
-            "organisation": "Fingal County Council",
-            "category": "spatial",
-            "roiGroup": "5. Local authority planning/property/open-data layers",
-            "groupTitle": "Local authority planning/property/open-data layers",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "source-data",
-            "featureUnit": "features",
-            "formats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "HTML",
-              "KML",
-              "ZIP"
-            ],
-            "isSpatial": true,
-            "isLargeOrSpecial": false,
-            "proposedAction": "local-authority-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "ARCGIS GEOSERVICES REST API",
-                "CSV",
-                "HTML",
-                "KML",
-                "ZIP"
-              ]
-            },
-            "approvalState": "ready-with-residual-review",
-            "sourcePublicationState": "public source record with runtime/semantic review still pending",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/annual-budget-2016-table-a-fcc2",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/annual-budget-2016-table-a-fcc2",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "large-or-special-format-review: normal source package; no special-format hold",
-              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-            ],
-            "residualBlockers": [
-              "duplicate-or-variant-review: no existing match candidate"
-            ],
-            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:annual-budget-2016-table-a-fcc2:01194",
-          "sourceRowNumber": 1195,
-          "approvalState": "ready-with-residual-review",
-          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "HTML",
-              "KML",
-              "ZIP"
-            ]
-          },
-          "confidence": 60,
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate"
-          ],
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        },
-        "publicationStatus": "source-record-with-runtime-review",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "source-record-with-runtime-review",
-          "Local authority planning/property/open-data layers",
-          "source-data",
-          "features",
-          "Ireland / unspecified",
-          "local-authority-batch-review",
-          "ARCGIS GEOSERVICES REST API",
-          "CSV",
-          "HTML",
-          "KML",
-          "ZIP",
-          "review:duplicate-or-variant-review-no-existing-match-candidate"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-annual-budget-2016-table-a-fcc2-01194"
       }
     }
   ]

@@ -417,6 +417,16 @@
       "classIds": [
         "ni-referendum-areas"
       ]
+    },
+    {
+      "id": "osni-50k-transport",
+      "name": "OSNI 50K Transport",
+      "scope": "Northern Ireland",
+      "category": "transport",
+      "maps": [
+        "osni-transport-text-labels",
+        "osni-transport-points"
+      ]
     }
   ],
   "classes": [
@@ -34822,6 +34832,76 @@
         "report": "tmp/dobih/domain-polygons/irish-hill-domain-build-report.json",
         "generatedAt": "2026-06-24T01:47:39.907114+00:00"
       }
+    },
+    {
+      "id": "osni-transport-text-labels",
+      "name": "OSNI 50K Transport — Text Labelling",
+      "slug": "osni-transport-text-labels",
+      "category": "transport",
+      "provider": [
+        "Land & Property Services (OSNI)"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/osni/OSNI_50K_Transport_Text_Labelling.fgb"
+      },
+      "style": {
+        "color": "#455A64",
+        "weight": 1,
+        "fillOpacity": 0.5
+      },
+      "keywords": [
+        "northern ireland",
+        "NI",
+        "OSNI",
+        "transport",
+        "50k",
+        "labels",
+        "place names"
+      ],
+      "description": "OSNI 50K Transport — Text Labelling — OSNI Open Data 50K, via Land & Property Services.",
+      "references": [
+        {
+          "label": "Open Data NI — OSNI 50K Transport — Text Labelling",
+          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-transport-text-labels",
+          "note": ""
+        }
+      ],
+      "labelProperty": "TEXTSTRING"
+    },
+    {
+      "id": "osni-transport-points",
+      "name": "OSNI 50K Transport — Transport Points",
+      "slug": "osni-transport-points",
+      "category": "transport",
+      "provider": [
+        "Land & Property Services (OSNI)"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/osni/OSNI_50K_Transport_Transport_Points.fgb"
+      },
+      "style": {
+        "color": "#455A64",
+        "weight": 1,
+        "fillOpacity": 0.5
+      },
+      "keywords": [
+        "northern ireland",
+        "NI",
+        "OSNI",
+        "transport",
+        "50k",
+        "points",
+        "stations"
+      ],
+      "description": "OSNI 50K Transport — Transport Points — OSNI Open Data 50K, via Land & Property Services.",
+      "references": [
+        {
+          "label": "Open Data NI — OSNI 50K Transport — Transport Points",
+          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-transport-points",
+          "note": ""
+        }
+      ],
+      "labelProperty": "TEMA"
     }
   ]
 }

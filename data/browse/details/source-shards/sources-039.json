@@ -1,10 +1,670 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T17:47:01.808Z",
+  "generatedAt": "2026-06-30T18:42:53.573Z",
   "kind": "sources",
   "shard": "sources-039.json",
   "total": 200,
   "items": [
+    {
+      "id": "medium-priority:2-irish-election-source-enrichment-data:daily-gas-shrinkage:02163",
+      "slug": "medium-priority-2-irish-election-source-enrichment-data-daily-gas-shrinkage-02163",
+      "type": "approved-medium-priority-source",
+      "title": "Daily Gas Shrinkage Ireland",
+      "subtitle": "Irish election source/enrichment data / Gas Networks Ireland, data.gov.ie / Republic of Ireland / JSON, XLSX / Approved source record",
+      "category": "Medium-priority: Irish election source/enrichment data",
+      "provider": [
+        "Gas Networks Ireland",
+        "data.gov.ie"
+      ],
+      "description": "Daily Gas Shrinkage Ireland is published as a medium-priority Civgraph source/provenance record from Gas Networks Ireland, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/daily-gas-shrinkage",
+      "references": [
+        {
+          "label": "Daily Gas Shrinkage Ireland provider page",
+          "url": "https://data.gov.ie/dataset/daily-gas-shrinkage",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "Daily Gas Shrinkage Ireland Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/daily-gas-shrinkage",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/daily-gas-shrinkage",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Irish election source/enrichment data",
+        "election",
+        "features",
+        "Republic of Ireland",
+        "enrich-existing-election",
+        "JSON",
+        "XLSX"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 2164,
+          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:daily-gas-shrinkage:02163",
+          "title": "Daily Gas Shrinkage Ireland",
+          "cleanTitle": "Daily Gas Shrinkage Ireland",
+          "provider": "data.gov.ie",
+          "organisation": "Gas Networks Ireland",
+          "category": "tabular",
+          "roiGroup": "2. Irish election source/enrichment data",
+          "groupTitle": "Irish election source/enrichment data",
+          "jurisdiction": "Republic of Ireland",
+          "topic": "election",
+          "featureUnit": "features",
+          "formats": [
+            "JSON",
+            "XLSX"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "enrich-existing-election",
+          "proposedPlacement": "Elections/source provenance",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "JSON",
+              "XLSX"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/daily-gas-shrinkage",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/daily-gas-shrinkage",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "election-model-merge-and-provenance-review: election staging action assigned",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link",
+        "Election provenance"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Irish election source/enrichment data",
+        "Republic of Ireland",
+        "election",
+        "Daily Gas Shrinkage Ireland"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "spreadsheet"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/daily-gas-shrinkage",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/daily-gas-shrinkage",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Gas Networks Ireland, data.gov.ie, Daily Gas Shrinkage Ireland.",
+      "fullCitation": "Gas Networks Ireland, data.gov.ie. Daily Gas Shrinkage Ireland. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/daily-gas-shrinkage. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/daily-gas-shrinkage.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:2-irish-election-source-enrichment-data:daily-gas-shrinkage:02163",
+        "sourceRowNumber": 2164,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish election source/provenance enrichment",
+        "proposedAction": "enrich-existing-election",
+        "proposedPlacement": "Elections/source provenance",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "JSON",
+            "XLSX"
+          ]
+        },
+        "confidence": 60,
+        "resolvedBlockers": [
+          "election-model-merge-and-provenance-review: election staging action assigned",
+          "needs-provider-context-review: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Elections/source provenance",
+      "relationship": "election-source-enrichment",
+      "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-daily-gas-shrinkage-02163",
+      "rawMetadata": {
+        "id": "medium-priority:2-irish-election-source-enrichment-data:daily-gas-shrinkage:02163",
+        "slug": "medium-priority-2-irish-election-source-enrichment-data-daily-gas-shrinkage-02163",
+        "type": "approved-medium-priority-source",
+        "title": "Daily Gas Shrinkage Ireland",
+        "subtitle": "Irish election source/enrichment data / Gas Networks Ireland, data.gov.ie / Republic of Ireland / JSON, XLSX / Approved source record",
+        "category": "Medium-priority: Irish election source/enrichment data",
+        "provider": [
+          "Gas Networks Ireland",
+          "data.gov.ie"
+        ],
+        "description": "Daily Gas Shrinkage Ireland is published as a medium-priority Civgraph source/provenance record from Gas Networks Ireland, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/daily-gas-shrinkage",
+        "references": [
+          {
+            "label": "Daily Gas Shrinkage Ireland provider page",
+            "url": "https://data.gov.ie/dataset/daily-gas-shrinkage",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "Daily Gas Shrinkage Ireland Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/daily-gas-shrinkage",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/daily-gas-shrinkage",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link",
+          "Election provenance"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Irish election source/enrichment data",
+          "Republic of Ireland",
+          "election",
+          "Daily Gas Shrinkage Ireland"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "spreadsheet"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/daily-gas-shrinkage",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/daily-gas-shrinkage",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Gas Networks Ireland, data.gov.ie, Daily Gas Shrinkage Ireland.",
+        "fullCitation": "Gas Networks Ireland, data.gov.ie. Daily Gas Shrinkage Ireland. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/daily-gas-shrinkage. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/daily-gas-shrinkage.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 2164,
+            "stagingId": "medium-prep:2-irish-election-source-enrichment-data:daily-gas-shrinkage:02163",
+            "title": "Daily Gas Shrinkage Ireland",
+            "cleanTitle": "Daily Gas Shrinkage Ireland",
+            "provider": "data.gov.ie",
+            "organisation": "Gas Networks Ireland",
+            "category": "tabular",
+            "roiGroup": "2. Irish election source/enrichment data",
+            "groupTitle": "Irish election source/enrichment data",
+            "jurisdiction": "Republic of Ireland",
+            "topic": "election",
+            "featureUnit": "features",
+            "formats": [
+              "JSON",
+              "XLSX"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "enrich-existing-election",
+            "proposedPlacement": "Elections/source provenance",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "JSON",
+                "XLSX"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/daily-gas-shrinkage",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/daily-gas-shrinkage",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "election-model-merge-and-provenance-review: election staging action assigned",
+              "needs-provider-context-review: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:daily-gas-shrinkage:02163",
+          "sourceRowNumber": 2164,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish election source/provenance enrichment",
+          "proposedAction": "enrich-existing-election",
+          "proposedPlacement": "Elections/source provenance",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "JSON",
+              "XLSX"
+            ]
+          },
+          "confidence": 60,
+          "resolvedBlockers": [
+            "election-model-merge-and-provenance-review: election staging action assigned",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Elections/source provenance",
+        "relationship": "election-source-enrichment",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Irish election source/enrichment data",
+          "election",
+          "features",
+          "Republic of Ireland",
+          "enrich-existing-election",
+          "JSON",
+          "XLSX"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-daily-gas-shrinkage-02163"
+      }
+    },
+    {
+      "id": "medium-priority:2-irish-election-source-enrichment-data:dailygasdemandireland:02162",
+      "slug": "medium-priority-2-irish-election-source-enrichment-data-dailygasdemandireland-02162",
+      "type": "approved-medium-priority-source",
+      "title": "Daily Gas Demand Ireland",
+      "subtitle": "Irish election source/enrichment data / Gas Networks Ireland, data.gov.ie / Republic of Ireland / CSV, JSON / Approved source record",
+      "category": "Medium-priority: Irish election source/enrichment data",
+      "provider": [
+        "Gas Networks Ireland",
+        "data.gov.ie"
+      ],
+      "description": "Daily Gas Demand Ireland is published as a medium-priority Civgraph source/provenance record from Gas Networks Ireland, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/dailygasdemandireland",
+      "references": [
+        {
+          "label": "Daily Gas Demand Ireland provider page",
+          "url": "https://data.gov.ie/dataset/dailygasdemandireland",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "Daily Gas Demand Ireland Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dailygasdemandireland",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/dailygasdemandireland",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Irish election source/enrichment data",
+        "election",
+        "features",
+        "Republic of Ireland",
+        "enrich-existing-election",
+        "CSV",
+        "JSON"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 2163,
+          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:dailygasdemandireland:02162",
+          "title": "Daily Gas Demand Ireland",
+          "cleanTitle": "Daily Gas Demand Ireland",
+          "provider": "data.gov.ie",
+          "organisation": "Gas Networks Ireland",
+          "category": "tabular",
+          "roiGroup": "2. Irish election source/enrichment data",
+          "groupTitle": "Irish election source/enrichment data",
+          "jurisdiction": "Republic of Ireland",
+          "topic": "election",
+          "featureUnit": "features",
+          "formats": [
+            "CSV",
+            "JSON"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "enrich-existing-election",
+          "proposedPlacement": "Elections/source provenance",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/dailygasdemandireland",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dailygasdemandireland",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "election-model-merge-and-provenance-review: election staging action assigned",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link",
+        "Election provenance"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Irish election source/enrichment data",
+        "Republic of Ireland",
+        "election",
+        "Daily Gas Demand Ireland"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/dailygasdemandireland",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dailygasdemandireland",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Gas Networks Ireland, data.gov.ie, Daily Gas Demand Ireland.",
+      "fullCitation": "Gas Networks Ireland, data.gov.ie. Daily Gas Demand Ireland. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dailygasdemandireland. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dailygasdemandireland.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:2-irish-election-source-enrichment-data:dailygasdemandireland:02162",
+        "sourceRowNumber": 2163,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish election source/provenance enrichment",
+        "proposedAction": "enrich-existing-election",
+        "proposedPlacement": "Elections/source provenance",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV",
+            "JSON"
+          ]
+        },
+        "confidence": 60,
+        "resolvedBlockers": [
+          "election-model-merge-and-provenance-review: election staging action assigned",
+          "needs-provider-context-review: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Elections/source provenance",
+      "relationship": "election-source-enrichment",
+      "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-dailygasdemandireland-02162",
+      "rawMetadata": {
+        "id": "medium-priority:2-irish-election-source-enrichment-data:dailygasdemandireland:02162",
+        "slug": "medium-priority-2-irish-election-source-enrichment-data-dailygasdemandireland-02162",
+        "type": "approved-medium-priority-source",
+        "title": "Daily Gas Demand Ireland",
+        "subtitle": "Irish election source/enrichment data / Gas Networks Ireland, data.gov.ie / Republic of Ireland / CSV, JSON / Approved source record",
+        "category": "Medium-priority: Irish election source/enrichment data",
+        "provider": [
+          "Gas Networks Ireland",
+          "data.gov.ie"
+        ],
+        "description": "Daily Gas Demand Ireland is published as a medium-priority Civgraph source/provenance record from Gas Networks Ireland, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/dailygasdemandireland",
+        "references": [
+          {
+            "label": "Daily Gas Demand Ireland provider page",
+            "url": "https://data.gov.ie/dataset/dailygasdemandireland",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "Daily Gas Demand Ireland Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dailygasdemandireland",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/dailygasdemandireland",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link",
+          "Election provenance"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Irish election source/enrichment data",
+          "Republic of Ireland",
+          "election",
+          "Daily Gas Demand Ireland"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/dailygasdemandireland",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dailygasdemandireland",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Gas Networks Ireland, data.gov.ie, Daily Gas Demand Ireland.",
+        "fullCitation": "Gas Networks Ireland, data.gov.ie. Daily Gas Demand Ireland. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dailygasdemandireland. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dailygasdemandireland.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 2163,
+            "stagingId": "medium-prep:2-irish-election-source-enrichment-data:dailygasdemandireland:02162",
+            "title": "Daily Gas Demand Ireland",
+            "cleanTitle": "Daily Gas Demand Ireland",
+            "provider": "data.gov.ie",
+            "organisation": "Gas Networks Ireland",
+            "category": "tabular",
+            "roiGroup": "2. Irish election source/enrichment data",
+            "groupTitle": "Irish election source/enrichment data",
+            "jurisdiction": "Republic of Ireland",
+            "topic": "election",
+            "featureUnit": "features",
+            "formats": [
+              "CSV",
+              "JSON"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "enrich-existing-election",
+            "proposedPlacement": "Elections/source provenance",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV",
+                "JSON"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/dailygasdemandireland",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dailygasdemandireland",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "election-model-merge-and-provenance-review: election staging action assigned",
+              "needs-provider-context-review: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:dailygasdemandireland:02162",
+          "sourceRowNumber": 2163,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish election source/provenance enrichment",
+          "proposedAction": "enrich-existing-election",
+          "proposedPlacement": "Elections/source provenance",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON"
+            ]
+          },
+          "confidence": 60,
+          "resolvedBlockers": [
+            "election-model-merge-and-provenance-review: election staging action assigned",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Elections/source provenance",
+        "relationship": "election-source-enrichment",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Irish election source/enrichment data",
+          "election",
+          "features",
+          "Republic of Ireland",
+          "enrich-existing-election",
+          "CSV",
+          "JSON"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-dailygasdemandireland-02162"
+      }
+    },
     {
       "id": "medium-priority:2-irish-election-source-enrichment-data:dailygassupply:02164",
       "slug": "medium-priority-2-irish-election-source-enrichment-data-dailygassupply-02164",
@@ -72182,852 +72842,6 @@
           "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
         ],
         "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-cso-electoral-divisions-generalised-20m-national-statistical-boundaries-2015-00040"
-      }
-    },
-    {
-      "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:cso-electoral-divisions-generalised-50m-national-statistical-boundaries-2015:00041",
-      "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-cso-electoral-divisions-generalised-50m-national-statistical-boundaries-2015-00041",
-      "type": "approved-medium-priority-source",
-      "title": "CSO Electoral Divisions Generalised 50m - National Statistical Boundaries - 2015",
-      "subtitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA / Tailte Éireann, Tailte/OSI/data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, GDB, GEOJSON, GPKG, HTML, KML, TXT, XLSX, ZIP / Source record; runtime review pending",
-      "category": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-      "date": "2015",
-      "provider": [
-        "Tailte Éireann",
-        "Tailte/OSI/data.gov.ie"
-      ],
-      "description": "CSO Electoral Divisions Generalised 50m - National Statistical Boundaries - 2015 is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; large-or-special-format-review: size/format decision remains before runtime publication.",
-      "url": "https://data.gov.ie/dataset/cso-electoral-divisions-generalised-50m-national-statistical-boundaries-2015",
-      "references": [
-        {
-          "label": "CSO Electoral Divisions Generalised 50m - National Statistical Boundaries - 2015 provider page",
-          "url": "https://data.gov.ie/dataset/cso-electoral-divisions-generalised-50m-national-statistical-boundaries-2015",
-          "source": "Tailte/OSI/data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "CSO Electoral Divisions Generalised 50m - National Statistical Boundaries - 2015 Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/cso-electoral-divisions-generalised-50m-national-statistical-boundaries-2015",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/cso-electoral-divisions-generalised-50m-national-statistical-boundaries-2015",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "source-record-with-runtime-review",
-        "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "boundary",
-        "Electoral Divisions",
-        "Republic of Ireland",
-        "hold-special-format",
-        "ARCGIS GEOSERVICES REST API",
-        "CSV",
-        "GDB",
-        "GEOJSON",
-        "GPKG",
-        "HTML",
-        "KML",
-        "TXT",
-        "XLSX",
-        "ZIP",
-        "review:duplicate-or-variant-review-no-existing-match-candidate",
-        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 42,
-          "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:cso-electoral-divisions-generalised-50m-national-statistical-boundaries-2015:00041",
-          "title": "CSO Electoral Divisions Generalised 50m - National Statistical Boundaries - 2015",
-          "cleanTitle": "CSO Electoral Divisions Generalised 50m - National Statistical Boundaries - 2015",
-          "provider": "Tailte/OSI/data.gov.ie",
-          "organisation": "Tailte Éireann",
-          "category": "spatial",
-          "roiGroup": "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "groupTitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "jurisdiction": "Republic of Ireland",
-          "topic": "boundary",
-          "featureUnit": "Electoral Divisions",
-          "formats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "GDB",
-            "GEOJSON",
-            "GPKG",
-            "HTML",
-            "KML",
-            "TXT",
-            "XLSX",
-            "ZIP"
-          ],
-          "isSpatial": true,
-          "isLargeOrSpecial": true,
-          "proposedAction": "hold-special-format",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "download/source viewport first",
-            "conversion": "Do not convert until size/format review approves an interactive derivative.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GDB",
-              "GEOJSON",
-              "GPKG",
-              "HTML",
-              "KML",
-              "TXT",
-              "XLSX",
-              "ZIP"
-            ]
-          },
-          "approvalState": "ready-with-residual-review",
-          "sourcePublicationState": "public source record with runtime/semantic review still pending",
-          "confidence": 45,
-          "currentProviderUrl": "https://data.gov.ie/dataset/cso-electoral-divisions-generalised-50m-national-statistical-boundaries-2015",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/cso-electoral-divisions-generalised-50m-national-statistical-boundaries-2015",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "geography-crosswalk-and-versioning: geography family inferred",
-            "geography-matching: geography family inferred",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate",
-            "large-or-special-format-review: size/format decision remains before runtime publication"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source record",
-        "Runtime review pending",
-        "Spatial source",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "Republic of Ireland",
-        "boundary",
-        "CSO Electoral Divisions Generalised 50m - National Statistical Boundaries - 2015"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text",
-          "spreadsheet",
-          "download-only"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/cso-electoral-divisions-generalised-50m-national-statistical-boundaries-2015",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/cso-electoral-divisions-generalised-50m-national-statistical-boundaries-2015",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "Do not convert until size/format review approves an interactive derivative."
-      },
-      "shortCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie, CSO Electoral Divisions Generalised 50m - National Statistical Boundaries - 2015.",
-      "fullCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie. CSO Electoral Divisions Generalised 50m - National Statistical Boundaries - 2015. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/cso-electoral-divisions-generalised-50m-national-statistical-boundaries-2015. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/cso-electoral-divisions-generalised-50m-national-statistical-boundaries-2015.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:cso-electoral-divisions-generalised-50m-national-statistical-boundaries-2015:00041",
-        "sourceRowNumber": 42,
-        "approvalState": "ready-with-residual-review",
-        "recommendedAction": "publish source record; hold runtime conversion pending size/format review",
-        "proposedAction": "hold-special-format",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "download/source viewport first",
-          "conversion": "Do not convert until size/format review approves an interactive derivative.",
-          "sourceFormats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "GDB",
-            "GEOJSON",
-            "GPKG",
-            "HTML",
-            "KML",
-            "TXT",
-            "XLSX",
-            "ZIP"
-          ]
-        },
-        "confidence": 45,
-        "residualBlockers": [
-          "duplicate-or-variant-review: no existing match candidate",
-          "large-or-special-format-review: size/format decision remains before runtime publication"
-        ],
-        "resolvedBlockers": [
-          "geography-crosswalk-and-versioning: geography family inferred",
-          "geography-matching: geography family inferred",
-          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-        ],
-        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-        "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
-        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-      },
-      "publicationStatus": "source-record-with-runtime-review",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-cso-electoral-divisions-generalised-50m-national-statistical-boundaries-2015-00041",
-      "rawMetadata": {
-        "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:cso-electoral-divisions-generalised-50m-national-statistical-boundaries-2015:00041",
-        "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-cso-electoral-divisions-generalised-50m-national-statistical-boundaries-2015-00041",
-        "type": "approved-medium-priority-source",
-        "title": "CSO Electoral Divisions Generalised 50m - National Statistical Boundaries - 2015",
-        "subtitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA / Tailte Éireann, Tailte/OSI/data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, GDB, GEOJSON, GPKG, HTML, KML, TXT, XLSX, ZIP / Source record; runtime review pending",
-        "category": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "date": "2015",
-        "provider": [
-          "Tailte Éireann",
-          "Tailte/OSI/data.gov.ie"
-        ],
-        "description": "CSO Electoral Divisions Generalised 50m - National Statistical Boundaries - 2015 is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; large-or-special-format-review: size/format decision remains before runtime publication.",
-        "url": "https://data.gov.ie/dataset/cso-electoral-divisions-generalised-50m-national-statistical-boundaries-2015",
-        "references": [
-          {
-            "label": "CSO Electoral Divisions Generalised 50m - National Statistical Boundaries - 2015 provider page",
-            "url": "https://data.gov.ie/dataset/cso-electoral-divisions-generalised-50m-national-statistical-boundaries-2015",
-            "source": "Tailte/OSI/data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "CSO Electoral Divisions Generalised 50m - National Statistical Boundaries - 2015 Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/cso-electoral-divisions-generalised-50m-national-statistical-boundaries-2015",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/cso-electoral-divisions-generalised-50m-national-statistical-boundaries-2015",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source record",
-          "Runtime review pending",
-          "Spatial source",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "Republic of Ireland",
-          "boundary",
-          "CSO Electoral Divisions Generalised 50m - National Statistical Boundaries - 2015"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text",
-            "spreadsheet",
-            "download-only"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/cso-electoral-divisions-generalised-50m-national-statistical-boundaries-2015",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/cso-electoral-divisions-generalised-50m-national-statistical-boundaries-2015",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "Do not convert until size/format review approves an interactive derivative."
-        },
-        "shortCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie, CSO Electoral Divisions Generalised 50m - National Statistical Boundaries - 2015.",
-        "fullCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie. CSO Electoral Divisions Generalised 50m - National Statistical Boundaries - 2015. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/cso-electoral-divisions-generalised-50m-national-statistical-boundaries-2015. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/cso-electoral-divisions-generalised-50m-national-statistical-boundaries-2015.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 42,
-            "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:cso-electoral-divisions-generalised-50m-national-statistical-boundaries-2015:00041",
-            "title": "CSO Electoral Divisions Generalised 50m - National Statistical Boundaries - 2015",
-            "cleanTitle": "CSO Electoral Divisions Generalised 50m - National Statistical Boundaries - 2015",
-            "provider": "Tailte/OSI/data.gov.ie",
-            "organisation": "Tailte Éireann",
-            "category": "spatial",
-            "roiGroup": "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-            "groupTitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-            "jurisdiction": "Republic of Ireland",
-            "topic": "boundary",
-            "featureUnit": "Electoral Divisions",
-            "formats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GDB",
-              "GEOJSON",
-              "GPKG",
-              "HTML",
-              "KML",
-              "TXT",
-              "XLSX",
-              "ZIP"
-            ],
-            "isSpatial": true,
-            "isLargeOrSpecial": true,
-            "proposedAction": "hold-special-format",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "download/source viewport first",
-              "conversion": "Do not convert until size/format review approves an interactive derivative.",
-              "sourceFormats": [
-                "ARCGIS GEOSERVICES REST API",
-                "CSV",
-                "GDB",
-                "GEOJSON",
-                "GPKG",
-                "HTML",
-                "KML",
-                "TXT",
-                "XLSX",
-                "ZIP"
-              ]
-            },
-            "approvalState": "ready-with-residual-review",
-            "sourcePublicationState": "public source record with runtime/semantic review still pending",
-            "confidence": 45,
-            "currentProviderUrl": "https://data.gov.ie/dataset/cso-electoral-divisions-generalised-50m-national-statistical-boundaries-2015",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/cso-electoral-divisions-generalised-50m-national-statistical-boundaries-2015",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "geography-crosswalk-and-versioning: geography family inferred",
-              "geography-matching: geography family inferred",
-              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-            ],
-            "residualBlockers": [
-              "duplicate-or-variant-review: no existing match candidate",
-              "large-or-special-format-review: size/format decision remains before runtime publication"
-            ],
-            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-            "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
-            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:cso-electoral-divisions-generalised-50m-national-statistical-boundaries-2015:00041",
-          "sourceRowNumber": 42,
-          "approvalState": "ready-with-residual-review",
-          "recommendedAction": "publish source record; hold runtime conversion pending size/format review",
-          "proposedAction": "hold-special-format",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "download/source viewport first",
-            "conversion": "Do not convert until size/format review approves an interactive derivative.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GDB",
-              "GEOJSON",
-              "GPKG",
-              "HTML",
-              "KML",
-              "TXT",
-              "XLSX",
-              "ZIP"
-            ]
-          },
-          "confidence": 45,
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate",
-            "large-or-special-format-review: size/format decision remains before runtime publication"
-          ],
-          "resolvedBlockers": [
-            "geography-crosswalk-and-versioning: geography family inferred",
-            "geography-matching: geography family inferred",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        },
-        "publicationStatus": "source-record-with-runtime-review",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "source-record-with-runtime-review",
-          "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "boundary",
-          "Electoral Divisions",
-          "Republic of Ireland",
-          "hold-special-format",
-          "ARCGIS GEOSERVICES REST API",
-          "CSV",
-          "GDB",
-          "GEOJSON",
-          "GPKG",
-          "HTML",
-          "KML",
-          "TXT",
-          "XLSX",
-          "ZIP",
-          "review:duplicate-or-variant-review-no-existing-match-candidate",
-          "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-cso-electoral-divisions-generalised-50m-national-statistical-boundaries-2015-00041"
-      }
-    },
-    {
-      "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:cso-electoral-divisions-national-statistical-boundaries-2022-generalised-100m1:00036",
-      "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-cso-electoral-divisions-national-statistical-boundaries-2022-generalised-100m1-00036",
-      "type": "approved-medium-priority-source",
-      "title": "CSO Electoral Divisions - National Statistical Boundaries - 2022 - Generalised 100m",
-      "subtitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA / Tailte Éireann, Tailte/OSI/data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, GDB, GEOJSON, GPKG, HTML, KML, TXT, XLSX, ZIP / Source record; runtime review pending",
-      "category": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-      "date": "2022",
-      "provider": [
-        "Tailte Éireann",
-        "Tailte/OSI/data.gov.ie"
-      ],
-      "description": "CSO Electoral Divisions - National Statistical Boundaries - 2022 - Generalised 100m is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; large-or-special-format-review: size/format decision remains before runtime publication.",
-      "url": "https://data.gov.ie/dataset/cso-electoral-divisions-national-statistical-boundaries-2022-generalised-100m1",
-      "references": [
-        {
-          "label": "CSO Electoral Divisions - National Statistical Boundaries - 2022 - Generalised 100m provider page",
-          "url": "https://data.gov.ie/dataset/cso-electoral-divisions-national-statistical-boundaries-2022-generalised-100m1",
-          "source": "Tailte/OSI/data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "CSO Electoral Divisions - National Statistical Boundaries - 2022 - Generalised 100m Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/cso-electoral-divisions-national-statistical-boundaries-2022-generalised-100m1",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/cso-electoral-divisions-national-statistical-boundaries-2022-generalised-100m1",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "source-record-with-runtime-review",
-        "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "boundary",
-        "Electoral Divisions",
-        "Republic of Ireland",
-        "hold-special-format",
-        "ARCGIS GEOSERVICES REST API",
-        "CSV",
-        "GDB",
-        "GEOJSON",
-        "GPKG",
-        "HTML",
-        "KML",
-        "TXT",
-        "XLSX",
-        "ZIP",
-        "review:duplicate-or-variant-review-no-existing-match-candidate",
-        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 37,
-          "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:cso-electoral-divisions-national-statistical-boundaries-2022-generalised-100m1:00036",
-          "title": "CSO Electoral Divisions - National Statistical Boundaries - 2022 - Generalised 100m",
-          "cleanTitle": "CSO Electoral Divisions - National Statistical Boundaries - 2022 - Generalised 100m",
-          "provider": "Tailte/OSI/data.gov.ie",
-          "organisation": "Tailte Éireann",
-          "category": "spatial",
-          "roiGroup": "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "groupTitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "jurisdiction": "Republic of Ireland",
-          "topic": "boundary",
-          "featureUnit": "Electoral Divisions",
-          "formats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "GDB",
-            "GEOJSON",
-            "GPKG",
-            "HTML",
-            "KML",
-            "TXT",
-            "XLSX",
-            "ZIP"
-          ],
-          "isSpatial": true,
-          "isLargeOrSpecial": true,
-          "proposedAction": "hold-special-format",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "download/source viewport first",
-            "conversion": "Do not convert until size/format review approves an interactive derivative.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GDB",
-              "GEOJSON",
-              "GPKG",
-              "HTML",
-              "KML",
-              "TXT",
-              "XLSX",
-              "ZIP"
-            ]
-          },
-          "approvalState": "ready-with-residual-review",
-          "sourcePublicationState": "public source record with runtime/semantic review still pending",
-          "confidence": 45,
-          "currentProviderUrl": "https://data.gov.ie/dataset/cso-electoral-divisions-national-statistical-boundaries-2022-generalised-100m1",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/cso-electoral-divisions-national-statistical-boundaries-2022-generalised-100m1",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "geography-crosswalk-and-versioning: geography family inferred",
-            "geography-matching: geography family inferred",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate",
-            "large-or-special-format-review: size/format decision remains before runtime publication"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source record",
-        "Runtime review pending",
-        "Spatial source",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "Republic of Ireland",
-        "boundary",
-        "CSO Electoral Divisions - National Statistical Boundaries - 2022 - Generalised 100m"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text",
-          "spreadsheet",
-          "download-only"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/cso-electoral-divisions-national-statistical-boundaries-2022-generalised-100m1",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/cso-electoral-divisions-national-statistical-boundaries-2022-generalised-100m1",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "Do not convert until size/format review approves an interactive derivative."
-      },
-      "shortCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie, CSO Electoral Divisions - National Statistical Boundaries - 2022 - Generalised 100m.",
-      "fullCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie. CSO Electoral Divisions - National Statistical Boundaries - 2022 - Generalised 100m. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/cso-electoral-divisions-national-statistical-boundaries-2022-generalised-100m1. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/cso-electoral-divisions-national-statistical-boundaries-2022-generalised-100m1.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:cso-electoral-divisions-national-statistical-boundaries-2022-generalised-100m1:00036",
-        "sourceRowNumber": 37,
-        "approvalState": "ready-with-residual-review",
-        "recommendedAction": "publish source record; hold runtime conversion pending size/format review",
-        "proposedAction": "hold-special-format",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "download/source viewport first",
-          "conversion": "Do not convert until size/format review approves an interactive derivative.",
-          "sourceFormats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "GDB",
-            "GEOJSON",
-            "GPKG",
-            "HTML",
-            "KML",
-            "TXT",
-            "XLSX",
-            "ZIP"
-          ]
-        },
-        "confidence": 45,
-        "residualBlockers": [
-          "duplicate-or-variant-review: no existing match candidate",
-          "large-or-special-format-review: size/format decision remains before runtime publication"
-        ],
-        "resolvedBlockers": [
-          "geography-crosswalk-and-versioning: geography family inferred",
-          "geography-matching: geography family inferred",
-          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-        ],
-        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-        "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
-        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-      },
-      "publicationStatus": "source-record-with-runtime-review",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-cso-electoral-divisions-national-statistical-boundaries-2022-generalised-100m1-00036",
-      "rawMetadata": {
-        "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:cso-electoral-divisions-national-statistical-boundaries-2022-generalised-100m1:00036",
-        "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-cso-electoral-divisions-national-statistical-boundaries-2022-generalised-100m1-00036",
-        "type": "approved-medium-priority-source",
-        "title": "CSO Electoral Divisions - National Statistical Boundaries - 2022 - Generalised 100m",
-        "subtitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA / Tailte Éireann, Tailte/OSI/data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, GDB, GEOJSON, GPKG, HTML, KML, TXT, XLSX, ZIP / Source record; runtime review pending",
-        "category": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "date": "2022",
-        "provider": [
-          "Tailte Éireann",
-          "Tailte/OSI/data.gov.ie"
-        ],
-        "description": "CSO Electoral Divisions - National Statistical Boundaries - 2022 - Generalised 100m is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; large-or-special-format-review: size/format decision remains before runtime publication.",
-        "url": "https://data.gov.ie/dataset/cso-electoral-divisions-national-statistical-boundaries-2022-generalised-100m1",
-        "references": [
-          {
-            "label": "CSO Electoral Divisions - National Statistical Boundaries - 2022 - Generalised 100m provider page",
-            "url": "https://data.gov.ie/dataset/cso-electoral-divisions-national-statistical-boundaries-2022-generalised-100m1",
-            "source": "Tailte/OSI/data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "CSO Electoral Divisions - National Statistical Boundaries - 2022 - Generalised 100m Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/cso-electoral-divisions-national-statistical-boundaries-2022-generalised-100m1",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/cso-electoral-divisions-national-statistical-boundaries-2022-generalised-100m1",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source record",
-          "Runtime review pending",
-          "Spatial source",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "Republic of Ireland",
-          "boundary",
-          "CSO Electoral Divisions - National Statistical Boundaries - 2022 - Generalised 100m"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text",
-            "spreadsheet",
-            "download-only"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/cso-electoral-divisions-national-statistical-boundaries-2022-generalised-100m1",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/cso-electoral-divisions-national-statistical-boundaries-2022-generalised-100m1",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "Do not convert until size/format review approves an interactive derivative."
-        },
-        "shortCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie, CSO Electoral Divisions - National Statistical Boundaries - 2022 - Generalised 100m.",
-        "fullCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie. CSO Electoral Divisions - National Statistical Boundaries - 2022 - Generalised 100m. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/cso-electoral-divisions-national-statistical-boundaries-2022-generalised-100m1. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/cso-electoral-divisions-national-statistical-boundaries-2022-generalised-100m1.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 37,
-            "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:cso-electoral-divisions-national-statistical-boundaries-2022-generalised-100m1:00036",
-            "title": "CSO Electoral Divisions - National Statistical Boundaries - 2022 - Generalised 100m",
-            "cleanTitle": "CSO Electoral Divisions - National Statistical Boundaries - 2022 - Generalised 100m",
-            "provider": "Tailte/OSI/data.gov.ie",
-            "organisation": "Tailte Éireann",
-            "category": "spatial",
-            "roiGroup": "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-            "groupTitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-            "jurisdiction": "Republic of Ireland",
-            "topic": "boundary",
-            "featureUnit": "Electoral Divisions",
-            "formats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GDB",
-              "GEOJSON",
-              "GPKG",
-              "HTML",
-              "KML",
-              "TXT",
-              "XLSX",
-              "ZIP"
-            ],
-            "isSpatial": true,
-            "isLargeOrSpecial": true,
-            "proposedAction": "hold-special-format",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "download/source viewport first",
-              "conversion": "Do not convert until size/format review approves an interactive derivative.",
-              "sourceFormats": [
-                "ARCGIS GEOSERVICES REST API",
-                "CSV",
-                "GDB",
-                "GEOJSON",
-                "GPKG",
-                "HTML",
-                "KML",
-                "TXT",
-                "XLSX",
-                "ZIP"
-              ]
-            },
-            "approvalState": "ready-with-residual-review",
-            "sourcePublicationState": "public source record with runtime/semantic review still pending",
-            "confidence": 45,
-            "currentProviderUrl": "https://data.gov.ie/dataset/cso-electoral-divisions-national-statistical-boundaries-2022-generalised-100m1",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/cso-electoral-divisions-national-statistical-boundaries-2022-generalised-100m1",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "geography-crosswalk-and-versioning: geography family inferred",
-              "geography-matching: geography family inferred",
-              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-            ],
-            "residualBlockers": [
-              "duplicate-or-variant-review: no existing match candidate",
-              "large-or-special-format-review: size/format decision remains before runtime publication"
-            ],
-            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-            "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
-            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:cso-electoral-divisions-national-statistical-boundaries-2022-generalised-100m1:00036",
-          "sourceRowNumber": 37,
-          "approvalState": "ready-with-residual-review",
-          "recommendedAction": "publish source record; hold runtime conversion pending size/format review",
-          "proposedAction": "hold-special-format",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "download/source viewport first",
-            "conversion": "Do not convert until size/format review approves an interactive derivative.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GDB",
-              "GEOJSON",
-              "GPKG",
-              "HTML",
-              "KML",
-              "TXT",
-              "XLSX",
-              "ZIP"
-            ]
-          },
-          "confidence": 45,
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate",
-            "large-or-special-format-review: size/format decision remains before runtime publication"
-          ],
-          "resolvedBlockers": [
-            "geography-crosswalk-and-versioning: geography family inferred",
-            "geography-matching: geography family inferred",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        },
-        "publicationStatus": "source-record-with-runtime-review",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "source-record-with-runtime-review",
-          "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "boundary",
-          "Electoral Divisions",
-          "Republic of Ireland",
-          "hold-special-format",
-          "ARCGIS GEOSERVICES REST API",
-          "CSV",
-          "GDB",
-          "GEOJSON",
-          "GPKG",
-          "HTML",
-          "KML",
-          "TXT",
-          "XLSX",
-          "ZIP",
-          "review:duplicate-or-variant-review-no-existing-match-candidate",
-          "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-cso-electoral-divisions-national-statistical-boundaries-2022-generalised-100m1-00036"
       }
     }
   ]

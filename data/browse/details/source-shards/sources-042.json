@@ -1,10 +1,760 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T17:47:01.808Z",
+  "generatedAt": "2026-06-30T18:42:53.573Z",
   "kind": "sources",
   "shard": "sources-042.json",
   "total": 200,
   "items": [
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:annual-budget-2016-appendix-2-fcc2:01193",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-annual-budget-2016-appendix-2-fcc2-01193",
+      "type": "approved-medium-priority-source",
+      "title": "Annual Budget 2016 Appendix 2 FCC",
+      "subtitle": "Local authority planning/property/open-data layers / Fingal County Council, data.gov.ie / Ireland / unspecified / ARCGIS GEOSERVICES REST API, CSV, HTML, KML, ZIP / Source record; runtime review pending",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "date": "2016",
+      "provider": [
+        "Fingal County Council",
+        "data.gov.ie"
+      ],
+      "description": "Annual Budget 2016 Appendix 2 FCC is published as a medium-priority Civgraph source/provenance record from Fingal County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
+      "url": "https://data.gov.ie/dataset/annual-budget-2016-appendix-2-fcc2",
+      "references": [
+        {
+          "label": "Annual Budget 2016 Appendix 2 FCC provider page",
+          "url": "https://data.gov.ie/dataset/annual-budget-2016-appendix-2-fcc2",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "Annual Budget 2016 Appendix 2 FCC Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/annual-budget-2016-appendix-2-fcc2",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/annual-budget-2016-appendix-2-fcc2",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "source-record-with-runtime-review",
+        "Local authority planning/property/open-data layers",
+        "source-data",
+        "features",
+        "Ireland / unspecified",
+        "local-authority-batch-review",
+        "ARCGIS GEOSERVICES REST API",
+        "CSV",
+        "HTML",
+        "KML",
+        "ZIP",
+        "review:duplicate-or-variant-review-no-existing-match-candidate"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 1194,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:annual-budget-2016-appendix-2-fcc2:01193",
+          "title": "Annual Budget 2016 Appendix 2 FCC",
+          "cleanTitle": "Annual Budget 2016 Appendix 2 FCC",
+          "provider": "data.gov.ie",
+          "organisation": "Fingal County Council",
+          "category": "spatial",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "source-data",
+          "featureUnit": "features",
+          "formats": [
+            "ARCGIS GEOSERVICES REST API",
+            "CSV",
+            "HTML",
+            "KML",
+            "ZIP"
+          ],
+          "isSpatial": true,
+          "isLargeOrSpecial": false,
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "HTML",
+              "KML",
+              "ZIP"
+            ]
+          },
+          "approvalState": "ready-with-residual-review",
+          "sourcePublicationState": "public source record with runtime/semantic review still pending",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/annual-budget-2016-appendix-2-fcc2",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/annual-budget-2016-appendix-2-fcc2",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "large-or-special-format-review: normal source package; no special-format hold",
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        }
+      ],
+      "status": "Source only",
+      "statusChips": [
+        "Source record",
+        "Runtime review pending",
+        "Spatial source",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Ireland / unspecified",
+        "source-data",
+        "Annual Budget 2016 Appendix 2 FCC"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "download-only"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/annual-budget-2016-appendix-2-fcc2",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/annual-budget-2016-appendix-2-fcc2",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Fingal County Council, data.gov.ie, Annual Budget 2016 Appendix 2 FCC.",
+      "fullCitation": "Fingal County Council, data.gov.ie. Annual Budget 2016 Appendix 2 FCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/annual-budget-2016-appendix-2-fcc2. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/annual-budget-2016-appendix-2-fcc2.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:annual-budget-2016-appendix-2-fcc2:01193",
+        "sourceRowNumber": 1194,
+        "approvalState": "ready-with-residual-review",
+        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+        "proposedAction": "local-authority-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "ARCGIS GEOSERVICES REST API",
+            "CSV",
+            "HTML",
+            "KML",
+            "ZIP"
+          ]
+        },
+        "confidence": 60,
+        "residualBlockers": [
+          "duplicate-or-variant-review: no existing match candidate"
+        ],
+        "resolvedBlockers": [
+          "large-or-special-format-review: normal source package; no special-format hold",
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+        ],
+        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+      },
+      "publicationStatus": "source-record-with-runtime-review",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-annual-budget-2016-appendix-2-fcc2-01193",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:annual-budget-2016-appendix-2-fcc2:01193",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-annual-budget-2016-appendix-2-fcc2-01193",
+        "type": "approved-medium-priority-source",
+        "title": "Annual Budget 2016 Appendix 2 FCC",
+        "subtitle": "Local authority planning/property/open-data layers / Fingal County Council, data.gov.ie / Ireland / unspecified / ARCGIS GEOSERVICES REST API, CSV, HTML, KML, ZIP / Source record; runtime review pending",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "date": "2016",
+        "provider": [
+          "Fingal County Council",
+          "data.gov.ie"
+        ],
+        "description": "Annual Budget 2016 Appendix 2 FCC is published as a medium-priority Civgraph source/provenance record from Fingal County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
+        "url": "https://data.gov.ie/dataset/annual-budget-2016-appendix-2-fcc2",
+        "references": [
+          {
+            "label": "Annual Budget 2016 Appendix 2 FCC provider page",
+            "url": "https://data.gov.ie/dataset/annual-budget-2016-appendix-2-fcc2",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "Annual Budget 2016 Appendix 2 FCC Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/annual-budget-2016-appendix-2-fcc2",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/annual-budget-2016-appendix-2-fcc2",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source only",
+        "statusChips": [
+          "Source record",
+          "Runtime review pending",
+          "Spatial source",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Ireland / unspecified",
+          "source-data",
+          "Annual Budget 2016 Appendix 2 FCC"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "download-only"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/annual-budget-2016-appendix-2-fcc2",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/annual-budget-2016-appendix-2-fcc2",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Fingal County Council, data.gov.ie, Annual Budget 2016 Appendix 2 FCC.",
+        "fullCitation": "Fingal County Council, data.gov.ie. Annual Budget 2016 Appendix 2 FCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/annual-budget-2016-appendix-2-fcc2. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/annual-budget-2016-appendix-2-fcc2.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 1194,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:annual-budget-2016-appendix-2-fcc2:01193",
+            "title": "Annual Budget 2016 Appendix 2 FCC",
+            "cleanTitle": "Annual Budget 2016 Appendix 2 FCC",
+            "provider": "data.gov.ie",
+            "organisation": "Fingal County Council",
+            "category": "spatial",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "source-data",
+            "featureUnit": "features",
+            "formats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "HTML",
+              "KML",
+              "ZIP"
+            ],
+            "isSpatial": true,
+            "isLargeOrSpecial": false,
+            "proposedAction": "local-authority-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "ARCGIS GEOSERVICES REST API",
+                "CSV",
+                "HTML",
+                "KML",
+                "ZIP"
+              ]
+            },
+            "approvalState": "ready-with-residual-review",
+            "sourcePublicationState": "public source record with runtime/semantic review still pending",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/annual-budget-2016-appendix-2-fcc2",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/annual-budget-2016-appendix-2-fcc2",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "large-or-special-format-review: normal source package; no special-format hold",
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+            ],
+            "residualBlockers": [
+              "duplicate-or-variant-review: no existing match candidate"
+            ],
+            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:annual-budget-2016-appendix-2-fcc2:01193",
+          "sourceRowNumber": 1194,
+          "approvalState": "ready-with-residual-review",
+          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "HTML",
+              "KML",
+              "ZIP"
+            ]
+          },
+          "confidence": 60,
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate"
+          ],
+          "resolvedBlockers": [
+            "large-or-special-format-review: normal source package; no special-format hold",
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        },
+        "publicationStatus": "source-record-with-runtime-review",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "source-record-with-runtime-review",
+          "Local authority planning/property/open-data layers",
+          "source-data",
+          "features",
+          "Ireland / unspecified",
+          "local-authority-batch-review",
+          "ARCGIS GEOSERVICES REST API",
+          "CSV",
+          "HTML",
+          "KML",
+          "ZIP",
+          "review:duplicate-or-variant-review-no-existing-match-candidate"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-annual-budget-2016-appendix-2-fcc2-01193"
+      }
+    },
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:annual-budget-2016-table-a-fcc2:01194",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-annual-budget-2016-table-a-fcc2-01194",
+      "type": "approved-medium-priority-source",
+      "title": "Annual Budget 2016 Table A FCC",
+      "subtitle": "Local authority planning/property/open-data layers / Fingal County Council, data.gov.ie / Ireland / unspecified / ARCGIS GEOSERVICES REST API, CSV, HTML, KML, ZIP / Source record; runtime review pending",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "date": "2016",
+      "provider": [
+        "Fingal County Council",
+        "data.gov.ie"
+      ],
+      "description": "Annual Budget 2016 Table A FCC is published as a medium-priority Civgraph source/provenance record from Fingal County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
+      "url": "https://data.gov.ie/dataset/annual-budget-2016-table-a-fcc2",
+      "references": [
+        {
+          "label": "Annual Budget 2016 Table A FCC provider page",
+          "url": "https://data.gov.ie/dataset/annual-budget-2016-table-a-fcc2",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "Annual Budget 2016 Table A FCC Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/annual-budget-2016-table-a-fcc2",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/annual-budget-2016-table-a-fcc2",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "source-record-with-runtime-review",
+        "Local authority planning/property/open-data layers",
+        "source-data",
+        "features",
+        "Ireland / unspecified",
+        "local-authority-batch-review",
+        "ARCGIS GEOSERVICES REST API",
+        "CSV",
+        "HTML",
+        "KML",
+        "ZIP",
+        "review:duplicate-or-variant-review-no-existing-match-candidate"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 1195,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:annual-budget-2016-table-a-fcc2:01194",
+          "title": "Annual Budget 2016 Table A FCC",
+          "cleanTitle": "Annual Budget 2016 Table A FCC",
+          "provider": "data.gov.ie",
+          "organisation": "Fingal County Council",
+          "category": "spatial",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "source-data",
+          "featureUnit": "features",
+          "formats": [
+            "ARCGIS GEOSERVICES REST API",
+            "CSV",
+            "HTML",
+            "KML",
+            "ZIP"
+          ],
+          "isSpatial": true,
+          "isLargeOrSpecial": false,
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "HTML",
+              "KML",
+              "ZIP"
+            ]
+          },
+          "approvalState": "ready-with-residual-review",
+          "sourcePublicationState": "public source record with runtime/semantic review still pending",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/annual-budget-2016-table-a-fcc2",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/annual-budget-2016-table-a-fcc2",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "large-or-special-format-review: normal source package; no special-format hold",
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        }
+      ],
+      "status": "Source only",
+      "statusChips": [
+        "Source record",
+        "Runtime review pending",
+        "Spatial source",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Ireland / unspecified",
+        "source-data",
+        "Annual Budget 2016 Table A FCC"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "download-only"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/annual-budget-2016-table-a-fcc2",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/annual-budget-2016-table-a-fcc2",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Fingal County Council, data.gov.ie, Annual Budget 2016 Table A FCC.",
+      "fullCitation": "Fingal County Council, data.gov.ie. Annual Budget 2016 Table A FCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/annual-budget-2016-table-a-fcc2. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/annual-budget-2016-table-a-fcc2.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:annual-budget-2016-table-a-fcc2:01194",
+        "sourceRowNumber": 1195,
+        "approvalState": "ready-with-residual-review",
+        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+        "proposedAction": "local-authority-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "ARCGIS GEOSERVICES REST API",
+            "CSV",
+            "HTML",
+            "KML",
+            "ZIP"
+          ]
+        },
+        "confidence": 60,
+        "residualBlockers": [
+          "duplicate-or-variant-review: no existing match candidate"
+        ],
+        "resolvedBlockers": [
+          "large-or-special-format-review: normal source package; no special-format hold",
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+        ],
+        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+      },
+      "publicationStatus": "source-record-with-runtime-review",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-annual-budget-2016-table-a-fcc2-01194",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:annual-budget-2016-table-a-fcc2:01194",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-annual-budget-2016-table-a-fcc2-01194",
+        "type": "approved-medium-priority-source",
+        "title": "Annual Budget 2016 Table A FCC",
+        "subtitle": "Local authority planning/property/open-data layers / Fingal County Council, data.gov.ie / Ireland / unspecified / ARCGIS GEOSERVICES REST API, CSV, HTML, KML, ZIP / Source record; runtime review pending",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "date": "2016",
+        "provider": [
+          "Fingal County Council",
+          "data.gov.ie"
+        ],
+        "description": "Annual Budget 2016 Table A FCC is published as a medium-priority Civgraph source/provenance record from Fingal County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
+        "url": "https://data.gov.ie/dataset/annual-budget-2016-table-a-fcc2",
+        "references": [
+          {
+            "label": "Annual Budget 2016 Table A FCC provider page",
+            "url": "https://data.gov.ie/dataset/annual-budget-2016-table-a-fcc2",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "Annual Budget 2016 Table A FCC Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/annual-budget-2016-table-a-fcc2",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/annual-budget-2016-table-a-fcc2",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source only",
+        "statusChips": [
+          "Source record",
+          "Runtime review pending",
+          "Spatial source",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Ireland / unspecified",
+          "source-data",
+          "Annual Budget 2016 Table A FCC"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "download-only"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/annual-budget-2016-table-a-fcc2",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/annual-budget-2016-table-a-fcc2",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Fingal County Council, data.gov.ie, Annual Budget 2016 Table A FCC.",
+        "fullCitation": "Fingal County Council, data.gov.ie. Annual Budget 2016 Table A FCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/annual-budget-2016-table-a-fcc2. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/annual-budget-2016-table-a-fcc2.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 1195,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:annual-budget-2016-table-a-fcc2:01194",
+            "title": "Annual Budget 2016 Table A FCC",
+            "cleanTitle": "Annual Budget 2016 Table A FCC",
+            "provider": "data.gov.ie",
+            "organisation": "Fingal County Council",
+            "category": "spatial",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "source-data",
+            "featureUnit": "features",
+            "formats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "HTML",
+              "KML",
+              "ZIP"
+            ],
+            "isSpatial": true,
+            "isLargeOrSpecial": false,
+            "proposedAction": "local-authority-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "ARCGIS GEOSERVICES REST API",
+                "CSV",
+                "HTML",
+                "KML",
+                "ZIP"
+              ]
+            },
+            "approvalState": "ready-with-residual-review",
+            "sourcePublicationState": "public source record with runtime/semantic review still pending",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/annual-budget-2016-table-a-fcc2",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/annual-budget-2016-table-a-fcc2",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "large-or-special-format-review: normal source package; no special-format hold",
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+            ],
+            "residualBlockers": [
+              "duplicate-or-variant-review: no existing match candidate"
+            ],
+            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:annual-budget-2016-table-a-fcc2:01194",
+          "sourceRowNumber": 1195,
+          "approvalState": "ready-with-residual-review",
+          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "HTML",
+              "KML",
+              "ZIP"
+            ]
+          },
+          "confidence": 60,
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate"
+          ],
+          "resolvedBlockers": [
+            "large-or-special-format-review: normal source package; no special-format hold",
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        },
+        "publicationStatus": "source-record-with-runtime-review",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "source-record-with-runtime-review",
+          "Local authority planning/property/open-data layers",
+          "source-data",
+          "features",
+          "Ireland / unspecified",
+          "local-authority-batch-review",
+          "ARCGIS GEOSERVICES REST API",
+          "CSV",
+          "HTML",
+          "KML",
+          "ZIP",
+          "review:duplicate-or-variant-review-no-existing-match-candidate"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-annual-budget-2016-table-a-fcc2-01194"
+      }
+    },
     {
       "id": "medium-priority:5-local-authority-planning-property-open-data-layers:annual-budget-2016-table-d-fcc2:01195",
       "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-annual-budget-2016-table-d-fcc2-01195",
@@ -71327,710 +72077,6 @@
           "PDF"
         ],
         "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-clane-parking-bye-laws-2017-text-01786"
-      }
-    },
-    {
-      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:clare-prompt-payment-return-qtr-4-2017:01321",
-      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-clare-prompt-payment-return-qtr-4-2017-01321",
-      "type": "approved-medium-priority-source",
-      "title": "Clare Prompt Payment Return Qtr 4 2017",
-      "subtitle": "Local authority planning/property/open-data layers / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV / Approved source record",
-      "category": "Medium-priority: Local authority planning/property/open-data layers",
-      "date": "2017",
-      "provider": [
-        "Department of Housing, Local Government and Heritage",
-        "data.gov.ie"
-      ],
-      "description": "Clare Prompt Payment Return Qtr 4 2017 is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/clare-prompt-payment-return-qtr-4-2017",
-      "references": [
-        {
-          "label": "Clare Prompt Payment Return Qtr 4 2017 provider page",
-          "url": "https://data.gov.ie/dataset/clare-prompt-payment-return-qtr-4-2017",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Clare Prompt Payment Return Qtr 4 2017 Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/clare-prompt-payment-return-qtr-4-2017",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/clare-prompt-payment-return-qtr-4-2017",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Local authority planning/property/open-data layers",
-        "source-data",
-        "features",
-        "Ireland / unspecified",
-        "local-authority-batch-review",
-        "CSV"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 1322,
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:clare-prompt-payment-return-qtr-4-2017:01321",
-          "title": "Clare Prompt Payment Return Qtr 4 2017",
-          "cleanTitle": "Clare Prompt Payment Return Qtr 4 2017",
-          "provider": "data.gov.ie",
-          "organisation": "Department of Housing, Local Government and Heritage",
-          "category": "tabular",
-          "roiGroup": "5. Local authority planning/property/open-data layers",
-          "groupTitle": "Local authority planning/property/open-data layers",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "source-data",
-          "featureUnit": "features",
-          "formats": [
-            "CSV"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 55,
-          "currentProviderUrl": "https://data.gov.ie/dataset/clare-prompt-payment-return-qtr-4-2017",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/clare-prompt-payment-return-qtr-4-2017",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Local authority planning/property/open-data layers",
-        "Ireland / unspecified",
-        "source-data",
-        "Clare Prompt Payment Return Qtr 4 2017"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/clare-prompt-payment-return-qtr-4-2017",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/clare-prompt-payment-return-qtr-4-2017",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, Clare Prompt Payment Return Qtr 4 2017.",
-      "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. Clare Prompt Payment Return Qtr 4 2017. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/clare-prompt-payment-return-qtr-4-2017. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/clare-prompt-payment-return-qtr-4-2017.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:clare-prompt-payment-return-qtr-4-2017:01321",
-        "sourceRowNumber": 1322,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-        "proposedAction": "local-authority-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "CSV"
-          ]
-        },
-        "confidence": 55,
-        "resolvedBlockers": [
-          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-          "needs-provider-context-review: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-clare-prompt-payment-return-qtr-4-2017-01321",
-      "rawMetadata": {
-        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:clare-prompt-payment-return-qtr-4-2017:01321",
-        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-clare-prompt-payment-return-qtr-4-2017-01321",
-        "type": "approved-medium-priority-source",
-        "title": "Clare Prompt Payment Return Qtr 4 2017",
-        "subtitle": "Local authority planning/property/open-data layers / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV / Approved source record",
-        "category": "Medium-priority: Local authority planning/property/open-data layers",
-        "date": "2017",
-        "provider": [
-          "Department of Housing, Local Government and Heritage",
-          "data.gov.ie"
-        ],
-        "description": "Clare Prompt Payment Return Qtr 4 2017 is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/clare-prompt-payment-return-qtr-4-2017",
-        "references": [
-          {
-            "label": "Clare Prompt Payment Return Qtr 4 2017 provider page",
-            "url": "https://data.gov.ie/dataset/clare-prompt-payment-return-qtr-4-2017",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Clare Prompt Payment Return Qtr 4 2017 Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/clare-prompt-payment-return-qtr-4-2017",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/clare-prompt-payment-return-qtr-4-2017",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Local authority planning/property/open-data layers",
-          "Ireland / unspecified",
-          "source-data",
-          "Clare Prompt Payment Return Qtr 4 2017"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/clare-prompt-payment-return-qtr-4-2017",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/clare-prompt-payment-return-qtr-4-2017",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, Clare Prompt Payment Return Qtr 4 2017.",
-        "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. Clare Prompt Payment Return Qtr 4 2017. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/clare-prompt-payment-return-qtr-4-2017. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/clare-prompt-payment-return-qtr-4-2017.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 1322,
-            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:clare-prompt-payment-return-qtr-4-2017:01321",
-            "title": "Clare Prompt Payment Return Qtr 4 2017",
-            "cleanTitle": "Clare Prompt Payment Return Qtr 4 2017",
-            "provider": "data.gov.ie",
-            "organisation": "Department of Housing, Local Government and Heritage",
-            "category": "tabular",
-            "roiGroup": "5. Local authority planning/property/open-data layers",
-            "groupTitle": "Local authority planning/property/open-data layers",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "source-data",
-            "featureUnit": "features",
-            "formats": [
-              "CSV"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "local-authority-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "CSV"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 55,
-            "currentProviderUrl": "https://data.gov.ie/dataset/clare-prompt-payment-return-qtr-4-2017",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/clare-prompt-payment-return-qtr-4-2017",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-              "needs-provider-context-review: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:clare-prompt-payment-return-qtr-4-2017:01321",
-          "sourceRowNumber": 1322,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV"
-            ]
-          },
-          "confidence": 55,
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Local authority planning/property/open-data layers",
-          "source-data",
-          "features",
-          "Ireland / unspecified",
-          "local-authority-batch-review",
-          "CSV"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-clare-prompt-payment-return-qtr-4-2017-01321"
-      }
-    },
-    {
-      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:clifden-lap-2018-to-20241:00455",
-      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-clifden-lap-2018-to-20241-00455",
-      "type": "approved-medium-priority-source",
-      "title": "Clifden LAP 2018 to 2024",
-      "subtitle": "Local authority planning/property/open-data layers / Galway County Council, data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, GEOJSON, HTML, KML, ZIP / Source record; runtime review pending",
-      "category": "Medium-priority: Local authority planning/property/open-data layers",
-      "date": "2018",
-      "provider": [
-        "Galway County Council",
-        "data.gov.ie"
-      ],
-      "description": "Clifden LAP 2018 to 2024 is published as a medium-priority Civgraph source/provenance record from Galway County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-      "url": "https://data.gov.ie/dataset/clifden-lap-2018-to-20241",
-      "references": [
-        {
-          "label": "Clifden LAP 2018 to 2024 provider page",
-          "url": "https://data.gov.ie/dataset/clifden-lap-2018-to-20241",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Clifden LAP 2018 to 2024 Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/clifden-lap-2018-to-20241",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/clifden-lap-2018-to-20241",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "source-record-with-runtime-review",
-        "Local authority planning/property/open-data layers",
-        "source-data",
-        "features",
-        "Republic of Ireland",
-        "local-authority-batch-review",
-        "ARCGIS GEOSERVICES REST API",
-        "CSV",
-        "GEOJSON",
-        "HTML",
-        "KML",
-        "ZIP",
-        "review:duplicate-or-variant-review-no-existing-match-candidate"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 456,
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:clifden-lap-2018-to-20241:00455",
-          "title": "Clifden LAP 2018 to 2024",
-          "cleanTitle": "Clifden LAP 2018 to 2024",
-          "provider": "data.gov.ie",
-          "organisation": "Galway County Council",
-          "category": "spatial",
-          "roiGroup": "5. Local authority planning/property/open-data layers",
-          "groupTitle": "Local authority planning/property/open-data layers",
-          "jurisdiction": "Republic of Ireland",
-          "topic": "source-data",
-          "featureUnit": "features",
-          "formats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "GEOJSON",
-            "HTML",
-            "KML",
-            "ZIP"
-          ],
-          "isSpatial": true,
-          "isLargeOrSpecial": false,
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GEOJSON",
-              "HTML",
-              "KML",
-              "ZIP"
-            ]
-          },
-          "approvalState": "ready-with-residual-review",
-          "sourcePublicationState": "public source record with runtime/semantic review still pending",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/clifden-lap-2018-to-20241",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/clifden-lap-2018-to-20241",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source record",
-        "Runtime review pending",
-        "Spatial source",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Local authority planning/property/open-data layers",
-        "Republic of Ireland",
-        "source-data",
-        "Clifden LAP 2018 to 2024"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text",
-          "download-only"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/clifden-lap-2018-to-20241",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/clifden-lap-2018-to-20241",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Galway County Council, data.gov.ie, Clifden LAP 2018 to 2024.",
-      "fullCitation": "Galway County Council, data.gov.ie. Clifden LAP 2018 to 2024. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/clifden-lap-2018-to-20241. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/clifden-lap-2018-to-20241.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:clifden-lap-2018-to-20241:00455",
-        "sourceRowNumber": 456,
-        "approvalState": "ready-with-residual-review",
-        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-        "proposedAction": "local-authority-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "GEOJSON",
-            "HTML",
-            "KML",
-            "ZIP"
-          ]
-        },
-        "confidence": 60,
-        "residualBlockers": [
-          "duplicate-or-variant-review: no existing match candidate"
-        ],
-        "resolvedBlockers": [
-          "large-or-special-format-review: normal source package; no special-format hold",
-          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-        ],
-        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-      },
-      "publicationStatus": "source-record-with-runtime-review",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-clifden-lap-2018-to-20241-00455",
-      "rawMetadata": {
-        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:clifden-lap-2018-to-20241:00455",
-        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-clifden-lap-2018-to-20241-00455",
-        "type": "approved-medium-priority-source",
-        "title": "Clifden LAP 2018 to 2024",
-        "subtitle": "Local authority planning/property/open-data layers / Galway County Council, data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, GEOJSON, HTML, KML, ZIP / Source record; runtime review pending",
-        "category": "Medium-priority: Local authority planning/property/open-data layers",
-        "date": "2018",
-        "provider": [
-          "Galway County Council",
-          "data.gov.ie"
-        ],
-        "description": "Clifden LAP 2018 to 2024 is published as a medium-priority Civgraph source/provenance record from Galway County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-        "url": "https://data.gov.ie/dataset/clifden-lap-2018-to-20241",
-        "references": [
-          {
-            "label": "Clifden LAP 2018 to 2024 provider page",
-            "url": "https://data.gov.ie/dataset/clifden-lap-2018-to-20241",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Clifden LAP 2018 to 2024 Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/clifden-lap-2018-to-20241",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/clifden-lap-2018-to-20241",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source record",
-          "Runtime review pending",
-          "Spatial source",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Local authority planning/property/open-data layers",
-          "Republic of Ireland",
-          "source-data",
-          "Clifden LAP 2018 to 2024"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text",
-            "download-only"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/clifden-lap-2018-to-20241",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/clifden-lap-2018-to-20241",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Galway County Council, data.gov.ie, Clifden LAP 2018 to 2024.",
-        "fullCitation": "Galway County Council, data.gov.ie. Clifden LAP 2018 to 2024. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/clifden-lap-2018-to-20241. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/clifden-lap-2018-to-20241.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 456,
-            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:clifden-lap-2018-to-20241:00455",
-            "title": "Clifden LAP 2018 to 2024",
-            "cleanTitle": "Clifden LAP 2018 to 2024",
-            "provider": "data.gov.ie",
-            "organisation": "Galway County Council",
-            "category": "spatial",
-            "roiGroup": "5. Local authority planning/property/open-data layers",
-            "groupTitle": "Local authority planning/property/open-data layers",
-            "jurisdiction": "Republic of Ireland",
-            "topic": "source-data",
-            "featureUnit": "features",
-            "formats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GEOJSON",
-              "HTML",
-              "KML",
-              "ZIP"
-            ],
-            "isSpatial": true,
-            "isLargeOrSpecial": false,
-            "proposedAction": "local-authority-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "ARCGIS GEOSERVICES REST API",
-                "CSV",
-                "GEOJSON",
-                "HTML",
-                "KML",
-                "ZIP"
-              ]
-            },
-            "approvalState": "ready-with-residual-review",
-            "sourcePublicationState": "public source record with runtime/semantic review still pending",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/clifden-lap-2018-to-20241",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/clifden-lap-2018-to-20241",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "large-or-special-format-review: normal source package; no special-format hold",
-              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-            ],
-            "residualBlockers": [
-              "duplicate-or-variant-review: no existing match candidate"
-            ],
-            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:clifden-lap-2018-to-20241:00455",
-          "sourceRowNumber": 456,
-          "approvalState": "ready-with-residual-review",
-          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GEOJSON",
-              "HTML",
-              "KML",
-              "ZIP"
-            ]
-          },
-          "confidence": 60,
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate"
-          ],
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        },
-        "publicationStatus": "source-record-with-runtime-review",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "source-record-with-runtime-review",
-          "Local authority planning/property/open-data layers",
-          "source-data",
-          "features",
-          "Republic of Ireland",
-          "local-authority-batch-review",
-          "ARCGIS GEOSERVICES REST API",
-          "CSV",
-          "GEOJSON",
-          "HTML",
-          "KML",
-          "ZIP",
-          "review:duplicate-or-variant-review-no-existing-match-candidate"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-clifden-lap-2018-to-20241-00455"
       }
     }
   ]

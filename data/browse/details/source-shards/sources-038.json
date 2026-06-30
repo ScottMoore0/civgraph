@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T17:47:01.808Z",
+  "generatedAt": "2026-06-30T18:42:53.573Z",
   "kind": "sources",
   "shard": "sources-038.json",
   "total": 200,
@@ -3975,6 +3975,148 @@
             "file": "https://admin.opendatani.gov.uk/dataset/33f1a92f-8abf-4eed-b944-b816043c58a4/resource/fb6ea3cf-8ea0-4c3f-b3a7-a2bf74e8d47b/download/osni_opendata_streetmaps.zip"
           }
         ]
+      }
+    },
+    {
+      "id": "map-source:osni-transport-points",
+      "slug": "map-source-osni-transport-points",
+      "type": "map-source",
+      "title": "OSNI 50K Transport — Transport Points source files",
+      "subtitle": "Transport / Land & Property Services (OSNI)",
+      "category": "Map sources",
+      "provider": [
+        "Land & Property Services (OSNI)"
+      ],
+      "description": "OSNI 50K Transport — Transport Points — OSNI Open Data 50K, via Land & Property Services.",
+      "sourceMapId": "osni-transport-points",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "O5",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Open Data NI — OSNI 50K Transport — Transport Points",
+          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-transport-points"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/osni/OSNI_50K_Transport_Transport_Points.fgb"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/osni/OSNI_50K_Transport_Transport_Points.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=osni-transport-points",
+      "browseUrl": "/browse/sources/map-source-osni-transport-points",
+      "rawMetadata": {
+        "id": "osni-transport-points",
+        "name": "OSNI 50K Transport — Transport Points",
+        "slug": "osni-transport-points",
+        "category": "transport",
+        "provider": [
+          "Land & Property Services (OSNI)"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/osni/OSNI_50K_Transport_Transport_Points.fgb"
+        },
+        "style": {
+          "color": "#455A64",
+          "weight": 1,
+          "fillOpacity": 0.5
+        },
+        "keywords": [
+          "northern ireland",
+          "NI",
+          "OSNI",
+          "transport",
+          "50k",
+          "points",
+          "stations"
+        ],
+        "description": "OSNI 50K Transport — Transport Points — OSNI Open Data 50K, via Land & Property Services.",
+        "references": [
+          {
+            "label": "Open Data NI — OSNI 50K Transport — Transport Points",
+            "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-transport-points",
+            "note": ""
+          }
+        ],
+        "labelProperty": "TEMA"
+      }
+    },
+    {
+      "id": "map-source:osni-transport-text-labels",
+      "slug": "map-source-osni-transport-text-labels",
+      "type": "map-source",
+      "title": "OSNI 50K Transport — Text Labelling source files",
+      "subtitle": "Transport / Land & Property Services (OSNI)",
+      "category": "Map sources",
+      "provider": [
+        "Land & Property Services (OSNI)"
+      ],
+      "description": "OSNI 50K Transport — Text Labelling — OSNI Open Data 50K, via Land & Property Services.",
+      "sourceMapId": "osni-transport-text-labels",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "O5",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Open Data NI — OSNI 50K Transport — Text Labelling",
+          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-transport-text-labels"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/osni/OSNI_50K_Transport_Text_Labelling.fgb"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/osni/OSNI_50K_Transport_Text_Labelling.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=osni-transport-text-labels",
+      "browseUrl": "/browse/sources/map-source-osni-transport-text-labels",
+      "rawMetadata": {
+        "id": "osni-transport-text-labels",
+        "name": "OSNI 50K Transport — Text Labelling",
+        "slug": "osni-transport-text-labels",
+        "category": "transport",
+        "provider": [
+          "Land & Property Services (OSNI)"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/osni/OSNI_50K_Transport_Text_Labelling.fgb"
+        },
+        "style": {
+          "color": "#455A64",
+          "weight": 1,
+          "fillOpacity": 0.5
+        },
+        "keywords": [
+          "northern ireland",
+          "NI",
+          "OSNI",
+          "transport",
+          "50k",
+          "labels",
+          "place names"
+        ],
+        "description": "OSNI 50K Transport — Text Labelling — OSNI Open Data 50K, via Land & Property Services.",
+        "references": [
+          {
+            "label": "Open Data NI — OSNI 50K Transport — Text Labelling",
+            "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-transport-text-labels",
+            "note": ""
+          }
+        ],
+        "labelProperty": "TEXTSTRING"
       }
     },
     {
@@ -35639,666 +35781,6 @@
           "review:election-model-merge-and-provenance-review-requires-exact-election-merge-review"
         ],
         "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-dail-constituencies-2013-sdcc1-00101"
-      }
-    },
-    {
-      "id": "medium-priority:2-irish-election-source-enrichment-data:daily-gas-shrinkage:02163",
-      "slug": "medium-priority-2-irish-election-source-enrichment-data-daily-gas-shrinkage-02163",
-      "type": "approved-medium-priority-source",
-      "title": "Daily Gas Shrinkage Ireland",
-      "subtitle": "Irish election source/enrichment data / Gas Networks Ireland, data.gov.ie / Republic of Ireland / JSON, XLSX / Approved source record",
-      "category": "Medium-priority: Irish election source/enrichment data",
-      "provider": [
-        "Gas Networks Ireland",
-        "data.gov.ie"
-      ],
-      "description": "Daily Gas Shrinkage Ireland is published as a medium-priority Civgraph source/provenance record from Gas Networks Ireland, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/daily-gas-shrinkage",
-      "references": [
-        {
-          "label": "Daily Gas Shrinkage Ireland provider page",
-          "url": "https://data.gov.ie/dataset/daily-gas-shrinkage",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Daily Gas Shrinkage Ireland Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/daily-gas-shrinkage",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/daily-gas-shrinkage",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Irish election source/enrichment data",
-        "election",
-        "features",
-        "Republic of Ireland",
-        "enrich-existing-election",
-        "JSON",
-        "XLSX"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 2164,
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:daily-gas-shrinkage:02163",
-          "title": "Daily Gas Shrinkage Ireland",
-          "cleanTitle": "Daily Gas Shrinkage Ireland",
-          "provider": "data.gov.ie",
-          "organisation": "Gas Networks Ireland",
-          "category": "tabular",
-          "roiGroup": "2. Irish election source/enrichment data",
-          "groupTitle": "Irish election source/enrichment data",
-          "jurisdiction": "Republic of Ireland",
-          "topic": "election",
-          "featureUnit": "features",
-          "formats": [
-            "JSON",
-            "XLSX"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "enrich-existing-election",
-          "proposedPlacement": "Elections/source provenance",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "JSON",
-              "XLSX"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/daily-gas-shrinkage",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/daily-gas-shrinkage",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "election-model-merge-and-provenance-review: election staging action assigned",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Download available",
-        "Provider link",
-        "Wayback link",
-        "Election provenance"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Irish election source/enrichment data",
-        "Republic of Ireland",
-        "election",
-        "Daily Gas Shrinkage Ireland"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text",
-          "spreadsheet"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/daily-gas-shrinkage",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/daily-gas-shrinkage",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Gas Networks Ireland, data.gov.ie, Daily Gas Shrinkage Ireland.",
-      "fullCitation": "Gas Networks Ireland, data.gov.ie. Daily Gas Shrinkage Ireland. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/daily-gas-shrinkage. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/daily-gas-shrinkage.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:2-irish-election-source-enrichment-data:daily-gas-shrinkage:02163",
-        "sourceRowNumber": 2164,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish election source/provenance enrichment",
-        "proposedAction": "enrich-existing-election",
-        "proposedPlacement": "Elections/source provenance",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "JSON",
-            "XLSX"
-          ]
-        },
-        "confidence": 60,
-        "resolvedBlockers": [
-          "election-model-merge-and-provenance-review: election staging action assigned",
-          "needs-provider-context-review: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Elections/source provenance",
-      "relationship": "election-source-enrichment",
-      "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-daily-gas-shrinkage-02163",
-      "rawMetadata": {
-        "id": "medium-priority:2-irish-election-source-enrichment-data:daily-gas-shrinkage:02163",
-        "slug": "medium-priority-2-irish-election-source-enrichment-data-daily-gas-shrinkage-02163",
-        "type": "approved-medium-priority-source",
-        "title": "Daily Gas Shrinkage Ireland",
-        "subtitle": "Irish election source/enrichment data / Gas Networks Ireland, data.gov.ie / Republic of Ireland / JSON, XLSX / Approved source record",
-        "category": "Medium-priority: Irish election source/enrichment data",
-        "provider": [
-          "Gas Networks Ireland",
-          "data.gov.ie"
-        ],
-        "description": "Daily Gas Shrinkage Ireland is published as a medium-priority Civgraph source/provenance record from Gas Networks Ireland, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/daily-gas-shrinkage",
-        "references": [
-          {
-            "label": "Daily Gas Shrinkage Ireland provider page",
-            "url": "https://data.gov.ie/dataset/daily-gas-shrinkage",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Daily Gas Shrinkage Ireland Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/daily-gas-shrinkage",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/daily-gas-shrinkage",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Download available",
-          "Provider link",
-          "Wayback link",
-          "Election provenance"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Irish election source/enrichment data",
-          "Republic of Ireland",
-          "election",
-          "Daily Gas Shrinkage Ireland"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text",
-            "spreadsheet"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/daily-gas-shrinkage",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/daily-gas-shrinkage",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Gas Networks Ireland, data.gov.ie, Daily Gas Shrinkage Ireland.",
-        "fullCitation": "Gas Networks Ireland, data.gov.ie. Daily Gas Shrinkage Ireland. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/daily-gas-shrinkage. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/daily-gas-shrinkage.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 2164,
-            "stagingId": "medium-prep:2-irish-election-source-enrichment-data:daily-gas-shrinkage:02163",
-            "title": "Daily Gas Shrinkage Ireland",
-            "cleanTitle": "Daily Gas Shrinkage Ireland",
-            "provider": "data.gov.ie",
-            "organisation": "Gas Networks Ireland",
-            "category": "tabular",
-            "roiGroup": "2. Irish election source/enrichment data",
-            "groupTitle": "Irish election source/enrichment data",
-            "jurisdiction": "Republic of Ireland",
-            "topic": "election",
-            "featureUnit": "features",
-            "formats": [
-              "JSON",
-              "XLSX"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "enrich-existing-election",
-            "proposedPlacement": "Elections/source provenance",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "JSON",
-                "XLSX"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/daily-gas-shrinkage",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/daily-gas-shrinkage",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "election-model-merge-and-provenance-review: election staging action assigned",
-              "needs-provider-context-review: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:daily-gas-shrinkage:02163",
-          "sourceRowNumber": 2164,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish election source/provenance enrichment",
-          "proposedAction": "enrich-existing-election",
-          "proposedPlacement": "Elections/source provenance",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "JSON",
-              "XLSX"
-            ]
-          },
-          "confidence": 60,
-          "resolvedBlockers": [
-            "election-model-merge-and-provenance-review: election staging action assigned",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Elections/source provenance",
-        "relationship": "election-source-enrichment",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Irish election source/enrichment data",
-          "election",
-          "features",
-          "Republic of Ireland",
-          "enrich-existing-election",
-          "JSON",
-          "XLSX"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-daily-gas-shrinkage-02163"
-      }
-    },
-    {
-      "id": "medium-priority:2-irish-election-source-enrichment-data:dailygasdemandireland:02162",
-      "slug": "medium-priority-2-irish-election-source-enrichment-data-dailygasdemandireland-02162",
-      "type": "approved-medium-priority-source",
-      "title": "Daily Gas Demand Ireland",
-      "subtitle": "Irish election source/enrichment data / Gas Networks Ireland, data.gov.ie / Republic of Ireland / CSV, JSON / Approved source record",
-      "category": "Medium-priority: Irish election source/enrichment data",
-      "provider": [
-        "Gas Networks Ireland",
-        "data.gov.ie"
-      ],
-      "description": "Daily Gas Demand Ireland is published as a medium-priority Civgraph source/provenance record from Gas Networks Ireland, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/dailygasdemandireland",
-      "references": [
-        {
-          "label": "Daily Gas Demand Ireland provider page",
-          "url": "https://data.gov.ie/dataset/dailygasdemandireland",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Daily Gas Demand Ireland Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dailygasdemandireland",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/dailygasdemandireland",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Irish election source/enrichment data",
-        "election",
-        "features",
-        "Republic of Ireland",
-        "enrich-existing-election",
-        "CSV",
-        "JSON"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 2163,
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:dailygasdemandireland:02162",
-          "title": "Daily Gas Demand Ireland",
-          "cleanTitle": "Daily Gas Demand Ireland",
-          "provider": "data.gov.ie",
-          "organisation": "Gas Networks Ireland",
-          "category": "tabular",
-          "roiGroup": "2. Irish election source/enrichment data",
-          "groupTitle": "Irish election source/enrichment data",
-          "jurisdiction": "Republic of Ireland",
-          "topic": "election",
-          "featureUnit": "features",
-          "formats": [
-            "CSV",
-            "JSON"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "enrich-existing-election",
-          "proposedPlacement": "Elections/source provenance",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "JSON"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/dailygasdemandireland",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dailygasdemandireland",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "election-model-merge-and-provenance-review: election staging action assigned",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Download available",
-        "Provider link",
-        "Wayback link",
-        "Election provenance"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Irish election source/enrichment data",
-        "Republic of Ireland",
-        "election",
-        "Daily Gas Demand Ireland"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/dailygasdemandireland",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dailygasdemandireland",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Gas Networks Ireland, data.gov.ie, Daily Gas Demand Ireland.",
-      "fullCitation": "Gas Networks Ireland, data.gov.ie. Daily Gas Demand Ireland. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dailygasdemandireland. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dailygasdemandireland.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:2-irish-election-source-enrichment-data:dailygasdemandireland:02162",
-        "sourceRowNumber": 2163,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish election source/provenance enrichment",
-        "proposedAction": "enrich-existing-election",
-        "proposedPlacement": "Elections/source provenance",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "CSV",
-            "JSON"
-          ]
-        },
-        "confidence": 60,
-        "resolvedBlockers": [
-          "election-model-merge-and-provenance-review: election staging action assigned",
-          "needs-provider-context-review: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Elections/source provenance",
-      "relationship": "election-source-enrichment",
-      "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-dailygasdemandireland-02162",
-      "rawMetadata": {
-        "id": "medium-priority:2-irish-election-source-enrichment-data:dailygasdemandireland:02162",
-        "slug": "medium-priority-2-irish-election-source-enrichment-data-dailygasdemandireland-02162",
-        "type": "approved-medium-priority-source",
-        "title": "Daily Gas Demand Ireland",
-        "subtitle": "Irish election source/enrichment data / Gas Networks Ireland, data.gov.ie / Republic of Ireland / CSV, JSON / Approved source record",
-        "category": "Medium-priority: Irish election source/enrichment data",
-        "provider": [
-          "Gas Networks Ireland",
-          "data.gov.ie"
-        ],
-        "description": "Daily Gas Demand Ireland is published as a medium-priority Civgraph source/provenance record from Gas Networks Ireland, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/dailygasdemandireland",
-        "references": [
-          {
-            "label": "Daily Gas Demand Ireland provider page",
-            "url": "https://data.gov.ie/dataset/dailygasdemandireland",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Daily Gas Demand Ireland Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dailygasdemandireland",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/dailygasdemandireland",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Download available",
-          "Provider link",
-          "Wayback link",
-          "Election provenance"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Irish election source/enrichment data",
-          "Republic of Ireland",
-          "election",
-          "Daily Gas Demand Ireland"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/dailygasdemandireland",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dailygasdemandireland",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Gas Networks Ireland, data.gov.ie, Daily Gas Demand Ireland.",
-        "fullCitation": "Gas Networks Ireland, data.gov.ie. Daily Gas Demand Ireland. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dailygasdemandireland. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dailygasdemandireland.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 2163,
-            "stagingId": "medium-prep:2-irish-election-source-enrichment-data:dailygasdemandireland:02162",
-            "title": "Daily Gas Demand Ireland",
-            "cleanTitle": "Daily Gas Demand Ireland",
-            "provider": "data.gov.ie",
-            "organisation": "Gas Networks Ireland",
-            "category": "tabular",
-            "roiGroup": "2. Irish election source/enrichment data",
-            "groupTitle": "Irish election source/enrichment data",
-            "jurisdiction": "Republic of Ireland",
-            "topic": "election",
-            "featureUnit": "features",
-            "formats": [
-              "CSV",
-              "JSON"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "enrich-existing-election",
-            "proposedPlacement": "Elections/source provenance",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "CSV",
-                "JSON"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/dailygasdemandireland",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dailygasdemandireland",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "election-model-merge-and-provenance-review: election staging action assigned",
-              "needs-provider-context-review: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:dailygasdemandireland:02162",
-          "sourceRowNumber": 2163,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish election source/provenance enrichment",
-          "proposedAction": "enrich-existing-election",
-          "proposedPlacement": "Elections/source provenance",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "JSON"
-            ]
-          },
-          "confidence": 60,
-          "resolvedBlockers": [
-            "election-model-merge-and-provenance-review: election staging action assigned",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Elections/source provenance",
-        "relationship": "election-source-enrichment",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Irish election source/enrichment data",
-          "election",
-          "features",
-          "Republic of Ireland",
-          "enrich-existing-election",
-          "CSV",
-          "JSON"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-dailygasdemandireland-02162"
       }
     }
   ]
