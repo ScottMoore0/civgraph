@@ -53,6 +53,7 @@ function parseArgs(argv) {
     resume: false,
     traversal: "branch",
     maxSubtreeRecords: 1500,
+    maxSubtreeWalkErrors: 25,
     progressEveryMs: 5000,
     writerFlushRows: 100,
     writerFlushMs: 1000,
@@ -102,6 +103,7 @@ function parseArgs(argv) {
       case "no-resume": out.resume = false; break;
       case "traversal": out.traversal = take(); break;
       case "max-subtree-records": out.maxSubtreeRecords = Number(take()); break;
+      case "max-subtree-walk-errors": out.maxSubtreeWalkErrors = Number(take()); break;
       case "progress-every-ms": out.progressEveryMs = Number(take()); break;
       case "writer-flush-rows": out.writerFlushRows = Number(take()); break;
       case "writer-flush-ms": out.writerFlushMs = Number(take()); break;
@@ -946,8 +948,26 @@ function buildSubtreeUnits(records, options) {
   return units;
 }
 
-async function walkSubtreeNode(session, listingHtml, branchRef, unit, writers, options, stats, workerId, visited) {
+async function recordWalkError(writers, stats, workerId, branchRef, phase, error, ctx) {
+  ctx.walkErrors += 1;
+  stats.failures += 1;
+  await writers.failures.write({
+    at: nowIso(),
+    type: "dfs-walk-error",
+    phase,
+    workerId,
+    branchRef,
+    error: String(error?.message || error),
+  });
+}
+
+// Continue-on-error walk: a transient failure costs one branch/page/child, never
+// the whole subtree. Missed records stay absent from completedRefs, so a later
+// --resume pass picks them up. The per-unit error budget stops a unit churning
+// through a full reset storm.
+async function walkSubtreeNode(session, listingHtml, branchRef, unit, writers, options, stats, workerId, visited, ctx) {
   if (visited.has(branchRef)) return;
+  if (ctx.walkErrors > options.maxSubtreeWalkErrors) return;
   visited.add(branchRef);
   const byPage = new Map();
   for (const r of unit.recordsByBranch.get(branchRef) || []) {
@@ -961,7 +981,11 @@ async function walkSubtreeNode(session, listingHtml, branchRef, unit, writers, o
   while (true) {
     const recsThisPage = byPage.get(page) || [];
     if (recsThisPage.length) {
-      await processRowsFromListing(session, html, recsThisPage, writers, options, stats, workerId, "raw-http-dfs-traversal");
+      try {
+        await processRowsFromListing(session, html, recsThisPage, writers, options, stats, workerId, "raw-http-dfs-traversal");
+      } catch (error) {
+        await recordWalkError(writers, stats, workerId, branchRef, "page-records", error, ctx);
+      }
     }
     for (const row of parseGridRows(html)) {
       const cref = row.ResultsSelect?.value;
@@ -971,21 +995,30 @@ async function walkSubtreeNode(session, listingHtml, branchRef, unit, writers, o
     }
     const next = findNextButton(html);
     if (!next || page >= options.maxPagesPerBranch) break;
-    html = await clickNext(session, html, next);
-    page += 1;
+    try {
+      html = await clickNext(session, html, next);
+      page += 1;
+    } catch (error) {
+      await recordWalkError(writers, stats, workerId, branchRef, "paginate", error, ctx);
+      break;
+    }
   }
   for (const { row, pageHtml } of childrenToDescend) {
     const cref = row.ResultsSelect.value;
-    if (visited.has(cref)) continue;
-    const childHtml = await clickSelect(session, pageHtml, row); // re-POST against cached parent listing
-    await walkSubtreeNode(session, childHtml, cref, unit, writers, options, stats, workerId, visited);
+    if (visited.has(cref) || ctx.walkErrors > options.maxSubtreeWalkErrors) continue;
+    try {
+      const childHtml = await clickSelect(session, pageHtml, row); // re-POST against cached parent listing
+      await walkSubtreeNode(session, childHtml, cref, unit, writers, options, stats, workerId, visited, ctx);
+    } catch (error) {
+      await recordWalkError(writers, stats, workerId, cref, "descend", error, ctx);
+    }
   }
 }
 
 async function processSubtreeUnit(unit, writers, options, stats, workerId) {
   const session = new Session(workerId, options, writers, stats);
   const rootHtml = await openBranchPage(session, { letter: unit.letter, path: unit.rootPath, page: 1, branchKey: unit.rootBranchKey });
-  await walkSubtreeNode(session, rootHtml, unit.rootBranchRef, unit, writers, options, stats, workerId, new Set());
+  await walkSubtreeNode(session, rootHtml, unit.rootBranchRef, unit, writers, options, stats, workerId, new Set(), { walkErrors: 0 });
   stats.groupsCompleted += 1;
 }
 
