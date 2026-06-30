@@ -49,6 +49,7 @@ function parseArgs(argv) {
     backoffMs: 750,
     stopOnBlocked: true,
     adaptive: true,
+    resume: false,
     progressEveryMs: 5000,
     writerFlushRows: 100,
     writerFlushMs: 1000,
@@ -94,6 +95,8 @@ function parseArgs(argv) {
       case "no-stop-on-blocked": out.stopOnBlocked = false; break;
       case "adaptive": out.adaptive = true; break;
       case "no-adaptive": out.adaptive = false; break;
+      case "resume": out.resume = true; break;
+      case "no-resume": out.resume = false; break;
       case "progress-every-ms": out.progressEveryMs = Number(take()); break;
       case "writer-flush-rows": out.writerFlushRows = Number(take()); break;
       case "writer-flush-ms": out.writerFlushMs = Number(take()); break;
@@ -122,6 +125,8 @@ Key options:
   --max-group-retries 3      Requeue transient listing-page failures.
   --max-cooldown-ms 15000    Shared backoff ceiling after network errors.
   --no-adaptive              Disable worker ramp.
+  --resume                   Skip records already present in --out-dir/records-details.jsonl
+                             and append new ones (point --out-dir at the prior run's folder).
 `;
 }
 
@@ -369,11 +374,11 @@ class CookieJar {
 }
 
 class BufferedJsonlWriter {
-  constructor(filePath, options) {
+  constructor(filePath, options, append = false) {
     this.filePath = filePath;
     this.flushRows = options.writerFlushRows;
     this.buffer = [];
-    this.stream = createWriteStream(filePath, { flags: "w", encoding: "utf8" });
+    this.stream = createWriteStream(filePath, { flags: append ? "a" : "w", encoding: "utf8" });
     this.timer = setInterval(() => {
       this.flush().catch(() => {});
     }, Math.max(250, options.writerFlushMs));
@@ -925,6 +930,10 @@ async function runWorker(workerId, units, workQueue, writers, options, stats) {
       }
       const { index, attempt } = item;
       const unit = units[index];
+      if (options.resume && unit.rows?.length && unit.rows.every((row) => stats.completedRefs.has(row.expectedRef))) {
+        stats.groupsCompleted += 1;
+        continue;
+      }
       try {
         await processUnit(unit, writers, options, stats, workerId);
       } catch (error) {
@@ -1038,6 +1047,33 @@ function makeWorkQueue(units, options) {
   };
 }
 
+async function seedCompletedRefsFromOutput(outDir, stats) {
+  const detailsPath = path.join(outDir, "records-details.jsonl");
+  let count = 0;
+  try {
+    const rl = readline.createInterface({
+      input: createReadStream(detailsPath, { encoding: "utf8" }),
+      crlfDelay: Infinity,
+    });
+    for await (const line of rl) {
+      const trimmed = line.trim();
+      if (!trimmed) continue;
+      try {
+        const ref = JSON.parse(trimmed).expectedRef;
+        if (ref && !stats.completedRefs.has(ref)) {
+          stats.completedRefs.add(ref);
+          count += 1;
+        }
+      } catch {
+        // Ignore a malformed/partial trailing line (e.g. a row cut off by an abrupt shutdown).
+      }
+    }
+  } catch (error) {
+    if (error?.code !== "ENOENT") throw error;
+  }
+  return count;
+}
+
 async function runScan(options) {
   if (!["branch", "page"].includes(options.groupMode)) {
     throw new Error(`--group-mode must be branch or page, got ${options.groupMode}`);
@@ -1062,13 +1098,17 @@ async function runScan(options) {
   }
   await fsp.mkdir(options.outDir, { recursive: true });
   const writers = {
-    details: new BufferedJsonlWriter(path.join(options.outDir, "records-details.jsonl"), options),
-    failures: new BufferedJsonlWriter(path.join(options.outDir, "failures.jsonl"), options),
-    mismatches: new BufferedJsonlWriter(path.join(options.outDir, "mismatches.jsonl"), options),
-    progress: new BufferedJsonlWriter(path.join(options.outDir, "progress.jsonl"), options),
-    retryQueue: new BufferedJsonlWriter(path.join(options.outDir, "retry-queue.jsonl"), options),
+    details: new BufferedJsonlWriter(path.join(options.outDir, "records-details.jsonl"), options, options.resume),
+    failures: new BufferedJsonlWriter(path.join(options.outDir, "failures.jsonl"), options, options.resume),
+    mismatches: new BufferedJsonlWriter(path.join(options.outDir, "mismatches.jsonl"), options, options.resume),
+    progress: new BufferedJsonlWriter(path.join(options.outDir, "progress.jsonl"), options, options.resume),
+    retryQueue: new BufferedJsonlWriter(path.join(options.outDir, "retry-queue.jsonl"), options, options.resume),
   };
   const stats = makeStats();
+  if (options.resume) {
+    const seeded = await seedCompletedRefsFromOutput(options.outDir, stats);
+    console.error(`[resume] seeded ${seeded} already-completed record(s) from ${path.join(options.outDir, "records-details.jsonl")}`);
+  }
   const units = await readIndexWorkUnits(options.index, options);
   stats.groupsLoaded = units.length;
   stats.recordsPlanned = units.reduce((sum, unit) => sum + unit.rowCount, 0);
