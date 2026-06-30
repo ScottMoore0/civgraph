@@ -1,9 +1,51 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T18:43:01.666Z",
+  "generatedAt": "2026-06-30T18:49:30.225Z",
   "shard": 31,
   "total": 5000,
   "items": [
+    {
+      "id": "cg:source:file-from-data-gov-ie-local-mirror-92e0d5726af6",
+      "label": "file from data.gov.ie local mirror",
+      "kind": "entity",
+      "sourceUrl": "https://data.gov.ie/dataset/cvs42-all-persons-who-were-victims-of-personal-crime-and-reported-incidents-to-an-garda-siochana",
+      "attributes": {
+        "sourceKind": "source-reference",
+        "role": "source-download",
+        "createdFrom": "external-reference"
+      },
+      "typeIds": [
+        "cg:entity-type:source"
+      ]
+    },
+    {
+      "id": "cg:source:file-from-data-gov-ie-local-mirror-92f1de5abc45",
+      "label": "file from data.gov.ie local mirror",
+      "kind": "entity",
+      "sourceUrl": "https://data.gov.ie/dataset/b1106-2002-population-aged-3-years-and-over",
+      "attributes": {
+        "sourceKind": "source-reference",
+        "role": "source-download",
+        "createdFrom": "external-reference"
+      },
+      "typeIds": [
+        "cg:entity-type:source"
+      ]
+    },
+    {
+      "id": "cg:source:file-from-data-gov-ie-local-mirror-92f5bda0febd",
+      "label": "file from data.gov.ie local mirror",
+      "kind": "entity",
+      "sourceUrl": "https://data.gov.ie/dataset/hs026-persons-per-household",
+      "attributes": {
+        "sourceKind": "source-reference",
+        "role": "source-download",
+        "createdFrom": "external-reference"
+      },
+      "typeIds": [
+        "cg:entity-type:source"
+      ]
+    },
     {
       "id": "cg:source:file-from-data-gov-ie-local-mirror-92f734f1b16a",
       "label": "file from data.gov.ie local mirror",
@@ -56464,6 +56506,24 @@
       ]
     },
     {
+      "id": "cg:source:map-source-ni-priority-habitats-peatland",
+      "label": "Priority Habitats — Peatland (NI) source files",
+      "description": "Northern Ireland Priority Habitats — Peatland (6,469 polygons), published by DAERA. Licence confirmed.",
+      "kind": "entity",
+      "browseType": "sources",
+      "browseSlug": "map-source-ni-priority-habitats-peatland",
+      "browseUrl": "/browse/sources/map-source-ni-priority-habitats-peatland",
+      "attributes": {
+        "sourceCategory": "Map sources",
+        "provider": "Department of Agriculture, Environment and Rural Affairs (DAERA)",
+        "referenceCount": 1,
+        "downloadCount": 2
+      },
+      "typeIds": [
+        "cg:entity-type:source"
+      ]
+    },
+    {
       "id": "cg:source:map-source-ni-scheduled-monument-areas",
       "label": "NI Scheduled Historic Monument Areas source files",
       "description": "NI Scheduled Historic Monument Areas — published by DfC Historic Environment Division.",
@@ -78346,90 +78406,6 @@
       "browseSlug": "medium-priority-5-local-authority-planning-property-open-data-layers-councillor-allowance-and-expenses-q2-2025-sdcc-01215",
       "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-councillor-allowance-and-expenses-q2-2025-sdcc-01215",
       "sourceUrl": "https://data.gov.ie/dataset/councillor-allowance-and-expenses-q2-2025-sdcc",
-      "attributes": {
-        "sourceCategory": "Medium-priority: Local authority planning/property/open-data layers",
-        "provider": "South Dublin County Council, data.gov.ie",
-        "publicationStatus": "source-record-with-runtime-review",
-        "date": "2025",
-        "referenceCount": 2,
-        "downloadCount": 4
-      },
-      "typeIds": [
-        "cg:entity-type:source"
-      ]
-    },
-    {
-      "id": "cg:source:medium-priority-5-local-authority-planning-property-open-data-layers-cou-6e4cc720cf68",
-      "label": "County Galway Wind Farm Designation Areas CDP 2015 2021",
-      "description": "County Galway Wind Farm Designation Areas CDP 2015 2021 is published as a medium-priority Civgraph source/provenance record from Galway County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-      "kind": "entity",
-      "browseType": "sources",
-      "browseSlug": "medium-priority-5-local-authority-planning-property-open-data-layers-county-galway-wind-farm-designation-areas-cdp-2015-2021-00491",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-county-galway-wind-farm-designation-areas-cdp-2015-2021-00491",
-      "sourceUrl": "https://data.gov.ie/dataset/county-galway-wind-farm-designation-areas-cdp-2015-2021",
-      "attributes": {
-        "sourceCategory": "Medium-priority: Local authority planning/property/open-data layers",
-        "provider": "Galway County Council, data.gov.ie",
-        "publicationStatus": "source-record-with-runtime-review",
-        "date": "2015",
-        "referenceCount": 2,
-        "downloadCount": 4
-      },
-      "typeIds": [
-        "cg:entity-type:source"
-      ]
-    },
-    {
-      "id": "cg:source:medium-priority-5-local-authority-planning-property-open-data-layers-cou-71f88d6b5e6d",
-      "label": "County Galway Landscape Sensitivity Ratings CDP 2022 2028",
-      "description": "County Galway Landscape Sensitivity Ratings CDP 2022 2028 is published as a medium-priority Civgraph source/provenance record from Galway County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-      "kind": "entity",
-      "browseType": "sources",
-      "browseSlug": "medium-priority-5-local-authority-planning-property-open-data-layers-county-galway-landscape-sensitivity-ratings-cdp-2022-2028-00483",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-county-galway-landscape-sensitivity-ratings-cdp-2022-2028-00483",
-      "sourceUrl": "https://data.gov.ie/dataset/county-galway-landscape-sensitivity-ratings-cdp-2022-2028",
-      "attributes": {
-        "sourceCategory": "Medium-priority: Local authority planning/property/open-data layers",
-        "provider": "Galway County Council, data.gov.ie",
-        "publicationStatus": "source-record-with-runtime-review",
-        "date": "2022",
-        "referenceCount": 2,
-        "downloadCount": 4
-      },
-      "typeIds": [
-        "cg:entity-type:source"
-      ]
-    },
-    {
-      "id": "cg:source:medium-priority-5-local-authority-planning-property-open-data-layers-cou-7649afdff47c",
-      "label": "County Galway Land Use Zonings CDP 2022 2028",
-      "description": "County Galway Land Use Zonings CDP 2022 2028 is published as a medium-priority Civgraph source/provenance record from Galway County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-      "kind": "entity",
-      "browseType": "sources",
-      "browseSlug": "medium-priority-5-local-authority-planning-property-open-data-layers-county-galway-land-use-zonings-cdp-2022-20283-00479",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-county-galway-land-use-zonings-cdp-2022-20283-00479",
-      "sourceUrl": "https://data.gov.ie/dataset/county-galway-land-use-zonings-cdp-2022-20283",
-      "attributes": {
-        "sourceCategory": "Medium-priority: Local authority planning/property/open-data layers",
-        "provider": "Galway County Council, data.gov.ie",
-        "publicationStatus": "source-record-with-runtime-review",
-        "date": "2022",
-        "referenceCount": 2,
-        "downloadCount": 4
-      },
-      "typeIds": [
-        "cg:entity-type:source"
-      ]
-    },
-    {
-      "id": "cg:source:medium-priority-5-local-authority-planning-property-open-data-layers-cou-7c31f13d0d45",
-      "label": "Councillor Allowance and Expenses Q4 2025 SDCC",
-      "description": "Councillor Allowance and Expenses Q4 2025 SDCC is published as a medium-priority Civgraph source/provenance record from South Dublin County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-      "kind": "entity",
-      "browseType": "sources",
-      "browseSlug": "medium-priority-5-local-authority-planning-property-open-data-layers-councillor-allowance-and-expenses-q4-2025-sdcc-01217",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-councillor-allowance-and-expenses-q4-2025-sdcc-01217",
-      "sourceUrl": "https://data.gov.ie/dataset/councillor-allowance-and-expenses-q4-2025-sdcc",
       "attributes": {
         "sourceCategory": "Medium-priority: Local authority planning/property/open-data layers",
         "provider": "South Dublin County Council, data.gov.ie",

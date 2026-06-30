@@ -1,10 +1,427 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T18:42:53.573Z",
+  "generatedAt": "2026-06-30T18:48:24.834Z",
   "kind": "sources",
   "shard": "sources-049.json",
   "total": 200,
   "items": [
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:thatch-building-survey-roscommon6:00786",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-thatch-building-survey-roscommon6-00786",
+      "type": "approved-medium-priority-source",
+      "title": "Thatch Building Survey - Roscommon",
+      "subtitle": "Local authority planning/property/open-data layers / Roscommon County Council, data.gov.ie / Ireland / unspecified / ARCGIS GEOSERVICES REST API, CSV, GDB, GEOJSON, GPKG, HTML, KML, TXT, XLSX, ZIP / Source record; runtime review pending",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "provider": [
+        "Roscommon County Council",
+        "data.gov.ie"
+      ],
+      "description": "Thatch Building Survey - Roscommon is published as a medium-priority Civgraph source/provenance record from Roscommon County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; large-or-special-format-review: size/format decision remains before runtime publication.",
+      "url": "https://data.gov.ie/dataset/thatch-building-survey-roscommon6",
+      "references": [
+        {
+          "label": "Thatch Building Survey - Roscommon provider page",
+          "url": "https://data.gov.ie/dataset/thatch-building-survey-roscommon6",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "Thatch Building Survey - Roscommon Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/thatch-building-survey-roscommon6",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/thatch-building-survey-roscommon6",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "source-record-with-runtime-review",
+        "Local authority planning/property/open-data layers",
+        "source-data",
+        "features",
+        "Ireland / unspecified",
+        "hold-special-format",
+        "ARCGIS GEOSERVICES REST API",
+        "CSV",
+        "GDB",
+        "GEOJSON",
+        "GPKG",
+        "HTML",
+        "KML",
+        "TXT",
+        "XLSX",
+        "ZIP",
+        "review:duplicate-or-variant-review-no-existing-match-candidate",
+        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 787,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:thatch-building-survey-roscommon6:00786",
+          "title": "Thatch Building Survey - Roscommon",
+          "cleanTitle": "Thatch Building Survey - Roscommon",
+          "provider": "data.gov.ie",
+          "organisation": "Roscommon County Council",
+          "category": "spatial",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "source-data",
+          "featureUnit": "features",
+          "formats": [
+            "ARCGIS GEOSERVICES REST API",
+            "CSV",
+            "GDB",
+            "GEOJSON",
+            "GPKG",
+            "HTML",
+            "KML",
+            "TXT",
+            "XLSX",
+            "ZIP"
+          ],
+          "isSpatial": true,
+          "isLargeOrSpecial": true,
+          "proposedAction": "hold-special-format",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "download/source viewport first",
+            "conversion": "Do not convert until size/format review approves an interactive derivative.",
+            "sourceFormats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GDB",
+              "GEOJSON",
+              "GPKG",
+              "HTML",
+              "KML",
+              "TXT",
+              "XLSX",
+              "ZIP"
+            ]
+          },
+          "approvalState": "ready-with-residual-review",
+          "sourcePublicationState": "public source record with runtime/semantic review still pending",
+          "confidence": 45,
+          "currentProviderUrl": "https://data.gov.ie/dataset/thatch-building-survey-roscommon6",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/thatch-building-survey-roscommon6",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate",
+            "large-or-special-format-review: size/format decision remains before runtime publication"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        }
+      ],
+      "status": "Source only",
+      "statusChips": [
+        "Source record",
+        "Runtime review pending",
+        "Spatial source",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Ireland / unspecified",
+        "source-data",
+        "Thatch Building Survey - Roscommon"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "spreadsheet",
+          "download-only"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/thatch-building-survey-roscommon6",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/thatch-building-survey-roscommon6",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "Do not convert until size/format review approves an interactive derivative."
+      },
+      "shortCitation": "Roscommon County Council, data.gov.ie, Thatch Building Survey - Roscommon.",
+      "fullCitation": "Roscommon County Council, data.gov.ie. Thatch Building Survey - Roscommon. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/thatch-building-survey-roscommon6. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/thatch-building-survey-roscommon6.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:thatch-building-survey-roscommon6:00786",
+        "sourceRowNumber": 787,
+        "approvalState": "ready-with-residual-review",
+        "recommendedAction": "publish source record; hold runtime conversion pending size/format review",
+        "proposedAction": "hold-special-format",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "download/source viewport first",
+          "conversion": "Do not convert until size/format review approves an interactive derivative.",
+          "sourceFormats": [
+            "ARCGIS GEOSERVICES REST API",
+            "CSV",
+            "GDB",
+            "GEOJSON",
+            "GPKG",
+            "HTML",
+            "KML",
+            "TXT",
+            "XLSX",
+            "ZIP"
+          ]
+        },
+        "confidence": 45,
+        "residualBlockers": [
+          "duplicate-or-variant-review: no existing match candidate",
+          "large-or-special-format-review: size/format decision remains before runtime publication"
+        ],
+        "resolvedBlockers": [
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+        ],
+        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+      },
+      "publicationStatus": "source-record-with-runtime-review",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-thatch-building-survey-roscommon6-00786",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:thatch-building-survey-roscommon6:00786",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-thatch-building-survey-roscommon6-00786",
+        "type": "approved-medium-priority-source",
+        "title": "Thatch Building Survey - Roscommon",
+        "subtitle": "Local authority planning/property/open-data layers / Roscommon County Council, data.gov.ie / Ireland / unspecified / ARCGIS GEOSERVICES REST API, CSV, GDB, GEOJSON, GPKG, HTML, KML, TXT, XLSX, ZIP / Source record; runtime review pending",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "provider": [
+          "Roscommon County Council",
+          "data.gov.ie"
+        ],
+        "description": "Thatch Building Survey - Roscommon is published as a medium-priority Civgraph source/provenance record from Roscommon County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; large-or-special-format-review: size/format decision remains before runtime publication.",
+        "url": "https://data.gov.ie/dataset/thatch-building-survey-roscommon6",
+        "references": [
+          {
+            "label": "Thatch Building Survey - Roscommon provider page",
+            "url": "https://data.gov.ie/dataset/thatch-building-survey-roscommon6",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "Thatch Building Survey - Roscommon Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/thatch-building-survey-roscommon6",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/thatch-building-survey-roscommon6",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source only",
+        "statusChips": [
+          "Source record",
+          "Runtime review pending",
+          "Spatial source",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Ireland / unspecified",
+          "source-data",
+          "Thatch Building Survey - Roscommon"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "spreadsheet",
+            "download-only"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/thatch-building-survey-roscommon6",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/thatch-building-survey-roscommon6",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "Do not convert until size/format review approves an interactive derivative."
+        },
+        "shortCitation": "Roscommon County Council, data.gov.ie, Thatch Building Survey - Roscommon.",
+        "fullCitation": "Roscommon County Council, data.gov.ie. Thatch Building Survey - Roscommon. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/thatch-building-survey-roscommon6. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/thatch-building-survey-roscommon6.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 787,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:thatch-building-survey-roscommon6:00786",
+            "title": "Thatch Building Survey - Roscommon",
+            "cleanTitle": "Thatch Building Survey - Roscommon",
+            "provider": "data.gov.ie",
+            "organisation": "Roscommon County Council",
+            "category": "spatial",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "source-data",
+            "featureUnit": "features",
+            "formats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GDB",
+              "GEOJSON",
+              "GPKG",
+              "HTML",
+              "KML",
+              "TXT",
+              "XLSX",
+              "ZIP"
+            ],
+            "isSpatial": true,
+            "isLargeOrSpecial": true,
+            "proposedAction": "hold-special-format",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "download/source viewport first",
+              "conversion": "Do not convert until size/format review approves an interactive derivative.",
+              "sourceFormats": [
+                "ARCGIS GEOSERVICES REST API",
+                "CSV",
+                "GDB",
+                "GEOJSON",
+                "GPKG",
+                "HTML",
+                "KML",
+                "TXT",
+                "XLSX",
+                "ZIP"
+              ]
+            },
+            "approvalState": "ready-with-residual-review",
+            "sourcePublicationState": "public source record with runtime/semantic review still pending",
+            "confidence": 45,
+            "currentProviderUrl": "https://data.gov.ie/dataset/thatch-building-survey-roscommon6",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/thatch-building-survey-roscommon6",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+            ],
+            "residualBlockers": [
+              "duplicate-or-variant-review: no existing match candidate",
+              "large-or-special-format-review: size/format decision remains before runtime publication"
+            ],
+            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:thatch-building-survey-roscommon6:00786",
+          "sourceRowNumber": 787,
+          "approvalState": "ready-with-residual-review",
+          "recommendedAction": "publish source record; hold runtime conversion pending size/format review",
+          "proposedAction": "hold-special-format",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "download/source viewport first",
+            "conversion": "Do not convert until size/format review approves an interactive derivative.",
+            "sourceFormats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GDB",
+              "GEOJSON",
+              "GPKG",
+              "HTML",
+              "KML",
+              "TXT",
+              "XLSX",
+              "ZIP"
+            ]
+          },
+          "confidence": 45,
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate",
+            "large-or-special-format-review: size/format decision remains before runtime publication"
+          ],
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        },
+        "publicationStatus": "source-record-with-runtime-review",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "source-record-with-runtime-review",
+          "Local authority planning/property/open-data layers",
+          "source-data",
+          "features",
+          "Ireland / unspecified",
+          "hold-special-format",
+          "ARCGIS GEOSERVICES REST API",
+          "CSV",
+          "GDB",
+          "GEOJSON",
+          "GPKG",
+          "HTML",
+          "KML",
+          "TXT",
+          "XLSX",
+          "ZIP",
+          "review:duplicate-or-variant-review-no-existing-match-candidate",
+          "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-thatch-building-survey-roscommon6-00786"
+      }
+    },
     {
       "id": "medium-priority:5-local-authority-planning-property-open-data-layers:the-badger-and-habitat-survey-of-ireland-1989-1995:00127",
       "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-the-badger-and-habitat-survey-of-ireland-1989-1995-00127",
@@ -70310,351 +70727,6 @@
           "XML"
         ],
         "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-highway-network-01731"
-      }
-    },
-    {
-      "id": "medium-priority:7-transport-roads-infrastructure-public-assets:ima01-freight-traffic-roll-onroll-off:02200",
-      "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-ima01-freight-traffic-roll-onroll-off-02200",
-      "type": "approved-medium-priority-source",
-      "title": "IMA01 - Freight Traffic (Roll On/Roll Off)",
-      "subtitle": "Transport, roads, infrastructure, public assets / Irish Maritime Development Office, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
-      "category": "Medium-priority: Transport, roads, infrastructure, public assets",
-      "provider": [
-        "Irish Maritime Development Office",
-        "data.gov.ie"
-      ],
-      "description": "IMA01 - Freight Traffic (Roll On/Roll Off) is published as a medium-priority Civgraph source/provenance record from Irish Maritime Development Office, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/ima01-freight-traffic-roll-onroll-off",
-      "references": [
-        {
-          "label": "IMA01 - Freight Traffic (Roll On/Roll Off) provider page",
-          "url": "https://data.gov.ie/dataset/ima01-freight-traffic-roll-onroll-off",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "IMA01 - Freight Traffic (Roll On/Roll Off) Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ima01-freight-traffic-roll-onroll-off",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/ima01-freight-traffic-roll-onroll-off",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Transport, roads, infrastructure, public assets",
-        "transport-public-asset",
-        "features",
-        "Ireland / unspecified",
-        "transport-public-asset-batch-review",
-        "CSV",
-        "JSON-STAT",
-        "PX",
-        "XLSX"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 2201,
-          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:ima01-freight-traffic-roll-onroll-off:02200",
-          "title": "IMA01 - Freight Traffic (Roll On/Roll Off)",
-          "cleanTitle": "IMA01 - Freight Traffic (Roll On/Roll Off)",
-          "provider": "data.gov.ie",
-          "organisation": "Irish Maritime Development Office",
-          "category": "tabular",
-          "roiGroup": "7. Transport, roads, infrastructure, public assets",
-          "groupTitle": "Transport, roads, infrastructure, public assets",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "transport-public-asset",
-          "featureUnit": "features",
-          "formats": [
-            "CSV",
-            "JSON-STAT",
-            "PX",
-            "XLSX"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "transport-public-asset-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "JSON-STAT",
-              "PX",
-              "XLSX"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 55,
-          "currentProviderUrl": "https://data.gov.ie/dataset/ima01-freight-traffic-roll-onroll-off",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ima01-freight-traffic-roll-onroll-off",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "needs-provider-context-review: publication policy assigned",
-            "public-asset-batch-placement: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Transport, roads, infrastructure, public assets",
-        "Ireland / unspecified",
-        "transport-public-asset",
-        "IMA01 - Freight Traffic (Roll On/Roll Off)"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text",
-          "spreadsheet"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/ima01-freight-traffic-roll-onroll-off",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ima01-freight-traffic-roll-onroll-off",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Irish Maritime Development Office, data.gov.ie, IMA01 - Freight Traffic (Roll On/Roll Off).",
-      "fullCitation": "Irish Maritime Development Office, data.gov.ie. IMA01 - Freight Traffic (Roll On/Roll Off). Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/ima01-freight-traffic-roll-onroll-off. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/ima01-freight-traffic-roll-onroll-off.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:ima01-freight-traffic-roll-onroll-off:02200",
-        "sourceRowNumber": 2201,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
-        "proposedAction": "transport-public-asset-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "CSV",
-            "JSON-STAT",
-            "PX",
-            "XLSX"
-          ]
-        },
-        "confidence": 55,
-        "resolvedBlockers": [
-          "needs-provider-context-review: publication policy assigned",
-          "public-asset-batch-placement: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-ima01-freight-traffic-roll-onroll-off-02200",
-      "rawMetadata": {
-        "id": "medium-priority:7-transport-roads-infrastructure-public-assets:ima01-freight-traffic-roll-onroll-off:02200",
-        "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-ima01-freight-traffic-roll-onroll-off-02200",
-        "type": "approved-medium-priority-source",
-        "title": "IMA01 - Freight Traffic (Roll On/Roll Off)",
-        "subtitle": "Transport, roads, infrastructure, public assets / Irish Maritime Development Office, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
-        "category": "Medium-priority: Transport, roads, infrastructure, public assets",
-        "provider": [
-          "Irish Maritime Development Office",
-          "data.gov.ie"
-        ],
-        "description": "IMA01 - Freight Traffic (Roll On/Roll Off) is published as a medium-priority Civgraph source/provenance record from Irish Maritime Development Office, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/ima01-freight-traffic-roll-onroll-off",
-        "references": [
-          {
-            "label": "IMA01 - Freight Traffic (Roll On/Roll Off) provider page",
-            "url": "https://data.gov.ie/dataset/ima01-freight-traffic-roll-onroll-off",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "IMA01 - Freight Traffic (Roll On/Roll Off) Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ima01-freight-traffic-roll-onroll-off",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/ima01-freight-traffic-roll-onroll-off",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Transport, roads, infrastructure, public assets",
-          "Ireland / unspecified",
-          "transport-public-asset",
-          "IMA01 - Freight Traffic (Roll On/Roll Off)"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text",
-            "spreadsheet"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/ima01-freight-traffic-roll-onroll-off",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ima01-freight-traffic-roll-onroll-off",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Irish Maritime Development Office, data.gov.ie, IMA01 - Freight Traffic (Roll On/Roll Off).",
-        "fullCitation": "Irish Maritime Development Office, data.gov.ie. IMA01 - Freight Traffic (Roll On/Roll Off). Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/ima01-freight-traffic-roll-onroll-off. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/ima01-freight-traffic-roll-onroll-off.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 2201,
-            "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:ima01-freight-traffic-roll-onroll-off:02200",
-            "title": "IMA01 - Freight Traffic (Roll On/Roll Off)",
-            "cleanTitle": "IMA01 - Freight Traffic (Roll On/Roll Off)",
-            "provider": "data.gov.ie",
-            "organisation": "Irish Maritime Development Office",
-            "category": "tabular",
-            "roiGroup": "7. Transport, roads, infrastructure, public assets",
-            "groupTitle": "Transport, roads, infrastructure, public assets",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "transport-public-asset",
-            "featureUnit": "features",
-            "formats": [
-              "CSV",
-              "JSON-STAT",
-              "PX",
-              "XLSX"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "transport-public-asset-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "CSV",
-                "JSON-STAT",
-                "PX",
-                "XLSX"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 55,
-            "currentProviderUrl": "https://data.gov.ie/dataset/ima01-freight-traffic-roll-onroll-off",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ima01-freight-traffic-roll-onroll-off",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "needs-provider-context-review: publication policy assigned",
-              "public-asset-batch-placement: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:ima01-freight-traffic-roll-onroll-off:02200",
-          "sourceRowNumber": 2201,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
-          "proposedAction": "transport-public-asset-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "JSON-STAT",
-              "PX",
-              "XLSX"
-            ]
-          },
-          "confidence": 55,
-          "resolvedBlockers": [
-            "needs-provider-context-review: publication policy assigned",
-            "public-asset-batch-placement: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Transport, roads, infrastructure, public assets",
-          "transport-public-asset",
-          "features",
-          "Ireland / unspecified",
-          "transport-public-asset-batch-review",
-          "CSV",
-          "JSON-STAT",
-          "PX",
-          "XLSX"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-ima01-freight-traffic-roll-onroll-off-02200"
       }
     }
   ]

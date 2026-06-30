@@ -1,10 +1,355 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T18:42:53.573Z",
+  "generatedAt": "2026-06-30T18:48:24.834Z",
   "kind": "sources",
   "shard": "sources-050.json",
   "total": 200,
   "items": [
+    {
+      "id": "medium-priority:7-transport-roads-infrastructure-public-assets:ima01-freight-traffic-roll-onroll-off:02200",
+      "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-ima01-freight-traffic-roll-onroll-off-02200",
+      "type": "approved-medium-priority-source",
+      "title": "IMA01 - Freight Traffic (Roll On/Roll Off)",
+      "subtitle": "Transport, roads, infrastructure, public assets / Irish Maritime Development Office, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
+      "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+      "provider": [
+        "Irish Maritime Development Office",
+        "data.gov.ie"
+      ],
+      "description": "IMA01 - Freight Traffic (Roll On/Roll Off) is published as a medium-priority Civgraph source/provenance record from Irish Maritime Development Office, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/ima01-freight-traffic-roll-onroll-off",
+      "references": [
+        {
+          "label": "IMA01 - Freight Traffic (Roll On/Roll Off) provider page",
+          "url": "https://data.gov.ie/dataset/ima01-freight-traffic-roll-onroll-off",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "IMA01 - Freight Traffic (Roll On/Roll Off) Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ima01-freight-traffic-roll-onroll-off",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/ima01-freight-traffic-roll-onroll-off",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Transport, roads, infrastructure, public assets",
+        "transport-public-asset",
+        "features",
+        "Ireland / unspecified",
+        "transport-public-asset-batch-review",
+        "CSV",
+        "JSON-STAT",
+        "PX",
+        "XLSX"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 2201,
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:ima01-freight-traffic-roll-onroll-off:02200",
+          "title": "IMA01 - Freight Traffic (Roll On/Roll Off)",
+          "cleanTitle": "IMA01 - Freight Traffic (Roll On/Roll Off)",
+          "provider": "data.gov.ie",
+          "organisation": "Irish Maritime Development Office",
+          "category": "tabular",
+          "roiGroup": "7. Transport, roads, infrastructure, public assets",
+          "groupTitle": "Transport, roads, infrastructure, public assets",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "transport-public-asset",
+          "featureUnit": "features",
+          "formats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 55,
+          "currentProviderUrl": "https://data.gov.ie/dataset/ima01-freight-traffic-roll-onroll-off",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ima01-freight-traffic-roll-onroll-off",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "needs-provider-context-review: publication policy assigned",
+            "public-asset-batch-placement: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Transport, roads, infrastructure, public assets",
+        "Ireland / unspecified",
+        "transport-public-asset",
+        "IMA01 - Freight Traffic (Roll On/Roll Off)"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "spreadsheet"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/ima01-freight-traffic-roll-onroll-off",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ima01-freight-traffic-roll-onroll-off",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Irish Maritime Development Office, data.gov.ie, IMA01 - Freight Traffic (Roll On/Roll Off).",
+      "fullCitation": "Irish Maritime Development Office, data.gov.ie. IMA01 - Freight Traffic (Roll On/Roll Off). Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/ima01-freight-traffic-roll-onroll-off. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/ima01-freight-traffic-roll-onroll-off.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:ima01-freight-traffic-roll-onroll-off:02200",
+        "sourceRowNumber": 2201,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+        "proposedAction": "transport-public-asset-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ]
+        },
+        "confidence": 55,
+        "resolvedBlockers": [
+          "needs-provider-context-review: publication policy assigned",
+          "public-asset-batch-placement: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-ima01-freight-traffic-roll-onroll-off-02200",
+      "rawMetadata": {
+        "id": "medium-priority:7-transport-roads-infrastructure-public-assets:ima01-freight-traffic-roll-onroll-off:02200",
+        "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-ima01-freight-traffic-roll-onroll-off-02200",
+        "type": "approved-medium-priority-source",
+        "title": "IMA01 - Freight Traffic (Roll On/Roll Off)",
+        "subtitle": "Transport, roads, infrastructure, public assets / Irish Maritime Development Office, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
+        "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+        "provider": [
+          "Irish Maritime Development Office",
+          "data.gov.ie"
+        ],
+        "description": "IMA01 - Freight Traffic (Roll On/Roll Off) is published as a medium-priority Civgraph source/provenance record from Irish Maritime Development Office, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/ima01-freight-traffic-roll-onroll-off",
+        "references": [
+          {
+            "label": "IMA01 - Freight Traffic (Roll On/Roll Off) provider page",
+            "url": "https://data.gov.ie/dataset/ima01-freight-traffic-roll-onroll-off",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "IMA01 - Freight Traffic (Roll On/Roll Off) Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ima01-freight-traffic-roll-onroll-off",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/ima01-freight-traffic-roll-onroll-off",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Transport, roads, infrastructure, public assets",
+          "Ireland / unspecified",
+          "transport-public-asset",
+          "IMA01 - Freight Traffic (Roll On/Roll Off)"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "spreadsheet"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/ima01-freight-traffic-roll-onroll-off",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ima01-freight-traffic-roll-onroll-off",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Irish Maritime Development Office, data.gov.ie, IMA01 - Freight Traffic (Roll On/Roll Off).",
+        "fullCitation": "Irish Maritime Development Office, data.gov.ie. IMA01 - Freight Traffic (Roll On/Roll Off). Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/ima01-freight-traffic-roll-onroll-off. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/ima01-freight-traffic-roll-onroll-off.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 2201,
+            "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:ima01-freight-traffic-roll-onroll-off:02200",
+            "title": "IMA01 - Freight Traffic (Roll On/Roll Off)",
+            "cleanTitle": "IMA01 - Freight Traffic (Roll On/Roll Off)",
+            "provider": "data.gov.ie",
+            "organisation": "Irish Maritime Development Office",
+            "category": "tabular",
+            "roiGroup": "7. Transport, roads, infrastructure, public assets",
+            "groupTitle": "Transport, roads, infrastructure, public assets",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "transport-public-asset",
+            "featureUnit": "features",
+            "formats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "transport-public-asset-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV",
+                "JSON-STAT",
+                "PX",
+                "XLSX"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 55,
+            "currentProviderUrl": "https://data.gov.ie/dataset/ima01-freight-traffic-roll-onroll-off",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ima01-freight-traffic-roll-onroll-off",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "needs-provider-context-review: publication policy assigned",
+              "public-asset-batch-placement: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:ima01-freight-traffic-roll-onroll-off:02200",
+          "sourceRowNumber": 2201,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ]
+          },
+          "confidence": 55,
+          "resolvedBlockers": [
+            "needs-provider-context-review: publication policy assigned",
+            "public-asset-batch-placement: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Transport, roads, infrastructure, public assets",
+          "transport-public-asset",
+          "features",
+          "Ireland / unspecified",
+          "transport-public-asset-batch-review",
+          "CSV",
+          "JSON-STAT",
+          "PX",
+          "XLSX"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-ima01-freight-traffic-roll-onroll-off-02200"
+      }
+    },
     {
       "id": "medium-priority:7-transport-roads-infrastructure-public-assets:ima02-freight-traffic-roll-onroll-off:02201",
       "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-ima02-freight-traffic-roll-onroll-off-02201",
@@ -49378,124 +49723,6 @@
       "publicationStatus": "context-source-published",
       "proposedBrowsePath": "Books / Tables / Sources > Peatland Geoportal context",
       "browseUrl": "/browse/sources/peatland-geoportal-context-ballynahoneboglocationmap-795185e80f1c45c2abbcffaa93fd8b3c"
-    },
-    {
-      "id": "peatland-geoportal:context:ballynahonebogsac-cmpstorymap:8fbf607d3b09429590359462815d3f5d",
-      "slug": "peatland-geoportal-context-ballynahonebogsac-cmpstorymap-8fbf607d3b09429590359462815d3f5d",
-      "type": "peatland-geoportal-context-source",
-      "title": "BallynahoneBogSAC_CMPStoryMap",
-      "subtitle": "StoryMap / Megan.Ryan_DAERANI / StoryMap",
-      "category": "Peatland Geoportal context",
-      "date": "2024-03-29",
-      "provider": [
-        "Megan.Ryan_DAERANI",
-        "DAERA / Open Data NI"
-      ],
-      "description": "BallynahoneBogSAC_CMPStoryMap is a StoryMap item from the Peatland Geoportal, owned by Megan.Ryan_DAERANI. not preferred for direct conversion; use as context/citation unless it points to an approved Feature Service/WFS dedupe by ArcGIS item ID and title ArcGIS item ID: 8fbf607d3b09429590359462815d3f5d. Modified: 2024-03-29. The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion.",
-      "url": "https://www.arcgis.com/home/item.html?id=8fbf607d3b09429590359462815d3f5d",
-      "references": [
-        {
-          "label": "BallynahoneBogSAC_CMPStoryMap ArcGIS item page",
-          "url": "https://www.arcgis.com/home/item.html?id=8fbf607d3b09429590359462815d3f5d",
-          "source": "ArcGIS Online / Peatland Geoportal",
-          "role": "arcgis-item-page"
-        },
-        {
-          "label": "Peatland Geoportal",
-          "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/",
-          "source": "Queen's University Belfast / ArcGIS Hub",
-          "role": "source-portal"
-        },
-        {
-          "label": "Peatland Geoportal ArcGIS group search",
-          "url": "https://www.arcgis.com/sharing/rest/search?f=json&q=group:b5fdfbe3f6264c14a90afd43f8f51956&num=100&sortField=title",
-          "source": "ArcGIS Online",
-          "role": "source-group"
-        },
-        {
-          "label": "BallynahoneBogSAC_CMPStoryMap service or source URL",
-          "url": "https://storymaps.arcgis.com/stories/8fbf607d3b09429590359462815d3f5d",
-          "source": "Megan.Ryan_DAERANI",
-          "role": "source-url"
-        }
-      ],
-      "keywords": [
-        "peatland-geoportal",
-        "peatland-direct",
-        "source-context-record-not-map-layer",
-        "StoryMap",
-        "Megan.Ryan_DAERANI",
-        "Ballynahone Bog",
-        "SAC",
-        "CMP",
-        "Conservation Management Plan",
-        "Annex 1",
-        "Northern Ireland",
-        "United Kingdom",
-        "NI",
-        "UK"
-      ],
-      "sourceItems": [
-        {
-          "auditRowNumber": 52,
-          "title": "BallynahoneBogSAC_CMPStoryMap",
-          "provider": "Megan.Ryan_DAERANI",
-          "category": "peatland-direct",
-          "formats": [
-            "StoryMap"
-          ],
-          "arcgisItemId": "8fbf607d3b09429590359462815d3f5d",
-          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=8fbf607d3b09429590359462815d3f5d",
-          "serviceUrl": "https://storymaps.arcgis.com/stories/8fbf607d3b09429590359462815d3f5d",
-          "modified": "2024-03-29T13:46:24.000Z",
-          "access": "public",
-          "tags": [
-            "Ballynahone Bog",
-            "SAC",
-            "CMP",
-            "Conservation Management Plan",
-            "Annex 1",
-            "Northern Ireland",
-            "United Kingdom",
-            "NI",
-            "UK"
-          ],
-          "recommendedAction": "source-context-record-not-map-layer",
-          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
-        }
-      ],
-      "status": "Source context",
-      "statusChips": [
-        "Source context",
-        "StoryMap"
-      ],
-      "sourceHierarchy": [
-        "Peatland Geoportal",
-        "Web maps, StoryMaps, apps, and context",
-        "peatland-direct"
-      ],
-      "viewport": {
-        "type": "web-context",
-        "status": "external-context-link",
-        "url": "https://www.arcgis.com/home/item.html?id=8fbf607d3b09429590359462815d3f5d"
-      },
-      "shortCitation": "Megan.Ryan_DAERANI: BallynahoneBogSAC_CMPStoryMap",
-      "fullCitation": "BallynahoneBogSAC_CMPStoryMap. Megan.Ryan_DAERANI via Peatland Geoportal / ArcGIS item 8fbf607d3b09429590359462815d3f5d, modified 2024-03-29.",
-      "license": {
-        "status": "licence-review-required",
-        "note": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
-      },
-      "approval": {
-        "recommendedAction": "publish as source/context page",
-        "conversionRecommendation": "not preferred for direct conversion; use as context/citation unless it points to an approved Feature Service/WFS",
-        "dedupeRecommendation": "dedupe by ArcGIS item ID and title",
-        "arcgisItemId": "8fbf607d3b09429590359462815d3f5d",
-        "sourceType": "StoryMap",
-        "confidence": "high"
-      },
-      "publicationStatus": "context-source-published",
-      "proposedBrowsePath": "Books / Tables / Sources > Peatland Geoportal context",
-      "browseUrl": "/browse/sources/peatland-geoportal-context-ballynahonebogsac-cmpstorymap-8fbf607d3b09429590359462815d3f5d"
     }
   ]
 }
