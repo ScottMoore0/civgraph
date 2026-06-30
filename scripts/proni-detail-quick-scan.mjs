@@ -51,6 +51,8 @@ function parseArgs(argv) {
     stopOnBlocked: true,
     adaptive: true,
     resume: false,
+    traversal: "branch",
+    maxSubtreeRecords: 1500,
     progressEveryMs: 5000,
     writerFlushRows: 100,
     writerFlushMs: 1000,
@@ -98,6 +100,8 @@ function parseArgs(argv) {
       case "no-adaptive": out.adaptive = false; break;
       case "resume": out.resume = true; break;
       case "no-resume": out.resume = false; break;
+      case "traversal": out.traversal = take(); break;
+      case "max-subtree-records": out.maxSubtreeRecords = Number(take()); break;
       case "progress-every-ms": out.progressEveryMs = Number(take()); break;
       case "writer-flush-rows": out.writerFlushRows = Number(take()); break;
       case "writer-flush-ms": out.writerFlushMs = Number(take()); break;
@@ -128,6 +132,10 @@ Key options:
   --no-adaptive              Disable worker ramp.
   --resume                   Skip records already present in --out-dir/records-details.jsonl
                              and append new ones (point --out-dir at the prior run's folder).
+  --traversal branch         Traversal mode: branch (re-walk from root per branch) or
+                             dfs (walk subtrees with a cached parent-listing stack;
+                             far fewer requests per record on deep branches).
+  --max-subtree-records 1500 DFS only: split subtrees larger than this for load balancing.
 `;
 }
 
@@ -849,7 +857,140 @@ async function processBranchUnit(unit, writers, options, stats, workerId) {
   stats.groupsCompleted += 1;
 }
 
+// --- DFS traversal mode -----------------------------------------------------
+// Instead of re-walking from the letter root for every branch, a worker owns a
+// subtree and walks it depth-first, reaching siblings/children by re-POSTing a
+// cached ancestor listing page (validated by scripts/proni-dfs-benchmark.mjs).
+
+async function readIndexRecords(indexPath, options) {
+  const records = [];
+  const rl = readline.createInterface({ input: createReadStream(indexPath, { encoding: "utf8" }), crlfDelay: Infinity });
+  for await (const line of rl) {
+    if (!line.trim()) continue;
+    const r = JSON.parse(line);
+    records.push({ expectedRef: r.expectedRef, branchKey: r.branchKey, letter: r.letter, path: r.path || [], page: Number(r.page || 1), ctl: r.ctl });
+    if (options.maxRecords > 0 && records.length >= options.maxRecords) break;
+  }
+  return records;
+}
+
+function buildSubtreeUnits(records, options) {
+  const cap = options.maxSubtreeRecords > 0 ? options.maxSubtreeRecords : 1500;
+  const nodes = new Map();
+  const keyOf = (letter, pathArr) => `${letter}|${pathArr.join(">")}`;
+  const ensureNode = (letter, pathArr) => {
+    const key = keyOf(letter, pathArr);
+    if (!nodes.has(key)) {
+      nodes.set(key, {
+        key, letter, ref: pathArr[pathArr.length - 1], pathArr,
+        parentKey: pathArr.length > 1 ? keyOf(letter, pathArr.slice(0, -1)) : null,
+        childKeys: new Set(), directRecords: [], subtreeCount: 0,
+      });
+    }
+    return nodes.get(key);
+  };
+  for (const r of records) {
+    const p = r.path;
+    if (!p.length) continue;
+    for (let i = 1; i <= p.length; i += 1) {
+      ensureNode(r.letter, p.slice(0, i));
+      if (i > 1) nodes.get(keyOf(r.letter, p.slice(0, i - 1))).childKeys.add(keyOf(r.letter, p.slice(0, i)));
+    }
+    ensureNode(r.letter, p).directRecords.push(r);
+  }
+  const computeCount = (key) => {
+    const n = nodes.get(key);
+    let c = n.directRecords.length;
+    for (const ck of n.childKeys) c += computeCount(ck);
+    n.subtreeCount = c;
+    return c;
+  };
+  const roots = [...nodes.values()].filter((n) => n.parentKey === null);
+  for (const root of roots) computeCount(root.key);
+
+  const units = [];
+  const makeUnit = (rootNode, includeDescendants) => {
+    const recordsByBranch = new Map();
+    const wantedBranchRefs = new Set();
+    const refs = new Set();
+    const rootIdx = rootNode.pathArr.length - 1;
+    const collect = (key, descend) => {
+      const n = nodes.get(key);
+      for (const r of n.directRecords) {
+        refs.add(r.expectedRef);
+        const bref = r.path[r.path.length - 1];
+        if (!recordsByBranch.has(bref)) recordsByBranch.set(bref, []);
+        recordsByBranch.get(bref).push(r);
+        for (let i = rootIdx + 1; i < r.path.length; i += 1) wantedBranchRefs.add(r.path[i]);
+      }
+      if (descend) for (const ck of n.childKeys) collect(ck, true);
+    };
+    collect(rootNode.key, includeDescendants);
+    return {
+      type: "subtree", letter: rootNode.letter, rootPath: rootNode.pathArr,
+      rootBranchRef: rootNode.ref, rootBranchKey: rootNode.key,
+      recordsByBranch, wantedBranchRefs, refs, rowCount: refs.size,
+    };
+  };
+  const partition = (key) => {
+    const n = nodes.get(key);
+    if (n.subtreeCount <= cap) {
+      if (n.subtreeCount > 0) units.push(makeUnit(n, true));
+      return;
+    }
+    if (n.directRecords.length) units.push(makeUnit(n, false));
+    for (const ck of n.childKeys) partition(ck);
+  };
+  for (const root of roots) partition(root.key);
+  units.sort((a, b) => b.rowCount - a.rowCount);
+  return units;
+}
+
+async function walkSubtreeNode(session, listingHtml, branchRef, unit, writers, options, stats, workerId, visited) {
+  if (visited.has(branchRef)) return;
+  visited.add(branchRef);
+  const byPage = new Map();
+  for (const r of unit.recordsByBranch.get(branchRef) || []) {
+    const pg = Number(r.page || 1);
+    if (!byPage.has(pg)) byPage.set(pg, []);
+    byPage.get(pg).push(r);
+  }
+  const childrenToDescend = [];
+  let html = listingHtml;
+  let page = 1;
+  while (true) {
+    const recsThisPage = byPage.get(page) || [];
+    if (recsThisPage.length) {
+      await processRowsFromListing(session, html, recsThisPage, writers, options, stats, workerId, "raw-http-dfs-traversal");
+    }
+    for (const row of parseGridRows(html)) {
+      const cref = row.ResultsSelect?.value;
+      if (row.ResultsSelect && !row.ResultsSelect.disabled && cref && unit.wantedBranchRefs.has(cref) && !visited.has(cref)) {
+        childrenToDescend.push({ row, pageHtml: html });
+      }
+    }
+    const next = findNextButton(html);
+    if (!next || page >= options.maxPagesPerBranch) break;
+    html = await clickNext(session, html, next);
+    page += 1;
+  }
+  for (const { row, pageHtml } of childrenToDescend) {
+    const cref = row.ResultsSelect.value;
+    if (visited.has(cref)) continue;
+    const childHtml = await clickSelect(session, pageHtml, row); // re-POST against cached parent listing
+    await walkSubtreeNode(session, childHtml, cref, unit, writers, options, stats, workerId, visited);
+  }
+}
+
+async function processSubtreeUnit(unit, writers, options, stats, workerId) {
+  const session = new Session(workerId, options, writers, stats);
+  const rootHtml = await openBranchPage(session, { letter: unit.letter, path: unit.rootPath, page: 1, branchKey: unit.rootBranchKey });
+  await walkSubtreeNode(session, rootHtml, unit.rootBranchRef, unit, writers, options, stats, workerId, new Set());
+  stats.groupsCompleted += 1;
+}
+
 async function processUnit(unit, writers, options, stats, workerId) {
+  if (unit.type === "subtree") return processSubtreeUnit(unit, writers, options, stats, workerId);
   if (unit.type === "branch") return processBranchUnit(unit, writers, options, stats, workerId);
   return processPageUnit(unit, writers, options, stats, workerId);
 }
@@ -931,9 +1072,12 @@ async function runWorker(workerId, units, workQueue, writers, options, stats) {
       }
       const { index, attempt } = item;
       const unit = units[index];
-      if (options.resume && unit.rows?.length && unit.rows.every((row) => stats.completedRefs.has(row.expectedRef))) {
-        stats.groupsCompleted += 1;
-        continue;
+      if (options.resume) {
+        const unitRefs = unit.rows ? unit.rows.map((row) => row.expectedRef) : (unit.refs ? [...unit.refs] : []);
+        if (unitRefs.length && unitRefs.every((ref) => stats.completedRefs.has(ref))) {
+          stats.groupsCompleted += 1;
+          continue;
+        }
       }
       try {
         await processUnit(unit, writers, options, stats, workerId);
@@ -1085,6 +1229,9 @@ async function runScan(options) {
   if (!["https-agent", "fetch"].includes(options.httpClient)) {
     throw new Error(`--http-client must be https-agent or fetch, got ${options.httpClient}`);
   }
+  if (!["branch", "dfs"].includes(options.traversal)) {
+    throw new Error(`--traversal must be branch or dfs, got ${options.traversal}`);
+  }
   if (options.httpClient === "https-agent") {
     options.httpAgent = new HttpsAgent({
       keepAlive: true,
@@ -1110,7 +1257,9 @@ async function runScan(options) {
     const seeded = await seedCompletedRefsFromOutput(options.outDir, stats);
     console.error(`[resume] seeded ${seeded} already-completed record(s) from ${path.join(options.outDir, "records-details.jsonl")}`);
   }
-  const units = await readIndexWorkUnits(options.index, options);
+  const units = options.traversal === "dfs"
+    ? buildSubtreeUnits(await readIndexRecords(options.index, options), options)
+    : await readIndexWorkUnits(options.index, options);
   stats.groupsLoaded = units.length;
   stats.recordsPlanned = units.reduce((sum, unit) => sum + unit.rowCount, 0);
   stats.desiredWorkers = Math.min(options.initialWorkers, options.maxWorkers, units.length || 1);
