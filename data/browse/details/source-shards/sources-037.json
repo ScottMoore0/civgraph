@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T19:38:02.766Z",
+  "generatedAt": "2026-06-30T20:12:09.722Z",
   "kind": "sources",
   "shard": "sources-037.json",
   "total": 200,
@@ -31312,6 +31312,78 @@
       }
     },
     {
+      "id": "map-source:irish-peat-soils-map",
+      "slug": "map-source-irish-peat-soils-map",
+      "type": "map-source",
+      "title": "Irish Peat Soils Map source files",
+      "subtitle": "Biodiversity & Habitats / Trinity College Dublin",
+      "category": "Map sources",
+      "provider": [
+        "Trinity College Dublin"
+      ],
+      "description": "Irish Peat Soils Map — Ireland. Source: Trinity College Dublin (via the Peatlands Geoportal, QUB).",
+      "sourceMapId": "irish-peat-soils-map",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "IP",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Peatlands Geoportal (QUB) — Irish Peat Soils Map",
+          "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/biodiversity/Irish_Peat_Soils_Map.fgb"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/biodiversity/Irish_Peat_Soils_Map.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=irish-peat-soils-map",
+      "browseUrl": "/browse/sources/map-source-irish-peat-soils-map",
+      "rawMetadata": {
+        "id": "irish-peat-soils-map",
+        "name": "Irish Peat Soils Map",
+        "slug": "irish-peat-soils-map",
+        "category": "biodiversity",
+        "provider": [
+          "Trinity College Dublin"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/biodiversity/Irish_Peat_Soils_Map.fgb"
+        },
+        "style": {
+          "color": "#2E7D32",
+          "weight": 1,
+          "fillOpacity": 0.4
+        },
+        "keywords": [
+          "ireland",
+          "ireland",
+          "peat",
+          "peatland",
+          "soils",
+          "bog"
+        ],
+        "description": "Irish Peat Soils Map — Ireland. Source: Trinity College Dublin (via the Peatlands Geoportal, QUB).",
+        "references": [
+          {
+            "label": "Peatlands Geoportal (QUB) — Irish Peat Soils Map",
+            "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/",
+            "note": ""
+          }
+        ],
+        "labelProperty": "descrip",
+        "useLOD": true,
+        "chunked": true
+      }
+    },
+    {
       "id": "map-source:lgd-1972",
       "slug": "map-source-lgd-1972",
       "type": "map-source",
@@ -32268,6 +32340,146 @@
       }
     },
     {
+      "id": "map-source:ni-250k-geology",
+      "slug": "map-source-ni-250k-geology",
+      "type": "map-source",
+      "title": "Northern Ireland Geology (1:250,000) source files",
+      "subtitle": "Environment / Geological Survey of Northern Ireland (GSNI)",
+      "category": "Map sources",
+      "provider": [
+        "Geological Survey of Northern Ireland (GSNI)"
+      ],
+      "description": "Northern Ireland Geology (1:250,000) — Northern Ireland. Source: Geological Survey of Northern Ireland (GSNI) (via the Peatlands Geoportal, QUB).",
+      "sourceMapId": "ni-250k-geology",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "NI",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Peatlands Geoportal (QUB) — Northern Ireland Geology (1:250,000)",
+          "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/environment/NI_250k_Geology.fgb"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/environment/NI_250k_Geology.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=ni-250k-geology",
+      "browseUrl": "/browse/sources/map-source-ni-250k-geology",
+      "rawMetadata": {
+        "id": "ni-250k-geology",
+        "name": "Northern Ireland Geology (1:250,000)",
+        "slug": "ni-250k-geology",
+        "category": "environment",
+        "provider": [
+          "Geological Survey of Northern Ireland (GSNI)"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/environment/NI_250k_Geology.fgb"
+        },
+        "style": {
+          "color": "#558B2F",
+          "weight": 1,
+          "fillOpacity": 0.4
+        },
+        "keywords": [
+          "NI",
+          "ireland",
+          "geology",
+          "bedrock",
+          "GSNI"
+        ],
+        "description": "Northern Ireland Geology (1:250,000) — Northern Ireland. Source: Geological Survey of Northern Ireland (GSNI) (via the Peatlands Geoportal, QUB).",
+        "references": [
+          {
+            "label": "Peatlands Geoportal (QUB) — Northern Ireland Geology (1:250,000)",
+            "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/",
+            "note": ""
+          }
+        ],
+        "labelProperty": "CATEGORY",
+        "useLOD": true
+      }
+    },
+    {
+      "id": "map-source:ni-authorised-waste-sites",
+      "slug": "map-source-ni-authorised-waste-sites",
+      "type": "map-source",
+      "title": "Authorised Waste Sites (NI) source files",
+      "subtitle": "Environment / NIEA",
+      "category": "Map sources",
+      "provider": [
+        "NIEA"
+      ],
+      "description": "Authorised Waste Sites (NI) — Northern Ireland. Source: NIEA (via the Peatlands Geoportal, QUB).",
+      "sourceMapId": "ni-authorised-waste-sites",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "AW",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Peatlands Geoportal (QUB) — Authorised Waste Sites (NI)",
+          "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/environment/NI_Authorised_Waste_Sites.fgb"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/environment/NI_Authorised_Waste_Sites.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=ni-authorised-waste-sites",
+      "browseUrl": "/browse/sources/map-source-ni-authorised-waste-sites",
+      "rawMetadata": {
+        "id": "ni-authorised-waste-sites",
+        "name": "Authorised Waste Sites (NI)",
+        "slug": "ni-authorised-waste-sites",
+        "category": "environment",
+        "provider": [
+          "NIEA"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/environment/NI_Authorised_Waste_Sites.fgb"
+        },
+        "style": {
+          "color": "#558B2F",
+          "weight": 1,
+          "fillOpacity": 0.5
+        },
+        "keywords": [
+          "NI",
+          "ireland",
+          "waste",
+          "environment",
+          "NIEA"
+        ],
+        "description": "Authorised Waste Sites (NI) — Northern Ireland. Source: NIEA (via the Peatlands Geoportal, QUB).",
+        "references": [
+          {
+            "label": "Peatlands Geoportal (QUB) — Authorised Waste Sites (NI)",
+            "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/",
+            "note": ""
+          }
+        ],
+        "labelProperty": "SiteName",
+        "chunked": true
+      }
+    },
+    {
       "id": "map-source:ni-defence-heritage",
       "slug": "map-source-ni-defence-heritage",
       "type": "map-source",
@@ -32576,6 +32788,75 @@
       }
     },
     {
+      "id": "map-source:ni-historic-landuse",
+      "slug": "map-source-ni-historic-landuse",
+      "type": "map-source",
+      "title": "Historic Land Use (NI) source files",
+      "subtitle": "Built Environment / Dept for Communities — Historic Environment Division",
+      "category": "Map sources",
+      "provider": [
+        "Dept for Communities — Historic Environment Division"
+      ],
+      "description": "Historic Land Use (NI) — Northern Ireland. Source: Dept for Communities — Historic Environment Division (via the Peatlands Geoportal, QUB).",
+      "sourceMapId": "ni-historic-landuse",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "HL",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Peatlands Geoportal (QUB) — Historic Land Use (NI)",
+          "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/built-environment/NI_Historic_Landuse.fgb"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/built-environment/NI_Historic_Landuse.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=ni-historic-landuse",
+      "browseUrl": "/browse/sources/map-source-ni-historic-landuse",
+      "rawMetadata": {
+        "id": "ni-historic-landuse",
+        "name": "Historic Land Use (NI)",
+        "slug": "ni-historic-landuse",
+        "category": "built-environment",
+        "provider": [
+          "Dept for Communities — Historic Environment Division"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/built-environment/NI_Historic_Landuse.fgb"
+        },
+        "style": {
+          "color": "#6D4C41",
+          "weight": 1,
+          "fillOpacity": 0.5
+        },
+        "keywords": [
+          "NI",
+          "ireland",
+          "historic",
+          "land use",
+          "heritage"
+        ],
+        "description": "Historic Land Use (NI) — Northern Ireland. Source: Dept for Communities — Historic Environment Division (via the Peatlands Geoportal, QUB).",
+        "references": [
+          {
+            "label": "Peatlands Geoportal (QUB) — Historic Land Use (NI)",
+            "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/",
+            "note": ""
+          }
+        ],
+        "labelProperty": "Site_ID"
+      }
+    },
+    {
       "id": "map-source:ni-industrial-heritage",
       "slug": "map-source-ni-industrial-heritage",
       "type": "map-source",
@@ -32666,6 +32947,148 @@
         ],
         "date": "2026-03-31",
         "labelProperty": "CO"
+      }
+    },
+    {
+      "id": "map-source:ni-land-classification",
+      "slug": "map-source-ni-land-classification",
+      "type": "map-source",
+      "title": "Northern Ireland Land Classification source files",
+      "subtitle": "Environment / GSNI, DAERA",
+      "category": "Map sources",
+      "provider": [
+        "GSNI",
+        "DAERA"
+      ],
+      "description": "Northern Ireland Land Classification — Northern Ireland. Source: GSNI (via the Peatlands Geoportal, QUB).",
+      "sourceMapId": "ni-land-classification",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "NI",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Peatlands Geoportal (QUB) — Northern Ireland Land Classification",
+          "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/environment/NI_Land_Classification.fgb"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/environment/NI_Land_Classification.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=ni-land-classification",
+      "browseUrl": "/browse/sources/map-source-ni-land-classification",
+      "rawMetadata": {
+        "id": "ni-land-classification",
+        "name": "Northern Ireland Land Classification",
+        "slug": "ni-land-classification",
+        "category": "environment",
+        "provider": [
+          "GSNI",
+          "DAERA"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/environment/NI_Land_Classification.fgb"
+        },
+        "style": {
+          "color": "#558B2F",
+          "weight": 1,
+          "fillOpacity": 0.4
+        },
+        "keywords": [
+          "NI",
+          "ireland",
+          "land classification",
+          "land use",
+          "environment"
+        ],
+        "description": "Northern Ireland Land Classification — Northern Ireland. Source: GSNI (via the Peatlands Geoportal, QUB).",
+        "references": [
+          {
+            "label": "Peatlands Geoportal (QUB) — Northern Ireland Land Classification",
+            "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/",
+            "note": ""
+          }
+        ],
+        "labelProperty": "ni_land_class",
+        "useLOD": true
+      }
+    },
+    {
+      "id": "map-source:ni-licensed-waste-facilities",
+      "slug": "map-source-ni-licensed-waste-facilities",
+      "type": "map-source",
+      "title": "Licensed Waste Facilities (NI) source files",
+      "subtitle": "Environment / NIEA",
+      "category": "Map sources",
+      "provider": [
+        "NIEA"
+      ],
+      "description": "Licensed Waste Facilities (NI) — Northern Ireland. Source: NIEA (via the Peatlands Geoportal, QUB).",
+      "sourceMapId": "ni-licensed-waste-facilities",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "LW",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Peatlands Geoportal (QUB) — Licensed Waste Facilities (NI)",
+          "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/environment/NI_Licensed_Waste_Facilities.fgb"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/environment/NI_Licensed_Waste_Facilities.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=ni-licensed-waste-facilities",
+      "browseUrl": "/browse/sources/map-source-ni-licensed-waste-facilities",
+      "rawMetadata": {
+        "id": "ni-licensed-waste-facilities",
+        "name": "Licensed Waste Facilities (NI)",
+        "slug": "ni-licensed-waste-facilities",
+        "category": "environment",
+        "provider": [
+          "NIEA"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/environment/NI_Licensed_Waste_Facilities.fgb"
+        },
+        "style": {
+          "color": "#558B2F",
+          "weight": 1,
+          "fillOpacity": 0.5
+        },
+        "keywords": [
+          "NI",
+          "ireland",
+          "waste",
+          "facilities",
+          "environment",
+          "NIEA"
+        ],
+        "description": "Licensed Waste Facilities (NI) — Northern Ireland. Source: NIEA (via the Peatlands Geoportal, QUB).",
+        "references": [
+          {
+            "label": "Peatlands Geoportal (QUB) — Licensed Waste Facilities (NI)",
+            "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/",
+            "note": ""
+          }
+        ],
+        "labelProperty": "Name"
       }
     },
     {
@@ -34200,7 +34623,17 @@
         ],
         "labelProperty": "Hab_Type",
         "useLOD": true,
-        "chunked": true
+        "chunked": true,
+        "bounds": [
+          [
+            54.03871616,
+            -8.15856891
+          ],
+          [
+            55.31016795,
+            -5.49163357
+          ]
+        ]
       }
     },
     {
@@ -34294,868 +34727,6 @@
         ],
         "date": "2026-03-31",
         "labelProperty": "COUNTY"
-      }
-    },
-    {
-      "id": "map-source:niea-catchment-stakeholder-groups",
-      "slug": "map-source-niea-catchment-stakeholder-groups",
-      "type": "map-source",
-      "title": "NIEA Catchment Stakeholder Groups source files",
-      "subtitle": "Water Quality / NIEA",
-      "category": "Map sources",
-      "provider": [
-        "NIEA"
-      ],
-      "description": "NIEA Catchment Stakeholder Groups — published by NIEA Water Management Unit (Water Framework Directive boundaries). 1 related provider/source row is staged as provenance for this existing Civgraph record; provider: Open Data NI; formats: GML, SHP; 1 provider dataset link preserved as references; licence: UK Open Government Licence (OGL); relationship: related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval.",
-      "sourceMapId": "niea-catchment-stakeholder-groups",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "NC",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "Source — admin.opendatani.gov.uk",
-          "url": "https://admin.opendatani.gov.uk/"
-        },
-        {
-          "label": "Existing Civgraph record: NIEA Catchment Stakeholder Groups source files",
-          "url": "/browse/maps/niea-catchment-stakeholder-groups",
-          "source": "Civgraph",
-          "role": "matched-existing-record"
-        },
-        {
-          "label": "Existing Civgraph source record: map-source:niea-catchment-stakeholder-groups",
-          "url": "/browse/sources/map-source-niea-catchment-stakeholder-groups",
-          "source": "Civgraph",
-          "role": "matched-source-record"
-        },
-        {
-          "label": "Provider dataset: Northern Ireland Catchment Stakeholder Groups",
-          "url": "https://admin.opendatani.gov.uk/dataset/northern-ireland-catchment-stakeholder-groups",
-          "source": "Open Data NI",
-          "role": "canonical-provider-dataset",
-          "type": "GML",
-          "note": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval / licence: UK Open Government Licence (OGL)"
-        },
-        {
-          "label": "Licence: UK Open Government Licence (OGL)",
-          "url": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
-          "source": "Open Data NI",
-          "role": "source-licence"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/niea-catchment-stakeholder-groups.fgb"
-        },
-        {
-          "label": "zip",
-          "url": "https://data.civgraph.net/data/maps/water-quality/niea-catchment-stakeholder-groups.zip"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/niea-catchment-stakeholder-groups.fgb"
-        },
-        {
-          "label": "zip",
-          "url": "https://data.civgraph.net/data/maps/water-quality/niea-catchment-stakeholder-groups.zip"
-        }
-      ],
-      "interactiveUrl": "/#layers=niea-catchment-stakeholder-groups",
-      "browseUrl": "/browse/sources/map-source-niea-catchment-stakeholder-groups",
-      "alreadyOnSiteEnrichments": [
-        {
-          "sourceTargetId": "map-source:niea-catchment-stakeholder-groups",
-          "targetEntityKind": "map",
-          "targetEntityId": "niea-catchment-stakeholder-groups",
-          "targetTitle": "NIEA Catchment Stakeholder Groups source files",
-          "targetBrowseUrl": "/browse/maps/niea-catchment-stakeholder-groups",
-          "sourceItemCount": 1,
-          "confidence": "high-confidence",
-          "safetyClasses": [
-            "variant/source enrichment review"
-          ],
-          "formats": [
-            "GML",
-            "SHP"
-          ],
-          "providers": [
-            "Open Data NI"
-          ],
-          "categories": [
-            "spatial"
-          ],
-          "enrichmentTypes": [
-            "alternate-format metadata",
-            "download/source-file metadata",
-            "geospatial source-format metadata",
-            "scale/generalisation/edition metadata",
-            "source/provenance metadata"
-          ],
-          "provenanceSummary": "1 related provider/source row is staged as provenance for this existing Civgraph record; provider: Open Data NI; formats: GML, SHP; 1 provider dataset link preserved as references; licence: UK Open Government Licence (OGL); relationship: related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval.",
-          "sourceItems": [
-            {
-              "auditRowNumber": 262,
-              "title": "Northern Ireland Catchment Stakeholder Groups",
-              "provider": "Open Data NI",
-              "category": "spatial",
-              "formats": [
-                "GML",
-                "SHP"
-              ],
-              "safetyClass": "variant/source enrichment review",
-              "approvalStatus": "user-approved-related-source-enrichment",
-              "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
-              "providerDatasetUrl": "https://admin.opendatani.gov.uk/dataset/northern-ireland-catchment-stakeholder-groups",
-              "licenseTitle": "UK Open Government Licence (OGL)",
-              "licenseUrl": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
-              "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-              "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
-              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-              "enrichmentTypes": [
-                "alternate-format metadata",
-                "download/source-file metadata",
-                "geospatial source-format metadata",
-                "scale/generalisation/edition metadata",
-                "source/provenance metadata"
-              ],
-              "detectedFamilies": [
-                "rivers-water-flood",
-                "habitat-protected-sites"
-              ],
-              "siteFamiliesPresent": [
-                "rivers-water-flood",
-                "habitat-protected-sites"
-              ],
-              "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
-            }
-          ],
-          "evidence": [
-            {
-              "kind": "database-map",
-              "id": "niea-catchment-stakeholder-groups",
-              "title": "NIEA Catchment Stakeholder Groups",
-              "score": 0.64
-            },
-            {
-              "kind": "browse-source",
-              "id": "map-source:niea-catchment-stakeholder-groups",
-              "title": "NIEA Catchment Stakeholder Groups source files",
-              "score": 0.64
-            },
-            {
-              "kind": "browse-map",
-              "id": "niea-catchment-stakeholder-groups",
-              "title": "NIEA Catchment Stakeholder Groups",
-              "score": 0.64
-            }
-          ]
-        }
-      ],
-      "sourceItems": [
-        {
-          "auditRowNumber": 262,
-          "title": "Northern Ireland Catchment Stakeholder Groups",
-          "provider": "Open Data NI",
-          "category": "spatial",
-          "formats": [
-            "GML",
-            "SHP"
-          ],
-          "safetyClass": "variant/source enrichment review",
-          "approvalStatus": "user-approved-related-source-enrichment",
-          "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
-          "providerDatasetUrl": "https://admin.opendatani.gov.uk/dataset/northern-ireland-catchment-stakeholder-groups",
-          "licenseTitle": "UK Open Government Licence (OGL)",
-          "licenseUrl": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
-          "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "enrichmentTypes": [
-            "alternate-format metadata",
-            "download/source-file metadata",
-            "geospatial source-format metadata",
-            "scale/generalisation/edition metadata",
-            "source/provenance metadata"
-          ],
-          "detectedFamilies": [
-            "rivers-water-flood",
-            "habitat-protected-sites"
-          ],
-          "siteFamiliesPresent": [
-            "rivers-water-flood",
-            "habitat-protected-sites"
-          ],
-          "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
-        }
-      ],
-      "keywords": [
-        "already-on-site-enrichment",
-        "duplicate-source-match",
-        "alternate-format metadata",
-        "download/source-file metadata",
-        "geospatial source-format metadata",
-        "scale/generalisation/edition metadata",
-        "source/provenance metadata"
-      ],
-      "publicationStatus": "enriched",
-      "rawMetadata": {
-        "id": "niea-catchment-stakeholder-groups",
-        "name": "NIEA Catchment Stakeholder Groups",
-        "slug": "niea-catchment-stakeholder-groups",
-        "category": "water-quality",
-        "provider": [
-          "NIEA"
-        ],
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/water-quality/niea-catchment-stakeholder-groups.fgb",
-          "downloads": {
-            "zip": "https://data.civgraph.net/data/maps/water-quality/niea-catchment-stakeholder-groups.zip"
-          }
-        },
-        "style": {
-          "color": "#039BE5",
-          "weight": 1,
-          "fillOpacity": 0.4
-        },
-        "keywords": [
-          "NIEA",
-          "water",
-          "WFD",
-          "niea catchment stakeholder groups"
-        ],
-        "description": "NIEA Catchment Stakeholder Groups — published by NIEA Water Management Unit (Water Framework Directive boundaries).",
-        "references": [
-          {
-            "label": "Source — admin.opendatani.gov.uk",
-            "url": "https://admin.opendatani.gov.uk/",
-            "note": ""
-          }
-        ],
-        "labelProperty": "NAME"
-      }
-    },
-    {
-      "id": "map-source:niea-landfill-sites-2013",
-      "slug": "map-source-niea-landfill-sites-2013",
-      "type": "map-source",
-      "title": "NIEA Authorised Landfill Sites (2013) source files",
-      "subtitle": "Environment / NIEA",
-      "category": "Map sources",
-      "date": "2013-01-01",
-      "provider": [
-        "NIEA"
-      ],
-      "description": "Locations of authorised landfill sites in Northern Ireland as of 2013.",
-      "sourceMapId": "niea-landfill-sites-2013",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "NA",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "Source — admin.opendatani.gov.uk",
-          "url": "https://admin.opendatani.gov.uk/"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2013.fgb"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2013.geojson"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2013.geojson"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2013.fgb"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2013.geojson"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2013.geojson"
-        }
-      ],
-      "interactiveUrl": "/#layers=niea-landfill-sites-2013",
-      "browseUrl": "/browse/sources/map-source-niea-landfill-sites-2013",
-      "rawMetadata": {
-        "id": "niea-landfill-sites-2013",
-        "name": "NIEA Authorised Landfill Sites (2013)",
-        "slug": "niea-landfill-sites-2013",
-        "category": "environment",
-        "provider": [
-          "NIEA"
-        ],
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2013.fgb",
-          "downloads": {
-            "geojson": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2013.geojson"
-          },
-          "geojson": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2013.geojson"
-        },
-        "style": {
-          "color": "#263238",
-          "weight": 1,
-          "fillOpacity": 0.4
-        },
-        "keywords": [
-          "NIEA",
-          "landfill",
-          "waste",
-          "environment",
-          "2013"
-        ],
-        "description": "Locations of authorised landfill sites in Northern Ireland as of 2013.",
-        "references": [
-          {
-            "label": "Source — admin.opendatani.gov.uk",
-            "url": "https://admin.opendatani.gov.uk/",
-            "note": ""
-          }
-        ],
-        "date": "2013-01-01",
-        "labelProperty": "AuthRef1_31Dec2013"
-      }
-    },
-    {
-      "id": "map-source:niea-landfill-sites-2014",
-      "slug": "map-source-niea-landfill-sites-2014",
-      "type": "map-source",
-      "title": "NIEA Authorised Landfill Sites (2014) source files",
-      "subtitle": "Environment / NIEA",
-      "category": "Map sources",
-      "date": "2014-01-01",
-      "provider": [
-        "NIEA"
-      ],
-      "description": "Locations of authorised landfill sites in Northern Ireland as of 2014.",
-      "sourceMapId": "niea-landfill-sites-2014",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "NA",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "Source — admin.opendatani.gov.uk",
-          "url": "https://admin.opendatani.gov.uk/"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2014.fgb"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2014.geojson"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2014.geojson"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2014.fgb"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2014.geojson"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2014.geojson"
-        }
-      ],
-      "interactiveUrl": "/#layers=niea-landfill-sites-2014",
-      "browseUrl": "/browse/sources/map-source-niea-landfill-sites-2014",
-      "rawMetadata": {
-        "id": "niea-landfill-sites-2014",
-        "name": "NIEA Authorised Landfill Sites (2014)",
-        "slug": "niea-landfill-sites-2014",
-        "category": "environment",
-        "provider": [
-          "NIEA"
-        ],
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2014.fgb",
-          "downloads": {
-            "geojson": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2014.geojson"
-          },
-          "geojson": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2014.geojson"
-        },
-        "style": {
-          "color": "#263238",
-          "weight": 1,
-          "fillOpacity": 0.4
-        },
-        "keywords": [
-          "NIEA",
-          "landfill",
-          "waste",
-          "environment",
-          "2014"
-        ],
-        "description": "Locations of authorised landfill sites in Northern Ireland as of 2014.",
-        "references": [
-          {
-            "label": "Source — admin.opendatani.gov.uk",
-            "url": "https://admin.opendatani.gov.uk/",
-            "note": ""
-          }
-        ],
-        "date": "2014-01-01",
-        "labelProperty": "AuthRef1_31Dec2014"
-      }
-    },
-    {
-      "id": "map-source:niea-landfill-sites-2015",
-      "slug": "map-source-niea-landfill-sites-2015",
-      "type": "map-source",
-      "title": "NIEA Authorised Landfill Sites (2015) source files",
-      "subtitle": "Environment / NIEA",
-      "category": "Map sources",
-      "date": "2015-01-01",
-      "provider": [
-        "NIEA"
-      ],
-      "description": "Locations of authorised landfill sites in Northern Ireland as of 2015.",
-      "sourceMapId": "niea-landfill-sites-2015",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "NA",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "Source — admin.opendatani.gov.uk",
-          "url": "https://admin.opendatani.gov.uk/"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2015.fgb"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2015.geojson"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2015.geojson"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2015.fgb"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2015.geojson"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2015.geojson"
-        }
-      ],
-      "interactiveUrl": "/#layers=niea-landfill-sites-2015",
-      "browseUrl": "/browse/sources/map-source-niea-landfill-sites-2015",
-      "rawMetadata": {
-        "id": "niea-landfill-sites-2015",
-        "name": "NIEA Authorised Landfill Sites (2015)",
-        "slug": "niea-landfill-sites-2015",
-        "category": "environment",
-        "provider": [
-          "NIEA"
-        ],
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2015.fgb",
-          "downloads": {
-            "geojson": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2015.geojson"
-          },
-          "geojson": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2015.geojson"
-        },
-        "style": {
-          "color": "#263238",
-          "weight": 1,
-          "fillOpacity": 0.4
-        },
-        "keywords": [
-          "NIEA",
-          "landfill",
-          "waste",
-          "environment",
-          "2015"
-        ],
-        "description": "Locations of authorised landfill sites in Northern Ireland as of 2015.",
-        "references": [
-          {
-            "label": "Source — admin.opendatani.gov.uk",
-            "url": "https://admin.opendatani.gov.uk/",
-            "note": ""
-          }
-        ],
-        "date": "2015-01-01",
-        "labelProperty": "AuthRef1_31Dec2015"
-      }
-    },
-    {
-      "id": "map-source:niea-landfill-sites-2016",
-      "slug": "map-source-niea-landfill-sites-2016",
-      "type": "map-source",
-      "title": "NIEA Authorised Landfill Sites (2016) source files",
-      "subtitle": "Environment / NIEA",
-      "category": "Map sources",
-      "date": "2016-01-01",
-      "provider": [
-        "NIEA"
-      ],
-      "description": "Locations of authorised landfill sites in Northern Ireland as of 2016.",
-      "sourceMapId": "niea-landfill-sites-2016",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "NA",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "Source — admin.opendatani.gov.uk",
-          "url": "https://admin.opendatani.gov.uk/"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2016.fgb"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2016.geojson"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2016.geojson"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2016.fgb"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2016.geojson"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2016.geojson"
-        }
-      ],
-      "interactiveUrl": "/#layers=niea-landfill-sites-2016",
-      "browseUrl": "/browse/sources/map-source-niea-landfill-sites-2016",
-      "rawMetadata": {
-        "id": "niea-landfill-sites-2016",
-        "name": "NIEA Authorised Landfill Sites (2016)",
-        "slug": "niea-landfill-sites-2016",
-        "category": "environment",
-        "provider": [
-          "NIEA"
-        ],
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2016.fgb",
-          "downloads": {
-            "geojson": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2016.geojson"
-          },
-          "geojson": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2016.geojson"
-        },
-        "style": {
-          "color": "#263238",
-          "weight": 1,
-          "fillOpacity": 0.4
-        },
-        "keywords": [
-          "NIEA",
-          "landfill",
-          "waste",
-          "environment",
-          "2016"
-        ],
-        "description": "Locations of authorised landfill sites in Northern Ireland as of 2016.",
-        "references": [
-          {
-            "label": "Source — admin.opendatani.gov.uk",
-            "url": "https://admin.opendatani.gov.uk/",
-            "note": ""
-          }
-        ],
-        "date": "2016-01-01",
-        "labelProperty": "AuthRef1_31Dec2016"
-      }
-    },
-    {
-      "id": "map-source:niea-landfill-sites-2017",
-      "slug": "map-source-niea-landfill-sites-2017",
-      "type": "map-source",
-      "title": "NIEA Authorised Landfill Sites (2017) source files",
-      "subtitle": "Environment / NIEA",
-      "category": "Map sources",
-      "date": "2017-01-01",
-      "provider": [
-        "NIEA"
-      ],
-      "description": "Locations of authorised landfill sites in Northern Ireland as of 2017, published by the Northern Ireland Environment Agency. 1 related provider/source row is staged as provenance for this existing Civgraph record; provider: Open Data NI; formats: CSV, GEOJSON; 1 provider dataset link preserved as references; licence: UK Open Government Licence (OGL); relationship: related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval.",
-      "sourceMapId": "niea-landfill-sites-2017",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "NA",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "Source — admin.opendatani.gov.uk",
-          "url": "https://admin.opendatani.gov.uk/"
-        },
-        {
-          "label": "Existing Civgraph record: NIEA Authorised Landfill Sites (2017) source files",
-          "url": "/browse/maps/niea-landfill-sites-2017",
-          "source": "Civgraph",
-          "role": "matched-existing-record"
-        },
-        {
-          "label": "Existing Civgraph source record: map-source:niea-landfill-sites-2017",
-          "url": "/browse/sources/map-source-niea-landfill-sites-2017",
-          "source": "Civgraph",
-          "role": "matched-source-record"
-        },
-        {
-          "label": "Provider dataset: NIEA ? Authorised landfill sites",
-          "url": "https://admin.opendatani.gov.uk/dataset/niea-authorised-landfill-sites",
-          "source": "Open Data NI",
-          "role": "canonical-provider-dataset",
-          "type": "CSV",
-          "note": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval / licence: UK Open Government Licence (OGL)"
-        },
-        {
-          "label": "Licence: UK Open Government Licence (OGL)",
-          "url": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
-          "source": "Open Data NI",
-          "role": "source-licence"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2017.fgb"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2017.geojson"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2017.geojson"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2017.fgb"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2017.geojson"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2017.geojson"
-        }
-      ],
-      "interactiveUrl": "/#layers=niea-landfill-sites-2017",
-      "browseUrl": "/browse/sources/map-source-niea-landfill-sites-2017",
-      "alreadyOnSiteEnrichments": [
-        {
-          "sourceTargetId": "map-source:niea-landfill-sites-2017",
-          "targetEntityKind": "map",
-          "targetEntityId": "niea-landfill-sites-2017",
-          "targetTitle": "NIEA Authorised Landfill Sites (2017) source files",
-          "targetBrowseUrl": "/browse/maps/niea-landfill-sites-2017",
-          "sourceItemCount": 1,
-          "confidence": "high-confidence",
-          "safetyClasses": [
-            "variant/source enrichment review"
-          ],
-          "formats": [
-            "CSV",
-            "GEOJSON"
-          ],
-          "providers": [
-            "Open Data NI"
-          ],
-          "categories": [
-            "spatial"
-          ],
-          "enrichmentTypes": [
-            "alternate-format metadata",
-            "download/source-file metadata",
-            "geospatial source-format metadata",
-            "raw-source viewport candidate metadata",
-            "scale/generalisation/edition metadata",
-            "schema/table/attribute metadata",
-            "source/provenance metadata"
-          ],
-          "provenanceSummary": "1 related provider/source row is staged as provenance for this existing Civgraph record; provider: Open Data NI; formats: CSV, GEOJSON; 1 provider dataset link preserved as references; licence: UK Open Government Licence (OGL); relationship: related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval.",
-          "sourceItems": [
-            {
-              "auditRowNumber": 656,
-              "title": "NIEA ? Authorised landfill sites",
-              "provider": "Open Data NI",
-              "category": "spatial",
-              "formats": [
-                "CSV",
-                "GEOJSON"
-              ],
-              "safetyClass": "variant/source enrichment review",
-              "approvalStatus": "user-approved-related-source-enrichment",
-              "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
-              "providerDatasetUrl": "https://admin.opendatani.gov.uk/dataset/niea-authorised-landfill-sites",
-              "licenseTitle": "UK Open Government Licence (OGL)",
-              "licenseUrl": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
-              "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-              "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
-              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-              "enrichmentTypes": [
-                "alternate-format metadata",
-                "download/source-file metadata",
-                "geospatial source-format metadata",
-                "raw-source viewport candidate metadata",
-                "scale/generalisation/edition metadata",
-                "schema/table/attribute metadata",
-                "source/provenance metadata"
-              ],
-              "detectedFamilies": [
-                "habitat-protected-sites"
-              ],
-              "siteFamiliesPresent": [
-                "habitat-protected-sites"
-              ],
-              "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
-            }
-          ],
-          "evidence": [
-            {
-              "kind": "database-map",
-              "id": "niea-landfill-sites-2017",
-              "title": "NIEA Authorised Landfill Sites (2017)",
-              "score": 0.7
-            },
-            {
-              "kind": "browse-source",
-              "id": "map-source:niea-landfill-sites-2017",
-              "title": "NIEA Authorised Landfill Sites (2017) source files",
-              "score": 0.7
-            },
-            {
-              "kind": "browse-map",
-              "id": "niea-landfill-sites-2017",
-              "title": "NIEA Authorised Landfill Sites (2017)",
-              "score": 0.7
-            }
-          ]
-        }
-      ],
-      "sourceItems": [
-        {
-          "auditRowNumber": 656,
-          "title": "NIEA ? Authorised landfill sites",
-          "provider": "Open Data NI",
-          "category": "spatial",
-          "formats": [
-            "CSV",
-            "GEOJSON"
-          ],
-          "safetyClass": "variant/source enrichment review",
-          "approvalStatus": "user-approved-related-source-enrichment",
-          "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
-          "providerDatasetUrl": "https://admin.opendatani.gov.uk/dataset/niea-authorised-landfill-sites",
-          "licenseTitle": "UK Open Government Licence (OGL)",
-          "licenseUrl": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
-          "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "enrichmentTypes": [
-            "alternate-format metadata",
-            "download/source-file metadata",
-            "geospatial source-format metadata",
-            "raw-source viewport candidate metadata",
-            "scale/generalisation/edition metadata",
-            "schema/table/attribute metadata",
-            "source/provenance metadata"
-          ],
-          "detectedFamilies": [
-            "habitat-protected-sites"
-          ],
-          "siteFamiliesPresent": [
-            "habitat-protected-sites"
-          ],
-          "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
-        }
-      ],
-      "keywords": [
-        "already-on-site-enrichment",
-        "duplicate-source-match",
-        "alternate-format metadata",
-        "download/source-file metadata",
-        "geospatial source-format metadata",
-        "raw-source viewport candidate metadata",
-        "scale/generalisation/edition metadata",
-        "schema/table/attribute metadata",
-        "source/provenance metadata"
-      ],
-      "publicationStatus": "enriched",
-      "rawMetadata": {
-        "id": "niea-landfill-sites-2017",
-        "name": "NIEA Authorised Landfill Sites (2017)",
-        "slug": "niea-landfill-sites-2017",
-        "category": "environment",
-        "provider": [
-          "NIEA"
-        ],
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2017.fgb",
-          "downloads": {
-            "geojson": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2017.geojson"
-          },
-          "geojson": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2017.geojson"
-        },
-        "style": {
-          "color": "#263238",
-          "weight": 1,
-          "fillOpacity": 0.4
-        },
-        "keywords": [
-          "NIEA",
-          "landfill",
-          "waste",
-          "environment",
-          "2017"
-        ],
-        "description": "Locations of authorised landfill sites in Northern Ireland as of 2017, published by the Northern Ireland Environment Agency.",
-        "references": [
-          {
-            "label": "Source — admin.opendatani.gov.uk",
-            "url": "https://admin.opendatani.gov.uk/",
-            "note": ""
-          }
-        ],
-        "date": "2017-01-01",
-        "labelProperty": "AuthRef1_31Dec2017"
       }
     }
   ]

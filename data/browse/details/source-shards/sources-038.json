@@ -1,10 +1,872 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T19:38:02.766Z",
+  "generatedAt": "2026-06-30T20:12:09.722Z",
   "kind": "sources",
   "shard": "sources-038.json",
   "total": 200,
   "items": [
+    {
+      "id": "map-source:niea-catchment-stakeholder-groups",
+      "slug": "map-source-niea-catchment-stakeholder-groups",
+      "type": "map-source",
+      "title": "NIEA Catchment Stakeholder Groups source files",
+      "subtitle": "Water Quality / NIEA",
+      "category": "Map sources",
+      "provider": [
+        "NIEA"
+      ],
+      "description": "NIEA Catchment Stakeholder Groups — published by NIEA Water Management Unit (Water Framework Directive boundaries). 1 related provider/source row is staged as provenance for this existing Civgraph record; provider: Open Data NI; formats: GML, SHP; 1 provider dataset link preserved as references; licence: UK Open Government Licence (OGL); relationship: related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval.",
+      "sourceMapId": "niea-catchment-stakeholder-groups",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "NC",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Source — admin.opendatani.gov.uk",
+          "url": "https://admin.opendatani.gov.uk/"
+        },
+        {
+          "label": "Existing Civgraph record: NIEA Catchment Stakeholder Groups source files",
+          "url": "/browse/maps/niea-catchment-stakeholder-groups",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:niea-catchment-stakeholder-groups",
+          "url": "/browse/sources/map-source-niea-catchment-stakeholder-groups",
+          "source": "Civgraph",
+          "role": "matched-source-record"
+        },
+        {
+          "label": "Provider dataset: Northern Ireland Catchment Stakeholder Groups",
+          "url": "https://admin.opendatani.gov.uk/dataset/northern-ireland-catchment-stakeholder-groups",
+          "source": "Open Data NI",
+          "role": "canonical-provider-dataset",
+          "type": "GML",
+          "note": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval / licence: UK Open Government Licence (OGL)"
+        },
+        {
+          "label": "Licence: UK Open Government Licence (OGL)",
+          "url": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+          "source": "Open Data NI",
+          "role": "source-licence"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/water-quality/niea-catchment-stakeholder-groups.fgb"
+        },
+        {
+          "label": "zip",
+          "url": "https://data.civgraph.net/data/maps/water-quality/niea-catchment-stakeholder-groups.zip"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/water-quality/niea-catchment-stakeholder-groups.fgb"
+        },
+        {
+          "label": "zip",
+          "url": "https://data.civgraph.net/data/maps/water-quality/niea-catchment-stakeholder-groups.zip"
+        }
+      ],
+      "interactiveUrl": "/#layers=niea-catchment-stakeholder-groups",
+      "browseUrl": "/browse/sources/map-source-niea-catchment-stakeholder-groups",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:niea-catchment-stakeholder-groups",
+          "targetEntityKind": "map",
+          "targetEntityId": "niea-catchment-stakeholder-groups",
+          "targetTitle": "NIEA Catchment Stakeholder Groups source files",
+          "targetBrowseUrl": "/browse/maps/niea-catchment-stakeholder-groups",
+          "sourceItemCount": 1,
+          "confidence": "high-confidence",
+          "safetyClasses": [
+            "variant/source enrichment review"
+          ],
+          "formats": [
+            "GML",
+            "SHP"
+          ],
+          "providers": [
+            "Open Data NI"
+          ],
+          "categories": [
+            "spatial"
+          ],
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "scale/generalisation/edition metadata",
+            "source/provenance metadata"
+          ],
+          "provenanceSummary": "1 related provider/source row is staged as provenance for this existing Civgraph record; provider: Open Data NI; formats: GML, SHP; 1 provider dataset link preserved as references; licence: UK Open Government Licence (OGL); relationship: related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval.",
+          "sourceItems": [
+            {
+              "auditRowNumber": 262,
+              "title": "Northern Ireland Catchment Stakeholder Groups",
+              "provider": "Open Data NI",
+              "category": "spatial",
+              "formats": [
+                "GML",
+                "SHP"
+              ],
+              "safetyClass": "variant/source enrichment review",
+              "approvalStatus": "user-approved-related-source-enrichment",
+              "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+              "providerDatasetUrl": "https://admin.opendatani.gov.uk/dataset/northern-ireland-catchment-stakeholder-groups",
+              "licenseTitle": "UK Open Government Licence (OGL)",
+              "licenseUrl": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+              "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+              "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+              "enrichmentTypes": [
+                "alternate-format metadata",
+                "download/source-file metadata",
+                "geospatial source-format metadata",
+                "scale/generalisation/edition metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "rivers-water-flood",
+                "habitat-protected-sites"
+              ],
+              "siteFamiliesPresent": [
+                "rivers-water-flood",
+                "habitat-protected-sites"
+              ],
+              "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "database-map",
+              "id": "niea-catchment-stakeholder-groups",
+              "title": "NIEA Catchment Stakeholder Groups",
+              "score": 0.64
+            },
+            {
+              "kind": "browse-source",
+              "id": "map-source:niea-catchment-stakeholder-groups",
+              "title": "NIEA Catchment Stakeholder Groups source files",
+              "score": 0.64
+            },
+            {
+              "kind": "browse-map",
+              "id": "niea-catchment-stakeholder-groups",
+              "title": "NIEA Catchment Stakeholder Groups",
+              "score": 0.64
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 262,
+          "title": "Northern Ireland Catchment Stakeholder Groups",
+          "provider": "Open Data NI",
+          "category": "spatial",
+          "formats": [
+            "GML",
+            "SHP"
+          ],
+          "safetyClass": "variant/source enrichment review",
+          "approvalStatus": "user-approved-related-source-enrichment",
+          "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+          "providerDatasetUrl": "https://admin.opendatani.gov.uk/dataset/northern-ireland-catchment-stakeholder-groups",
+          "licenseTitle": "UK Open Government Licence (OGL)",
+          "licenseUrl": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+          "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "scale/generalisation/edition metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "rivers-water-flood",
+            "habitat-protected-sites"
+          ],
+          "siteFamiliesPresent": [
+            "rivers-water-flood",
+            "habitat-protected-sites"
+          ],
+          "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "alternate-format metadata",
+        "download/source-file metadata",
+        "geospatial source-format metadata",
+        "scale/generalisation/edition metadata",
+        "source/provenance metadata"
+      ],
+      "publicationStatus": "enriched",
+      "rawMetadata": {
+        "id": "niea-catchment-stakeholder-groups",
+        "name": "NIEA Catchment Stakeholder Groups",
+        "slug": "niea-catchment-stakeholder-groups",
+        "category": "water-quality",
+        "provider": [
+          "NIEA"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/water-quality/niea-catchment-stakeholder-groups.fgb",
+          "downloads": {
+            "zip": "https://data.civgraph.net/data/maps/water-quality/niea-catchment-stakeholder-groups.zip"
+          }
+        },
+        "style": {
+          "color": "#039BE5",
+          "weight": 1,
+          "fillOpacity": 0.4
+        },
+        "keywords": [
+          "NIEA",
+          "water",
+          "WFD",
+          "niea catchment stakeholder groups"
+        ],
+        "description": "NIEA Catchment Stakeholder Groups — published by NIEA Water Management Unit (Water Framework Directive boundaries).",
+        "references": [
+          {
+            "label": "Source — admin.opendatani.gov.uk",
+            "url": "https://admin.opendatani.gov.uk/",
+            "note": ""
+          }
+        ],
+        "labelProperty": "NAME"
+      }
+    },
+    {
+      "id": "map-source:niea-landfill-sites-2013",
+      "slug": "map-source-niea-landfill-sites-2013",
+      "type": "map-source",
+      "title": "NIEA Authorised Landfill Sites (2013) source files",
+      "subtitle": "Environment / NIEA",
+      "category": "Map sources",
+      "date": "2013-01-01",
+      "provider": [
+        "NIEA"
+      ],
+      "description": "Locations of authorised landfill sites in Northern Ireland as of 2013.",
+      "sourceMapId": "niea-landfill-sites-2013",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "NA",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Source — admin.opendatani.gov.uk",
+          "url": "https://admin.opendatani.gov.uk/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2013.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2013.geojson"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2013.geojson"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2013.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2013.geojson"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2013.geojson"
+        }
+      ],
+      "interactiveUrl": "/#layers=niea-landfill-sites-2013",
+      "browseUrl": "/browse/sources/map-source-niea-landfill-sites-2013",
+      "rawMetadata": {
+        "id": "niea-landfill-sites-2013",
+        "name": "NIEA Authorised Landfill Sites (2013)",
+        "slug": "niea-landfill-sites-2013",
+        "category": "environment",
+        "provider": [
+          "NIEA"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2013.fgb",
+          "downloads": {
+            "geojson": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2013.geojson"
+          },
+          "geojson": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2013.geojson"
+        },
+        "style": {
+          "color": "#263238",
+          "weight": 1,
+          "fillOpacity": 0.4
+        },
+        "keywords": [
+          "NIEA",
+          "landfill",
+          "waste",
+          "environment",
+          "2013"
+        ],
+        "description": "Locations of authorised landfill sites in Northern Ireland as of 2013.",
+        "references": [
+          {
+            "label": "Source — admin.opendatani.gov.uk",
+            "url": "https://admin.opendatani.gov.uk/",
+            "note": ""
+          }
+        ],
+        "date": "2013-01-01",
+        "labelProperty": "AuthRef1_31Dec2013"
+      }
+    },
+    {
+      "id": "map-source:niea-landfill-sites-2014",
+      "slug": "map-source-niea-landfill-sites-2014",
+      "type": "map-source",
+      "title": "NIEA Authorised Landfill Sites (2014) source files",
+      "subtitle": "Environment / NIEA",
+      "category": "Map sources",
+      "date": "2014-01-01",
+      "provider": [
+        "NIEA"
+      ],
+      "description": "Locations of authorised landfill sites in Northern Ireland as of 2014.",
+      "sourceMapId": "niea-landfill-sites-2014",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "NA",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Source — admin.opendatani.gov.uk",
+          "url": "https://admin.opendatani.gov.uk/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2014.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2014.geojson"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2014.geojson"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2014.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2014.geojson"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2014.geojson"
+        }
+      ],
+      "interactiveUrl": "/#layers=niea-landfill-sites-2014",
+      "browseUrl": "/browse/sources/map-source-niea-landfill-sites-2014",
+      "rawMetadata": {
+        "id": "niea-landfill-sites-2014",
+        "name": "NIEA Authorised Landfill Sites (2014)",
+        "slug": "niea-landfill-sites-2014",
+        "category": "environment",
+        "provider": [
+          "NIEA"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2014.fgb",
+          "downloads": {
+            "geojson": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2014.geojson"
+          },
+          "geojson": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2014.geojson"
+        },
+        "style": {
+          "color": "#263238",
+          "weight": 1,
+          "fillOpacity": 0.4
+        },
+        "keywords": [
+          "NIEA",
+          "landfill",
+          "waste",
+          "environment",
+          "2014"
+        ],
+        "description": "Locations of authorised landfill sites in Northern Ireland as of 2014.",
+        "references": [
+          {
+            "label": "Source — admin.opendatani.gov.uk",
+            "url": "https://admin.opendatani.gov.uk/",
+            "note": ""
+          }
+        ],
+        "date": "2014-01-01",
+        "labelProperty": "AuthRef1_31Dec2014"
+      }
+    },
+    {
+      "id": "map-source:niea-landfill-sites-2015",
+      "slug": "map-source-niea-landfill-sites-2015",
+      "type": "map-source",
+      "title": "NIEA Authorised Landfill Sites (2015) source files",
+      "subtitle": "Environment / NIEA",
+      "category": "Map sources",
+      "date": "2015-01-01",
+      "provider": [
+        "NIEA"
+      ],
+      "description": "Locations of authorised landfill sites in Northern Ireland as of 2015.",
+      "sourceMapId": "niea-landfill-sites-2015",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "NA",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Source — admin.opendatani.gov.uk",
+          "url": "https://admin.opendatani.gov.uk/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2015.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2015.geojson"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2015.geojson"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2015.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2015.geojson"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2015.geojson"
+        }
+      ],
+      "interactiveUrl": "/#layers=niea-landfill-sites-2015",
+      "browseUrl": "/browse/sources/map-source-niea-landfill-sites-2015",
+      "rawMetadata": {
+        "id": "niea-landfill-sites-2015",
+        "name": "NIEA Authorised Landfill Sites (2015)",
+        "slug": "niea-landfill-sites-2015",
+        "category": "environment",
+        "provider": [
+          "NIEA"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2015.fgb",
+          "downloads": {
+            "geojson": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2015.geojson"
+          },
+          "geojson": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2015.geojson"
+        },
+        "style": {
+          "color": "#263238",
+          "weight": 1,
+          "fillOpacity": 0.4
+        },
+        "keywords": [
+          "NIEA",
+          "landfill",
+          "waste",
+          "environment",
+          "2015"
+        ],
+        "description": "Locations of authorised landfill sites in Northern Ireland as of 2015.",
+        "references": [
+          {
+            "label": "Source — admin.opendatani.gov.uk",
+            "url": "https://admin.opendatani.gov.uk/",
+            "note": ""
+          }
+        ],
+        "date": "2015-01-01",
+        "labelProperty": "AuthRef1_31Dec2015"
+      }
+    },
+    {
+      "id": "map-source:niea-landfill-sites-2016",
+      "slug": "map-source-niea-landfill-sites-2016",
+      "type": "map-source",
+      "title": "NIEA Authorised Landfill Sites (2016) source files",
+      "subtitle": "Environment / NIEA",
+      "category": "Map sources",
+      "date": "2016-01-01",
+      "provider": [
+        "NIEA"
+      ],
+      "description": "Locations of authorised landfill sites in Northern Ireland as of 2016.",
+      "sourceMapId": "niea-landfill-sites-2016",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "NA",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Source — admin.opendatani.gov.uk",
+          "url": "https://admin.opendatani.gov.uk/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2016.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2016.geojson"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2016.geojson"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2016.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2016.geojson"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2016.geojson"
+        }
+      ],
+      "interactiveUrl": "/#layers=niea-landfill-sites-2016",
+      "browseUrl": "/browse/sources/map-source-niea-landfill-sites-2016",
+      "rawMetadata": {
+        "id": "niea-landfill-sites-2016",
+        "name": "NIEA Authorised Landfill Sites (2016)",
+        "slug": "niea-landfill-sites-2016",
+        "category": "environment",
+        "provider": [
+          "NIEA"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2016.fgb",
+          "downloads": {
+            "geojson": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2016.geojson"
+          },
+          "geojson": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2016.geojson"
+        },
+        "style": {
+          "color": "#263238",
+          "weight": 1,
+          "fillOpacity": 0.4
+        },
+        "keywords": [
+          "NIEA",
+          "landfill",
+          "waste",
+          "environment",
+          "2016"
+        ],
+        "description": "Locations of authorised landfill sites in Northern Ireland as of 2016.",
+        "references": [
+          {
+            "label": "Source — admin.opendatani.gov.uk",
+            "url": "https://admin.opendatani.gov.uk/",
+            "note": ""
+          }
+        ],
+        "date": "2016-01-01",
+        "labelProperty": "AuthRef1_31Dec2016"
+      }
+    },
+    {
+      "id": "map-source:niea-landfill-sites-2017",
+      "slug": "map-source-niea-landfill-sites-2017",
+      "type": "map-source",
+      "title": "NIEA Authorised Landfill Sites (2017) source files",
+      "subtitle": "Environment / NIEA",
+      "category": "Map sources",
+      "date": "2017-01-01",
+      "provider": [
+        "NIEA"
+      ],
+      "description": "Locations of authorised landfill sites in Northern Ireland as of 2017, published by the Northern Ireland Environment Agency. 1 related provider/source row is staged as provenance for this existing Civgraph record; provider: Open Data NI; formats: CSV, GEOJSON; 1 provider dataset link preserved as references; licence: UK Open Government Licence (OGL); relationship: related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval.",
+      "sourceMapId": "niea-landfill-sites-2017",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "NA",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Source — admin.opendatani.gov.uk",
+          "url": "https://admin.opendatani.gov.uk/"
+        },
+        {
+          "label": "Existing Civgraph record: NIEA Authorised Landfill Sites (2017) source files",
+          "url": "/browse/maps/niea-landfill-sites-2017",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:niea-landfill-sites-2017",
+          "url": "/browse/sources/map-source-niea-landfill-sites-2017",
+          "source": "Civgraph",
+          "role": "matched-source-record"
+        },
+        {
+          "label": "Provider dataset: NIEA ? Authorised landfill sites",
+          "url": "https://admin.opendatani.gov.uk/dataset/niea-authorised-landfill-sites",
+          "source": "Open Data NI",
+          "role": "canonical-provider-dataset",
+          "type": "CSV",
+          "note": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval / licence: UK Open Government Licence (OGL)"
+        },
+        {
+          "label": "Licence: UK Open Government Licence (OGL)",
+          "url": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+          "source": "Open Data NI",
+          "role": "source-licence"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2017.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2017.geojson"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2017.geojson"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2017.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2017.geojson"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2017.geojson"
+        }
+      ],
+      "interactiveUrl": "/#layers=niea-landfill-sites-2017",
+      "browseUrl": "/browse/sources/map-source-niea-landfill-sites-2017",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:niea-landfill-sites-2017",
+          "targetEntityKind": "map",
+          "targetEntityId": "niea-landfill-sites-2017",
+          "targetTitle": "NIEA Authorised Landfill Sites (2017) source files",
+          "targetBrowseUrl": "/browse/maps/niea-landfill-sites-2017",
+          "sourceItemCount": 1,
+          "confidence": "high-confidence",
+          "safetyClasses": [
+            "variant/source enrichment review"
+          ],
+          "formats": [
+            "CSV",
+            "GEOJSON"
+          ],
+          "providers": [
+            "Open Data NI"
+          ],
+          "categories": [
+            "spatial"
+          ],
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "raw-source viewport candidate metadata",
+            "scale/generalisation/edition metadata",
+            "schema/table/attribute metadata",
+            "source/provenance metadata"
+          ],
+          "provenanceSummary": "1 related provider/source row is staged as provenance for this existing Civgraph record; provider: Open Data NI; formats: CSV, GEOJSON; 1 provider dataset link preserved as references; licence: UK Open Government Licence (OGL); relationship: related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval.",
+          "sourceItems": [
+            {
+              "auditRowNumber": 656,
+              "title": "NIEA ? Authorised landfill sites",
+              "provider": "Open Data NI",
+              "category": "spatial",
+              "formats": [
+                "CSV",
+                "GEOJSON"
+              ],
+              "safetyClass": "variant/source enrichment review",
+              "approvalStatus": "user-approved-related-source-enrichment",
+              "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+              "providerDatasetUrl": "https://admin.opendatani.gov.uk/dataset/niea-authorised-landfill-sites",
+              "licenseTitle": "UK Open Government Licence (OGL)",
+              "licenseUrl": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+              "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+              "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+              "enrichmentTypes": [
+                "alternate-format metadata",
+                "download/source-file metadata",
+                "geospatial source-format metadata",
+                "raw-source viewport candidate metadata",
+                "scale/generalisation/edition metadata",
+                "schema/table/attribute metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "habitat-protected-sites"
+              ],
+              "siteFamiliesPresent": [
+                "habitat-protected-sites"
+              ],
+              "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "database-map",
+              "id": "niea-landfill-sites-2017",
+              "title": "NIEA Authorised Landfill Sites (2017)",
+              "score": 0.7
+            },
+            {
+              "kind": "browse-source",
+              "id": "map-source:niea-landfill-sites-2017",
+              "title": "NIEA Authorised Landfill Sites (2017) source files",
+              "score": 0.7
+            },
+            {
+              "kind": "browse-map",
+              "id": "niea-landfill-sites-2017",
+              "title": "NIEA Authorised Landfill Sites (2017)",
+              "score": 0.7
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 656,
+          "title": "NIEA ? Authorised landfill sites",
+          "provider": "Open Data NI",
+          "category": "spatial",
+          "formats": [
+            "CSV",
+            "GEOJSON"
+          ],
+          "safetyClass": "variant/source enrichment review",
+          "approvalStatus": "user-approved-related-source-enrichment",
+          "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+          "providerDatasetUrl": "https://admin.opendatani.gov.uk/dataset/niea-authorised-landfill-sites",
+          "licenseTitle": "UK Open Government Licence (OGL)",
+          "licenseUrl": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+          "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "raw-source viewport candidate metadata",
+            "scale/generalisation/edition metadata",
+            "schema/table/attribute metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "habitat-protected-sites"
+          ],
+          "siteFamiliesPresent": [
+            "habitat-protected-sites"
+          ],
+          "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "alternate-format metadata",
+        "download/source-file metadata",
+        "geospatial source-format metadata",
+        "raw-source viewport candidate metadata",
+        "scale/generalisation/edition metadata",
+        "schema/table/attribute metadata",
+        "source/provenance metadata"
+      ],
+      "publicationStatus": "enriched",
+      "rawMetadata": {
+        "id": "niea-landfill-sites-2017",
+        "name": "NIEA Authorised Landfill Sites (2017)",
+        "slug": "niea-landfill-sites-2017",
+        "category": "environment",
+        "provider": [
+          "NIEA"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2017.fgb",
+          "downloads": {
+            "geojson": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2017.geojson"
+          },
+          "geojson": "https://data.civgraph.net/data/maps/environment/niea-landfill-sites-2017.geojson"
+        },
+        "style": {
+          "color": "#263238",
+          "weight": 1,
+          "fillOpacity": 0.4
+        },
+        "keywords": [
+          "NIEA",
+          "landfill",
+          "waste",
+          "environment",
+          "2017"
+        ],
+        "description": "Locations of authorised landfill sites in Northern Ireland as of 2017, published by the Northern Ireland Environment Agency.",
+        "references": [
+          {
+            "label": "Source — admin.opendatani.gov.uk",
+            "url": "https://admin.opendatani.gov.uk/",
+            "note": ""
+          }
+        ],
+        "date": "2017-01-01",
+        "labelProperty": "AuthRef1_31Dec2017"
+      }
+    },
     {
       "id": "map-source:niea-local-management-areas",
       "slug": "map-source-niea-local-management-areas",
@@ -350,6 +1212,79 @@
             -5.2
           ]
         ]
+      }
+    },
+    {
+      "id": "map-source:npws-designated-areas",
+      "slug": "map-source-npws-designated-areas",
+      "type": "map-source",
+      "title": "NPWS Designated Areas (Republic of Ireland) source files",
+      "subtitle": "Designated & Protected Sites / National Parks & Wildlife Service (NPWS)",
+      "category": "Map sources",
+      "provider": [
+        "National Parks & Wildlife Service (NPWS)"
+      ],
+      "description": "NPWS Designated Areas (Republic of Ireland) — Republic of Ireland. Source: National Parks & Wildlife Service (NPWS) (via the Peatlands Geoportal, QUB).",
+      "sourceMapId": "npws-designated-areas",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "ND",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Peatlands Geoportal (QUB) — NPWS Designated Areas (Republic of Ireland)",
+          "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/designated-sites/NPWS_Designated_Areas.fgb"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/designated-sites/NPWS_Designated_Areas.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=npws-designated-areas",
+      "browseUrl": "/browse/sources/map-source-npws-designated-areas",
+      "rawMetadata": {
+        "id": "npws-designated-areas",
+        "name": "NPWS Designated Areas (Republic of Ireland)",
+        "slug": "npws-designated-areas",
+        "category": "designated-sites",
+        "provider": [
+          "National Parks & Wildlife Service (NPWS)"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/designated-sites/NPWS_Designated_Areas.fgb"
+        },
+        "style": {
+          "color": "#00838F",
+          "weight": 1,
+          "fillOpacity": 0.4
+        },
+        "keywords": [
+          "ROI",
+          "ireland",
+          "designated areas",
+          "SAC",
+          "SPA",
+          "NPWS",
+          "conservation"
+        ],
+        "description": "NPWS Designated Areas (Republic of Ireland) — Republic of Ireland. Source: National Parks & Wildlife Service (NPWS) (via the Peatlands Geoportal, QUB).",
+        "references": [
+          {
+            "label": "Peatlands Geoportal (QUB) — NPWS Designated Areas (Republic of Ireland)",
+            "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/",
+            "note": ""
+          }
+        ],
+        "labelProperty": "SITECODE",
+        "useLOD": true,
+        "chunked": true
       }
     },
     {
@@ -10885,7 +11820,17 @@
             "note": ""
           }
         ],
-        "chunked": true
+        "chunked": true,
+        "bounds": [
+          [
+            51.41989727,
+            -10.66297089
+          ],
+          [
+            55.44658035,
+            -5.9962778
+          ]
+        ]
       }
     },
     {
@@ -10958,7 +11903,17 @@
             "note": ""
           }
         ],
-        "chunked": true
+        "chunked": true,
+        "bounds": [
+          [
+            51.41989727,
+            -10.66297089
+          ],
+          [
+            55.44658035,
+            -5.9962778
+          ]
+        ]
       }
     },
     {
@@ -12573,7 +13528,17 @@
             "note": ""
           }
         ],
-        "chunked": true
+        "chunked": true,
+        "bounds": [
+          [
+            51.41989727,
+            -10.66297089
+          ],
+          [
+            55.43514161,
+            -5.99804553
+          ]
+        ]
       }
     },
     {
@@ -21834,6 +22799,77 @@
       }
     },
     {
+      "id": "map-source:west-fermanagh-scarplands-sac-habitat",
+      "slug": "map-source-west-fermanagh-scarplands-sac-habitat",
+      "type": "map-source",
+      "title": "West Fermanagh Scarplands SAC Habitat Map source files",
+      "subtitle": "Biodiversity & Habitats / NIEA",
+      "category": "Map sources",
+      "provider": [
+        "NIEA"
+      ],
+      "description": "West Fermanagh Scarplands SAC Habitat Map — Northern Ireland. Source: NIEA (via the Peatlands Geoportal, QUB).",
+      "sourceMapId": "west-fermanagh-scarplands-sac-habitat",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "WF",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Peatlands Geoportal (QUB) — West Fermanagh Scarplands SAC Habitat Map",
+          "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/biodiversity/West_Fermanagh_Scarplands_SAC_Habitat.fgb"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/biodiversity/West_Fermanagh_Scarplands_SAC_Habitat.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=west-fermanagh-scarplands-sac-habitat",
+      "browseUrl": "/browse/sources/map-source-west-fermanagh-scarplands-sac-habitat",
+      "rawMetadata": {
+        "id": "west-fermanagh-scarplands-sac-habitat",
+        "name": "West Fermanagh Scarplands SAC Habitat Map",
+        "slug": "west-fermanagh-scarplands-sac-habitat",
+        "category": "biodiversity",
+        "provider": [
+          "NIEA"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/biodiversity/West_Fermanagh_Scarplands_SAC_Habitat.fgb"
+        },
+        "style": {
+          "color": "#2E7D32",
+          "weight": 1,
+          "fillOpacity": 0.4
+        },
+        "keywords": [
+          "NI",
+          "ireland",
+          "SAC",
+          "habitat",
+          "conservation",
+          "fermanagh"
+        ],
+        "description": "West Fermanagh Scarplands SAC Habitat Map — Northern Ireland. Source: NIEA (via the Peatlands Geoportal, QUB).",
+        "references": [
+          {
+            "label": "Peatlands Geoportal (QUB) — West Fermanagh Scarplands SAC Habitat Map",
+            "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/",
+            "note": ""
+          }
+        ],
+        "labelProperty": "annex1_code_1",
+        "useLOD": true
+      }
+    },
+    {
       "id": "map-source:wq-agricultural-critical-risk",
       "slug": "map-source-wq-agricultural-critical-risk",
       "type": "map-source",
@@ -27642,2936 +28678,6 @@
           "CSV"
         ],
         "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-candidates-for-2004-and-2009-local-elections-01754"
-      }
-    },
-    {
-      "id": "medium-priority:2-irish-election-source-enrichment-data:casement-daily-data:02137",
-      "slug": "medium-priority-2-irish-election-source-enrichment-data-casement-daily-data-02137",
-      "type": "approved-medium-priority-source",
-      "title": "Casement Daily Data",
-      "subtitle": "Irish election source/enrichment data / Met Éireann, data.gov.ie / Republic of Ireland / CSV, TXT / Approved source record",
-      "category": "Medium-priority: Irish election source/enrichment data",
-      "provider": [
-        "Met Éireann",
-        "data.gov.ie"
-      ],
-      "description": "Casement Daily Data is published as a medium-priority Civgraph source/provenance record from Met Éireann, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/casement-daily-data",
-      "references": [
-        {
-          "label": "Casement Daily Data provider page",
-          "url": "https://data.gov.ie/dataset/casement-daily-data",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Casement Daily Data Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/casement-daily-data",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/casement-daily-data",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Irish election source/enrichment data",
-        "election",
-        "features",
-        "Republic of Ireland",
-        "enrich-existing-election",
-        "CSV",
-        "TXT"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 2138,
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:casement-daily-data:02137",
-          "title": "Casement Daily Data",
-          "cleanTitle": "Casement Daily Data",
-          "provider": "data.gov.ie",
-          "organisation": "Met Éireann",
-          "category": "tabular",
-          "roiGroup": "2. Irish election source/enrichment data",
-          "groupTitle": "Irish election source/enrichment data",
-          "jurisdiction": "Republic of Ireland",
-          "topic": "election",
-          "featureUnit": "features",
-          "formats": [
-            "CSV",
-            "TXT"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "enrich-existing-election",
-          "proposedPlacement": "Elections/source provenance",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "TXT"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/casement-daily-data",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/casement-daily-data",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "election-model-merge-and-provenance-review: election staging action assigned",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Download available",
-        "Provider link",
-        "Wayback link",
-        "Election provenance"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Irish election source/enrichment data",
-        "Republic of Ireland",
-        "election",
-        "Casement Daily Data"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/casement-daily-data",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/casement-daily-data",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Met Éireann, data.gov.ie, Casement Daily Data.",
-      "fullCitation": "Met Éireann, data.gov.ie. Casement Daily Data. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/casement-daily-data. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/casement-daily-data.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:2-irish-election-source-enrichment-data:casement-daily-data:02137",
-        "sourceRowNumber": 2138,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish election source/provenance enrichment",
-        "proposedAction": "enrich-existing-election",
-        "proposedPlacement": "Elections/source provenance",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "CSV",
-            "TXT"
-          ]
-        },
-        "confidence": 60,
-        "resolvedBlockers": [
-          "election-model-merge-and-provenance-review: election staging action assigned",
-          "needs-provider-context-review: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Elections/source provenance",
-      "relationship": "election-source-enrichment",
-      "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-casement-daily-data-02137",
-      "rawMetadata": {
-        "id": "medium-priority:2-irish-election-source-enrichment-data:casement-daily-data:02137",
-        "slug": "medium-priority-2-irish-election-source-enrichment-data-casement-daily-data-02137",
-        "type": "approved-medium-priority-source",
-        "title": "Casement Daily Data",
-        "subtitle": "Irish election source/enrichment data / Met Éireann, data.gov.ie / Republic of Ireland / CSV, TXT / Approved source record",
-        "category": "Medium-priority: Irish election source/enrichment data",
-        "provider": [
-          "Met Éireann",
-          "data.gov.ie"
-        ],
-        "description": "Casement Daily Data is published as a medium-priority Civgraph source/provenance record from Met Éireann, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/casement-daily-data",
-        "references": [
-          {
-            "label": "Casement Daily Data provider page",
-            "url": "https://data.gov.ie/dataset/casement-daily-data",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Casement Daily Data Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/casement-daily-data",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/casement-daily-data",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Download available",
-          "Provider link",
-          "Wayback link",
-          "Election provenance"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Irish election source/enrichment data",
-          "Republic of Ireland",
-          "election",
-          "Casement Daily Data"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/casement-daily-data",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/casement-daily-data",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Met Éireann, data.gov.ie, Casement Daily Data.",
-        "fullCitation": "Met Éireann, data.gov.ie. Casement Daily Data. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/casement-daily-data. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/casement-daily-data.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 2138,
-            "stagingId": "medium-prep:2-irish-election-source-enrichment-data:casement-daily-data:02137",
-            "title": "Casement Daily Data",
-            "cleanTitle": "Casement Daily Data",
-            "provider": "data.gov.ie",
-            "organisation": "Met Éireann",
-            "category": "tabular",
-            "roiGroup": "2. Irish election source/enrichment data",
-            "groupTitle": "Irish election source/enrichment data",
-            "jurisdiction": "Republic of Ireland",
-            "topic": "election",
-            "featureUnit": "features",
-            "formats": [
-              "CSV",
-              "TXT"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "enrich-existing-election",
-            "proposedPlacement": "Elections/source provenance",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "CSV",
-                "TXT"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/casement-daily-data",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/casement-daily-data",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "election-model-merge-and-provenance-review: election staging action assigned",
-              "needs-provider-context-review: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:casement-daily-data:02137",
-          "sourceRowNumber": 2138,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish election source/provenance enrichment",
-          "proposedAction": "enrich-existing-election",
-          "proposedPlacement": "Elections/source provenance",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "TXT"
-            ]
-          },
-          "confidence": 60,
-          "resolvedBlockers": [
-            "election-model-merge-and-provenance-review: election staging action assigned",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Elections/source provenance",
-        "relationship": "election-source-enrichment",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Irish election source/enrichment data",
-          "election",
-          "features",
-          "Republic of Ireland",
-          "enrich-existing-election",
-          "CSV",
-          "TXT"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-casement-daily-data-02137"
-      }
-    },
-    {
-      "id": "medium-priority:2-irish-election-source-enrichment-data:cbm03-detailed-daily-card-payments:02142",
-      "slug": "medium-priority-2-irish-election-source-enrichment-data-cbm03-detailed-daily-card-payments-02142",
-      "type": "approved-medium-priority-source",
-      "title": "CBM03 - Detailed Daily Card Payments",
-      "subtitle": "Irish election source/enrichment data / Central Bank of Ireland, data.gov.ie / Republic of Ireland / CSV, JSON-STAT, PX, XLSX / Approved source record",
-      "category": "Medium-priority: Irish election source/enrichment data",
-      "provider": [
-        "Central Bank of Ireland",
-        "data.gov.ie"
-      ],
-      "description": "CBM03 - Detailed Daily Card Payments is published as a medium-priority Civgraph source/provenance record from Central Bank of Ireland, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/cbm03-detailed-daily-card-payments",
-      "references": [
-        {
-          "label": "CBM03 - Detailed Daily Card Payments provider page",
-          "url": "https://data.gov.ie/dataset/cbm03-detailed-daily-card-payments",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "CBM03 - Detailed Daily Card Payments Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/cbm03-detailed-daily-card-payments",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/cbm03-detailed-daily-card-payments",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Irish election source/enrichment data",
-        "election",
-        "features",
-        "Republic of Ireland",
-        "enrich-existing-election",
-        "CSV",
-        "JSON-STAT",
-        "PX",
-        "XLSX"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 2143,
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:cbm03-detailed-daily-card-payments:02142",
-          "title": "CBM03 - Detailed Daily Card Payments",
-          "cleanTitle": "CBM03 - Detailed Daily Card Payments",
-          "provider": "data.gov.ie",
-          "organisation": "Central Bank of Ireland",
-          "category": "tabular",
-          "roiGroup": "2. Irish election source/enrichment data",
-          "groupTitle": "Irish election source/enrichment data",
-          "jurisdiction": "Republic of Ireland",
-          "topic": "election",
-          "featureUnit": "features",
-          "formats": [
-            "CSV",
-            "JSON-STAT",
-            "PX",
-            "XLSX"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "enrich-existing-election",
-          "proposedPlacement": "Elections/source provenance",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "JSON-STAT",
-              "PX",
-              "XLSX"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/cbm03-detailed-daily-card-payments",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/cbm03-detailed-daily-card-payments",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "election-model-merge-and-provenance-review: election staging action assigned",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Download available",
-        "Provider link",
-        "Wayback link",
-        "Election provenance"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Irish election source/enrichment data",
-        "Republic of Ireland",
-        "election",
-        "CBM03 - Detailed Daily Card Payments"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text",
-          "spreadsheet"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/cbm03-detailed-daily-card-payments",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/cbm03-detailed-daily-card-payments",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Central Bank of Ireland, data.gov.ie, CBM03 - Detailed Daily Card Payments.",
-      "fullCitation": "Central Bank of Ireland, data.gov.ie. CBM03 - Detailed Daily Card Payments. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/cbm03-detailed-daily-card-payments. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/cbm03-detailed-daily-card-payments.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:2-irish-election-source-enrichment-data:cbm03-detailed-daily-card-payments:02142",
-        "sourceRowNumber": 2143,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish election source/provenance enrichment",
-        "proposedAction": "enrich-existing-election",
-        "proposedPlacement": "Elections/source provenance",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "CSV",
-            "JSON-STAT",
-            "PX",
-            "XLSX"
-          ]
-        },
-        "confidence": 60,
-        "resolvedBlockers": [
-          "election-model-merge-and-provenance-review: election staging action assigned",
-          "needs-provider-context-review: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Elections/source provenance",
-      "relationship": "election-source-enrichment",
-      "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-cbm03-detailed-daily-card-payments-02142",
-      "rawMetadata": {
-        "id": "medium-priority:2-irish-election-source-enrichment-data:cbm03-detailed-daily-card-payments:02142",
-        "slug": "medium-priority-2-irish-election-source-enrichment-data-cbm03-detailed-daily-card-payments-02142",
-        "type": "approved-medium-priority-source",
-        "title": "CBM03 - Detailed Daily Card Payments",
-        "subtitle": "Irish election source/enrichment data / Central Bank of Ireland, data.gov.ie / Republic of Ireland / CSV, JSON-STAT, PX, XLSX / Approved source record",
-        "category": "Medium-priority: Irish election source/enrichment data",
-        "provider": [
-          "Central Bank of Ireland",
-          "data.gov.ie"
-        ],
-        "description": "CBM03 - Detailed Daily Card Payments is published as a medium-priority Civgraph source/provenance record from Central Bank of Ireland, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/cbm03-detailed-daily-card-payments",
-        "references": [
-          {
-            "label": "CBM03 - Detailed Daily Card Payments provider page",
-            "url": "https://data.gov.ie/dataset/cbm03-detailed-daily-card-payments",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "CBM03 - Detailed Daily Card Payments Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/cbm03-detailed-daily-card-payments",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/cbm03-detailed-daily-card-payments",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Download available",
-          "Provider link",
-          "Wayback link",
-          "Election provenance"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Irish election source/enrichment data",
-          "Republic of Ireland",
-          "election",
-          "CBM03 - Detailed Daily Card Payments"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text",
-            "spreadsheet"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/cbm03-detailed-daily-card-payments",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/cbm03-detailed-daily-card-payments",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Central Bank of Ireland, data.gov.ie, CBM03 - Detailed Daily Card Payments.",
-        "fullCitation": "Central Bank of Ireland, data.gov.ie. CBM03 - Detailed Daily Card Payments. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/cbm03-detailed-daily-card-payments. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/cbm03-detailed-daily-card-payments.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 2143,
-            "stagingId": "medium-prep:2-irish-election-source-enrichment-data:cbm03-detailed-daily-card-payments:02142",
-            "title": "CBM03 - Detailed Daily Card Payments",
-            "cleanTitle": "CBM03 - Detailed Daily Card Payments",
-            "provider": "data.gov.ie",
-            "organisation": "Central Bank of Ireland",
-            "category": "tabular",
-            "roiGroup": "2. Irish election source/enrichment data",
-            "groupTitle": "Irish election source/enrichment data",
-            "jurisdiction": "Republic of Ireland",
-            "topic": "election",
-            "featureUnit": "features",
-            "formats": [
-              "CSV",
-              "JSON-STAT",
-              "PX",
-              "XLSX"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "enrich-existing-election",
-            "proposedPlacement": "Elections/source provenance",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "CSV",
-                "JSON-STAT",
-                "PX",
-                "XLSX"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/cbm03-detailed-daily-card-payments",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/cbm03-detailed-daily-card-payments",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "election-model-merge-and-provenance-review: election staging action assigned",
-              "needs-provider-context-review: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:cbm03-detailed-daily-card-payments:02142",
-          "sourceRowNumber": 2143,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish election source/provenance enrichment",
-          "proposedAction": "enrich-existing-election",
-          "proposedPlacement": "Elections/source provenance",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "JSON-STAT",
-              "PX",
-              "XLSX"
-            ]
-          },
-          "confidence": 60,
-          "resolvedBlockers": [
-            "election-model-merge-and-provenance-review: election staging action assigned",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Elections/source provenance",
-        "relationship": "election-source-enrichment",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Irish election source/enrichment data",
-          "election",
-          "features",
-          "Republic of Ireland",
-          "enrich-existing-election",
-          "CSV",
-          "JSON-STAT",
-          "PX",
-          "XLSX"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-cbm03-detailed-daily-card-payments-02142"
-      }
-    },
-    {
-      "id": "medium-priority:2-irish-election-source-enrichment-data:claremorris-daily-data:02151",
-      "slug": "medium-priority-2-irish-election-source-enrichment-data-claremorris-daily-data-02151",
-      "type": "approved-medium-priority-source",
-      "title": "Claremorris Daily Data",
-      "subtitle": "Irish election source/enrichment data / Met Éireann, data.gov.ie / Republic of Ireland / CSV, TXT / Approved source record",
-      "category": "Medium-priority: Irish election source/enrichment data",
-      "provider": [
-        "Met Éireann",
-        "data.gov.ie"
-      ],
-      "description": "Claremorris Daily Data is published as a medium-priority Civgraph source/provenance record from Met Éireann, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/claremorris-daily-data",
-      "references": [
-        {
-          "label": "Claremorris Daily Data provider page",
-          "url": "https://data.gov.ie/dataset/claremorris-daily-data",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Claremorris Daily Data Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/claremorris-daily-data",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/claremorris-daily-data",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Irish election source/enrichment data",
-        "election",
-        "features",
-        "Republic of Ireland",
-        "enrich-existing-election",
-        "CSV",
-        "TXT"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 2152,
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:claremorris-daily-data:02151",
-          "title": "Claremorris Daily Data",
-          "cleanTitle": "Claremorris Daily Data",
-          "provider": "data.gov.ie",
-          "organisation": "Met Éireann",
-          "category": "tabular",
-          "roiGroup": "2. Irish election source/enrichment data",
-          "groupTitle": "Irish election source/enrichment data",
-          "jurisdiction": "Republic of Ireland",
-          "topic": "election",
-          "featureUnit": "features",
-          "formats": [
-            "CSV",
-            "TXT"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "enrich-existing-election",
-          "proposedPlacement": "Elections/source provenance",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "TXT"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/claremorris-daily-data",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/claremorris-daily-data",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "election-model-merge-and-provenance-review: election staging action assigned",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Download available",
-        "Provider link",
-        "Wayback link",
-        "Election provenance"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Irish election source/enrichment data",
-        "Republic of Ireland",
-        "election",
-        "Claremorris Daily Data"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/claremorris-daily-data",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/claremorris-daily-data",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Met Éireann, data.gov.ie, Claremorris Daily Data.",
-      "fullCitation": "Met Éireann, data.gov.ie. Claremorris Daily Data. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/claremorris-daily-data. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/claremorris-daily-data.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:2-irish-election-source-enrichment-data:claremorris-daily-data:02151",
-        "sourceRowNumber": 2152,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish election source/provenance enrichment",
-        "proposedAction": "enrich-existing-election",
-        "proposedPlacement": "Elections/source provenance",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "CSV",
-            "TXT"
-          ]
-        },
-        "confidence": 60,
-        "resolvedBlockers": [
-          "election-model-merge-and-provenance-review: election staging action assigned",
-          "needs-provider-context-review: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Elections/source provenance",
-      "relationship": "election-source-enrichment",
-      "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-claremorris-daily-data-02151",
-      "rawMetadata": {
-        "id": "medium-priority:2-irish-election-source-enrichment-data:claremorris-daily-data:02151",
-        "slug": "medium-priority-2-irish-election-source-enrichment-data-claremorris-daily-data-02151",
-        "type": "approved-medium-priority-source",
-        "title": "Claremorris Daily Data",
-        "subtitle": "Irish election source/enrichment data / Met Éireann, data.gov.ie / Republic of Ireland / CSV, TXT / Approved source record",
-        "category": "Medium-priority: Irish election source/enrichment data",
-        "provider": [
-          "Met Éireann",
-          "data.gov.ie"
-        ],
-        "description": "Claremorris Daily Data is published as a medium-priority Civgraph source/provenance record from Met Éireann, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/claremorris-daily-data",
-        "references": [
-          {
-            "label": "Claremorris Daily Data provider page",
-            "url": "https://data.gov.ie/dataset/claremorris-daily-data",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Claremorris Daily Data Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/claremorris-daily-data",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/claremorris-daily-data",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Download available",
-          "Provider link",
-          "Wayback link",
-          "Election provenance"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Irish election source/enrichment data",
-          "Republic of Ireland",
-          "election",
-          "Claremorris Daily Data"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/claremorris-daily-data",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/claremorris-daily-data",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Met Éireann, data.gov.ie, Claremorris Daily Data.",
-        "fullCitation": "Met Éireann, data.gov.ie. Claremorris Daily Data. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/claremorris-daily-data. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/claremorris-daily-data.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 2152,
-            "stagingId": "medium-prep:2-irish-election-source-enrichment-data:claremorris-daily-data:02151",
-            "title": "Claremorris Daily Data",
-            "cleanTitle": "Claremorris Daily Data",
-            "provider": "data.gov.ie",
-            "organisation": "Met Éireann",
-            "category": "tabular",
-            "roiGroup": "2. Irish election source/enrichment data",
-            "groupTitle": "Irish election source/enrichment data",
-            "jurisdiction": "Republic of Ireland",
-            "topic": "election",
-            "featureUnit": "features",
-            "formats": [
-              "CSV",
-              "TXT"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "enrich-existing-election",
-            "proposedPlacement": "Elections/source provenance",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "CSV",
-                "TXT"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/claremorris-daily-data",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/claremorris-daily-data",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "election-model-merge-and-provenance-review: election staging action assigned",
-              "needs-provider-context-review: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:claremorris-daily-data:02151",
-          "sourceRowNumber": 2152,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish election source/provenance enrichment",
-          "proposedAction": "enrich-existing-election",
-          "proposedPlacement": "Elections/source provenance",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "TXT"
-            ]
-          },
-          "confidence": 60,
-          "resolvedBlockers": [
-            "election-model-merge-and-provenance-review: election staging action assigned",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Elections/source provenance",
-        "relationship": "election-source-enrichment",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Irish election source/enrichment data",
-          "election",
-          "features",
-          "Republic of Ireland",
-          "enrich-existing-election",
-          "CSV",
-          "TXT"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-claremorris-daily-data-02151"
-      }
-    },
-    {
-      "id": "medium-priority:2-irish-election-source-enrichment-data:clones-daily-data:02152",
-      "slug": "medium-priority-2-irish-election-source-enrichment-data-clones-daily-data-02152",
-      "type": "approved-medium-priority-source",
-      "title": "Clones Daily Data",
-      "subtitle": "Irish election source/enrichment data / Met Éireann, data.gov.ie / Republic of Ireland / CSV, TXT / Approved source record",
-      "category": "Medium-priority: Irish election source/enrichment data",
-      "provider": [
-        "Met Éireann",
-        "data.gov.ie"
-      ],
-      "description": "Clones Daily Data is published as a medium-priority Civgraph source/provenance record from Met Éireann, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/clones-daily-data",
-      "references": [
-        {
-          "label": "Clones Daily Data provider page",
-          "url": "https://data.gov.ie/dataset/clones-daily-data",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Clones Daily Data Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/clones-daily-data",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/clones-daily-data",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Irish election source/enrichment data",
-        "election",
-        "features",
-        "Republic of Ireland",
-        "enrich-existing-election",
-        "CSV",
-        "TXT"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 2153,
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:clones-daily-data:02152",
-          "title": "Clones Daily Data",
-          "cleanTitle": "Clones Daily Data",
-          "provider": "data.gov.ie",
-          "organisation": "Met Éireann",
-          "category": "tabular",
-          "roiGroup": "2. Irish election source/enrichment data",
-          "groupTitle": "Irish election source/enrichment data",
-          "jurisdiction": "Republic of Ireland",
-          "topic": "election",
-          "featureUnit": "features",
-          "formats": [
-            "CSV",
-            "TXT"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "enrich-existing-election",
-          "proposedPlacement": "Elections/source provenance",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "TXT"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/clones-daily-data",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/clones-daily-data",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "election-model-merge-and-provenance-review: election staging action assigned",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Download available",
-        "Provider link",
-        "Wayback link",
-        "Election provenance"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Irish election source/enrichment data",
-        "Republic of Ireland",
-        "election",
-        "Clones Daily Data"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/clones-daily-data",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/clones-daily-data",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Met Éireann, data.gov.ie, Clones Daily Data.",
-      "fullCitation": "Met Éireann, data.gov.ie. Clones Daily Data. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/clones-daily-data. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/clones-daily-data.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:2-irish-election-source-enrichment-data:clones-daily-data:02152",
-        "sourceRowNumber": 2153,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish election source/provenance enrichment",
-        "proposedAction": "enrich-existing-election",
-        "proposedPlacement": "Elections/source provenance",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "CSV",
-            "TXT"
-          ]
-        },
-        "confidence": 60,
-        "resolvedBlockers": [
-          "election-model-merge-and-provenance-review: election staging action assigned",
-          "needs-provider-context-review: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Elections/source provenance",
-      "relationship": "election-source-enrichment",
-      "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-clones-daily-data-02152",
-      "rawMetadata": {
-        "id": "medium-priority:2-irish-election-source-enrichment-data:clones-daily-data:02152",
-        "slug": "medium-priority-2-irish-election-source-enrichment-data-clones-daily-data-02152",
-        "type": "approved-medium-priority-source",
-        "title": "Clones Daily Data",
-        "subtitle": "Irish election source/enrichment data / Met Éireann, data.gov.ie / Republic of Ireland / CSV, TXT / Approved source record",
-        "category": "Medium-priority: Irish election source/enrichment data",
-        "provider": [
-          "Met Éireann",
-          "data.gov.ie"
-        ],
-        "description": "Clones Daily Data is published as a medium-priority Civgraph source/provenance record from Met Éireann, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/clones-daily-data",
-        "references": [
-          {
-            "label": "Clones Daily Data provider page",
-            "url": "https://data.gov.ie/dataset/clones-daily-data",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Clones Daily Data Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/clones-daily-data",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/clones-daily-data",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Download available",
-          "Provider link",
-          "Wayback link",
-          "Election provenance"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Irish election source/enrichment data",
-          "Republic of Ireland",
-          "election",
-          "Clones Daily Data"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/clones-daily-data",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/clones-daily-data",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Met Éireann, data.gov.ie, Clones Daily Data.",
-        "fullCitation": "Met Éireann, data.gov.ie. Clones Daily Data. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/clones-daily-data. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/clones-daily-data.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 2153,
-            "stagingId": "medium-prep:2-irish-election-source-enrichment-data:clones-daily-data:02152",
-            "title": "Clones Daily Data",
-            "cleanTitle": "Clones Daily Data",
-            "provider": "data.gov.ie",
-            "organisation": "Met Éireann",
-            "category": "tabular",
-            "roiGroup": "2. Irish election source/enrichment data",
-            "groupTitle": "Irish election source/enrichment data",
-            "jurisdiction": "Republic of Ireland",
-            "topic": "election",
-            "featureUnit": "features",
-            "formats": [
-              "CSV",
-              "TXT"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "enrich-existing-election",
-            "proposedPlacement": "Elections/source provenance",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "CSV",
-                "TXT"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/clones-daily-data",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/clones-daily-data",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "election-model-merge-and-provenance-review: election staging action assigned",
-              "needs-provider-context-review: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:clones-daily-data:02152",
-          "sourceRowNumber": 2153,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish election source/provenance enrichment",
-          "proposedAction": "enrich-existing-election",
-          "proposedPlacement": "Elections/source provenance",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "TXT"
-            ]
-          },
-          "confidence": 60,
-          "resolvedBlockers": [
-            "election-model-merge-and-provenance-review: election staging action assigned",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Elections/source provenance",
-        "relationship": "election-source-enrichment",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Irish election source/enrichment data",
-          "election",
-          "features",
-          "Republic of Ireland",
-          "enrich-existing-election",
-          "CSV",
-          "TXT"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-clones-daily-data-02152"
-      }
-    },
-    {
-      "id": "medium-priority:2-irish-election-source-enrichment-data:co-wicklow-polling-districts:00150",
-      "slug": "medium-priority-2-irish-election-source-enrichment-data-co-wicklow-polling-districts-00150",
-      "type": "approved-medium-priority-source",
-      "title": "Co. Wicklow Polling Districts",
-      "subtitle": "Irish election source/enrichment data / Wicklow County Council, data.gov.ie / Ireland / unspecified / CSV, ESRI REST, GEOJSON, KML, SHAPE FILE / Source record; runtime review pending",
-      "category": "Medium-priority: Irish election source/enrichment data",
-      "provider": [
-        "Wicklow County Council",
-        "data.gov.ie"
-      ],
-      "description": "Co. Wicklow Polling Districts is published as a medium-priority Civgraph source/provenance record from Wicklow County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; election-model-merge-and-provenance-review: requires exact election merge review.",
-      "url": "https://data.gov.ie/dataset/co-wicklow-polling-districts",
-      "references": [
-        {
-          "label": "Co. Wicklow Polling Districts provider page",
-          "url": "https://data.gov.ie/dataset/co-wicklow-polling-districts",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Co. Wicklow Polling Districts Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/co-wicklow-polling-districts",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/co-wicklow-polling-districts",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "source-record-with-runtime-review",
-        "Irish election source/enrichment data",
-        "election",
-        "features",
-        "Ireland / unspecified",
-        "new-interactive-map",
-        "CSV",
-        "ESRI REST",
-        "GEOJSON",
-        "KML",
-        "SHAPE FILE",
-        "review:duplicate-or-variant-review-no-existing-match-candidate",
-        "review:election-model-merge-and-provenance-review-requires-exact-election-merge-review"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 151,
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:co-wicklow-polling-districts:00150",
-          "title": "Co. Wicklow Polling Districts",
-          "cleanTitle": "Co. Wicklow Polling Districts",
-          "provider": "data.gov.ie",
-          "organisation": "Wicklow County Council",
-          "category": "spatial",
-          "roiGroup": "2. Irish election source/enrichment data",
-          "groupTitle": "Irish election source/enrichment data",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "election",
-          "featureUnit": "features",
-          "formats": [
-            "CSV",
-            "ESRI REST",
-            "GEOJSON",
-            "KML",
-            "SHAPE FILE"
-          ],
-          "isSpatial": true,
-          "isLargeOrSpecial": false,
-          "proposedAction": "new-interactive-map",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "MapLibre interactive layer",
-            "conversion": "Convert source geometry to PMTiles/vector tiles after approval.",
-            "sourceFormats": [
-              "CSV",
-              "ESRI REST",
-              "GEOJSON",
-              "KML",
-              "SHAPE FILE"
-            ]
-          },
-          "approvalState": "ready-with-residual-review",
-          "sourcePublicationState": "public source record with runtime/semantic review still pending",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/co-wicklow-polling-districts",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/co-wicklow-polling-districts",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate",
-            "election-model-merge-and-provenance-review: requires exact election merge review"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source record",
-        "Runtime review pending",
-        "Spatial source",
-        "Conversion pending",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Irish election source/enrichment data",
-        "Ireland / unspecified",
-        "election",
-        "Co. Wicklow Polling Districts"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/co-wicklow-polling-districts",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/co-wicklow-polling-districts",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "Convert source geometry to PMTiles/vector tiles after approval."
-      },
-      "shortCitation": "Wicklow County Council, data.gov.ie, Co. Wicklow Polling Districts.",
-      "fullCitation": "Wicklow County Council, data.gov.ie. Co. Wicklow Polling Districts. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/co-wicklow-polling-districts. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/co-wicklow-polling-districts.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:2-irish-election-source-enrichment-data:co-wicklow-polling-districts:00150",
-        "sourceRowNumber": 151,
-        "approvalState": "ready-with-residual-review",
-        "recommendedAction": "publish source record; convert to interactive map in a later runtime pass",
-        "proposedAction": "new-interactive-map",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "MapLibre interactive layer",
-          "conversion": "Convert source geometry to PMTiles/vector tiles after approval.",
-          "sourceFormats": [
-            "CSV",
-            "ESRI REST",
-            "GEOJSON",
-            "KML",
-            "SHAPE FILE"
-          ]
-        },
-        "confidence": 60,
-        "residualBlockers": [
-          "duplicate-or-variant-review: no existing match candidate",
-          "election-model-merge-and-provenance-review: requires exact election merge review"
-        ],
-        "resolvedBlockers": [
-          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-        ],
-        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
-      },
-      "publicationStatus": "source-record-with-runtime-review",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record-runtime-conversion-pending",
-      "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-co-wicklow-polling-districts-00150",
-      "rawMetadata": {
-        "id": "medium-priority:2-irish-election-source-enrichment-data:co-wicklow-polling-districts:00150",
-        "slug": "medium-priority-2-irish-election-source-enrichment-data-co-wicklow-polling-districts-00150",
-        "type": "approved-medium-priority-source",
-        "title": "Co. Wicklow Polling Districts",
-        "subtitle": "Irish election source/enrichment data / Wicklow County Council, data.gov.ie / Ireland / unspecified / CSV, ESRI REST, GEOJSON, KML, SHAPE FILE / Source record; runtime review pending",
-        "category": "Medium-priority: Irish election source/enrichment data",
-        "provider": [
-          "Wicklow County Council",
-          "data.gov.ie"
-        ],
-        "description": "Co. Wicklow Polling Districts is published as a medium-priority Civgraph source/provenance record from Wicklow County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; election-model-merge-and-provenance-review: requires exact election merge review.",
-        "url": "https://data.gov.ie/dataset/co-wicklow-polling-districts",
-        "references": [
-          {
-            "label": "Co. Wicklow Polling Districts provider page",
-            "url": "https://data.gov.ie/dataset/co-wicklow-polling-districts",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Co. Wicklow Polling Districts Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/co-wicklow-polling-districts",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/co-wicklow-polling-districts",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source record",
-          "Runtime review pending",
-          "Spatial source",
-          "Conversion pending",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Irish election source/enrichment data",
-          "Ireland / unspecified",
-          "election",
-          "Co. Wicklow Polling Districts"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/co-wicklow-polling-districts",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/co-wicklow-polling-districts",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "Convert source geometry to PMTiles/vector tiles after approval."
-        },
-        "shortCitation": "Wicklow County Council, data.gov.ie, Co. Wicklow Polling Districts.",
-        "fullCitation": "Wicklow County Council, data.gov.ie. Co. Wicklow Polling Districts. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/co-wicklow-polling-districts. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/co-wicklow-polling-districts.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 151,
-            "stagingId": "medium-prep:2-irish-election-source-enrichment-data:co-wicklow-polling-districts:00150",
-            "title": "Co. Wicklow Polling Districts",
-            "cleanTitle": "Co. Wicklow Polling Districts",
-            "provider": "data.gov.ie",
-            "organisation": "Wicklow County Council",
-            "category": "spatial",
-            "roiGroup": "2. Irish election source/enrichment data",
-            "groupTitle": "Irish election source/enrichment data",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "election",
-            "featureUnit": "features",
-            "formats": [
-              "CSV",
-              "ESRI REST",
-              "GEOJSON",
-              "KML",
-              "SHAPE FILE"
-            ],
-            "isSpatial": true,
-            "isLargeOrSpecial": false,
-            "proposedAction": "new-interactive-map",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "MapLibre interactive layer",
-              "conversion": "Convert source geometry to PMTiles/vector tiles after approval.",
-              "sourceFormats": [
-                "CSV",
-                "ESRI REST",
-                "GEOJSON",
-                "KML",
-                "SHAPE FILE"
-              ]
-            },
-            "approvalState": "ready-with-residual-review",
-            "sourcePublicationState": "public source record with runtime/semantic review still pending",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/co-wicklow-polling-districts",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/co-wicklow-polling-districts",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-            ],
-            "residualBlockers": [
-              "duplicate-or-variant-review: no existing match candidate",
-              "election-model-merge-and-provenance-review: requires exact election merge review"
-            ],
-            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:co-wicklow-polling-districts:00150",
-          "sourceRowNumber": 151,
-          "approvalState": "ready-with-residual-review",
-          "recommendedAction": "publish source record; convert to interactive map in a later runtime pass",
-          "proposedAction": "new-interactive-map",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "MapLibre interactive layer",
-            "conversion": "Convert source geometry to PMTiles/vector tiles after approval.",
-            "sourceFormats": [
-              "CSV",
-              "ESRI REST",
-              "GEOJSON",
-              "KML",
-              "SHAPE FILE"
-            ]
-          },
-          "confidence": 60,
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate",
-            "election-model-merge-and-provenance-review: requires exact election merge review"
-          ],
-          "resolvedBlockers": [
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
-        },
-        "publicationStatus": "source-record-with-runtime-review",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record-runtime-conversion-pending",
-        "keywords": [
-          "medium-priority-publication",
-          "source-record-with-runtime-review",
-          "Irish election source/enrichment data",
-          "election",
-          "features",
-          "Ireland / unspecified",
-          "new-interactive-map",
-          "CSV",
-          "ESRI REST",
-          "GEOJSON",
-          "KML",
-          "SHAPE FILE",
-          "review:duplicate-or-variant-review-no-existing-match-candidate",
-          "review:election-model-merge-and-provenance-review-requires-exact-election-merge-review"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-co-wicklow-polling-districts-00150"
-      }
-    },
-    {
-      "id": "medium-priority:2-irish-election-source-enrichment-data:co-wicklow-polling-stations:00151",
-      "slug": "medium-priority-2-irish-election-source-enrichment-data-co-wicklow-polling-stations-00151",
-      "type": "approved-medium-priority-source",
-      "title": "Co. Wicklow Polling Stations",
-      "subtitle": "Irish election source/enrichment data / Wicklow County Council, data.gov.ie / Ireland / unspecified / CSV, ESRI, GEOJSON, KML, SHAPE FILE / Source record; runtime review pending",
-      "category": "Medium-priority: Irish election source/enrichment data",
-      "provider": [
-        "Wicklow County Council",
-        "data.gov.ie"
-      ],
-      "description": "Co. Wicklow Polling Stations is published as a medium-priority Civgraph source/provenance record from Wicklow County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; election-model-merge-and-provenance-review: requires exact election merge review.",
-      "url": "https://data.gov.ie/dataset/co-wicklow-polling-stations",
-      "references": [
-        {
-          "label": "Co. Wicklow Polling Stations provider page",
-          "url": "https://data.gov.ie/dataset/co-wicklow-polling-stations",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Co. Wicklow Polling Stations Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/co-wicklow-polling-stations",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/co-wicklow-polling-stations",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "source-record-with-runtime-review",
-        "Irish election source/enrichment data",
-        "election",
-        "features",
-        "Ireland / unspecified",
-        "new-interactive-map",
-        "CSV",
-        "ESRI",
-        "GEOJSON",
-        "KML",
-        "SHAPE FILE",
-        "review:duplicate-or-variant-review-no-existing-match-candidate",
-        "review:election-model-merge-and-provenance-review-requires-exact-election-merge-review"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 152,
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:co-wicklow-polling-stations:00151",
-          "title": "Co. Wicklow Polling Stations",
-          "cleanTitle": "Co. Wicklow Polling Stations",
-          "provider": "data.gov.ie",
-          "organisation": "Wicklow County Council",
-          "category": "spatial",
-          "roiGroup": "2. Irish election source/enrichment data",
-          "groupTitle": "Irish election source/enrichment data",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "election",
-          "featureUnit": "features",
-          "formats": [
-            "CSV",
-            "ESRI",
-            "GEOJSON",
-            "KML",
-            "SHAPE FILE"
-          ],
-          "isSpatial": true,
-          "isLargeOrSpecial": false,
-          "proposedAction": "new-interactive-map",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "MapLibre interactive layer",
-            "conversion": "Convert source geometry to PMTiles/vector tiles after approval.",
-            "sourceFormats": [
-              "CSV",
-              "ESRI",
-              "GEOJSON",
-              "KML",
-              "SHAPE FILE"
-            ]
-          },
-          "approvalState": "ready-with-residual-review",
-          "sourcePublicationState": "public source record with runtime/semantic review still pending",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/co-wicklow-polling-stations",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/co-wicklow-polling-stations",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate",
-            "election-model-merge-and-provenance-review: requires exact election merge review"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source record",
-        "Runtime review pending",
-        "Spatial source",
-        "Conversion pending",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Irish election source/enrichment data",
-        "Ireland / unspecified",
-        "election",
-        "Co. Wicklow Polling Stations"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/co-wicklow-polling-stations",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/co-wicklow-polling-stations",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "Convert source geometry to PMTiles/vector tiles after approval."
-      },
-      "shortCitation": "Wicklow County Council, data.gov.ie, Co. Wicklow Polling Stations.",
-      "fullCitation": "Wicklow County Council, data.gov.ie. Co. Wicklow Polling Stations. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/co-wicklow-polling-stations. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/co-wicklow-polling-stations.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:2-irish-election-source-enrichment-data:co-wicklow-polling-stations:00151",
-        "sourceRowNumber": 152,
-        "approvalState": "ready-with-residual-review",
-        "recommendedAction": "publish source record; convert to interactive map in a later runtime pass",
-        "proposedAction": "new-interactive-map",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "MapLibre interactive layer",
-          "conversion": "Convert source geometry to PMTiles/vector tiles after approval.",
-          "sourceFormats": [
-            "CSV",
-            "ESRI",
-            "GEOJSON",
-            "KML",
-            "SHAPE FILE"
-          ]
-        },
-        "confidence": 60,
-        "residualBlockers": [
-          "duplicate-or-variant-review: no existing match candidate",
-          "election-model-merge-and-provenance-review: requires exact election merge review"
-        ],
-        "resolvedBlockers": [
-          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-        ],
-        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
-      },
-      "publicationStatus": "source-record-with-runtime-review",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record-runtime-conversion-pending",
-      "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-co-wicklow-polling-stations-00151",
-      "rawMetadata": {
-        "id": "medium-priority:2-irish-election-source-enrichment-data:co-wicklow-polling-stations:00151",
-        "slug": "medium-priority-2-irish-election-source-enrichment-data-co-wicklow-polling-stations-00151",
-        "type": "approved-medium-priority-source",
-        "title": "Co. Wicklow Polling Stations",
-        "subtitle": "Irish election source/enrichment data / Wicklow County Council, data.gov.ie / Ireland / unspecified / CSV, ESRI, GEOJSON, KML, SHAPE FILE / Source record; runtime review pending",
-        "category": "Medium-priority: Irish election source/enrichment data",
-        "provider": [
-          "Wicklow County Council",
-          "data.gov.ie"
-        ],
-        "description": "Co. Wicklow Polling Stations is published as a medium-priority Civgraph source/provenance record from Wicklow County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; election-model-merge-and-provenance-review: requires exact election merge review.",
-        "url": "https://data.gov.ie/dataset/co-wicklow-polling-stations",
-        "references": [
-          {
-            "label": "Co. Wicklow Polling Stations provider page",
-            "url": "https://data.gov.ie/dataset/co-wicklow-polling-stations",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Co. Wicklow Polling Stations Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/co-wicklow-polling-stations",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/co-wicklow-polling-stations",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source record",
-          "Runtime review pending",
-          "Spatial source",
-          "Conversion pending",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Irish election source/enrichment data",
-          "Ireland / unspecified",
-          "election",
-          "Co. Wicklow Polling Stations"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/co-wicklow-polling-stations",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/co-wicklow-polling-stations",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "Convert source geometry to PMTiles/vector tiles after approval."
-        },
-        "shortCitation": "Wicklow County Council, data.gov.ie, Co. Wicklow Polling Stations.",
-        "fullCitation": "Wicklow County Council, data.gov.ie. Co. Wicklow Polling Stations. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/co-wicklow-polling-stations. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/co-wicklow-polling-stations.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 152,
-            "stagingId": "medium-prep:2-irish-election-source-enrichment-data:co-wicklow-polling-stations:00151",
-            "title": "Co. Wicklow Polling Stations",
-            "cleanTitle": "Co. Wicklow Polling Stations",
-            "provider": "data.gov.ie",
-            "organisation": "Wicklow County Council",
-            "category": "spatial",
-            "roiGroup": "2. Irish election source/enrichment data",
-            "groupTitle": "Irish election source/enrichment data",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "election",
-            "featureUnit": "features",
-            "formats": [
-              "CSV",
-              "ESRI",
-              "GEOJSON",
-              "KML",
-              "SHAPE FILE"
-            ],
-            "isSpatial": true,
-            "isLargeOrSpecial": false,
-            "proposedAction": "new-interactive-map",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "MapLibre interactive layer",
-              "conversion": "Convert source geometry to PMTiles/vector tiles after approval.",
-              "sourceFormats": [
-                "CSV",
-                "ESRI",
-                "GEOJSON",
-                "KML",
-                "SHAPE FILE"
-              ]
-            },
-            "approvalState": "ready-with-residual-review",
-            "sourcePublicationState": "public source record with runtime/semantic review still pending",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/co-wicklow-polling-stations",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/co-wicklow-polling-stations",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-            ],
-            "residualBlockers": [
-              "duplicate-or-variant-review: no existing match candidate",
-              "election-model-merge-and-provenance-review: requires exact election merge review"
-            ],
-            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:co-wicklow-polling-stations:00151",
-          "sourceRowNumber": 152,
-          "approvalState": "ready-with-residual-review",
-          "recommendedAction": "publish source record; convert to interactive map in a later runtime pass",
-          "proposedAction": "new-interactive-map",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "MapLibre interactive layer",
-            "conversion": "Convert source geometry to PMTiles/vector tiles after approval.",
-            "sourceFormats": [
-              "CSV",
-              "ESRI",
-              "GEOJSON",
-              "KML",
-              "SHAPE FILE"
-            ]
-          },
-          "confidence": 60,
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate",
-            "election-model-merge-and-provenance-review: requires exact election merge review"
-          ],
-          "resolvedBlockers": [
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
-        },
-        "publicationStatus": "source-record-with-runtime-review",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record-runtime-conversion-pending",
-        "keywords": [
-          "medium-priority-publication",
-          "source-record-with-runtime-review",
-          "Irish election source/enrichment data",
-          "election",
-          "features",
-          "Ireland / unspecified",
-          "new-interactive-map",
-          "CSV",
-          "ESRI",
-          "GEOJSON",
-          "KML",
-          "SHAPE FILE",
-          "review:duplicate-or-variant-review-no-existing-match-candidate",
-          "review:election-model-merge-and-provenance-review-requires-exact-election-merge-review"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-co-wicklow-polling-stations-00151"
-      }
-    },
-    {
-      "id": "medium-priority:2-irish-election-source-enrichment-data:constituency-boundaries-generalised-100m-national-electoral-boundaries-20171:00028",
-      "slug": "medium-priority-2-irish-election-source-enrichment-data-constituency-boundaries-generalised-100m-national-electoral-boundaries-20171-00028",
-      "type": "approved-medium-priority-source",
-      "title": "Constituency Boundaries - Generalised 100m - National Electoral Boundaries - 2017",
-      "subtitle": "Irish election source/enrichment data / Tailte Éireann, Tailte/OSI/data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, GDB, GEOJSON, GPKG, HTML, KML, TXT, XLSX, ZIP / Source record; runtime review pending",
-      "category": "Medium-priority: Irish election source/enrichment data",
-      "date": "2017",
-      "provider": [
-        "Tailte Éireann",
-        "Tailte/OSI/data.gov.ie"
-      ],
-      "description": "Constituency Boundaries - Generalised 100m - National Electoral Boundaries - 2017 is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; election-model-merge-and-provenance-review: requires exact election merge review; large-or-special-format-review: size/format decision remains before runtime publication.",
-      "url": "https://data.gov.ie/dataset/constituency-boundaries-generalised-100m-national-electoral-boundaries-20171",
-      "references": [
-        {
-          "label": "Constituency Boundaries - Generalised 100m - National Electoral Boundaries - 2017 provider page",
-          "url": "https://data.gov.ie/dataset/constituency-boundaries-generalised-100m-national-electoral-boundaries-20171",
-          "source": "Tailte/OSI/data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Constituency Boundaries - Generalised 100m - National Electoral Boundaries - 2017 Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/constituency-boundaries-generalised-100m-national-electoral-boundaries-20171",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/constituency-boundaries-generalised-100m-national-electoral-boundaries-20171",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "source-record-with-runtime-review",
-        "Irish election source/enrichment data",
-        "election",
-        "constituencies",
-        "Republic of Ireland",
-        "new-interactive-map",
-        "ARCGIS GEOSERVICES REST API",
-        "CSV",
-        "GDB",
-        "GEOJSON",
-        "GPKG",
-        "HTML",
-        "KML",
-        "TXT",
-        "XLSX",
-        "ZIP",
-        "review:duplicate-or-variant-review-no-existing-match-candidate",
-        "review:election-model-merge-and-provenance-review-requires-exact-election-merge-review",
-        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 29,
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:constituency-boundaries-generalised-100m-national-electoral-boundaries-20171:00028",
-          "title": "Constituency Boundaries - Generalised 100m - National Electoral Boundaries - 2017",
-          "cleanTitle": "Constituency Boundaries - Generalised 100m - National Electoral Boundaries - 2017",
-          "provider": "Tailte/OSI/data.gov.ie",
-          "organisation": "Tailte Éireann",
-          "category": "spatial",
-          "roiGroup": "2. Irish election source/enrichment data",
-          "groupTitle": "Irish election source/enrichment data",
-          "jurisdiction": "Republic of Ireland",
-          "topic": "election",
-          "featureUnit": "constituencies",
-          "formats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "GDB",
-            "GEOJSON",
-            "GPKG",
-            "HTML",
-            "KML",
-            "TXT",
-            "XLSX",
-            "ZIP"
-          ],
-          "isSpatial": true,
-          "isLargeOrSpecial": true,
-          "proposedAction": "new-interactive-map",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "MapLibre interactive layer",
-            "conversion": "Convert source geometry to PMTiles/vector tiles after approval.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GDB",
-              "GEOJSON",
-              "GPKG",
-              "HTML",
-              "KML",
-              "TXT",
-              "XLSX",
-              "ZIP"
-            ]
-          },
-          "approvalState": "ready-with-residual-review",
-          "sourcePublicationState": "public source record with runtime/semantic review still pending",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/constituency-boundaries-generalised-100m-national-electoral-boundaries-20171",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/constituency-boundaries-generalised-100m-national-electoral-boundaries-20171",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "geography-matching: geography family inferred",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate",
-            "election-model-merge-and-provenance-review: requires exact election merge review",
-            "large-or-special-format-review: size/format decision remains before runtime publication"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Match by election kind, legislation/version, jurisdiction, and date; do not merge Dail/Westminster/Assembly geographies by name alone.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source record",
-        "Runtime review pending",
-        "Spatial source",
-        "Conversion pending",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Irish election source/enrichment data",
-        "Republic of Ireland",
-        "election",
-        "Constituency Boundaries - Generalised 100m - National Electoral Boundaries - 2017"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text",
-          "spreadsheet",
-          "download-only"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/constituency-boundaries-generalised-100m-national-electoral-boundaries-20171",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/constituency-boundaries-generalised-100m-national-electoral-boundaries-20171",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "Convert source geometry to PMTiles/vector tiles after approval."
-      },
-      "shortCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie, Constituency Boundaries - Generalised 100m - National Electoral Boundaries - 2017.",
-      "fullCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie. Constituency Boundaries - Generalised 100m - National Electoral Boundaries - 2017. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/constituency-boundaries-generalised-100m-national-electoral-boundaries-20171. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/constituency-boundaries-generalised-100m-national-electoral-boundaries-20171.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:2-irish-election-source-enrichment-data:constituency-boundaries-generalised-100m-national-electoral-boundaries-20171:00028",
-        "sourceRowNumber": 29,
-        "approvalState": "ready-with-residual-review",
-        "recommendedAction": "publish source record; convert to interactive map in a later runtime pass",
-        "proposedAction": "new-interactive-map",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "MapLibre interactive layer",
-          "conversion": "Convert source geometry to PMTiles/vector tiles after approval.",
-          "sourceFormats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "GDB",
-            "GEOJSON",
-            "GPKG",
-            "HTML",
-            "KML",
-            "TXT",
-            "XLSX",
-            "ZIP"
-          ]
-        },
-        "confidence": 60,
-        "residualBlockers": [
-          "duplicate-or-variant-review: no existing match candidate",
-          "election-model-merge-and-provenance-review: requires exact election merge review",
-          "large-or-special-format-review: size/format decision remains before runtime publication"
-        ],
-        "resolvedBlockers": [
-          "geography-matching: geography family inferred",
-          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-        ],
-        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-        "geographyRecommendation": "Match by election kind, legislation/version, jurisdiction, and date; do not merge Dail/Westminster/Assembly geographies by name alone.",
-        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-      },
-      "publicationStatus": "source-record-with-runtime-review",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record-runtime-conversion-pending",
-      "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-constituency-boundaries-generalised-100m-national-electoral-boundaries-20171-00028",
-      "rawMetadata": {
-        "id": "medium-priority:2-irish-election-source-enrichment-data:constituency-boundaries-generalised-100m-national-electoral-boundaries-20171:00028",
-        "slug": "medium-priority-2-irish-election-source-enrichment-data-constituency-boundaries-generalised-100m-national-electoral-boundaries-20171-00028",
-        "type": "approved-medium-priority-source",
-        "title": "Constituency Boundaries - Generalised 100m - National Electoral Boundaries - 2017",
-        "subtitle": "Irish election source/enrichment data / Tailte Éireann, Tailte/OSI/data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, GDB, GEOJSON, GPKG, HTML, KML, TXT, XLSX, ZIP / Source record; runtime review pending",
-        "category": "Medium-priority: Irish election source/enrichment data",
-        "date": "2017",
-        "provider": [
-          "Tailte Éireann",
-          "Tailte/OSI/data.gov.ie"
-        ],
-        "description": "Constituency Boundaries - Generalised 100m - National Electoral Boundaries - 2017 is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; election-model-merge-and-provenance-review: requires exact election merge review; large-or-special-format-review: size/format decision remains before runtime publication.",
-        "url": "https://data.gov.ie/dataset/constituency-boundaries-generalised-100m-national-electoral-boundaries-20171",
-        "references": [
-          {
-            "label": "Constituency Boundaries - Generalised 100m - National Electoral Boundaries - 2017 provider page",
-            "url": "https://data.gov.ie/dataset/constituency-boundaries-generalised-100m-national-electoral-boundaries-20171",
-            "source": "Tailte/OSI/data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Constituency Boundaries - Generalised 100m - National Electoral Boundaries - 2017 Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/constituency-boundaries-generalised-100m-national-electoral-boundaries-20171",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/constituency-boundaries-generalised-100m-national-electoral-boundaries-20171",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source record",
-          "Runtime review pending",
-          "Spatial source",
-          "Conversion pending",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Irish election source/enrichment data",
-          "Republic of Ireland",
-          "election",
-          "Constituency Boundaries - Generalised 100m - National Electoral Boundaries - 2017"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text",
-            "spreadsheet",
-            "download-only"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/constituency-boundaries-generalised-100m-national-electoral-boundaries-20171",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/constituency-boundaries-generalised-100m-national-electoral-boundaries-20171",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "Convert source geometry to PMTiles/vector tiles after approval."
-        },
-        "shortCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie, Constituency Boundaries - Generalised 100m - National Electoral Boundaries - 2017.",
-        "fullCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie. Constituency Boundaries - Generalised 100m - National Electoral Boundaries - 2017. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/constituency-boundaries-generalised-100m-national-electoral-boundaries-20171. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/constituency-boundaries-generalised-100m-national-electoral-boundaries-20171.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 29,
-            "stagingId": "medium-prep:2-irish-election-source-enrichment-data:constituency-boundaries-generalised-100m-national-electoral-boundaries-20171:00028",
-            "title": "Constituency Boundaries - Generalised 100m - National Electoral Boundaries - 2017",
-            "cleanTitle": "Constituency Boundaries - Generalised 100m - National Electoral Boundaries - 2017",
-            "provider": "Tailte/OSI/data.gov.ie",
-            "organisation": "Tailte Éireann",
-            "category": "spatial",
-            "roiGroup": "2. Irish election source/enrichment data",
-            "groupTitle": "Irish election source/enrichment data",
-            "jurisdiction": "Republic of Ireland",
-            "topic": "election",
-            "featureUnit": "constituencies",
-            "formats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GDB",
-              "GEOJSON",
-              "GPKG",
-              "HTML",
-              "KML",
-              "TXT",
-              "XLSX",
-              "ZIP"
-            ],
-            "isSpatial": true,
-            "isLargeOrSpecial": true,
-            "proposedAction": "new-interactive-map",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "MapLibre interactive layer",
-              "conversion": "Convert source geometry to PMTiles/vector tiles after approval.",
-              "sourceFormats": [
-                "ARCGIS GEOSERVICES REST API",
-                "CSV",
-                "GDB",
-                "GEOJSON",
-                "GPKG",
-                "HTML",
-                "KML",
-                "TXT",
-                "XLSX",
-                "ZIP"
-              ]
-            },
-            "approvalState": "ready-with-residual-review",
-            "sourcePublicationState": "public source record with runtime/semantic review still pending",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/constituency-boundaries-generalised-100m-national-electoral-boundaries-20171",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/constituency-boundaries-generalised-100m-national-electoral-boundaries-20171",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "geography-matching: geography family inferred",
-              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-            ],
-            "residualBlockers": [
-              "duplicate-or-variant-review: no existing match candidate",
-              "election-model-merge-and-provenance-review: requires exact election merge review",
-              "large-or-special-format-review: size/format decision remains before runtime publication"
-            ],
-            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-            "geographyRecommendation": "Match by election kind, legislation/version, jurisdiction, and date; do not merge Dail/Westminster/Assembly geographies by name alone.",
-            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:constituency-boundaries-generalised-100m-national-electoral-boundaries-20171:00028",
-          "sourceRowNumber": 29,
-          "approvalState": "ready-with-residual-review",
-          "recommendedAction": "publish source record; convert to interactive map in a later runtime pass",
-          "proposedAction": "new-interactive-map",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "MapLibre interactive layer",
-            "conversion": "Convert source geometry to PMTiles/vector tiles after approval.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GDB",
-              "GEOJSON",
-              "GPKG",
-              "HTML",
-              "KML",
-              "TXT",
-              "XLSX",
-              "ZIP"
-            ]
-          },
-          "confidence": 60,
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate",
-            "election-model-merge-and-provenance-review: requires exact election merge review",
-            "large-or-special-format-review: size/format decision remains before runtime publication"
-          ],
-          "resolvedBlockers": [
-            "geography-matching: geography family inferred",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Match by election kind, legislation/version, jurisdiction, and date; do not merge Dail/Westminster/Assembly geographies by name alone.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        },
-        "publicationStatus": "source-record-with-runtime-review",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record-runtime-conversion-pending",
-        "keywords": [
-          "medium-priority-publication",
-          "source-record-with-runtime-review",
-          "Irish election source/enrichment data",
-          "election",
-          "constituencies",
-          "Republic of Ireland",
-          "new-interactive-map",
-          "ARCGIS GEOSERVICES REST API",
-          "CSV",
-          "GDB",
-          "GEOJSON",
-          "GPKG",
-          "HTML",
-          "KML",
-          "TXT",
-          "XLSX",
-          "ZIP",
-          "review:duplicate-or-variant-review-no-existing-match-candidate",
-          "review:election-model-merge-and-provenance-review-requires-exact-election-merge-review",
-          "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-constituency-boundaries-generalised-100m-national-electoral-boundaries-20171-00028"
-      }
-    },
-    {
-      "id": "medium-priority:2-irish-election-source-enrichment-data:constituency-boundaries-generalised-20m-national-electoral-boundaries-20131:00031",
-      "slug": "medium-priority-2-irish-election-source-enrichment-data-constituency-boundaries-generalised-20m-national-electoral-boundaries-20131-00031",
-      "type": "approved-medium-priority-source",
-      "title": "Constituency Boundaries Generalised 20m - National Electoral Boundaries - 2013",
-      "subtitle": "Irish election source/enrichment data / Tailte Éireann, Tailte/OSI/data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, GDB, GEOJSON, GPKG, HTML, KML, TXT, XLSX, ZIP / Source record; runtime review pending",
-      "category": "Medium-priority: Irish election source/enrichment data",
-      "date": "2013",
-      "provider": [
-        "Tailte Éireann",
-        "Tailte/OSI/data.gov.ie"
-      ],
-      "description": "Constituency Boundaries Generalised 20m - National Electoral Boundaries - 2013 is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; election-model-merge-and-provenance-review: requires exact election merge review; large-or-special-format-review: size/format decision remains before runtime publication.",
-      "url": "https://data.gov.ie/dataset/constituency-boundaries-generalised-20m-national-electoral-boundaries-20131",
-      "references": [
-        {
-          "label": "Constituency Boundaries Generalised 20m - National Electoral Boundaries - 2013 provider page",
-          "url": "https://data.gov.ie/dataset/constituency-boundaries-generalised-20m-national-electoral-boundaries-20131",
-          "source": "Tailte/OSI/data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Constituency Boundaries Generalised 20m - National Electoral Boundaries - 2013 Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/constituency-boundaries-generalised-20m-national-electoral-boundaries-20131",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/constituency-boundaries-generalised-20m-national-electoral-boundaries-20131",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "source-record-with-runtime-review",
-        "Irish election source/enrichment data",
-        "election",
-        "constituencies",
-        "Republic of Ireland",
-        "new-interactive-map",
-        "ARCGIS GEOSERVICES REST API",
-        "CSV",
-        "GDB",
-        "GEOJSON",
-        "GPKG",
-        "HTML",
-        "KML",
-        "TXT",
-        "XLSX",
-        "ZIP",
-        "review:duplicate-or-variant-review-no-existing-match-candidate",
-        "review:election-model-merge-and-provenance-review-requires-exact-election-merge-review",
-        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 32,
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:constituency-boundaries-generalised-20m-national-electoral-boundaries-20131:00031",
-          "title": "Constituency Boundaries Generalised 20m - National Electoral Boundaries - 2013",
-          "cleanTitle": "Constituency Boundaries Generalised 20m - National Electoral Boundaries - 2013",
-          "provider": "Tailte/OSI/data.gov.ie",
-          "organisation": "Tailte Éireann",
-          "category": "spatial",
-          "roiGroup": "2. Irish election source/enrichment data",
-          "groupTitle": "Irish election source/enrichment data",
-          "jurisdiction": "Republic of Ireland",
-          "topic": "election",
-          "featureUnit": "constituencies",
-          "formats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "GDB",
-            "GEOJSON",
-            "GPKG",
-            "HTML",
-            "KML",
-            "TXT",
-            "XLSX",
-            "ZIP"
-          ],
-          "isSpatial": true,
-          "isLargeOrSpecial": true,
-          "proposedAction": "new-interactive-map",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "MapLibre interactive layer",
-            "conversion": "Convert source geometry to PMTiles/vector tiles after approval.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GDB",
-              "GEOJSON",
-              "GPKG",
-              "HTML",
-              "KML",
-              "TXT",
-              "XLSX",
-              "ZIP"
-            ]
-          },
-          "approvalState": "ready-with-residual-review",
-          "sourcePublicationState": "public source record with runtime/semantic review still pending",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/constituency-boundaries-generalised-20m-national-electoral-boundaries-20131",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/constituency-boundaries-generalised-20m-national-electoral-boundaries-20131",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "geography-matching: geography family inferred",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate",
-            "election-model-merge-and-provenance-review: requires exact election merge review",
-            "large-or-special-format-review: size/format decision remains before runtime publication"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Match by election kind, legislation/version, jurisdiction, and date; do not merge Dail/Westminster/Assembly geographies by name alone.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source record",
-        "Runtime review pending",
-        "Spatial source",
-        "Conversion pending",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Irish election source/enrichment data",
-        "Republic of Ireland",
-        "election",
-        "Constituency Boundaries Generalised 20m - National Electoral Boundaries - 2013"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text",
-          "spreadsheet",
-          "download-only"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/constituency-boundaries-generalised-20m-national-electoral-boundaries-20131",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/constituency-boundaries-generalised-20m-national-electoral-boundaries-20131",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "Convert source geometry to PMTiles/vector tiles after approval."
-      },
-      "shortCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie, Constituency Boundaries Generalised 20m - National Electoral Boundaries - 2013.",
-      "fullCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie. Constituency Boundaries Generalised 20m - National Electoral Boundaries - 2013. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/constituency-boundaries-generalised-20m-national-electoral-boundaries-20131. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/constituency-boundaries-generalised-20m-national-electoral-boundaries-20131.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:2-irish-election-source-enrichment-data:constituency-boundaries-generalised-20m-national-electoral-boundaries-20131:00031",
-        "sourceRowNumber": 32,
-        "approvalState": "ready-with-residual-review",
-        "recommendedAction": "publish source record; convert to interactive map in a later runtime pass",
-        "proposedAction": "new-interactive-map",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "MapLibre interactive layer",
-          "conversion": "Convert source geometry to PMTiles/vector tiles after approval.",
-          "sourceFormats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "GDB",
-            "GEOJSON",
-            "GPKG",
-            "HTML",
-            "KML",
-            "TXT",
-            "XLSX",
-            "ZIP"
-          ]
-        },
-        "confidence": 60,
-        "residualBlockers": [
-          "duplicate-or-variant-review: no existing match candidate",
-          "election-model-merge-and-provenance-review: requires exact election merge review",
-          "large-or-special-format-review: size/format decision remains before runtime publication"
-        ],
-        "resolvedBlockers": [
-          "geography-matching: geography family inferred",
-          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-        ],
-        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-        "geographyRecommendation": "Match by election kind, legislation/version, jurisdiction, and date; do not merge Dail/Westminster/Assembly geographies by name alone.",
-        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-      },
-      "publicationStatus": "source-record-with-runtime-review",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record-runtime-conversion-pending",
-      "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-constituency-boundaries-generalised-20m-national-electoral-boundaries-20131-00031",
-      "rawMetadata": {
-        "id": "medium-priority:2-irish-election-source-enrichment-data:constituency-boundaries-generalised-20m-national-electoral-boundaries-20131:00031",
-        "slug": "medium-priority-2-irish-election-source-enrichment-data-constituency-boundaries-generalised-20m-national-electoral-boundaries-20131-00031",
-        "type": "approved-medium-priority-source",
-        "title": "Constituency Boundaries Generalised 20m - National Electoral Boundaries - 2013",
-        "subtitle": "Irish election source/enrichment data / Tailte Éireann, Tailte/OSI/data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, GDB, GEOJSON, GPKG, HTML, KML, TXT, XLSX, ZIP / Source record; runtime review pending",
-        "category": "Medium-priority: Irish election source/enrichment data",
-        "date": "2013",
-        "provider": [
-          "Tailte Éireann",
-          "Tailte/OSI/data.gov.ie"
-        ],
-        "description": "Constituency Boundaries Generalised 20m - National Electoral Boundaries - 2013 is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; election-model-merge-and-provenance-review: requires exact election merge review; large-or-special-format-review: size/format decision remains before runtime publication.",
-        "url": "https://data.gov.ie/dataset/constituency-boundaries-generalised-20m-national-electoral-boundaries-20131",
-        "references": [
-          {
-            "label": "Constituency Boundaries Generalised 20m - National Electoral Boundaries - 2013 provider page",
-            "url": "https://data.gov.ie/dataset/constituency-boundaries-generalised-20m-national-electoral-boundaries-20131",
-            "source": "Tailte/OSI/data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Constituency Boundaries Generalised 20m - National Electoral Boundaries - 2013 Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/constituency-boundaries-generalised-20m-national-electoral-boundaries-20131",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/constituency-boundaries-generalised-20m-national-electoral-boundaries-20131",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source record",
-          "Runtime review pending",
-          "Spatial source",
-          "Conversion pending",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Irish election source/enrichment data",
-          "Republic of Ireland",
-          "election",
-          "Constituency Boundaries Generalised 20m - National Electoral Boundaries - 2013"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text",
-            "spreadsheet",
-            "download-only"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/constituency-boundaries-generalised-20m-national-electoral-boundaries-20131",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/constituency-boundaries-generalised-20m-national-electoral-boundaries-20131",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "Convert source geometry to PMTiles/vector tiles after approval."
-        },
-        "shortCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie, Constituency Boundaries Generalised 20m - National Electoral Boundaries - 2013.",
-        "fullCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie. Constituency Boundaries Generalised 20m - National Electoral Boundaries - 2013. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/constituency-boundaries-generalised-20m-national-electoral-boundaries-20131. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/constituency-boundaries-generalised-20m-national-electoral-boundaries-20131.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 32,
-            "stagingId": "medium-prep:2-irish-election-source-enrichment-data:constituency-boundaries-generalised-20m-national-electoral-boundaries-20131:00031",
-            "title": "Constituency Boundaries Generalised 20m - National Electoral Boundaries - 2013",
-            "cleanTitle": "Constituency Boundaries Generalised 20m - National Electoral Boundaries - 2013",
-            "provider": "Tailte/OSI/data.gov.ie",
-            "organisation": "Tailte Éireann",
-            "category": "spatial",
-            "roiGroup": "2. Irish election source/enrichment data",
-            "groupTitle": "Irish election source/enrichment data",
-            "jurisdiction": "Republic of Ireland",
-            "topic": "election",
-            "featureUnit": "constituencies",
-            "formats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GDB",
-              "GEOJSON",
-              "GPKG",
-              "HTML",
-              "KML",
-              "TXT",
-              "XLSX",
-              "ZIP"
-            ],
-            "isSpatial": true,
-            "isLargeOrSpecial": true,
-            "proposedAction": "new-interactive-map",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "MapLibre interactive layer",
-              "conversion": "Convert source geometry to PMTiles/vector tiles after approval.",
-              "sourceFormats": [
-                "ARCGIS GEOSERVICES REST API",
-                "CSV",
-                "GDB",
-                "GEOJSON",
-                "GPKG",
-                "HTML",
-                "KML",
-                "TXT",
-                "XLSX",
-                "ZIP"
-              ]
-            },
-            "approvalState": "ready-with-residual-review",
-            "sourcePublicationState": "public source record with runtime/semantic review still pending",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/constituency-boundaries-generalised-20m-national-electoral-boundaries-20131",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/constituency-boundaries-generalised-20m-national-electoral-boundaries-20131",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "geography-matching: geography family inferred",
-              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-            ],
-            "residualBlockers": [
-              "duplicate-or-variant-review: no existing match candidate",
-              "election-model-merge-and-provenance-review: requires exact election merge review",
-              "large-or-special-format-review: size/format decision remains before runtime publication"
-            ],
-            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-            "geographyRecommendation": "Match by election kind, legislation/version, jurisdiction, and date; do not merge Dail/Westminster/Assembly geographies by name alone.",
-            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:constituency-boundaries-generalised-20m-national-electoral-boundaries-20131:00031",
-          "sourceRowNumber": 32,
-          "approvalState": "ready-with-residual-review",
-          "recommendedAction": "publish source record; convert to interactive map in a later runtime pass",
-          "proposedAction": "new-interactive-map",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "MapLibre interactive layer",
-            "conversion": "Convert source geometry to PMTiles/vector tiles after approval.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GDB",
-              "GEOJSON",
-              "GPKG",
-              "HTML",
-              "KML",
-              "TXT",
-              "XLSX",
-              "ZIP"
-            ]
-          },
-          "confidence": 60,
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate",
-            "election-model-merge-and-provenance-review: requires exact election merge review",
-            "large-or-special-format-review: size/format decision remains before runtime publication"
-          ],
-          "resolvedBlockers": [
-            "geography-matching: geography family inferred",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Match by election kind, legislation/version, jurisdiction, and date; do not merge Dail/Westminster/Assembly geographies by name alone.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        },
-        "publicationStatus": "source-record-with-runtime-review",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record-runtime-conversion-pending",
-        "keywords": [
-          "medium-priority-publication",
-          "source-record-with-runtime-review",
-          "Irish election source/enrichment data",
-          "election",
-          "constituencies",
-          "Republic of Ireland",
-          "new-interactive-map",
-          "ARCGIS GEOSERVICES REST API",
-          "CSV",
-          "GDB",
-          "GEOJSON",
-          "GPKG",
-          "HTML",
-          "KML",
-          "TXT",
-          "XLSX",
-          "ZIP",
-          "review:duplicate-or-variant-review-no-existing-match-candidate",
-          "review:election-model-merge-and-provenance-review-requires-exact-election-merge-review",
-          "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-constituency-boundaries-generalised-20m-national-electoral-boundaries-20131-00031"
       }
     }
   ]

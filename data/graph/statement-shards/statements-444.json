@@ -1,9 +1,2003 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T19:38:08.980Z",
+  "generatedAt": "2026-06-30T20:12:17.853Z",
   "shard": 444,
   "total": 2500,
   "items": [
+    {
+      "id": "cg:statement:4421026e44fe8436b94c",
+      "subjectId": "cg:source:map-source-dlr-land-use-zoning",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:source-data-gov-ie-1e4624cd42f5"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.gov.ie/"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:49ac5a5240ecf8fc2f4a",
+      "subjectId": "cg:source:map-source-dlr-land-use-zoning",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Map sources"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:6179a26ca5eb88527121",
+      "subjectId": "cg:source:map-source-dlr-leisure-centres",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:fgb-3ec42b620998"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "FGB"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/roi-dlr/dlr-leisure-centres.fgb"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:b046e472b6b500d3d0ed",
+      "subjectId": "cg:source:map-source-dlr-leisure-centres",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:geojson-b776f292eecc"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "GEOJSON"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/roi-dlr/dlr-leisure-centres.geojson"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:a78e0e9c1080ebbc0af2",
+      "subjectId": "cg:source:map-source-dlr-leisure-centres",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:940cf9e6b4dad75ecbe0",
+      "subjectId": "cg:source:map-source-dlr-leisure-centres",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Leisure Centres (DLR) source files"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:f47863263310947d3af9",
+      "subjectId": "cg:source:map-source-dlr-leisure-centres",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:dun-laoghaire-rathdown-county-council"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:29fbb237ced35649da07",
+      "subjectId": "cg:source:map-source-dlr-leisure-centres",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:source-data-gov-ie-1e4624cd42f5"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.gov.ie/"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:356e1f0918797796be8b",
+      "subjectId": "cg:source:map-source-dlr-leisure-centres",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:provider-dataset-leisure-centres-dlr-1a6600f7cebb"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.gov.ie/dataset/leisure-centres-dlr"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "canonical-provider-dataset"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:6c711cb56be4ae580558",
+      "subjectId": "cg:source:map-source-dlr-leisure-centres",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:existing-civgraph-source-record-map-source-dlr-leisure-centres-2f285f0f1980"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "/browse/sources/map-source-dlr-leisure-centres"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "matched-source-record"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:c043518a24ef83ca2ff4",
+      "subjectId": "cg:source:map-source-dlr-leisure-centres",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:existing-civgraph-record-leisure-centres-dlr-source-files-8b76dd9732f3"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "/browse/maps/dlr-leisure-centres"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "matched-existing-record"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:a28d414373c1ff3bcd95",
+      "subjectId": "cg:source:map-source-dlr-leisure-centres",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Map sources"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:24439424eeb56b5c738e",
+      "subjectId": "cg:source:map-source-dlr-libraries",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:fgb-344168451a12"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "FGB"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/roi-dlr/dlr-libraries.fgb"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:effc9857822b75a47955",
+      "subjectId": "cg:source:map-source-dlr-libraries",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:geojson-8a8136dd45bf"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "GEOJSON"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/roi-dlr/dlr-libraries.geojson"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:e3423572f5be22e609af",
+      "subjectId": "cg:source:map-source-dlr-libraries",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:2ba30814932a2aeb0f54",
+      "subjectId": "cg:source:map-source-dlr-libraries",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Libraries (DLR) source files"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:3d5d8d48a1f073762af8",
+      "subjectId": "cg:source:map-source-dlr-libraries",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:dun-laoghaire-rathdown-county-council"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:61fe14ba93cebe972620",
+      "subjectId": "cg:source:map-source-dlr-libraries",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:provider-dataset-libraries-dlr-f6565f87c966"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.gov.ie/dataset/libraries-dlr"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "canonical-provider-dataset"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:90af89b7d8510f096e27",
+      "subjectId": "cg:source:map-source-dlr-libraries",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:source-data-gov-ie-1e4624cd42f5"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.gov.ie/"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:c1537e37f98ba5cd850b",
+      "subjectId": "cg:source:map-source-dlr-libraries",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:existing-civgraph-record-libraries-dlr-source-files-4f4ecf225958"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "/browse/maps/dlr-libraries"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "matched-existing-record"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:fd6f0c903d7c3b03aa53",
+      "subjectId": "cg:source:map-source-dlr-libraries",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:existing-civgraph-source-record-map-source-dlr-libraries-de06599d6325"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "/browse/sources/map-source-dlr-libraries"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "matched-source-record"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:1ba150ad25a26764078b",
+      "subjectId": "cg:source:map-source-dlr-libraries",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Map sources"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:afeb3cd43f66f7e51e63",
+      "subjectId": "cg:source:map-source-dlr-local-electoral-areas",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:fgb-7f47ffeffc28"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "FGB"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/roi-dlr/dlr-local-electoral-areas.fgb"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:df1b4ea446777d917163",
+      "subjectId": "cg:source:map-source-dlr-local-electoral-areas",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:geojson-c425587d5fc1"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "GEOJSON"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/roi-dlr/dlr-local-electoral-areas.geojson"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:328235d5c8f2ce3d7edb",
+      "subjectId": "cg:source:map-source-dlr-local-electoral-areas",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:398fbaa33fa22595070b",
+      "subjectId": "cg:source:map-source-dlr-local-electoral-areas",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Local Electoral Areas (DLR) source files"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:9cb9a6ba4387ec907a4d",
+      "subjectId": "cg:source:map-source-dlr-local-electoral-areas",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:dun-laoghaire-rathdown-county-council"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:1547b10aa4165f60fe05",
+      "subjectId": "cg:source:map-source-dlr-local-electoral-areas",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:electoral-divisions-dlr-provider-page-628ab6591243"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.gov.ie/dataset/ed-boundaries-dlr"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "canonical-provider-dataset"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:3c8c145b9757873d4c11",
+      "subjectId": "cg:source:map-source-dlr-local-electoral-areas",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:source-data-gov-ie-1e4624cd42f5"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.gov.ie/"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:4367cd43ada90ea102bd",
+      "subjectId": "cg:source:map-source-dlr-local-electoral-areas",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:existing-civgraph-source-record-map-source-dlr-local-electoral-areas-da970c33564d"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "/browse/sources/map-source-dlr-local-electoral-areas"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "matched-source-record"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:47c4dd8aea90b93f9b70",
+      "subjectId": "cg:source:map-source-dlr-local-electoral-areas",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:licence-creative-commons-attribution-4-0-54895d592300"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://creativecommons.org/licenses/by/4.0/"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-licence"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:4fc644c6c945c0274e6b",
+      "subjectId": "cg:source:map-source-dlr-local-electoral-areas",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:provider-dataset-local-electoral-areas-dlr-c31f7f483ad4"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.gov.ie/dataset/local-electoral-areas"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "canonical-provider-dataset"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:903e6521fad05c754d75",
+      "subjectId": "cg:source:map-source-dlr-local-electoral-areas",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:existing-civgraph-record-local-electoral-areas-dlr-source-files-5d304c5afd36"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "/browse/maps/dlr-local-electoral-areas"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "matched-existing-record"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:89131b7f338698615d5c",
+      "subjectId": "cg:source:map-source-dlr-local-electoral-areas",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Map sources"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:1c7ffb2ea762b238c3e7",
+      "subjectId": "cg:source:map-source-dlr-main-parks",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:geojson-fd951265fec2"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "GEOJSON"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/roi-dlr/dlr-main-parks.geojson"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:448d8f8123a5c3091b81",
+      "subjectId": "cg:source:map-source-dlr-main-parks",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:fgb-423cc33b6058"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "FGB"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/roi-dlr/dlr-main-parks.fgb"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:986dc202f67666fcf980",
+      "subjectId": "cg:source:map-source-dlr-main-parks",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:847ce024f5d6845c0d6e",
+      "subjectId": "cg:source:map-source-dlr-main-parks",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Main Parks (DLR) source files"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:5d3fca57106e3d532aaf",
+      "subjectId": "cg:source:map-source-dlr-main-parks",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:dun-laoghaire-rathdown-county-council"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:04ddc1d7ee8356ebe33d",
+      "subjectId": "cg:source:map-source-dlr-main-parks",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:existing-civgraph-source-record-map-source-dlr-main-parks-90e9c831566d"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "/browse/sources/map-source-dlr-main-parks"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "matched-source-record"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:4b2df78fea552ce7c94e",
+      "subjectId": "cg:source:map-source-dlr-main-parks",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:source-data-gov-ie-1e4624cd42f5"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.gov.ie/"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:edeb74ef02715ce40d6e",
+      "subjectId": "cg:source:map-source-dlr-main-parks",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:existing-civgraph-record-main-parks-dlr-1aa2dd30d4dd"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "/browse/maps/dlr-main-parks"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "matched-existing-record"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:f4ae1b99e1e5c1e8a2e5",
+      "subjectId": "cg:source:map-source-dlr-main-parks",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:provider-dataset-main-parks-dlr-b3ff1b330f59"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.gov.ie/dataset/main-parks-dlr"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "canonical-provider-dataset"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:5ee3bc47c02e1d245373",
+      "subjectId": "cg:source:map-source-dlr-main-parks",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Map sources"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:2bf56462cb2e81ec946d",
+      "subjectId": "cg:source:map-source-dlr-mews-development",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:fgb-70a52a4ab502"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "FGB"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/roi-dlr/dlr-mews-development.fgb"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:4855187a4b5a650cdd2a",
+      "subjectId": "cg:source:map-source-dlr-mews-development",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:geojson-95d882a19d3d"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "GEOJSON"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/roi-dlr/dlr-mews-development.geojson"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:4b8fd66046f361da2495",
+      "subjectId": "cg:source:map-source-dlr-mews-development",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:c6e01735f93e1dbe8f92",
+      "subjectId": "cg:source:map-source-dlr-mews-development",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Mews Development (DLR) source files"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:df293059545c01cd60e2",
+      "subjectId": "cg:source:map-source-dlr-mews-development",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:dun-laoghaire-rathdown-county-council"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:260d45a65d0e6d776e88",
+      "subjectId": "cg:source:map-source-dlr-mews-development",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:source-data-gov-ie-1e4624cd42f5"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.gov.ie/"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:3c7b421c746dbe472fde",
+      "subjectId": "cg:source:map-source-dlr-mews-development",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Map sources"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:8810c2e4878052c103f6",
+      "subjectId": "cg:source:map-source-dlr-muga",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:fgb-a24982cbf33c"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "FGB"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/roi-dlr/dlr-muga.fgb"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:acb00f919ac14b216ba9",
+      "subjectId": "cg:source:map-source-dlr-muga",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:geojson-395735fe2abe"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "GEOJSON"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/roi-dlr/dlr-muga.geojson"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:8bcd809256e7fc0956c8",
+      "subjectId": "cg:source:map-source-dlr-muga",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:4400323c12a7d1feda71",
+      "subjectId": "cg:source:map-source-dlr-muga",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Muga (DLR) source files"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:a419c0d8f2e1cfd8c5f2",
+      "subjectId": "cg:source:map-source-dlr-muga",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:dun-laoghaire-rathdown-county-council"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:25bb38f2a8b9598b1e86",
+      "subjectId": "cg:source:map-source-dlr-muga",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:existing-civgraph-record-muga-dlr-source-files-bce409cf7eaa"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "/browse/maps/dlr-muga"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "matched-existing-record"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:751a873efbecda1b722b",
+      "subjectId": "cg:source:map-source-dlr-muga",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:source-data-gov-ie-1e4624cd42f5"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.gov.ie/"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:b23d00b94d266ffd71b0",
+      "subjectId": "cg:source:map-source-dlr-muga",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:existing-civgraph-source-record-map-source-dlr-muga-b1049b735408"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "/browse/sources/map-source-dlr-muga"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "matched-source-record"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:c6935efde0720afa6a61",
+      "subjectId": "cg:source:map-source-dlr-muga",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:provider-dataset-muga-dlr-a5df06f74e37"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.gov.ie/dataset/muga-dlr"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "canonical-provider-dataset"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:cab41442790e997479f5",
+      "subjectId": "cg:source:map-source-dlr-muga",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Map sources"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:42afc9da5f48a44df3f6",
+      "subjectId": "cg:source:map-source-dlr-parking-meters",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:geojson-9d095444a3bd"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "GEOJSON"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/roi-dlr/dlr-parking-meters.geojson"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:5e8302265bdaac5288b0",
+      "subjectId": "cg:source:map-source-dlr-parking-meters",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:fgb-bb071ebba54c"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "FGB"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/roi-dlr/dlr-parking-meters.fgb"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:4c4d71a4b5e80cb80c3f",
+      "subjectId": "cg:source:map-source-dlr-parking-meters",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:86154da2d6b0481665ab",
+      "subjectId": "cg:source:map-source-dlr-parking-meters",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Parking Meters (DLR) source files"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:8abcf657a38380d8e9a5",
+      "subjectId": "cg:source:map-source-dlr-parking-meters",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:dun-laoghaire-rathdown-county-council"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:206d288d38a8b7988994",
+      "subjectId": "cg:source:map-source-dlr-parking-meters",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:source-data-gov-ie-1e4624cd42f5"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.gov.ie/"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:8c8d7231bba0355491ac",
+      "subjectId": "cg:source:map-source-dlr-parking-meters",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Map sources"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:16cc5b934b436a704e4e",
+      "subjectId": "cg:source:map-source-dlr-playgrounds",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:geojson-8fec730c31da"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "GEOJSON"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/roi-dlr/dlr-playgrounds.geojson"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:ae4dfca47905e7e52974",
+      "subjectId": "cg:source:map-source-dlr-playgrounds",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:fgb-835d8dc7902e"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "FGB"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/roi-dlr/dlr-playgrounds.fgb"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:e5388badac96db308aaa",
+      "subjectId": "cg:source:map-source-dlr-playgrounds",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:deae0fd7d8aa5c3b1abd",
+      "subjectId": "cg:source:map-source-dlr-playgrounds",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Playgrounds (DLR) source files"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:91eeddc186cf09c700e9",
+      "subjectId": "cg:source:map-source-dlr-playgrounds",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:dun-laoghaire-rathdown-county-council"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:218ae03ff363dcd1b53c",
+      "subjectId": "cg:source:map-source-dlr-playgrounds",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:provider-dataset-playgrounds-dlr-389fa5fcf9a5"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.gov.ie/dataset/playgrounds-dlr"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "canonical-provider-dataset"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:28a6291e6ca6e7fe35aa",
+      "subjectId": "cg:source:map-source-dlr-playgrounds",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:source-data-gov-ie-1e4624cd42f5"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.gov.ie/"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:63788018bf3e61e09189",
+      "subjectId": "cg:source:map-source-dlr-playgrounds",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:existing-civgraph-record-playgrounds-dlr-source-files-14a73638855b"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "/browse/maps/dlr-playgrounds"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "matched-existing-record"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:9a0eb5ba897cc79a40e9",
+      "subjectId": "cg:source:map-source-dlr-playgrounds",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:existing-civgraph-source-record-map-source-dlr-playgrounds-df9c2e59a842"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "/browse/sources/map-source-dlr-playgrounds"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "matched-source-record"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:fba49bbc3ae209fce077",
+      "subjectId": "cg:source:map-source-dlr-playgrounds",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Map sources"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:7a274cf7872ef9cdd09d",
+      "subjectId": "cg:source:map-source-dlr-proposed-education-sites",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:fgb-75c0b36384bd"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "FGB"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/roi-dlr/dlr-proposed-education-sites.fgb"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:ac48582e961d874dac22",
+      "subjectId": "cg:source:map-source-dlr-proposed-education-sites",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:geojson-8ca305c14bd2"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "GEOJSON"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/roi-dlr/dlr-proposed-education-sites.geojson"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:57bbcd094399b217d380",
+      "subjectId": "cg:source:map-source-dlr-proposed-education-sites",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:34f6f19c8c200335c47e",
+      "subjectId": "cg:source:map-source-dlr-proposed-education-sites",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Proposed Education Sites (DLR) source files"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:b6942cc233a75d7d98b0",
+      "subjectId": "cg:source:map-source-dlr-proposed-education-sites",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:dun-laoghaire-rathdown-county-council"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:cd829a497bcef7683bf0",
+      "subjectId": "cg:source:map-source-dlr-proposed-education-sites",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:source-data-gov-ie-1e4624cd42f5"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.gov.ie/"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:bd47d200d1da172bf3f3",
+      "subjectId": "cg:source:map-source-dlr-proposed-education-sites",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Map sources"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:62f4f2fbc7602ecec7fc",
+      "subjectId": "cg:source:map-source-dlr-protected-structures",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:fgb-d6b5e768a854"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "FGB"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/roi-dlr/dlr-protected-structures.fgb"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:842d3be5a4f53e0dbf91",
+      "subjectId": "cg:source:map-source-dlr-protected-structures",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:geojson-ecada6b1b030"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "GEOJSON"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/roi-dlr/dlr-protected-structures.geojson"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:13b8745f89bed1c6f516",
+      "subjectId": "cg:source:map-source-dlr-protected-structures",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:d9faddce3a519fc9e2b0",
+      "subjectId": "cg:source:map-source-dlr-protected-structures",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Protected Structures (DLR) source files"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:243e7135319173c8ab21",
+      "subjectId": "cg:source:map-source-dlr-protected-structures",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:dun-laoghaire-rathdown-county-council"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:321a82c285e16d5d576a",
+      "subjectId": "cg:source:map-source-dlr-protected-structures",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:source-data-gov-ie-1e4624cd42f5"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.gov.ie/"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:479e4b90f71646147e55",
+      "subjectId": "cg:source:map-source-dlr-protected-structures",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Map sources"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:164618a36143d8b6fedd",
+      "subjectId": "cg:source:map-source-dlr-public-art",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:fgb-c06953816127"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "FGB"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/roi-dlr/dlr-public-art.fgb"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:2217d8d912a43cef2c92",
+      "subjectId": "cg:source:map-source-dlr-public-art",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:geojson-69fdd9b004ab"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "GEOJSON"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/roi-dlr/dlr-public-art.geojson"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:4b35565598a2dd3fbc32",
+      "subjectId": "cg:source:map-source-dlr-public-art",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:700f78be9a9c3d9d3b18",
+      "subjectId": "cg:source:map-source-dlr-public-art",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Public Art (DLR) source files"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:bec4ac6383cea63794d8",
+      "subjectId": "cg:source:map-source-dlr-public-art",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:dun-laoghaire-rathdown-county-council"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:13183929a7f8fbe3472a",
+      "subjectId": "cg:source:map-source-dlr-public-art",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:source-data-gov-ie-1e4624cd42f5"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.gov.ie/"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:479912d17e43c3792705",
+      "subjectId": "cg:source:map-source-dlr-public-art",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:existing-civgraph-source-record-map-source-dlr-public-art-a22a05c2097c"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "/browse/sources/map-source-dlr-public-art"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "matched-source-record"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:62b3fd0ccecaefc57bea",
+      "subjectId": "cg:source:map-source-dlr-public-art",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:existing-civgraph-record-public-art-dlr-source-files-3d5e575c8b72"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "/browse/maps/dlr-public-art"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "matched-existing-record"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:d5c6cfaefdb44739270d",
+      "subjectId": "cg:source:map-source-dlr-public-art",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:provider-dataset-public-art-dlr-4a852398097f"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.gov.ie/dataset/public-art-dlr"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "canonical-provider-dataset"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:89b40e9cc513d3f41cdc",
+      "subjectId": "cg:source:map-source-dlr-public-art",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Map sources"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:21f66ce112ebfa453e09",
+      "subjectId": "cg:source:map-source-dlr-public-ev-charging-points",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:geojson-3fef9ca1962f"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "GEOJSON"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/roi-dlr/dlr-public-ev-charging-points.geojson"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:7f32af30ff2692f5c8de",
+      "subjectId": "cg:source:map-source-dlr-public-ev-charging-points",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:fgb-e729b4cdd6b6"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "FGB"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/roi-dlr/dlr-public-ev-charging-points.fgb"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:b7dded586bf41876210d",
+      "subjectId": "cg:source:map-source-dlr-public-ev-charging-points",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
     {
       "id": "cg:statement:7e2ca51f298e23645eae",
       "subjectId": "cg:source:map-source-dlr-public-ev-charging-points",
@@ -27928,6 +29922,98 @@
       "rank": "normal"
     },
     {
+      "id": "cg:statement:dd6394f46e03de880afb",
+      "subjectId": "cg:source:map-source-irish-peat-soils-map",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:fgb-1ecbb417c8b7"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "FGB"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/biodiversity/Irish_Peat_Soils_Map.fgb"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:d8a2929197f029f38fa1",
+      "subjectId": "cg:source:map-source-irish-peat-soils-map",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:18ac7c31678433beeab5",
+      "subjectId": "cg:source:map-source-irish-peat-soils-map",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Irish Peat Soils Map source files"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:fbc65116638380930cf0",
+      "subjectId": "cg:source:map-source-irish-peat-soils-map",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:trinity-college-dublin"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:230a29e5383fb42c0149",
+      "subjectId": "cg:source:map-source-irish-peat-soils-map",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:peatland-geoportal-46893cf31030"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://peatlands-geoportal-queensub.hub.arcgis.com/"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:83e827fa63de11a36d46",
+      "subjectId": "cg:source:map-source-irish-peat-soils-map",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Map sources"
+      },
+      "rank": "normal"
+    },
+    {
       "id": "cg:statement:b6c9a6e31503bf62165f",
       "subjectId": "cg:source:map-source-lgd-1972",
       "propertyId": "cg:property:date",
@@ -29278,6 +31364,190 @@
       "rank": "normal"
     },
     {
+      "id": "cg:statement:6af68d6cd2376dece07f",
+      "subjectId": "cg:source:map-source-ni-250k-geology",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:fgb-5ce29e2c1d69"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "FGB"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/environment/NI_250k_Geology.fgb"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:3399d12081370e25aa5b",
+      "subjectId": "cg:source:map-source-ni-250k-geology",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:558e9a22a18792b6030c",
+      "subjectId": "cg:source:map-source-ni-250k-geology",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Northern Ireland Geology (1:250,000) source files"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:942e4d8d6a891e7e3875",
+      "subjectId": "cg:source:map-source-ni-250k-geology",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:geological-survey-of-northern-ireland-gsni"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:faf67c32ce5d9f39c20c",
+      "subjectId": "cg:source:map-source-ni-250k-geology",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:peatland-geoportal-46893cf31030"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://peatlands-geoportal-queensub.hub.arcgis.com/"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:cf421184f3a4d38a511f",
+      "subjectId": "cg:source:map-source-ni-250k-geology",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Map sources"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:513024375673ed726c1e",
+      "subjectId": "cg:source:map-source-ni-authorised-waste-sites",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:fgb-60030357b886"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "FGB"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/environment/NI_Authorised_Waste_Sites.fgb"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:27b081f51eaee3c468cf",
+      "subjectId": "cg:source:map-source-ni-authorised-waste-sites",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:eb05c6ab3846193c9c73",
+      "subjectId": "cg:source:map-source-ni-authorised-waste-sites",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Authorised Waste Sites (NI) source files"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:eee816dc6c38432796ce",
+      "subjectId": "cg:source:map-source-ni-authorised-waste-sites",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:niea"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:fa1afa4c7d10b756874d",
+      "subjectId": "cg:source:map-source-ni-authorised-waste-sites",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:peatland-geoportal-46893cf31030"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://peatlands-geoportal-queensub.hub.arcgis.com/"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:dbb694cc6278bbba47ec",
+      "subjectId": "cg:source:map-source-ni-authorised-waste-sites",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Map sources"
+      },
+      "rank": "normal"
+    },
+    {
       "id": "cg:statement:3436a2cfd17ef4a798f8",
       "subjectId": "cg:source:map-source-ni-defence-heritage",
       "propertyId": "cg:property:date",
@@ -29587,6 +31857,98 @@
       "rank": "normal"
     },
     {
+      "id": "cg:statement:e84c074d5222d21e559c",
+      "subjectId": "cg:source:map-source-ni-historic-landuse",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:fgb-1f01db1278b2"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "FGB"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/built-environment/NI_Historic_Landuse.fgb"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:ba6f83ab19a37907ca96",
+      "subjectId": "cg:source:map-source-ni-historic-landuse",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:6dd98c52f2326e572d04",
+      "subjectId": "cg:source:map-source-ni-historic-landuse",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Historic Land Use (NI) source files"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:a84766c2b5c8db3edc7c",
+      "subjectId": "cg:source:map-source-ni-historic-landuse",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:dept-for-communities-historic-environment-division"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:96b1571e1c9613b38ff2",
+      "subjectId": "cg:source:map-source-ni-historic-landuse",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:peatland-geoportal-46893cf31030"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://peatlands-geoportal-queensub.hub.arcgis.com/"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:675c4ed71fef213fd113",
+      "subjectId": "cg:source:map-source-ni-historic-landuse",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Map sources"
+      },
+      "rank": "normal"
+    },
+    {
       "id": "cg:statement:ba2266ce16db84e80a12",
       "subjectId": "cg:source:map-source-ni-industrial-heritage",
       "propertyId": "cg:property:date",
@@ -29722,6 +32084,200 @@
       "value": {
         "type": "entity",
         "id": "cg:date-year:2026"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:330a9fc8c9449e7296e9",
+      "subjectId": "cg:source:map-source-ni-land-classification",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:fgb-d92b32fed980"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "FGB"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/environment/NI_Land_Classification.fgb"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:2eea5c2a3bf8346c5e89",
+      "subjectId": "cg:source:map-source-ni-land-classification",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:4ad53116fa22f32cc4cb",
+      "subjectId": "cg:source:map-source-ni-land-classification",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Northern Ireland Land Classification source files"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:8d6c74e2e6629f9aa694",
+      "subjectId": "cg:source:map-source-ni-land-classification",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:daera"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:ea2843e06e47ec0ca1f4",
+      "subjectId": "cg:source:map-source-ni-land-classification",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:gsni"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:e179c390e8cc7d9bb350",
+      "subjectId": "cg:source:map-source-ni-land-classification",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:peatland-geoportal-46893cf31030"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://peatlands-geoportal-queensub.hub.arcgis.com/"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:48a10ae9974ff86ac08f",
+      "subjectId": "cg:source:map-source-ni-land-classification",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Map sources"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:c4adab4e0201bf71519e",
+      "subjectId": "cg:source:map-source-ni-licensed-waste-facilities",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:fgb-d84943c6ffbc"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "FGB"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/environment/NI_Licensed_Waste_Facilities.fgb"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:d1c886b4de2fef8e8637",
+      "subjectId": "cg:source:map-source-ni-licensed-waste-facilities",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:9231ca664d4039afcb91",
+      "subjectId": "cg:source:map-source-ni-licensed-waste-facilities",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Licensed Waste Facilities (NI) source files"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:8ef41eb31aab2ee1bf2c",
+      "subjectId": "cg:source:map-source-ni-licensed-waste-facilities",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:niea"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:c24171272571c00db197",
+      "subjectId": "cg:source:map-source-ni-licensed-waste-facilities",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:peatland-geoportal-46893cf31030"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://peatlands-geoportal-queensub.hub.arcgis.com/"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:d8f9b6ba7e5186d7a14b",
+      "subjectId": "cg:source:map-source-ni-licensed-waste-facilities",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Map sources"
       },
       "rank": "normal"
     },
@@ -32875,6 +35431,98 @@
       "value": {
         "type": "entity",
         "id": "cg:date-year:2021"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:af0969c33e2684effaae",
+      "subjectId": "cg:source:map-source-npws-designated-areas",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:fgb-38d2c8a31a2b"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "FGB"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/designated-sites/NPWS_Designated_Areas.fgb"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:e983ed384a50ed1d1a5e",
+      "subjectId": "cg:source:map-source-npws-designated-areas",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:5bacfbee59f21a3065bd",
+      "subjectId": "cg:source:map-source-npws-designated-areas",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "NPWS Designated Areas (Republic of Ireland) source files"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:e5fbd7a84c5d3d242655",
+      "subjectId": "cg:source:map-source-npws-designated-areas",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:national-parks-and-wildlife-service-npws"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:c51663292a3ad379e17e",
+      "subjectId": "cg:source:map-source-npws-designated-areas",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:peatland-geoportal-46893cf31030"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://peatlands-geoportal-queensub.hub.arcgis.com/"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:80fcc49064fb1a0f0e9f",
+      "subjectId": "cg:source:map-source-npws-designated-areas",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Map sources"
       },
       "rank": "normal"
     },
@@ -42971,1985 +45619,6 @@
           }
         }
       ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:f42baee87cd973e74330",
-      "subjectId": "cg:source:map-source-rivers-coastal-flood-2018",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:aaa07955154d64e0562b",
-      "subjectId": "cg:source:map-source-rivers-coastal-flood-2018",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Coastal Flood Boundary — Extreme Sea Levels (2018) source files"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:7775414dde9979571d7e",
-      "subjectId": "cg:source:map-source-rivers-coastal-flood-2018",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:department-for-infrastructure-rivers"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:1c03f66fde8994d2d0d7",
-      "subjectId": "cg:source:map-source-rivers-coastal-flood-2018",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:existing-civgraph-record-coastal-flood-boundary-extreme-sea-levels-2018--326cb0a7740f"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "/browse/maps/rivers-coastal-flood-2018"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "matched-existing-record"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:205fa1d831bc4472de4f",
-      "subjectId": "cg:source:map-source-rivers-coastal-flood-2018",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:existing-civgraph-source-record-map-source-rivers-coastal-flood-2018-966a74197edc"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "/browse/sources/map-source-rivers-coastal-flood-2018"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "matched-source-record"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:43712656501ecc7a7486",
-      "subjectId": "cg:source:map-source-rivers-coastal-flood-2018",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:licence-uk-open-government-licence-ogl-4fdeef30b350"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-licence"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:74117085982560274c2f",
-      "subjectId": "cg:source:map-source-rivers-coastal-flood-2018",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:provider-dataset-coastal-flood-boundary-extreme-sea-levels-2018-ni-extract-ba5e393e6d57"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://admin.opendatani.gov.uk/dataset/coastal-flood-boundary-extreme-sea-levels-2018-ni-extract-irish-grid-projection"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "canonical-provider-dataset"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:55fffaa47fb49c7cb307",
-      "subjectId": "cg:source:map-source-rivers-coastal-flood-2018",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Map sources"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:4cd3fc5aabdd5e8a0f2b",
-      "subjectId": "cg:source:map-source-roads-border-crossings-2018",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:fgb-0e962fa3f9de"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "FGB"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.civgraph.net/data/maps/transport/roads-border-crossings-2018.fgb"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:79f407b9e2e35c0842dd",
-      "subjectId": "cg:source:map-source-roads-border-crossings-2018",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:d6937a548e6c996e0522",
-      "subjectId": "cg:source:map-source-roads-border-crossings-2018",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Border Crossings 2018 source files"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:30a5694aa61dbfd86712",
-      "subjectId": "cg:source:map-source-roads-border-crossings-2018",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:department-for-infrastructure-roads"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:6c1a2923cbe6c3285709",
-      "subjectId": "cg:source:map-source-roads-border-crossings-2018",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:provider-dataset-border-crossings-2018-0f0212abd70b"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://admin.opendatani.gov.uk/dataset/border-crossings-2018"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "canonical-provider-dataset"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:8c003a3b5a24aecb141f",
-      "subjectId": "cg:source:map-source-roads-border-crossings-2018",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:existing-civgraph-source-record-map-source-roads-border-crossings-2018-8d2d31100eab"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "/browse/sources/map-source-roads-border-crossings-2018"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "matched-source-record"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:dcc73402a242e53d5587",
-      "subjectId": "cg:source:map-source-roads-border-crossings-2018",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:existing-civgraph-record-border-crossings-2018-e8d6a922ae2a"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "/browse/maps/roads-border-crossings-2018"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "matched-existing-record"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:b9a96aa677fb86c627ea",
-      "subjectId": "cg:source:map-source-roads-border-crossings-2018",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Map sources"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:401c47d68675e171b94e",
-      "subjectId": "cg:source:map-source-roads-pedestrian-crossings",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:fgb-7743841755b5"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "FGB"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.civgraph.net/data/maps/transport/roads-pedestrian-crossings.fgb"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:e58eb2021ab4e37235e8",
-      "subjectId": "cg:source:map-source-roads-pedestrian-crossings",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:ee618130270b3a3a9ed9",
-      "subjectId": "cg:source:map-source-roads-pedestrian-crossings",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Pedestrian Crossings source files"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:d0e754b7bba86f76ca74",
-      "subjectId": "cg:source:map-source-roads-pedestrian-crossings",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:department-for-infrastructure-roads"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:70a1f522a07d2ae3c1cd",
-      "subjectId": "cg:source:map-source-roads-pedestrian-crossings",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:existing-civgraph-record-pedestrian-crossings-2d149c4bea7a"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "/browse/maps/roads-pedestrian-crossings"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "matched-existing-record"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:97f37ce3d88b51ed3f86",
-      "subjectId": "cg:source:map-source-roads-pedestrian-crossings",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:existing-civgraph-source-record-map-source-roads-pedestrian-crossings-ceb1fa7cf515"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "/browse/sources/map-source-roads-pedestrian-crossings"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "matched-source-record"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:adf92033a21ae9b8655e",
-      "subjectId": "cg:source:map-source-roads-pedestrian-crossings",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:provider-dataset-pedestrian-crossings-c967a5818bf9"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://admin.opendatani.gov.uk/dataset/pedestrain-crossing"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "canonical-provider-dataset"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:c60182e5bdc22c201659",
-      "subjectId": "cg:source:map-source-roads-pedestrian-crossings",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Map sources"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:7cff1ce852443eff746f",
-      "subjectId": "cg:source:map-source-roads-pothole-enquiries",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:fgb-8f69a6095c4b"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "FGB"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.civgraph.net/data/maps/transport/roads-pothole-enquiries.fgb"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:62bd4cad5f6521bfa629",
-      "subjectId": "cg:source:map-source-roads-pothole-enquiries",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:5ef6e6fb227add34b9a2",
-      "subjectId": "cg:source:map-source-roads-pothole-enquiries",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Pothole Enquiries source files"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:f59218ecccca10617696",
-      "subjectId": "cg:source:map-source-roads-pothole-enquiries",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:department-for-infrastructure-roads"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:05ec66ef3e9f3754ec27",
-      "subjectId": "cg:source:map-source-roads-pothole-enquiries",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:existing-civgraph-record-pothole-enquiries-25231be97a40"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "/browse/maps/roads-pothole-enquiries"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "matched-existing-record"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:8653fb30660a8e5abfff",
-      "subjectId": "cg:source:map-source-roads-pothole-enquiries",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:provider-dataset-pothole-enquiries-f035ae84be44"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://admin.opendatani.gov.uk/dataset/pothole-enquiries"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "canonical-provider-dataset"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:8ccf974bd8c644f74aac",
-      "subjectId": "cg:source:map-source-roads-pothole-enquiries",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:existing-civgraph-source-record-map-source-roads-pothole-enquiries-4559ecb40693"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "/browse/sources/map-source-roads-pothole-enquiries"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "matched-source-record"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:78b033a26c51e0b56a87",
-      "subjectId": "cg:source:map-source-roads-pothole-enquiries",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Map sources"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:0df6416ef9a10e3d5719",
-      "subjectId": "cg:source:map-source-roi-1938",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:1921",
-        "label": "1921"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:51fbfe0375d30602bbcf",
-      "subjectId": "cg:source:map-source-roi-1938",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:fgb-cf508eecae92"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "FGB"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.civgraph.net/data/maps/physical/RepublicOfIreland.fgb"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:20d2096e069b72308561",
-      "subjectId": "cg:source:map-source-roi-1938",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:af7646985cbed7b41a33",
-      "subjectId": "cg:source:map-source-roi-1938",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Republic of Ireland 1921 source files"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:94db075f4d47bba6da98",
-      "subjectId": "cg:source:map-source-roi-1938",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:osi"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:5e0354eeac6da627b982",
-      "subjectId": "cg:source:map-source-roi-1938",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Map sources"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:b9709b8860704b91188d",
-      "subjectId": "cg:source:map-source-roi-gaeltacht-areas",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:1982",
-        "label": "1982"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:d54a19d65be3835cb433",
-      "subjectId": "cg:source:map-source-roi-gaeltacht-areas",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:458476ca4950fcdc1870",
-      "subjectId": "cg:source:map-source-roi-gaeltacht-areas",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Gaeltacht Areas source files"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:141e484fc2f87169968b",
-      "subjectId": "cg:source:map-source-roi-gaeltacht-areas",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:a66f3dc814d3fbbf004e",
-      "subjectId": "cg:source:map-source-roi-gaeltacht-areas",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Map sources"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:71f7d3d6b9a70ab01938",
-      "subjectId": "cg:source:map-source-roi-garda-districts",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:2011",
-        "label": "2011"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:b200920d2a83748ee62b",
-      "subjectId": "cg:source:map-source-roi-garda-districts",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:ed59cdfedd618820a210",
-      "subjectId": "cg:source:map-source-roi-garda-districts",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Garda Districts source files"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:f8045fcf4b3dcf1f7cf3",
-      "subjectId": "cg:source:map-source-roi-garda-districts",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:753b0a249b84b63e7b7e",
-      "subjectId": "cg:source:map-source-roi-garda-districts",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Map sources"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:39e9c65e577530ffc861",
-      "subjectId": "cg:source:map-source-roi-garda-divisions",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:2011",
-        "label": "2011"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:87cb84eac962f6c75167",
-      "subjectId": "cg:source:map-source-roi-garda-divisions",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:6f152ef55e0853aa357e",
-      "subjectId": "cg:source:map-source-roi-garda-divisions",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Garda Divisions source files"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:807910cfe8cfbfb1061f",
-      "subjectId": "cg:source:map-source-roi-garda-divisions",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:13d888c5a9fae34a9963",
-      "subjectId": "cg:source:map-source-roi-garda-divisions",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Map sources"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:4a8d0e16e5a47fd614e5",
-      "subjectId": "cg:source:map-source-roi-garda-regions",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:2011",
-        "label": "2011"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:743cd78b8f25433ab292",
-      "subjectId": "cg:source:map-source-roi-garda-regions",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:23eaabfadf3efdd3793f",
-      "subjectId": "cg:source:map-source-roi-garda-regions",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Garda Regions source files"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:2ab4799b5d0ac99c640e",
-      "subjectId": "cg:source:map-source-roi-garda-regions",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:66a1eb0ec8fb97f54b67",
-      "subjectId": "cg:source:map-source-roi-garda-regions",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Map sources"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:2ef793b44c7a14999ac6",
-      "subjectId": "cg:source:map-source-roi-garda-sub-districts",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:2011",
-        "label": "2011"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:fd15db054a4682027823",
-      "subjectId": "cg:source:map-source-roi-garda-sub-districts",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:f0f3cc67a3c87bd9ca1e",
-      "subjectId": "cg:source:map-source-roi-garda-sub-districts",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Garda Sub-Districts source files"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:53c65663ea2a1c7eebb7",
-      "subjectId": "cg:source:map-source-roi-garda-sub-districts",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:021bffcd86fe46b32e86",
-      "subjectId": "cg:source:map-source-roi-garda-sub-districts",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Map sources"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:dbc76be4cf77e16fa476",
-      "subjectId": "cg:source:map-source-roi-lea-2008",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:2008",
-        "label": "2008"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:5c16436a9540bc67b677",
-      "subjectId": "cg:source:map-source-roi-lea-2008",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:3e14bd66a134caca4556",
-      "subjectId": "cg:source:map-source-roi-lea-2008",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Local Electoral Areas - 2008 source files"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:9557482a198969ff265f",
-      "subjectId": "cg:source:map-source-roi-lea-2008",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:5da6dadacec0fc0a6259",
-      "subjectId": "cg:source:map-source-roi-lea-2008",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Map sources"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:f186ba87629f88cb893a",
-      "subjectId": "cg:source:map-source-roi-lea-2014",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:2014",
-        "label": "2014"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:8458c94aa4532ca5e4c6",
-      "subjectId": "cg:source:map-source-roi-lea-2014",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:fgb-3f3df13667bc"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "FGB"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.civgraph.net/data/maps/local-government/ROI_LEA_2014.fgb"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:de845632595c7aa61565",
-      "subjectId": "cg:source:map-source-roi-lea-2014",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:3ff94285a0e75e9f4f5f",
-      "subjectId": "cg:source:map-source-roi-lea-2014",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Local Electoral Areas - 2014 source files"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:e32c888828481fa03a43",
-      "subjectId": "cg:source:map-source-roi-lea-2014",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:tailte-eireann"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:d29855030b1eea27162b",
-      "subjectId": "cg:source:map-source-roi-lea-2014",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:data-gov-ie-local-electoral-areas-boundaries-ungeneralised-national-admi-c8d2efc6a48a"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.gov.ie/dataset/local-electoral-areas-boundaries-ungeneralised-national-administrative-boundaries-20151"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:66fd4b85702e7638e2fc",
-      "subjectId": "cg:source:map-source-roi-lea-2014",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Map sources"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:8d052c0dd2c489e75601",
-      "subjectId": "cg:source:map-source-roi-lea-2019",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:2019",
-        "label": "2019"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:8d513aeb0a365c68ecab",
-      "subjectId": "cg:source:map-source-roi-lea-2019",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:fgb-2fdf74f7704c"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "FGB"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.civgraph.net/data/maps/local-government/ROI_LEA_2019.fgb"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:6c7c7de98b80cb3510c7",
-      "subjectId": "cg:source:map-source-roi-lea-2019",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:6ab60c148351b1d036f6",
-      "subjectId": "cg:source:map-source-roi-lea-2019",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Local Electoral Areas - 2019 source files"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:635b992c528809298ead",
-      "subjectId": "cg:source:map-source-roi-lea-2019",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:tailte-eireann"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:b0bab230602a6d6a025f",
-      "subjectId": "cg:source:map-source-roi-lea-2019",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:data-gov-ie-local-electoral-areas-national-statutory-boundaries-2019-2cf4af5e8751"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.gov.ie/dataset/local-electoral-areas-national-statutory-boundaries-20191"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:ad87719a2036160e4fa2",
-      "subjectId": "cg:source:map-source-roi-lea-2019",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Map sources"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:a40fb3d80e81370efce0",
-      "subjectId": "cg:source:map-source-roi-legal-towns-and-cities",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:2011",
-        "label": "2011"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:b03246d38bfa8ace8980",
-      "subjectId": "cg:source:map-source-roi-legal-towns-and-cities",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:4938209264ede2235cf5",
-      "subjectId": "cg:source:map-source-roi-legal-towns-and-cities",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Legal Towns and Cities source files"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:9fc89081db262f9e025b",
-      "subjectId": "cg:source:map-source-roi-legal-towns-and-cities",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:tailte-eireann"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:11414cda21050c9822d2",
-      "subjectId": "cg:source:map-source-roi-legal-towns-and-cities",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Map sources"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:d3de1f6aca1e98d7591c",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1930",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-month:1930-01",
-        "label": "1930-01-01"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:ade865f6cf55179a96ef",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1930",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:fgb-e2a89cc384c2"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "FGB"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1930.fgb"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:b8f155d8c56f7e5b9f60",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1930",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:163c8e34f178a1ec7ba2",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1930",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Local Authorities - 1930 source files"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:5f22c0b3ba909ed080ad",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1930",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:phelim-birch"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:b294f55614bcc9847b1e",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1930",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Map sources"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:9bed8e03551cd5816fba",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1930",
-      "propertyId": "cg:property:year",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:1930"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:5f5a1e4da1b8f017c040",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1931",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-month:1931-01",
-        "label": "1931-01-01"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:b59c61c9df901f9cf52a",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1931",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:fgb-7f2140469cb3"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "FGB"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1931.fgb"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:1b5e18ae637fec4e74d7",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1931",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:9d2bf7f25ceed5b4c5f3",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1931",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Local Authorities - 1931 source files"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:deb0f83e9e95f14082ab",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1931",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:phelim-birch"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:5a2fbf0b56911df7f53a",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1931",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Map sources"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:f9ddc590cd1e970f47e3",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1931",
-      "propertyId": "cg:property:year",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:1931"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:53383d369a26d3e155b0",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1941",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-month:1941-01",
-        "label": "1941-01-01"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:713fb1e4e5ae1f296e6e",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1941",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:fgb-ee27fe0978d7"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "FGB"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1941.fgb"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:808efac0c3e31212a224",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1941",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:12181d5143a8e175bb56",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1941",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Local Authorities - 1941 source files"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:58c43435fcff192fd317",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1941",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:phelim-birch"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:c0fb1ee7972abe6e0c3c",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1941",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Map sources"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:24212e32340f0c72a59d",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1941",
-      "propertyId": "cg:property:year",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:1941"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:9d1b1bb6908810c48f33",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1942",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-month:1942-01",
-        "label": "1942-01-01"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:0e05bcc66b6c53cd2f5c",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1942",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:fgb-6814680ad3f2"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "FGB"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1942.fgb"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:d97c51cc1dce8c419f2a",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1942",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:46ca00de09fc3e043f1e",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1942",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Local Authorities - 1942 source files"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:efac217816568b69dbb1",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1942",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:phelim-birch"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:8b0d700a7412f5a7b783",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1942",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Map sources"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:18aa79753352f9e8b510",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1942",
-      "propertyId": "cg:property:year",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:1942"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:8d7dee7bad50fd3e8fc6",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1944",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-month:1944-01",
-        "label": "1944-01-01"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:ae2f3d90b402a8c054b7",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1944",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:fgb-f6f6056a34d5"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "FGB"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1944.fgb"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:7d1fd49141b73b09ef68",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1944",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:2ff27c9989f5fe092b14",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1944",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Local Authorities - 1944 source files"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:701cce9763f07c8be6c6",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1944",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:phelim-birch"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:b2bed34fcd864b5901e5",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1944",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Map sources"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:10aaf60312c5305372f6",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1944",
-      "propertyId": "cg:property:year",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:1944"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:b6c622ca3c574db18ee3",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1950",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-month:1950-01",
-        "label": "1950-01-01"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:6dd1d4401ced68a29dcd",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1950",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:fgb-85df72ff0baf"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "FGB"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1950.fgb"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:f5e466d83b4780ac41c0",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1950",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:3651f36e2decabcf38fc",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1950",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Local Authorities - 1950 source files"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:36071ff030b5a8a6f74b",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1950",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:phelim-birch"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:3b04cc4d5a63b16db24c",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1950",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Map sources"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:1572be20bfa552aa73bb",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1950",
-      "propertyId": "cg:property:year",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:1950"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:6f9fbe25995140384e8e",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1953",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-month:1953-01",
-        "label": "1953-01-01"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:4dc9e9467c521dd9c8de",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1953",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:fgb-e83064ea2045"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "FGB"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1953.fgb"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:7173e8dd50706b4207b5",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1953",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:c9b29d3cf0fe5461b4c5",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1953",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Local Authorities - 1953 source files"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:f1009e8c3716586fcfa8",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1953",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:phelim-birch"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:0e439566357c4bacf8f6",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1953",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Map sources"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:2fd3f8af84452e85a310",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1953",
-      "propertyId": "cg:property:year",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:1953"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:4a46d15eecfa22f2fab1",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1955",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-month:1955-01",
-        "label": "1955-01-01"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:80353104578c4ecbfe5f",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1955",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:fgb-296416f57014"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "FGB"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1955.fgb"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:3cc1fa13429a7365e33c",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1955",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:2e0ea7302cbc32d21b34",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1955",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Local Authorities - 1955 source files"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:eaf5f6524f2ef59d9fb7",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1955",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:phelim-birch"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:36dd4f7fc6d50d1351e9",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1955",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Map sources"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:bb98855622a3e18470fa",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1955",
-      "propertyId": "cg:property:year",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:1955"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:5cb8c36c7818e9d36563",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1957",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-month:1957-01",
-        "label": "1957-01-01"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:be4b495730ba9023379d",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1957",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:fgb-29bc90247a6d"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "FGB"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1957.fgb"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:dff3e0538e5baa630072",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1957",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:c29fe2a0a18877e2f8bf",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1957",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Local Authorities - 1957 source files"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:a6a8c94145174916e23f",
-      "subjectId": "cg:source:map-source-roi-local-authorities-1957",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:phelim-birch"
-      },
       "rank": "normal"
     }
   ]

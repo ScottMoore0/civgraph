@@ -1,10 +1,2770 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T19:38:02.766Z",
+  "generatedAt": "2026-06-30T20:12:09.722Z",
   "kind": "sources",
   "shard": "sources-050.json",
   "total": 200,
   "items": [
+    {
+      "id": "medium-priority:7-transport-roads-infrastructure-public-assets:dota07-number-of-private-cars-licenced:02023",
+      "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-dota07-number-of-private-cars-licenced-02023",
+      "type": "approved-medium-priority-source",
+      "title": "DOTA07 - Number of Private Cars Licenced",
+      "subtitle": "Transport, roads, infrastructure, public assets / Department of Transport, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
+      "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+      "provider": [
+        "Department of Transport",
+        "data.gov.ie"
+      ],
+      "description": "DOTA07 - Number of Private Cars Licenced is published as a medium-priority Civgraph source/provenance record from Department of Transport, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/dota07-number-of-private-cars-licenced",
+      "references": [
+        {
+          "label": "DOTA07 - Number of Private Cars Licenced provider page",
+          "url": "https://data.gov.ie/dataset/dota07-number-of-private-cars-licenced",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "DOTA07 - Number of Private Cars Licenced Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dota07-number-of-private-cars-licenced",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/dota07-number-of-private-cars-licenced",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Transport, roads, infrastructure, public assets",
+        "transport-public-asset",
+        "road features",
+        "Ireland / unspecified",
+        "transport-public-asset-batch-review",
+        "CSV",
+        "JSON-STAT",
+        "PX",
+        "XLSX"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 2024,
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dota07-number-of-private-cars-licenced:02023",
+          "title": "DOTA07 - Number of Private Cars Licenced",
+          "cleanTitle": "DOTA07 - Number of Private Cars Licenced",
+          "provider": "data.gov.ie",
+          "organisation": "Department of Transport",
+          "category": "tabular",
+          "roiGroup": "7. Transport, roads, infrastructure, public assets",
+          "groupTitle": "Transport, roads, infrastructure, public assets",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "transport-public-asset",
+          "featureUnit": "road features",
+          "formats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/dota07-number-of-private-cars-licenced",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dota07-number-of-private-cars-licenced",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "public-asset-batch-placement: publication policy assigned",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Transport, roads, infrastructure, public assets",
+        "Ireland / unspecified",
+        "transport-public-asset",
+        "DOTA07 - Number of Private Cars Licenced"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "spreadsheet"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/dota07-number-of-private-cars-licenced",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dota07-number-of-private-cars-licenced",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Department of Transport, data.gov.ie, DOTA07 - Number of Private Cars Licenced.",
+      "fullCitation": "Department of Transport, data.gov.ie. DOTA07 - Number of Private Cars Licenced. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dota07-number-of-private-cars-licenced. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dota07-number-of-private-cars-licenced.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dota07-number-of-private-cars-licenced:02023",
+        "sourceRowNumber": 2024,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+        "proposedAction": "transport-public-asset-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ]
+        },
+        "confidence": 60,
+        "resolvedBlockers": [
+          "public-asset-batch-placement: publication policy assigned",
+          "source-page-and-ia-viewport-decision: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-dota07-number-of-private-cars-licenced-02023",
+      "rawMetadata": {
+        "id": "medium-priority:7-transport-roads-infrastructure-public-assets:dota07-number-of-private-cars-licenced:02023",
+        "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-dota07-number-of-private-cars-licenced-02023",
+        "type": "approved-medium-priority-source",
+        "title": "DOTA07 - Number of Private Cars Licenced",
+        "subtitle": "Transport, roads, infrastructure, public assets / Department of Transport, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
+        "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+        "provider": [
+          "Department of Transport",
+          "data.gov.ie"
+        ],
+        "description": "DOTA07 - Number of Private Cars Licenced is published as a medium-priority Civgraph source/provenance record from Department of Transport, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/dota07-number-of-private-cars-licenced",
+        "references": [
+          {
+            "label": "DOTA07 - Number of Private Cars Licenced provider page",
+            "url": "https://data.gov.ie/dataset/dota07-number-of-private-cars-licenced",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "DOTA07 - Number of Private Cars Licenced Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dota07-number-of-private-cars-licenced",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/dota07-number-of-private-cars-licenced",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Transport, roads, infrastructure, public assets",
+          "Ireland / unspecified",
+          "transport-public-asset",
+          "DOTA07 - Number of Private Cars Licenced"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "spreadsheet"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/dota07-number-of-private-cars-licenced",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dota07-number-of-private-cars-licenced",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Department of Transport, data.gov.ie, DOTA07 - Number of Private Cars Licenced.",
+        "fullCitation": "Department of Transport, data.gov.ie. DOTA07 - Number of Private Cars Licenced. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dota07-number-of-private-cars-licenced. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dota07-number-of-private-cars-licenced.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 2024,
+            "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dota07-number-of-private-cars-licenced:02023",
+            "title": "DOTA07 - Number of Private Cars Licenced",
+            "cleanTitle": "DOTA07 - Number of Private Cars Licenced",
+            "provider": "data.gov.ie",
+            "organisation": "Department of Transport",
+            "category": "tabular",
+            "roiGroup": "7. Transport, roads, infrastructure, public assets",
+            "groupTitle": "Transport, roads, infrastructure, public assets",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "transport-public-asset",
+            "featureUnit": "road features",
+            "formats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "transport-public-asset-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV",
+                "JSON-STAT",
+                "PX",
+                "XLSX"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/dota07-number-of-private-cars-licenced",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dota07-number-of-private-cars-licenced",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "public-asset-batch-placement: publication policy assigned",
+              "source-page-and-ia-viewport-decision: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dota07-number-of-private-cars-licenced:02023",
+          "sourceRowNumber": 2024,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ]
+          },
+          "confidence": 60,
+          "resolvedBlockers": [
+            "public-asset-batch-placement: publication policy assigned",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Transport, roads, infrastructure, public assets",
+          "transport-public-asset",
+          "road features",
+          "Ireland / unspecified",
+          "transport-public-asset-batch-review",
+          "CSV",
+          "JSON-STAT",
+          "PX",
+          "XLSX"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-dota07-number-of-private-cars-licenced-02023"
+      }
+    },
+    {
+      "id": "medium-priority:7-transport-roads-infrastructure-public-assets:dota07-number-of-private-cars-licensed-pre-co2-emissions-motor-tax-assessment:02024",
+      "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-dota07-number-of-private-cars-licensed-pre-co2-emissions-motor-tax-assessment-02024",
+      "type": "approved-medium-priority-source",
+      "title": "DOTA07 - Number of Private Cars Licensed (Pre-CO2 emissions motor tax assessment)",
+      "subtitle": "Transport, roads, infrastructure, public assets / Department of Transport, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
+      "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+      "provider": [
+        "Department of Transport",
+        "data.gov.ie"
+      ],
+      "description": "DOTA07 - Number of Private Cars Licensed (Pre-CO2 emissions motor tax assessment) is published as a medium-priority Civgraph source/provenance record from Department of Transport, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/dota07-number-of-private-cars-licensed-pre-co2-emissions-motor-tax-assessment",
+      "references": [
+        {
+          "label": "DOTA07 - Number of Private Cars Licensed (Pre-CO2 emissions motor tax assessment) provider page",
+          "url": "https://data.gov.ie/dataset/dota07-number-of-private-cars-licensed-pre-co2-emissions-motor-tax-assessment",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "DOTA07 - Number of Private Cars Licensed (Pre-CO2 emissions motor tax assessment) Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dota07-number-of-private-cars-licensed-pre-co2-emissions-motor-tax-assessment",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/dota07-number-of-private-cars-licensed-pre-co2-emissions-motor-tax-assessment",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Transport, roads, infrastructure, public assets",
+        "transport-public-asset",
+        "road features",
+        "Ireland / unspecified",
+        "transport-public-asset-batch-review",
+        "CSV",
+        "JSON-STAT",
+        "PX",
+        "XLSX"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 2025,
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dota07-number-of-private-cars-licensed-pre-co2-emissions-motor-tax-assessment:02024",
+          "title": "DOTA07 - Number of Private Cars Licensed (Pre-CO2 emissions motor tax assessment)",
+          "cleanTitle": "DOTA07 - Number of Private Cars Licensed (Pre-CO2 emissions motor tax assessment)",
+          "provider": "data.gov.ie",
+          "organisation": "Department of Transport",
+          "category": "tabular",
+          "roiGroup": "7. Transport, roads, infrastructure, public assets",
+          "groupTitle": "Transport, roads, infrastructure, public assets",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "transport-public-asset",
+          "featureUnit": "road features",
+          "formats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/dota07-number-of-private-cars-licensed-pre-co2-emissions-motor-tax-assessment",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dota07-number-of-private-cars-licensed-pre-co2-emissions-motor-tax-assessment",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "public-asset-batch-placement: publication policy assigned",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Transport, roads, infrastructure, public assets",
+        "Ireland / unspecified",
+        "transport-public-asset",
+        "DOTA07 - Number of Private Cars Licensed (Pre-CO2 emissions motor tax assessment)"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "spreadsheet"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/dota07-number-of-private-cars-licensed-pre-co2-emissions-motor-tax-assessment",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dota07-number-of-private-cars-licensed-pre-co2-emissions-motor-tax-assessment",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Department of Transport, data.gov.ie, DOTA07 - Number of Private Cars Licensed (Pre-CO2 emissions motor tax assessment).",
+      "fullCitation": "Department of Transport, data.gov.ie. DOTA07 - Number of Private Cars Licensed (Pre-CO2 emissions motor tax assessment). Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dota07-number-of-private-cars-licensed-pre-co2-emissions-motor-tax-assessment. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dota07-number-of-private-cars-licensed-pre-co2-emissions-motor-tax-assessment.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dota07-number-of-private-cars-licensed-pre-co2-emissions-motor-tax-assessment:02024",
+        "sourceRowNumber": 2025,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+        "proposedAction": "transport-public-asset-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ]
+        },
+        "confidence": 60,
+        "resolvedBlockers": [
+          "public-asset-batch-placement: publication policy assigned",
+          "source-page-and-ia-viewport-decision: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-dota07-number-of-private-cars-licensed-pre-co2-emissions-motor-tax-assessment-02024",
+      "rawMetadata": {
+        "id": "medium-priority:7-transport-roads-infrastructure-public-assets:dota07-number-of-private-cars-licensed-pre-co2-emissions-motor-tax-assessment:02024",
+        "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-dota07-number-of-private-cars-licensed-pre-co2-emissions-motor-tax-assessment-02024",
+        "type": "approved-medium-priority-source",
+        "title": "DOTA07 - Number of Private Cars Licensed (Pre-CO2 emissions motor tax assessment)",
+        "subtitle": "Transport, roads, infrastructure, public assets / Department of Transport, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
+        "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+        "provider": [
+          "Department of Transport",
+          "data.gov.ie"
+        ],
+        "description": "DOTA07 - Number of Private Cars Licensed (Pre-CO2 emissions motor tax assessment) is published as a medium-priority Civgraph source/provenance record from Department of Transport, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/dota07-number-of-private-cars-licensed-pre-co2-emissions-motor-tax-assessment",
+        "references": [
+          {
+            "label": "DOTA07 - Number of Private Cars Licensed (Pre-CO2 emissions motor tax assessment) provider page",
+            "url": "https://data.gov.ie/dataset/dota07-number-of-private-cars-licensed-pre-co2-emissions-motor-tax-assessment",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "DOTA07 - Number of Private Cars Licensed (Pre-CO2 emissions motor tax assessment) Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dota07-number-of-private-cars-licensed-pre-co2-emissions-motor-tax-assessment",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/dota07-number-of-private-cars-licensed-pre-co2-emissions-motor-tax-assessment",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Transport, roads, infrastructure, public assets",
+          "Ireland / unspecified",
+          "transport-public-asset",
+          "DOTA07 - Number of Private Cars Licensed (Pre-CO2 emissions motor tax assessment)"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "spreadsheet"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/dota07-number-of-private-cars-licensed-pre-co2-emissions-motor-tax-assessment",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dota07-number-of-private-cars-licensed-pre-co2-emissions-motor-tax-assessment",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Department of Transport, data.gov.ie, DOTA07 - Number of Private Cars Licensed (Pre-CO2 emissions motor tax assessment).",
+        "fullCitation": "Department of Transport, data.gov.ie. DOTA07 - Number of Private Cars Licensed (Pre-CO2 emissions motor tax assessment). Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dota07-number-of-private-cars-licensed-pre-co2-emissions-motor-tax-assessment. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dota07-number-of-private-cars-licensed-pre-co2-emissions-motor-tax-assessment.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 2025,
+            "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dota07-number-of-private-cars-licensed-pre-co2-emissions-motor-tax-assessment:02024",
+            "title": "DOTA07 - Number of Private Cars Licensed (Pre-CO2 emissions motor tax assessment)",
+            "cleanTitle": "DOTA07 - Number of Private Cars Licensed (Pre-CO2 emissions motor tax assessment)",
+            "provider": "data.gov.ie",
+            "organisation": "Department of Transport",
+            "category": "tabular",
+            "roiGroup": "7. Transport, roads, infrastructure, public assets",
+            "groupTitle": "Transport, roads, infrastructure, public assets",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "transport-public-asset",
+            "featureUnit": "road features",
+            "formats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "transport-public-asset-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV",
+                "JSON-STAT",
+                "PX",
+                "XLSX"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/dota07-number-of-private-cars-licensed-pre-co2-emissions-motor-tax-assessment",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dota07-number-of-private-cars-licensed-pre-co2-emissions-motor-tax-assessment",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "public-asset-batch-placement: publication policy assigned",
+              "source-page-and-ia-viewport-decision: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dota07-number-of-private-cars-licensed-pre-co2-emissions-motor-tax-assessment:02024",
+          "sourceRowNumber": 2025,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ]
+          },
+          "confidence": 60,
+          "resolvedBlockers": [
+            "public-asset-batch-placement: publication policy assigned",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Transport, roads, infrastructure, public assets",
+          "transport-public-asset",
+          "road features",
+          "Ireland / unspecified",
+          "transport-public-asset-batch-review",
+          "CSV",
+          "JSON-STAT",
+          "PX",
+          "XLSX"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-dota07-number-of-private-cars-licensed-pre-co2-emissions-motor-tax-assessment-02024"
+      }
+    },
+    {
+      "id": "medium-priority:7-transport-roads-infrastructure-public-assets:dota08-private-vehicles:02025",
+      "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-dota08-private-vehicles-02025",
+      "type": "approved-medium-priority-source",
+      "title": "DOTA08 - Private Vehicles",
+      "subtitle": "Transport, roads, infrastructure, public assets / Department of Transport, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
+      "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+      "provider": [
+        "Department of Transport",
+        "data.gov.ie"
+      ],
+      "description": "DOTA08 - Private Vehicles is published as a medium-priority Civgraph source/provenance record from Department of Transport, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/dota08-private-vehicles",
+      "references": [
+        {
+          "label": "DOTA08 - Private Vehicles provider page",
+          "url": "https://data.gov.ie/dataset/dota08-private-vehicles",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "DOTA08 - Private Vehicles Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dota08-private-vehicles",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/dota08-private-vehicles",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Transport, roads, infrastructure, public assets",
+        "transport-public-asset",
+        "road features",
+        "Ireland / unspecified",
+        "transport-public-asset-batch-review",
+        "CSV",
+        "JSON-STAT",
+        "PX",
+        "XLSX"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 2026,
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dota08-private-vehicles:02025",
+          "title": "DOTA08 - Private Vehicles",
+          "cleanTitle": "DOTA08 - Private Vehicles",
+          "provider": "data.gov.ie",
+          "organisation": "Department of Transport",
+          "category": "tabular",
+          "roiGroup": "7. Transport, roads, infrastructure, public assets",
+          "groupTitle": "Transport, roads, infrastructure, public assets",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "transport-public-asset",
+          "featureUnit": "road features",
+          "formats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/dota08-private-vehicles",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dota08-private-vehicles",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "public-asset-batch-placement: publication policy assigned",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Transport, roads, infrastructure, public assets",
+        "Ireland / unspecified",
+        "transport-public-asset",
+        "DOTA08 - Private Vehicles"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "spreadsheet"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/dota08-private-vehicles",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dota08-private-vehicles",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Department of Transport, data.gov.ie, DOTA08 - Private Vehicles.",
+      "fullCitation": "Department of Transport, data.gov.ie. DOTA08 - Private Vehicles. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dota08-private-vehicles. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dota08-private-vehicles.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dota08-private-vehicles:02025",
+        "sourceRowNumber": 2026,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+        "proposedAction": "transport-public-asset-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ]
+        },
+        "confidence": 60,
+        "resolvedBlockers": [
+          "public-asset-batch-placement: publication policy assigned",
+          "source-page-and-ia-viewport-decision: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-dota08-private-vehicles-02025",
+      "rawMetadata": {
+        "id": "medium-priority:7-transport-roads-infrastructure-public-assets:dota08-private-vehicles:02025",
+        "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-dota08-private-vehicles-02025",
+        "type": "approved-medium-priority-source",
+        "title": "DOTA08 - Private Vehicles",
+        "subtitle": "Transport, roads, infrastructure, public assets / Department of Transport, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
+        "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+        "provider": [
+          "Department of Transport",
+          "data.gov.ie"
+        ],
+        "description": "DOTA08 - Private Vehicles is published as a medium-priority Civgraph source/provenance record from Department of Transport, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/dota08-private-vehicles",
+        "references": [
+          {
+            "label": "DOTA08 - Private Vehicles provider page",
+            "url": "https://data.gov.ie/dataset/dota08-private-vehicles",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "DOTA08 - Private Vehicles Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dota08-private-vehicles",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/dota08-private-vehicles",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Transport, roads, infrastructure, public assets",
+          "Ireland / unspecified",
+          "transport-public-asset",
+          "DOTA08 - Private Vehicles"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "spreadsheet"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/dota08-private-vehicles",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dota08-private-vehicles",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Department of Transport, data.gov.ie, DOTA08 - Private Vehicles.",
+        "fullCitation": "Department of Transport, data.gov.ie. DOTA08 - Private Vehicles. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dota08-private-vehicles. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dota08-private-vehicles.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 2026,
+            "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dota08-private-vehicles:02025",
+            "title": "DOTA08 - Private Vehicles",
+            "cleanTitle": "DOTA08 - Private Vehicles",
+            "provider": "data.gov.ie",
+            "organisation": "Department of Transport",
+            "category": "tabular",
+            "roiGroup": "7. Transport, roads, infrastructure, public assets",
+            "groupTitle": "Transport, roads, infrastructure, public assets",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "transport-public-asset",
+            "featureUnit": "road features",
+            "formats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "transport-public-asset-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV",
+                "JSON-STAT",
+                "PX",
+                "XLSX"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/dota08-private-vehicles",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dota08-private-vehicles",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "public-asset-batch-placement: publication policy assigned",
+              "source-page-and-ia-viewport-decision: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dota08-private-vehicles:02025",
+          "sourceRowNumber": 2026,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ]
+          },
+          "confidence": 60,
+          "resolvedBlockers": [
+            "public-asset-batch-placement: publication policy assigned",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Transport, roads, infrastructure, public assets",
+          "transport-public-asset",
+          "road features",
+          "Ireland / unspecified",
+          "transport-public-asset-batch-review",
+          "CSV",
+          "JSON-STAT",
+          "PX",
+          "XLSX"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-dota08-private-vehicles-02025"
+      }
+    },
+    {
+      "id": "medium-priority:7-transport-roads-infrastructure-public-assets:dota09-goods-vehicles:02026",
+      "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-dota09-goods-vehicles-02026",
+      "type": "approved-medium-priority-source",
+      "title": "DOTA09 - Goods Vehicles",
+      "subtitle": "Transport, roads, infrastructure, public assets / Department of Transport, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
+      "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+      "provider": [
+        "Department of Transport",
+        "data.gov.ie"
+      ],
+      "description": "DOTA09 - Goods Vehicles is published as a medium-priority Civgraph source/provenance record from Department of Transport, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/dota09-goods-vehicles",
+      "references": [
+        {
+          "label": "DOTA09 - Goods Vehicles provider page",
+          "url": "https://data.gov.ie/dataset/dota09-goods-vehicles",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "DOTA09 - Goods Vehicles Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dota09-goods-vehicles",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/dota09-goods-vehicles",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Transport, roads, infrastructure, public assets",
+        "transport-public-asset",
+        "road features",
+        "Ireland / unspecified",
+        "transport-public-asset-batch-review",
+        "CSV",
+        "JSON-STAT",
+        "PX",
+        "XLSX"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 2027,
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dota09-goods-vehicles:02026",
+          "title": "DOTA09 - Goods Vehicles",
+          "cleanTitle": "DOTA09 - Goods Vehicles",
+          "provider": "data.gov.ie",
+          "organisation": "Department of Transport",
+          "category": "tabular",
+          "roiGroup": "7. Transport, roads, infrastructure, public assets",
+          "groupTitle": "Transport, roads, infrastructure, public assets",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "transport-public-asset",
+          "featureUnit": "road features",
+          "formats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/dota09-goods-vehicles",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dota09-goods-vehicles",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "public-asset-batch-placement: publication policy assigned",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Transport, roads, infrastructure, public assets",
+        "Ireland / unspecified",
+        "transport-public-asset",
+        "DOTA09 - Goods Vehicles"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "spreadsheet"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/dota09-goods-vehicles",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dota09-goods-vehicles",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Department of Transport, data.gov.ie, DOTA09 - Goods Vehicles.",
+      "fullCitation": "Department of Transport, data.gov.ie. DOTA09 - Goods Vehicles. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dota09-goods-vehicles. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dota09-goods-vehicles.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dota09-goods-vehicles:02026",
+        "sourceRowNumber": 2027,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+        "proposedAction": "transport-public-asset-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ]
+        },
+        "confidence": 60,
+        "resolvedBlockers": [
+          "public-asset-batch-placement: publication policy assigned",
+          "source-page-and-ia-viewport-decision: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-dota09-goods-vehicles-02026",
+      "rawMetadata": {
+        "id": "medium-priority:7-transport-roads-infrastructure-public-assets:dota09-goods-vehicles:02026",
+        "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-dota09-goods-vehicles-02026",
+        "type": "approved-medium-priority-source",
+        "title": "DOTA09 - Goods Vehicles",
+        "subtitle": "Transport, roads, infrastructure, public assets / Department of Transport, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
+        "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+        "provider": [
+          "Department of Transport",
+          "data.gov.ie"
+        ],
+        "description": "DOTA09 - Goods Vehicles is published as a medium-priority Civgraph source/provenance record from Department of Transport, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/dota09-goods-vehicles",
+        "references": [
+          {
+            "label": "DOTA09 - Goods Vehicles provider page",
+            "url": "https://data.gov.ie/dataset/dota09-goods-vehicles",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "DOTA09 - Goods Vehicles Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dota09-goods-vehicles",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/dota09-goods-vehicles",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Transport, roads, infrastructure, public assets",
+          "Ireland / unspecified",
+          "transport-public-asset",
+          "DOTA09 - Goods Vehicles"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "spreadsheet"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/dota09-goods-vehicles",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dota09-goods-vehicles",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Department of Transport, data.gov.ie, DOTA09 - Goods Vehicles.",
+        "fullCitation": "Department of Transport, data.gov.ie. DOTA09 - Goods Vehicles. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dota09-goods-vehicles. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dota09-goods-vehicles.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 2027,
+            "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dota09-goods-vehicles:02026",
+            "title": "DOTA09 - Goods Vehicles",
+            "cleanTitle": "DOTA09 - Goods Vehicles",
+            "provider": "data.gov.ie",
+            "organisation": "Department of Transport",
+            "category": "tabular",
+            "roiGroup": "7. Transport, roads, infrastructure, public assets",
+            "groupTitle": "Transport, roads, infrastructure, public assets",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "transport-public-asset",
+            "featureUnit": "road features",
+            "formats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "transport-public-asset-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV",
+                "JSON-STAT",
+                "PX",
+                "XLSX"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/dota09-goods-vehicles",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dota09-goods-vehicles",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "public-asset-batch-placement: publication policy assigned",
+              "source-page-and-ia-viewport-decision: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dota09-goods-vehicles:02026",
+          "sourceRowNumber": 2027,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ]
+          },
+          "confidence": 60,
+          "resolvedBlockers": [
+            "public-asset-batch-placement: publication policy assigned",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Transport, roads, infrastructure, public assets",
+          "transport-public-asset",
+          "road features",
+          "Ireland / unspecified",
+          "transport-public-asset-batch-review",
+          "CSV",
+          "JSON-STAT",
+          "PX",
+          "XLSX"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-dota09-goods-vehicles-02026"
+      }
+    },
+    {
+      "id": "medium-priority:7-transport-roads-infrastructure-public-assets:dotm03-goods-vehicles-by-unladen-weight:02027",
+      "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-dotm03-goods-vehicles-by-unladen-weight-02027",
+      "type": "approved-medium-priority-source",
+      "title": "DOTM03 - Goods Vehicles by Unladen Weight",
+      "subtitle": "Transport, roads, infrastructure, public assets / Department of Transport, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
+      "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+      "provider": [
+        "Department of Transport",
+        "data.gov.ie"
+      ],
+      "description": "DOTM03 - Goods Vehicles by Unladen Weight is published as a medium-priority Civgraph source/provenance record from Department of Transport, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/dotm03-goods-vehicles-by-unladen-weight",
+      "references": [
+        {
+          "label": "DOTM03 - Goods Vehicles by Unladen Weight provider page",
+          "url": "https://data.gov.ie/dataset/dotm03-goods-vehicles-by-unladen-weight",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "DOTM03 - Goods Vehicles by Unladen Weight Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dotm03-goods-vehicles-by-unladen-weight",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/dotm03-goods-vehicles-by-unladen-weight",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Transport, roads, infrastructure, public assets",
+        "transport-public-asset",
+        "road features",
+        "Ireland / unspecified",
+        "transport-public-asset-batch-review",
+        "CSV",
+        "JSON-STAT",
+        "PX",
+        "XLSX"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 2028,
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dotm03-goods-vehicles-by-unladen-weight:02027",
+          "title": "DOTM03 - Goods Vehicles by Unladen Weight",
+          "cleanTitle": "DOTM03 - Goods Vehicles by Unladen Weight",
+          "provider": "data.gov.ie",
+          "organisation": "Department of Transport",
+          "category": "tabular",
+          "roiGroup": "7. Transport, roads, infrastructure, public assets",
+          "groupTitle": "Transport, roads, infrastructure, public assets",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "transport-public-asset",
+          "featureUnit": "road features",
+          "formats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/dotm03-goods-vehicles-by-unladen-weight",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dotm03-goods-vehicles-by-unladen-weight",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "public-asset-batch-placement: publication policy assigned",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Transport, roads, infrastructure, public assets",
+        "Ireland / unspecified",
+        "transport-public-asset",
+        "DOTM03 - Goods Vehicles by Unladen Weight"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "spreadsheet"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/dotm03-goods-vehicles-by-unladen-weight",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dotm03-goods-vehicles-by-unladen-weight",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Department of Transport, data.gov.ie, DOTM03 - Goods Vehicles by Unladen Weight.",
+      "fullCitation": "Department of Transport, data.gov.ie. DOTM03 - Goods Vehicles by Unladen Weight. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dotm03-goods-vehicles-by-unladen-weight. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dotm03-goods-vehicles-by-unladen-weight.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dotm03-goods-vehicles-by-unladen-weight:02027",
+        "sourceRowNumber": 2028,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+        "proposedAction": "transport-public-asset-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ]
+        },
+        "confidence": 60,
+        "resolvedBlockers": [
+          "public-asset-batch-placement: publication policy assigned",
+          "source-page-and-ia-viewport-decision: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-dotm03-goods-vehicles-by-unladen-weight-02027",
+      "rawMetadata": {
+        "id": "medium-priority:7-transport-roads-infrastructure-public-assets:dotm03-goods-vehicles-by-unladen-weight:02027",
+        "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-dotm03-goods-vehicles-by-unladen-weight-02027",
+        "type": "approved-medium-priority-source",
+        "title": "DOTM03 - Goods Vehicles by Unladen Weight",
+        "subtitle": "Transport, roads, infrastructure, public assets / Department of Transport, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
+        "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+        "provider": [
+          "Department of Transport",
+          "data.gov.ie"
+        ],
+        "description": "DOTM03 - Goods Vehicles by Unladen Weight is published as a medium-priority Civgraph source/provenance record from Department of Transport, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/dotm03-goods-vehicles-by-unladen-weight",
+        "references": [
+          {
+            "label": "DOTM03 - Goods Vehicles by Unladen Weight provider page",
+            "url": "https://data.gov.ie/dataset/dotm03-goods-vehicles-by-unladen-weight",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "DOTM03 - Goods Vehicles by Unladen Weight Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dotm03-goods-vehicles-by-unladen-weight",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/dotm03-goods-vehicles-by-unladen-weight",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Transport, roads, infrastructure, public assets",
+          "Ireland / unspecified",
+          "transport-public-asset",
+          "DOTM03 - Goods Vehicles by Unladen Weight"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "spreadsheet"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/dotm03-goods-vehicles-by-unladen-weight",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dotm03-goods-vehicles-by-unladen-weight",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Department of Transport, data.gov.ie, DOTM03 - Goods Vehicles by Unladen Weight.",
+        "fullCitation": "Department of Transport, data.gov.ie. DOTM03 - Goods Vehicles by Unladen Weight. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dotm03-goods-vehicles-by-unladen-weight. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dotm03-goods-vehicles-by-unladen-weight.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 2028,
+            "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dotm03-goods-vehicles-by-unladen-weight:02027",
+            "title": "DOTM03 - Goods Vehicles by Unladen Weight",
+            "cleanTitle": "DOTM03 - Goods Vehicles by Unladen Weight",
+            "provider": "data.gov.ie",
+            "organisation": "Department of Transport",
+            "category": "tabular",
+            "roiGroup": "7. Transport, roads, infrastructure, public assets",
+            "groupTitle": "Transport, roads, infrastructure, public assets",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "transport-public-asset",
+            "featureUnit": "road features",
+            "formats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "transport-public-asset-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV",
+                "JSON-STAT",
+                "PX",
+                "XLSX"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/dotm03-goods-vehicles-by-unladen-weight",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dotm03-goods-vehicles-by-unladen-weight",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "public-asset-batch-placement: publication policy assigned",
+              "source-page-and-ia-viewport-decision: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dotm03-goods-vehicles-by-unladen-weight:02027",
+          "sourceRowNumber": 2028,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ]
+          },
+          "confidence": 60,
+          "resolvedBlockers": [
+            "public-asset-batch-placement: publication policy assigned",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Transport, roads, infrastructure, public assets",
+          "transport-public-asset",
+          "road features",
+          "Ireland / unspecified",
+          "transport-public-asset-batch-review",
+          "CSV",
+          "JSON-STAT",
+          "PX",
+          "XLSX"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-dotm03-goods-vehicles-by-unladen-weight-02027"
+      }
+    },
+    {
+      "id": "medium-priority:7-transport-roads-infrastructure-public-assets:dotm04-goods-vehicles-by-gross-weight:02028",
+      "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-dotm04-goods-vehicles-by-gross-weight-02028",
+      "type": "approved-medium-priority-source",
+      "title": "DOTM04 - Goods Vehicles by Gross Weight",
+      "subtitle": "Transport, roads, infrastructure, public assets / Department of Transport, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
+      "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+      "provider": [
+        "Department of Transport",
+        "data.gov.ie"
+      ],
+      "description": "DOTM04 - Goods Vehicles by Gross Weight is published as a medium-priority Civgraph source/provenance record from Department of Transport, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/dotm04-goods-vehicles-by-gross-weight",
+      "references": [
+        {
+          "label": "DOTM04 - Goods Vehicles by Gross Weight provider page",
+          "url": "https://data.gov.ie/dataset/dotm04-goods-vehicles-by-gross-weight",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "DOTM04 - Goods Vehicles by Gross Weight Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dotm04-goods-vehicles-by-gross-weight",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/dotm04-goods-vehicles-by-gross-weight",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Transport, roads, infrastructure, public assets",
+        "transport-public-asset",
+        "road features",
+        "Ireland / unspecified",
+        "transport-public-asset-batch-review",
+        "CSV",
+        "JSON-STAT",
+        "PX",
+        "XLSX"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 2029,
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dotm04-goods-vehicles-by-gross-weight:02028",
+          "title": "DOTM04 - Goods Vehicles by Gross Weight",
+          "cleanTitle": "DOTM04 - Goods Vehicles by Gross Weight",
+          "provider": "data.gov.ie",
+          "organisation": "Department of Transport",
+          "category": "tabular",
+          "roiGroup": "7. Transport, roads, infrastructure, public assets",
+          "groupTitle": "Transport, roads, infrastructure, public assets",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "transport-public-asset",
+          "featureUnit": "road features",
+          "formats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/dotm04-goods-vehicles-by-gross-weight",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dotm04-goods-vehicles-by-gross-weight",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "public-asset-batch-placement: publication policy assigned",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Transport, roads, infrastructure, public assets",
+        "Ireland / unspecified",
+        "transport-public-asset",
+        "DOTM04 - Goods Vehicles by Gross Weight"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "spreadsheet"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/dotm04-goods-vehicles-by-gross-weight",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dotm04-goods-vehicles-by-gross-weight",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Department of Transport, data.gov.ie, DOTM04 - Goods Vehicles by Gross Weight.",
+      "fullCitation": "Department of Transport, data.gov.ie. DOTM04 - Goods Vehicles by Gross Weight. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dotm04-goods-vehicles-by-gross-weight. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dotm04-goods-vehicles-by-gross-weight.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dotm04-goods-vehicles-by-gross-weight:02028",
+        "sourceRowNumber": 2029,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+        "proposedAction": "transport-public-asset-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ]
+        },
+        "confidence": 60,
+        "resolvedBlockers": [
+          "public-asset-batch-placement: publication policy assigned",
+          "source-page-and-ia-viewport-decision: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-dotm04-goods-vehicles-by-gross-weight-02028",
+      "rawMetadata": {
+        "id": "medium-priority:7-transport-roads-infrastructure-public-assets:dotm04-goods-vehicles-by-gross-weight:02028",
+        "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-dotm04-goods-vehicles-by-gross-weight-02028",
+        "type": "approved-medium-priority-source",
+        "title": "DOTM04 - Goods Vehicles by Gross Weight",
+        "subtitle": "Transport, roads, infrastructure, public assets / Department of Transport, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
+        "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+        "provider": [
+          "Department of Transport",
+          "data.gov.ie"
+        ],
+        "description": "DOTM04 - Goods Vehicles by Gross Weight is published as a medium-priority Civgraph source/provenance record from Department of Transport, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/dotm04-goods-vehicles-by-gross-weight",
+        "references": [
+          {
+            "label": "DOTM04 - Goods Vehicles by Gross Weight provider page",
+            "url": "https://data.gov.ie/dataset/dotm04-goods-vehicles-by-gross-weight",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "DOTM04 - Goods Vehicles by Gross Weight Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dotm04-goods-vehicles-by-gross-weight",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/dotm04-goods-vehicles-by-gross-weight",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Transport, roads, infrastructure, public assets",
+          "Ireland / unspecified",
+          "transport-public-asset",
+          "DOTM04 - Goods Vehicles by Gross Weight"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "spreadsheet"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/dotm04-goods-vehicles-by-gross-weight",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dotm04-goods-vehicles-by-gross-weight",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Department of Transport, data.gov.ie, DOTM04 - Goods Vehicles by Gross Weight.",
+        "fullCitation": "Department of Transport, data.gov.ie. DOTM04 - Goods Vehicles by Gross Weight. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dotm04-goods-vehicles-by-gross-weight. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dotm04-goods-vehicles-by-gross-weight.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 2029,
+            "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dotm04-goods-vehicles-by-gross-weight:02028",
+            "title": "DOTM04 - Goods Vehicles by Gross Weight",
+            "cleanTitle": "DOTM04 - Goods Vehicles by Gross Weight",
+            "provider": "data.gov.ie",
+            "organisation": "Department of Transport",
+            "category": "tabular",
+            "roiGroup": "7. Transport, roads, infrastructure, public assets",
+            "groupTitle": "Transport, roads, infrastructure, public assets",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "transport-public-asset",
+            "featureUnit": "road features",
+            "formats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "transport-public-asset-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV",
+                "JSON-STAT",
+                "PX",
+                "XLSX"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/dotm04-goods-vehicles-by-gross-weight",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dotm04-goods-vehicles-by-gross-weight",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "public-asset-batch-placement: publication policy assigned",
+              "source-page-and-ia-viewport-decision: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dotm04-goods-vehicles-by-gross-weight:02028",
+          "sourceRowNumber": 2029,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ]
+          },
+          "confidence": 60,
+          "resolvedBlockers": [
+            "public-asset-batch-placement: publication policy assigned",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Transport, roads, infrastructure, public assets",
+          "transport-public-asset",
+          "road features",
+          "Ireland / unspecified",
+          "transport-public-asset-batch-review",
+          "CSV",
+          "JSON-STAT",
+          "PX",
+          "XLSX"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-dotm04-goods-vehicles-by-gross-weight-02028"
+      }
+    },
+    {
+      "id": "medium-priority:7-transport-roads-infrastructure-public-assets:dotm05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment:02029",
+      "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-dotm05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment-02029",
+      "type": "approved-medium-priority-source",
+      "title": "DOTM05 - Number of Private Cars Licensed (NEDC CO2 emissions motor tax assessment)",
+      "subtitle": "Transport, roads, infrastructure, public assets / Department of Transport, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
+      "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+      "provider": [
+        "Department of Transport",
+        "data.gov.ie"
+      ],
+      "description": "DOTM05 - Number of Private Cars Licensed (NEDC CO2 emissions motor tax assessment) is published as a medium-priority Civgraph source/provenance record from Department of Transport, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/dotm05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment",
+      "references": [
+        {
+          "label": "DOTM05 - Number of Private Cars Licensed (NEDC CO2 emissions motor tax assessment) provider page",
+          "url": "https://data.gov.ie/dataset/dotm05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "DOTM05 - Number of Private Cars Licensed (NEDC CO2 emissions motor tax assessment) Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dotm05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/dotm05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Transport, roads, infrastructure, public assets",
+        "transport-public-asset",
+        "road features",
+        "Ireland / unspecified",
+        "transport-public-asset-batch-review",
+        "CSV",
+        "JSON-STAT",
+        "PX",
+        "XLSX"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 2030,
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dotm05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment:02029",
+          "title": "DOTM05 - Number of Private Cars Licensed (NEDC CO2 emissions motor tax assessment)",
+          "cleanTitle": "DOTM05 - Number of Private Cars Licensed (NEDC CO2 emissions motor tax assessment)",
+          "provider": "data.gov.ie",
+          "organisation": "Department of Transport",
+          "category": "tabular",
+          "roiGroup": "7. Transport, roads, infrastructure, public assets",
+          "groupTitle": "Transport, roads, infrastructure, public assets",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "transport-public-asset",
+          "featureUnit": "road features",
+          "formats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/dotm05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dotm05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "public-asset-batch-placement: publication policy assigned",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Transport, roads, infrastructure, public assets",
+        "Ireland / unspecified",
+        "transport-public-asset",
+        "DOTM05 - Number of Private Cars Licensed (NEDC CO2 emissions motor tax assessment)"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "spreadsheet"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/dotm05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dotm05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Department of Transport, data.gov.ie, DOTM05 - Number of Private Cars Licensed (NEDC CO2 emissions motor tax assessment).",
+      "fullCitation": "Department of Transport, data.gov.ie. DOTM05 - Number of Private Cars Licensed (NEDC CO2 emissions motor tax assessment). Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dotm05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dotm05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dotm05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment:02029",
+        "sourceRowNumber": 2030,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+        "proposedAction": "transport-public-asset-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ]
+        },
+        "confidence": 60,
+        "resolvedBlockers": [
+          "public-asset-batch-placement: publication policy assigned",
+          "source-page-and-ia-viewport-decision: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-dotm05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment-02029",
+      "rawMetadata": {
+        "id": "medium-priority:7-transport-roads-infrastructure-public-assets:dotm05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment:02029",
+        "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-dotm05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment-02029",
+        "type": "approved-medium-priority-source",
+        "title": "DOTM05 - Number of Private Cars Licensed (NEDC CO2 emissions motor tax assessment)",
+        "subtitle": "Transport, roads, infrastructure, public assets / Department of Transport, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
+        "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+        "provider": [
+          "Department of Transport",
+          "data.gov.ie"
+        ],
+        "description": "DOTM05 - Number of Private Cars Licensed (NEDC CO2 emissions motor tax assessment) is published as a medium-priority Civgraph source/provenance record from Department of Transport, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/dotm05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment",
+        "references": [
+          {
+            "label": "DOTM05 - Number of Private Cars Licensed (NEDC CO2 emissions motor tax assessment) provider page",
+            "url": "https://data.gov.ie/dataset/dotm05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "DOTM05 - Number of Private Cars Licensed (NEDC CO2 emissions motor tax assessment) Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dotm05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/dotm05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Transport, roads, infrastructure, public assets",
+          "Ireland / unspecified",
+          "transport-public-asset",
+          "DOTM05 - Number of Private Cars Licensed (NEDC CO2 emissions motor tax assessment)"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "spreadsheet"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/dotm05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dotm05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Department of Transport, data.gov.ie, DOTM05 - Number of Private Cars Licensed (NEDC CO2 emissions motor tax assessment).",
+        "fullCitation": "Department of Transport, data.gov.ie. DOTM05 - Number of Private Cars Licensed (NEDC CO2 emissions motor tax assessment). Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dotm05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dotm05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 2030,
+            "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dotm05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment:02029",
+            "title": "DOTM05 - Number of Private Cars Licensed (NEDC CO2 emissions motor tax assessment)",
+            "cleanTitle": "DOTM05 - Number of Private Cars Licensed (NEDC CO2 emissions motor tax assessment)",
+            "provider": "data.gov.ie",
+            "organisation": "Department of Transport",
+            "category": "tabular",
+            "roiGroup": "7. Transport, roads, infrastructure, public assets",
+            "groupTitle": "Transport, roads, infrastructure, public assets",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "transport-public-asset",
+            "featureUnit": "road features",
+            "formats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "transport-public-asset-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV",
+                "JSON-STAT",
+                "PX",
+                "XLSX"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/dotm05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dotm05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "public-asset-batch-placement: publication policy assigned",
+              "source-page-and-ia-viewport-decision: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dotm05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment:02029",
+          "sourceRowNumber": 2030,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ]
+          },
+          "confidence": 60,
+          "resolvedBlockers": [
+            "public-asset-batch-placement: publication policy assigned",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Transport, roads, infrastructure, public assets",
+          "transport-public-asset",
+          "road features",
+          "Ireland / unspecified",
+          "transport-public-asset-batch-review",
+          "CSV",
+          "JSON-STAT",
+          "PX",
+          "XLSX"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-dotm05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment-02029"
+      }
+    },
+    {
+      "id": "medium-priority:7-transport-roads-infrastructure-public-assets:dotm06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment:02030",
+      "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-dotm06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment-02030",
+      "type": "approved-medium-priority-source",
+      "title": "DOTM06 - Number of Private Cars Licensed (WLTP CO2 emissions motor tax assessment)",
+      "subtitle": "Transport, roads, infrastructure, public assets / Department of Transport, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
+      "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+      "provider": [
+        "Department of Transport",
+        "data.gov.ie"
+      ],
+      "description": "DOTM06 - Number of Private Cars Licensed (WLTP CO2 emissions motor tax assessment) is published as a medium-priority Civgraph source/provenance record from Department of Transport, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/dotm06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment",
+      "references": [
+        {
+          "label": "DOTM06 - Number of Private Cars Licensed (WLTP CO2 emissions motor tax assessment) provider page",
+          "url": "https://data.gov.ie/dataset/dotm06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "DOTM06 - Number of Private Cars Licensed (WLTP CO2 emissions motor tax assessment) Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dotm06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/dotm06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Transport, roads, infrastructure, public assets",
+        "transport-public-asset",
+        "road features",
+        "Ireland / unspecified",
+        "transport-public-asset-batch-review",
+        "CSV",
+        "JSON-STAT",
+        "PX",
+        "XLSX"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 2031,
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dotm06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment:02030",
+          "title": "DOTM06 - Number of Private Cars Licensed (WLTP CO2 emissions motor tax assessment)",
+          "cleanTitle": "DOTM06 - Number of Private Cars Licensed (WLTP CO2 emissions motor tax assessment)",
+          "provider": "data.gov.ie",
+          "organisation": "Department of Transport",
+          "category": "tabular",
+          "roiGroup": "7. Transport, roads, infrastructure, public assets",
+          "groupTitle": "Transport, roads, infrastructure, public assets",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "transport-public-asset",
+          "featureUnit": "road features",
+          "formats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/dotm06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dotm06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "public-asset-batch-placement: publication policy assigned",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Transport, roads, infrastructure, public assets",
+        "Ireland / unspecified",
+        "transport-public-asset",
+        "DOTM06 - Number of Private Cars Licensed (WLTP CO2 emissions motor tax assessment)"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "spreadsheet"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/dotm06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dotm06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Department of Transport, data.gov.ie, DOTM06 - Number of Private Cars Licensed (WLTP CO2 emissions motor tax assessment).",
+      "fullCitation": "Department of Transport, data.gov.ie. DOTM06 - Number of Private Cars Licensed (WLTP CO2 emissions motor tax assessment). Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dotm06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dotm06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dotm06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment:02030",
+        "sourceRowNumber": 2031,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+        "proposedAction": "transport-public-asset-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ]
+        },
+        "confidence": 60,
+        "resolvedBlockers": [
+          "public-asset-batch-placement: publication policy assigned",
+          "source-page-and-ia-viewport-decision: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-dotm06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment-02030",
+      "rawMetadata": {
+        "id": "medium-priority:7-transport-roads-infrastructure-public-assets:dotm06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment:02030",
+        "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-dotm06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment-02030",
+        "type": "approved-medium-priority-source",
+        "title": "DOTM06 - Number of Private Cars Licensed (WLTP CO2 emissions motor tax assessment)",
+        "subtitle": "Transport, roads, infrastructure, public assets / Department of Transport, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
+        "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+        "provider": [
+          "Department of Transport",
+          "data.gov.ie"
+        ],
+        "description": "DOTM06 - Number of Private Cars Licensed (WLTP CO2 emissions motor tax assessment) is published as a medium-priority Civgraph source/provenance record from Department of Transport, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/dotm06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment",
+        "references": [
+          {
+            "label": "DOTM06 - Number of Private Cars Licensed (WLTP CO2 emissions motor tax assessment) provider page",
+            "url": "https://data.gov.ie/dataset/dotm06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "DOTM06 - Number of Private Cars Licensed (WLTP CO2 emissions motor tax assessment) Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dotm06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/dotm06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Transport, roads, infrastructure, public assets",
+          "Ireland / unspecified",
+          "transport-public-asset",
+          "DOTM06 - Number of Private Cars Licensed (WLTP CO2 emissions motor tax assessment)"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "spreadsheet"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/dotm06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dotm06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Department of Transport, data.gov.ie, DOTM06 - Number of Private Cars Licensed (WLTP CO2 emissions motor tax assessment).",
+        "fullCitation": "Department of Transport, data.gov.ie. DOTM06 - Number of Private Cars Licensed (WLTP CO2 emissions motor tax assessment). Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dotm06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dotm06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 2031,
+            "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dotm06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment:02030",
+            "title": "DOTM06 - Number of Private Cars Licensed (WLTP CO2 emissions motor tax assessment)",
+            "cleanTitle": "DOTM06 - Number of Private Cars Licensed (WLTP CO2 emissions motor tax assessment)",
+            "provider": "data.gov.ie",
+            "organisation": "Department of Transport",
+            "category": "tabular",
+            "roiGroup": "7. Transport, roads, infrastructure, public assets",
+            "groupTitle": "Transport, roads, infrastructure, public assets",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "transport-public-asset",
+            "featureUnit": "road features",
+            "formats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "transport-public-asset-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV",
+                "JSON-STAT",
+                "PX",
+                "XLSX"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/dotm06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dotm06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "public-asset-batch-placement: publication policy assigned",
+              "source-page-and-ia-viewport-decision: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dotm06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment:02030",
+          "sourceRowNumber": 2031,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ]
+          },
+          "confidence": 60,
+          "resolvedBlockers": [
+            "public-asset-batch-placement: publication policy assigned",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Transport, roads, infrastructure, public assets",
+          "transport-public-asset",
+          "road features",
+          "Ireland / unspecified",
+          "transport-public-asset-batch-review",
+          "CSV",
+          "JSON-STAT",
+          "PX",
+          "XLSX"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-dotm06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment-02030"
+      }
+    },
     {
       "id": "medium-priority:7-transport-roads-infrastructure-public-assets:dotm07-number-of-private-cars-licensed-pre-co2-emissions-motor-tax-assessment:02031",
       "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-dotm07-number-of-private-cars-licensed-pre-co2-emissions-motor-tax-assessment-02031",
@@ -51867,1080 +54627,6 @@
             "sha256": "22edca3e555818ddfe02ed3f377dfcdee20f67ac7c4064aff93956ad7fd26c21",
             "lastModified": "Tue, 05 Jul 2016 11:18:26 GMT",
             "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-4-july-2016.pdf"
-          }
-        ]
-      }
-    },
-    {
-      "id": "ni-register:assembly:pdf:189f7bc871d4c78d",
-      "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-4-july-2023-969c82c7",
-      "type": "register-source-document",
-      "title": "NI Assembly Register of Members Interests (4 July 2023)",
-      "subtitle": "Current / pdf / 4 July 2023",
-      "category": "Registers of interests",
-      "date": "2023-07-04",
-      "provider": [
-        "Northern Ireland Assembly"
-      ],
-      "description": "NI Assembly register of interests pdf. edition dated 4 July 2023. content type application/pdf",
-      "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-04-july-2023.pdf",
-      "references": [
-        {
-          "label": "Current register landing page",
-          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
-        },
-        {
-          "label": "Provider source URL",
-          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-04-july-2023.pdf"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "pdf source",
-          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-04-july-2023.pdf",
-          "type": "pdf"
-        }
-      ],
-      "keywords": [
-        "register of interests",
-        "MLA",
-        "Northern Ireland Assembly",
-        "pdf",
-        "current"
-      ],
-      "sourceItems": [
-        {
-          "sourcePageId": "current",
-          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
-          "title": "4 July 2023 - PDF",
-          "linkText": "4 July 2023 - PDF",
-          "kind": "pdf",
-          "contentType": "application/pdf",
-          "httpStatus": 200,
-          "bytes": 234375,
-          "sha256": "577d1b9337621afe19311d08686781505b47f9d33d85f403fd25ec0cd5cfea9f",
-          "lastModified": "Thu, 30 Nov 2023 12:09:54 GMT",
-          "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-04-july-2023.pdf"
-        }
-      ],
-      "status": "Available",
-      "statusChips": [
-        "pdf",
-        "HTTP 200",
-        "current"
-      ],
-      "sourceHierarchy": [
-        "Browse",
-        "Registers of interests",
-        "Northern Ireland Assembly",
-        "Current"
-      ],
-      "parentId": "ni-register:assembly:collection",
-      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
-      "browseUrl": "/browse/sources/ni-register-assembly-pdf-ni-assembly-register-of-members-interests-4-july-2023-969c82c7",
-      "rawMetadata": {
-        "id": "ni-register:assembly:pdf:189f7bc871d4c78d",
-        "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-4-july-2023-969c82c7",
-        "type": "register-source-document",
-        "title": "NI Assembly Register of Members Interests (4 July 2023)",
-        "subtitle": "Current / pdf / 4 July 2023",
-        "category": "Registers of interests",
-        "date": "2023-07-04",
-        "provider": [
-          "Northern Ireland Assembly"
-        ],
-        "description": "NI Assembly register of interests pdf. edition dated 4 July 2023. content type application/pdf",
-        "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-04-july-2023.pdf",
-        "references": [
-          {
-            "label": "Current register landing page",
-            "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
-          },
-          {
-            "label": "Provider source URL",
-            "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-04-july-2023.pdf"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "pdf source",
-            "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-04-july-2023.pdf",
-            "type": "pdf"
-          }
-        ],
-        "keywords": [
-          "register of interests",
-          "MLA",
-          "Northern Ireland Assembly",
-          "pdf",
-          "current"
-        ],
-        "sourceHierarchy": [
-          "Browse",
-          "Registers of interests",
-          "Northern Ireland Assembly",
-          "Current"
-        ],
-        "status": "Available",
-        "statusChips": [
-          "pdf",
-          "HTTP 200",
-          "current"
-        ],
-        "parentId": "ni-register:assembly:collection",
-        "parentTitle": "Northern Ireland Assembly Register of Members Interests",
-        "sourceItems": [
-          {
-            "sourcePageId": "current",
-            "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
-            "title": "4 July 2023 - PDF",
-            "linkText": "4 July 2023 - PDF",
-            "kind": "pdf",
-            "contentType": "application/pdf",
-            "httpStatus": 200,
-            "bytes": 234375,
-            "sha256": "577d1b9337621afe19311d08686781505b47f9d33d85f403fd25ec0cd5cfea9f",
-            "lastModified": "Thu, 30 Nov 2023 12:09:54 GMT",
-            "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-04-july-2023.pdf"
-          }
-        ]
-      }
-    },
-    {
-      "id": "ni-register:assembly:pdf:a82dafc397ebc2b0",
-      "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-5-july-2022-9053faf4",
-      "type": "register-source-document",
-      "title": "NI Assembly Register of Members Interests (5 July 2022)",
-      "subtitle": "Current / pdf / 5 July 2022",
-      "category": "Registers of interests",
-      "date": "2022-07-05",
-      "provider": [
-        "Northern Ireland Assembly"
-      ],
-      "description": "NI Assembly register of interests pdf. edition dated 5 July 2022. content type application/pdf",
-      "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-05-july-2022.pdf",
-      "references": [
-        {
-          "label": "Current register landing page",
-          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
-        },
-        {
-          "label": "Provider source URL",
-          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-05-july-2022.pdf"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "pdf source",
-          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-05-july-2022.pdf",
-          "type": "pdf"
-        }
-      ],
-      "keywords": [
-        "register of interests",
-        "MLA",
-        "Northern Ireland Assembly",
-        "pdf",
-        "current"
-      ],
-      "sourceItems": [
-        {
-          "sourcePageId": "current",
-          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
-          "title": "5 July 2022 - PDF",
-          "linkText": "5 July 2022 - PDF",
-          "kind": "pdf",
-          "contentType": "application/pdf",
-          "httpStatus": 200,
-          "bytes": 219464,
-          "sha256": "0e49f6cd240ef440450706704448dfe67b06f6cb7800db9be7c0c45abb27198a",
-          "lastModified": "Thu, 30 Nov 2023 12:09:38 GMT",
-          "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-05-july-2022.pdf"
-        }
-      ],
-      "status": "Available",
-      "statusChips": [
-        "pdf",
-        "HTTP 200",
-        "current"
-      ],
-      "sourceHierarchy": [
-        "Browse",
-        "Registers of interests",
-        "Northern Ireland Assembly",
-        "Current"
-      ],
-      "parentId": "ni-register:assembly:collection",
-      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
-      "browseUrl": "/browse/sources/ni-register-assembly-pdf-ni-assembly-register-of-members-interests-5-july-2022-9053faf4",
-      "rawMetadata": {
-        "id": "ni-register:assembly:pdf:a82dafc397ebc2b0",
-        "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-5-july-2022-9053faf4",
-        "type": "register-source-document",
-        "title": "NI Assembly Register of Members Interests (5 July 2022)",
-        "subtitle": "Current / pdf / 5 July 2022",
-        "category": "Registers of interests",
-        "date": "2022-07-05",
-        "provider": [
-          "Northern Ireland Assembly"
-        ],
-        "description": "NI Assembly register of interests pdf. edition dated 5 July 2022. content type application/pdf",
-        "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-05-july-2022.pdf",
-        "references": [
-          {
-            "label": "Current register landing page",
-            "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
-          },
-          {
-            "label": "Provider source URL",
-            "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-05-july-2022.pdf"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "pdf source",
-            "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-05-july-2022.pdf",
-            "type": "pdf"
-          }
-        ],
-        "keywords": [
-          "register of interests",
-          "MLA",
-          "Northern Ireland Assembly",
-          "pdf",
-          "current"
-        ],
-        "sourceHierarchy": [
-          "Browse",
-          "Registers of interests",
-          "Northern Ireland Assembly",
-          "Current"
-        ],
-        "status": "Available",
-        "statusChips": [
-          "pdf",
-          "HTTP 200",
-          "current"
-        ],
-        "parentId": "ni-register:assembly:collection",
-        "parentTitle": "Northern Ireland Assembly Register of Members Interests",
-        "sourceItems": [
-          {
-            "sourcePageId": "current",
-            "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
-            "title": "5 July 2022 - PDF",
-            "linkText": "5 July 2022 - PDF",
-            "kind": "pdf",
-            "contentType": "application/pdf",
-            "httpStatus": 200,
-            "bytes": 219464,
-            "sha256": "0e49f6cd240ef440450706704448dfe67b06f6cb7800db9be7c0c45abb27198a",
-            "lastModified": "Thu, 30 Nov 2023 12:09:38 GMT",
-            "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-05-july-2022.pdf"
-          }
-        ]
-      }
-    },
-    {
-      "id": "ni-register:assembly:pdf:c84d8acc0f5a3798",
-      "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-6-february-2012-ca6648d5",
-      "type": "register-source-document",
-      "title": "NI Assembly Register of Members Interests (6 February 2012)",
-      "subtitle": "Current / pdf / 6 February 2012",
-      "category": "Registers of interests",
-      "date": "2012-02-06",
-      "provider": [
-        "Northern Ireland Assembly"
-      ],
-      "description": "NI Assembly register of interests pdf. edition dated 6 February 2012. content type application/pdf",
-      "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_060212.pdf",
-      "references": [
-        {
-          "label": "Current register landing page",
-          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
-        },
-        {
-          "label": "Provider source URL",
-          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_060212.pdf"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "pdf source",
-          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_060212.pdf",
-          "type": "pdf"
-        }
-      ],
-      "keywords": [
-        "register of interests",
-        "MLA",
-        "Northern Ireland Assembly",
-        "pdf",
-        "current"
-      ],
-      "sourceItems": [
-        {
-          "sourcePageId": "current",
-          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
-          "title": "PDF",
-          "linkText": "PDF",
-          "kind": "pdf",
-          "contentType": "application/pdf",
-          "httpStatus": 200,
-          "bytes": 205905,
-          "sha256": "5c6374b2327b94b6fb5401e89f8f85fe67454d04e3cab9d5af21bd625bbaebd1",
-          "lastModified": "Fri, 12 Dec 2014 22:45:26 GMT",
-          "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_060212.pdf"
-        }
-      ],
-      "status": "Available",
-      "statusChips": [
-        "pdf",
-        "HTTP 200",
-        "current"
-      ],
-      "sourceHierarchy": [
-        "Browse",
-        "Registers of interests",
-        "Northern Ireland Assembly",
-        "Current"
-      ],
-      "parentId": "ni-register:assembly:collection",
-      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
-      "browseUrl": "/browse/sources/ni-register-assembly-pdf-ni-assembly-register-of-members-interests-6-february-2012-ca6648d5",
-      "rawMetadata": {
-        "id": "ni-register:assembly:pdf:c84d8acc0f5a3798",
-        "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-6-february-2012-ca6648d5",
-        "type": "register-source-document",
-        "title": "NI Assembly Register of Members Interests (6 February 2012)",
-        "subtitle": "Current / pdf / 6 February 2012",
-        "category": "Registers of interests",
-        "date": "2012-02-06",
-        "provider": [
-          "Northern Ireland Assembly"
-        ],
-        "description": "NI Assembly register of interests pdf. edition dated 6 February 2012. content type application/pdf",
-        "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_060212.pdf",
-        "references": [
-          {
-            "label": "Current register landing page",
-            "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
-          },
-          {
-            "label": "Provider source URL",
-            "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_060212.pdf"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "pdf source",
-            "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_060212.pdf",
-            "type": "pdf"
-          }
-        ],
-        "keywords": [
-          "register of interests",
-          "MLA",
-          "Northern Ireland Assembly",
-          "pdf",
-          "current"
-        ],
-        "sourceHierarchy": [
-          "Browse",
-          "Registers of interests",
-          "Northern Ireland Assembly",
-          "Current"
-        ],
-        "status": "Available",
-        "statusChips": [
-          "pdf",
-          "HTTP 200",
-          "current"
-        ],
-        "parentId": "ni-register:assembly:collection",
-        "parentTitle": "Northern Ireland Assembly Register of Members Interests",
-        "sourceItems": [
-          {
-            "sourcePageId": "current",
-            "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
-            "title": "PDF",
-            "linkText": "PDF",
-            "kind": "pdf",
-            "contentType": "application/pdf",
-            "httpStatus": 200,
-            "bytes": 205905,
-            "sha256": "5c6374b2327b94b6fb5401e89f8f85fe67454d04e3cab9d5af21bd625bbaebd1",
-            "lastModified": "Fri, 12 Dec 2014 22:45:26 GMT",
-            "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_060212.pdf"
-          }
-        ]
-      }
-    },
-    {
-      "id": "ni-register:assembly:pdf:d2fe10447f879fa2",
-      "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-7-october-2011-d027a5dc",
-      "type": "register-source-document",
-      "title": "NI Assembly Register of Members Interests (7 October 2011)",
-      "subtitle": "Current / pdf / 7 October 2011",
-      "category": "Registers of interests",
-      "date": "2011-10-07",
-      "provider": [
-        "Northern Ireland Assembly"
-      ],
-      "description": "NI Assembly register of interests pdf. edition dated 7 October 2011. content type application/pdf",
-      "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_071011.pdf",
-      "references": [
-        {
-          "label": "Current register landing page",
-          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
-        },
-        {
-          "label": "Provider source URL",
-          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_071011.pdf"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "pdf source",
-          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_071011.pdf",
-          "type": "pdf"
-        }
-      ],
-      "keywords": [
-        "register of interests",
-        "MLA",
-        "Northern Ireland Assembly",
-        "pdf",
-        "current"
-      ],
-      "sourceItems": [
-        {
-          "sourcePageId": "current",
-          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
-          "title": "PDF",
-          "linkText": "PDF",
-          "kind": "pdf",
-          "contentType": "application/pdf",
-          "httpStatus": 200,
-          "bytes": 202403,
-          "sha256": "0f6d1a9fdd3f777bc2cf2c4c55722cf61ddfe701ba585bede13309592aa57004",
-          "lastModified": "Fri, 12 Dec 2014 22:45:26 GMT",
-          "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_071011.pdf"
-        }
-      ],
-      "status": "Available",
-      "statusChips": [
-        "pdf",
-        "HTTP 200",
-        "current"
-      ],
-      "sourceHierarchy": [
-        "Browse",
-        "Registers of interests",
-        "Northern Ireland Assembly",
-        "Current"
-      ],
-      "parentId": "ni-register:assembly:collection",
-      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
-      "browseUrl": "/browse/sources/ni-register-assembly-pdf-ni-assembly-register-of-members-interests-7-october-2011-d027a5dc",
-      "rawMetadata": {
-        "id": "ni-register:assembly:pdf:d2fe10447f879fa2",
-        "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-7-october-2011-d027a5dc",
-        "type": "register-source-document",
-        "title": "NI Assembly Register of Members Interests (7 October 2011)",
-        "subtitle": "Current / pdf / 7 October 2011",
-        "category": "Registers of interests",
-        "date": "2011-10-07",
-        "provider": [
-          "Northern Ireland Assembly"
-        ],
-        "description": "NI Assembly register of interests pdf. edition dated 7 October 2011. content type application/pdf",
-        "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_071011.pdf",
-        "references": [
-          {
-            "label": "Current register landing page",
-            "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
-          },
-          {
-            "label": "Provider source URL",
-            "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_071011.pdf"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "pdf source",
-            "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_071011.pdf",
-            "type": "pdf"
-          }
-        ],
-        "keywords": [
-          "register of interests",
-          "MLA",
-          "Northern Ireland Assembly",
-          "pdf",
-          "current"
-        ],
-        "sourceHierarchy": [
-          "Browse",
-          "Registers of interests",
-          "Northern Ireland Assembly",
-          "Current"
-        ],
-        "status": "Available",
-        "statusChips": [
-          "pdf",
-          "HTTP 200",
-          "current"
-        ],
-        "parentId": "ni-register:assembly:collection",
-        "parentTitle": "Northern Ireland Assembly Register of Members Interests",
-        "sourceItems": [
-          {
-            "sourcePageId": "current",
-            "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
-            "title": "PDF",
-            "linkText": "PDF",
-            "kind": "pdf",
-            "contentType": "application/pdf",
-            "httpStatus": 200,
-            "bytes": 202403,
-            "sha256": "0f6d1a9fdd3f777bc2cf2c4c55722cf61ddfe701ba585bede13309592aa57004",
-            "lastModified": "Fri, 12 Dec 2014 22:45:26 GMT",
-            "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_071011.pdf"
-          }
-        ]
-      }
-    },
-    {
-      "id": "ni-register:assembly:pdf:d1be54bada8bdb14",
-      "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-7c63e1c9",
-      "type": "register-source-document",
-      "title": "NI Assembly Register of Members' Interests",
-      "subtitle": "Archive / pdf",
-      "category": "Registers of interests",
-      "provider": [
-        "Northern Ireland Assembly"
-      ],
-      "description": "NI Assembly register of interests pdf. content type application/pdf",
-      "url": "https://archive.niassembly.gov.uk/members/expenses/register_07.pdf",
-      "references": [
-        {
-          "label": "Archive register landing page",
-          "url": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm"
-        },
-        {
-          "label": "Provider source URL",
-          "url": "https://archive.niassembly.gov.uk/members/expenses/register_07.pdf"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "pdf source",
-          "url": "https://archive.niassembly.gov.uk/members/expenses/register_07.pdf",
-          "type": "pdf"
-        }
-      ],
-      "keywords": [
-        "register of interests",
-        "MLA",
-        "Northern Ireland Assembly",
-        "pdf",
-        "archive"
-      ],
-      "sourceItems": [
-        {
-          "sourcePageId": "archive",
-          "sourcePageUrl": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm",
-          "title": "Register of Members' Interests",
-          "linkText": "Register of Members' Interests",
-          "kind": "pdf",
-          "contentType": "application/pdf",
-          "httpStatus": 200,
-          "bytes": 118510,
-          "sha256": "9797c7e1d0c2c2f34f158eddd2a938c448952f120d6d456f9c80157adefc6348",
-          "lastModified": "Wed, 26 Nov 2014 12:13:52 GMT",
-          "providerUrl": "https://archive.niassembly.gov.uk/members/expenses/register_07.pdf"
-        }
-      ],
-      "status": "Available",
-      "statusChips": [
-        "pdf",
-        "HTTP 200",
-        "archive"
-      ],
-      "sourceHierarchy": [
-        "Browse",
-        "Registers of interests",
-        "Northern Ireland Assembly",
-        "Archive"
-      ],
-      "parentId": "ni-register:assembly:collection",
-      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
-      "browseUrl": "/browse/sources/ni-register-assembly-pdf-ni-assembly-register-of-members-interests-7c63e1c9",
-      "rawMetadata": {
-        "id": "ni-register:assembly:pdf:d1be54bada8bdb14",
-        "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-7c63e1c9",
-        "type": "register-source-document",
-        "title": "NI Assembly Register of Members' Interests",
-        "subtitle": "Archive / pdf",
-        "category": "Registers of interests",
-        "provider": [
-          "Northern Ireland Assembly"
-        ],
-        "description": "NI Assembly register of interests pdf. content type application/pdf",
-        "url": "https://archive.niassembly.gov.uk/members/expenses/register_07.pdf",
-        "references": [
-          {
-            "label": "Archive register landing page",
-            "url": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm"
-          },
-          {
-            "label": "Provider source URL",
-            "url": "https://archive.niassembly.gov.uk/members/expenses/register_07.pdf"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "pdf source",
-            "url": "https://archive.niassembly.gov.uk/members/expenses/register_07.pdf",
-            "type": "pdf"
-          }
-        ],
-        "keywords": [
-          "register of interests",
-          "MLA",
-          "Northern Ireland Assembly",
-          "pdf",
-          "archive"
-        ],
-        "sourceHierarchy": [
-          "Browse",
-          "Registers of interests",
-          "Northern Ireland Assembly",
-          "Archive"
-        ],
-        "status": "Available",
-        "statusChips": [
-          "pdf",
-          "HTTP 200",
-          "archive"
-        ],
-        "parentId": "ni-register:assembly:collection",
-        "parentTitle": "Northern Ireland Assembly Register of Members Interests",
-        "sourceItems": [
-          {
-            "sourcePageId": "archive",
-            "sourcePageUrl": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm",
-            "title": "Register of Members' Interests",
-            "linkText": "Register of Members' Interests",
-            "kind": "pdf",
-            "contentType": "application/pdf",
-            "httpStatus": 200,
-            "bytes": 118510,
-            "sha256": "9797c7e1d0c2c2f34f158eddd2a938c448952f120d6d456f9c80157adefc6348",
-            "lastModified": "Wed, 26 Nov 2014 12:13:52 GMT",
-            "providerUrl": "https://archive.niassembly.gov.uk/members/expenses/register_07.pdf"
-          }
-        ]
-      }
-    },
-    {
-      "id": "ni-register:assembly:pdf:0aefb2ebf33c15aa",
-      "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-9-march-2010-e3e64c3d",
-      "type": "register-source-document",
-      "title": "NI Assembly Register of Members Interests (9 March 2010)",
-      "subtitle": "Archive / pdf / 9 March 2010",
-      "category": "Registers of interests",
-      "date": "2010-03-09",
-      "provider": [
-        "Northern Ireland Assembly"
-      ],
-      "description": "NI Assembly register of interests pdf. edition dated 9 March 2010. content type application/pdf",
-      "url": "https://archive.niassembly.gov.uk/members/expenses/register_090310.pdf",
-      "references": [
-        {
-          "label": "Archive register landing page",
-          "url": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm"
-        },
-        {
-          "label": "Provider source URL",
-          "url": "https://archive.niassembly.gov.uk/members/expenses/register_090310.pdf"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "pdf source",
-          "url": "https://archive.niassembly.gov.uk/members/expenses/register_090310.pdf",
-          "type": "pdf"
-        }
-      ],
-      "keywords": [
-        "register of interests",
-        "MLA",
-        "Northern Ireland Assembly",
-        "pdf",
-        "archive"
-      ],
-      "sourceItems": [
-        {
-          "sourcePageId": "archive",
-          "sourcePageUrl": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm",
-          "title": "PDF",
-          "linkText": "PDF",
-          "kind": "pdf",
-          "contentType": "application/pdf",
-          "httpStatus": 200,
-          "bytes": 635078,
-          "sha256": "b321a73530dc486a579423181bb6635145be663bd63daf431a770fac09fc2377",
-          "lastModified": "Wed, 26 Nov 2014 12:13:52 GMT",
-          "providerUrl": "https://archive.niassembly.gov.uk/members/expenses/register_090310.pdf"
-        }
-      ],
-      "status": "Available",
-      "statusChips": [
-        "pdf",
-        "HTTP 200",
-        "archive"
-      ],
-      "sourceHierarchy": [
-        "Browse",
-        "Registers of interests",
-        "Northern Ireland Assembly",
-        "Archive"
-      ],
-      "parentId": "ni-register:assembly:collection",
-      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
-      "browseUrl": "/browse/sources/ni-register-assembly-pdf-ni-assembly-register-of-members-interests-9-march-2010-e3e64c3d",
-      "rawMetadata": {
-        "id": "ni-register:assembly:pdf:0aefb2ebf33c15aa",
-        "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-9-march-2010-e3e64c3d",
-        "type": "register-source-document",
-        "title": "NI Assembly Register of Members Interests (9 March 2010)",
-        "subtitle": "Archive / pdf / 9 March 2010",
-        "category": "Registers of interests",
-        "date": "2010-03-09",
-        "provider": [
-          "Northern Ireland Assembly"
-        ],
-        "description": "NI Assembly register of interests pdf. edition dated 9 March 2010. content type application/pdf",
-        "url": "https://archive.niassembly.gov.uk/members/expenses/register_090310.pdf",
-        "references": [
-          {
-            "label": "Archive register landing page",
-            "url": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm"
-          },
-          {
-            "label": "Provider source URL",
-            "url": "https://archive.niassembly.gov.uk/members/expenses/register_090310.pdf"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "pdf source",
-            "url": "https://archive.niassembly.gov.uk/members/expenses/register_090310.pdf",
-            "type": "pdf"
-          }
-        ],
-        "keywords": [
-          "register of interests",
-          "MLA",
-          "Northern Ireland Assembly",
-          "pdf",
-          "archive"
-        ],
-        "sourceHierarchy": [
-          "Browse",
-          "Registers of interests",
-          "Northern Ireland Assembly",
-          "Archive"
-        ],
-        "status": "Available",
-        "statusChips": [
-          "pdf",
-          "HTTP 200",
-          "archive"
-        ],
-        "parentId": "ni-register:assembly:collection",
-        "parentTitle": "Northern Ireland Assembly Register of Members Interests",
-        "sourceItems": [
-          {
-            "sourcePageId": "archive",
-            "sourcePageUrl": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm",
-            "title": "PDF",
-            "linkText": "PDF",
-            "kind": "pdf",
-            "contentType": "application/pdf",
-            "httpStatus": 200,
-            "bytes": 635078,
-            "sha256": "b321a73530dc486a579423181bb6635145be663bd63daf431a770fac09fc2377",
-            "lastModified": "Wed, 26 Nov 2014 12:13:52 GMT",
-            "providerUrl": "https://archive.niassembly.gov.uk/members/expenses/register_090310.pdf"
-          }
-        ]
-      }
-    },
-    {
-      "id": "ni-register:assembly:pdf:1b66909f7c32aae0",
-      "slug": "ni-register-assembly-pdf-ni-assembly-register-source-1b66909f7c32aae0-26edfd5e",
-      "type": "register-source-document",
-      "title": "NI Assembly register source 1b66909f7c32aae0",
-      "subtitle": "Current / pdf",
-      "category": "Registers of interests",
-      "provider": [
-        "Northern Ireland Assembly"
-      ],
-      "description": "NI Assembly register of interests pdf. content type application/pdf",
-      "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/211015.pdf",
-      "references": [
-        {
-          "label": "Current register landing page",
-          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
-        },
-        {
-          "label": "Provider source URL",
-          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/211015.pdf"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "pdf source",
-          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/211015.pdf",
-          "type": "pdf"
-        }
-      ],
-      "keywords": [
-        "register of interests",
-        "MLA",
-        "Northern Ireland Assembly",
-        "pdf",
-        "current"
-      ],
-      "sourceItems": [
-        {
-          "sourcePageId": "current",
-          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
-          "title": "PDF",
-          "linkText": "PDF",
-          "kind": "pdf",
-          "contentType": "application/pdf",
-          "httpStatus": 200,
-          "bytes": 210963,
-          "sha256": "1080aed59d89b9a95bd4add53eb3304f16f8e96b938a2f554a3f93cfe1933d1b",
-          "lastModified": "Wed, 03 Feb 2016 15:01:56 GMT",
-          "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/211015.pdf"
-        }
-      ],
-      "status": "Available",
-      "statusChips": [
-        "pdf",
-        "HTTP 200",
-        "current"
-      ],
-      "sourceHierarchy": [
-        "Browse",
-        "Registers of interests",
-        "Northern Ireland Assembly",
-        "Current"
-      ],
-      "parentId": "ni-register:assembly:collection",
-      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
-      "browseUrl": "/browse/sources/ni-register-assembly-pdf-ni-assembly-register-source-1b66909f7c32aae0-26edfd5e",
-      "rawMetadata": {
-        "id": "ni-register:assembly:pdf:1b66909f7c32aae0",
-        "slug": "ni-register-assembly-pdf-ni-assembly-register-source-1b66909f7c32aae0-26edfd5e",
-        "type": "register-source-document",
-        "title": "NI Assembly register source 1b66909f7c32aae0",
-        "subtitle": "Current / pdf",
-        "category": "Registers of interests",
-        "provider": [
-          "Northern Ireland Assembly"
-        ],
-        "description": "NI Assembly register of interests pdf. content type application/pdf",
-        "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/211015.pdf",
-        "references": [
-          {
-            "label": "Current register landing page",
-            "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
-          },
-          {
-            "label": "Provider source URL",
-            "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/211015.pdf"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "pdf source",
-            "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/211015.pdf",
-            "type": "pdf"
-          }
-        ],
-        "keywords": [
-          "register of interests",
-          "MLA",
-          "Northern Ireland Assembly",
-          "pdf",
-          "current"
-        ],
-        "sourceHierarchy": [
-          "Browse",
-          "Registers of interests",
-          "Northern Ireland Assembly",
-          "Current"
-        ],
-        "status": "Available",
-        "statusChips": [
-          "pdf",
-          "HTTP 200",
-          "current"
-        ],
-        "parentId": "ni-register:assembly:collection",
-        "parentTitle": "Northern Ireland Assembly Register of Members Interests",
-        "sourceItems": [
-          {
-            "sourcePageId": "current",
-            "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
-            "title": "PDF",
-            "linkText": "PDF",
-            "kind": "pdf",
-            "contentType": "application/pdf",
-            "httpStatus": 200,
-            "bytes": 210963,
-            "sha256": "1080aed59d89b9a95bd4add53eb3304f16f8e96b938a2f554a3f93cfe1933d1b",
-            "lastModified": "Wed, 03 Feb 2016 15:01:56 GMT",
-            "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/211015.pdf"
-          }
-        ]
-      }
-    },
-    {
-      "id": "ni-register:assembly:pdf:4ebc94a952f185a1",
-      "slug": "ni-register-assembly-pdf-ni-assembly-register-source-4ebc94a952f185a1-67688ea6",
-      "type": "register-source-document",
-      "title": "NI Assembly register source 4ebc94a952f185a1",
-      "subtitle": "Current / pdf",
-      "category": "Registers of interests",
-      "provider": [
-        "Northern Ireland Assembly"
-      ],
-      "description": "NI Assembly register of interests pdf. content type application/pdf",
-      "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/interests-25-03-2016.pdf",
-      "references": [
-        {
-          "label": "Current register landing page",
-          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
-        },
-        {
-          "label": "Provider source URL",
-          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/interests-25-03-2016.pdf"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "pdf source",
-          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/interests-25-03-2016.pdf",
-          "type": "pdf"
-        }
-      ],
-      "keywords": [
-        "register of interests",
-        "MLA",
-        "Northern Ireland Assembly",
-        "pdf",
-        "current"
-      ],
-      "sourceItems": [
-        {
-          "sourcePageId": "current",
-          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
-          "title": "PDF",
-          "linkText": "PDF",
-          "kind": "pdf",
-          "contentType": "application/pdf",
-          "httpStatus": 200,
-          "bytes": 212715,
-          "sha256": "e3ef9825fc1c11a9300a92d134d7fcfc13ca18f53412bfb763ffcd1cca4bbf13",
-          "lastModified": "Fri, 25 Mar 2016 12:21:42 GMT",
-          "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/interests-25-03-2016.pdf"
-        }
-      ],
-      "status": "Available",
-      "statusChips": [
-        "pdf",
-        "HTTP 200",
-        "current"
-      ],
-      "sourceHierarchy": [
-        "Browse",
-        "Registers of interests",
-        "Northern Ireland Assembly",
-        "Current"
-      ],
-      "parentId": "ni-register:assembly:collection",
-      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
-      "browseUrl": "/browse/sources/ni-register-assembly-pdf-ni-assembly-register-source-4ebc94a952f185a1-67688ea6",
-      "rawMetadata": {
-        "id": "ni-register:assembly:pdf:4ebc94a952f185a1",
-        "slug": "ni-register-assembly-pdf-ni-assembly-register-source-4ebc94a952f185a1-67688ea6",
-        "type": "register-source-document",
-        "title": "NI Assembly register source 4ebc94a952f185a1",
-        "subtitle": "Current / pdf",
-        "category": "Registers of interests",
-        "provider": [
-          "Northern Ireland Assembly"
-        ],
-        "description": "NI Assembly register of interests pdf. content type application/pdf",
-        "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/interests-25-03-2016.pdf",
-        "references": [
-          {
-            "label": "Current register landing page",
-            "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
-          },
-          {
-            "label": "Provider source URL",
-            "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/interests-25-03-2016.pdf"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "pdf source",
-            "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/interests-25-03-2016.pdf",
-            "type": "pdf"
-          }
-        ],
-        "keywords": [
-          "register of interests",
-          "MLA",
-          "Northern Ireland Assembly",
-          "pdf",
-          "current"
-        ],
-        "sourceHierarchy": [
-          "Browse",
-          "Registers of interests",
-          "Northern Ireland Assembly",
-          "Current"
-        ],
-        "status": "Available",
-        "statusChips": [
-          "pdf",
-          "HTTP 200",
-          "current"
-        ],
-        "parentId": "ni-register:assembly:collection",
-        "parentTitle": "Northern Ireland Assembly Register of Members Interests",
-        "sourceItems": [
-          {
-            "sourcePageId": "current",
-            "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
-            "title": "PDF",
-            "linkText": "PDF",
-            "kind": "pdf",
-            "contentType": "application/pdf",
-            "httpStatus": 200,
-            "bytes": 212715,
-            "sha256": "e3ef9825fc1c11a9300a92d134d7fcfc13ca18f53412bfb763ffcd1cca4bbf13",
-            "lastModified": "Fri, 25 Mar 2016 12:21:42 GMT",
-            "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/interests-25-03-2016.pdf"
           }
         ]
       }

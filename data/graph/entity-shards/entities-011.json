@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T19:38:08.980Z",
+  "generatedAt": "2026-06-30T20:12:17.853Z",
   "shard": 11,
   "total": 5000,
   "items": [
@@ -42601,6 +42601,33 @@
       ]
     },
     {
+      "id": "cg:map-layer:irish-peat-soils-map",
+      "label": "Irish Peat Soils Map",
+      "description": "Irish Peat Soils Map — Ireland. Source: Trinity College Dublin (via the Peatlands Geoportal, QUB).",
+      "kind": "entity",
+      "browseType": "maps",
+      "browseSlug": "irish-peat-soils-map",
+      "browseUrl": "/browse/maps/irish-peat-soils-map",
+      "attributes": {
+        "category": "Biodiversity & Habitats",
+        "categoryId": "biodiversity",
+        "group": "Physical Geography",
+        "provider": "Trinity College Dublin",
+        "status": "available",
+        "loadable": true,
+        "labelProperty": "descrip",
+        "searchHints": [
+          "Biodiversity & Habitats",
+          "biodiversity",
+          "Physical Geography",
+          "Trinity College Dublin"
+        ]
+      },
+      "typeIds": [
+        "cg:entity-type:map-layer"
+      ]
+    },
+    {
       "id": "cg:map-layer:lgd-1966",
       "label": "lgd-1966",
       "kind": "entity",
@@ -43046,6 +43073,60 @@
       ]
     },
     {
+      "id": "cg:map-layer:ni-250k-geology",
+      "label": "Northern Ireland Geology (1:250,000)",
+      "description": "Northern Ireland Geology (1:250,000) — Northern Ireland. Source: Geological Survey of Northern Ireland (GSNI) (via the Peatlands Geoportal, QUB).",
+      "kind": "entity",
+      "browseType": "maps",
+      "browseSlug": "ni-250k-geology",
+      "browseUrl": "/browse/maps/ni-250k-geology",
+      "attributes": {
+        "category": "Environment",
+        "categoryId": "environment",
+        "group": "Physical Geography",
+        "provider": "Geological Survey of Northern Ireland (GSNI)",
+        "status": "available",
+        "loadable": true,
+        "labelProperty": "CATEGORY",
+        "searchHints": [
+          "Environment",
+          "environment",
+          "Physical Geography",
+          "Geological Survey of Northern Ireland (GSNI)"
+        ]
+      },
+      "typeIds": [
+        "cg:entity-type:map-layer"
+      ]
+    },
+    {
+      "id": "cg:map-layer:ni-authorised-waste-sites",
+      "label": "Authorised Waste Sites (NI)",
+      "description": "Authorised Waste Sites (NI) — Northern Ireland. Source: NIEA (via the Peatlands Geoportal, QUB).",
+      "kind": "entity",
+      "browseType": "maps",
+      "browseSlug": "ni-authorised-waste-sites",
+      "browseUrl": "/browse/maps/ni-authorised-waste-sites",
+      "attributes": {
+        "category": "Environment",
+        "categoryId": "environment",
+        "group": "Physical Geography",
+        "provider": "NIEA",
+        "status": "available",
+        "loadable": true,
+        "labelProperty": "SiteName",
+        "searchHints": [
+          "Environment",
+          "environment",
+          "Physical Geography",
+          "NIEA"
+        ]
+      },
+      "typeIds": [
+        "cg:entity-type:map-layer"
+      ]
+    },
+    {
       "id": "cg:map-layer:ni-defence-heritage",
       "label": "NI Defence Heritage",
       "description": "NI Defence Heritage — published by DfC Historic Environment Division.",
@@ -43104,6 +43185,32 @@
       ]
     },
     {
+      "id": "cg:map-layer:ni-historic-landuse",
+      "label": "Historic Land Use (NI)",
+      "description": "Historic Land Use (NI) — Northern Ireland. Source: Dept for Communities — Historic Environment Division (via the Peatlands Geoportal, QUB).",
+      "kind": "entity",
+      "browseType": "maps",
+      "browseSlug": "ni-historic-landuse",
+      "browseUrl": "/browse/maps/ni-historic-landuse",
+      "attributes": {
+        "category": "Built Environment",
+        "categoryId": "built-environment",
+        "group": "Built Environment",
+        "provider": "Dept for Communities — Historic Environment Division",
+        "status": "available",
+        "loadable": true,
+        "labelProperty": "Site_ID",
+        "searchHints": [
+          "Built Environment",
+          "built-environment",
+          "Dept for Communities — Historic Environment Division"
+        ]
+      },
+      "typeIds": [
+        "cg:entity-type:map-layer"
+      ]
+    },
+    {
       "id": "cg:map-layer:ni-industrial-heritage",
       "label": "NI Industrial Heritage Record",
       "description": "NI Industrial Heritage Record — published by DfC Historic Environment Division.",
@@ -43128,6 +43235,61 @@
           "historic",
           "Built Environment",
           "Department for Communities - Historic Environment Division"
+        ]
+      },
+      "typeIds": [
+        "cg:entity-type:map-layer"
+      ]
+    },
+    {
+      "id": "cg:map-layer:ni-land-classification",
+      "label": "Northern Ireland Land Classification",
+      "description": "Northern Ireland Land Classification — Northern Ireland. Source: GSNI (via the Peatlands Geoportal, QUB).",
+      "kind": "entity",
+      "browseType": "maps",
+      "browseSlug": "ni-land-classification",
+      "browseUrl": "/browse/maps/ni-land-classification",
+      "attributes": {
+        "category": "Environment",
+        "categoryId": "environment",
+        "group": "Physical Geography",
+        "provider": "GSNI, DAERA",
+        "status": "available",
+        "loadable": true,
+        "labelProperty": "ni_land_class",
+        "searchHints": [
+          "Environment",
+          "environment",
+          "Physical Geography",
+          "GSNI",
+          "DAERA"
+        ]
+      },
+      "typeIds": [
+        "cg:entity-type:map-layer"
+      ]
+    },
+    {
+      "id": "cg:map-layer:ni-licensed-waste-facilities",
+      "label": "Licensed Waste Facilities (NI)",
+      "description": "Licensed Waste Facilities (NI) — Northern Ireland. Source: NIEA (via the Peatlands Geoportal, QUB).",
+      "kind": "entity",
+      "browseType": "maps",
+      "browseSlug": "ni-licensed-waste-facilities",
+      "browseUrl": "/browse/maps/ni-licensed-waste-facilities",
+      "attributes": {
+        "category": "Environment",
+        "categoryId": "environment",
+        "group": "Physical Geography",
+        "provider": "NIEA",
+        "status": "available",
+        "loadable": true,
+        "labelProperty": "Name",
+        "searchHints": [
+          "Environment",
+          "environment",
+          "Physical Geography",
+          "NIEA"
         ]
       },
       "typeIds": [
@@ -43720,6 +43882,33 @@
           "environment",
           "Physical Geography",
           "NIEA"
+        ]
+      },
+      "typeIds": [
+        "cg:entity-type:map-layer"
+      ]
+    },
+    {
+      "id": "cg:map-layer:npws-designated-areas",
+      "label": "NPWS Designated Areas (Republic of Ireland)",
+      "description": "NPWS Designated Areas (Republic of Ireland) — Republic of Ireland. Source: National Parks & Wildlife Service (NPWS) (via the Peatlands Geoportal, QUB).",
+      "kind": "entity",
+      "browseType": "maps",
+      "browseSlug": "npws-designated-areas",
+      "browseUrl": "/browse/maps/npws-designated-areas",
+      "attributes": {
+        "category": "Designated & Protected Sites",
+        "categoryId": "designated-sites",
+        "group": "Physical Geography",
+        "provider": "National Parks & Wildlife Service (NPWS)",
+        "status": "available",
+        "loadable": true,
+        "labelProperty": "SITECODE",
+        "searchHints": [
+          "Designated & Protected Sites",
+          "designated-sites",
+          "Physical Geography",
+          "National Parks & Wildlife Service (NPWS)"
         ]
       },
       "typeIds": [
@@ -48329,6 +48518,33 @@
           "Physical Geography",
           "OSNI",
           "Scott Moore"
+        ]
+      },
+      "typeIds": [
+        "cg:entity-type:map-layer"
+      ]
+    },
+    {
+      "id": "cg:map-layer:west-fermanagh-scarplands-sac-habitat",
+      "label": "West Fermanagh Scarplands SAC Habitat Map",
+      "description": "West Fermanagh Scarplands SAC Habitat Map — Northern Ireland. Source: NIEA (via the Peatlands Geoportal, QUB).",
+      "kind": "entity",
+      "browseType": "maps",
+      "browseSlug": "west-fermanagh-scarplands-sac-habitat",
+      "browseUrl": "/browse/maps/west-fermanagh-scarplands-sac-habitat",
+      "attributes": {
+        "category": "Biodiversity & Habitats",
+        "categoryId": "biodiversity",
+        "group": "Physical Geography",
+        "provider": "NIEA",
+        "status": "available",
+        "loadable": true,
+        "labelProperty": "annex1_code_1",
+        "searchHints": [
+          "Biodiversity & Habitats",
+          "biodiversity",
+          "Physical Geography",
+          "NIEA"
         ]
       },
       "typeIds": [
@@ -114209,222 +114425,6 @@
           "SDLP",
           "Manse Road",
           "1985 Northern Ireland local elections"
-        ]
-      },
-      "typeIds": [
-        "cg:entity-type:person"
-      ]
-    },
-    {
-      "id": "cg:person:name-bernard-lennon",
-      "label": "Bernard Lennon",
-      "description": "Green / 2007 / 1 contests",
-      "kind": "entity",
-      "browseType": "persons",
-      "browseSlug": "name-bernard-lennon",
-      "browseUrl": "/browse/persons/name-bernard-lennon",
-      "attributes": {
-        "firstYear": 2007,
-        "lastYear": 2007,
-        "relatedElectionCount": 1,
-        "contestsStood": 1,
-        "contestsElected": 0,
-        "firstPreferenceVotes": 591,
-        "searchHints": [
-          "Green",
-          "Tipperary South",
-          "2007 Irish general election"
-        ]
-      },
-      "typeIds": [
-        "cg:entity-type:person"
-      ]
-    },
-    {
-      "id": "cg:person:name-bernard-lynch",
-      "label": "Bernard Lynch",
-      "description": "Fine Gael / 1957 / 1 contests",
-      "kind": "entity",
-      "browseType": "persons",
-      "browseSlug": "name-bernard-lynch",
-      "browseUrl": "/browse/persons/name-bernard-lynch",
-      "attributes": {
-        "firstYear": 1957,
-        "lastYear": 1957,
-        "relatedElectionCount": 1,
-        "contestsStood": 1,
-        "contestsElected": 0,
-        "firstPreferenceVotes": 3115,
-        "searchHints": [
-          "Fine Gael",
-          "Clare",
-          "1957 Irish general election"
-        ]
-      },
-      "typeIds": [
-        "cg:entity-type:person"
-      ]
-    },
-    {
-      "id": "cg:person:name-bernard-maguire",
-      "label": "Bernard Maguire",
-      "description": "Independent / 1927-1957 / 5 contests",
-      "kind": "entity",
-      "browseType": "persons",
-      "browseSlug": "name-bernard-maguire",
-      "browseUrl": "/browse/persons/name-bernard-maguire",
-      "attributes": {
-        "firstYear": 1927,
-        "lastYear": 1957,
-        "relatedElectionCount": 5,
-        "contestsStood": 5,
-        "contestsElected": 3,
-        "firstPreferenceVotes": 19990,
-        "searchHints": [
-          "Independent",
-          "Fianna Fáil",
-          "Sligo Leitrim",
-          "Leitrim Sligo",
-          "1957 Irish general election",
-          "1954 Irish general election",
-          "1951 Irish general election",
-          "1948 Irish general election",
-          "1927 Irish general election"
-        ]
-      },
-      "typeIds": [
-        "cg:entity-type:person"
-      ]
-    },
-    {
-      "id": "cg:person:name-bernard-markey",
-      "label": "Bernard Markey",
-      "description": "Fine Gael / 1969 / 1 contests",
-      "kind": "entity",
-      "browseType": "persons",
-      "browseSlug": "name-bernard-markey",
-      "browseUrl": "/browse/persons/name-bernard-markey",
-      "attributes": {
-        "firstYear": 1969,
-        "lastYear": 1969,
-        "relatedElectionCount": 1,
-        "contestsStood": 1,
-        "contestsElected": 0,
-        "firstPreferenceVotes": 2443,
-        "searchHints": [
-          "Fine Gael",
-          "Monaghan",
-          "1969 Irish general election"
-        ]
-      },
-      "typeIds": [
-        "cg:entity-type:person"
-      ]
-    },
-    {
-      "id": "cg:person:name-bernard-mccrory",
-      "label": "Bernard McCrory",
-      "description": "Sinn Féin / 2005 / 1 contests",
-      "kind": "entity",
-      "browseType": "persons",
-      "browseSlug": "name-bernard-mccrory",
-      "browseUrl": "/browse/persons/name-bernard-mccrory",
-      "attributes": {
-        "firstYear": 2005,
-        "lastYear": 2005,
-        "relatedElectionCount": 1,
-        "contestsStood": 1,
-        "contestsElected": 0,
-        "firstPreferenceVotes": 197,
-        "searchHints": [
-          "Sinn Féin",
-          "Antrim Southeast",
-          "2005 Northern Ireland local elections"
-        ]
-      },
-      "typeIds": [
-        "cg:entity-type:person"
-      ]
-    },
-    {
-      "id": "cg:person:name-bernard-mcdonagh",
-      "label": "Bernard McDonagh",
-      "description": "Republican Clubs / 1975-1977 / 2 contests",
-      "kind": "entity",
-      "browseType": "persons",
-      "browseSlug": "name-bernard-mcdonagh",
-      "browseUrl": "/browse/persons/name-bernard-mcdonagh",
-      "attributes": {
-        "firstYear": 1975,
-        "lastYear": 1977,
-        "relatedElectionCount": 2,
-        "contestsStood": 2,
-        "contestsElected": 1,
-        "firstPreferenceVotes": 1204,
-        "searchHints": [
-          "Republican Clubs",
-          "Belfast Area D",
-          "Belfast West",
-          "1977 Northern Ireland local elections",
-          "1975 Northern Ireland Constitutional Convention election"
-        ]
-      },
-      "typeIds": [
-        "cg:entity-type:person"
-      ]
-    },
-    {
-      "id": "cg:person:name-bernard-mcfadden",
-      "label": "Bernard McFadden",
-      "description": "Sinn Féin / 1985-1993 / 3 contests",
-      "kind": "entity",
-      "browseType": "persons",
-      "browseSlug": "name-bernard-mcfadden",
-      "browseUrl": "/browse/persons/name-bernard-mcfadden",
-      "attributes": {
-        "firstYear": 1985,
-        "lastYear": 1993,
-        "relatedElectionCount": 3,
-        "contestsStood": 3,
-        "contestsElected": 2,
-        "firstPreferenceVotes": 2699,
-        "searchHints": [
-          "Sinn Féin",
-          "Northland",
-          "Rural",
-          "1993 Northern Ireland local elections",
-          "1989 Northern Ireland local elections",
-          "1985 Northern Ireland local elections"
-        ]
-      },
-      "typeIds": [
-        "cg:entity-type:person"
-      ]
-    },
-    {
-      "id": "cg:person:name-bernard-mcgrath",
-      "label": "Bernard McGrath",
-      "description": "SDLP / 1977-2023 / 4 contests",
-      "kind": "entity",
-      "browseType": "persons",
-      "browseSlug": "name-bernard-mcgrath",
-      "browseUrl": "/browse/persons/name-bernard-mcgrath",
-      "attributes": {
-        "firstYear": 1977,
-        "lastYear": 2023,
-        "relatedElectionCount": 4,
-        "contestsStood": 4,
-        "contestsElected": 1,
-        "firstPreferenceVotes": 1875,
-        "searchHints": [
-          "SDLP",
-          "Independent",
-          "Mid Tyrone",
-          "Omagh Area D",
-          "2023 Northern Ireland local elections",
-          "2019 Northern Ireland local elections",
-          "2014 Northern Ireland local elections",
-          "1977 Northern Ireland local elections"
         ]
       },
       "typeIds": [
