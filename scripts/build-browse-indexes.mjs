@@ -5,6 +5,12 @@ import { partyColour } from '../js/election-domain.mjs';
 import { canonicalElectionTitle, electionResultEntryLabel } from '../js/election-names.mjs';
 
 const ROOT = process.cwd();
+
+// IA download links for agency map layers (mirrored by scripts/build-agency-ia-mirror.mjs).
+const AGENCY_IA_MIRRORS = (() => {
+  try { return JSON.parse(readFileSync(path.join(ROOT, 'data/database/agency-ia-mirrors.json'), 'utf8')).items || {}; }
+  catch { return {}; }
+})();
 const OUT_DIR = path.join(ROOT, 'data', 'browse');
 const DETAILS_DIR = path.join(OUT_DIR, 'details');
 
@@ -221,7 +227,8 @@ function buildMaps(mapsData, dataEntriesData, categoriesById, mapClassInfoById, 
       return Boolean(variant.files || variant.file || variant.sourceFile || variant.data || variant.url || variant.source);
     });
     const references = normalizeReferences(map.references || map.sourceReferences || map.sources);
-    const downloads = normalizeLinks(map.downloads || map.sourceDownload || map.sourceDownloads || map.download || files);
+    const iaLinks = (AGENCY_IA_MIRRORS[map.id]?.files || []).map((f) => ({ label: `Internet Archive: ${f.name}`, url: f.iaUrl }));
+    const downloads = normalizeLinks([map.downloads || map.sourceDownload || map.sourceDownloads || map.download || files, ...iaLinks]);
     const rawTitle = cleanText(map.name || map.title || map.id);
     const title = mapDisplayTitle(map, mapClassInfoById.get(map.id), rawTitle);
     return compactObject({
