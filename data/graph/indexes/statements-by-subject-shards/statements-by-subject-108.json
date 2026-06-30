@@ -1,9 +1,31 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T21:51:18.768Z",
+  "generatedAt": "2026-06-30T22:16:28.868Z",
   "shard": 108,
   "totalSubjects": 250,
   "items": {
+    "cg:party:ulster-unioinst": [
+      {
+        "id": "cg:statement:9de1db6ed7a85bc33203",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:political-party",
+        "valueLabel": "Political party or label",
+        "valueText": "Political party or label",
+        "valueDescription": "A political party, electoral label, or observed candidature label.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:287978c4418839d0e383",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Ulster Unioinst",
+        "valueText": "Ulster Unioinst",
+        "referenceCount": 0
+      }
+    ],
     "cg:party:ulster-unionis-retired-civil-servant": [
       {
         "id": "cg:statement:1d8a519d8da3a8593733",
@@ -52240,167 +52262,6 @@
             "valueType": "string",
             "valueLabel": "South Antrim",
             "valueText": "South Antrim"
-          },
-          {
-            "propertyId": "cg:property:candidature-status",
-            "propertyLabel": "candidature status",
-            "valueType": "string",
-            "valueLabel": "Eliminated",
-            "valueText": "Eliminated"
-          },
-          {
-            "propertyId": "cg:property:elected",
-            "propertyLabel": "elected",
-            "valueType": "boolean",
-            "valueLabel": "No",
-            "valueText": "No"
-          },
-          {
-            "propertyId": "cg:property:member-of-political-party",
-            "propertyLabel": "member of political party or label",
-            "valueType": "entity",
-            "valueId": "cg:party:green",
-            "valueLabel": "Green",
-            "valueText": "Green"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      }
-    ],
-    "cg:person:18861": [
-      {
-        "id": "cg:statement:7fdff4c98aab5c9a2440",
-        "propertyId": "cg:property:has-candidature",
-        "propertyLabel": "has candidature",
-        "valueType": "entity",
-        "valueId": "cg:candidature:cg-person-18861-cg-contest-northern-ireland-forum-for-political-dialogue-dc6cc33f6581",
-        "valueLabel": "David Lyttle - Mid Ulster",
-        "valueText": "David Lyttle - Mid Ulster",
-        "valueDescription": "1996 Northern Ireland Forum election / Green / Eliminated",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "1996-05-30",
-            "valueText": "1996-05-30"
-          },
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "Mid Ulster",
-            "valueText": "Mid Ulster"
-          },
-          {
-            "propertyId": "cg:property:candidature-status",
-            "propertyLabel": "candidature status",
-            "valueType": "string",
-            "valueLabel": "Eliminated",
-            "valueText": "Eliminated"
-          },
-          {
-            "propertyId": "cg:property:elected",
-            "propertyLabel": "elected",
-            "valueType": "boolean",
-            "valueLabel": "No",
-            "valueText": "No"
-          },
-          {
-            "propertyId": "cg:property:member-of-political-party",
-            "propertyLabel": "member of political party or label",
-            "valueType": "entity",
-            "valueId": "cg:party:green",
-            "valueLabel": "Green",
-            "valueText": "Green"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:4dba495b0c9f740b7ea6",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:person",
-        "valueLabel": "Person",
-        "valueText": "Person",
-        "valueDescription": "A person who appears in Civgraph public data, including election candidates, MPs, and MLAs.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:7ba49645da8a3fdf969c",
-        "propertyId": "cg:property:member-of-political-party",
-        "propertyLabel": "member of political party or label",
-        "valueType": "entity",
-        "valueId": "cg:party:green",
-        "valueLabel": "Green",
-        "valueText": "Green",
-        "valueDescription": "1982-2024 / 41 linked elections",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "Browse person party summary",
-            "valueText": "Browse person party summary"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:55dabced174dbfb80e0d",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "David Lyttle",
-        "valueText": "David Lyttle",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:06d9faac0893b5cf4393",
-        "propertyId": "cg:property:stood-in-election",
-        "propertyLabel": "stood in election",
-        "valueType": "entity",
-        "valueId": "cg:election:northern-ireland-forum-for-political-dialogue-1996-05-30",
-        "valueLabel": "1996 Northern Ireland Forum election",
-        "valueText": "1996 Northern Ireland Forum election",
-        "valueDescription": "19 constituencies",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "1996-05-30",
-            "valueText": "1996-05-30"
-          },
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "Mid Ulster",
-            "valueText": "Mid Ulster"
           },
           {
             "propertyId": "cg:property:candidature-status",

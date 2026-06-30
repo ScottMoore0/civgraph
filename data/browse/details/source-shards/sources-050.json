@@ -1,10 +1,355 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T21:50:13.911Z",
+  "generatedAt": "2026-06-30T22:16:23.595Z",
   "kind": "sources",
   "shard": "sources-050.json",
   "total": 200,
   "items": [
+    {
+      "id": "medium-priority:7-transport-roads-infrastructure-public-assets:dota06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment:02021",
+      "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-dota06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment-02021",
+      "type": "approved-medium-priority-source",
+      "title": "DOTA06 - Number of Private Cars Licensed (WLTP CO2 emissions motor tax assessment)",
+      "subtitle": "Transport, roads, infrastructure, public assets / Department of Transport, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
+      "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+      "provider": [
+        "Department of Transport",
+        "data.gov.ie"
+      ],
+      "description": "DOTA06 - Number of Private Cars Licensed (WLTP CO2 emissions motor tax assessment) is published as a medium-priority Civgraph source/provenance record from Department of Transport, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/dota06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment",
+      "references": [
+        {
+          "label": "DOTA06 - Number of Private Cars Licensed (WLTP CO2 emissions motor tax assessment) provider page",
+          "url": "https://data.gov.ie/dataset/dota06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "DOTA06 - Number of Private Cars Licensed (WLTP CO2 emissions motor tax assessment) Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dota06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/dota06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Transport, roads, infrastructure, public assets",
+        "transport-public-asset",
+        "road features",
+        "Ireland / unspecified",
+        "transport-public-asset-batch-review",
+        "CSV",
+        "JSON-STAT",
+        "PX",
+        "XLSX"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 2022,
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dota06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment:02021",
+          "title": "DOTA06 - Number of Private Cars Licensed (WLTP CO2 emissions motor tax assessment)",
+          "cleanTitle": "DOTA06 - Number of Private Cars Licensed (WLTP CO2 emissions motor tax assessment)",
+          "provider": "data.gov.ie",
+          "organisation": "Department of Transport",
+          "category": "tabular",
+          "roiGroup": "7. Transport, roads, infrastructure, public assets",
+          "groupTitle": "Transport, roads, infrastructure, public assets",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "transport-public-asset",
+          "featureUnit": "road features",
+          "formats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/dota06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dota06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "public-asset-batch-placement: publication policy assigned",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Transport, roads, infrastructure, public assets",
+        "Ireland / unspecified",
+        "transport-public-asset",
+        "DOTA06 - Number of Private Cars Licensed (WLTP CO2 emissions motor tax assessment)"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "spreadsheet"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/dota06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dota06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Department of Transport, data.gov.ie, DOTA06 - Number of Private Cars Licensed (WLTP CO2 emissions motor tax assessment).",
+      "fullCitation": "Department of Transport, data.gov.ie. DOTA06 - Number of Private Cars Licensed (WLTP CO2 emissions motor tax assessment). Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dota06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dota06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dota06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment:02021",
+        "sourceRowNumber": 2022,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+        "proposedAction": "transport-public-asset-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ]
+        },
+        "confidence": 60,
+        "resolvedBlockers": [
+          "public-asset-batch-placement: publication policy assigned",
+          "source-page-and-ia-viewport-decision: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-dota06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment-02021",
+      "rawMetadata": {
+        "id": "medium-priority:7-transport-roads-infrastructure-public-assets:dota06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment:02021",
+        "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-dota06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment-02021",
+        "type": "approved-medium-priority-source",
+        "title": "DOTA06 - Number of Private Cars Licensed (WLTP CO2 emissions motor tax assessment)",
+        "subtitle": "Transport, roads, infrastructure, public assets / Department of Transport, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
+        "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+        "provider": [
+          "Department of Transport",
+          "data.gov.ie"
+        ],
+        "description": "DOTA06 - Number of Private Cars Licensed (WLTP CO2 emissions motor tax assessment) is published as a medium-priority Civgraph source/provenance record from Department of Transport, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/dota06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment",
+        "references": [
+          {
+            "label": "DOTA06 - Number of Private Cars Licensed (WLTP CO2 emissions motor tax assessment) provider page",
+            "url": "https://data.gov.ie/dataset/dota06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "DOTA06 - Number of Private Cars Licensed (WLTP CO2 emissions motor tax assessment) Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dota06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/dota06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Transport, roads, infrastructure, public assets",
+          "Ireland / unspecified",
+          "transport-public-asset",
+          "DOTA06 - Number of Private Cars Licensed (WLTP CO2 emissions motor tax assessment)"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "spreadsheet"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/dota06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dota06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Department of Transport, data.gov.ie, DOTA06 - Number of Private Cars Licensed (WLTP CO2 emissions motor tax assessment).",
+        "fullCitation": "Department of Transport, data.gov.ie. DOTA06 - Number of Private Cars Licensed (WLTP CO2 emissions motor tax assessment). Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dota06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dota06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 2022,
+            "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dota06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment:02021",
+            "title": "DOTA06 - Number of Private Cars Licensed (WLTP CO2 emissions motor tax assessment)",
+            "cleanTitle": "DOTA06 - Number of Private Cars Licensed (WLTP CO2 emissions motor tax assessment)",
+            "provider": "data.gov.ie",
+            "organisation": "Department of Transport",
+            "category": "tabular",
+            "roiGroup": "7. Transport, roads, infrastructure, public assets",
+            "groupTitle": "Transport, roads, infrastructure, public assets",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "transport-public-asset",
+            "featureUnit": "road features",
+            "formats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "transport-public-asset-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV",
+                "JSON-STAT",
+                "PX",
+                "XLSX"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/dota06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dota06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "public-asset-batch-placement: publication policy assigned",
+              "source-page-and-ia-viewport-decision: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dota06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment:02021",
+          "sourceRowNumber": 2022,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ]
+          },
+          "confidence": 60,
+          "resolvedBlockers": [
+            "public-asset-batch-placement: publication policy assigned",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Transport, roads, infrastructure, public assets",
+          "transport-public-asset",
+          "road features",
+          "Ireland / unspecified",
+          "transport-public-asset-batch-review",
+          "CSV",
+          "JSON-STAT",
+          "PX",
+          "XLSX"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-dota06-number-of-private-cars-licensed-wltp-co2-emissions-motor-tax-assessment-02021"
+      }
+    },
     {
       "id": "medium-priority:7-transport-roads-infrastructure-public-assets:dota07-number-of-private-cars-by-engine-capacity-in-each-licensing-authority-area-pre-co2:02022",
       "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-dota07-number-of-private-cars-by-engine-capacity-in-each-licensing-authority-area-pre-co2-02022",
@@ -54702,141 +55047,6 @@
             "sha256": "df3a8a38722a6dd63562f651e92e2b828b1b75603042c1ba169d68399d29150c",
             "lastModified": "Tue, 09 Jan 2018 14:59:48 GMT",
             "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/roi-30-november-2017.pdf"
-          }
-        ]
-      }
-    },
-    {
-      "id": "ni-register:assembly:pdf:e7c165a56761a533",
-      "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-4-july-2014-40cc27ec",
-      "type": "register-source-document",
-      "title": "NI Assembly Register of Members Interests (4 July 2014)",
-      "subtitle": "Current / pdf / 4 July 2014",
-      "category": "Registers of interests",
-      "date": "2014-07-04",
-      "provider": [
-        "Northern Ireland Assembly"
-      ],
-      "description": "NI Assembly register of interests pdf. edition dated 4 July 2014. content type application/pdf",
-      "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-04-jul-14.pdf",
-      "references": [
-        {
-          "label": "Current register landing page",
-          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
-        },
-        {
-          "label": "Provider source URL",
-          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-04-jul-14.pdf"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "pdf source",
-          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-04-jul-14.pdf",
-          "type": "pdf"
-        }
-      ],
-      "keywords": [
-        "register of interests",
-        "MLA",
-        "Northern Ireland Assembly",
-        "pdf",
-        "current"
-      ],
-      "sourceItems": [
-        {
-          "sourcePageId": "current",
-          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
-          "title": "PDF",
-          "linkText": "PDF",
-          "kind": "pdf",
-          "contentType": "application/pdf",
-          "httpStatus": 200,
-          "bytes": 227381,
-          "sha256": "44ed0cdf37ee420f14cc6c4c205e030799d75b121198b8ec43850b1b2fd9dd8b",
-          "lastModified": "Fri, 27 Mar 2015 09:45:56 GMT",
-          "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-04-jul-14.pdf"
-        }
-      ],
-      "status": "Available",
-      "statusChips": [
-        "pdf",
-        "HTTP 200",
-        "current"
-      ],
-      "sourceHierarchy": [
-        "Browse",
-        "Registers of interests",
-        "Northern Ireland Assembly",
-        "Current"
-      ],
-      "parentId": "ni-register:assembly:collection",
-      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
-      "browseUrl": "/browse/sources/ni-register-assembly-pdf-ni-assembly-register-of-members-interests-4-july-2014-40cc27ec",
-      "rawMetadata": {
-        "id": "ni-register:assembly:pdf:e7c165a56761a533",
-        "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-4-july-2014-40cc27ec",
-        "type": "register-source-document",
-        "title": "NI Assembly Register of Members Interests (4 July 2014)",
-        "subtitle": "Current / pdf / 4 July 2014",
-        "category": "Registers of interests",
-        "date": "2014-07-04",
-        "provider": [
-          "Northern Ireland Assembly"
-        ],
-        "description": "NI Assembly register of interests pdf. edition dated 4 July 2014. content type application/pdf",
-        "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-04-jul-14.pdf",
-        "references": [
-          {
-            "label": "Current register landing page",
-            "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
-          },
-          {
-            "label": "Provider source URL",
-            "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-04-jul-14.pdf"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "pdf source",
-            "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-04-jul-14.pdf",
-            "type": "pdf"
-          }
-        ],
-        "keywords": [
-          "register of interests",
-          "MLA",
-          "Northern Ireland Assembly",
-          "pdf",
-          "current"
-        ],
-        "sourceHierarchy": [
-          "Browse",
-          "Registers of interests",
-          "Northern Ireland Assembly",
-          "Current"
-        ],
-        "status": "Available",
-        "statusChips": [
-          "pdf",
-          "HTTP 200",
-          "current"
-        ],
-        "parentId": "ni-register:assembly:collection",
-        "parentTitle": "Northern Ireland Assembly Register of Members Interests",
-        "sourceItems": [
-          {
-            "sourcePageId": "current",
-            "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
-            "title": "PDF",
-            "linkText": "PDF",
-            "kind": "pdf",
-            "contentType": "application/pdf",
-            "httpStatus": 200,
-            "bytes": 227381,
-            "sha256": "44ed0cdf37ee420f14cc6c4c205e030799d75b121198b8ec43850b1b2fd9dd8b",
-            "lastModified": "Fri, 27 Mar 2015 09:45:56 GMT",
-            "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-04-jul-14.pdf"
           }
         ]
       }

@@ -1,10 +1,135 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T21:50:13.911Z",
+  "generatedAt": "2026-06-30T22:16:23.595Z",
   "kind": "sources",
   "shard": "sources-052.json",
   "total": 200,
   "items": [
+    {
+      "id": "peatland-geoportal:conversion-candidate:gsni-tellus-regional-stream-waters:4f88630d3dbd400eac5eb6d366e12313",
+      "slug": "peatland-geoportal-conversion-candidate-gsni-tellus-regional-stream-waters-4f88630d3dbd400eac5eb6d366e12313",
+      "type": "peatland-geoportal-conversion-candidate-source",
+      "title": "GSNI Tellus Regional Stream Waters",
+      "subtitle": "Feature Service / Gemma.McNickle_QueensUB / conversion candidate",
+      "category": "Peatland Geoportal conversion candidates",
+      "date": "2023-08-08",
+      "provider": [
+        "Gemma.McNickle_QueensUB",
+        "Queen's University Belfast"
+      ],
+      "description": "GSNI Tellus Regional Stream Waters is a Feature Service item from the Peatland Geoportal, owned by Gemma.McNickle_QueensUB. Best conversion source if approved: ArcGIS Feature Service (esriGeometryPoint); use item metadata and sibling records for provenance. Possible variant of GSNI Tellus Regional Stream Waters — Open Data NI; inspect lineage/schema/geometry before deciding. ArcGIS item ID: 4f88630d3dbd400eac5eb6d366e12313. Modified: 2023-08-08. Service metadata observed in the audit: 1 layer; esriGeometryPoint; capabilities: Query, Extract. The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion.",
+      "url": "https://www.arcgis.com/home/item.html?id=4f88630d3dbd400eac5eb6d366e12313",
+      "references": [
+        {
+          "label": "GSNI Tellus Regional Stream Waters ArcGIS item page",
+          "url": "https://www.arcgis.com/home/item.html?id=4f88630d3dbd400eac5eb6d366e12313",
+          "source": "ArcGIS Online / Peatland Geoportal",
+          "role": "arcgis-item-page"
+        },
+        {
+          "label": "Peatland Geoportal",
+          "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/",
+          "source": "Queen's University Belfast / ArcGIS Hub",
+          "role": "source-portal"
+        },
+        {
+          "label": "Peatland Geoportal ArcGIS group search",
+          "url": "https://www.arcgis.com/sharing/rest/search?f=json&q=group:b5fdfbe3f6264c14a90afd43f8f51956&num=100&sortField=title",
+          "source": "ArcGIS Online",
+          "role": "source-group"
+        },
+        {
+          "label": "GSNI Tellus Regional Stream Waters service or source URL",
+          "url": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/GSNI_Tellus_Regional_Stream_Waters/FeatureServer",
+          "source": "Gemma.McNickle_QueensUB",
+          "role": "feature-service"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "GSNI Tellus Regional Stream Waters service endpoint",
+          "url": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/GSNI_Tellus_Regional_Stream_Waters/FeatureServer"
+        }
+      ],
+      "keywords": [
+        "peatland-geoportal",
+        "habitat-protected-site-context",
+        "candidate-interactive-map-after-license-dedupe",
+        "Feature Service",
+        "Gemma.McNickle_QueensUB",
+        "Tellus",
+        "Streams",
+        "Sampling",
+        "GSNI",
+        "SPACE"
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 165,
+          "title": "GSNI Tellus Regional Stream Waters",
+          "provider": "Gemma.McNickle_QueensUB",
+          "category": "habitat-protected-site-context",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "4f88630d3dbd400eac5eb6d366e12313",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=4f88630d3dbd400eac5eb6d366e12313",
+          "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/GSNI_Tellus_Regional_Stream_Waters/FeatureServer",
+          "modified": "2023-08-08T11:20:54.000Z",
+          "access": "public",
+          "tags": [
+            "Tellus",
+            "Streams",
+            "Sampling",
+            "GSNI",
+            "SPACE"
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPoint"
+          ],
+          "capabilities": [
+            "Query",
+            "Extract"
+          ],
+          "recommendedAction": "candidate-interactive-map-after-license-dedupe",
+          "civgraphMatchTitle": "GSNI Tellus Regional Stream Waters — Open Data NI",
+          "civgraphMatchKind": "map",
+          "civgraphMatchScore": 0.714,
+          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+        }
+      ],
+      "status": "Conversion candidate",
+      "statusChips": [
+        "Conversion candidate",
+        "Licence review required",
+        "Geometry not ingested"
+      ],
+      "sourceHierarchy": [
+        "Peatland Geoportal",
+        "Conversion candidates",
+        "habitat-protected-site-context"
+      ],
+      "shortCitation": "Gemma.McNickle_QueensUB: GSNI Tellus Regional Stream Waters",
+      "fullCitation": "GSNI Tellus Regional Stream Waters. Gemma.McNickle_QueensUB via Peatland Geoportal / ArcGIS item 4f88630d3dbd400eac5eb6d366e12313, modified 2023-08-08.",
+      "license": {
+        "status": "licence-review-required",
+        "note": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+      },
+      "approval": {
+        "recommendedAction": "retain as conversion candidate; do not publish runtime layer until approved",
+        "conversionRecommendation": "Best conversion source if approved: ArcGIS Feature Service (esriGeometryPoint); use item metadata and sibling records for provenance.",
+        "dedupeRecommendation": "Possible variant of GSNI Tellus Regional Stream Waters — Open Data NI; inspect lineage/schema/geometry before deciding.",
+        "arcgisItemId": "4f88630d3dbd400eac5eb6d366e12313",
+        "sourceType": "Feature Service",
+        "confidence": "candidate"
+      },
+      "publicationStatus": "conversion-review-only",
+      "proposedBrowsePath": "Books / Tables / Sources > Peatland Geoportal conversion candidates",
+      "relationship": "conversion-review-source",
+      "browseUrl": "/browse/sources/peatland-geoportal-conversion-candidate-gsni-tellus-regional-stream-waters-4f88630d3dbd400eac5eb6d366e12313"
+    },
     {
       "id": "peatland-geoportal:conversion-candidate:gsni-tellus-rural-soil-survey:93db490964ed44afab48cbcf972d60b7",
       "slug": "peatland-geoportal-conversion-candidate-gsni-tellus-rural-soil-survey-93db490964ed44afab48cbcf972d60b7",
@@ -34887,364 +35012,6 @@
           "raw-source-mirrored"
         ],
         "browseUrl": "/browse/sources/raw-source-data-gov-ie-eda15-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards",
-        "iaMirror": {
-          "itemIdentifier": "civgraph-data-gov-ie-raw-sources",
-          "itemUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
-          "mirrorStatus": "mirrored",
-          "verifiedAt": "2026-06-28T02:10:52.845Z",
-          "fileCount": 4
-        }
-      }
-    },
-    {
-      "id": "raw-source:data-gov-ie:eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards",
-      "slug": "raw-source-data-gov-ie-eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards",
-      "type": "raw-source-table",
-      "title": "EDA16 - Retention Rates of Pupils in Second Level Schools (1999 Entry Cohort Onwards)",
-      "subtitle": "Department of Education and Youth / data.gov.ie / CSV, JSON-STAT, PX, XLSX / Source-only",
-      "category": "Raw source tables",
-      "date": "1999",
-      "provider": [
-        "Department of Education and Youth",
-        "data.gov.ie"
-      ],
-      "description": "EDA16 - Retention Rates of Pupils in Second Level Schools (1999 Entry Cohort Onwards) is staged as a table source record from Department of Education and Youth, data.gov.ie. The record is suitable for a Browse/Books/Tables source page with provider links now and IA-hotlinked viewport/download links once the public IA item/file URLs are attached. No map conversion or deep semantic modelling is implied by this source-only record. Formats observed in the local audit: CSV, JSON-STAT, PX, XLSX.",
-      "url": "https://data.gov.ie/dataset/eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards",
-      "references": [
-        {
-          "label": "EDA16 - Retention Rates of Pupils in Second Level Schools (1999 Entry Cohort Onwards) provider dataset page",
-          "url": "https://data.gov.ie/dataset/eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-dataset"
-        },
-        {
-          "label": "EDA16 - Retention Rates of Pupils in Second Level Schools (1999 Entry Cohort Onwards) Internet Archive source mirror",
-          "url": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
-          "source": "Internet Archive",
-          "role": "source-mirror"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset page",
-          "url": "https://data.gov.ie/dataset/eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards",
-          "type": "dataset-page"
-        },
-        {
-          "label": "Internet Archive mirror - eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards-csv.csv",
-          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Department%20of%20Education%20and%20Youth/eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards/eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards-csv.csv",
-          "type": "CSV"
-        },
-        {
-          "label": "Internet Archive mirror - eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards-json-stat.json",
-          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Department%20of%20Education%20and%20Youth/eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards/eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards-json-stat.json",
-          "type": "json-stat"
-        },
-        {
-          "label": "Internet Archive mirror - eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards-px.px",
-          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Department%20of%20Education%20and%20Youth/eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards/eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards-px.px",
-          "type": "px"
-        },
-        {
-          "label": "Internet Archive mirror - eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards-xlsx.xlsx",
-          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Department%20of%20Education%20and%20Youth/eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards/eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards-xlsx.xlsx",
-          "type": "XLSX"
-        }
-      ],
-      "keywords": [
-        "raw-source-document",
-        "ia-ready",
-        "source-only",
-        "table",
-        "data.gov.ie",
-        "Department of Education and Youth",
-        "CSV",
-        "JSON-STAT",
-        "PX",
-        "XLSX",
-        "wards",
-        "internet-archive-mirror",
-        "raw-source-mirrored"
-      ],
-      "sourceItems": [
-        {
-          "auditRowNumber": 5542,
-          "title": "EDA16 - Retention Rates of Pupils in Second Level Schools (1999 Entry Cohort Onwards)",
-          "provider": "data.gov.ie",
-          "organisation": "Department of Education and Youth",
-          "formats": [
-            "CSV",
-            "JSON-STAT",
-            "PX",
-            "XLSX"
-          ],
-          "category": "tabular",
-          "refinedStatus": "source-only or Browse/Books candidate",
-          "recommendedAction": "Publish as IA-hotlinked source/document/table records first; no runtime bundle unless cleaned/queryable.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download.",
-          "blockerCategories": [
-            "geography-matching",
-            "raw-source-hosting-and-viewport-policy",
-            "source-page-and-ia-viewport-decision"
-          ],
-          "detectedFamilies": [
-            "wards"
-          ],
-          "siteFamiliesPresent": [
-            "wards"
-          ],
-          "mirrorPolicy": "Internet Archive mirror verified; local mirror paths remain excluded from public output",
-          "providerDatasetUrl": "https://data.gov.ie/dataset/eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards",
-          "internetArchiveItem": "civgraph-data-gov-ie-raw-sources",
-          "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
-          "internetArchiveFileCount": 4
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source only",
-        "Preview available",
-        "Download available",
-        "Needs review",
-        "Mirror available"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "data.gov.ie",
-        "Department of Education and Youth",
-        "EDA16 - Retention Rates of Pupils in Second Level Schools (1999 Entry Cohort Onwards)"
-      ],
-      "viewport": {
-        "status": "mirror-preview-ready",
-        "supportedViewportTypes": [
-          "table-or-text",
-          "spreadsheet"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards",
-        "note": "Internet Archive mirror files are verified for durable public view/download; provider dataset page remains the canonical source.",
-        "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
-        "fileUrl": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Department%20of%20Education%20and%20Youth/eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards/eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards-csv.csv"
-      },
-      "shortCitation": "Department of Education and Youth, data.gov.ie, EDA16 - Retention Rates of Pupils in Second Level Schools (1999 Entry Cohort Onwards).",
-      "fullCitation": "Department of Education and Youth, data.gov.ie. EDA16 - Retention Rates of Pupils in Second Level Schools (1999 Entry Cohort Onwards). Current provider dataset URL: https://data.gov.ie/dataset/eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards. Civgraph raw source-document record.",
-      "relatedRecords": [
-        {
-          "kind": "data-entry",
-          "id": "data-2021-level-4-plus-settlement",
-          "title": "Level 4+ qualifications (Census 2021, by Settlement)",
-          "score": 0.17
-        },
-        {
-          "kind": "data-entry",
-          "id": "data-2021-level-4-plus-ward",
-          "title": "Level 4+ qualifications (Census 2021, by Ward 2014)",
-          "score": 0.17
-        },
-        {
-          "kind": "data-entry",
-          "id": "data-2021-level-4-plus-lgd",
-          "title": "Level 4+ qualifications (Census 2021, by LGD)",
-          "score": 0.17
-        }
-      ],
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, and IA item metadata to confirm resource-level licence before structured reuse."
-      },
-      "approval": {
-        "recommendedAction": "publish as source/document/table record; do not create duplicate map or election parent",
-        "stagingId": "raw-source:data-gov-ie:eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards",
-        "confidence": "approved-convention",
-        "sourceType": "raw source-document corpus",
-        "provider": "Department of Education and Youth; data.gov.ie"
-      },
-      "publicationStatus": "raw-source-staged; raw-source-mirrored-internet-archive",
-      "proposedBrowsePath": "Books / Tables / Sources > Raw source tables",
-      "browseUrl": "/browse/sources/raw-source-data-gov-ie-eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards",
-      "rawMetadata": {
-        "id": "raw-source:data-gov-ie:eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards",
-        "slug": "raw-source-data-gov-ie-eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards",
-        "type": "raw-source-table",
-        "title": "EDA16 - Retention Rates of Pupils in Second Level Schools (1999 Entry Cohort Onwards)",
-        "subtitle": "Department of Education and Youth / data.gov.ie / CSV, JSON-STAT, PX, XLSX / Source-only",
-        "category": "Raw source tables",
-        "date": "1999",
-        "provider": [
-          "Department of Education and Youth",
-          "data.gov.ie"
-        ],
-        "description": "EDA16 - Retention Rates of Pupils in Second Level Schools (1999 Entry Cohort Onwards) is staged as a table source record from Department of Education and Youth, data.gov.ie. The record is suitable for a Browse/Books/Tables source page with provider links now and IA-hotlinked viewport/download links once the public IA item/file URLs are attached. No map conversion or deep semantic modelling is implied by this source-only record. Formats observed in the local audit: CSV, JSON-STAT, PX, XLSX.",
-        "url": "https://data.gov.ie/dataset/eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards",
-        "references": [
-          {
-            "label": "EDA16 - Retention Rates of Pupils in Second Level Schools (1999 Entry Cohort Onwards) provider dataset page",
-            "url": "https://data.gov.ie/dataset/eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-dataset",
-            "status": "inferred-from-provider-slug"
-          },
-          {
-            "label": "EDA16 - Retention Rates of Pupils in Second Level Schools (1999 Entry Cohort Onwards) Internet Archive source mirror",
-            "url": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
-            "source": "Internet Archive",
-            "role": "source-mirror",
-            "status": "verified"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset page",
-            "url": "https://data.gov.ie/dataset/eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards",
-            "type": "dataset-page",
-            "status": "resource downloads listed by provider dataset page"
-          },
-          {
-            "label": "Internet Archive mirror - eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards-csv.csv",
-            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Department%20of%20Education%20and%20Youth/eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards/eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards-csv.csv",
-            "type": "CSV",
-            "size": 50750,
-            "sha256": "315c68e91e5a327df4d86a91ccda59288ddc0909c85a6c2d16024a87065391dd",
-            "status": "verified Internet Archive mirror",
-            "source": "Internet Archive"
-          },
-          {
-            "label": "Internet Archive mirror - eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards-json-stat.json",
-            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Department%20of%20Education%20and%20Youth/eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards/eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards-json-stat.json",
-            "type": "json-stat",
-            "size": 4351,
-            "sha256": "956ea4a6f5d1e456a67704193884d411c1231cb61de4ba2f426a27da529bf869",
-            "status": "verified Internet Archive mirror",
-            "source": "Internet Archive"
-          },
-          {
-            "label": "Internet Archive mirror - eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards-px.px",
-            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Department%20of%20Education%20and%20Youth/eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards/eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards-px.px",
-            "type": "px",
-            "size": 5250,
-            "sha256": "04b02fe4c3284e4a39143639c36c4ee68b8b69a4b53f4312fd59543a64332828",
-            "status": "verified Internet Archive mirror",
-            "source": "Internet Archive"
-          },
-          {
-            "label": "Internet Archive mirror - eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards-xlsx.xlsx",
-            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Department%20of%20Education%20and%20Youth/eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards/eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards-xlsx.xlsx",
-            "type": "XLSX",
-            "size": 48868,
-            "sha256": "2eeb79b4073d42f3f350e22aea2e6bde6d12240313dbd58240f78bfc559eac91",
-            "status": "verified Internet Archive mirror",
-            "source": "Internet Archive"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source only",
-          "Preview available",
-          "Download available",
-          "Needs review",
-          "Mirror available"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "data.gov.ie",
-          "Department of Education and Youth",
-          "EDA16 - Retention Rates of Pupils in Second Level Schools (1999 Entry Cohort Onwards)"
-        ],
-        "viewport": {
-          "status": "mirror-preview-ready",
-          "supportedViewportTypes": [
-            "table-or-text",
-            "spreadsheet"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards",
-          "note": "Internet Archive mirror files are verified for durable public view/download; provider dataset page remains the canonical source.",
-          "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
-          "fileUrl": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Department%20of%20Education%20and%20Youth/eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards/eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards-csv.csv"
-        },
-        "shortCitation": "Department of Education and Youth, data.gov.ie, EDA16 - Retention Rates of Pupils in Second Level Schools (1999 Entry Cohort Onwards).",
-        "fullCitation": "Department of Education and Youth, data.gov.ie. EDA16 - Retention Rates of Pupils in Second Level Schools (1999 Entry Cohort Onwards). Current provider dataset URL: https://data.gov.ie/dataset/eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards. Civgraph raw source-document record.",
-        "sourceItems": [
-          {
-            "auditRowNumber": 5542,
-            "title": "EDA16 - Retention Rates of Pupils in Second Level Schools (1999 Entry Cohort Onwards)",
-            "provider": "data.gov.ie",
-            "organisation": "Department of Education and Youth",
-            "formats": [
-              "CSV",
-              "JSON-STAT",
-              "PX",
-              "XLSX"
-            ],
-            "category": "tabular",
-            "refinedStatus": "source-only or Browse/Books candidate",
-            "recommendedAction": "Publish as IA-hotlinked source/document/table records first; no runtime bundle unless cleaned/queryable.",
-            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download.",
-            "blockerCategories": [
-              "geography-matching",
-              "raw-source-hosting-and-viewport-policy",
-              "source-page-and-ia-viewport-decision"
-            ],
-            "detectedFamilies": [
-              "wards"
-            ],
-            "siteFamiliesPresent": [
-              "wards"
-            ],
-            "mirrorPolicy": "Internet Archive mirror verified; local mirror paths remain excluded from public output",
-            "providerDatasetUrl": "https://data.gov.ie/dataset/eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards",
-            "internetArchiveItem": "civgraph-data-gov-ie-raw-sources",
-            "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
-            "internetArchiveFileCount": 4
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, and IA item metadata to confirm resource-level licence before structured reuse."
-        },
-        "approval": {
-          "recommendedAction": "publish as source/document/table record; do not create duplicate map or election parent",
-          "stagingId": "raw-source:data-gov-ie:eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards",
-          "confidence": "approved-convention",
-          "sourceType": "raw source-document corpus",
-          "provider": "Department of Education and Youth; data.gov.ie"
-        },
-        "publicationStatus": "raw-source-staged; raw-source-mirrored-internet-archive",
-        "proposedBrowsePath": "Books / Tables / Sources > Raw source tables",
-        "relatedRecords": [
-          {
-            "kind": "data-entry",
-            "id": "data-2021-level-4-plus-settlement",
-            "title": "Level 4+ qualifications (Census 2021, by Settlement)",
-            "score": 0.17
-          },
-          {
-            "kind": "data-entry",
-            "id": "data-2021-level-4-plus-ward",
-            "title": "Level 4+ qualifications (Census 2021, by Ward 2014)",
-            "score": 0.17
-          },
-          {
-            "kind": "data-entry",
-            "id": "data-2021-level-4-plus-lgd",
-            "title": "Level 4+ qualifications (Census 2021, by LGD)",
-            "score": 0.17
-          }
-        ],
-        "keywords": [
-          "raw-source-document",
-          "ia-ready",
-          "source-only",
-          "table",
-          "data.gov.ie",
-          "Department of Education and Youth",
-          "CSV",
-          "JSON-STAT",
-          "PX",
-          "XLSX",
-          "wards",
-          "internet-archive-mirror",
-          "raw-source-mirrored"
-        ],
-        "browseUrl": "/browse/sources/raw-source-data-gov-ie-eda16-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards",
         "iaMirror": {
           "itemIdentifier": "civgraph-data-gov-ie-raw-sources",
           "itemUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",

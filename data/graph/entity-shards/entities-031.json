@@ -1,9 +1,65 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T21:51:18.768Z",
+  "generatedAt": "2026-06-30T22:16:28.868Z",
   "shard": 31,
   "total": 5000,
   "items": [
+    {
+      "id": "cg:source:file-from-data-gov-ie-local-mirror-745ce817e2f9",
+      "label": "file from data.gov.ie local mirror",
+      "kind": "entity",
+      "sourceUrl": "https://data.gov.ie/dataset/cd410-private-households-in-permanent-housing-units",
+      "attributes": {
+        "sourceKind": "source-reference",
+        "role": "source-download",
+        "createdFrom": "external-reference"
+      },
+      "typeIds": [
+        "cg:entity-type:source"
+      ]
+    },
+    {
+      "id": "cg:source:file-from-data-gov-ie-local-mirror-74787a42bccb",
+      "label": "file from data.gov.ie local mirror",
+      "kind": "entity",
+      "sourceUrl": "https://data.gov.ie/dataset/ih053--by-use-of-prescribed-and-non-prescribed-medication-in-the-two-weeks-prior-to-interview-b44a",
+      "attributes": {
+        "sourceKind": "source-reference",
+        "role": "source-download",
+        "createdFrom": "external-reference"
+      },
+      "typeIds": [
+        "cg:entity-type:source"
+      ]
+    },
+    {
+      "id": "cg:source:file-from-data-gov-ie-local-mirror-747ba71a49af",
+      "label": "file from data.gov.ie local mirror",
+      "kind": "entity",
+      "sourceUrl": "https://data.gov.ie/dataset/hebeu73-household-likely-to-purchase-an-electric-vehicle-when-next-purchasing-a-car",
+      "attributes": {
+        "sourceKind": "source-reference",
+        "role": "source-download",
+        "createdFrom": "external-reference"
+      },
+      "typeIds": [
+        "cg:entity-type:source"
+      ]
+    },
+    {
+      "id": "cg:source:file-from-data-gov-ie-local-mirror-747e2bde5124",
+      "label": "file from data.gov.ie local mirror",
+      "kind": "entity",
+      "sourceUrl": "https://data.gov.ie/dataset/cd209-population",
+      "attributes": {
+        "sourceKind": "source-reference",
+        "role": "source-download",
+        "createdFrom": "external-reference"
+      },
+      "typeIds": [
+        "cg:entity-type:source"
+      ]
+    },
     {
       "id": "cg:source:file-from-data-gov-ie-local-mirror-748f1983f52a",
       "label": "file from data.gov.ie local mirror",
@@ -65970,6 +66026,24 @@
       ]
     },
     {
+      "id": "cg:source:map-source-niah-buildings",
+      "label": "NIAH Buildings (Architectural Heritage) source files",
+      "description": "National Inventory of Architectural Heritage — recorded buildings/structures (48,327 points). NIAH, via the Peatlands Geoportal (QUB).",
+      "kind": "entity",
+      "browseType": "sources",
+      "browseSlug": "map-source-niah-buildings",
+      "browseUrl": "/browse/sources/map-source-niah-buildings",
+      "attributes": {
+        "sourceCategory": "Map sources",
+        "provider": "National Inventory of Architectural Heritage (NIAH)",
+        "referenceCount": 2,
+        "downloadCount": 2
+      },
+      "typeIds": [
+        "cg:entity-type:source"
+      ]
+    },
+    {
       "id": "cg:source:map-source-niea-catchment-stakeholder-groups",
       "label": "NIEA Catchment Stakeholder Groups source files",
       "description": "NIEA Catchment Stakeholder Groups — published by NIEA Water Management Unit (Water Framework Directive boundaries). 1 related provider/source row is staged as provenance for this existing Civgraph record; provider: Open Data NI; formats: GML, SHP; 1 provider dataset link preserved as references; licence: UK Open Government Licence (OGL); relationship: related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval.",
@@ -73961,109 +74035,6 @@
         "publicationStatus": "source-record-with-runtime-review",
         "date": "2015",
         "referenceCount": 2,
-        "downloadCount": 4
-      },
-      "typeIds": [
-        "cg:entity-type:source"
-      ]
-    },
-    {
-      "id": "cg:source:medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-d-117b67b04042",
-      "label": "Townland Boundaries Generalised 100m - National Statutory Boundaries - 2015",
-      "description": "Townland Boundaries Generalised 100m - National Statutory Boundaries - 2015 is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; large-or-special-format-review: size/format decision remains before runtime publication.",
-      "kind": "entity",
-      "browseType": "sources",
-      "browseSlug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-townland-boundaries-generalised-100m-national-statutory-boundaries-20151-00082",
-      "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-townland-boundaries-generalised-100m-national-statutory-boundaries-20151-00082",
-      "sourceUrl": "https://data.gov.ie/dataset/townland-boundaries-generalised-100m-national-statutory-boundaries-20151",
-      "attributes": {
-        "sourceCategory": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "provider": "Tailte Éireann, Tailte/OSI/data.gov.ie",
-        "publicationStatus": "source-record-with-runtime-review",
-        "date": "2015",
-        "referenceCount": 2,
-        "downloadCount": 4
-      },
-      "typeIds": [
-        "cg:entity-type:source"
-      ]
-    },
-    {
-      "id": "cg:source:medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-d-120003893f84",
-      "label": "Local Authorities - National Statutory Boundaries - Ungeneralised 2026",
-      "description": "Local Authorities - National Statutory Boundaries - Ungeneralised 2026 is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; geography-crosswalk-and-versioning: needs exact geography crosswalk; large-or-special-format-review: size/format decision remains before runtime publication.",
-      "kind": "entity",
-      "browseType": "sources",
-      "browseSlug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-local-authorities-national-statutory-boundaries-ungeneralised-2026-00184",
-      "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-local-authorities-national-statutory-boundaries-ungeneralised-2026-00184",
-      "sourceUrl": "https://data.gov.ie/dataset/local-authorities-national-statutory-boundaries-ungeneralised-2026",
-      "attributes": {
-        "sourceCategory": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "provider": "Tailte Éireann, Tailte/OSI/data.gov.ie",
-        "publicationStatus": "source-record-with-runtime-review",
-        "date": "2026",
-        "referenceCount": 2,
-        "downloadCount": 4
-      },
-      "typeIds": [
-        "cg:entity-type:source"
-      ]
-    },
-    {
-      "id": "cg:source:medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-d-12626f00864b",
-      "label": "Electoral Divisions DLR",
-      "description": "Electoral Divisions DLR is published as a medium-priority Civgraph source/provenance record from Dún Laoghaire-Rathdown County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. The staging pass found no residual blockers for source-level publication.",
-      "kind": "entity",
-      "browseType": "sources",
-      "browseSlug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-ed-boundaries-dlr-00104",
-      "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-ed-boundaries-dlr-00104",
-      "sourceUrl": "https://data.gov.ie/dataset/ed-boundaries-dlr",
-      "attributes": {
-        "sourceCategory": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "provider": "Dún Laoghaire-Rathdown County Council, data.gov.ie",
-        "publicationStatus": "approved-source-record",
-        "referenceCount": 2,
-        "downloadCount": 4
-      },
-      "typeIds": [
-        "cg:entity-type:source"
-      ]
-    },
-    {
-      "id": "cg:source:medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-d-1337c58912d8",
-      "label": "Police Recorded Crime in Northern Ireland",
-      "description": "Police Recorded Crime in Northern Ireland is published as a medium-priority Civgraph source/provenance record from Police Service of Northern Ireland, Open Data NI. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "kind": "entity",
-      "browseType": "sources",
-      "browseSlug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-police-recorded-crime-in-northern-ireland-01919",
-      "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-police-recorded-crime-in-northern-ireland-01919",
-      "sourceUrl": "https://admin.opendatani.gov.uk/dataset/police-recorded-crime-in-northern-ireland",
-      "attributes": {
-        "sourceCategory": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "provider": "Police Service of Northern Ireland, Open Data NI",
-        "publicationStatus": "approved-source-record",
-        "referenceCount": 2,
-        "downloadCount": 4
-      },
-      "typeIds": [
-        "cg:entity-type:source"
-      ]
-    },
-    {
-      "id": "cg:source:medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-d-13e6b4bd7b11",
-      "label": "Municipal Districts - National Statutory Boundaries - Ungeneralised - 2024",
-      "description": "Municipal Districts - National Statutory Boundaries - Ungeneralised - 2024 is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; geography-crosswalk-and-versioning: needs exact geography crosswalk; large-or-special-format-review: size/format decision remains before runtime publication. 1 ArcGIS metadata item staged as provenance for this existing Civgraph record; owner/provider: TailteEireannMapGenie; ArcGIS item ID: ec408f50bfae49748056c40674d92be7; modified: 2026-02-18; access: public; 1 service link preserved as references; licence note: The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion.",
-      "kind": "entity",
-      "browseType": "sources",
-      "browseSlug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-municipal-districts-national-statutory-boundaries-ungeneralised-20241-00187",
-      "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-municipal-districts-national-statutory-boundaries-ungeneralised-20241-00187",
-      "sourceUrl": "https://data.gov.ie/dataset/municipal-districts-national-statutory-boundaries-ungeneralised-20241",
-      "attributes": {
-        "sourceCategory": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "provider": "Tailte Éireann, Tailte/OSI/data.gov.ie",
-        "publicationStatus": "source-record-with-runtime-review",
-        "date": "2024",
-        "referenceCount": 6,
         "downloadCount": 4
       },
       "typeIds": [

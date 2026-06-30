@@ -1,9 +1,169 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T21:51:18.768Z",
+  "generatedAt": "2026-06-30T22:16:28.868Z",
   "shard": 145,
   "totalSubjects": 250,
   "items": {
+    "cg:person:name-mcalea": [
+      {
+        "id": "cg:statement:b4a3ee34105c07995b7b",
+        "propertyId": "cg:property:has-candidature",
+        "propertyLabel": "has candidature",
+        "valueType": "entity",
+        "valueId": "cg:candidature:cg-person-name-mcalea-cg-contest-local-government-local-government-distr-cafe5f91e3f4",
+        "valueLabel": "McAlea - Belfast Area G",
+        "valueText": "McAlea - Belfast Area G",
+        "valueDescription": "1973 Northern Ireland local elections / Republican Clubs",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "1973-05-30",
+            "valueText": "1973-05-30"
+          },
+          {
+            "propertyId": "cg:property:constituency",
+            "propertyLabel": "constituency",
+            "valueType": "string",
+            "valueLabel": "Belfast Area G",
+            "valueText": "Belfast Area G"
+          },
+          {
+            "propertyId": "cg:property:elected",
+            "propertyLabel": "elected",
+            "valueType": "boolean",
+            "valueLabel": "No",
+            "valueText": "No"
+          },
+          {
+            "propertyId": "cg:property:first-preference-votes",
+            "propertyLabel": "first preference votes",
+            "valueType": "number",
+            "valueLabel": "376",
+            "valueText": "376"
+          },
+          {
+            "propertyId": "cg:property:member-of-political-party",
+            "propertyLabel": "member of political party or label",
+            "valueType": "entity",
+            "valueId": "cg:party:republican-clubs",
+            "valueLabel": "Republican Clubs",
+            "valueText": "Republican Clubs"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-person-index",
+            "sourceTitle": "Civgraph Browse person index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:e7e0e5a659e82e8df9b7",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:person",
+        "valueLabel": "Person",
+        "valueText": "Person",
+        "valueDescription": "A person who appears in Civgraph public data, including election candidates, MPs, and MLAs.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:99d22b068980999e3080",
+        "propertyId": "cg:property:member-of-political-party",
+        "propertyLabel": "member of political party or label",
+        "valueType": "entity",
+        "valueId": "cg:party:republican-clubs",
+        "valueLabel": "Republican Clubs",
+        "valueText": "Republican Clubs",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "Browse person party summary",
+            "valueText": "Browse person party summary"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-person-index",
+            "sourceTitle": "Civgraph Browse person index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:da748bc17b881684d270",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "McAlea",
+        "valueText": "McAlea",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:44b60fb0a3860147177e",
+        "propertyId": "cg:property:stood-in-election",
+        "propertyLabel": "stood in election",
+        "valueType": "entity",
+        "valueId": "cg:election:local-government-local-government-districts-1973-05-30",
+        "valueLabel": "1973 Northern Ireland local elections",
+        "valueText": "1973 Northern Ireland local elections",
+        "valueDescription": "1973-05-30",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "1973-05-30",
+            "valueText": "1973-05-30"
+          },
+          {
+            "propertyId": "cg:property:constituency",
+            "propertyLabel": "constituency",
+            "valueType": "string",
+            "valueLabel": "Belfast Area G",
+            "valueText": "Belfast Area G"
+          },
+          {
+            "propertyId": "cg:property:elected",
+            "propertyLabel": "elected",
+            "valueType": "boolean",
+            "valueLabel": "No",
+            "valueText": "No"
+          },
+          {
+            "propertyId": "cg:property:first-preference-votes",
+            "propertyLabel": "first preference votes",
+            "valueType": "number",
+            "valueLabel": "376",
+            "valueText": "376"
+          },
+          {
+            "propertyId": "cg:property:member-of-political-party",
+            "propertyLabel": "member of political party or label",
+            "valueType": "entity",
+            "valueId": "cg:party:republican-clubs",
+            "valueLabel": "Republican Clubs",
+            "valueText": "Republican Clubs"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-person-index",
+            "sourceTitle": "Civgraph Browse person index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      }
+    ],
     "cg:person:name-mcaleenan-anne": [
       {
         "id": "cg:statement:2ab27421a0456124ee4e",
@@ -55648,181 +55808,6 @@
             "valueId": "cg:party:alliance",
             "valueLabel": "Alliance",
             "valueText": "Alliance"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      }
-    ],
-    "cg:person:name-mehdi-ozcinar": [
-      {
-        "id": "cg:statement:9e3283d0223b47b6c226",
-        "propertyId": "cg:property:has-candidature",
-        "propertyLabel": "has candidature",
-        "valueType": "entity",
-        "valueId": "cg:candidature:cg-person-name-mehdi-ozcinar-cg-contest-dail-eireann-2024-11-29-dail-eir-65003cc0e089",
-        "valueLabel": "Mehdi Özçinar - Cork East",
-        "valueText": "Mehdi Özçinar - Cork East",
-        "valueDescription": "2024 Irish general election / Sinn Féin / Excluded",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "2024-11-29",
-            "valueText": "2024-11-29"
-          },
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "Cork East",
-            "valueText": "Cork East"
-          },
-          {
-            "propertyId": "cg:property:candidature-status",
-            "propertyLabel": "candidature status",
-            "valueType": "string",
-            "valueLabel": "Excluded",
-            "valueText": "Excluded"
-          },
-          {
-            "propertyId": "cg:property:elected",
-            "propertyLabel": "elected",
-            "valueType": "boolean",
-            "valueLabel": "No",
-            "valueText": "No"
-          },
-          {
-            "propertyId": "cg:property:first-preference-votes",
-            "propertyLabel": "first preference votes",
-            "valueType": "number",
-            "valueLabel": "671",
-            "valueText": "671"
-          },
-          {
-            "propertyId": "cg:property:member-of-political-party",
-            "propertyLabel": "member of political party or label",
-            "valueType": "entity",
-            "valueId": "cg:party:sinn-fein",
-            "valueLabel": "Sinn Féin",
-            "valueText": "Sinn Féin"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:7ef876233c72565559d0",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:person",
-        "valueLabel": "Person",
-        "valueText": "Person",
-        "valueDescription": "A person who appears in Civgraph public data, including election candidates, MPs, and MLAs.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:6ca75d63c91ee648ff4a",
-        "propertyId": "cg:property:member-of-political-party",
-        "propertyLabel": "member of political party or label",
-        "valueType": "entity",
-        "valueId": "cg:party:sinn-fein",
-        "valueLabel": "Sinn Féin",
-        "valueText": "Sinn Féin",
-        "valueDescription": "1918-2024 / 74 linked elections",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "Browse person party summary",
-            "valueText": "Browse person party summary"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:f0f245d1de17c3fefdc7",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Mehdi Özçinar",
-        "valueText": "Mehdi Özçinar",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:fc17fbb71c96a3ec7be2",
-        "propertyId": "cg:property:stood-in-election",
-        "propertyLabel": "stood in election",
-        "valueType": "entity",
-        "valueId": "cg:election:dail-eireann-2024-11-29",
-        "valueLabel": "2024 Irish general election",
-        "valueText": "2024 Irish general election",
-        "valueDescription": "2024-11-29",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "2024-11-29",
-            "valueText": "2024-11-29"
-          },
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "Cork East",
-            "valueText": "Cork East"
-          },
-          {
-            "propertyId": "cg:property:candidature-status",
-            "propertyLabel": "candidature status",
-            "valueType": "string",
-            "valueLabel": "Excluded",
-            "valueText": "Excluded"
-          },
-          {
-            "propertyId": "cg:property:elected",
-            "propertyLabel": "elected",
-            "valueType": "boolean",
-            "valueLabel": "No",
-            "valueText": "No"
-          },
-          {
-            "propertyId": "cg:property:first-preference-votes",
-            "propertyLabel": "first preference votes",
-            "valueType": "number",
-            "valueLabel": "671",
-            "valueText": "671"
-          },
-          {
-            "propertyId": "cg:property:member-of-political-party",
-            "propertyLabel": "member of political party or label",
-            "valueType": "entity",
-            "valueId": "cg:party:sinn-fein",
-            "valueLabel": "Sinn Féin",
-            "valueText": "Sinn Féin"
           }
         ],
         "referenceCount": 1,

@@ -1,9 +1,528 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T21:51:18.768Z",
+  "generatedAt": "2026-06-30T22:16:28.868Z",
   "shard": 201,
   "total": 2500,
   "items": [
+    {
+      "id": "cg:statement:84d6f91512c6079c1bb3",
+      "subjectId": "cg:person:name-fearghal-mckinney",
+      "propertyId": "cg:property:member-of-political-party",
+      "value": {
+        "type": "entity",
+        "id": "cg:party:sdlp"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "Browse person party summary"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:ee0256a50e0ed70eb295",
+      "subjectId": "cg:person:name-fearghal-mckinney",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Fearghal McKinney"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:046577c75e6ec9e9e25a",
+      "subjectId": "cg:person:name-fearghal-mckinney",
+      "propertyId": "cg:property:register-record",
+      "value": {
+        "type": "entity",
+        "id": "cg:register-record:ni-register-record-35700e4e0c81d23c"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "2015-02-24"
+          }
+        },
+        {
+          "propertyId": "cg:property:elected-body",
+          "value": {
+            "type": "entity",
+            "id": "cg:body:northern-ireland-assembly"
+          }
+        },
+        {
+          "propertyId": "cg:property:political-office",
+          "value": {
+            "type": "entity",
+            "id": "cg:office:mla"
+          }
+        },
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "South Belfast"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-row-count",
+          "value": {
+            "type": "number",
+            "value": 23
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-assembly-html-2da1bfec24e69cf6",
+          "sourceTitle": "NI Assembly Register of Members Interests (24 February 2015)",
+          "sourceKind": "historical-html-register",
+          "sourceRecordId": "ni-register:assembly:html:2da1bfec24e69cf6",
+          "sourceUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/24-february-2015/",
+          "date": "2015-02-24",
+          "extractionMethod": "html-heading-parser",
+          "extractionConfidence": "medium"
+        },
+        {
+          "sourceId": "cg:source:ni-register-assembly-html-2da1bfec24e69cf6",
+          "sourceTitle": "NI Assembly Register of Members Interests (24 February 2015)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:d07a7e23083e9481",
+          "sourceUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/240215.pdf",
+          "date": "2015-02-24",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:38715490d7c0f837eef1",
+      "subjectId": "cg:person:name-fearghal-mckinney",
+      "propertyId": "cg:property:register-record",
+      "value": {
+        "type": "entity",
+        "id": "cg:register-record:ni-register-record-a7ef69609b871777"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "2015-10-21"
+          }
+        },
+        {
+          "propertyId": "cg:property:elected-body",
+          "value": {
+            "type": "entity",
+            "id": "cg:body:northern-ireland-assembly"
+          }
+        },
+        {
+          "propertyId": "cg:property:political-office",
+          "value": {
+            "type": "entity",
+            "id": "cg:office:mla"
+          }
+        },
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "South Belfast"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-row-count",
+          "value": {
+            "type": "number",
+            "value": 23
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-assembly-html-2dd767ee1eafd2fa",
+          "sourceTitle": "NI Assembly Register of Members Interests (21 October 2015)",
+          "sourceKind": "historical-html-register",
+          "sourceRecordId": "ni-register:assembly:html:2dd767ee1eafd2fa",
+          "sourceUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/21-october-2015/",
+          "date": "2015-10-21",
+          "extractionMethod": "html-heading-parser",
+          "extractionConfidence": "medium"
+        },
+        {
+          "sourceId": "cg:source:ni-register-assembly-html-2dd767ee1eafd2fa",
+          "sourceTitle": "NI Assembly Register of Members Interests (21 October 2015)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:1b66909f7c32aae0",
+          "sourceUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/211015.pdf",
+          "date": "2015-10-21",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:4044176b621d3bbdf080",
+      "subjectId": "cg:person:name-fearghal-mckinney",
+      "propertyId": "cg:property:register-record",
+      "value": {
+        "type": "entity",
+        "id": "cg:register-record:ni-register-record-ac1da42518eca755"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "2014-04-29"
+          }
+        },
+        {
+          "propertyId": "cg:property:elected-body",
+          "value": {
+            "type": "entity",
+            "id": "cg:body:northern-ireland-assembly"
+          }
+        },
+        {
+          "propertyId": "cg:property:political-office",
+          "value": {
+            "type": "entity",
+            "id": "cg:office:mla"
+          }
+        },
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "South Belfast"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-row-count",
+          "value": {
+            "type": "number",
+            "value": 23
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-7cc5d9089d4e07ec",
+          "sourceTitle": "NI Assembly Register of Members Interests (29 April 2014)",
+          "sourceKind": "historical-html-register",
+          "sourceRecordId": "ni-register:assembly:html:d0d14c85fb3c425a",
+          "sourceUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/29-april-2014/",
+          "date": "2014-04-29",
+          "extractionMethod": "html-heading-parser",
+          "extractionConfidence": "medium"
+        },
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-7cc5d9089d4e07ec",
+          "sourceTitle": "NI Assembly Register of Members Interests (29 April 2014)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:7cc5d9089d4e07ec",
+          "sourceUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-29-apr-14.pdf",
+          "date": "2014-04-29",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:52e9f46ecaf525f00b66",
+      "subjectId": "cg:person:name-fearghal-mckinney",
+      "propertyId": "cg:property:register-record",
+      "value": {
+        "type": "entity",
+        "id": "cg:register-record:ni-register-record-efd96e86f77e9034"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "2014-11-14"
+          }
+        },
+        {
+          "propertyId": "cg:property:elected-body",
+          "value": {
+            "type": "entity",
+            "id": "cg:body:northern-ireland-assembly"
+          }
+        },
+        {
+          "propertyId": "cg:property:political-office",
+          "value": {
+            "type": "entity",
+            "id": "cg:office:mla"
+          }
+        },
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "South Belfast"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-row-count",
+          "value": {
+            "type": "number",
+            "value": 23
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-assembly-html-f98216522851fd31",
+          "sourceTitle": "NI Assembly Register of Members Interests (14 November 2014)",
+          "sourceKind": "historical-html-register",
+          "sourceRecordId": "ni-register:assembly:html:f98216522851fd31",
+          "sourceUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/14-november-2014/",
+          "date": "2014-11-14",
+          "extractionMethod": "html-heading-parser",
+          "extractionConfidence": "medium"
+        },
+        {
+          "sourceId": "cg:source:ni-register-assembly-html-f98216522851fd31",
+          "sourceTitle": "NI Assembly Register of Members Interests (14 November 2014)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:d2a3d325d0648fc3",
+          "sourceUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_14-nov-14.pdf",
+          "date": "2014-11-14",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:69743b8954a0875f3155",
+      "subjectId": "cg:person:name-fearghal-mckinney",
+      "propertyId": "cg:property:register-record",
+      "value": {
+        "type": "entity",
+        "id": "cg:register-record:ni-register-record-686153b50eba8469"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "2015-07-03"
+          }
+        },
+        {
+          "propertyId": "cg:property:elected-body",
+          "value": {
+            "type": "entity",
+            "id": "cg:body:northern-ireland-assembly"
+          }
+        },
+        {
+          "propertyId": "cg:property:political-office",
+          "value": {
+            "type": "entity",
+            "id": "cg:office:mla"
+          }
+        },
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "South Belfast"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-row-count",
+          "value": {
+            "type": "number",
+            "value": 23
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-assembly-html-4b123d39054ba8f1",
+          "sourceTitle": "NI Assembly Register of Members Interests (3 July 2015)",
+          "sourceKind": "historical-html-register",
+          "sourceRecordId": "ni-register:assembly:html:4b123d39054ba8f1",
+          "sourceUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/03-july-2015/",
+          "date": "2015-07-03",
+          "extractionMethod": "html-heading-parser",
+          "extractionConfidence": "medium"
+        },
+        {
+          "sourceId": "cg:source:ni-register-assembly-html-4b123d39054ba8f1",
+          "sourceTitle": "NI Assembly Register of Members Interests (3 July 2015)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:5e0f6c1e246602db",
+          "sourceUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/030715.pdf",
+          "date": "2015-07-03",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:785724f7cc375fbc2c7d",
+      "subjectId": "cg:person:name-fearghal-mckinney",
+      "propertyId": "cg:property:register-record",
+      "value": {
+        "type": "entity",
+        "id": "cg:register-record:ni-register-record-728030bceb093912"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "2016-03-25"
+          }
+        },
+        {
+          "propertyId": "cg:property:elected-body",
+          "value": {
+            "type": "entity",
+            "id": "cg:body:northern-ireland-assembly"
+          }
+        },
+        {
+          "propertyId": "cg:property:political-office",
+          "value": {
+            "type": "entity",
+            "id": "cg:office:mla"
+          }
+        },
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "South Belfast"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-row-count",
+          "value": {
+            "type": "number",
+            "value": 23
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-assembly-html-b56d39103caab0bc",
+          "sourceTitle": "NI Assembly Register of Members Interests (25 March 2016)",
+          "sourceKind": "historical-html-register",
+          "sourceRecordId": "ni-register:assembly:html:b56d39103caab0bc",
+          "sourceUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/25-march-2016/",
+          "date": "2016-03-25",
+          "extractionMethod": "html-heading-parser",
+          "extractionConfidence": "medium"
+        },
+        {
+          "sourceId": "cg:source:ni-register-assembly-html-b56d39103caab0bc",
+          "sourceTitle": "NI Assembly Register of Members Interests (25 March 2016)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:4ebc94a952f185a1",
+          "sourceUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/interests-25-03-2016.pdf",
+          "date": "2016-03-25",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:9cad0c419d42b14ab458",
+      "subjectId": "cg:person:name-fearghal-mckinney",
+      "propertyId": "cg:property:register-record",
+      "value": {
+        "type": "entity",
+        "id": "cg:register-record:ni-register-record-d352c66fcffc45da"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "2014-07-04"
+          }
+        },
+        {
+          "propertyId": "cg:property:elected-body",
+          "value": {
+            "type": "entity",
+            "id": "cg:body:northern-ireland-assembly"
+          }
+        },
+        {
+          "propertyId": "cg:property:political-office",
+          "value": {
+            "type": "entity",
+            "id": "cg:office:mla"
+          }
+        },
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "South Belfast"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-row-count",
+          "value": {
+            "type": "number",
+            "value": 23
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-e7c165a56761a533",
+          "sourceTitle": "NI Assembly Register of Members Interests (4 July 2014)",
+          "sourceKind": "historical-html-register",
+          "sourceRecordId": "ni-register:assembly:html:b02e0c406bc15a91",
+          "sourceUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/04-july-2014/",
+          "date": "2014-07-04",
+          "extractionMethod": "html-heading-parser",
+          "extractionConfidence": "medium"
+        },
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-e7c165a56761a533",
+          "sourceTitle": "NI Assembly Register of Members Interests (4 July 2014)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:e7c165a56761a533",
+          "sourceUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-04-jul-14.pdf",
+          "date": "2014-07-04",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
     {
       "id": "cg:statement:9ea20b9e3cb34780dbb9",
       "subjectId": "cg:person:name-fearghal-mckinney",
@@ -102981,397 +103500,6 @@
         "type": "string",
         "value": "Frederick Ernest Crowe"
       },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:0e114e629b7f1c65b663",
-      "subjectId": "cg:person:name-frederick-ernest-crowe",
-      "propertyId": "cg:property:stood-in-election",
-      "value": {
-        "type": "entity",
-        "id": "cg:election:local-government-local-government-districts-1997-05-21"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "1997-05-21"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "Craigavon Central"
-          }
-        },
-        {
-          "propertyId": "cg:property:candidature-status",
-          "value": {
-            "type": "string",
-            "value": "Elected"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected",
-          "value": {
-            "type": "boolean",
-            "value": true
-          }
-        },
-        {
-          "propertyId": "cg:property:first-preference-votes",
-          "value": {
-            "type": "number",
-            "value": 722
-          }
-        },
-        {
-          "propertyId": "cg:property:member-of-political-party",
-          "value": {
-            "type": "entity",
-            "id": "cg:party:uup"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:5725ad0e05bfca6c8a6f",
-      "subjectId": "cg:person:name-frederick-ernest-crowe",
-      "propertyId": "cg:property:stood-in-election",
-      "value": {
-        "type": "entity",
-        "id": "cg:election:local-government-local-government-districts-2001-06-07"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "2001-06-07"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "Craigavon Central"
-          }
-        },
-        {
-          "propertyId": "cg:property:candidature-status",
-          "value": {
-            "type": "string",
-            "value": "Elected"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected",
-          "value": {
-            "type": "boolean",
-            "value": true
-          }
-        },
-        {
-          "propertyId": "cg:property:first-preference-votes",
-          "value": {
-            "type": "number",
-            "value": 802
-          }
-        },
-        {
-          "propertyId": "cg:property:member-of-political-party",
-          "value": {
-            "type": "entity",
-            "id": "cg:party:uup"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:f2408486bbd7e1f9e2c5",
-      "subjectId": "cg:person:name-frederick-ernest-crowe",
-      "propertyId": "cg:property:stood-in-election",
-      "value": {
-        "type": "entity",
-        "id": "cg:election:local-government-local-government-districts-2005-05-05"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "2005-05-05"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "Craigavon Central"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected",
-          "value": {
-            "type": "boolean",
-            "value": false
-          }
-        },
-        {
-          "propertyId": "cg:property:first-preference-votes",
-          "value": {
-            "type": "number",
-            "value": 421
-          }
-        },
-        {
-          "propertyId": "cg:property:member-of-political-party",
-          "value": {
-            "type": "entity",
-            "id": "cg:party:uup"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:fd8bae40f17d185f46a7",
-      "subjectId": "cg:person:name-frederick-ernest-crowe",
-      "propertyId": "cg:property:stood-in-election",
-      "value": {
-        "type": "entity",
-        "id": "cg:election:local-government-local-government-districts-1993-05-19"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "1993-05-19"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "Craigavon Central"
-          }
-        },
-        {
-          "propertyId": "cg:property:candidature-status",
-          "value": {
-            "type": "string",
-            "value": "Elected"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected",
-          "value": {
-            "type": "boolean",
-            "value": true
-          }
-        },
-        {
-          "propertyId": "cg:property:first-preference-votes",
-          "value": {
-            "type": "number",
-            "value": 767
-          }
-        },
-        {
-          "propertyId": "cg:property:member-of-political-party",
-          "value": {
-            "type": "entity",
-            "id": "cg:party:uup"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:e32332eb5b2d2977d587",
-      "subjectId": "cg:person:name-frederick-ferguson",
-      "propertyId": "cg:property:has-candidature",
-      "value": {
-        "type": "entity",
-        "id": "cg:candidature:cg-person-name-frederick-ferguson-cg-contest-local-government-local-gove-bed23f89edf5"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "2001-06-07"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "Castlereagh West"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected",
-          "value": {
-            "type": "boolean",
-            "value": false
-          }
-        },
-        {
-          "propertyId": "cg:property:first-preference-votes",
-          "value": {
-            "type": "number",
-            "value": 301
-          }
-        },
-        {
-          "propertyId": "cg:property:member-of-political-party",
-          "value": {
-            "type": "entity",
-            "id": "cg:party:progressive-unionist-p-u-p"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:cc01fa3280087fcd521b",
-      "subjectId": "cg:person:name-frederick-ferguson",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:person"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:95d6975bb94c60522887",
-      "subjectId": "cg:person:name-frederick-ferguson",
-      "propertyId": "cg:property:member-of-political-party",
-      "value": {
-        "type": "entity",
-        "id": "cg:party:progressive-unionist-p-u-p"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "Browse person party summary"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:9bc1108e5ede4a3297b8",
-      "subjectId": "cg:person:name-frederick-ferguson",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Frederick Ferguson"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:f7c987722d6017e8e66d",
-      "subjectId": "cg:person:name-frederick-ferguson",
-      "propertyId": "cg:property:stood-in-election",
-      "value": {
-        "type": "entity",
-        "id": "cg:election:local-government-local-government-districts-2001-06-07"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "2001-06-07"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "Castlereagh West"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected",
-          "value": {
-            "type": "boolean",
-            "value": false
-          }
-        },
-        {
-          "propertyId": "cg:property:first-preference-votes",
-          "value": {
-            "type": "number",
-            "value": 301
-          }
-        },
-        {
-          "propertyId": "cg:property:member-of-political-party",
-          "value": {
-            "type": "entity",
-            "id": "cg:party:progressive-unionist-p-u-p"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
       "rank": "normal"
     }
   ]

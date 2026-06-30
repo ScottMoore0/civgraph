@@ -1,9 +1,184 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T21:51:18.768Z",
+  "generatedAt": "2026-06-30T22:16:28.868Z",
   "shard": 151,
   "totalSubjects": 250,
   "items": {
+    "cg:person:name-patrick-farrelly": [
+      {
+        "id": "cg:statement:2cb9b667fbc5ffe97656",
+        "propertyId": "cg:property:has-candidature",
+        "propertyLabel": "has candidature",
+        "valueType": "entity",
+        "valueId": "cg:candidature:cg-person-name-patrick-farrelly-cg-contest-dail-eireann-1923-08-27-dail--be8b3c0cde61",
+        "valueLabel": "Patrick Farrelly - Cavan",
+        "valueText": "Patrick Farrelly - Cavan",
+        "valueDescription": "1923 Irish general election / Farmers / Excluded",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "1923-08-27",
+            "valueText": "1923-08-27"
+          },
+          {
+            "propertyId": "cg:property:constituency",
+            "propertyLabel": "constituency",
+            "valueType": "string",
+            "valueLabel": "Cavan",
+            "valueText": "Cavan"
+          },
+          {
+            "propertyId": "cg:property:candidature-status",
+            "propertyLabel": "candidature status",
+            "valueType": "string",
+            "valueLabel": "Excluded",
+            "valueText": "Excluded"
+          },
+          {
+            "propertyId": "cg:property:elected",
+            "propertyLabel": "elected",
+            "valueType": "boolean",
+            "valueLabel": "No",
+            "valueText": "No"
+          },
+          {
+            "propertyId": "cg:property:first-preference-votes",
+            "propertyLabel": "first preference votes",
+            "valueType": "number",
+            "valueLabel": "559",
+            "valueText": "559"
+          },
+          {
+            "propertyId": "cg:property:member-of-political-party",
+            "propertyLabel": "member of political party or label",
+            "valueType": "entity",
+            "valueId": "cg:party:farmers",
+            "valueLabel": "Farmers",
+            "valueText": "Farmers"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-person-index",
+            "sourceTitle": "Civgraph Browse person index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:f6d05b3ec46a062d19cf",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:person",
+        "valueLabel": "Person",
+        "valueText": "Person",
+        "valueDescription": "A person who appears in Civgraph public data, including election candidates, MPs, and MLAs.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:eba2b9d00f1aebb7e728",
+        "propertyId": "cg:property:member-of-political-party",
+        "propertyLabel": "member of political party or label",
+        "valueType": "entity",
+        "valueId": "cg:party:farmers",
+        "valueLabel": "Farmers",
+        "valueText": "Farmers",
+        "valueDescription": "1922-1932 / 5 linked elections",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "Browse person party summary",
+            "valueText": "Browse person party summary"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-person-index",
+            "sourceTitle": "Civgraph Browse person index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:a6d59fec8890c489922b",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Patrick Farrelly",
+        "valueText": "Patrick Farrelly",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:d2a3f249d55fc4f36408",
+        "propertyId": "cg:property:stood-in-election",
+        "propertyLabel": "stood in election",
+        "valueType": "entity",
+        "valueId": "cg:election:dail-eireann-1923-08-27",
+        "valueLabel": "1923 Irish general election",
+        "valueText": "1923 Irish general election",
+        "valueDescription": "30 constituencies; 30 unmatched",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "1923-08-27",
+            "valueText": "1923-08-27"
+          },
+          {
+            "propertyId": "cg:property:constituency",
+            "propertyLabel": "constituency",
+            "valueType": "string",
+            "valueLabel": "Cavan",
+            "valueText": "Cavan"
+          },
+          {
+            "propertyId": "cg:property:candidature-status",
+            "propertyLabel": "candidature status",
+            "valueType": "string",
+            "valueLabel": "Excluded",
+            "valueText": "Excluded"
+          },
+          {
+            "propertyId": "cg:property:elected",
+            "propertyLabel": "elected",
+            "valueType": "boolean",
+            "valueLabel": "No",
+            "valueText": "No"
+          },
+          {
+            "propertyId": "cg:property:first-preference-votes",
+            "propertyLabel": "first preference votes",
+            "valueType": "number",
+            "valueLabel": "559",
+            "valueText": "559"
+          },
+          {
+            "propertyId": "cg:property:member-of-political-party",
+            "propertyLabel": "member of political party or label",
+            "valueType": "entity",
+            "valueId": "cg:party:farmers",
+            "valueLabel": "Farmers",
+            "valueText": "Farmers"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-person-index",
+            "sourceTitle": "Civgraph Browse person index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      }
+    ],
     "cg:person:name-patrick-feeney": [
       {
         "id": "cg:statement:86de4044a080be06e210",
@@ -86285,181 +86460,6 @@
             "valueId": "cg:party:fine-gael",
             "valueLabel": "Fine Gael",
             "valueText": "Fine Gael"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      }
-    ],
-    "cg:person:name-patrick-s-o-byrne": [
-      {
-        "id": "cg:statement:cf242c49e530d2ce8b7f",
-        "propertyId": "cg:property:has-candidature",
-        "propertyLabel": "has candidature",
-        "valueType": "entity",
-        "valueId": "cg:candidature:cg-person-name-patrick-s-o-byrne-cg-contest-dail-eireann-1921-05-24-dail-654f834cc4a7",
-        "valueLabel": "Patrick S O'Byrne - Tipperary Mid, North and South",
-        "valueText": "Patrick S O'Byrne - Tipperary Mid, North and South",
-        "valueDescription": "1921 Irish general election / Sinn Féin / Made Quota",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "1921-05-24",
-            "valueText": "1921-05-24"
-          },
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "Tipperary Mid, North and South",
-            "valueText": "Tipperary Mid, North and South"
-          },
-          {
-            "propertyId": "cg:property:candidature-status",
-            "propertyLabel": "candidature status",
-            "valueType": "string",
-            "valueLabel": "Made Quota",
-            "valueText": "Made Quota"
-          },
-          {
-            "propertyId": "cg:property:elected",
-            "propertyLabel": "elected",
-            "valueType": "boolean",
-            "valueLabel": "Yes",
-            "valueText": "Yes"
-          },
-          {
-            "propertyId": "cg:property:first-preference-votes",
-            "propertyLabel": "first preference votes",
-            "valueType": "number",
-            "valueLabel": "1",
-            "valueText": "1"
-          },
-          {
-            "propertyId": "cg:property:member-of-political-party",
-            "propertyLabel": "member of political party or label",
-            "valueType": "entity",
-            "valueId": "cg:party:sinn-fein",
-            "valueLabel": "Sinn Féin",
-            "valueText": "Sinn Féin"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:239c2a02e206fe5458b2",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:person",
-        "valueLabel": "Person",
-        "valueText": "Person",
-        "valueDescription": "A person who appears in Civgraph public data, including election candidates, MPs, and MLAs.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:4607e31156ec7898d01e",
-        "propertyId": "cg:property:member-of-political-party",
-        "propertyLabel": "member of political party or label",
-        "valueType": "entity",
-        "valueId": "cg:party:sinn-fein",
-        "valueLabel": "Sinn Féin",
-        "valueText": "Sinn Féin",
-        "valueDescription": "1918-2024 / 74 linked elections",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "Browse person party summary",
-            "valueText": "Browse person party summary"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:aef8531adecfb4ce2639",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Patrick S O'Byrne",
-        "valueText": "Patrick S O'Byrne",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:a15b09fa6a45c8be73b7",
-        "propertyId": "cg:property:stood-in-election",
-        "propertyLabel": "stood in election",
-        "valueType": "entity",
-        "valueId": "cg:election:dail-eireann-1921-05-24",
-        "valueLabel": "1921 Irish general election",
-        "valueText": "1921 Irish general election",
-        "valueDescription": "28 constituencies; 28 unmatched",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "1921-05-24",
-            "valueText": "1921-05-24"
-          },
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "Tipperary Mid, North and South",
-            "valueText": "Tipperary Mid, North and South"
-          },
-          {
-            "propertyId": "cg:property:candidature-status",
-            "propertyLabel": "candidature status",
-            "valueType": "string",
-            "valueLabel": "Made Quota",
-            "valueText": "Made Quota"
-          },
-          {
-            "propertyId": "cg:property:elected",
-            "propertyLabel": "elected",
-            "valueType": "boolean",
-            "valueLabel": "Yes",
-            "valueText": "Yes"
-          },
-          {
-            "propertyId": "cg:property:first-preference-votes",
-            "propertyLabel": "first preference votes",
-            "valueType": "number",
-            "valueLabel": "1",
-            "valueText": "1"
-          },
-          {
-            "propertyId": "cg:property:member-of-political-party",
-            "propertyLabel": "member of political party or label",
-            "valueType": "entity",
-            "valueId": "cg:party:sinn-fein",
-            "valueLabel": "Sinn Féin",
-            "valueText": "Sinn Féin"
           }
         ],
         "referenceCount": 1,

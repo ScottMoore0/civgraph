@@ -1,9 +1,386 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T21:51:18.768Z",
+  "generatedAt": "2026-06-30T22:16:28.868Z",
   "shard": 225,
   "total": 2500,
   "items": [
+    {
+      "id": "cg:statement:f4015c32ee36de15c148",
+      "subjectId": "cg:person:name-roberta-dunlop",
+      "propertyId": "cg:property:has-candidature",
+      "value": {
+        "type": "entity",
+        "id": "cg:candidature:cg-person-name-roberta-dunlop-cg-contest-local-government-local-governme-0d217f2d1932"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "2005-05-05"
+          }
+        },
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "lg05-NoD-Abbey"
+          }
+        },
+        {
+          "propertyId": "cg:property:candidature-status",
+          "value": {
+            "type": "string",
+            "value": "Elected"
+          }
+        },
+        {
+          "propertyId": "cg:property:elected",
+          "value": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "propertyId": "cg:property:first-preference-votes",
+          "value": {
+            "type": "number",
+            "value": 347
+          }
+        },
+        {
+          "propertyId": "cg:property:member-of-political-party",
+          "value": {
+            "type": "entity",
+            "id": "cg:party:uup"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:ce2fd23a723abb5aae59",
+      "subjectId": "cg:person:name-roberta-dunlop",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:person"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:1fe1e46293f0480acd3f",
+      "subjectId": "cg:person:name-roberta-dunlop",
+      "propertyId": "cg:property:member-of-political-party",
+      "value": {
+        "type": "entity",
+        "id": "cg:party:dup"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "Browse person party summary"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:2de1b7fd249fb386ebc5",
+      "subjectId": "cg:person:name-roberta-dunlop",
+      "propertyId": "cg:property:member-of-political-party",
+      "value": {
+        "type": "entity",
+        "id": "cg:party:uup"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "Browse person party summary"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:0d77afc81ef1009987c5",
+      "subjectId": "cg:person:name-roberta-dunlop",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Roberta Dunlop"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:43aa14b2f472f3212c13",
+      "subjectId": "cg:person:name-roberta-dunlop",
+      "propertyId": "cg:property:stood-in-election",
+      "value": {
+        "type": "entity",
+        "id": "cg:election:local-government-local-government-districts-2014-05-22"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "2014-05-22"
+          }
+        },
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "Bangor Central"
+          }
+        },
+        {
+          "propertyId": "cg:property:candidature-status",
+          "value": {
+            "type": "string",
+            "value": "Not Elected"
+          }
+        },
+        {
+          "propertyId": "cg:property:elected",
+          "value": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "propertyId": "cg:property:first-preference-votes",
+          "value": {
+            "type": "number",
+            "value": 434
+          }
+        },
+        {
+          "propertyId": "cg:property:member-of-political-party",
+          "value": {
+            "type": "entity",
+            "id": "cg:party:dup"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:50b3333b16e206e762e7",
+      "subjectId": "cg:person:name-roberta-dunlop",
+      "propertyId": "cg:property:stood-in-election",
+      "value": {
+        "type": "entity",
+        "id": "cg:election:local-government-local-government-districts-2019-05-02"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "2019-05-02"
+          }
+        },
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "Holywood and Clandeboye"
+          }
+        },
+        {
+          "propertyId": "cg:property:candidature-status",
+          "value": {
+            "type": "string",
+            "value": "Not Elected"
+          }
+        },
+        {
+          "propertyId": "cg:property:elected",
+          "value": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "propertyId": "cg:property:first-preference-votes",
+          "value": {
+            "type": "number",
+            "value": 677
+          }
+        },
+        {
+          "propertyId": "cg:property:member-of-political-party",
+          "value": {
+            "type": "entity",
+            "id": "cg:party:dup"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:bb9a70e8e92d50a45e8c",
+      "subjectId": "cg:person:name-roberta-dunlop",
+      "propertyId": "cg:property:stood-in-election",
+      "value": {
+        "type": "entity",
+        "id": "cg:election:local-government-local-government-districts-2005-05-05"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "2005-05-05"
+          }
+        },
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "lg05-NoD-Abbey"
+          }
+        },
+        {
+          "propertyId": "cg:property:candidature-status",
+          "value": {
+            "type": "string",
+            "value": "Elected"
+          }
+        },
+        {
+          "propertyId": "cg:property:elected",
+          "value": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "propertyId": "cg:property:first-preference-votes",
+          "value": {
+            "type": "number",
+            "value": 347
+          }
+        },
+        {
+          "propertyId": "cg:property:member-of-political-party",
+          "value": {
+            "type": "entity",
+            "id": "cg:party:uup"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:1db4a3c8d70938bd3a69",
+      "subjectId": "cg:person:name-roberta-mahood-dunlop",
+      "propertyId": "cg:property:has-candidature",
+      "value": {
+        "type": "entity",
+        "id": "cg:candidature:cg-person-name-roberta-mahood-dunlop-cg-contest-local-government-local-g-8ee70e703679"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "2001-06-07"
+          }
+        },
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "lg01-NoD-Abbey"
+          }
+        },
+        {
+          "propertyId": "cg:property:candidature-status",
+          "value": {
+            "type": "string",
+            "value": "Elected"
+          }
+        },
+        {
+          "propertyId": "cg:property:elected",
+          "value": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "propertyId": "cg:property:first-preference-votes",
+          "value": {
+            "type": "number",
+            "value": 843
+          }
+        },
+        {
+          "propertyId": "cg:property:member-of-political-party",
+          "value": {
+            "type": "entity",
+            "id": "cg:party:uup"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
     {
       "id": "cg:statement:e6dc9b6e5d8933078364",
       "subjectId": "cg:person:name-roberta-mahood-dunlop",
@@ -107544,418 +107921,6 @@
           "sourceKind": "generated-browse-index"
         }
       ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:c362014b3a1588562db5",
-      "subjectId": "cg:person:name-sammy-wilson",
-      "propertyId": "cg:property:stood-in-election",
-      "value": {
-        "type": "entity",
-        "id": "cg:election:house-of-commons-of-the-united-kingdom-2017-06-08"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "2017-06-08"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "East Antrim"
-          }
-        },
-        {
-          "propertyId": "cg:property:candidature-status",
-          "value": {
-            "type": "string",
-            "value": "Deemed elected"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected",
-          "value": {
-            "type": "boolean",
-            "value": true
-          }
-        },
-        {
-          "propertyId": "cg:property:first-preference-votes",
-          "value": {
-            "type": "number",
-            "value": 21873
-          }
-        },
-        {
-          "propertyId": "cg:property:member-of-political-party",
-          "value": {
-            "type": "entity",
-            "id": "cg:party:dup"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:d0cbefb847daadd82a93",
-      "subjectId": "cg:person:name-sammy-wilson",
-      "propertyId": "cg:property:stood-in-election",
-      "value": {
-        "type": "entity",
-        "id": "cg:election:local-government-local-government-districts-1989-05-17"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "1989-05-17"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "Pottinger"
-          }
-        },
-        {
-          "propertyId": "cg:property:candidature-status",
-          "value": {
-            "type": "string",
-            "value": "Elected"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected",
-          "value": {
-            "type": "boolean",
-            "value": true
-          }
-        },
-        {
-          "propertyId": "cg:property:first-preference-votes",
-          "value": {
-            "type": "number",
-            "value": 2780
-          }
-        },
-        {
-          "propertyId": "cg:property:member-of-political-party",
-          "value": {
-            "type": "entity",
-            "id": "cg:party:dup"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:d9a2789fd4207a074026",
-      "subjectId": "cg:person:name-sammy-wilson",
-      "propertyId": "cg:property:stood-in-election",
-      "value": {
-        "type": "entity",
-        "id": "cg:election:local-government-local-government-districts-2005-05-05"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "2005-05-05"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "Pottinger"
-          }
-        },
-        {
-          "propertyId": "cg:property:candidature-status",
-          "value": {
-            "type": "string",
-            "value": "Elected"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected",
-          "value": {
-            "type": "boolean",
-            "value": true
-          }
-        },
-        {
-          "propertyId": "cg:property:first-preference-votes",
-          "value": {
-            "type": "number",
-            "value": 2385
-          }
-        },
-        {
-          "propertyId": "cg:property:member-of-political-party",
-          "value": {
-            "type": "entity",
-            "id": "cg:party:dup"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:ff8c66975b7c00b102d1",
-      "subjectId": "cg:person:name-sammy-wilson",
-      "propertyId": "cg:property:stood-in-election",
-      "value": {
-        "type": "entity",
-        "id": "cg:election:northern-ireland-assembly-2011-05-05"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "2011-05-05"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "East Antrim"
-          }
-        },
-        {
-          "propertyId": "cg:property:candidature-status",
-          "value": {
-            "type": "string",
-            "value": "Elected"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected",
-          "value": {
-            "type": "boolean",
-            "value": true
-          }
-        },
-        {
-          "propertyId": "cg:property:first-preference-votes",
-          "value": {
-            "type": "number",
-            "value": 7181
-          }
-        },
-        {
-          "propertyId": "cg:property:member-of-political-party",
-          "value": {
-            "type": "entity",
-            "id": "cg:party:dup"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:5649f17207144b9ad107",
-      "subjectId": "cg:person:name-samuel-a-glasgow",
-      "propertyId": "cg:property:has-candidature",
-      "value": {
-        "type": "entity",
-        "id": "cg:candidature:cg-person-name-samuel-a-glasgow-cg-contest-local-government-local-govern-e6e94949c1c7"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "1981-05-20"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "Cookstown Area A"
-          }
-        },
-        {
-          "propertyId": "cg:property:candidature-status",
-          "value": {
-            "type": "string",
-            "value": "Elected"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected",
-          "value": {
-            "type": "boolean",
-            "value": true
-          }
-        },
-        {
-          "propertyId": "cg:property:first-preference-votes",
-          "value": {
-            "type": "number",
-            "value": 1070
-          }
-        },
-        {
-          "propertyId": "cg:property:member-of-political-party",
-          "value": {
-            "type": "entity",
-            "id": "cg:party:uup"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:755f391d28c6bad0a33c",
-      "subjectId": "cg:person:name-samuel-a-glasgow",
-      "propertyId": "cg:property:has-candidature",
-      "value": {
-        "type": "entity",
-        "id": "cg:candidature:cg-person-name-samuel-a-glasgow-cg-contest-local-government-local-govern-2e080cd1fb7b"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "2001-06-07"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "Drum Manor"
-          }
-        },
-        {
-          "propertyId": "cg:property:candidature-status",
-          "value": {
-            "type": "string",
-            "value": "Elected"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected",
-          "value": {
-            "type": "boolean",
-            "value": true
-          }
-        },
-        {
-          "propertyId": "cg:property:first-preference-votes",
-          "value": {
-            "type": "number",
-            "value": 1118
-          }
-        },
-        {
-          "propertyId": "cg:property:member-of-political-party",
-          "value": {
-            "type": "entity",
-            "id": "cg:party:uup"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:9ea6cfac26d535c4838a",
-      "subjectId": "cg:person:name-samuel-a-glasgow",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:person"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:49d83a0ccc40628a1601",
-      "subjectId": "cg:person:name-samuel-a-glasgow",
-      "propertyId": "cg:property:member-of-political-party",
-      "value": {
-        "type": "entity",
-        "id": "cg:party:uup"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "Browse person party summary"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:5d058b9bb7914f50e07e",
-      "subjectId": "cg:person:name-samuel-a-glasgow",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Samuel A Glasgow"
-      },
       "rank": "normal"
     }
   ]

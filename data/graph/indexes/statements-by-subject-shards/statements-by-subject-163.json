@@ -1,9 +1,170 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T21:51:18.768Z",
+  "generatedAt": "2026-06-30T22:16:28.868Z",
   "shard": 163,
   "totalSubjects": 250,
   "items": {
+    "cg:person:name-tong": [
+      {
+        "id": "cg:statement:15fd7c45abe7e8c5a4eb",
+        "propertyId": "cg:property:has-candidature",
+        "propertyLabel": "has candidature",
+        "valueType": "entity",
+        "valueId": "cg:candidature:cg-person-name-tong-cg-contest-local-government-local-government-distric-bb2d102946ca",
+        "valueLabel": "Tong - Craigavon Area B",
+        "valueText": "Tong - Craigavon Area B",
+        "valueDescription": "1973 Northern Ireland local elections / UUP",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "1973-05-30",
+            "valueText": "1973-05-30"
+          },
+          {
+            "propertyId": "cg:property:constituency",
+            "propertyLabel": "constituency",
+            "valueType": "string",
+            "valueLabel": "Craigavon Area B",
+            "valueText": "Craigavon Area B"
+          },
+          {
+            "propertyId": "cg:property:elected",
+            "propertyLabel": "elected",
+            "valueType": "boolean",
+            "valueLabel": "No",
+            "valueText": "No"
+          },
+          {
+            "propertyId": "cg:property:first-preference-votes",
+            "propertyLabel": "first preference votes",
+            "valueType": "number",
+            "valueLabel": "337",
+            "valueText": "337"
+          },
+          {
+            "propertyId": "cg:property:member-of-political-party",
+            "propertyLabel": "member of political party or label",
+            "valueType": "entity",
+            "valueId": "cg:party:uup",
+            "valueLabel": "UUP",
+            "valueText": "UUP"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-person-index",
+            "sourceTitle": "Civgraph Browse person index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:386c98857a550b12ed99",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:person",
+        "valueLabel": "Person",
+        "valueText": "Person",
+        "valueDescription": "A person who appears in Civgraph public data, including election candidates, MPs, and MLAs.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:b8ab9d6814e3d14df1e0",
+        "propertyId": "cg:property:member-of-political-party",
+        "propertyLabel": "member of political party or label",
+        "valueType": "entity",
+        "valueId": "cg:party:uup",
+        "valueLabel": "UUP",
+        "valueText": "UUP",
+        "valueDescription": "1921-2024 / 148 linked elections",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "Browse person party summary",
+            "valueText": "Browse person party summary"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-person-index",
+            "sourceTitle": "Civgraph Browse person index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:21d0b795baeabf3b5313",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Tong",
+        "valueText": "Tong",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:e31f722e6e25fba01a0c",
+        "propertyId": "cg:property:stood-in-election",
+        "propertyLabel": "stood in election",
+        "valueType": "entity",
+        "valueId": "cg:election:local-government-local-government-districts-1973-05-30",
+        "valueLabel": "1973 Northern Ireland local elections",
+        "valueText": "1973 Northern Ireland local elections",
+        "valueDescription": "1973-05-30",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "1973-05-30",
+            "valueText": "1973-05-30"
+          },
+          {
+            "propertyId": "cg:property:constituency",
+            "propertyLabel": "constituency",
+            "valueType": "string",
+            "valueLabel": "Craigavon Area B",
+            "valueText": "Craigavon Area B"
+          },
+          {
+            "propertyId": "cg:property:elected",
+            "propertyLabel": "elected",
+            "valueType": "boolean",
+            "valueLabel": "No",
+            "valueText": "No"
+          },
+          {
+            "propertyId": "cg:property:first-preference-votes",
+            "propertyLabel": "first preference votes",
+            "valueType": "number",
+            "valueLabel": "337",
+            "valueText": "337"
+          },
+          {
+            "propertyId": "cg:property:member-of-political-party",
+            "propertyLabel": "member of political party or label",
+            "valueType": "entity",
+            "valueId": "cg:party:uup",
+            "valueLabel": "UUP",
+            "valueText": "UUP"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-person-index",
+            "sourceTitle": "Civgraph Browse person index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      }
+    ],
     "cg:person:name-tony-carlin": [
       {
         "id": "cg:statement:68d22f9ec1b0837364b3",
@@ -85208,167 +85369,6 @@
             "valueType": "number",
             "valueLabel": "1806",
             "valueText": "1806"
-          },
-          {
-            "propertyId": "cg:property:member-of-political-party",
-            "propertyLabel": "member of political party or label",
-            "valueType": "entity",
-            "valueId": "cg:party:uup",
-            "valueLabel": "UUP",
-            "valueText": "UUP"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      }
-    ],
-    "cg:person:name-walter-shannon": [
-      {
-        "id": "cg:statement:96b59d7dde2f885b91c3",
-        "propertyId": "cg:property:has-candidature",
-        "propertyLabel": "has candidature",
-        "valueType": "entity",
-        "valueId": "cg:candidature:cg-person-name-walter-shannon-cg-contest-local-government-local-governme-40448fc78d90",
-        "valueLabel": "Walter Shannon - Belfast Area A corrected",
-        "valueText": "Walter Shannon - Belfast Area A corrected",
-        "valueDescription": "1977 Northern Ireland local elections / UUP",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "1977-05-18",
-            "valueText": "1977-05-18"
-          },
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "Belfast Area A corrected",
-            "valueText": "Belfast Area A corrected"
-          },
-          {
-            "propertyId": "cg:property:elected",
-            "propertyLabel": "elected",
-            "valueType": "boolean",
-            "valueLabel": "No",
-            "valueText": "No"
-          },
-          {
-            "propertyId": "cg:property:first-preference-votes",
-            "propertyLabel": "first preference votes",
-            "valueType": "number",
-            "valueLabel": "452",
-            "valueText": "452"
-          },
-          {
-            "propertyId": "cg:property:member-of-political-party",
-            "propertyLabel": "member of political party or label",
-            "valueType": "entity",
-            "valueId": "cg:party:uup",
-            "valueLabel": "UUP",
-            "valueText": "UUP"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:9097699bf5ab12a3b575",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:person",
-        "valueLabel": "Person",
-        "valueText": "Person",
-        "valueDescription": "A person who appears in Civgraph public data, including election candidates, MPs, and MLAs.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:25a55da2e77b63c3abab",
-        "propertyId": "cg:property:member-of-political-party",
-        "propertyLabel": "member of political party or label",
-        "valueType": "entity",
-        "valueId": "cg:party:uup",
-        "valueLabel": "UUP",
-        "valueText": "UUP",
-        "valueDescription": "1921-2024 / 148 linked elections",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "Browse person party summary",
-            "valueText": "Browse person party summary"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:4d970dc3164dbf79f8d3",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Walter Shannon",
-        "valueText": "Walter Shannon",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:f35cc669decb73ab1b53",
-        "propertyId": "cg:property:stood-in-election",
-        "propertyLabel": "stood in election",
-        "valueType": "entity",
-        "valueId": "cg:election:local-government-local-government-districts-1977-05-18",
-        "valueLabel": "1977 Northern Ireland local elections",
-        "valueText": "1977 Northern Ireland local elections",
-        "valueDescription": "1977-05-18",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "1977-05-18",
-            "valueText": "1977-05-18"
-          },
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "Belfast Area A corrected",
-            "valueText": "Belfast Area A corrected"
-          },
-          {
-            "propertyId": "cg:property:elected",
-            "propertyLabel": "elected",
-            "valueType": "boolean",
-            "valueLabel": "No",
-            "valueText": "No"
-          },
-          {
-            "propertyId": "cg:property:first-preference-votes",
-            "propertyLabel": "first preference votes",
-            "valueType": "number",
-            "valueLabel": "452",
-            "valueText": "452"
           },
           {
             "propertyId": "cg:property:member-of-political-party",

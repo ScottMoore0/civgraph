@@ -1,9 +1,40 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T21:51:18.768Z",
+  "generatedAt": "2026-06-30T22:16:28.868Z",
   "shard": 26,
   "total": 5000,
   "items": [
+    {
+      "id": "cg:source-file:breen-wood-sac-habitat-map-service-endpoint-6b4115af9411",
+      "label": "Breen Wood SAC Habitat Map service endpoint",
+      "description": "Breen Wood SAC Habitat Map service endpoint for Breen Wood SAC Habitat Map",
+      "kind": "entity",
+      "sourceUrl": "https://services-eu1.arcgis.com/kswen6BYexuc1SUk/arcgis/rest/services/Breen_Wood_SAC_Habitat_Map/FeatureServer",
+      "attributes": {
+        "url": "https://services-eu1.arcgis.com/kswen6BYexuc1SUk/arcgis/rest/services/Breen_Wood_SAC_Habitat_Map/FeatureServer",
+        "relationship": "source-download",
+        "parentLabel": "Breen Wood SAC Habitat Map"
+      },
+      "typeIds": [
+        "cg:entity-type:source-file"
+      ]
+    },
+    {
+      "id": "cg:source-file:britain-ireland-seas-fgb-ed9752e2fdd0",
+      "label": "Britain_Ireland_Seas.fgb",
+      "description": "Britain_Ireland_Seas.fgb for Seas",
+      "kind": "entity",
+      "sourceUrl": "data/maps/physical/Britain_Ireland_Seas.fgb",
+      "attributes": {
+        "url": "data/maps/physical/Britain_Ireland_Seas.fgb",
+        "format": "FGB",
+        "relationship": "feature-source-file",
+        "parentLabel": "Seas"
+      },
+      "typeIds": [
+        "cg:entity-type:source-file"
+      ]
+    },
     {
       "id": "cg:source-file:buildingscnscccs-csv-dbe66c770d3d",
       "label": "buildingscnscccs.csv",
@@ -79935,38 +79966,6 @@
         "format": "file",
         "relationship": "source-download",
         "parentLabel": "PMQ96 - Persons in employment (ILO) aged 20 to 69 years with no occupational pension classified by main reason for not having a pension"
-      },
-      "typeIds": [
-        "cg:entity-type:source-file"
-      ]
-    },
-    {
-      "id": "cg:source-file:en-c5b0307c5906",
-      "label": "en",
-      "description": "en for CIRGDP06 - Gross Value Added, Taxes and Subsidies",
-      "kind": "entity",
-      "sourceUrl": "https://data.gov.ie/dataset/cirgdp06-gross-value-added-taxes-and-subsidies",
-      "attributes": {
-        "url": "https://data.gov.ie/dataset/cirgdp06-gross-value-added-taxes-and-subsidies",
-        "format": "file",
-        "relationship": "source-download",
-        "parentLabel": "CIRGDP06 - Gross Value Added, Taxes and Subsidies"
-      },
-      "typeIds": [
-        "cg:entity-type:source-file"
-      ]
-    },
-    {
-      "id": "cg:source-file:en-c5bd4f2fd532",
-      "label": "en",
-      "description": "en for E1044 - Private Households in Permanent Housing Units 2011 to 2016",
-      "kind": "entity",
-      "sourceUrl": "https://data.gov.ie/dataset/e1044-private-households-in-permanent-housing-units-2011-to-2016",
-      "attributes": {
-        "url": "https://data.gov.ie/dataset/e1044-private-households-in-permanent-housing-units-2011-to-2016",
-        "format": "file",
-        "relationship": "source-download",
-        "parentLabel": "E1044 - Private Households in Permanent Housing Units 2011 to 2016"
       },
       "typeIds": [
         "cg:entity-type:source-file"

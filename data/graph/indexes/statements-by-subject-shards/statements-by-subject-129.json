@@ -1,9 +1,184 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T21:51:18.768Z",
+  "generatedAt": "2026-06-30T22:16:28.868Z",
   "shard": 129,
   "totalSubjects": 250,
   "items": {
+    "cg:person:name-george-hunter": [
+      {
+        "id": "cg:statement:40bb890658230531e2c1",
+        "propertyId": "cg:property:has-candidature",
+        "propertyLabel": "has candidature",
+        "valueType": "entity",
+        "valueId": "cg:candidature:cg-person-name-george-hunter-cg-contest-dail-eireann-1969-06-18-dail-eir-2876395fc694",
+        "valueLabel": "George Hunter - Donegal Leitrim",
+        "valueText": "George Hunter - Donegal Leitrim",
+        "valueDescription": "1969 Irish general election / Irish Labour / Not Elected",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "1969-06-18",
+            "valueText": "1969-06-18"
+          },
+          {
+            "propertyId": "cg:property:constituency",
+            "propertyLabel": "constituency",
+            "valueType": "string",
+            "valueLabel": "Donegal Leitrim",
+            "valueText": "Donegal Leitrim"
+          },
+          {
+            "propertyId": "cg:property:candidature-status",
+            "propertyLabel": "candidature status",
+            "valueType": "string",
+            "valueLabel": "Not Elected",
+            "valueText": "Not Elected"
+          },
+          {
+            "propertyId": "cg:property:elected",
+            "propertyLabel": "elected",
+            "valueType": "boolean",
+            "valueLabel": "No",
+            "valueText": "No"
+          },
+          {
+            "propertyId": "cg:property:first-preference-votes",
+            "propertyLabel": "first preference votes",
+            "valueType": "number",
+            "valueLabel": "883",
+            "valueText": "883"
+          },
+          {
+            "propertyId": "cg:property:member-of-political-party",
+            "propertyLabel": "member of political party or label",
+            "valueType": "entity",
+            "valueId": "cg:party:irish-labour",
+            "valueLabel": "Irish Labour",
+            "valueText": "Irish Labour"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-person-index",
+            "sourceTitle": "Civgraph Browse person index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:8bf159bb5c25e91a8cbc",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:person",
+        "valueLabel": "Person",
+        "valueText": "Person",
+        "valueDescription": "A person who appears in Civgraph public data, including election candidates, MPs, and MLAs.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:bce19dbe327c4c6a533d",
+        "propertyId": "cg:property:member-of-political-party",
+        "propertyLabel": "member of political party or label",
+        "valueType": "entity",
+        "valueId": "cg:party:irish-labour",
+        "valueLabel": "Irish Labour",
+        "valueText": "Irish Labour",
+        "valueDescription": "1918-2024 / 38 linked elections",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "Browse person party summary",
+            "valueText": "Browse person party summary"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-person-index",
+            "sourceTitle": "Civgraph Browse person index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:18c7ca81582f4d69065a",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "George Hunter",
+        "valueText": "George Hunter",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:c82db4f8676453c8788d",
+        "propertyId": "cg:property:stood-in-election",
+        "propertyLabel": "stood in election",
+        "valueType": "entity",
+        "valueId": "cg:election:dail-eireann-1969-06-18",
+        "valueLabel": "1969 Irish general election",
+        "valueText": "1969 Irish general election",
+        "valueDescription": "42 constituencies; 42 unmatched",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "1969-06-18",
+            "valueText": "1969-06-18"
+          },
+          {
+            "propertyId": "cg:property:constituency",
+            "propertyLabel": "constituency",
+            "valueType": "string",
+            "valueLabel": "Donegal Leitrim",
+            "valueText": "Donegal Leitrim"
+          },
+          {
+            "propertyId": "cg:property:candidature-status",
+            "propertyLabel": "candidature status",
+            "valueType": "string",
+            "valueLabel": "Not Elected",
+            "valueText": "Not Elected"
+          },
+          {
+            "propertyId": "cg:property:elected",
+            "propertyLabel": "elected",
+            "valueType": "boolean",
+            "valueLabel": "No",
+            "valueText": "No"
+          },
+          {
+            "propertyId": "cg:property:first-preference-votes",
+            "propertyLabel": "first preference votes",
+            "valueType": "number",
+            "valueLabel": "883",
+            "valueText": "883"
+          },
+          {
+            "propertyId": "cg:property:member-of-political-party",
+            "propertyLabel": "member of political party or label",
+            "valueType": "entity",
+            "valueId": "cg:party:irish-labour",
+            "valueLabel": "Irish Labour",
+            "valueText": "Irish Labour"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-person-index",
+            "sourceTitle": "Civgraph Browse person index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      }
+    ],
     "cg:person:name-george-irvine-finlay": [
       {
         "id": "cg:statement:8d82e86e89775e01d75a",
@@ -88877,181 +89052,6 @@
             "valueType": "number",
             "valueLabel": "400",
             "valueText": "400"
-          },
-          {
-            "propertyId": "cg:property:member-of-political-party",
-            "propertyLabel": "member of political party or label",
-            "valueType": "entity",
-            "valueId": "cg:party:alliance",
-            "valueLabel": "Alliance",
-            "valueText": "Alliance"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      }
-    ],
-    "cg:person:name-gillian-greer": [
-      {
-        "id": "cg:statement:223126334126dd65dfb2",
-        "propertyId": "cg:property:has-candidature",
-        "propertyLabel": "has candidature",
-        "valueType": "entity",
-        "valueId": "cg:candidature:cg-person-name-gillian-greer-cg-contest-local-government-local-governmen-bfa4b0e33ef3",
-        "valueLabel": "Gillian Greer - Holywood and Clandeboye",
-        "valueText": "Gillian Greer - Holywood and Clandeboye",
-        "valueDescription": "2019 Northern Ireland local elections / Alliance / Elected",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "2019-05-02",
-            "valueText": "2019-05-02"
-          },
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "Holywood and Clandeboye",
-            "valueText": "Holywood and Clandeboye"
-          },
-          {
-            "propertyId": "cg:property:candidature-status",
-            "propertyLabel": "candidature status",
-            "valueType": "string",
-            "valueLabel": "Elected",
-            "valueText": "Elected"
-          },
-          {
-            "propertyId": "cg:property:elected",
-            "propertyLabel": "elected",
-            "valueType": "boolean",
-            "valueLabel": "Yes",
-            "valueText": "Yes"
-          },
-          {
-            "propertyId": "cg:property:first-preference-votes",
-            "propertyLabel": "first preference votes",
-            "valueType": "number",
-            "valueLabel": "1249",
-            "valueText": "1249"
-          },
-          {
-            "propertyId": "cg:property:member-of-political-party",
-            "propertyLabel": "member of political party or label",
-            "valueType": "entity",
-            "valueId": "cg:party:alliance",
-            "valueLabel": "Alliance",
-            "valueText": "Alliance"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:b72a932579fbe34799f2",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:person",
-        "valueLabel": "Person",
-        "valueText": "Person",
-        "valueDescription": "A person who appears in Civgraph public data, including election candidates, MPs, and MLAs.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:446742b3e4bfc26700ee",
-        "propertyId": "cg:property:member-of-political-party",
-        "propertyLabel": "member of political party or label",
-        "valueType": "entity",
-        "valueId": "cg:party:alliance",
-        "valueLabel": "Alliance",
-        "valueText": "Alliance",
-        "valueDescription": "1973-2024 / 47 linked elections",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "Browse person party summary",
-            "valueText": "Browse person party summary"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:a8b701c349c3f24862eb",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Gillian Greer",
-        "valueText": "Gillian Greer",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:ae3d9b02f985f2fd5943",
-        "propertyId": "cg:property:stood-in-election",
-        "propertyLabel": "stood in election",
-        "valueType": "entity",
-        "valueId": "cg:election:local-government-local-government-districts-2019-05-02",
-        "valueLabel": "2019 Northern Ireland local elections",
-        "valueText": "2019 Northern Ireland local elections",
-        "valueDescription": "2019-05-02",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "2019-05-02",
-            "valueText": "2019-05-02"
-          },
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "Holywood and Clandeboye",
-            "valueText": "Holywood and Clandeboye"
-          },
-          {
-            "propertyId": "cg:property:candidature-status",
-            "propertyLabel": "candidature status",
-            "valueType": "string",
-            "valueLabel": "Elected",
-            "valueText": "Elected"
-          },
-          {
-            "propertyId": "cg:property:elected",
-            "propertyLabel": "elected",
-            "valueType": "boolean",
-            "valueLabel": "Yes",
-            "valueText": "Yes"
-          },
-          {
-            "propertyId": "cg:property:first-preference-votes",
-            "propertyLabel": "first preference votes",
-            "valueType": "number",
-            "valueLabel": "1249",
-            "valueText": "1249"
           },
           {
             "propertyId": "cg:property:member-of-political-party",

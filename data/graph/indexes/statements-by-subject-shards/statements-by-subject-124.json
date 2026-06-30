@@ -1,9 +1,170 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T21:51:18.768Z",
+  "generatedAt": "2026-06-30T22:16:28.868Z",
   "shard": 124,
   "totalSubjects": 250,
   "items": {
+    "cg:person:name-dickinson": [
+      {
+        "id": "cg:statement:dda5d036ef9d72776aea",
+        "propertyId": "cg:property:has-candidature",
+        "propertyLabel": "has candidature",
+        "valueType": "entity",
+        "valueId": "cg:candidature:cg-person-name-dickinson-cg-contest-local-government-local-government-di-a072ce6aca26",
+        "valueLabel": "Dickinson - Down Area C",
+        "valueText": "Dickinson - Down Area C",
+        "valueDescription": "1973 Northern Ireland local elections / Alliance",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "1973-05-30",
+            "valueText": "1973-05-30"
+          },
+          {
+            "propertyId": "cg:property:constituency",
+            "propertyLabel": "constituency",
+            "valueType": "string",
+            "valueLabel": "Down Area C",
+            "valueText": "Down Area C"
+          },
+          {
+            "propertyId": "cg:property:elected",
+            "propertyLabel": "elected",
+            "valueType": "boolean",
+            "valueLabel": "No",
+            "valueText": "No"
+          },
+          {
+            "propertyId": "cg:property:first-preference-votes",
+            "propertyLabel": "first preference votes",
+            "valueType": "number",
+            "valueLabel": "415",
+            "valueText": "415"
+          },
+          {
+            "propertyId": "cg:property:member-of-political-party",
+            "propertyLabel": "member of political party or label",
+            "valueType": "entity",
+            "valueId": "cg:party:alliance",
+            "valueLabel": "Alliance",
+            "valueText": "Alliance"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-person-index",
+            "sourceTitle": "Civgraph Browse person index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:0332009c0f6ba2bf6829",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:person",
+        "valueLabel": "Person",
+        "valueText": "Person",
+        "valueDescription": "A person who appears in Civgraph public data, including election candidates, MPs, and MLAs.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:2679806ed2756389cc6e",
+        "propertyId": "cg:property:member-of-political-party",
+        "propertyLabel": "member of political party or label",
+        "valueType": "entity",
+        "valueId": "cg:party:alliance",
+        "valueLabel": "Alliance",
+        "valueText": "Alliance",
+        "valueDescription": "1973-2024 / 47 linked elections",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "Browse person party summary",
+            "valueText": "Browse person party summary"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-person-index",
+            "sourceTitle": "Civgraph Browse person index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:946c05a0b64aa96f952b",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Dickinson",
+        "valueText": "Dickinson",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:eb1aa3de8fddc8d9930c",
+        "propertyId": "cg:property:stood-in-election",
+        "propertyLabel": "stood in election",
+        "valueType": "entity",
+        "valueId": "cg:election:local-government-local-government-districts-1973-05-30",
+        "valueLabel": "1973 Northern Ireland local elections",
+        "valueText": "1973 Northern Ireland local elections",
+        "valueDescription": "1973-05-30",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "1973-05-30",
+            "valueText": "1973-05-30"
+          },
+          {
+            "propertyId": "cg:property:constituency",
+            "propertyLabel": "constituency",
+            "valueType": "string",
+            "valueLabel": "Down Area C",
+            "valueText": "Down Area C"
+          },
+          {
+            "propertyId": "cg:property:elected",
+            "propertyLabel": "elected",
+            "valueType": "boolean",
+            "valueLabel": "No",
+            "valueText": "No"
+          },
+          {
+            "propertyId": "cg:property:first-preference-votes",
+            "propertyLabel": "first preference votes",
+            "valueType": "number",
+            "valueLabel": "415",
+            "valueText": "415"
+          },
+          {
+            "propertyId": "cg:property:member-of-political-party",
+            "propertyLabel": "member of political party or label",
+            "valueType": "entity",
+            "valueId": "cg:party:alliance",
+            "valueLabel": "Alliance",
+            "valueText": "Alliance"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-person-index",
+            "sourceTitle": "Civgraph Browse person index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      }
+    ],
     "cg:person:name-dickson": [
       {
         "id": "cg:statement:eb88e94777099c63bd6d",
@@ -88881,167 +89042,6 @@
             "valueId": "cg:party:independent-new-vision",
             "valueLabel": "Independent/New Vision",
             "valueText": "Independent/New Vision"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      }
-    ],
-    "cg:person:name-eamonn-boyce": [
-      {
-        "id": "cg:statement:0cef06c6a3c70aefdc2a",
-        "propertyId": "cg:property:has-candidature",
-        "propertyLabel": "has candidature",
-        "valueType": "entity",
-        "valueId": "cg:candidature:cg-person-name-eamonn-boyce-cg-contest-house-of-commons-of-the-united-ki-8a65d9bcf481",
-        "valueLabel": "Eamonn Boyce - Belfast West",
-        "valueText": "Eamonn Boyce - Belfast West",
-        "valueDescription": "1955 UK general election in Northern Ireland / Sinn Féin",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "1955-05-26",
-            "valueText": "1955-05-26"
-          },
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "Belfast West",
-            "valueText": "Belfast West"
-          },
-          {
-            "propertyId": "cg:property:elected",
-            "propertyLabel": "elected",
-            "valueType": "boolean",
-            "valueLabel": "No",
-            "valueText": "No"
-          },
-          {
-            "propertyId": "cg:property:first-preference-votes",
-            "propertyLabel": "first preference votes",
-            "valueType": "number",
-            "valueLabel": "8447",
-            "valueText": "8447"
-          },
-          {
-            "propertyId": "cg:property:member-of-political-party",
-            "propertyLabel": "member of political party or label",
-            "valueType": "entity",
-            "valueId": "cg:party:sinn-fein",
-            "valueLabel": "Sinn Féin",
-            "valueText": "Sinn Féin"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:304cbc99ce70db36f0a8",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:person",
-        "valueLabel": "Person",
-        "valueText": "Person",
-        "valueDescription": "A person who appears in Civgraph public data, including election candidates, MPs, and MLAs.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:9a62aae6947b2de15998",
-        "propertyId": "cg:property:member-of-political-party",
-        "propertyLabel": "member of political party or label",
-        "valueType": "entity",
-        "valueId": "cg:party:sinn-fein",
-        "valueLabel": "Sinn Féin",
-        "valueText": "Sinn Féin",
-        "valueDescription": "1918-2024 / 74 linked elections",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "Browse person party summary",
-            "valueText": "Browse person party summary"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:5ce9dcb277ac2b5779b6",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Eamonn Boyce",
-        "valueText": "Eamonn Boyce",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:e3774b63245ff60cd100",
-        "propertyId": "cg:property:stood-in-election",
-        "propertyLabel": "stood in election",
-        "valueType": "entity",
-        "valueId": "cg:election:house-of-commons-of-the-united-kingdom-1955-05-26",
-        "valueLabel": "1955 UK general election in Northern Ireland",
-        "valueText": "1955 UK general election in Northern Ireland",
-        "valueDescription": "1955-05-26",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "1955-05-26",
-            "valueText": "1955-05-26"
-          },
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "Belfast West",
-            "valueText": "Belfast West"
-          },
-          {
-            "propertyId": "cg:property:elected",
-            "propertyLabel": "elected",
-            "valueType": "boolean",
-            "valueLabel": "No",
-            "valueText": "No"
-          },
-          {
-            "propertyId": "cg:property:first-preference-votes",
-            "propertyLabel": "first preference votes",
-            "valueType": "number",
-            "valueLabel": "8447",
-            "valueText": "8447"
-          },
-          {
-            "propertyId": "cg:property:member-of-political-party",
-            "propertyLabel": "member of political party or label",
-            "valueType": "entity",
-            "valueId": "cg:party:sinn-fein",
-            "valueLabel": "Sinn Féin",
-            "valueText": "Sinn Féin"
           }
         ],
         "referenceCount": 1,

@@ -1,9 +1,184 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T21:51:18.768Z",
+  "generatedAt": "2026-06-30T22:16:28.868Z",
   "shard": 131,
   "totalSubjects": 250,
   "items": {
+    "cg:person:name-hatch-george-arnold": [
+      {
+        "id": "cg:statement:c5baac8d07795936a920",
+        "propertyId": "cg:property:has-candidature",
+        "propertyLabel": "has candidature",
+        "valueType": "entity",
+        "valueId": "cg:candidature:cg-person-name-hatch-george-arnold-cg-contest-local-government-local-gov-3b8bbb20d32e",
+        "valueLabel": "Hatch George Arnold - Portadown",
+        "valueText": "Hatch George Arnold - Portadown",
+        "valueDescription": "2011 Northern Ireland local elections / UUP / Elected",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2011-05-05",
+            "valueText": "2011-05-05"
+          },
+          {
+            "propertyId": "cg:property:constituency",
+            "propertyLabel": "constituency",
+            "valueType": "string",
+            "valueLabel": "Portadown",
+            "valueText": "Portadown"
+          },
+          {
+            "propertyId": "cg:property:candidature-status",
+            "propertyLabel": "candidature status",
+            "valueType": "string",
+            "valueLabel": "Elected",
+            "valueText": "Elected"
+          },
+          {
+            "propertyId": "cg:property:elected",
+            "propertyLabel": "elected",
+            "valueType": "boolean",
+            "valueLabel": "Yes",
+            "valueText": "Yes"
+          },
+          {
+            "propertyId": "cg:property:first-preference-votes",
+            "propertyLabel": "first preference votes",
+            "valueType": "number",
+            "valueLabel": "883",
+            "valueText": "883"
+          },
+          {
+            "propertyId": "cg:property:member-of-political-party",
+            "propertyLabel": "member of political party or label",
+            "valueType": "entity",
+            "valueId": "cg:party:uup",
+            "valueLabel": "UUP",
+            "valueText": "UUP"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-person-index",
+            "sourceTitle": "Civgraph Browse person index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:4dbe5dd65499e3374cb1",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:person",
+        "valueLabel": "Person",
+        "valueText": "Person",
+        "valueDescription": "A person who appears in Civgraph public data, including election candidates, MPs, and MLAs.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:7a50ff4c541a0af76ed3",
+        "propertyId": "cg:property:member-of-political-party",
+        "propertyLabel": "member of political party or label",
+        "valueType": "entity",
+        "valueId": "cg:party:uup",
+        "valueLabel": "UUP",
+        "valueText": "UUP",
+        "valueDescription": "1921-2024 / 148 linked elections",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "Browse person party summary",
+            "valueText": "Browse person party summary"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-person-index",
+            "sourceTitle": "Civgraph Browse person index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:9fc86d9b01fad881a47d",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Hatch George Arnold",
+        "valueText": "Hatch George Arnold",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:1d21ba0e1a9109754464",
+        "propertyId": "cg:property:stood-in-election",
+        "propertyLabel": "stood in election",
+        "valueType": "entity",
+        "valueId": "cg:election:local-government-local-government-districts-2011-05-05",
+        "valueLabel": "2011 Northern Ireland local elections",
+        "valueText": "2011 Northern Ireland local elections",
+        "valueDescription": "2011-05-05",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2011-05-05",
+            "valueText": "2011-05-05"
+          },
+          {
+            "propertyId": "cg:property:constituency",
+            "propertyLabel": "constituency",
+            "valueType": "string",
+            "valueLabel": "Portadown",
+            "valueText": "Portadown"
+          },
+          {
+            "propertyId": "cg:property:candidature-status",
+            "propertyLabel": "candidature status",
+            "valueType": "string",
+            "valueLabel": "Elected",
+            "valueText": "Elected"
+          },
+          {
+            "propertyId": "cg:property:elected",
+            "propertyLabel": "elected",
+            "valueType": "boolean",
+            "valueLabel": "Yes",
+            "valueText": "Yes"
+          },
+          {
+            "propertyId": "cg:property:first-preference-votes",
+            "propertyLabel": "first preference votes",
+            "valueType": "number",
+            "valueLabel": "883",
+            "valueText": "883"
+          },
+          {
+            "propertyId": "cg:property:member-of-political-party",
+            "propertyLabel": "member of political party or label",
+            "valueType": "entity",
+            "valueId": "cg:party:uup",
+            "valueLabel": "UUP",
+            "valueText": "UUP"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-person-index",
+            "sourceTitle": "Civgraph Browse person index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      }
+    ],
     "cg:person:name-haughey-sharon": [
       {
         "id": "cg:statement:35cc39b0a6775cdb87ef",
@@ -62720,181 +62895,6 @@
             "valueId": "cg:party:dup",
             "valueLabel": "DUP",
             "valueText": "DUP"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      }
-    ],
-    "cg:person:name-hugh-john-simpson": [
-      {
-        "id": "cg:statement:35da93e78645d33618f3",
-        "propertyId": "cg:property:has-candidature",
-        "propertyLabel": "has candidature",
-        "valueType": "entity",
-        "valueId": "cg:candidature:cg-person-name-hugh-john-simpson-cg-contest-local-government-local-gover-5e7832c00102",
-        "valueLabel": "Hugh John Simpson - Ballymena Area B",
-        "valueText": "Hugh John Simpson - Ballymena Area B",
-        "valueDescription": "1981 Northern Ireland local elections / UUP / Elected",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "1981-05-20",
-            "valueText": "1981-05-20"
-          },
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "Ballymena Area B",
-            "valueText": "Ballymena Area B"
-          },
-          {
-            "propertyId": "cg:property:candidature-status",
-            "propertyLabel": "candidature status",
-            "valueType": "string",
-            "valueLabel": "Elected",
-            "valueText": "Elected"
-          },
-          {
-            "propertyId": "cg:property:elected",
-            "propertyLabel": "elected",
-            "valueType": "boolean",
-            "valueLabel": "Yes",
-            "valueText": "Yes"
-          },
-          {
-            "propertyId": "cg:property:first-preference-votes",
-            "propertyLabel": "first preference votes",
-            "valueType": "number",
-            "valueLabel": "537",
-            "valueText": "537"
-          },
-          {
-            "propertyId": "cg:property:member-of-political-party",
-            "propertyLabel": "member of political party or label",
-            "valueType": "entity",
-            "valueId": "cg:party:uup",
-            "valueLabel": "UUP",
-            "valueText": "UUP"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:20a3f85e93361ab40e96",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:person",
-        "valueLabel": "Person",
-        "valueText": "Person",
-        "valueDescription": "A person who appears in Civgraph public data, including election candidates, MPs, and MLAs.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:2ecd210af336dd8c72dc",
-        "propertyId": "cg:property:member-of-political-party",
-        "propertyLabel": "member of political party or label",
-        "valueType": "entity",
-        "valueId": "cg:party:uup",
-        "valueLabel": "UUP",
-        "valueText": "UUP",
-        "valueDescription": "1921-2024 / 148 linked elections",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "Browse person party summary",
-            "valueText": "Browse person party summary"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:43144abeedf05a353096",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Hugh John Simpson",
-        "valueText": "Hugh John Simpson",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:5db6bb7e869ca0fb99e1",
-        "propertyId": "cg:property:stood-in-election",
-        "propertyLabel": "stood in election",
-        "valueType": "entity",
-        "valueId": "cg:election:local-government-local-government-districts-1981-05-20",
-        "valueLabel": "1981 Northern Ireland local elections",
-        "valueText": "1981 Northern Ireland local elections",
-        "valueDescription": "1981-05-20",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "1981-05-20",
-            "valueText": "1981-05-20"
-          },
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "Ballymena Area B",
-            "valueText": "Ballymena Area B"
-          },
-          {
-            "propertyId": "cg:property:candidature-status",
-            "propertyLabel": "candidature status",
-            "valueType": "string",
-            "valueLabel": "Elected",
-            "valueText": "Elected"
-          },
-          {
-            "propertyId": "cg:property:elected",
-            "propertyLabel": "elected",
-            "valueType": "boolean",
-            "valueLabel": "Yes",
-            "valueText": "Yes"
-          },
-          {
-            "propertyId": "cg:property:first-preference-votes",
-            "propertyLabel": "first preference votes",
-            "valueType": "number",
-            "valueLabel": "537",
-            "valueText": "537"
-          },
-          {
-            "propertyId": "cg:property:member-of-political-party",
-            "propertyLabel": "member of political party or label",
-            "valueType": "entity",
-            "valueId": "cg:party:uup",
-            "valueLabel": "UUP",
-            "valueText": "UUP"
           }
         ],
         "referenceCount": 1,

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T21:50:13.911Z",
+  "generatedAt": "2026-06-30T22:16:23.595Z",
   "kind": "sources",
   "shard": "sources-038.json",
   "total": 200,
@@ -96,6 +96,91 @@
         ],
         "date": "2026-03-31",
         "labelProperty": "COUNTY"
+      }
+    },
+    {
+      "id": "map-source:niah-buildings",
+      "slug": "map-source-niah-buildings",
+      "type": "map-source",
+      "title": "NIAH Buildings (Architectural Heritage) source files",
+      "subtitle": "Built Environment / National Inventory of Architectural Heritage (NIAH)",
+      "category": "Map sources",
+      "provider": [
+        "National Inventory of Architectural Heritage (NIAH)"
+      ],
+      "description": "National Inventory of Architectural Heritage — recorded buildings/structures (48,327 points). NIAH, via the Peatlands Geoportal (QUB).",
+      "sourceMapId": "niah-buildings",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "NB",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "National Inventory of Architectural Heritage (NIAH)",
+          "url": "https://www.buildingsofireland.ie/"
+        },
+        {
+          "label": "Peatlands Geoportal (QUB)",
+          "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://archive.org/download/civgraph-niah-buildings-fgb/NIAH_Buildings.fgb"
+        },
+        {
+          "label": "fgb",
+          "url": "data/maps/built-environment/NIAH_Buildings.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=niah-buildings",
+      "browseUrl": "/browse/sources/map-source-niah-buildings",
+      "rawMetadata": {
+        "id": "niah-buildings",
+        "name": "NIAH Buildings (Architectural Heritage)",
+        "slug": "niah-buildings",
+        "category": "built-environment",
+        "provider": [
+          "National Inventory of Architectural Heritage (NIAH)"
+        ],
+        "files": {
+          "fgb": "data/maps/built-environment/NIAH_Buildings.fgb"
+        },
+        "downloads": {
+          "fgb": "https://archive.org/download/civgraph-niah-buildings-fgb/NIAH_Buildings.fgb"
+        },
+        "chunked": true,
+        "useLOD": true,
+        "style": {
+          "color": "#6D4C41",
+          "weight": 1,
+          "fillOpacity": 0.6
+        },
+        "labelProperty": "NAME",
+        "keywords": [
+          "NIAH",
+          "architectural heritage",
+          "buildings",
+          "heritage",
+          "ireland",
+          "monuments",
+          "historic"
+        ],
+        "description": "National Inventory of Architectural Heritage — recorded buildings/structures (48,327 points). NIAH, via the Peatlands Geoportal (QUB).",
+        "references": [
+          {
+            "label": "National Inventory of Architectural Heritage (NIAH)",
+            "url": "https://www.buildingsofireland.ie/",
+            "note": ""
+          },
+          {
+            "label": "Peatlands Geoportal (QUB)",
+            "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/",
+            "note": ""
+          }
+        ]
       }
     },
     {
@@ -28109,345 +28194,6 @@
           "XML"
         ],
         "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-candidate-details-for-general-election-2016-00968"
-      }
-    },
-    {
-      "id": "medium-priority:2-irish-election-source-enrichment-data:candidate-details-for-general-election-2020:00969",
-      "slug": "medium-priority-2-irish-election-source-enrichment-data-candidate-details-for-general-election-2020-00969",
-      "type": "approved-medium-priority-source",
-      "title": "Candidate Details for General Election 2020",
-      "subtitle": "Irish election source/enrichment data / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV, JSON, XML / Approved source record",
-      "category": "Medium-priority: Irish election source/enrichment data",
-      "date": "2020",
-      "provider": [
-        "Department of Housing, Local Government and Heritage",
-        "data.gov.ie"
-      ],
-      "description": "Candidate Details for General Election 2020 is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/candidate-details-for-general-election-2020",
-      "references": [
-        {
-          "label": "Candidate Details for General Election 2020 provider page",
-          "url": "https://data.gov.ie/dataset/candidate-details-for-general-election-2020",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Candidate Details for General Election 2020 Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/candidate-details-for-general-election-2020",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/candidate-details-for-general-election-2020",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Irish election source/enrichment data",
-        "election",
-        "features",
-        "Ireland / unspecified",
-        "enrich-existing-election",
-        "CSV",
-        "JSON",
-        "XML"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 970,
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:candidate-details-for-general-election-2020:00969",
-          "title": "Candidate Details for General Election 2020",
-          "cleanTitle": "Candidate Details for General Election 2020",
-          "provider": "data.gov.ie",
-          "organisation": "Department of Housing, Local Government and Heritage",
-          "category": "tabular",
-          "roiGroup": "2. Irish election source/enrichment data",
-          "groupTitle": "Irish election source/enrichment data",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "election",
-          "featureUnit": "features",
-          "formats": [
-            "CSV",
-            "JSON",
-            "XML"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "enrich-existing-election",
-          "proposedPlacement": "Elections/source provenance",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "JSON",
-              "XML"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 65,
-          "currentProviderUrl": "https://data.gov.ie/dataset/candidate-details-for-general-election-2020",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/candidate-details-for-general-election-2020",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "election-model-merge-and-provenance-review: election staging action assigned",
-            "source-page-and-ia-viewport-decision: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Download available",
-        "Provider link",
-        "Wayback link",
-        "Election provenance"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Irish election source/enrichment data",
-        "Ireland / unspecified",
-        "election",
-        "Candidate Details for General Election 2020"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/candidate-details-for-general-election-2020",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/candidate-details-for-general-election-2020",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, Candidate Details for General Election 2020.",
-      "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. Candidate Details for General Election 2020. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/candidate-details-for-general-election-2020. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/candidate-details-for-general-election-2020.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:2-irish-election-source-enrichment-data:candidate-details-for-general-election-2020:00969",
-        "sourceRowNumber": 970,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish election source/provenance enrichment",
-        "proposedAction": "enrich-existing-election",
-        "proposedPlacement": "Elections/source provenance",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "CSV",
-            "JSON",
-            "XML"
-          ]
-        },
-        "confidence": 65,
-        "resolvedBlockers": [
-          "election-model-merge-and-provenance-review: election staging action assigned",
-          "source-page-and-ia-viewport-decision: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Elections/source provenance",
-      "relationship": "election-source-enrichment",
-      "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-candidate-details-for-general-election-2020-00969",
-      "rawMetadata": {
-        "id": "medium-priority:2-irish-election-source-enrichment-data:candidate-details-for-general-election-2020:00969",
-        "slug": "medium-priority-2-irish-election-source-enrichment-data-candidate-details-for-general-election-2020-00969",
-        "type": "approved-medium-priority-source",
-        "title": "Candidate Details for General Election 2020",
-        "subtitle": "Irish election source/enrichment data / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV, JSON, XML / Approved source record",
-        "category": "Medium-priority: Irish election source/enrichment data",
-        "date": "2020",
-        "provider": [
-          "Department of Housing, Local Government and Heritage",
-          "data.gov.ie"
-        ],
-        "description": "Candidate Details for General Election 2020 is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/candidate-details-for-general-election-2020",
-        "references": [
-          {
-            "label": "Candidate Details for General Election 2020 provider page",
-            "url": "https://data.gov.ie/dataset/candidate-details-for-general-election-2020",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Candidate Details for General Election 2020 Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/candidate-details-for-general-election-2020",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/candidate-details-for-general-election-2020",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Download available",
-          "Provider link",
-          "Wayback link",
-          "Election provenance"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Irish election source/enrichment data",
-          "Ireland / unspecified",
-          "election",
-          "Candidate Details for General Election 2020"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/candidate-details-for-general-election-2020",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/candidate-details-for-general-election-2020",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, Candidate Details for General Election 2020.",
-        "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. Candidate Details for General Election 2020. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/candidate-details-for-general-election-2020. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/candidate-details-for-general-election-2020.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 970,
-            "stagingId": "medium-prep:2-irish-election-source-enrichment-data:candidate-details-for-general-election-2020:00969",
-            "title": "Candidate Details for General Election 2020",
-            "cleanTitle": "Candidate Details for General Election 2020",
-            "provider": "data.gov.ie",
-            "organisation": "Department of Housing, Local Government and Heritage",
-            "category": "tabular",
-            "roiGroup": "2. Irish election source/enrichment data",
-            "groupTitle": "Irish election source/enrichment data",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "election",
-            "featureUnit": "features",
-            "formats": [
-              "CSV",
-              "JSON",
-              "XML"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "enrich-existing-election",
-            "proposedPlacement": "Elections/source provenance",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "CSV",
-                "JSON",
-                "XML"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 65,
-            "currentProviderUrl": "https://data.gov.ie/dataset/candidate-details-for-general-election-2020",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/candidate-details-for-general-election-2020",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "election-model-merge-and-provenance-review: election staging action assigned",
-              "source-page-and-ia-viewport-decision: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:candidate-details-for-general-election-2020:00969",
-          "sourceRowNumber": 970,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish election source/provenance enrichment",
-          "proposedAction": "enrich-existing-election",
-          "proposedPlacement": "Elections/source provenance",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "JSON",
-              "XML"
-            ]
-          },
-          "confidence": 65,
-          "resolvedBlockers": [
-            "election-model-merge-and-provenance-review: election staging action assigned",
-            "source-page-and-ia-viewport-decision: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Elections/source provenance",
-        "relationship": "election-source-enrichment",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Irish election source/enrichment data",
-          "election",
-          "features",
-          "Ireland / unspecified",
-          "enrich-existing-election",
-          "CSV",
-          "JSON",
-          "XML"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-candidate-details-for-general-election-2020-00969"
       }
     }
   ]

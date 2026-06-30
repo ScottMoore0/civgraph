@@ -1,9 +1,184 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T21:51:18.768Z",
+  "generatedAt": "2026-06-30T22:16:28.868Z",
   "shard": 152,
   "totalSubjects": 250,
   "items": {
+    "cg:person:name-patrick-s-o-byrne": [
+      {
+        "id": "cg:statement:cf242c49e530d2ce8b7f",
+        "propertyId": "cg:property:has-candidature",
+        "propertyLabel": "has candidature",
+        "valueType": "entity",
+        "valueId": "cg:candidature:cg-person-name-patrick-s-o-byrne-cg-contest-dail-eireann-1921-05-24-dail-654f834cc4a7",
+        "valueLabel": "Patrick S O'Byrne - Tipperary Mid, North and South",
+        "valueText": "Patrick S O'Byrne - Tipperary Mid, North and South",
+        "valueDescription": "1921 Irish general election / Sinn Féin / Made Quota",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "1921-05-24",
+            "valueText": "1921-05-24"
+          },
+          {
+            "propertyId": "cg:property:constituency",
+            "propertyLabel": "constituency",
+            "valueType": "string",
+            "valueLabel": "Tipperary Mid, North and South",
+            "valueText": "Tipperary Mid, North and South"
+          },
+          {
+            "propertyId": "cg:property:candidature-status",
+            "propertyLabel": "candidature status",
+            "valueType": "string",
+            "valueLabel": "Made Quota",
+            "valueText": "Made Quota"
+          },
+          {
+            "propertyId": "cg:property:elected",
+            "propertyLabel": "elected",
+            "valueType": "boolean",
+            "valueLabel": "Yes",
+            "valueText": "Yes"
+          },
+          {
+            "propertyId": "cg:property:first-preference-votes",
+            "propertyLabel": "first preference votes",
+            "valueType": "number",
+            "valueLabel": "1",
+            "valueText": "1"
+          },
+          {
+            "propertyId": "cg:property:member-of-political-party",
+            "propertyLabel": "member of political party or label",
+            "valueType": "entity",
+            "valueId": "cg:party:sinn-fein",
+            "valueLabel": "Sinn Féin",
+            "valueText": "Sinn Féin"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-person-index",
+            "sourceTitle": "Civgraph Browse person index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:239c2a02e206fe5458b2",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:person",
+        "valueLabel": "Person",
+        "valueText": "Person",
+        "valueDescription": "A person who appears in Civgraph public data, including election candidates, MPs, and MLAs.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:4607e31156ec7898d01e",
+        "propertyId": "cg:property:member-of-political-party",
+        "propertyLabel": "member of political party or label",
+        "valueType": "entity",
+        "valueId": "cg:party:sinn-fein",
+        "valueLabel": "Sinn Féin",
+        "valueText": "Sinn Féin",
+        "valueDescription": "1918-2024 / 74 linked elections",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "Browse person party summary",
+            "valueText": "Browse person party summary"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-person-index",
+            "sourceTitle": "Civgraph Browse person index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:aef8531adecfb4ce2639",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Patrick S O'Byrne",
+        "valueText": "Patrick S O'Byrne",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:a15b09fa6a45c8be73b7",
+        "propertyId": "cg:property:stood-in-election",
+        "propertyLabel": "stood in election",
+        "valueType": "entity",
+        "valueId": "cg:election:dail-eireann-1921-05-24",
+        "valueLabel": "1921 Irish general election",
+        "valueText": "1921 Irish general election",
+        "valueDescription": "28 constituencies; 28 unmatched",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "1921-05-24",
+            "valueText": "1921-05-24"
+          },
+          {
+            "propertyId": "cg:property:constituency",
+            "propertyLabel": "constituency",
+            "valueType": "string",
+            "valueLabel": "Tipperary Mid, North and South",
+            "valueText": "Tipperary Mid, North and South"
+          },
+          {
+            "propertyId": "cg:property:candidature-status",
+            "propertyLabel": "candidature status",
+            "valueType": "string",
+            "valueLabel": "Made Quota",
+            "valueText": "Made Quota"
+          },
+          {
+            "propertyId": "cg:property:elected",
+            "propertyLabel": "elected",
+            "valueType": "boolean",
+            "valueLabel": "Yes",
+            "valueText": "Yes"
+          },
+          {
+            "propertyId": "cg:property:first-preference-votes",
+            "propertyLabel": "first preference votes",
+            "valueType": "number",
+            "valueLabel": "1",
+            "valueText": "1"
+          },
+          {
+            "propertyId": "cg:property:member-of-political-party",
+            "propertyLabel": "member of political party or label",
+            "valueType": "entity",
+            "valueId": "cg:party:sinn-fein",
+            "valueLabel": "Sinn Féin",
+            "valueText": "Sinn Féin"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-person-index",
+            "sourceTitle": "Civgraph Browse person index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      }
+    ],
     "cg:person:name-patrick-savage": [
       {
         "id": "cg:statement:dd43df970ccb9f405994",
@@ -107632,167 +107807,6 @@
             "valueId": "cg:party:independent",
             "valueLabel": "Independent",
             "valueText": "Independent"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      }
-    ],
-    "cg:person:name-peter-john-mccarron": [
-      {
-        "id": "cg:statement:357fb007c9ac9e79105e",
-        "propertyId": "cg:property:has-candidature",
-        "propertyLabel": "has candidature",
-        "valueType": "entity",
-        "valueId": "cg:candidature:cg-person-name-peter-john-mccarron-cg-contest-local-government-local-gov-11a76f56584e",
-        "valueLabel": "Peter John McCarron - Newcastle",
-        "valueText": "Peter John McCarron - Newcastle",
-        "valueDescription": "2005 Northern Ireland local elections / Green",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "2005-05-05",
-            "valueText": "2005-05-05"
-          },
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "Newcastle",
-            "valueText": "Newcastle"
-          },
-          {
-            "propertyId": "cg:property:elected",
-            "propertyLabel": "elected",
-            "valueType": "boolean",
-            "valueLabel": "No",
-            "valueText": "No"
-          },
-          {
-            "propertyId": "cg:property:first-preference-votes",
-            "propertyLabel": "first preference votes",
-            "valueType": "number",
-            "valueLabel": "148",
-            "valueText": "148"
-          },
-          {
-            "propertyId": "cg:property:member-of-political-party",
-            "propertyLabel": "member of political party or label",
-            "valueType": "entity",
-            "valueId": "cg:party:green",
-            "valueLabel": "Green",
-            "valueText": "Green"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:a8e3c7aa60e761639a89",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:person",
-        "valueLabel": "Person",
-        "valueText": "Person",
-        "valueDescription": "A person who appears in Civgraph public data, including election candidates, MPs, and MLAs.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:a972ceb7eff32e4ee758",
-        "propertyId": "cg:property:member-of-political-party",
-        "propertyLabel": "member of political party or label",
-        "valueType": "entity",
-        "valueId": "cg:party:green",
-        "valueLabel": "Green",
-        "valueText": "Green",
-        "valueDescription": "1982-2024 / 41 linked elections",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "Browse person party summary",
-            "valueText": "Browse person party summary"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:6a979d262f83698615bd",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Peter John McCarron",
-        "valueText": "Peter John McCarron",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:58bf868fbd11c5ff860d",
-        "propertyId": "cg:property:stood-in-election",
-        "propertyLabel": "stood in election",
-        "valueType": "entity",
-        "valueId": "cg:election:local-government-local-government-districts-2005-05-05",
-        "valueLabel": "2005 Northern Ireland local elections",
-        "valueText": "2005 Northern Ireland local elections",
-        "valueDescription": "2005-05-05",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "2005-05-05",
-            "valueText": "2005-05-05"
-          },
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "Newcastle",
-            "valueText": "Newcastle"
-          },
-          {
-            "propertyId": "cg:property:elected",
-            "propertyLabel": "elected",
-            "valueType": "boolean",
-            "valueLabel": "No",
-            "valueText": "No"
-          },
-          {
-            "propertyId": "cg:property:first-preference-votes",
-            "propertyLabel": "first preference votes",
-            "valueType": "number",
-            "valueLabel": "148",
-            "valueText": "148"
-          },
-          {
-            "propertyId": "cg:property:member-of-political-party",
-            "propertyLabel": "member of political party or label",
-            "valueType": "entity",
-            "valueId": "cg:party:green",
-            "valueLabel": "Green",
-            "valueText": "Green"
           }
         ],
         "referenceCount": 1,

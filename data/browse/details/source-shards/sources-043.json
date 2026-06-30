@@ -1,10 +1,369 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T21:50:13.911Z",
+  "generatedAt": "2026-06-30T22:16:23.595Z",
   "kind": "sources",
   "shard": "sources-043.json",
   "total": 200,
   "items": [
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:cdp2022-flood-zone-a:00447",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-cdp2022-flood-zone-a-00447",
+      "type": "approved-medium-priority-source",
+      "title": "CDP2022 Flood Zone A",
+      "subtitle": "Local authority planning/property/open-data layers / Cork County Council, data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, GEOJSON, HTML, KML / Source record; runtime review pending",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "provider": [
+        "Cork County Council",
+        "data.gov.ie"
+      ],
+      "description": "CDP2022 Flood Zone A is published as a medium-priority Civgraph source/provenance record from Cork County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
+      "url": "https://data.gov.ie/dataset/cdp2022-flood-zone-a",
+      "references": [
+        {
+          "label": "CDP2022 Flood Zone A provider page",
+          "url": "https://data.gov.ie/dataset/cdp2022-flood-zone-a",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "CDP2022 Flood Zone A Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/cdp2022-flood-zone-a",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/cdp2022-flood-zone-a",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "source-record-with-runtime-review",
+        "Local authority planning/property/open-data layers",
+        "source-data",
+        "features",
+        "Republic of Ireland",
+        "local-authority-batch-review",
+        "ARCGIS GEOSERVICES REST API",
+        "GEOJSON",
+        "HTML",
+        "KML",
+        "review:duplicate-or-variant-review-no-existing-match-candidate"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 448,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:cdp2022-flood-zone-a:00447",
+          "title": "CDP2022 Flood Zone A",
+          "cleanTitle": "CDP2022 Flood Zone A",
+          "provider": "data.gov.ie",
+          "organisation": "Cork County Council",
+          "category": "spatial",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Republic of Ireland",
+          "topic": "source-data",
+          "featureUnit": "features",
+          "formats": [
+            "ARCGIS GEOSERVICES REST API",
+            "GEOJSON",
+            "HTML",
+            "KML"
+          ],
+          "isSpatial": true,
+          "isLargeOrSpecial": false,
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "ARCGIS GEOSERVICES REST API",
+              "GEOJSON",
+              "HTML",
+              "KML"
+            ]
+          },
+          "approvalState": "ready-with-residual-review",
+          "sourcePublicationState": "public source record with runtime/semantic review still pending",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/cdp2022-flood-zone-a",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/cdp2022-flood-zone-a",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
+        }
+      ],
+      "status": "Source only",
+      "statusChips": [
+        "Source record",
+        "Runtime review pending",
+        "Spatial source",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Republic of Ireland",
+        "source-data",
+        "CDP2022 Flood Zone A"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/cdp2022-flood-zone-a",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/cdp2022-flood-zone-a",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Cork County Council, data.gov.ie, CDP2022 Flood Zone A.",
+      "fullCitation": "Cork County Council, data.gov.ie. CDP2022 Flood Zone A. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/cdp2022-flood-zone-a. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/cdp2022-flood-zone-a.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:cdp2022-flood-zone-a:00447",
+        "sourceRowNumber": 448,
+        "approvalState": "ready-with-residual-review",
+        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+        "proposedAction": "local-authority-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "ARCGIS GEOSERVICES REST API",
+            "GEOJSON",
+            "HTML",
+            "KML"
+          ]
+        },
+        "confidence": 60,
+        "residualBlockers": [
+          "duplicate-or-variant-review: no existing match candidate"
+        ],
+        "resolvedBlockers": [
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+        ],
+        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
+      },
+      "publicationStatus": "source-record-with-runtime-review",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-cdp2022-flood-zone-a-00447",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:cdp2022-flood-zone-a:00447",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-cdp2022-flood-zone-a-00447",
+        "type": "approved-medium-priority-source",
+        "title": "CDP2022 Flood Zone A",
+        "subtitle": "Local authority planning/property/open-data layers / Cork County Council, data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, GEOJSON, HTML, KML / Source record; runtime review pending",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "provider": [
+          "Cork County Council",
+          "data.gov.ie"
+        ],
+        "description": "CDP2022 Flood Zone A is published as a medium-priority Civgraph source/provenance record from Cork County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
+        "url": "https://data.gov.ie/dataset/cdp2022-flood-zone-a",
+        "references": [
+          {
+            "label": "CDP2022 Flood Zone A provider page",
+            "url": "https://data.gov.ie/dataset/cdp2022-flood-zone-a",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "CDP2022 Flood Zone A Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/cdp2022-flood-zone-a",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/cdp2022-flood-zone-a",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source only",
+        "statusChips": [
+          "Source record",
+          "Runtime review pending",
+          "Spatial source",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Republic of Ireland",
+          "source-data",
+          "CDP2022 Flood Zone A"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/cdp2022-flood-zone-a",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/cdp2022-flood-zone-a",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Cork County Council, data.gov.ie, CDP2022 Flood Zone A.",
+        "fullCitation": "Cork County Council, data.gov.ie. CDP2022 Flood Zone A. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/cdp2022-flood-zone-a. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/cdp2022-flood-zone-a.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 448,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:cdp2022-flood-zone-a:00447",
+            "title": "CDP2022 Flood Zone A",
+            "cleanTitle": "CDP2022 Flood Zone A",
+            "provider": "data.gov.ie",
+            "organisation": "Cork County Council",
+            "category": "spatial",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Republic of Ireland",
+            "topic": "source-data",
+            "featureUnit": "features",
+            "formats": [
+              "ARCGIS GEOSERVICES REST API",
+              "GEOJSON",
+              "HTML",
+              "KML"
+            ],
+            "isSpatial": true,
+            "isLargeOrSpecial": false,
+            "proposedAction": "local-authority-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "ARCGIS GEOSERVICES REST API",
+                "GEOJSON",
+                "HTML",
+                "KML"
+              ]
+            },
+            "approvalState": "ready-with-residual-review",
+            "sourcePublicationState": "public source record with runtime/semantic review still pending",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/cdp2022-flood-zone-a",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/cdp2022-flood-zone-a",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+            ],
+            "residualBlockers": [
+              "duplicate-or-variant-review: no existing match candidate"
+            ],
+            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:cdp2022-flood-zone-a:00447",
+          "sourceRowNumber": 448,
+          "approvalState": "ready-with-residual-review",
+          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "ARCGIS GEOSERVICES REST API",
+              "GEOJSON",
+              "HTML",
+              "KML"
+            ]
+          },
+          "confidence": 60,
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate"
+          ],
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
+        },
+        "publicationStatus": "source-record-with-runtime-review",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "source-record-with-runtime-review",
+          "Local authority planning/property/open-data layers",
+          "source-data",
+          "features",
+          "Republic of Ireland",
+          "local-authority-batch-review",
+          "ARCGIS GEOSERVICES REST API",
+          "GEOJSON",
+          "HTML",
+          "KML",
+          "review:duplicate-or-variant-review-no-existing-match-candidate"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-cdp2022-flood-zone-a-00447"
+      }
+    },
     {
       "id": "medium-priority:5-local-authority-planning-property-open-data-layers:cdp2022-flood-zone-b:00448",
       "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-cdp2022-flood-zone-b-00448",
@@ -71636,363 +71995,6 @@
           "XLSX"
         ],
         "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-display-energy-certs-dlr-01795"
-      }
-    },
-    {
-      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:dlr-arts-venues:00388",
-      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-dlr-arts-venues-00388",
-      "type": "approved-medium-priority-source",
-      "title": "Arts Venues DLR",
-      "subtitle": "Local authority planning/property/open-data layers / Dún Laoghaire-Rathdown County Council, data.gov.ie / Northern Ireland / CSV, GEOJSON, ZIP / Source record; runtime review pending",
-      "category": "Medium-priority: Local authority planning/property/open-data layers",
-      "provider": [
-        "Dún Laoghaire-Rathdown County Council",
-        "data.gov.ie"
-      ],
-      "description": "Arts Venues DLR is published as a medium-priority Civgraph source/provenance record from Dún Laoghaire-Rathdown County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-      "url": "https://data.gov.ie/dataset/dlr-arts-venues",
-      "references": [
-        {
-          "label": "Arts Venues DLR provider page",
-          "url": "https://data.gov.ie/dataset/dlr-arts-venues",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Arts Venues DLR Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dlr-arts-venues",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/dlr-arts-venues",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "source-record-with-runtime-review",
-        "Local authority planning/property/open-data layers",
-        "source-data",
-        "features",
-        "Northern Ireland",
-        "local-authority-batch-review",
-        "CSV",
-        "GEOJSON",
-        "ZIP",
-        "review:duplicate-or-variant-review-no-existing-match-candidate"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 389,
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:dlr-arts-venues:00388",
-          "title": "Arts Venues DLR",
-          "cleanTitle": "Arts Venues DLR",
-          "provider": "data.gov.ie",
-          "organisation": "Dún Laoghaire-Rathdown County Council",
-          "category": "spatial",
-          "roiGroup": "5. Local authority planning/property/open-data layers",
-          "groupTitle": "Local authority planning/property/open-data layers",
-          "jurisdiction": "Northern Ireland",
-          "topic": "source-data",
-          "featureUnit": "features",
-          "formats": [
-            "CSV",
-            "GEOJSON",
-            "ZIP"
-          ],
-          "isSpatial": true,
-          "isLargeOrSpecial": false,
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "GEOJSON",
-              "ZIP"
-            ]
-          },
-          "approvalState": "ready-with-residual-review",
-          "sourcePublicationState": "public source record with runtime/semantic review still pending",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/dlr-arts-venues",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dlr-arts-venues",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source record",
-        "Runtime review pending",
-        "Spatial source",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Local authority planning/property/open-data layers",
-        "Northern Ireland",
-        "source-data",
-        "Arts Venues DLR"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text",
-          "download-only"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/dlr-arts-venues",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dlr-arts-venues",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Dún Laoghaire-Rathdown County Council, data.gov.ie, Arts Venues DLR.",
-      "fullCitation": "Dún Laoghaire-Rathdown County Council, data.gov.ie. Arts Venues DLR. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dlr-arts-venues. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dlr-arts-venues.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:dlr-arts-venues:00388",
-        "sourceRowNumber": 389,
-        "approvalState": "ready-with-residual-review",
-        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-        "proposedAction": "local-authority-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "CSV",
-            "GEOJSON",
-            "ZIP"
-          ]
-        },
-        "confidence": 60,
-        "residualBlockers": [
-          "duplicate-or-variant-review: no existing match candidate"
-        ],
-        "resolvedBlockers": [
-          "large-or-special-format-review: normal source package; no special-format hold",
-          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-        ],
-        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-      },
-      "publicationStatus": "source-record-with-runtime-review",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-dlr-arts-venues-00388",
-      "rawMetadata": {
-        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:dlr-arts-venues:00388",
-        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-dlr-arts-venues-00388",
-        "type": "approved-medium-priority-source",
-        "title": "Arts Venues DLR",
-        "subtitle": "Local authority planning/property/open-data layers / Dún Laoghaire-Rathdown County Council, data.gov.ie / Northern Ireland / CSV, GEOJSON, ZIP / Source record; runtime review pending",
-        "category": "Medium-priority: Local authority planning/property/open-data layers",
-        "provider": [
-          "Dún Laoghaire-Rathdown County Council",
-          "data.gov.ie"
-        ],
-        "description": "Arts Venues DLR is published as a medium-priority Civgraph source/provenance record from Dún Laoghaire-Rathdown County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-        "url": "https://data.gov.ie/dataset/dlr-arts-venues",
-        "references": [
-          {
-            "label": "Arts Venues DLR provider page",
-            "url": "https://data.gov.ie/dataset/dlr-arts-venues",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Arts Venues DLR Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dlr-arts-venues",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/dlr-arts-venues",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source record",
-          "Runtime review pending",
-          "Spatial source",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Local authority planning/property/open-data layers",
-          "Northern Ireland",
-          "source-data",
-          "Arts Venues DLR"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text",
-            "download-only"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/dlr-arts-venues",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dlr-arts-venues",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Dún Laoghaire-Rathdown County Council, data.gov.ie, Arts Venues DLR.",
-        "fullCitation": "Dún Laoghaire-Rathdown County Council, data.gov.ie. Arts Venues DLR. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dlr-arts-venues. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dlr-arts-venues.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 389,
-            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:dlr-arts-venues:00388",
-            "title": "Arts Venues DLR",
-            "cleanTitle": "Arts Venues DLR",
-            "provider": "data.gov.ie",
-            "organisation": "Dún Laoghaire-Rathdown County Council",
-            "category": "spatial",
-            "roiGroup": "5. Local authority planning/property/open-data layers",
-            "groupTitle": "Local authority planning/property/open-data layers",
-            "jurisdiction": "Northern Ireland",
-            "topic": "source-data",
-            "featureUnit": "features",
-            "formats": [
-              "CSV",
-              "GEOJSON",
-              "ZIP"
-            ],
-            "isSpatial": true,
-            "isLargeOrSpecial": false,
-            "proposedAction": "local-authority-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "CSV",
-                "GEOJSON",
-                "ZIP"
-              ]
-            },
-            "approvalState": "ready-with-residual-review",
-            "sourcePublicationState": "public source record with runtime/semantic review still pending",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/dlr-arts-venues",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dlr-arts-venues",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "large-or-special-format-review: normal source package; no special-format hold",
-              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-            ],
-            "residualBlockers": [
-              "duplicate-or-variant-review: no existing match candidate"
-            ],
-            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:dlr-arts-venues:00388",
-          "sourceRowNumber": 389,
-          "approvalState": "ready-with-residual-review",
-          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "GEOJSON",
-              "ZIP"
-            ]
-          },
-          "confidence": 60,
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate"
-          ],
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        },
-        "publicationStatus": "source-record-with-runtime-review",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "source-record-with-runtime-review",
-          "Local authority planning/property/open-data layers",
-          "source-data",
-          "features",
-          "Northern Ireland",
-          "local-authority-batch-review",
-          "CSV",
-          "GEOJSON",
-          "ZIP",
-          "review:duplicate-or-variant-review-no-existing-match-candidate"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-dlr-arts-venues-00388"
       }
     }
   ]

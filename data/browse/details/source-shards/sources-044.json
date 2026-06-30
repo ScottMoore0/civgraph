@@ -1,10 +1,367 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T21:50:13.911Z",
+  "generatedAt": "2026-06-30T22:16:23.595Z",
   "kind": "sources",
   "shard": "sources-044.json",
   "total": 200,
   "items": [
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:dlr-arts-venues:00388",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-dlr-arts-venues-00388",
+      "type": "approved-medium-priority-source",
+      "title": "Arts Venues DLR",
+      "subtitle": "Local authority planning/property/open-data layers / Dún Laoghaire-Rathdown County Council, data.gov.ie / Northern Ireland / CSV, GEOJSON, ZIP / Source record; runtime review pending",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "provider": [
+        "Dún Laoghaire-Rathdown County Council",
+        "data.gov.ie"
+      ],
+      "description": "Arts Venues DLR is published as a medium-priority Civgraph source/provenance record from Dún Laoghaire-Rathdown County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
+      "url": "https://data.gov.ie/dataset/dlr-arts-venues",
+      "references": [
+        {
+          "label": "Arts Venues DLR provider page",
+          "url": "https://data.gov.ie/dataset/dlr-arts-venues",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "Arts Venues DLR Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dlr-arts-venues",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/dlr-arts-venues",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "source-record-with-runtime-review",
+        "Local authority planning/property/open-data layers",
+        "source-data",
+        "features",
+        "Northern Ireland",
+        "local-authority-batch-review",
+        "CSV",
+        "GEOJSON",
+        "ZIP",
+        "review:duplicate-or-variant-review-no-existing-match-candidate"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 389,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:dlr-arts-venues:00388",
+          "title": "Arts Venues DLR",
+          "cleanTitle": "Arts Venues DLR",
+          "provider": "data.gov.ie",
+          "organisation": "Dún Laoghaire-Rathdown County Council",
+          "category": "spatial",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Northern Ireland",
+          "topic": "source-data",
+          "featureUnit": "features",
+          "formats": [
+            "CSV",
+            "GEOJSON",
+            "ZIP"
+          ],
+          "isSpatial": true,
+          "isLargeOrSpecial": false,
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "GEOJSON",
+              "ZIP"
+            ]
+          },
+          "approvalState": "ready-with-residual-review",
+          "sourcePublicationState": "public source record with runtime/semantic review still pending",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/dlr-arts-venues",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dlr-arts-venues",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "large-or-special-format-review: normal source package; no special-format hold",
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        }
+      ],
+      "status": "Source only",
+      "statusChips": [
+        "Source record",
+        "Runtime review pending",
+        "Spatial source",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Northern Ireland",
+        "source-data",
+        "Arts Venues DLR"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "download-only"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/dlr-arts-venues",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dlr-arts-venues",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Dún Laoghaire-Rathdown County Council, data.gov.ie, Arts Venues DLR.",
+      "fullCitation": "Dún Laoghaire-Rathdown County Council, data.gov.ie. Arts Venues DLR. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dlr-arts-venues. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dlr-arts-venues.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:dlr-arts-venues:00388",
+        "sourceRowNumber": 389,
+        "approvalState": "ready-with-residual-review",
+        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+        "proposedAction": "local-authority-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV",
+            "GEOJSON",
+            "ZIP"
+          ]
+        },
+        "confidence": 60,
+        "residualBlockers": [
+          "duplicate-or-variant-review: no existing match candidate"
+        ],
+        "resolvedBlockers": [
+          "large-or-special-format-review: normal source package; no special-format hold",
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+        ],
+        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+      },
+      "publicationStatus": "source-record-with-runtime-review",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-dlr-arts-venues-00388",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:dlr-arts-venues:00388",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-dlr-arts-venues-00388",
+        "type": "approved-medium-priority-source",
+        "title": "Arts Venues DLR",
+        "subtitle": "Local authority planning/property/open-data layers / Dún Laoghaire-Rathdown County Council, data.gov.ie / Northern Ireland / CSV, GEOJSON, ZIP / Source record; runtime review pending",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "provider": [
+          "Dún Laoghaire-Rathdown County Council",
+          "data.gov.ie"
+        ],
+        "description": "Arts Venues DLR is published as a medium-priority Civgraph source/provenance record from Dún Laoghaire-Rathdown County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
+        "url": "https://data.gov.ie/dataset/dlr-arts-venues",
+        "references": [
+          {
+            "label": "Arts Venues DLR provider page",
+            "url": "https://data.gov.ie/dataset/dlr-arts-venues",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "Arts Venues DLR Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dlr-arts-venues",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/dlr-arts-venues",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source only",
+        "statusChips": [
+          "Source record",
+          "Runtime review pending",
+          "Spatial source",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Northern Ireland",
+          "source-data",
+          "Arts Venues DLR"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "download-only"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/dlr-arts-venues",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dlr-arts-venues",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Dún Laoghaire-Rathdown County Council, data.gov.ie, Arts Venues DLR.",
+        "fullCitation": "Dún Laoghaire-Rathdown County Council, data.gov.ie. Arts Venues DLR. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dlr-arts-venues. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dlr-arts-venues.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 389,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:dlr-arts-venues:00388",
+            "title": "Arts Venues DLR",
+            "cleanTitle": "Arts Venues DLR",
+            "provider": "data.gov.ie",
+            "organisation": "Dún Laoghaire-Rathdown County Council",
+            "category": "spatial",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Northern Ireland",
+            "topic": "source-data",
+            "featureUnit": "features",
+            "formats": [
+              "CSV",
+              "GEOJSON",
+              "ZIP"
+            ],
+            "isSpatial": true,
+            "isLargeOrSpecial": false,
+            "proposedAction": "local-authority-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV",
+                "GEOJSON",
+                "ZIP"
+              ]
+            },
+            "approvalState": "ready-with-residual-review",
+            "sourcePublicationState": "public source record with runtime/semantic review still pending",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/dlr-arts-venues",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dlr-arts-venues",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "large-or-special-format-review: normal source package; no special-format hold",
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+            ],
+            "residualBlockers": [
+              "duplicate-or-variant-review: no existing match candidate"
+            ],
+            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:dlr-arts-venues:00388",
+          "sourceRowNumber": 389,
+          "approvalState": "ready-with-residual-review",
+          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "GEOJSON",
+              "ZIP"
+            ]
+          },
+          "confidence": 60,
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate"
+          ],
+          "resolvedBlockers": [
+            "large-or-special-format-review: normal source package; no special-format hold",
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        },
+        "publicationStatus": "source-record-with-runtime-review",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "source-record-with-runtime-review",
+          "Local authority planning/property/open-data layers",
+          "source-data",
+          "features",
+          "Northern Ireland",
+          "local-authority-batch-review",
+          "CSV",
+          "GEOJSON",
+          "ZIP",
+          "review:duplicate-or-variant-review-no-existing-match-candidate"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-dlr-arts-venues-00388"
+      }
+    },
     {
       "id": "medium-priority:5-local-authority-planning-property-open-data-layers:dlr-attenuation-database-suds-2024:01796",
       "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-dlr-attenuation-database-suds-2024-01796",
@@ -70024,341 +70381,6 @@
           "review:duplicate-or-variant-review-no-existing-match-candidate"
         ],
         "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-harbour-porpoise-surveys-in-the-blasket-islands-sac-2014-00233"
-      }
-    },
-    {
-      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:harbour-porpoise-surveys-in-the-blasket-islands-sac-2018:00234",
-      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-harbour-porpoise-surveys-in-the-blasket-islands-sac-2018-00234",
-      "type": "approved-medium-priority-source",
-      "title": "Harbour porpoise surveys in the Blasket Islands SAC, 2018",
-      "subtitle": "Local authority planning/property/open-data layers / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / SHP / ZIP / Source record; runtime review pending",
-      "category": "Medium-priority: Local authority planning/property/open-data layers",
-      "date": "2018",
-      "provider": [
-        "Department of Housing, Local Government and Heritage",
-        "data.gov.ie"
-      ],
-      "description": "Harbour porpoise surveys in the Blasket Islands SAC, 2018 is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-      "url": "https://data.gov.ie/dataset/harbour-porpoise-surveys-in-the-blasket-islands-sac-2018",
-      "references": [
-        {
-          "label": "Harbour porpoise surveys in the Blasket Islands SAC, 2018 provider page",
-          "url": "https://data.gov.ie/dataset/harbour-porpoise-surveys-in-the-blasket-islands-sac-2018",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Harbour porpoise surveys in the Blasket Islands SAC, 2018 Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/harbour-porpoise-surveys-in-the-blasket-islands-sac-2018",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/harbour-porpoise-surveys-in-the-blasket-islands-sac-2018",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "source-record-with-runtime-review",
-        "Local authority planning/property/open-data layers",
-        "source-data",
-        "features",
-        "Ireland / unspecified",
-        "local-authority-batch-review",
-        "SHP / ZIP",
-        "review:duplicate-or-variant-review-no-existing-match-candidate"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 235,
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:harbour-porpoise-surveys-in-the-blasket-islands-sac-2018:00234",
-          "title": "Harbour porpoise surveys in the Blasket Islands SAC, 2018",
-          "cleanTitle": "Harbour porpoise surveys in the Blasket Islands SAC, 2018",
-          "provider": "data.gov.ie",
-          "organisation": "Department of Housing, Local Government and Heritage",
-          "category": "spatial",
-          "roiGroup": "5. Local authority planning/property/open-data layers",
-          "groupTitle": "Local authority planning/property/open-data layers",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "source-data",
-          "featureUnit": "features",
-          "formats": [
-            "SHP / ZIP"
-          ],
-          "isSpatial": true,
-          "isLargeOrSpecial": false,
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "SHP / ZIP"
-            ]
-          },
-          "approvalState": "ready-with-residual-review",
-          "sourcePublicationState": "public source record with runtime/semantic review still pending",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/harbour-porpoise-surveys-in-the-blasket-islands-sac-2018",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/harbour-porpoise-surveys-in-the-blasket-islands-sac-2018",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source record",
-        "Runtime review pending",
-        "Spatial source",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Local authority planning/property/open-data layers",
-        "Ireland / unspecified",
-        "source-data",
-        "Harbour porpoise surveys in the Blasket Islands SAC, 2018"
-      ],
-      "viewport": {
-        "status": "source-page-only",
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/harbour-porpoise-surveys-in-the-blasket-islands-sac-2018",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/harbour-porpoise-surveys-in-the-blasket-islands-sac-2018",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, Harbour porpoise surveys in the Blasket Islands SAC, 2018.",
-      "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. Harbour porpoise surveys in the Blasket Islands SAC, 2018. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/harbour-porpoise-surveys-in-the-blasket-islands-sac-2018. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/harbour-porpoise-surveys-in-the-blasket-islands-sac-2018.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:harbour-porpoise-surveys-in-the-blasket-islands-sac-2018:00234",
-        "sourceRowNumber": 235,
-        "approvalState": "ready-with-residual-review",
-        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-        "proposedAction": "local-authority-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "SHP / ZIP"
-          ]
-        },
-        "confidence": 60,
-        "residualBlockers": [
-          "duplicate-or-variant-review: no existing match candidate"
-        ],
-        "resolvedBlockers": [
-          "large-or-special-format-review: normal source package; no special-format hold",
-          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-        ],
-        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-      },
-      "publicationStatus": "source-record-with-runtime-review",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-harbour-porpoise-surveys-in-the-blasket-islands-sac-2018-00234",
-      "rawMetadata": {
-        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:harbour-porpoise-surveys-in-the-blasket-islands-sac-2018:00234",
-        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-harbour-porpoise-surveys-in-the-blasket-islands-sac-2018-00234",
-        "type": "approved-medium-priority-source",
-        "title": "Harbour porpoise surveys in the Blasket Islands SAC, 2018",
-        "subtitle": "Local authority planning/property/open-data layers / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / SHP / ZIP / Source record; runtime review pending",
-        "category": "Medium-priority: Local authority planning/property/open-data layers",
-        "date": "2018",
-        "provider": [
-          "Department of Housing, Local Government and Heritage",
-          "data.gov.ie"
-        ],
-        "description": "Harbour porpoise surveys in the Blasket Islands SAC, 2018 is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-        "url": "https://data.gov.ie/dataset/harbour-porpoise-surveys-in-the-blasket-islands-sac-2018",
-        "references": [
-          {
-            "label": "Harbour porpoise surveys in the Blasket Islands SAC, 2018 provider page",
-            "url": "https://data.gov.ie/dataset/harbour-porpoise-surveys-in-the-blasket-islands-sac-2018",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Harbour porpoise surveys in the Blasket Islands SAC, 2018 Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/harbour-porpoise-surveys-in-the-blasket-islands-sac-2018",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/harbour-porpoise-surveys-in-the-blasket-islands-sac-2018",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source record",
-          "Runtime review pending",
-          "Spatial source",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Local authority planning/property/open-data layers",
-          "Ireland / unspecified",
-          "source-data",
-          "Harbour porpoise surveys in the Blasket Islands SAC, 2018"
-        ],
-        "viewport": {
-          "status": "source-page-only",
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/harbour-porpoise-surveys-in-the-blasket-islands-sac-2018",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/harbour-porpoise-surveys-in-the-blasket-islands-sac-2018",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, Harbour porpoise surveys in the Blasket Islands SAC, 2018.",
-        "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. Harbour porpoise surveys in the Blasket Islands SAC, 2018. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/harbour-porpoise-surveys-in-the-blasket-islands-sac-2018. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/harbour-porpoise-surveys-in-the-blasket-islands-sac-2018.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 235,
-            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:harbour-porpoise-surveys-in-the-blasket-islands-sac-2018:00234",
-            "title": "Harbour porpoise surveys in the Blasket Islands SAC, 2018",
-            "cleanTitle": "Harbour porpoise surveys in the Blasket Islands SAC, 2018",
-            "provider": "data.gov.ie",
-            "organisation": "Department of Housing, Local Government and Heritage",
-            "category": "spatial",
-            "roiGroup": "5. Local authority planning/property/open-data layers",
-            "groupTitle": "Local authority planning/property/open-data layers",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "source-data",
-            "featureUnit": "features",
-            "formats": [
-              "SHP / ZIP"
-            ],
-            "isSpatial": true,
-            "isLargeOrSpecial": false,
-            "proposedAction": "local-authority-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "SHP / ZIP"
-              ]
-            },
-            "approvalState": "ready-with-residual-review",
-            "sourcePublicationState": "public source record with runtime/semantic review still pending",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/harbour-porpoise-surveys-in-the-blasket-islands-sac-2018",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/harbour-porpoise-surveys-in-the-blasket-islands-sac-2018",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "large-or-special-format-review: normal source package; no special-format hold",
-              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-            ],
-            "residualBlockers": [
-              "duplicate-or-variant-review: no existing match candidate"
-            ],
-            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:harbour-porpoise-surveys-in-the-blasket-islands-sac-2018:00234",
-          "sourceRowNumber": 235,
-          "approvalState": "ready-with-residual-review",
-          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "SHP / ZIP"
-            ]
-          },
-          "confidence": 60,
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate"
-          ],
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        },
-        "publicationStatus": "source-record-with-runtime-review",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "source-record-with-runtime-review",
-          "Local authority planning/property/open-data layers",
-          "source-data",
-          "features",
-          "Ireland / unspecified",
-          "local-authority-batch-review",
-          "SHP / ZIP",
-          "review:duplicate-or-variant-review-no-existing-match-candidate"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-harbour-porpoise-surveys-in-the-blasket-islands-sac-2018-00234"
       }
     }
   ]
