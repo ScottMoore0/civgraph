@@ -52,7 +52,7 @@ function parseArgs(argv) {
     adaptive: true,
     resume: false,
     traversal: "branch",
-    maxSubtreeRecords: 1500,
+    maxSubtreeRecords: 6000,
     maxSubtreeWalkErrors: 25,
     progressEveryMs: 5000,
     writerFlushRows: 100,
@@ -137,7 +137,8 @@ Key options:
   --traversal branch         Traversal mode: branch (re-walk from root per branch) or
                              dfs (walk subtrees with a cached parent-listing stack;
                              far fewer requests per record on deep branches).
-  --max-subtree-records 1500 DFS only: split subtrees larger than this for load balancing.
+  --max-subtree-records 6000 DFS only: split subtrees larger than this for load balancing
+                             (6000 ~= req/rec knee; lower for more parallelism/smaller blast radius).
 `;
 }
 
