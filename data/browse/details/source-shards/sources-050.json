@@ -1,10 +1,355 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T20:12:09.722Z",
+  "generatedAt": "2026-06-30T21:50:13.911Z",
   "kind": "sources",
   "shard": "sources-050.json",
   "total": 200,
   "items": [
+    {
+      "id": "medium-priority:7-transport-roads-infrastructure-public-assets:dota07-number-of-private-cars-by-engine-capacity-in-each-licensing-authority-area-pre-co2:02022",
+      "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-dota07-number-of-private-cars-by-engine-capacity-in-each-licensing-authority-area-pre-co2-02022",
+      "type": "approved-medium-priority-source",
+      "title": "DOTA07 - Number of Private Cars by Engine Capacity in each Licensing Authority Area (Pre-CO2)",
+      "subtitle": "Transport, roads, infrastructure, public assets / Department of Transport, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
+      "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+      "provider": [
+        "Department of Transport",
+        "data.gov.ie"
+      ],
+      "description": "DOTA07 - Number of Private Cars by Engine Capacity in each Licensing Authority Area (Pre-CO2) is published as a medium-priority Civgraph source/provenance record from Department of Transport, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/dota07-number-of-private-cars-by-engine-capacity-in-each-licensing-authority-area-pre-co2",
+      "references": [
+        {
+          "label": "DOTA07 - Number of Private Cars by Engine Capacity in each Licensing Authority Area (Pre-CO2) provider page",
+          "url": "https://data.gov.ie/dataset/dota07-number-of-private-cars-by-engine-capacity-in-each-licensing-authority-area-pre-co2",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "DOTA07 - Number of Private Cars by Engine Capacity in each Licensing Authority Area (Pre-CO2) Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dota07-number-of-private-cars-by-engine-capacity-in-each-licensing-authority-area-pre-co2",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/dota07-number-of-private-cars-by-engine-capacity-in-each-licensing-authority-area-pre-co2",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Transport, roads, infrastructure, public assets",
+        "transport-public-asset",
+        "road features",
+        "Ireland / unspecified",
+        "transport-public-asset-batch-review",
+        "CSV",
+        "JSON-STAT",
+        "PX",
+        "XLSX"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 2023,
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dota07-number-of-private-cars-by-engine-capacity-in-each-licensing-authority-area-pre-co2:02022",
+          "title": "DOTA07 - Number of Private Cars by Engine Capacity in each Licensing Authority Area (Pre-CO2)",
+          "cleanTitle": "DOTA07 - Number of Private Cars by Engine Capacity in each Licensing Authority Area (Pre-CO2)",
+          "provider": "data.gov.ie",
+          "organisation": "Department of Transport",
+          "category": "tabular",
+          "roiGroup": "7. Transport, roads, infrastructure, public assets",
+          "groupTitle": "Transport, roads, infrastructure, public assets",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "transport-public-asset",
+          "featureUnit": "road features",
+          "formats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/dota07-number-of-private-cars-by-engine-capacity-in-each-licensing-authority-area-pre-co2",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dota07-number-of-private-cars-by-engine-capacity-in-each-licensing-authority-area-pre-co2",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "public-asset-batch-placement: publication policy assigned",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Transport, roads, infrastructure, public assets",
+        "Ireland / unspecified",
+        "transport-public-asset",
+        "DOTA07 - Number of Private Cars by Engine Capacity in each Licensing Authority Area (Pre-CO2)"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "spreadsheet"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/dota07-number-of-private-cars-by-engine-capacity-in-each-licensing-authority-area-pre-co2",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dota07-number-of-private-cars-by-engine-capacity-in-each-licensing-authority-area-pre-co2",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Department of Transport, data.gov.ie, DOTA07 - Number of Private Cars by Engine Capacity in each Licensing Authority Area (Pre-CO2).",
+      "fullCitation": "Department of Transport, data.gov.ie. DOTA07 - Number of Private Cars by Engine Capacity in each Licensing Authority Area (Pre-CO2). Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dota07-number-of-private-cars-by-engine-capacity-in-each-licensing-authority-area-pre-co2. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dota07-number-of-private-cars-by-engine-capacity-in-each-licensing-authority-area-pre-co2.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dota07-number-of-private-cars-by-engine-capacity-in-each-licensing-authority-area-pre-co2:02022",
+        "sourceRowNumber": 2023,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+        "proposedAction": "transport-public-asset-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ]
+        },
+        "confidence": 60,
+        "resolvedBlockers": [
+          "public-asset-batch-placement: publication policy assigned",
+          "source-page-and-ia-viewport-decision: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-dota07-number-of-private-cars-by-engine-capacity-in-each-licensing-authority-area-pre-co2-02022",
+      "rawMetadata": {
+        "id": "medium-priority:7-transport-roads-infrastructure-public-assets:dota07-number-of-private-cars-by-engine-capacity-in-each-licensing-authority-area-pre-co2:02022",
+        "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-dota07-number-of-private-cars-by-engine-capacity-in-each-licensing-authority-area-pre-co2-02022",
+        "type": "approved-medium-priority-source",
+        "title": "DOTA07 - Number of Private Cars by Engine Capacity in each Licensing Authority Area (Pre-CO2)",
+        "subtitle": "Transport, roads, infrastructure, public assets / Department of Transport, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
+        "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+        "provider": [
+          "Department of Transport",
+          "data.gov.ie"
+        ],
+        "description": "DOTA07 - Number of Private Cars by Engine Capacity in each Licensing Authority Area (Pre-CO2) is published as a medium-priority Civgraph source/provenance record from Department of Transport, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/dota07-number-of-private-cars-by-engine-capacity-in-each-licensing-authority-area-pre-co2",
+        "references": [
+          {
+            "label": "DOTA07 - Number of Private Cars by Engine Capacity in each Licensing Authority Area (Pre-CO2) provider page",
+            "url": "https://data.gov.ie/dataset/dota07-number-of-private-cars-by-engine-capacity-in-each-licensing-authority-area-pre-co2",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "DOTA07 - Number of Private Cars by Engine Capacity in each Licensing Authority Area (Pre-CO2) Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dota07-number-of-private-cars-by-engine-capacity-in-each-licensing-authority-area-pre-co2",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/dota07-number-of-private-cars-by-engine-capacity-in-each-licensing-authority-area-pre-co2",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Transport, roads, infrastructure, public assets",
+          "Ireland / unspecified",
+          "transport-public-asset",
+          "DOTA07 - Number of Private Cars by Engine Capacity in each Licensing Authority Area (Pre-CO2)"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "spreadsheet"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/dota07-number-of-private-cars-by-engine-capacity-in-each-licensing-authority-area-pre-co2",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dota07-number-of-private-cars-by-engine-capacity-in-each-licensing-authority-area-pre-co2",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Department of Transport, data.gov.ie, DOTA07 - Number of Private Cars by Engine Capacity in each Licensing Authority Area (Pre-CO2).",
+        "fullCitation": "Department of Transport, data.gov.ie. DOTA07 - Number of Private Cars by Engine Capacity in each Licensing Authority Area (Pre-CO2). Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dota07-number-of-private-cars-by-engine-capacity-in-each-licensing-authority-area-pre-co2. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dota07-number-of-private-cars-by-engine-capacity-in-each-licensing-authority-area-pre-co2.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 2023,
+            "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dota07-number-of-private-cars-by-engine-capacity-in-each-licensing-authority-area-pre-co2:02022",
+            "title": "DOTA07 - Number of Private Cars by Engine Capacity in each Licensing Authority Area (Pre-CO2)",
+            "cleanTitle": "DOTA07 - Number of Private Cars by Engine Capacity in each Licensing Authority Area (Pre-CO2)",
+            "provider": "data.gov.ie",
+            "organisation": "Department of Transport",
+            "category": "tabular",
+            "roiGroup": "7. Transport, roads, infrastructure, public assets",
+            "groupTitle": "Transport, roads, infrastructure, public assets",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "transport-public-asset",
+            "featureUnit": "road features",
+            "formats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "transport-public-asset-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV",
+                "JSON-STAT",
+                "PX",
+                "XLSX"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/dota07-number-of-private-cars-by-engine-capacity-in-each-licensing-authority-area-pre-co2",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dota07-number-of-private-cars-by-engine-capacity-in-each-licensing-authority-area-pre-co2",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "public-asset-batch-placement: publication policy assigned",
+              "source-page-and-ia-viewport-decision: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dota07-number-of-private-cars-by-engine-capacity-in-each-licensing-authority-area-pre-co2:02022",
+          "sourceRowNumber": 2023,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ]
+          },
+          "confidence": 60,
+          "resolvedBlockers": [
+            "public-asset-batch-placement: publication policy assigned",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Transport, roads, infrastructure, public assets",
+          "transport-public-asset",
+          "road features",
+          "Ireland / unspecified",
+          "transport-public-asset-batch-review",
+          "CSV",
+          "JSON-STAT",
+          "PX",
+          "XLSX"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-dota07-number-of-private-cars-by-engine-capacity-in-each-licensing-authority-area-pre-co2-02022"
+      }
+    },
     {
       "id": "medium-priority:7-transport-roads-infrastructure-public-assets:dota07-number-of-private-cars-licenced:02023",
       "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-dota07-number-of-private-cars-licenced-02023",
@@ -54492,141 +54837,6 @@
             "sha256": "44ed0cdf37ee420f14cc6c4c205e030799d75b121198b8ec43850b1b2fd9dd8b",
             "lastModified": "Fri, 27 Mar 2015 09:45:56 GMT",
             "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-04-jul-14.pdf"
-          }
-        ]
-      }
-    },
-    {
-      "id": "ni-register:assembly:pdf:e469360c83cc8729",
-      "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-4-july-2016-22214cc3",
-      "type": "register-source-document",
-      "title": "NI Assembly Register of Members Interests (4 July 2016)",
-      "subtitle": "Current / pdf / 4 July 2016",
-      "category": "Registers of interests",
-      "date": "2016-07-04",
-      "provider": [
-        "Northern Ireland Assembly"
-      ],
-      "description": "NI Assembly register of interests pdf. edition dated 4 July 2016. content type application/pdf",
-      "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-4-july-2016.pdf",
-      "references": [
-        {
-          "label": "Current register landing page",
-          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
-        },
-        {
-          "label": "Provider source URL",
-          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-4-july-2016.pdf"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "pdf source",
-          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-4-july-2016.pdf",
-          "type": "pdf"
-        }
-      ],
-      "keywords": [
-        "register of interests",
-        "MLA",
-        "Northern Ireland Assembly",
-        "pdf",
-        "current"
-      ],
-      "sourceItems": [
-        {
-          "sourcePageId": "current",
-          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
-          "title": "PDF",
-          "linkText": "PDF",
-          "kind": "pdf",
-          "contentType": "application/pdf",
-          "httpStatus": 200,
-          "bytes": 157988,
-          "sha256": "22edca3e555818ddfe02ed3f377dfcdee20f67ac7c4064aff93956ad7fd26c21",
-          "lastModified": "Tue, 05 Jul 2016 11:18:26 GMT",
-          "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-4-july-2016.pdf"
-        }
-      ],
-      "status": "Available",
-      "statusChips": [
-        "pdf",
-        "HTTP 200",
-        "current"
-      ],
-      "sourceHierarchy": [
-        "Browse",
-        "Registers of interests",
-        "Northern Ireland Assembly",
-        "Current"
-      ],
-      "parentId": "ni-register:assembly:collection",
-      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
-      "browseUrl": "/browse/sources/ni-register-assembly-pdf-ni-assembly-register-of-members-interests-4-july-2016-22214cc3",
-      "rawMetadata": {
-        "id": "ni-register:assembly:pdf:e469360c83cc8729",
-        "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-4-july-2016-22214cc3",
-        "type": "register-source-document",
-        "title": "NI Assembly Register of Members Interests (4 July 2016)",
-        "subtitle": "Current / pdf / 4 July 2016",
-        "category": "Registers of interests",
-        "date": "2016-07-04",
-        "provider": [
-          "Northern Ireland Assembly"
-        ],
-        "description": "NI Assembly register of interests pdf. edition dated 4 July 2016. content type application/pdf",
-        "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-4-july-2016.pdf",
-        "references": [
-          {
-            "label": "Current register landing page",
-            "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
-          },
-          {
-            "label": "Provider source URL",
-            "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-4-july-2016.pdf"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "pdf source",
-            "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-4-july-2016.pdf",
-            "type": "pdf"
-          }
-        ],
-        "keywords": [
-          "register of interests",
-          "MLA",
-          "Northern Ireland Assembly",
-          "pdf",
-          "current"
-        ],
-        "sourceHierarchy": [
-          "Browse",
-          "Registers of interests",
-          "Northern Ireland Assembly",
-          "Current"
-        ],
-        "status": "Available",
-        "statusChips": [
-          "pdf",
-          "HTTP 200",
-          "current"
-        ],
-        "parentId": "ni-register:assembly:collection",
-        "parentTitle": "Northern Ireland Assembly Register of Members Interests",
-        "sourceItems": [
-          {
-            "sourcePageId": "current",
-            "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
-            "title": "PDF",
-            "linkText": "PDF",
-            "kind": "pdf",
-            "contentType": "application/pdf",
-            "httpStatus": 200,
-            "bytes": 157988,
-            "sha256": "22edca3e555818ddfe02ed3f377dfcdee20f67ac7c4064aff93956ad7fd26c21",
-            "lastModified": "Tue, 05 Jul 2016 11:18:26 GMT",
-            "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-4-july-2016.pdf"
           }
         ]
       }

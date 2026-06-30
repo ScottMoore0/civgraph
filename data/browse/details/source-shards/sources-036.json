@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T20:12:09.722Z",
+  "generatedAt": "2026-06-30T21:50:13.911Z",
   "kind": "sources",
   "shard": "sources-036.json",
   "total": 200,
@@ -6099,6 +6099,94 @@
           "hypsometric"
         ],
         "date": 2026
+      }
+    },
+    {
+      "id": "map-source:corine-land-cover-2018",
+      "slug": "map-source-corine-land-cover-2018",
+      "type": "map-source",
+      "title": "CORINE Land Cover 2018 (Ireland) source files",
+      "subtitle": "Environment / Copernicus Land Monitoring Service (EEA)",
+      "category": "Map sources",
+      "date": "2018",
+      "provider": [
+        "Copernicus Land Monitoring Service (EEA)"
+      ],
+      "description": "CORINE Land Cover 2018 for the island of Ireland (21,685 polygons; CLC code in Code_18). Copernicus Land Monitoring Service / EEA, via the Peatlands Geoportal (QUB).",
+      "sourceMapId": "corine-land-cover-2018",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "CL",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Copernicus Land Monitoring Service — CORINE Land Cover",
+          "url": "https://land.copernicus.eu/en/products/corine-land-cover"
+        },
+        {
+          "label": "Peatlands Geoportal (QUB) — CORINE Land Use (2018)",
+          "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://archive.org/download/civgraph-corine-land-cover-2018-fgb/CORINE_Land_Use_2018.fgb"
+        },
+        {
+          "label": "fgb",
+          "url": "data/maps/environment/CORINE_Land_Use_2018.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=corine-land-cover-2018",
+      "browseUrl": "/browse/sources/map-source-corine-land-cover-2018",
+      "rawMetadata": {
+        "id": "corine-land-cover-2018",
+        "name": "CORINE Land Cover 2018 (Ireland)",
+        "slug": "corine-land-cover-2018",
+        "category": "environment",
+        "date": "2018",
+        "provider": [
+          "Copernicus Land Monitoring Service (EEA)"
+        ],
+        "files": {
+          "fgb": "data/maps/environment/CORINE_Land_Use_2018.fgb"
+        },
+        "downloads": {
+          "fgb": "https://archive.org/download/civgraph-corine-land-cover-2018-fgb/CORINE_Land_Use_2018.fgb"
+        },
+        "chunked": true,
+        "useLOD": true,
+        "style": {
+          "color": "#689F38",
+          "weight": 1,
+          "fillOpacity": 0.45
+        },
+        "labelProperty": "Code_18",
+        "keywords": [
+          "CORINE",
+          "land cover",
+          "land use",
+          "copernicus",
+          "EEA",
+          "ireland",
+          "2018",
+          "environment"
+        ],
+        "description": "CORINE Land Cover 2018 for the island of Ireland (21,685 polygons; CLC code in Code_18). Copernicus Land Monitoring Service / EEA, via the Peatlands Geoportal (QUB).",
+        "references": [
+          {
+            "label": "Copernicus Land Monitoring Service — CORINE Land Cover",
+            "url": "https://land.copernicus.eu/en/products/corine-land-cover",
+            "note": ""
+          },
+          {
+            "label": "Peatlands Geoportal (QUB) — CORINE Land Use (2018)",
+            "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/",
+            "note": ""
+          }
+        ]
       }
     },
     {
@@ -25270,278 +25358,6 @@
           }
         ],
         "labelProperty": "ENGLISH"
-      }
-    },
-    {
-      "id": "map-source:dlr-bicycle-counter-locations",
-      "slug": "map-source-dlr-bicycle-counter-locations",
-      "type": "map-source",
-      "title": "Bicycle Counter Locations (DLR) source files",
-      "subtitle": "Built Environment / Dún Laoghaire-Rathdown County Council",
-      "category": "Map sources",
-      "provider": [
-        "Dún Laoghaire-Rathdown County Council"
-      ],
-      "description": "Bicycle Counter Locations (DLR) — published by Dún Laoghaire-Rathdown County Council. 1 related provider/source row is staged as provenance for this existing Civgraph record; provider: data.gov.ie; formats: CSV, DB_TABLE, GEOJSON, WMS, ZIP; 1 provider dataset link preserved as references; licence: Creative Commons Attribution 4.0; relationship: related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval.",
-      "sourceMapId": "dlr-bicycle-counter-locations",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "BC",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "Source — data.gov.ie",
-          "url": "https://data.gov.ie/"
-        },
-        {
-          "label": "Existing Civgraph record: Bicycle Counter Locations (DLR) source files",
-          "url": "/browse/maps/dlr-bicycle-counter-locations",
-          "source": "Civgraph",
-          "role": "matched-existing-record"
-        },
-        {
-          "label": "Existing Civgraph source record: map-source:dlr-bicycle-counter-locations",
-          "url": "/browse/sources/map-source-dlr-bicycle-counter-locations",
-          "source": "Civgraph",
-          "role": "matched-source-record"
-        },
-        {
-          "label": "Provider dataset: Bicycle/Pedestrian Counter Locations DLR",
-          "url": "https://data.gov.ie/dataset/bicycle-counter-locations-dlr",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-dataset",
-          "type": "CSV",
-          "note": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval / licence: Creative Commons Attribution 4.0"
-        },
-        {
-          "label": "Licence: Creative Commons Attribution 4.0",
-          "url": "https://creativecommons.org/licenses/by/4.0/",
-          "source": "data.gov.ie",
-          "role": "source-licence"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/roi-dlr/dlr-bicycle-counter-locations.fgb"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/roi-dlr/dlr-bicycle-counter-locations.geojson"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/roi-dlr/dlr-bicycle-counter-locations.geojson"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/roi-dlr/dlr-bicycle-counter-locations.fgb"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/roi-dlr/dlr-bicycle-counter-locations.geojson"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/roi-dlr/dlr-bicycle-counter-locations.geojson"
-        }
-      ],
-      "interactiveUrl": "/#layers=dlr-bicycle-counter-locations",
-      "browseUrl": "/browse/sources/map-source-dlr-bicycle-counter-locations",
-      "alreadyOnSiteEnrichments": [
-        {
-          "sourceTargetId": "map-source:dlr-bicycle-counter-locations",
-          "targetEntityKind": "map",
-          "targetEntityId": "dlr-bicycle-counter-locations",
-          "targetTitle": "Bicycle Counter Locations (DLR) source files",
-          "targetBrowseUrl": "/browse/maps/dlr-bicycle-counter-locations",
-          "sourceItemCount": 1,
-          "confidence": "high-confidence",
-          "safetyClasses": [
-            "variant/source enrichment review"
-          ],
-          "formats": [
-            "CSV",
-            "DB_TABLE",
-            "GEOJSON",
-            "WMS",
-            "ZIP"
-          ],
-          "providers": [
-            "data.gov.ie"
-          ],
-          "categories": [
-            "spatial"
-          ],
-          "enrichmentTypes": [
-            "alternate-format metadata",
-            "download/source-file metadata",
-            "geometry lineage and boundary-version metadata",
-            "geospatial source-format metadata",
-            "raw-source viewport candidate metadata",
-            "scale/generalisation/edition metadata",
-            "schema/table/attribute metadata",
-            "source/provenance metadata"
-          ],
-          "provenanceSummary": "1 related provider/source row is staged as provenance for this existing Civgraph record; provider: data.gov.ie; formats: CSV, DB_TABLE, GEOJSON, WMS, ZIP; 1 provider dataset link preserved as references; licence: Creative Commons Attribution 4.0; relationship: related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval.",
-          "sourceItems": [
-            {
-              "auditRowNumber": 322,
-              "title": "Bicycle/Pedestrian Counter Locations DLR",
-              "provider": "data.gov.ie",
-              "category": "spatial",
-              "formats": [
-                "CSV",
-                "DB_TABLE",
-                "GEOJSON",
-                "WMS",
-                "ZIP"
-              ],
-              "safetyClass": "variant/source enrichment review",
-              "approvalStatus": "user-approved-related-source-enrichment",
-              "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
-              "providerDatasetUrl": "https://data.gov.ie/dataset/bicycle-counter-locations-dlr",
-              "licenseTitle": "Creative Commons Attribution 4.0",
-              "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
-              "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-              "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews.",
-              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-              "enrichmentTypes": [
-                "alternate-format metadata",
-                "download/source-file metadata",
-                "geometry lineage and boundary-version metadata",
-                "geospatial source-format metadata",
-                "raw-source viewport candidate metadata",
-                "scale/generalisation/edition metadata",
-                "schema/table/attribute metadata",
-                "source/provenance metadata"
-              ],
-              "detectedFamilies": [
-                "habitat-protected-sites"
-              ],
-              "siteFamiliesPresent": [
-                "habitat-protected-sites"
-              ],
-              "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
-            }
-          ],
-          "evidence": [
-            {
-              "kind": "database-map",
-              "id": "dlr-bicycle-counter-locations",
-              "title": "Bicycle Counter Locations (DLR)",
-              "score": 0.67
-            },
-            {
-              "kind": "browse-source",
-              "id": "map-source:dlr-bicycle-counter-locations",
-              "title": "Bicycle Counter Locations (DLR) source files",
-              "score": 0.67
-            },
-            {
-              "kind": "browse-map",
-              "id": "dlr-bicycle-counter-locations",
-              "title": "Bicycle Counter Locations (DLR)",
-              "score": 0.67
-            }
-          ]
-        }
-      ],
-      "sourceItems": [
-        {
-          "auditRowNumber": 322,
-          "title": "Bicycle/Pedestrian Counter Locations DLR",
-          "provider": "data.gov.ie",
-          "category": "spatial",
-          "formats": [
-            "CSV",
-            "DB_TABLE",
-            "GEOJSON",
-            "WMS",
-            "ZIP"
-          ],
-          "safetyClass": "variant/source enrichment review",
-          "approvalStatus": "user-approved-related-source-enrichment",
-          "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
-          "providerDatasetUrl": "https://data.gov.ie/dataset/bicycle-counter-locations-dlr",
-          "licenseTitle": "Creative Commons Attribution 4.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
-          "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "enrichmentTypes": [
-            "alternate-format metadata",
-            "download/source-file metadata",
-            "geometry lineage and boundary-version metadata",
-            "geospatial source-format metadata",
-            "raw-source viewport candidate metadata",
-            "scale/generalisation/edition metadata",
-            "schema/table/attribute metadata",
-            "source/provenance metadata"
-          ],
-          "detectedFamilies": [
-            "habitat-protected-sites"
-          ],
-          "siteFamiliesPresent": [
-            "habitat-protected-sites"
-          ],
-          "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
-        }
-      ],
-      "keywords": [
-        "already-on-site-enrichment",
-        "duplicate-source-match",
-        "alternate-format metadata",
-        "download/source-file metadata",
-        "geometry lineage and boundary-version metadata",
-        "geospatial source-format metadata",
-        "raw-source viewport candidate metadata",
-        "scale/generalisation/edition metadata",
-        "schema/table/attribute metadata",
-        "source/provenance metadata"
-      ],
-      "publicationStatus": "enriched",
-      "rawMetadata": {
-        "id": "dlr-bicycle-counter-locations",
-        "name": "Bicycle Counter Locations (DLR)",
-        "slug": "dlr-bicycle-counter-locations",
-        "category": "built-environment",
-        "provider": [
-          "Dún Laoghaire-Rathdown County Council"
-        ],
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/roi-dlr/dlr-bicycle-counter-locations.fgb",
-          "downloads": {
-            "geojson": "https://data.civgraph.net/data/maps/roi-dlr/dlr-bicycle-counter-locations.geojson"
-          },
-          "geojson": "https://data.civgraph.net/data/maps/roi-dlr/dlr-bicycle-counter-locations.geojson"
-        },
-        "style": {
-          "color": "#0091EA",
-          "weight": 1,
-          "fillOpacity": 0.4
-        },
-        "keywords": [
-          "ROI",
-          "ireland",
-          "dublin",
-          "dlr",
-          "amenity",
-          "council",
-          "bicycle",
-          "counter",
-          "locations"
-        ],
-        "description": "Bicycle Counter Locations (DLR) — published by Dún Laoghaire-Rathdown County Council.",
-        "references": [
-          {
-            "label": "Source — data.gov.ie",
-            "url": "https://data.gov.ie/",
-            "note": ""
-          }
-        ],
-        "labelProperty": "SITES"
       }
     }
   ]

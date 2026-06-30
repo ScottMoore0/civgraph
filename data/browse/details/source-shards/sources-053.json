@@ -1,10 +1,368 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T20:12:09.722Z",
+  "generatedAt": "2026-06-30T21:50:13.911Z",
   "kind": "sources",
   "shard": "sources-053.json",
   "total": 200,
   "items": [
+    {
+      "id": "raw-source:data-gov-ie:eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards",
+      "slug": "raw-source-data-gov-ie-eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards",
+      "type": "raw-source-table",
+      "title": "EDA17 - Retention Rates of Pupils in Second Level Schools (1999 Entry Cohort Onwards)",
+      "subtitle": "Department of Education and Youth / data.gov.ie / CSV, JSON-STAT, PX, XLSX / Source-only",
+      "category": "Raw source tables",
+      "date": "1999",
+      "provider": [
+        "Department of Education and Youth",
+        "data.gov.ie"
+      ],
+      "description": "EDA17 - Retention Rates of Pupils in Second Level Schools (1999 Entry Cohort Onwards) is staged as a table source record from Department of Education and Youth, data.gov.ie. The record is suitable for a Browse/Books/Tables source page with provider links now and IA-hotlinked viewport/download links once the public IA item/file URLs are attached. No map conversion or deep semantic modelling is implied by this source-only record. Formats observed in the local audit: CSV, JSON-STAT, PX, XLSX.",
+      "url": "https://data.gov.ie/dataset/eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards",
+      "references": [
+        {
+          "label": "EDA17 - Retention Rates of Pupils in Second Level Schools (1999 Entry Cohort Onwards) provider dataset page",
+          "url": "https://data.gov.ie/dataset/eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-dataset"
+        },
+        {
+          "label": "EDA17 - Retention Rates of Pupils in Second Level Schools (1999 Entry Cohort Onwards) Internet Archive source mirror",
+          "url": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+          "source": "Internet Archive",
+          "role": "source-mirror"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset page",
+          "url": "https://data.gov.ie/dataset/eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards",
+          "type": "dataset-page"
+        },
+        {
+          "label": "Internet Archive mirror - eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards-csv.csv",
+          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Department%20of%20Education%20and%20Youth/eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards/eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards-csv.csv",
+          "type": "CSV"
+        },
+        {
+          "label": "Internet Archive mirror - eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards-json-stat.json",
+          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Department%20of%20Education%20and%20Youth/eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards/eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards-json-stat.json",
+          "type": "json-stat"
+        },
+        {
+          "label": "Internet Archive mirror - eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards-px.px",
+          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Department%20of%20Education%20and%20Youth/eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards/eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards-px.px",
+          "type": "px"
+        },
+        {
+          "label": "Internet Archive mirror - eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards-xlsx.xlsx",
+          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Department%20of%20Education%20and%20Youth/eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards/eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards-xlsx.xlsx",
+          "type": "XLSX"
+        }
+      ],
+      "keywords": [
+        "raw-source-document",
+        "ia-ready",
+        "source-only",
+        "table",
+        "data.gov.ie",
+        "Department of Education and Youth",
+        "CSV",
+        "JSON-STAT",
+        "PX",
+        "XLSX",
+        "wards",
+        "internet-archive-mirror",
+        "raw-source-mirrored"
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 5543,
+          "title": "EDA17 - Retention Rates of Pupils in Second Level Schools (1999 Entry Cohort Onwards)",
+          "provider": "data.gov.ie",
+          "organisation": "Department of Education and Youth",
+          "formats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ],
+          "category": "tabular",
+          "refinedStatus": "source-only or Browse/Books candidate",
+          "recommendedAction": "Publish as IA-hotlinked source/document/table records first; no runtime bundle unless cleaned/queryable.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download.",
+          "blockerCategories": [
+            "geography-matching",
+            "raw-source-hosting-and-viewport-policy",
+            "source-page-and-ia-viewport-decision"
+          ],
+          "detectedFamilies": [
+            "wards"
+          ],
+          "siteFamiliesPresent": [
+            "wards"
+          ],
+          "mirrorPolicy": "Internet Archive mirror verified; local mirror paths remain excluded from public output",
+          "providerDatasetUrl": "https://data.gov.ie/dataset/eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards",
+          "internetArchiveItem": "civgraph-data-gov-ie-raw-sources",
+          "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+          "internetArchiveFileCount": 4
+        }
+      ],
+      "status": "Source only",
+      "statusChips": [
+        "Source only",
+        "Preview available",
+        "Download available",
+        "Needs review",
+        "Mirror available"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "data.gov.ie",
+        "Department of Education and Youth",
+        "EDA17 - Retention Rates of Pupils in Second Level Schools (1999 Entry Cohort Onwards)"
+      ],
+      "viewport": {
+        "status": "mirror-preview-ready",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "spreadsheet"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards",
+        "note": "Internet Archive mirror files are verified for durable public view/download; provider dataset page remains the canonical source.",
+        "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+        "fileUrl": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Department%20of%20Education%20and%20Youth/eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards/eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards-csv.csv"
+      },
+      "shortCitation": "Department of Education and Youth, data.gov.ie, EDA17 - Retention Rates of Pupils in Second Level Schools (1999 Entry Cohort Onwards).",
+      "fullCitation": "Department of Education and Youth, data.gov.ie. EDA17 - Retention Rates of Pupils in Second Level Schools (1999 Entry Cohort Onwards). Current provider dataset URL: https://data.gov.ie/dataset/eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards. Civgraph raw source-document record.",
+      "relatedRecords": [
+        {
+          "kind": "data-entry",
+          "id": "data-2021-level-4-plus-settlement",
+          "title": "Level 4+ qualifications (Census 2021, by Settlement)",
+          "score": 0.17
+        },
+        {
+          "kind": "data-entry",
+          "id": "data-2021-level-4-plus-ward",
+          "title": "Level 4+ qualifications (Census 2021, by Ward 2014)",
+          "score": 0.17
+        },
+        {
+          "kind": "data-entry",
+          "id": "data-2021-level-4-plus-lgd",
+          "title": "Level 4+ qualifications (Census 2021, by LGD)",
+          "score": 0.17
+        }
+      ],
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, and IA item metadata to confirm resource-level licence before structured reuse."
+      },
+      "approval": {
+        "recommendedAction": "publish as source/document/table record; do not create duplicate map or election parent",
+        "stagingId": "raw-source:data-gov-ie:eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards",
+        "confidence": "approved-convention",
+        "sourceType": "raw source-document corpus",
+        "provider": "Department of Education and Youth; data.gov.ie"
+      },
+      "publicationStatus": "raw-source-staged; raw-source-mirrored-internet-archive",
+      "proposedBrowsePath": "Books / Tables / Sources > Raw source tables",
+      "browseUrl": "/browse/sources/raw-source-data-gov-ie-eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards",
+      "rawMetadata": {
+        "id": "raw-source:data-gov-ie:eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards",
+        "slug": "raw-source-data-gov-ie-eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards",
+        "type": "raw-source-table",
+        "title": "EDA17 - Retention Rates of Pupils in Second Level Schools (1999 Entry Cohort Onwards)",
+        "subtitle": "Department of Education and Youth / data.gov.ie / CSV, JSON-STAT, PX, XLSX / Source-only",
+        "category": "Raw source tables",
+        "date": "1999",
+        "provider": [
+          "Department of Education and Youth",
+          "data.gov.ie"
+        ],
+        "description": "EDA17 - Retention Rates of Pupils in Second Level Schools (1999 Entry Cohort Onwards) is staged as a table source record from Department of Education and Youth, data.gov.ie. The record is suitable for a Browse/Books/Tables source page with provider links now and IA-hotlinked viewport/download links once the public IA item/file URLs are attached. No map conversion or deep semantic modelling is implied by this source-only record. Formats observed in the local audit: CSV, JSON-STAT, PX, XLSX.",
+        "url": "https://data.gov.ie/dataset/eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards",
+        "references": [
+          {
+            "label": "EDA17 - Retention Rates of Pupils in Second Level Schools (1999 Entry Cohort Onwards) provider dataset page",
+            "url": "https://data.gov.ie/dataset/eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-dataset",
+            "status": "inferred-from-provider-slug"
+          },
+          {
+            "label": "EDA17 - Retention Rates of Pupils in Second Level Schools (1999 Entry Cohort Onwards) Internet Archive source mirror",
+            "url": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+            "source": "Internet Archive",
+            "role": "source-mirror",
+            "status": "verified"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset page",
+            "url": "https://data.gov.ie/dataset/eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards",
+            "type": "dataset-page",
+            "status": "resource downloads listed by provider dataset page"
+          },
+          {
+            "label": "Internet Archive mirror - eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards-csv.csv",
+            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Department%20of%20Education%20and%20Youth/eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards/eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards-csv.csv",
+            "type": "CSV",
+            "size": 138902,
+            "sha256": "62a5709477a03ea9bf8ea9d3c1460d342036652ed9c4c1fc4b21a091aaa7622b",
+            "status": "verified Internet Archive mirror",
+            "source": "Internet Archive"
+          },
+          {
+            "label": "Internet Archive mirror - eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards-json-stat.json",
+            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Department%20of%20Education%20and%20Youth/eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards/eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards-json-stat.json",
+            "type": "json-stat",
+            "size": 10092,
+            "sha256": "f4bd986581b13e0da17dc34c6631b9e6a0d77f8e43fa47fc80147ca754c40122",
+            "status": "verified Internet Archive mirror",
+            "source": "Internet Archive"
+          },
+          {
+            "label": "Internet Archive mirror - eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards-px.px",
+            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Department%20of%20Education%20and%20Youth/eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards/eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards-px.px",
+            "type": "px",
+            "size": 9567,
+            "sha256": "c610f89b7648d6f6d15fcf041a9e686c6b08678d46d19b0e79f65d0c02d7836d",
+            "status": "verified Internet Archive mirror",
+            "source": "Internet Archive"
+          },
+          {
+            "label": "Internet Archive mirror - eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards-xlsx.xlsx",
+            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Department%20of%20Education%20and%20Youth/eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards/eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards-xlsx.xlsx",
+            "type": "XLSX",
+            "size": 85526,
+            "sha256": "81bb21536f9400c0ae5600b969810900c433aed53cd195ebeb7aa87d09e3055f",
+            "status": "verified Internet Archive mirror",
+            "source": "Internet Archive"
+          }
+        ],
+        "status": "Source only",
+        "statusChips": [
+          "Source only",
+          "Preview available",
+          "Download available",
+          "Needs review",
+          "Mirror available"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "data.gov.ie",
+          "Department of Education and Youth",
+          "EDA17 - Retention Rates of Pupils in Second Level Schools (1999 Entry Cohort Onwards)"
+        ],
+        "viewport": {
+          "status": "mirror-preview-ready",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "spreadsheet"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards",
+          "note": "Internet Archive mirror files are verified for durable public view/download; provider dataset page remains the canonical source.",
+          "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+          "fileUrl": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Department%20of%20Education%20and%20Youth/eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards/eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards-csv.csv"
+        },
+        "shortCitation": "Department of Education and Youth, data.gov.ie, EDA17 - Retention Rates of Pupils in Second Level Schools (1999 Entry Cohort Onwards).",
+        "fullCitation": "Department of Education and Youth, data.gov.ie. EDA17 - Retention Rates of Pupils in Second Level Schools (1999 Entry Cohort Onwards). Current provider dataset URL: https://data.gov.ie/dataset/eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards. Civgraph raw source-document record.",
+        "sourceItems": [
+          {
+            "auditRowNumber": 5543,
+            "title": "EDA17 - Retention Rates of Pupils in Second Level Schools (1999 Entry Cohort Onwards)",
+            "provider": "data.gov.ie",
+            "organisation": "Department of Education and Youth",
+            "formats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ],
+            "category": "tabular",
+            "refinedStatus": "source-only or Browse/Books candidate",
+            "recommendedAction": "Publish as IA-hotlinked source/document/table records first; no runtime bundle unless cleaned/queryable.",
+            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download.",
+            "blockerCategories": [
+              "geography-matching",
+              "raw-source-hosting-and-viewport-policy",
+              "source-page-and-ia-viewport-decision"
+            ],
+            "detectedFamilies": [
+              "wards"
+            ],
+            "siteFamiliesPresent": [
+              "wards"
+            ],
+            "mirrorPolicy": "Internet Archive mirror verified; local mirror paths remain excluded from public output",
+            "providerDatasetUrl": "https://data.gov.ie/dataset/eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards",
+            "internetArchiveItem": "civgraph-data-gov-ie-raw-sources",
+            "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+            "internetArchiveFileCount": 4
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, and IA item metadata to confirm resource-level licence before structured reuse."
+        },
+        "approval": {
+          "recommendedAction": "publish as source/document/table record; do not create duplicate map or election parent",
+          "stagingId": "raw-source:data-gov-ie:eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards",
+          "confidence": "approved-convention",
+          "sourceType": "raw source-document corpus",
+          "provider": "Department of Education and Youth; data.gov.ie"
+        },
+        "publicationStatus": "raw-source-staged; raw-source-mirrored-internet-archive",
+        "proposedBrowsePath": "Books / Tables / Sources > Raw source tables",
+        "relatedRecords": [
+          {
+            "kind": "data-entry",
+            "id": "data-2021-level-4-plus-settlement",
+            "title": "Level 4+ qualifications (Census 2021, by Settlement)",
+            "score": 0.17
+          },
+          {
+            "kind": "data-entry",
+            "id": "data-2021-level-4-plus-ward",
+            "title": "Level 4+ qualifications (Census 2021, by Ward 2014)",
+            "score": 0.17
+          },
+          {
+            "kind": "data-entry",
+            "id": "data-2021-level-4-plus-lgd",
+            "title": "Level 4+ qualifications (Census 2021, by LGD)",
+            "score": 0.17
+          }
+        ],
+        "keywords": [
+          "raw-source-document",
+          "ia-ready",
+          "source-only",
+          "table",
+          "data.gov.ie",
+          "Department of Education and Youth",
+          "CSV",
+          "JSON-STAT",
+          "PX",
+          "XLSX",
+          "wards",
+          "internet-archive-mirror",
+          "raw-source-mirrored"
+        ],
+        "browseUrl": "/browse/sources/raw-source-data-gov-ie-eda17-retention-rates-of-pupils-in-second-level-schools-1999-entry-cohort-onwards",
+        "iaMirror": {
+          "itemIdentifier": "civgraph-data-gov-ie-raw-sources",
+          "itemUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+          "mirrorStatus": "mirrored",
+          "verifiedAt": "2026-06-28T02:10:52.845Z",
+          "fileCount": 4
+        }
+      }
+    },
     {
       "id": "raw-source:data-gov-ie:emergency-procurement-of-ventilators-by-the-health-service-executive",
       "slug": "raw-source-data-gov-ie-emergency-procurement-of-ventilators-by-the-health-service-executive",
@@ -66002,342 +66360,6 @@
           "mirrorStatus": "mirrored",
           "verifiedAt": "2026-06-28T02:10:51.254Z",
           "fileCount": 19
-        }
-      }
-    },
-    {
-      "id": "raw-source:open-data-ni:ulsterbus-and-goldline-timetable-data-from-08-11-2023",
-      "slug": "raw-source-open-data-ni-ulsterbus-and-goldline-timetable-data-from-08-11-2023",
-      "type": "raw-source-document",
-      "title": "Ulsterbus and Goldliner Timetable Data",
-      "subtitle": "Translink / Open Data NI / DOCX, PDF, ZIP / Source-only",
-      "category": "Raw source documents",
-      "provider": [
-        "Translink",
-        "Open Data NI"
-      ],
-      "description": "Ulsterbus and Goldliner Timetable Data is staged as a document source record from Translink, Open Data NI. The record is suitable for a Browse/Books/Tables source page with provider links now and IA-hotlinked viewport/download links once the public IA item/file URLs are attached. No map conversion or deep semantic modelling is implied by this source-only record. Formats observed in the local audit: DOCX, PDF, ZIP.",
-      "url": "https://admin.opendatani.gov.uk/dataset/ulsterbus-and-goldline-timetable-data-from-08-11-2023",
-      "references": [
-        {
-          "label": "Ulsterbus and Goldliner Timetable Data provider dataset page",
-          "url": "https://admin.opendatani.gov.uk/dataset/ulsterbus-and-goldline-timetable-data-from-08-11-2023",
-          "source": "Open Data NI",
-          "role": "canonical-provider-dataset"
-        },
-        {
-          "label": "Ulsterbus and Goldliner Timetable Data Internet Archive source mirror",
-          "url": "https://archive.org/details/civgraph-open-data-ni-raw-sources",
-          "source": "Internet Archive",
-          "role": "source-mirror"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset page",
-          "url": "https://admin.opendatani.gov.uk/dataset/ulsterbus-and-goldline-timetable-data-from-08-11-2023",
-          "type": "dataset-page"
-        },
-        {
-          "label": "Internet Archive mirror - atco-cif-spec1.pdf",
-          "url": "https://archive.org/download/civgraph-open-data-ni-raw-sources/Translink/ulsterbus-and-goldline-timetable-data-from-08-11-2023/atco-cif-spec1.pdf",
-          "type": "PDF"
-        },
-        {
-          "label": "Internet Archive mirror - bus-cif-file-supplementary-notes.docx",
-          "url": "https://archive.org/download/civgraph-open-data-ni-raw-sources/Translink/ulsterbus-and-goldline-timetable-data-from-08-11-2023/bus-cif-file-supplementary-notes.docx",
-          "type": "DOCX"
-        },
-        {
-          "label": "Internet Archive mirror - ulb-gle-16042026.zip",
-          "url": "https://archive.org/download/civgraph-open-data-ni-raw-sources/Translink/ulsterbus-and-goldline-timetable-data-from-08-11-2023/ulb-gle-16042026.zip",
-          "type": "ZIP"
-        }
-      ],
-      "keywords": [
-        "raw-source-document",
-        "ia-ready",
-        "source-only",
-        "document",
-        "Open Data NI",
-        "Translink",
-        "DOCX",
-        "PDF",
-        "ZIP",
-        "source-documents-books",
-        "internet-archive-mirror",
-        "raw-source-mirrored"
-      ],
-      "sourceItems": [
-        {
-          "auditRowNumber": 19037,
-          "title": "Ulsterbus and Goldliner Timetable Data",
-          "provider": "Open Data NI",
-          "organisation": "Translink",
-          "formats": [
-            "DOCX",
-            "PDF",
-            "ZIP"
-          ],
-          "category": "tabular",
-          "refinedStatus": "source-only or Browse/Books candidate",
-          "recommendedAction": "Publish as IA-hotlinked source/document/table records first; no runtime bundle unless cleaned/queryable.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download.",
-          "blockerCategories": [
-            "large-or-special-format-review",
-            "raw-source-hosting-and-viewport-policy",
-            "source-page-and-ia-viewport-decision"
-          ],
-          "detectedFamilies": [
-            "source-documents-books"
-          ],
-          "siteFamiliesPresent": [
-            "source-documents-books"
-          ],
-          "mirrorPolicy": "Internet Archive mirror verified; local mirror paths remain excluded from public output",
-          "providerDatasetUrl": "https://admin.opendatani.gov.uk/dataset/ulsterbus-and-goldline-timetable-data-from-08-11-2023",
-          "internetArchiveItem": "civgraph-open-data-ni-raw-sources",
-          "internetArchiveUrl": "https://archive.org/details/civgraph-open-data-ni-raw-sources",
-          "internetArchiveFileCount": 3
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source only",
-        "Download available",
-        "Needs review",
-        "Mirror available"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Open Data NI",
-        "Translink",
-        "Ulsterbus and Goldliner Timetable Data"
-      ],
-      "viewport": {
-        "status": "mirror-preview-ready",
-        "supportedViewportTypes": [
-          "pdf",
-          "download-only"
-        ],
-        "canonicalDatasetUrl": "https://admin.opendatani.gov.uk/dataset/ulsterbus-and-goldline-timetable-data-from-08-11-2023",
-        "note": "Internet Archive mirror files are verified for durable public view/download; provider dataset page remains the canonical source.",
-        "internetArchiveUrl": "https://archive.org/details/civgraph-open-data-ni-raw-sources",
-        "fileUrl": "https://archive.org/download/civgraph-open-data-ni-raw-sources/Translink/ulsterbus-and-goldline-timetable-data-from-08-11-2023/atco-cif-spec1.pdf"
-      },
-      "shortCitation": "Translink, Open Data NI, Ulsterbus and Goldliner Timetable Data.",
-      "fullCitation": "Translink, Open Data NI. Ulsterbus and Goldliner Timetable Data. Current provider dataset URL: https://admin.opendatani.gov.uk/dataset/ulsterbus-and-goldline-timetable-data-from-08-11-2023. Civgraph raw source-document record.",
-      "relatedRecords": [
-        {
-          "kind": "database-map",
-          "id": "translink-ulsterbus-goldliner-routes",
-          "title": "Ulsterbus & Goldliner Bus Routes",
-          "score": 0.44
-        },
-        {
-          "kind": "browse-source",
-          "id": "map-source",
-          "title": "Ulsterbus & Goldliner Bus Routes source files",
-          "score": 0.44
-        },
-        {
-          "kind": "browse-map",
-          "id": "translink-ulsterbus-goldliner-routes",
-          "title": "Ulsterbus & Goldliner Bus Routes",
-          "score": 0.44
-        }
-      ],
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, and IA item metadata to confirm resource-level licence before structured reuse."
-      },
-      "approval": {
-        "recommendedAction": "publish as source/document/table record; do not create duplicate map or election parent",
-        "stagingId": "raw-source:open-data-ni:ulsterbus-and-goldline-timetable-data-from-08-11-2023",
-        "confidence": "approved-convention",
-        "sourceType": "raw source-document corpus",
-        "provider": "Translink; Open Data NI"
-      },
-      "publicationStatus": "raw-source-staged; raw-source-mirrored-internet-archive",
-      "proposedBrowsePath": "Books / Tables / Sources > Raw source documents",
-      "browseUrl": "/browse/sources/raw-source-open-data-ni-ulsterbus-and-goldline-timetable-data-from-08-11-2023",
-      "rawMetadata": {
-        "id": "raw-source:open-data-ni:ulsterbus-and-goldline-timetable-data-from-08-11-2023",
-        "slug": "raw-source-open-data-ni-ulsterbus-and-goldline-timetable-data-from-08-11-2023",
-        "type": "raw-source-document",
-        "title": "Ulsterbus and Goldliner Timetable Data",
-        "subtitle": "Translink / Open Data NI / DOCX, PDF, ZIP / Source-only",
-        "category": "Raw source documents",
-        "provider": [
-          "Translink",
-          "Open Data NI"
-        ],
-        "description": "Ulsterbus and Goldliner Timetable Data is staged as a document source record from Translink, Open Data NI. The record is suitable for a Browse/Books/Tables source page with provider links now and IA-hotlinked viewport/download links once the public IA item/file URLs are attached. No map conversion or deep semantic modelling is implied by this source-only record. Formats observed in the local audit: DOCX, PDF, ZIP.",
-        "url": "https://admin.opendatani.gov.uk/dataset/ulsterbus-and-goldline-timetable-data-from-08-11-2023",
-        "references": [
-          {
-            "label": "Ulsterbus and Goldliner Timetable Data provider dataset page",
-            "url": "https://admin.opendatani.gov.uk/dataset/ulsterbus-and-goldline-timetable-data-from-08-11-2023",
-            "source": "Open Data NI",
-            "role": "canonical-provider-dataset",
-            "status": "inferred-from-provider-slug"
-          },
-          {
-            "label": "Ulsterbus and Goldliner Timetable Data Internet Archive source mirror",
-            "url": "https://archive.org/details/civgraph-open-data-ni-raw-sources",
-            "source": "Internet Archive",
-            "role": "source-mirror",
-            "status": "verified"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset page",
-            "url": "https://admin.opendatani.gov.uk/dataset/ulsterbus-and-goldline-timetable-data-from-08-11-2023",
-            "type": "dataset-page",
-            "status": "resource downloads listed by provider dataset page"
-          },
-          {
-            "label": "Internet Archive mirror - atco-cif-spec1.pdf",
-            "url": "https://archive.org/download/civgraph-open-data-ni-raw-sources/Translink/ulsterbus-and-goldline-timetable-data-from-08-11-2023/atco-cif-spec1.pdf",
-            "type": "PDF",
-            "size": 112128,
-            "sha256": "6d6021335521a5c29b3345ae4970aeb83a2e8751c404112fff514fd4c443d671",
-            "status": "verified Internet Archive mirror",
-            "source": "Internet Archive"
-          },
-          {
-            "label": "Internet Archive mirror - bus-cif-file-supplementary-notes.docx",
-            "url": "https://archive.org/download/civgraph-open-data-ni-raw-sources/Translink/ulsterbus-and-goldline-timetable-data-from-08-11-2023/bus-cif-file-supplementary-notes.docx",
-            "type": "DOCX",
-            "size": 23001,
-            "sha256": "aadb9473df98de91b4b6d851ec4fcf9397fed838dd8c66452efef01e52e86c0b",
-            "status": "verified Internet Archive mirror",
-            "source": "Internet Archive"
-          },
-          {
-            "label": "Internet Archive mirror - ulb-gle-16042026.zip",
-            "url": "https://archive.org/download/civgraph-open-data-ni-raw-sources/Translink/ulsterbus-and-goldline-timetable-data-from-08-11-2023/ulb-gle-16042026.zip",
-            "type": "ZIP",
-            "size": 2635671,
-            "sha256": "9915e3ac8aaafb8ae1759ec29c4e4cc84ced882267cfcc2415108fe30fe337d4",
-            "status": "verified Internet Archive mirror",
-            "source": "Internet Archive"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source only",
-          "Download available",
-          "Needs review",
-          "Mirror available"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Open Data NI",
-          "Translink",
-          "Ulsterbus and Goldliner Timetable Data"
-        ],
-        "viewport": {
-          "status": "mirror-preview-ready",
-          "supportedViewportTypes": [
-            "pdf",
-            "download-only"
-          ],
-          "canonicalDatasetUrl": "https://admin.opendatani.gov.uk/dataset/ulsterbus-and-goldline-timetable-data-from-08-11-2023",
-          "note": "Internet Archive mirror files are verified for durable public view/download; provider dataset page remains the canonical source.",
-          "internetArchiveUrl": "https://archive.org/details/civgraph-open-data-ni-raw-sources",
-          "fileUrl": "https://archive.org/download/civgraph-open-data-ni-raw-sources/Translink/ulsterbus-and-goldline-timetable-data-from-08-11-2023/atco-cif-spec1.pdf"
-        },
-        "shortCitation": "Translink, Open Data NI, Ulsterbus and Goldliner Timetable Data.",
-        "fullCitation": "Translink, Open Data NI. Ulsterbus and Goldliner Timetable Data. Current provider dataset URL: https://admin.opendatani.gov.uk/dataset/ulsterbus-and-goldline-timetable-data-from-08-11-2023. Civgraph raw source-document record.",
-        "sourceItems": [
-          {
-            "auditRowNumber": 19037,
-            "title": "Ulsterbus and Goldliner Timetable Data",
-            "provider": "Open Data NI",
-            "organisation": "Translink",
-            "formats": [
-              "DOCX",
-              "PDF",
-              "ZIP"
-            ],
-            "category": "tabular",
-            "refinedStatus": "source-only or Browse/Books candidate",
-            "recommendedAction": "Publish as IA-hotlinked source/document/table records first; no runtime bundle unless cleaned/queryable.",
-            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download.",
-            "blockerCategories": [
-              "large-or-special-format-review",
-              "raw-source-hosting-and-viewport-policy",
-              "source-page-and-ia-viewport-decision"
-            ],
-            "detectedFamilies": [
-              "source-documents-books"
-            ],
-            "siteFamiliesPresent": [
-              "source-documents-books"
-            ],
-            "mirrorPolicy": "Internet Archive mirror verified; local mirror paths remain excluded from public output",
-            "providerDatasetUrl": "https://admin.opendatani.gov.uk/dataset/ulsterbus-and-goldline-timetable-data-from-08-11-2023",
-            "internetArchiveItem": "civgraph-open-data-ni-raw-sources",
-            "internetArchiveUrl": "https://archive.org/details/civgraph-open-data-ni-raw-sources",
-            "internetArchiveFileCount": 3
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, and IA item metadata to confirm resource-level licence before structured reuse."
-        },
-        "approval": {
-          "recommendedAction": "publish as source/document/table record; do not create duplicate map or election parent",
-          "stagingId": "raw-source:open-data-ni:ulsterbus-and-goldline-timetable-data-from-08-11-2023",
-          "confidence": "approved-convention",
-          "sourceType": "raw source-document corpus",
-          "provider": "Translink; Open Data NI"
-        },
-        "publicationStatus": "raw-source-staged; raw-source-mirrored-internet-archive",
-        "proposedBrowsePath": "Books / Tables / Sources > Raw source documents",
-        "relatedRecords": [
-          {
-            "kind": "database-map",
-            "id": "translink-ulsterbus-goldliner-routes",
-            "title": "Ulsterbus & Goldliner Bus Routes",
-            "score": 0.44
-          },
-          {
-            "kind": "browse-source",
-            "id": "map-source",
-            "title": "Ulsterbus & Goldliner Bus Routes source files",
-            "score": 0.44
-          },
-          {
-            "kind": "browse-map",
-            "id": "translink-ulsterbus-goldliner-routes",
-            "title": "Ulsterbus & Goldliner Bus Routes",
-            "score": 0.44
-          }
-        ],
-        "keywords": [
-          "raw-source-document",
-          "ia-ready",
-          "source-only",
-          "document",
-          "Open Data NI",
-          "Translink",
-          "DOCX",
-          "PDF",
-          "ZIP",
-          "source-documents-books",
-          "internet-archive-mirror",
-          "raw-source-mirrored"
-        ],
-        "browseUrl": "/browse/sources/raw-source-open-data-ni-ulsterbus-and-goldline-timetable-data-from-08-11-2023",
-        "iaMirror": {
-          "itemIdentifier": "civgraph-open-data-ni-raw-sources",
-          "itemUrl": "https://archive.org/details/civgraph-open-data-ni-raw-sources",
-          "mirrorStatus": "mirrored",
-          "verifiedAt": "2026-06-28T02:10:51.254Z",
-          "fileCount": 3
         }
       }
     }

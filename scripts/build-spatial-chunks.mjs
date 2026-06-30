@@ -44,6 +44,7 @@ const ZOOM_LEVELS = [
 
 /** Grid-based census maps */
 const CHUNK_CONFIGS = {
+    'corine-land-cover-2018': { grid: [8, 6] },
     'census-grid-2021': { grid: [6, 4] },
     'oa-2001': { grid: [4, 3] },
     'sa-2011': { grid: [4, 3] },

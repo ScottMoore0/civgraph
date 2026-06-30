@@ -1,10 +1,359 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T20:12:09.722Z",
+  "generatedAt": "2026-06-30T21:50:13.911Z",
   "kind": "sources",
   "shard": "sources-041.json",
   "total": 200,
   "items": [
+    {
+      "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:rva07-distribution-of-corporation-tax-allowances-reliefs-and-deductions:02297",
+      "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-rva07-distribution-of-corporation-tax-allowances-reliefs-and-deductions-02297",
+      "type": "approved-medium-priority-source",
+      "title": "RVA07 - Distribution of Corporation Tax Allowances, Reliefs and Deductions",
+      "subtitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA / Revenue Commissioners, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
+      "category": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+      "provider": [
+        "Revenue Commissioners",
+        "data.gov.ie"
+      ],
+      "description": "RVA07 - Distribution of Corporation Tax Allowances, Reliefs and Deductions is published as a medium-priority Civgraph source/provenance record from Revenue Commissioners, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/rva07-distribution-of-corporation-tax-allowances-reliefs-and-deductions",
+      "references": [
+        {
+          "label": "RVA07 - Distribution of Corporation Tax Allowances, Reliefs and Deductions provider page",
+          "url": "https://data.gov.ie/dataset/rva07-distribution-of-corporation-tax-allowances-reliefs-and-deductions",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "RVA07 - Distribution of Corporation Tax Allowances, Reliefs and Deductions Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/rva07-distribution-of-corporation-tax-allowances-reliefs-and-deductions",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/rva07-distribution-of-corporation-tax-allowances-reliefs-and-deductions",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+        "boundary",
+        "Electoral Divisions",
+        "Ireland / unspecified",
+        "source-download-only",
+        "CSV",
+        "JSON-STAT",
+        "PX",
+        "XLSX"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 2298,
+          "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:rva07-distribution-of-corporation-tax-allowances-reliefs-and-deductions:02297",
+          "title": "RVA07 - Distribution of Corporation Tax Allowances, Reliefs and Deductions",
+          "cleanTitle": "RVA07 - Distribution of Corporation Tax Allowances, Reliefs and Deductions",
+          "provider": "data.gov.ie",
+          "organisation": "Revenue Commissioners",
+          "category": "tabular",
+          "roiGroup": "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+          "groupTitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "boundary",
+          "featureUnit": "Electoral Divisions",
+          "formats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "source-download-only",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/rva07-distribution-of-corporation-tax-allowances-reliefs-and-deductions",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/rva07-distribution-of-corporation-tax-allowances-reliefs-and-deductions",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "geography-crosswalk-and-versioning: geography family inferred",
+            "geography-matching: geography family inferred",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Prepare boundary variant review; prefer child/variant records over duplicate parent maps.",
+          "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+        "Ireland / unspecified",
+        "boundary",
+        "RVA07 - Distribution of Corporation Tax Allowances, Reliefs and Deductions"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "spreadsheet"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/rva07-distribution-of-corporation-tax-allowances-reliefs-and-deductions",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/rva07-distribution-of-corporation-tax-allowances-reliefs-and-deductions",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Revenue Commissioners, data.gov.ie, RVA07 - Distribution of Corporation Tax Allowances, Reliefs and Deductions.",
+      "fullCitation": "Revenue Commissioners, data.gov.ie. RVA07 - Distribution of Corporation Tax Allowances, Reliefs and Deductions. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/rva07-distribution-of-corporation-tax-allowances-reliefs-and-deductions. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/rva07-distribution-of-corporation-tax-allowances-reliefs-and-deductions.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:rva07-distribution-of-corporation-tax-allowances-reliefs-and-deductions:02297",
+        "sourceRowNumber": 2298,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish as source/download record",
+        "proposedAction": "source-download-only",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ]
+        },
+        "confidence": 60,
+        "resolvedBlockers": [
+          "geography-crosswalk-and-versioning: geography family inferred",
+          "geography-matching: geography family inferred",
+          "source-page-and-ia-viewport-decision: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Prepare boundary variant review; prefer child/variant records over duplicate parent maps.",
+        "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
+        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-rva07-distribution-of-corporation-tax-allowances-reliefs-and-deductions-02297",
+      "rawMetadata": {
+        "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:rva07-distribution-of-corporation-tax-allowances-reliefs-and-deductions:02297",
+        "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-rva07-distribution-of-corporation-tax-allowances-reliefs-and-deductions-02297",
+        "type": "approved-medium-priority-source",
+        "title": "RVA07 - Distribution of Corporation Tax Allowances, Reliefs and Deductions",
+        "subtitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA / Revenue Commissioners, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
+        "category": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+        "provider": [
+          "Revenue Commissioners",
+          "data.gov.ie"
+        ],
+        "description": "RVA07 - Distribution of Corporation Tax Allowances, Reliefs and Deductions is published as a medium-priority Civgraph source/provenance record from Revenue Commissioners, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/rva07-distribution-of-corporation-tax-allowances-reliefs-and-deductions",
+        "references": [
+          {
+            "label": "RVA07 - Distribution of Corporation Tax Allowances, Reliefs and Deductions provider page",
+            "url": "https://data.gov.ie/dataset/rva07-distribution-of-corporation-tax-allowances-reliefs-and-deductions",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "RVA07 - Distribution of Corporation Tax Allowances, Reliefs and Deductions Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/rva07-distribution-of-corporation-tax-allowances-reliefs-and-deductions",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/rva07-distribution-of-corporation-tax-allowances-reliefs-and-deductions",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+          "Ireland / unspecified",
+          "boundary",
+          "RVA07 - Distribution of Corporation Tax Allowances, Reliefs and Deductions"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "spreadsheet"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/rva07-distribution-of-corporation-tax-allowances-reliefs-and-deductions",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/rva07-distribution-of-corporation-tax-allowances-reliefs-and-deductions",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Revenue Commissioners, data.gov.ie, RVA07 - Distribution of Corporation Tax Allowances, Reliefs and Deductions.",
+        "fullCitation": "Revenue Commissioners, data.gov.ie. RVA07 - Distribution of Corporation Tax Allowances, Reliefs and Deductions. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/rva07-distribution-of-corporation-tax-allowances-reliefs-and-deductions. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/rva07-distribution-of-corporation-tax-allowances-reliefs-and-deductions.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 2298,
+            "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:rva07-distribution-of-corporation-tax-allowances-reliefs-and-deductions:02297",
+            "title": "RVA07 - Distribution of Corporation Tax Allowances, Reliefs and Deductions",
+            "cleanTitle": "RVA07 - Distribution of Corporation Tax Allowances, Reliefs and Deductions",
+            "provider": "data.gov.ie",
+            "organisation": "Revenue Commissioners",
+            "category": "tabular",
+            "roiGroup": "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+            "groupTitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "boundary",
+            "featureUnit": "Electoral Divisions",
+            "formats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "source-download-only",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV",
+                "JSON-STAT",
+                "PX",
+                "XLSX"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/rva07-distribution-of-corporation-tax-allowances-reliefs-and-deductions",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/rva07-distribution-of-corporation-tax-allowances-reliefs-and-deductions",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "geography-crosswalk-and-versioning: geography family inferred",
+              "geography-matching: geography family inferred",
+              "source-page-and-ia-viewport-decision: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Prepare boundary variant review; prefer child/variant records over duplicate parent maps.",
+            "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
+            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:rva07-distribution-of-corporation-tax-allowances-reliefs-and-deductions:02297",
+          "sourceRowNumber": 2298,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish as source/download record",
+          "proposedAction": "source-download-only",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ]
+          },
+          "confidence": 60,
+          "resolvedBlockers": [
+            "geography-crosswalk-and-versioning: geography family inferred",
+            "geography-matching: geography family inferred",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Prepare boundary variant review; prefer child/variant records over duplicate parent maps.",
+          "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
+          "boundary",
+          "Electoral Divisions",
+          "Ireland / unspecified",
+          "source-download-only",
+          "CSV",
+          "JSON-STAT",
+          "PX",
+          "XLSX"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-rva07-distribution-of-corporation-tax-allowances-reliefs-and-deductions-02297"
+      }
+    },
     {
       "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:sea-area-national-250k-map-of-ireland1:00956",
       "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-sea-area-national-250k-map-of-ireland1-00956",
@@ -71760,381 +72109,6 @@
           "review:duplicate-or-variant-review-no-existing-match-candidate"
         ],
         "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-annual-budget-2012-table-a-fcc2-01167"
-      }
-    },
-    {
-      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:annual-budget-2012-table-b-fcc2:01168",
-      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-annual-budget-2012-table-b-fcc2-01168",
-      "type": "approved-medium-priority-source",
-      "title": "Annual Budget 2012 Table B FCC",
-      "subtitle": "Local authority planning/property/open-data layers / Fingal County Council, data.gov.ie / Ireland / unspecified / ARCGIS GEOSERVICES REST API, CSV, HTML, KML, ZIP / Source record; runtime review pending",
-      "category": "Medium-priority: Local authority planning/property/open-data layers",
-      "date": "2012",
-      "provider": [
-        "Fingal County Council",
-        "data.gov.ie"
-      ],
-      "description": "Annual Budget 2012 Table B FCC is published as a medium-priority Civgraph source/provenance record from Fingal County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-      "url": "https://data.gov.ie/dataset/annual-budget-2012-table-b-fcc2",
-      "references": [
-        {
-          "label": "Annual Budget 2012 Table B FCC provider page",
-          "url": "https://data.gov.ie/dataset/annual-budget-2012-table-b-fcc2",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Annual Budget 2012 Table B FCC Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/annual-budget-2012-table-b-fcc2",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/annual-budget-2012-table-b-fcc2",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "source-record-with-runtime-review",
-        "Local authority planning/property/open-data layers",
-        "source-data",
-        "features",
-        "Ireland / unspecified",
-        "local-authority-batch-review",
-        "ARCGIS GEOSERVICES REST API",
-        "CSV",
-        "HTML",
-        "KML",
-        "ZIP",
-        "review:duplicate-or-variant-review-no-existing-match-candidate"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 1169,
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:annual-budget-2012-table-b-fcc2:01168",
-          "title": "Annual Budget 2012 Table B FCC",
-          "cleanTitle": "Annual Budget 2012 Table B FCC",
-          "provider": "data.gov.ie",
-          "organisation": "Fingal County Council",
-          "category": "spatial",
-          "roiGroup": "5. Local authority planning/property/open-data layers",
-          "groupTitle": "Local authority planning/property/open-data layers",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "source-data",
-          "featureUnit": "features",
-          "formats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "HTML",
-            "KML",
-            "ZIP"
-          ],
-          "isSpatial": true,
-          "isLargeOrSpecial": false,
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "HTML",
-              "KML",
-              "ZIP"
-            ]
-          },
-          "approvalState": "ready-with-residual-review",
-          "sourcePublicationState": "public source record with runtime/semantic review still pending",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/annual-budget-2012-table-b-fcc2",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/annual-budget-2012-table-b-fcc2",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source record",
-        "Runtime review pending",
-        "Spatial source",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Local authority planning/property/open-data layers",
-        "Ireland / unspecified",
-        "source-data",
-        "Annual Budget 2012 Table B FCC"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text",
-          "download-only"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/annual-budget-2012-table-b-fcc2",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/annual-budget-2012-table-b-fcc2",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Fingal County Council, data.gov.ie, Annual Budget 2012 Table B FCC.",
-      "fullCitation": "Fingal County Council, data.gov.ie. Annual Budget 2012 Table B FCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/annual-budget-2012-table-b-fcc2. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/annual-budget-2012-table-b-fcc2.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:annual-budget-2012-table-b-fcc2:01168",
-        "sourceRowNumber": 1169,
-        "approvalState": "ready-with-residual-review",
-        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-        "proposedAction": "local-authority-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "HTML",
-            "KML",
-            "ZIP"
-          ]
-        },
-        "confidence": 60,
-        "residualBlockers": [
-          "duplicate-or-variant-review: no existing match candidate"
-        ],
-        "resolvedBlockers": [
-          "large-or-special-format-review: normal source package; no special-format hold",
-          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-        ],
-        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-      },
-      "publicationStatus": "source-record-with-runtime-review",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-annual-budget-2012-table-b-fcc2-01168",
-      "rawMetadata": {
-        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:annual-budget-2012-table-b-fcc2:01168",
-        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-annual-budget-2012-table-b-fcc2-01168",
-        "type": "approved-medium-priority-source",
-        "title": "Annual Budget 2012 Table B FCC",
-        "subtitle": "Local authority planning/property/open-data layers / Fingal County Council, data.gov.ie / Ireland / unspecified / ARCGIS GEOSERVICES REST API, CSV, HTML, KML, ZIP / Source record; runtime review pending",
-        "category": "Medium-priority: Local authority planning/property/open-data layers",
-        "date": "2012",
-        "provider": [
-          "Fingal County Council",
-          "data.gov.ie"
-        ],
-        "description": "Annual Budget 2012 Table B FCC is published as a medium-priority Civgraph source/provenance record from Fingal County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-        "url": "https://data.gov.ie/dataset/annual-budget-2012-table-b-fcc2",
-        "references": [
-          {
-            "label": "Annual Budget 2012 Table B FCC provider page",
-            "url": "https://data.gov.ie/dataset/annual-budget-2012-table-b-fcc2",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Annual Budget 2012 Table B FCC Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/annual-budget-2012-table-b-fcc2",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/annual-budget-2012-table-b-fcc2",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source record",
-          "Runtime review pending",
-          "Spatial source",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Local authority planning/property/open-data layers",
-          "Ireland / unspecified",
-          "source-data",
-          "Annual Budget 2012 Table B FCC"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text",
-            "download-only"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/annual-budget-2012-table-b-fcc2",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/annual-budget-2012-table-b-fcc2",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Fingal County Council, data.gov.ie, Annual Budget 2012 Table B FCC.",
-        "fullCitation": "Fingal County Council, data.gov.ie. Annual Budget 2012 Table B FCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/annual-budget-2012-table-b-fcc2. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/annual-budget-2012-table-b-fcc2.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 1169,
-            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:annual-budget-2012-table-b-fcc2:01168",
-            "title": "Annual Budget 2012 Table B FCC",
-            "cleanTitle": "Annual Budget 2012 Table B FCC",
-            "provider": "data.gov.ie",
-            "organisation": "Fingal County Council",
-            "category": "spatial",
-            "roiGroup": "5. Local authority planning/property/open-data layers",
-            "groupTitle": "Local authority planning/property/open-data layers",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "source-data",
-            "featureUnit": "features",
-            "formats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "HTML",
-              "KML",
-              "ZIP"
-            ],
-            "isSpatial": true,
-            "isLargeOrSpecial": false,
-            "proposedAction": "local-authority-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "ARCGIS GEOSERVICES REST API",
-                "CSV",
-                "HTML",
-                "KML",
-                "ZIP"
-              ]
-            },
-            "approvalState": "ready-with-residual-review",
-            "sourcePublicationState": "public source record with runtime/semantic review still pending",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/annual-budget-2012-table-b-fcc2",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/annual-budget-2012-table-b-fcc2",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "large-or-special-format-review: normal source package; no special-format hold",
-              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-            ],
-            "residualBlockers": [
-              "duplicate-or-variant-review: no existing match candidate"
-            ],
-            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:annual-budget-2012-table-b-fcc2:01168",
-          "sourceRowNumber": 1169,
-          "approvalState": "ready-with-residual-review",
-          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "HTML",
-              "KML",
-              "ZIP"
-            ]
-          },
-          "confidence": 60,
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate"
-          ],
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        },
-        "publicationStatus": "source-record-with-runtime-review",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "source-record-with-runtime-review",
-          "Local authority planning/property/open-data layers",
-          "source-data",
-          "features",
-          "Ireland / unspecified",
-          "local-authority-batch-review",
-          "ARCGIS GEOSERVICES REST API",
-          "CSV",
-          "HTML",
-          "KML",
-          "ZIP",
-          "review:duplicate-or-variant-review-no-existing-match-candidate"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-annual-budget-2012-table-b-fcc2-01168"
       }
     }
   ]

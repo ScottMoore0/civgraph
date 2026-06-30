@@ -1,9 +1,79 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T20:12:17.853Z",
+  "generatedAt": "2026-06-30T21:51:18.768Z",
   "shard": 31,
   "total": 5000,
   "items": [
+    {
+      "id": "cg:source:file-from-data-gov-ie-local-mirror-748f1983f52a",
+      "label": "file from data.gov.ie local mirror",
+      "kind": "entity",
+      "sourceUrl": "https://data.gov.ie/dataset/vsd51-deaths-registered",
+      "attributes": {
+        "sourceKind": "source-reference",
+        "role": "source-download",
+        "createdFrom": "external-reference"
+      },
+      "typeIds": [
+        "cg:entity-type:source"
+      ]
+    },
+    {
+      "id": "cg:source:file-from-data-gov-ie-local-mirror-749200a522f2",
+      "label": "file from data.gov.ie local mirror",
+      "kind": "entity",
+      "sourceUrl": "https://data.gov.ie/dataset/sap2011t1t2dc2007-population",
+      "attributes": {
+        "sourceKind": "source-reference",
+        "role": "source-download",
+        "createdFrom": "external-reference"
+      },
+      "typeIds": [
+        "cg:entity-type:source"
+      ]
+    },
+    {
+      "id": "cg:source:file-from-data-gov-ie-local-mirror-7495b2e82af8",
+      "label": "file from data.gov.ie local mirror",
+      "kind": "entity",
+      "sourceUrl": "https://data.gov.ie/dataset/hs008-age-of-household-reference-person",
+      "attributes": {
+        "sourceKind": "source-reference",
+        "role": "source-download",
+        "createdFrom": "external-reference"
+      },
+      "typeIds": [
+        "cg:entity-type:source"
+      ]
+    },
+    {
+      "id": "cg:source:file-from-data-gov-ie-local-mirror-749ffcc2badd",
+      "label": "file from data.gov.ie local mirror",
+      "kind": "entity",
+      "sourceUrl": "https://data.gov.ie/dataset/a0424-and-over-usually-resident-in-the-state-who-lived-outside-the-state-for-one-year-or-more-5290",
+      "attributes": {
+        "sourceKind": "source-reference",
+        "role": "source-download",
+        "createdFrom": "external-reference"
+      },
+      "typeIds": [
+        "cg:entity-type:source"
+      ]
+    },
+    {
+      "id": "cg:source:file-from-data-gov-ie-local-mirror-74a45c809095",
+      "label": "file from data.gov.ie local mirror",
+      "kind": "entity",
+      "sourceUrl": "https://data.gov.ie/dataset/ez011-population-aged-15-years-and-over-in-the-labour-force-2011-to-2016",
+      "attributes": {
+        "sourceKind": "source-reference",
+        "role": "source-download",
+        "createdFrom": "external-reference"
+      },
+      "typeIds": [
+        "cg:entity-type:source"
+      ]
+    },
     {
       "id": "cg:source:file-from-data-gov-ie-local-mirror-74a58d466d16",
       "label": "file from data.gov.ie local mirror",
@@ -60015,6 +60085,25 @@
       ]
     },
     {
+      "id": "cg:source:map-source-corine-land-cover-2018",
+      "label": "CORINE Land Cover 2018 (Ireland) source files",
+      "description": "CORINE Land Cover 2018 for the island of Ireland (21,685 polygons; CLC code in Code_18). Copernicus Land Monitoring Service / EEA, via the Peatlands Geoportal (QUB).",
+      "kind": "entity",
+      "browseType": "sources",
+      "browseSlug": "map-source-corine-land-cover-2018",
+      "browseUrl": "/browse/sources/map-source-corine-land-cover-2018",
+      "attributes": {
+        "sourceCategory": "Map sources",
+        "provider": "Copernicus Land Monitoring Service (EEA)",
+        "date": "2018",
+        "referenceCount": 2,
+        "downloadCount": 2
+      },
+      "typeIds": [
+        "cg:entity-type:source"
+      ]
+    },
+    {
       "id": "cg:source:map-source-counties-county-boroughs-1915",
       "label": "Counties and County Boroughs 1915 source files",
       "description": "Council and district boundaries",
@@ -73975,128 +74064,6 @@
         "publicationStatus": "source-record-with-runtime-review",
         "date": "2024",
         "referenceCount": 6,
-        "downloadCount": 4
-      },
-      "typeIds": [
-        "cg:entity-type:source"
-      ]
-    },
-    {
-      "id": "cg:source:medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-d-14b2554edf48",
-      "label": "High Value Dataset - Cadastral Parcels Leasehold",
-      "description": "High Value Dataset - Cadastral Parcels Leasehold is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; geography-crosswalk-and-versioning: needs exact geography crosswalk; large-or-special-format-review: size/format decision remains before runtime publication.",
-      "kind": "entity",
-      "browseType": "sources",
-      "browseSlug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-high-value-dataset-cadastral-parcels-leasehold-00923",
-      "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-high-value-dataset-cadastral-parcels-leasehold-00923",
-      "sourceUrl": "https://data.gov.ie/dataset/high-value-dataset-cadastral-parcels-leasehold",
-      "attributes": {
-        "sourceCategory": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "provider": "Tailte Éireann, Tailte/OSI/data.gov.ie",
-        "publicationStatus": "source-record-with-runtime-review",
-        "referenceCount": 2,
-        "downloadCount": 4
-      },
-      "typeIds": [
-        "cg:entity-type:source"
-      ]
-    },
-    {
-      "id": "cg:source:medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-d-19823b67c062",
-      "label": "SUS14 - Postgraduate - Grants Awarded to Higher Education Institutions Outside of State",
-      "description": "SUS14 - Postgraduate - Grants Awarded to Higher Education Institutions Outside of State is published as a medium-priority Civgraph source/provenance record from Student Universal Support Ireland, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "kind": "entity",
-      "browseType": "sources",
-      "browseSlug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-sus14-postgraduate-grants-awarded-to-higher-education-institutions-outside-of-state-01752",
-      "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-sus14-postgraduate-grants-awarded-to-higher-education-institutions-outside-of-state-01752",
-      "sourceUrl": "https://data.gov.ie/dataset/sus14-postgraduate-grants-awarded-to-higher-education-institutions-outside-of-state",
-      "attributes": {
-        "sourceCategory": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "provider": "Student Universal Support Ireland, data.gov.ie",
-        "publicationStatus": "approved-source-record",
-        "referenceCount": 2,
-        "downloadCount": 4
-      },
-      "typeIds": [
-        "cg:entity-type:source"
-      ]
-    },
-    {
-      "id": "cg:source:medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-d-1a0ec3bd2796",
-      "label": "Counties - National Placenames Gazetteer",
-      "description": "Counties - National Placenames Gazetteer is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; geography-crosswalk-and-versioning: needs exact geography crosswalk; large-or-special-format-review: size/format decision remains before runtime publication.",
-      "kind": "entity",
-      "browseType": "sources",
-      "browseSlug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-counties-national-placenames-gazetteer1-00312",
-      "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-counties-national-placenames-gazetteer1-00312",
-      "sourceUrl": "https://data.gov.ie/dataset/counties-national-placenames-gazetteer1",
-      "attributes": {
-        "sourceCategory": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "provider": "Tailte Éireann, Tailte/OSI/data.gov.ie",
-        "publicationStatus": "source-record-with-runtime-review",
-        "referenceCount": 2,
-        "downloadCount": 4
-      },
-      "typeIds": [
-        "cg:entity-type:source"
-      ]
-    },
-    {
-      "id": "cg:source:medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-d-1bb9ae67bb4c",
-      "label": "HRD16 - Current adult overnight respite services recorded on NASS",
-      "description": "HRD16 - Current adult overnight respite services recorded on NASS is published as a medium-priority Civgraph source/provenance record from Health Research Board, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "kind": "entity",
-      "browseType": "sources",
-      "browseSlug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-hrd16-current-adult-overnight-respite-services-recorded-on-nass-02107",
-      "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-hrd16-current-adult-overnight-respite-services-recorded-on-nass-02107",
-      "sourceUrl": "https://data.gov.ie/dataset/hrd16-current-adult-overnight-respite-services-recorded-on-nass",
-      "attributes": {
-        "sourceCategory": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "provider": "Health Research Board, data.gov.ie",
-        "publicationStatus": "approved-source-record",
-        "referenceCount": 2,
-        "downloadCount": 4
-      },
-      "typeIds": [
-        "cg:entity-type:source"
-      ]
-    },
-    {
-      "id": "cg:source:medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-d-1bf5dd77b16c",
-      "label": "NUTS3 Boundaries Generalised 20m - National Statistical Boundaries - 2015",
-      "description": "NUTS3 Boundaries Generalised 20m - National Statistical Boundaries - 2015 is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; geography-crosswalk-and-versioning: needs exact geography crosswalk; large-or-special-format-review: size/format decision remains before runtime publication.",
-      "kind": "entity",
-      "browseType": "sources",
-      "browseSlug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-nuts3-boundaries-generalised-20m-national-statistical-boundaries-20151-00194",
-      "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-nuts3-boundaries-generalised-20m-national-statistical-boundaries-20151-00194",
-      "sourceUrl": "https://data.gov.ie/dataset/nuts3-boundaries-generalised-20m-national-statistical-boundaries-20151",
-      "attributes": {
-        "sourceCategory": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "provider": "Tailte Éireann, Tailte/OSI/data.gov.ie",
-        "publicationStatus": "source-record-with-runtime-review",
-        "date": "2015",
-        "referenceCount": 2,
-        "downloadCount": 4
-      },
-      "typeIds": [
-        "cg:entity-type:source"
-      ]
-    },
-    {
-      "id": "cg:source:medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-d-1c4cbaaedbb6",
-      "label": "CSO Electoral Divisions - National Statistical Boundaries - 2022 - Generalised 20m",
-      "description": "CSO Electoral Divisions - National Statistical Boundaries - 2022 - Generalised 20m is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; large-or-special-format-review: size/format decision remains before runtime publication.",
-      "kind": "entity",
-      "browseType": "sources",
-      "browseSlug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-cso-electoral-divisions-national-statistical-boundaries-2022-generalised-20m1-00037",
-      "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-cso-electoral-divisions-national-statistical-boundaries-2022-generalised-20m1-00037",
-      "sourceUrl": "https://data.gov.ie/dataset/cso-electoral-divisions-national-statistical-boundaries-2022-generalised-20m1",
-      "attributes": {
-        "sourceCategory": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "provider": "Tailte Éireann, Tailte/OSI/data.gov.ie",
-        "publicationStatus": "source-record-with-runtime-review",
-        "date": "2022",
-        "referenceCount": 2,
         "downloadCount": 4
       },
       "typeIds": [
