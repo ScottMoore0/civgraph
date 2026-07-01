@@ -9,7 +9,8 @@ const ENTITY_CONFIG = {
   parties: { label: 'Parties / Labels', singular: 'Party / label', index: 'parties.json', detailDir: 'parties' },
   persons: { label: 'Persons', singular: 'Person', index: 'persons.json', detailDir: null },
   'register-interests': { label: 'Register Interests', singular: 'Register interest', index: 'register-interests.json', detailDir: 'register-interests' },
-  sources: { label: 'Books / Tables / Sources', singular: 'Source', index: 'sources.json', detailDir: 'sources' }
+  sources: { label: 'Books / Tables / Sources', singular: 'Source', index: 'sources.json', detailDir: 'sources' },
+  proni: { label: 'PRONI Records', singular: 'PRONI record', index: 'proni.json', detailDir: 'proni' }
 };
 
 const REGISTER_INTEREST_SORT_OPTIONS = [
@@ -383,6 +384,10 @@ async function renderCurrent() {
     await renderEntityRoute(state.activeId);
     return;
   }
+  if (state.activeType === 'proni') {
+    await renderProniRoute(state.activeId);
+    return;
+  }
   const config = ENTITY_CONFIG[state.activeType];
   state.currentDetail = null;
   setHero(config, null);
@@ -543,6 +548,16 @@ function portalSections() {
         { heading: 'Source types', links: [['Books', '#/sources'], ['Tables', '#/sources'], ['Map sources', '#/sources'], ['Datasets', '#/sources']] },
         { heading: 'Download routes', links: [['Source files', '#/sources'], ['Map downloads', '#/sources'], ['References', '#/sources']] },
         { heading: 'Providers', links: [['OSI / OSNI', '#/sources'], ['CSO / NISRA', '#/sources'], ['Local authorities', '#/sources'], ['Open data portals', '#/sources']] }
+      ]
+    },
+    {
+      id: 'proni',
+      title: 'PRONI Records',
+      href: '#/proni',
+      count: counts.proni,
+      summary: 'Archival catalogue records from the PRONI eCatalogue (Public Record Office of Northern Ireland), browsable by their original hierarchy. Open Government Licence.',
+      columns: [
+        { heading: 'Browse the hierarchy', links: [['All fonds', '#/proni'], ['Boards of Guardians (BG)', '#/proni/BG']] }
       ]
     }
   ];
@@ -771,6 +786,212 @@ function renderInlineActions(config, item) {
   if (item.interactiveUrl) actions.push(`<a class="browse-btn browse-btn--primary" href="${escapeAttr(item.interactiveUrl)}">${escapeHtml(config.action || 'Open')}</a>`);
   if (item.downloads?.[0]?.url) actions.push(`<a class="browse-btn" href="${escapeAttr(item.downloads[0].url)}" target="_blank" rel="noopener noreferrer">Download/source</a>`);
   return actions.length ? `<div class="browse-actions">${actions.join('')}</div>` : '';
+}
+
+// --- PRONI Records: hierarchical archival catalogue ---------------------------
+// PRONI has ~1.4M nodes, so records are NOT held in the index. Every container
+// node has a self-contained shard (data/browse/details/proni/<slug>.json) listing
+// its children; leaf Items carry their full detail inside the parent shard. The
+// route renders directly from shards rather than the generic index lookup.
+const PRONI_LICENCE_NOTE = 'Catalogue data from the PRONI eCatalogue (Public Record Office of Northern Ireland), Crown copyright, published under the Open Government Licence.';
+const PRONI_ECAT_URL = 'https://apps.proni.gov.uk/eCatNI_IE/Default.aspx';
+
+function proniRefToSlug(ref) { return String(ref).replace(/\//g, '~'); }
+function proniSlugToRef(slug) { return String(slug).replace(/~/g, '/'); }
+
+async function loadProniShard(slug) {
+  return loadJson(`${DATA_ROOT}/details/proni/${encodeURIComponent(slug)}.json`).catch(() => null);
+}
+
+async function loadProniNode(slug) {
+  const ref = proniSlugToRef(slug);
+  const own = await loadProniShard(slug);
+  if (own && own.item) return { kind: 'container', item: own.item };
+  // Leaf: fetch parent container shard and locate this record among its children.
+  const parentRef = ref.split('/').slice(0, -1).join('/');
+  if (!parentRef) return null;
+  const parentShard = await loadProniShard(proniRefToSlug(parentRef));
+  if (!parentShard || !parentShard.item) return null;
+  const child = (parentShard.item.children || []).find((c) => c.ref === ref);
+  if (!child) return null;
+  return { kind: 'leaf', item: child, parent: parentShard.item };
+}
+
+async function renderProniRoute(id) {
+  const config = ENTITY_CONFIG.proni;
+  state.currentDetail = null;
+  if (!id) {
+    setHero(config, null);
+    els.results.innerHTML = '<div class="browse-loading">Loading PRONI records...</div>';
+    const data = await loadIndex('proni');
+    renderProniLanding(config, data.items || []);
+    return;
+  }
+  els.results.innerHTML = '<div class="browse-loading">Loading record...</div>';
+  const node = await loadProniNode(id);
+  if (!node) {
+    els.results.innerHTML = '<div class="browse-empty">PRONI record not found.</div>';
+    setHero(config, { title: proniSlugToRef(id) });
+    return;
+  }
+  state.currentDetail = { type: 'proni', item: node.item };
+  setHero(config, { title: node.item.title || node.item.ref, description: node.item.dates || '' });
+  els.results.innerHTML = renderProniDetailPage(node);
+}
+
+function renderProniLanding(config, items) {
+  els.results.innerHTML = `
+    <section class="proni-search">
+      <input type="search" id="proni-search-input" class="proni-search-input" autocomplete="off"
+             placeholder="Search ${formatNumber(1538177)} PRONI records — title, reference, or dates…"
+             value="${escapeAttr(state.proniQuery || '')}" aria-label="Search PRONI records">
+      <div id="proni-search-results" class="proni-search-results"></div>
+    </section>
+    <section class="proni-fonds">
+      <h2 class="proni-section-title">Browse by collection</h2>
+      <ul class="proni-child-list">
+        ${items.map((it) => `
+          <li class="proni-child proni-child--container">
+            <a href="#/proni/${encodeURIComponent(it.slug)}" data-browse-link>
+              <span class="proni-child-icon" aria-hidden="true">&#128193;</span>
+              <span class="proni-child-main">
+                <span class="proni-child-title">${escapeHtml(it.title || it.id)}</span>
+                <span class="proni-child-meta">${escapeHtml(it.id)}${it.childCount ? `<span class="proni-child-level">${formatNumber(it.childCount)} records</span>` : ''}</span>
+              </span>
+            </a>
+          </li>`).join('')}
+      </ul>
+    </section>`;
+  const input = document.getElementById('proni-search-input');
+  if (input) {
+    input.addEventListener('input', () => scheduleProniSearch(input.value));
+    if ((state.proniQuery || '').trim().length >= 2) runProniSearch(state.proniQuery);
+    input.focus();
+    // place cursor at end
+    const v = input.value; input.value = ''; input.value = v;
+  }
+}
+
+let proniSearchTimer = null;
+function scheduleProniSearch(query) {
+  state.proniQuery = query;
+  clearTimeout(proniSearchTimer);
+  proniSearchTimer = setTimeout(() => runProniSearch(query), 250);
+}
+
+async function runProniSearch(query) {
+  const box = document.getElementById('proni-search-results');
+  if (!box) return;
+  const q = (query || '').trim();
+  if (q.length < 2) { box.innerHTML = ''; return; }
+  box.innerHTML = '<div class="browse-loading">Searching…</div>';
+  try {
+    const resp = await fetch(`/_api/proni/search?q=${encodeURIComponent(q)}&limit=30`);
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const data = await resp.json();
+    if ((state.proniQuery || '').trim() !== q) return; // stale response
+    renderProniSearchResults(box, data);
+  } catch (error) {
+    box.innerHTML = '<div class="browse-empty">PRONI search runs on the deployed site (the D1-backed API is not available in this local preview).</div>';
+  }
+}
+
+function renderProniSearchResults(box, data) {
+  const results = data.results || [];
+  if (!results.length) {
+    box.innerHTML = `<div class="browse-empty">No matches for &ldquo;${escapeHtml(data.query || '')}&rdquo;.</div>`;
+    return;
+  }
+  box.innerHTML = `
+    <p class="proni-search-count">${formatNumber(results.length)} result${results.length === 1 ? '' : 's'}</p>
+    <ul class="proni-child-list">
+      ${results.map((r) => `
+        <li class="proni-child proni-child--${r.hasChildren ? 'container' : 'item'}">
+          <a href="#/proni/${encodeURIComponent(r.slug)}" data-browse-link>
+            <span class="proni-child-icon" aria-hidden="true">${r.hasChildren ? '&#128193;' : '&#128196;'}</span>
+            <span class="proni-child-main">
+              <span class="proni-child-title">${escapeHtml(r.title)}</span>
+              <span class="proni-child-meta">${escapeHtml(r.ref)}${r.level ? `<span class="proni-child-level">${escapeHtml(r.level)}</span>` : ''}${r.dates ? `<span class="proni-child-dates">${escapeHtml(r.dates)}</span>` : ''}</span>
+            </span>
+          </a>
+        </li>`).join('')}
+    </ul>`;
+}
+
+function proniBreadcrumb(node) {
+  // Build ancestor chain of {slug,title}. Container: item.path holds ancestors.
+  // Leaf: parent.path + the parent itself are the ancestors.
+  let ancestors = [];
+  if (node.kind === 'container') {
+    ancestors = (node.item.path || []).map((a) => ({ slug: a.slug, title: a.title || a.ref }));
+  } else {
+    ancestors = (node.parent.path || []).map((a) => ({ slug: a.slug, title: a.title || a.ref }));
+    ancestors.push({ slug: node.parent.slug, title: node.parent.title || node.parent.ref });
+  }
+  const crumbs = ['<a href="#/proni" data-browse-link>PRONI Records</a>'];
+  ancestors.forEach((a) => {
+    crumbs.push(`<a href="#/proni/${encodeURIComponent(a.slug)}" data-browse-link>${escapeHtml(a.title)}</a>`);
+  });
+  crumbs.push(`<span aria-current="page">${escapeHtml(node.item.title || node.item.ref)}</span>`);
+  return `<nav class="proni-breadcrumb" aria-label="Record hierarchy">${crumbs.join('<span class="proni-crumb-sep">/</span>')}</nav>`;
+}
+
+function proniMetaRows(it) {
+  const rows = [
+    ['Reference', it.ref],
+    ['Level', it.level],
+    ['Dates', it.dates],
+    ['Access', it.access],
+    ['Digitised', it.digitalRecord ? 'Yes — digital image held by PRONI' : ''],
+    ['Repository', it.repository]
+  ].filter(([, v]) => v);
+  return rows.map(([k, v]) => `
+    <div class="proni-meta-row"><dt>${escapeHtml(k)}</dt><dd>${escapeHtml(v)}</dd></div>`).join('');
+}
+
+function proniChildRow(c) {
+  const badge = c.hasChildren ? 'container' : 'item';
+  const icon = c.hasChildren ? '&#128193;' : '&#128196;'; // folder / page
+  const dates = c.dates ? `<span class="proni-child-dates">${escapeHtml(c.dates)}</span>` : '';
+  const lvl = c.level ? `<span class="proni-child-level">${escapeHtml(c.level)}</span>` : '';
+  return `
+    <li class="proni-child proni-child--${badge}">
+      <a href="#/proni/${encodeURIComponent(c.slug)}" data-browse-link>
+        <span class="proni-child-icon" aria-hidden="true">${icon}</span>
+        <span class="proni-child-main">
+          <span class="proni-child-title">${escapeHtml(c.title || c.ref)}</span>
+          <span class="proni-child-meta">${escapeHtml(c.ref)}${lvl}${dates}</span>
+        </span>
+      </a>
+    </li>`;
+}
+
+function renderProniDetailPage(node) {
+  const it = node.item;
+  const children = node.kind === 'container' ? (it.children || []) : [];
+  const childList = children.length
+    ? `<section class="proni-children">
+         <h2 class="proni-section-title">Contains ${formatNumber(children.length)} ${children.length === 1 ? 'record' : 'records'}</h2>
+         <ul class="proni-child-list">${children.map(proniChildRow).join('')}</ul>
+       </section>`
+    : '';
+  const description = it.description
+    ? `<section class="proni-description"><h2 class="proni-section-title">Description</h2><p>${escapeHtml(it.description)}</p></section>`
+    : '';
+  return `
+    <div class="browse-detail browse-detail--reader proni-detail">
+      ${proniBreadcrumb(node)}
+      <section class="proni-summary">
+        <dl class="proni-meta">${proniMetaRows(it)}</dl>
+      </section>
+      ${description}
+      ${childList}
+      <section class="proni-provenance">
+        <p>${escapeHtml(PRONI_LICENCE_NOTE)}</p>
+        <p><a href="${escapeAttr(PRONI_ECAT_URL)}" target="_blank" rel="noopener noreferrer">Search this reference at the PRONI eCatalogue &#8599;</a></p>
+      </section>
+    </div>
+  `;
 }
 
 async function renderDetail(type, indexItem) {

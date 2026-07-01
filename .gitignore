@@ -304,3 +304,13 @@ data/review-inputs/already-on-site-source-review-2026-06-24.csv
 
 # Per-map feature attribute pages — generated, hosted on R2 (data.civgraph.net)
 data/browse/map-features/
+
+# Generated PRONI browse data (regenerable via scripts/build-proni-browse-slice.py;
+# full dataset is destined for R2, not git)
+/data/browse/proni.json
+/data/browse/details/proni/
+/data/browse/proni-preview.html
+
+# PRONI search DB build artifacts
+*.sqlite
+/data/browse/proni-d1.sql*

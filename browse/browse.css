@@ -2016,3 +2016,66 @@ a:hover {
     aspect-ratio: 1;
   }
 }
+
+/* --- PRONI Records: hierarchical archival browse ------------------------- */
+.proni-breadcrumb {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin-bottom: 1.25rem;
+  line-height: 1.7;
+}
+.proni-breadcrumb a { color: var(--color-primary); text-decoration: none; }
+.proni-breadcrumb a:hover { text-decoration: underline; }
+.proni-breadcrumb [aria-current="page"] { color: var(--color-text); font-weight: 600; }
+.proni-crumb-sep { margin: 0 0.4rem; color: var(--color-border); }
+
+.proni-summary { margin-bottom: 1.5rem; }
+.proni-meta { display: grid; gap: 0.35rem; margin: 0; }
+.proni-meta-row { display: grid; grid-template-columns: 8.5rem 1fr; gap: 0.75rem; }
+.proni-meta-row dt { color: var(--color-text-muted); font-weight: 600; }
+.proni-meta-row dd { margin: 0; color: var(--color-text); }
+
+.proni-section-title {
+  font-size: 1rem; font-weight: 700; margin: 0 0 0.75rem;
+  padding-bottom: 0.4rem; border-bottom: 1px solid var(--color-border);
+}
+.proni-description p { line-height: 1.6; color: var(--color-text); }
+.proni-description { margin-bottom: 1.75rem; }
+
+.proni-child-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.3rem; }
+.proni-child a {
+  display: flex; align-items: flex-start; gap: 0.7rem;
+  padding: 0.6rem 0.75rem; border: 1px solid var(--color-border);
+  border-radius: var(--radius-md); background: var(--color-surface);
+  text-decoration: none; color: var(--color-text); transition: border-color .12s, background .12s;
+}
+.proni-child a:hover { border-color: var(--color-primary); background: var(--color-surface-elevated); }
+.proni-child-icon { font-size: 1.05rem; line-height: 1.4; }
+.proni-child-main { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
+.proni-child-title { font-weight: 600; }
+.proni-child--container .proni-child-title { color: var(--color-primary); }
+.proni-child-meta { font-size: 0.8rem; color: var(--color-text-muted); display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.proni-child-level::before, .proni-child-dates::before { content: "\00b7\00a0"; color: var(--color-border); }
+
+.proni-provenance {
+  margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--color-border);
+  font-size: 0.82rem; color: var(--color-text-muted); line-height: 1.6;
+}
+.proni-provenance a { color: var(--color-primary); text-decoration: none; }
+.proni-provenance a:hover { text-decoration: underline; }
+
+/* --- PRONI search box --------------------------------------------------- */
+.proni-search { margin-bottom: 2rem; }
+.proni-search-input {
+  width: 100%; box-sizing: border-box; padding: 0.8rem 1rem;
+  font-size: 1.05rem; color: var(--color-text);
+  border: 1.5px solid var(--color-border); border-radius: var(--radius-md);
+  background: var(--color-surface); transition: border-color .12s, box-shadow .12s;
+}
+.proni-search-input:focus {
+  outline: none; border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 18%, transparent);
+}
+.proni-search-results { margin-top: 1rem; }
+.proni-search-count { font-size: 0.82rem; color: var(--color-text-muted); margin: 0 0 0.6rem; }
+.proni-fonds { margin-top: 1.5rem; }

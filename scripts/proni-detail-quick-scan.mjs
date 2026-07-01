@@ -51,6 +51,7 @@ function parseArgs(argv) {
     stopOnBlocked: true,
     adaptive: true,
     resume: false,
+    enrichMode: false,
     traversal: "branch",
     maxSubtreeRecords: 6000,
     maxSubtreeWalkErrors: 25,
@@ -101,6 +102,7 @@ function parseArgs(argv) {
       case "no-adaptive": out.adaptive = false; break;
       case "resume": out.resume = true; break;
       case "no-resume": out.resume = false; break;
+      case "enrich-mode": out.enrichMode = true; break;
       case "traversal": out.traversal = take(); break;
       case "max-subtree-records": out.maxSubtreeRecords = Number(take()); break;
       case "max-subtree-walk-errors": out.maxSubtreeWalkErrors = Number(take()); break;
@@ -702,6 +704,8 @@ function makeStats() {
   return {
     startedAt: nowIso(),
     startedMs: performance.now(),
+    enrichRefs: new Set(),
+    enrichPath: new Map(),
     groupsLoaded: 0,
     groupsCompleted: 0,
     recordsPlanned: 0,
@@ -977,6 +981,36 @@ async function recordWalkError(writers, stats, workerId, branchRef, phase, error
   });
 }
 
+// Container-title enrichment: many intermediate container nodes (Fond/Series/
+// Sub-series that have children) were never given their own detail record by the
+// leaf-oriented scan, so their titles/levels are missing. This scans the grid
+// rows of a listing page we're already on and clickMores any row whose ref is a
+// wanted (missing) container. Page-independent by design: we detail from whatever
+// page the row actually appears on, so no page numbers are needed in the input.
+async function enrichRowsOnPage(session, html, writers, options, stats, workerId, page, branchKey) {
+  if (!options.enrichMode) return;
+  for (const row of parseGridRows(html)) {
+    const cref = row.ResultsSelect?.value;
+    if (!cref || !stats.enrichRefs.has(cref) || stats.completedRefs.has(cref)) continue;
+    if (!row.ResultsView || row.ResultsView.disabled) continue;
+    try {
+      const detail = await clickMore(session, html, row, cref);
+      if (detail.matched) {
+        const anc = stats.enrichPath.get(cref) || [];
+        const top = anc[0] || cref;
+        const letter = (String(top).match(/[A-Za-z]/)?.[0] || String(top)[0] || "").toUpperCase();
+        await writeMatchedDetail({ branchKey, letter, path: anc, page, ctl: row.ctl, expectedRef: cref }, detail, writers, stats, workerId, "raw-http-container-enrich");
+      } else {
+        stats.mismatches += 1;
+        await writers.mismatches.write({ at: nowIso(), type: "enrich-mismatch", workerId, expectedRef: cref, extractedRef: detail.extractedRef });
+      }
+    } catch (error) {
+      stats.failures += 1;
+      await writers.failures.write({ at: nowIso(), type: "enrich-more-error", workerId, expectedRef: cref, error: String(error?.message || error) });
+    }
+  }
+}
+
 // Continue-on-error walk: a transient failure costs one branch/page/child, never
 // the whole subtree. Missed records stay absent from completedRefs, so a later
 // --resume pass picks them up. The per-unit error budget stops a unit churning
@@ -996,11 +1030,18 @@ async function walkSubtreeNode(session, listingHtml, branchRef, unit, writers, o
   let page = 1;
   while (true) {
     const recsThisPage = byPage.get(page) || [];
-    if (recsThisPage.length) {
+    if (recsThisPage.length && !options.enrichMode) {
       try {
         await processRowsFromListing(session, html, recsThisPage, writers, options, stats, workerId, "raw-http-dfs-traversal");
       } catch (error) {
         await recordWalkError(writers, stats, workerId, branchRef, "page-records", error, ctx);
+      }
+    }
+    if (options.enrichMode) {
+      try {
+        await enrichRowsOnPage(session, html, writers, options, stats, workerId, page, unit.rootBranchKey);
+      } catch (error) {
+        await recordWalkError(writers, stats, workerId, branchRef, "enrich-page", error, ctx);
       }
     }
     for (const row of parseGridRows(html)) {
@@ -1049,15 +1090,26 @@ async function processLetterRootUnit(unit, writers, options, stats, workerId) {
     if (!byPage.has(pg)) byPage.set(pg, []);
     byPage.get(pg).push(r);
   }
-  const maxPage = unit.records.reduce((m, r) => Math.max(m, Number(r.page || 1)), 1);
+  // Enrich mode must sweep the whole letter listing (fond rows can be on any
+  // page); normal mode only needs the pages its records name.
+  const maxPage = options.enrichMode
+    ? options.maxPagesPerBranch
+    : unit.records.reduce((m, r) => Math.max(m, Number(r.page || 1)), 1);
   let page = 1;
   while (page <= maxPage) {
     const recs = byPage.get(page) || [];
-    if (recs.length) {
+    if (recs.length && !options.enrichMode) {
       try {
         await processRowsFromListing(session, html, recs, writers, options, stats, workerId, "raw-http-letter-root");
       } catch (error) {
         await writers.failures.write({ at: nowIso(), type: "letter-root-error", workerId, letter: unit.letter, page, error: String(error?.message || error) });
+      }
+    }
+    if (options.enrichMode) {
+      try {
+        await enrichRowsOnPage(session, html, writers, options, stats, workerId, page, `${unit.letter}|`);
+      } catch (error) {
+        await writers.failures.write({ at: nowIso(), type: "enrich-letter-root-error", workerId, letter: unit.letter, page, error: String(error?.message || error) });
       }
     }
     if (page >= maxPage) break;
@@ -1338,9 +1390,20 @@ async function runScan(options) {
     const seeded = await seedCompletedRefsFromOutput(options.outDir, stats);
     console.error(`[resume] seeded ${seeded} already-completed record(s) from ${path.join(options.outDir, "records-details.jsonl")}`);
   }
-  const units = options.traversal === "dfs"
-    ? buildSubtreeUnits(await readIndexRecords(options.index, options), options)
-    : await readIndexWorkUnits(options.index, options);
+  let units;
+  if (options.traversal === "dfs") {
+    const dfsRecords = await readIndexRecords(options.index, options);
+    if (options.enrichMode) {
+      for (const r of dfsRecords) {
+        stats.enrichRefs.add(r.expectedRef);
+        stats.enrichPath.set(r.expectedRef, r.path || []);
+      }
+      console.error(`[enrich] container-title enrichment: ${stats.enrichRefs.size} target refs loaded`);
+    }
+    units = buildSubtreeUnits(dfsRecords, options);
+  } else {
+    units = await readIndexWorkUnits(options.index, options);
+  }
   stats.groupsLoaded = units.length;
   stats.recordsPlanned = units.reduce((sum, unit) => sum + unit.rowCount, 0);
   stats.desiredWorkers = Math.min(options.initialWorkers, options.maxWorkers, units.length || 1);
