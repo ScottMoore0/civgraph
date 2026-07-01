@@ -89170,9 +89170,156 @@
       "duplicateFeatureIdsUrl": "/test/metadata/duplicate-feature-ids/irish-hill-prominence-domains-vector-test.json",
       "duplicateFeatureIdCount": 0,
       "featureIdMode": "unique"
+    },
+    {
+      "id": "niah-buildings-vector-test",
+      "sourceMapId": "niah-buildings",
+      "name": "NIAH Buildings (Architectural Heritage)",
+      "category": "Built Environment",
+      "group": "Built Environment",
+      "provider": [
+        "National Inventory of Architectural Heritage (NIAH)"
+      ],
+      "date": null,
+      "dateAdded": null,
+      "dateEffective": null,
+      "description": "National Inventory of Architectural Heritage — recorded buildings/structures (48,327 points). NIAH, via the Peatlands Geoportal (QUB).",
+      "notes": "Generated from data/maps/built-environment/NIAH_Buildings.fgb with GDAL MVT output.",
+      "sourceType": "pmtiles",
+      "geometryType": "point",
+      "renderer": "maplibre",
+      "status": "converted",
+      "loadable": true,
+      "bounds": [
+        [
+          51.413382,
+          -10.5140327
+        ],
+        [
+          55.432392,
+          -6.0005797
+        ]
+      ],
+      "minzoom": 0,
+      "maxzoom": 12,
+      "sourceLayer": "niah_buildings",
+      "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/niah-buildings-vector-test.pmtiles",
+      "tiles": "/test/tiles/generated/niah-buildings/{z}/{x}/{y}.pbf",
+      "tilesFallback": "/test/tiles/generated/niah-buildings/{z}/{x}/{y}.pbf",
+      "tilePackage": {
+        "preferred": true,
+        "localPath": "test/pmtiles/generated/niah-buildings-vector-test.pmtiles",
+        "url": "/test/pmtiles/generated/niah-buildings-vector-test.pmtiles",
+        "bytes": 20950648,
+        "maxGithubBytes": 99614720,
+        "generatedAt": "2026-07-01T07:13:50.282Z",
+        "fallback": "/test/tiles/generated/niah-buildings/{z}/{x}/{y}.pbf",
+        "serving": "cdn",
+        "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/niah-buildings-vector-test.pmtiles",
+        "r2Key": "data/maps/test/pmtiles/generated/niah-buildings-vector-test.pmtiles",
+        "localUrl": "/test/pmtiles/generated/niah-buildings-vector-test.pmtiles",
+        "byteRangeVerifiedAt": "2026-07-01T07:13:50.282Z"
+      },
+      "metadataUrl": "/test/tiles/generated/niah-buildings/metadata.json",
+      "style": {
+        "color": "#6D4C41",
+        "fillColor": "#6D4C41",
+        "fillOpacity": 0.6,
+        "weight": 1
+      },
+      "labelProperty": "NAME",
+      "labelPropertyFallbacks": [
+        "COUNTY"
+      ],
+      "labelMinZoom": 0,
+      "labelMaxZoom": null,
+      "labelStyle": {
+        "color": "#6D4C41",
+        "hoverColor": "#ff7a1a",
+        "selectedColor": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.2,
+        "haloBlur": 0,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "maxWidth": 14,
+        "lineHeight": 1.25
+      },
+      "promoteId": "OBJECTID",
+      "idProperty": "OBJECTID",
+      "sourceFile": "data/maps/built-environment/NIAH_Buildings.fgb",
+      "sourceDatasetLayer": "OGRGeoJSON",
+      "featureIndexUrl": "/test/metadata/feature-indexes/niah-buildings-vector-test.json",
+      "numericProperties": [
+        "OBJECTID_1",
+        "OBJECTID",
+        "REG_NO",
+        "DATEFROM",
+        "DATETO",
+        "ITM_E",
+        "ITM_N",
+        "LATITUDE",
+        "LONGITUDE"
+      ],
+      "categoricalProperties": [
+        "ORIGINAL_TYPE",
+        "IN_USE_AS_TYPE",
+        "NAME",
+        "TOWNLAND",
+        "COUNTY",
+        "CONTAE",
+        "LOCAL_AUTHORITY_",
+        "DESCRIPTION",
+        "APPRAISAL",
+        "RATING",
+        "IMAGE_LINK",
+        "WEBSITE_LINK",
+        "SURVEY",
+        "CSI",
+        "TOWN",
+        "STREET1",
+        "STREET2",
+        "NUMBER",
+        "BAILE_FEARAINN"
+      ],
+      "popupProperties": [
+        "NAME",
+        "OBJECTID",
+        "OBJECTID_1",
+        "REG_NO",
+        "ORIGINAL_TYPE",
+        "IN_USE_AS_TYPE",
+        "NUMBER",
+        "STREET1",
+        "STREET2",
+        "TOWN"
+      ],
+      "generatedFrom": {
+        "pipeline": "build-test-vector-batch",
+        "sourceFile": "data/maps/built-environment/NIAH_Buildings.fgb",
+        "bytes": 585929213,
+        "files": 2906,
+        "pbfFiles": 2905,
+        "maxTileBytes": 10899652
+      },
+      "warning": "PMTiles archive exceeds Git hosting budget; directory MVT remains preferred.",
+      "keywords": [
+        "NIAH",
+        "architectural heritage",
+        "buildings",
+        "heritage",
+        "ireland",
+        "monuments",
+        "historic",
+        "NIAH Buildings (Architectural Heritage)",
+        "Built Environment",
+        "maplibre",
+        "vector tiles"
+      ],
+      "detailUrl": "/test/metadata/layer-details-test2/niah-buildings-vector-test.json"
     }
   ],
   "generatedFrom": "test/metadata/maps-test.json",
   "detailIndex": true,
-  "detailLayerCount": 739
+  "detailLayerCount": 740
 }
