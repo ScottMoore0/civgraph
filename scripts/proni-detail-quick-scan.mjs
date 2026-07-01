@@ -892,9 +892,15 @@ function buildSubtreeUnits(records, options) {
     }
     return nodes.get(key);
   };
+  const letterRoot = new Map();
   for (const r of records) {
     const p = r.path;
-    if (!p.length) continue;
+    if (!p.length) {
+      // Top-level (fond) record whose detail row sits on the letter listing itself.
+      if (!letterRoot.has(r.letter)) letterRoot.set(r.letter, []);
+      letterRoot.get(r.letter).push(r);
+      continue;
+    }
     for (let i = 1; i <= p.length; i += 1) {
       ensureNode(r.letter, p.slice(0, i));
       if (i > 1) nodes.get(keyOf(r.letter, p.slice(0, i - 1))).childKeys.add(keyOf(r.letter, p.slice(0, i)));
@@ -945,6 +951,9 @@ function buildSubtreeUnits(records, options) {
     for (const ck of n.childKeys) partition(ck);
   };
   for (const root of roots) partition(root.key);
+  for (const [letter, recs] of letterRoot) {
+    units.push({ type: "letter-root", letter, records: recs, refs: new Set(recs.map((r) => r.expectedRef)), rowCount: recs.length });
+  }
   units.sort((a, b) => b.rowCount - a.rowCount);
   return units;
 }
@@ -1023,7 +1032,39 @@ async function processSubtreeUnit(unit, writers, options, stats, workerId) {
   stats.groupsCompleted += 1;
 }
 
+// Top-level (fond) records with an empty path: their detail row is on the letter
+// listing, so fetch them there rather than descending a (nonexistent) subtree.
+async function processLetterRootUnit(unit, writers, options, stats, workerId) {
+  const session = new Session(workerId, options, writers, stats);
+  let html = await startBrowseLetter(session, unit.letter);
+  const byPage = new Map();
+  for (const r of unit.records) {
+    const pg = Number(r.page || 1);
+    if (!byPage.has(pg)) byPage.set(pg, []);
+    byPage.get(pg).push(r);
+  }
+  const maxPage = unit.records.reduce((m, r) => Math.max(m, Number(r.page || 1)), 1);
+  let page = 1;
+  while (page <= maxPage) {
+    const recs = byPage.get(page) || [];
+    if (recs.length) {
+      try {
+        await processRowsFromListing(session, html, recs, writers, options, stats, workerId, "raw-http-letter-root");
+      } catch (error) {
+        await writers.failures.write({ at: nowIso(), type: "letter-root-error", workerId, letter: unit.letter, page, error: String(error?.message || error) });
+      }
+    }
+    if (page >= maxPage) break;
+    const next = findNextButton(html);
+    if (!next) break;
+    html = await clickNext(session, html, next);
+    page += 1;
+  }
+  stats.groupsCompleted += 1;
+}
+
 async function processUnit(unit, writers, options, stats, workerId) {
+  if (unit.type === "letter-root") return processLetterRootUnit(unit, writers, options, stats, workerId);
   if (unit.type === "subtree") return processSubtreeUnit(unit, writers, options, stats, workerId);
   if (unit.type === "branch") return processBranchUnit(unit, writers, options, stats, workerId);
   return processPageUnit(unit, writers, options, stats, workerId);
