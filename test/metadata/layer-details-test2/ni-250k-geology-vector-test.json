@@ -1,0 +1,175 @@
+{
+  "id": "ni-250k-geology-vector-test",
+  "sourceMapId": "ni-250k-geology",
+  "name": "Northern Ireland Geology (1:250,000)",
+  "category": "Environment",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Geological Survey of Northern Ireland (GSNI)"
+  ],
+  "description": "Northern Ireland Geology (1:250,000) — Northern Ireland. Source: Geological Survey of Northern Ireland (GSNI) (via the Peatlands Geoportal, QUB).",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "line",
+  "tiles": "/test/tiles/generated/ni-250k-geology/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/ni-250k-geology/metadata.json",
+  "sourceLayer": "ni_250k_geology",
+  "promoteId": "FID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0260801,
+      -8.7887684
+    ],
+    [
+      55.3694129,
+      -5.4406661
+    ]
+  ],
+  "style": {
+    "color": "#558B2F",
+    "fillColor": "#558B2F",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Peatlands Geoportal (QUB) — Northern Ireland Geology (1:250,000)",
+      "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/",
+      "note": ""
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/ni-250k-geology.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Geological Survey of Northern Ireland (GSNI)"
+  ],
+  "keywords": [
+    "NI",
+    "ireland",
+    "geology",
+    "bedrock",
+    "GSNI",
+    "Northern Ireland Geology (1:250,000)",
+    "Environment",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "CATEGORY",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#558B2F",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/ni-250k-geology-vector-test.json",
+  "sourceFile": "https://data.civgraph.net/data/maps/environment/NI_250k_Geology.fgb",
+  "sourceDatasetLayer": "OGRGeoJSON",
+  "idProperty": "FID",
+  "popupProperties": [
+    "CATEGORY",
+    "FID",
+    "FEATURE",
+    "FEATURE_D",
+    "SHEET",
+    "VERSION",
+    "RELEASED",
+    "NOM_SCALE",
+    "NOM_OS_YR",
+    "NOM_BGS_YR"
+  ],
+  "numericProperties": [
+    "FID",
+    "MSLINK",
+    "Shape__Length"
+  ],
+  "categoricalProperties": [
+    "CATEGORY",
+    "FEATURE",
+    "FEATURE_D",
+    "SHEET",
+    "VERSION",
+    "RELEASED",
+    "NOM_SCALE",
+    "NOM_OS_YR",
+    "NOM_BGS_YR"
+  ],
+  "categoricalValues": {
+    "CATEGORY": [
+      "18"
+    ],
+    "FEATURE": [
+      "250k_Fault_printing_copy",
+      "250k_Tectonic_Slide",
+      "250k_Thrust_Fault_Barbs_on_hanging_wall_side"
+    ],
+    "FEATURE_D": [
+      "Fault at rockhead, inferred, (version for printing)",
+      "Tectonic_Slide",
+      "Thrust Fault; barbs on hanging wall side"
+    ],
+    "SHEET": [
+      "NI_250k_BedRock_ING_warped"
+    ],
+    "VERSION": [
+      "2.18"
+    ],
+    "RELEASED": [
+      "14-08-2013"
+    ],
+    "NOM_SCALE": [
+      "250000"
+    ],
+    "NOM_OS_YR": [
+      "1997"
+    ],
+    "NOM_BGS_YR": [
+      "1997"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/ni-250k-geology.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/ni-250k-geology.fgb",
+    "bytes": 1810746,
+    "files": 1055,
+    "pbfFiles": 1054,
+    "maxTileBytes": 95183
+  },
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/ni-250k-geology-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/ni-250k-geology-vector-test.pmtiles",
+    "bytes": 1060483,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-07-01T09:00:00.000Z",
+    "fallback": "/test/tiles/generated/ni-250k-geology/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ni-250k-geology-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/ni-250k-geology-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/ni-250k-geology-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-07-01T09:00:00.000Z"
+  },
+  "loadable": true,
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ni-250k-geology-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/ni-250k-geology/{z}/{x}/{y}.pbf"
+}

@@ -1,0 +1,147 @@
+{
+  "id": "ni-health-trust-boundaries-vector-test",
+  "sourceMapId": "ni-health-trust-boundaries",
+  "name": "Health & Social Care Trust Boundaries (NI)",
+  "category": "Local Government Districts",
+  "group": "Elections and Government",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Department of Health (NI)"
+  ],
+  "description": "Northern Ireland Health & Social Care Trust boundaries (5 trusts), published by the Department of Health.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/ni-health-trust-boundaries/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/ni-health-trust-boundaries/metadata.json",
+  "sourceLayer": "ni_health_trust_boundaries",
+  "promoteId": "TrustName",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0227248,
+      -8.1775026
+    ],
+    [
+      55.3129847,
+      -5.4327895
+    ]
+  ],
+  "style": {
+    "color": "#00695C",
+    "fillColor": "#00695C",
+    "fillOpacity": 0.35,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Open Data NI — Department of Health trust boundaries",
+      "url": "https://admin.opendatani.gov.uk/dataset/department-of-health-trust-boundaries",
+      "note": ""
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/ni-health-trust-boundaries.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Department of Health (NI)"
+  ],
+  "keywords": [
+    "northern ireland",
+    "NI",
+    "health",
+    "social care",
+    "HSC",
+    "trust",
+    "boundaries",
+    "department of health",
+    "Health & Social Care Trust Boundaries (NI)",
+    "Local Government Districts",
+    "Elections and Government",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "TrustName",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#00695C",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/ni-health-trust-boundaries-vector-test.json",
+  "sourceFile": "https://data.civgraph.net/data/maps/local-government/NI_Health_Trust_Boundaries.fgb",
+  "sourceDatasetLayer": "TrustBoundaries",
+  "idProperty": "TrustName",
+  "popupProperties": [
+    "TrustName",
+    "TrustCode",
+    "Shape_Leng",
+    "Shape_Area"
+  ],
+  "numericProperties": [
+    "Shape_Leng",
+    "Shape_Area"
+  ],
+  "categoricalProperties": [
+    "TrustName",
+    "TrustCode"
+  ],
+  "categoricalValues": {
+    "TrustName": [
+      "Belfast Health and Social Care Trust",
+      "Northern Health and Social Care Trust",
+      "South Eastern Health and Social Care Trust",
+      "Southern Health and Social Care Trust",
+      "Western Health and Social Care Trust"
+    ],
+    "TrustCode": [
+      "BHSCT",
+      "NHSCT",
+      "SEHSCT",
+      "SHSCT",
+      "WHSCT"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/ni-health-trust-boundaries.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/ni-health-trust-boundaries.fgb",
+    "bytes": 1171859,
+    "files": 757,
+    "pbfFiles": 756,
+    "maxTileBytes": 13106
+  },
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/ni-health-trust-boundaries-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/ni-health-trust-boundaries-vector-test.pmtiles",
+    "bytes": 634893,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-07-01T09:00:00.000Z",
+    "fallback": "/test/tiles/generated/ni-health-trust-boundaries/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ni-health-trust-boundaries-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/ni-health-trust-boundaries-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/ni-health-trust-boundaries-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-07-01T09:00:00.000Z"
+  },
+  "loadable": true,
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ni-health-trust-boundaries-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/ni-health-trust-boundaries/{z}/{x}/{y}.pbf"
+}

@@ -1,0 +1,142 @@
+{
+  "id": "irish-peat-soils-map-vector-test",
+  "sourceMapId": "irish-peat-soils-map",
+  "name": "Irish Peat Soils Map",
+  "category": "Biodiversity & Habitats",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Trinity College Dublin"
+  ],
+  "description": "Irish Peat Soils Map — Ireland. Source: Trinity College Dublin (via the Peatlands Geoportal, QUB).",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/irish-peat-soils-map/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/irish-peat-soils-map/metadata.json",
+  "sourceLayer": "irish_peat_soils_map",
+  "promoteId": "FID",
+  "minzoom": 0,
+  "maxzoom": 10,
+  "bounds": [
+    [
+      51.4226011,
+      -10.6642815
+    ],
+    [
+      55.3842039,
+      -5.9952916
+    ]
+  ],
+  "style": {
+    "color": "#2E7D32",
+    "fillColor": "#2E7D32",
+    "fillOpacity": 0.4,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Peatlands Geoportal (QUB) — Irish Peat Soils Map",
+      "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/",
+      "note": ""
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/irish-peat-soils-map.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Trinity College Dublin"
+  ],
+  "keywords": [
+    "ireland",
+    "peat",
+    "peatland",
+    "soils",
+    "bog",
+    "Irish Peat Soils Map",
+    "Biodiversity & Habitats",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "descrip",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#2E7D32",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/irish-peat-soils-map-vector-test.json",
+  "sourceFile": "https://data.civgraph.net/data/maps/biodiversity/Irish_Peat_Soils_Map.fgb",
+  "sourceDatasetLayer": "OGRGeoJSON",
+  "idProperty": "FID",
+  "popupProperties": [
+    "descrip",
+    "FID",
+    "gridcode",
+    "area",
+    "Shape__Area",
+    "Shape__Length"
+  ],
+  "numericProperties": [
+    "FID",
+    "gridcode",
+    "area",
+    "Shape__Area",
+    "Shape__Length"
+  ],
+  "categoricalProperties": [
+    "descrip"
+  ],
+  "categoricalValues": {
+    "descrip": [
+      "Fens",
+      "non-peat",
+      "Lowland Atlantic blanket bogs",
+      "Mountain blanket bogs",
+      "Other peat soils",
+      "Raised bogs"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/irish-peat-soils-map.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/irish-peat-soils-map.fgb",
+    "bytes": 10194732,
+    "files": 281,
+    "pbfFiles": 280,
+    "maxTileBytes": 916469
+  },
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/irish-peat-soils-map-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/irish-peat-soils-map-vector-test.pmtiles",
+    "bytes": 5672456,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-07-01T09:00:00.000Z",
+    "fallback": "/test/tiles/generated/irish-peat-soils-map/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/irish-peat-soils-map-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/irish-peat-soils-map-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/irish-peat-soils-map-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-07-01T09:00:00.000Z"
+  },
+  "loadable": true,
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/irish-peat-soils-map-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/irish-peat-soils-map/{z}/{x}/{y}.pbf"
+}
