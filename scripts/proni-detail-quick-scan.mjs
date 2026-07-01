@@ -272,7 +272,13 @@ function extractDetailFields(html) {
 
 function isBlocked(status, text) {
   if (status !== 200) return true;
-  return /Request Rejected|support ID|Access Denied|Too Many Requests|rate limit|throttl/i.test(String(text));
+  const t = String(text);
+  // A genuine ASP.NET catalogue page always carries __VIEWSTATE; a WAF/rate-limit
+  // block page does not. Guard on that so record content that merely mentions words
+  // like "throttle" or "rate limit" (e.g. a letter about "throttle caps") is not
+  // mistaken for a block and discarded.
+  if (/name="__VIEWSTATE"/i.test(t)) return false;
+  return /Request Rejected|support ID|Access Denied|Too Many Requests|rate limit|throttl/i.test(t);
 }
 
 function blockedReason(status, text) {
