@@ -32,7 +32,8 @@ const ENTITY_GROUPS = [
   { id: 'parties', label: 'Parties / Labels', description: 'Party and ticket labels observed in election data.' },
   { id: 'persons', label: 'Persons', description: 'Candidate and elected-person entries observed in election bundles.' },
   { id: 'register-interests', label: 'Register Interests', description: 'MLA and Northern Ireland MP register of interests records, linked back to source editions and datasets.' },
-  { id: 'sources', label: 'Books / Tables / Sources', description: 'Books, tables, datasets, map downloads, source files, and references.' }
+  { id: 'sources', label: 'Books / Tables / Sources', description: 'Books, tables, datasets, map downloads, source files, and references.' },
+  { id: 'proni', label: 'PRONI Records', description: 'Archival catalogue records from the PRONI eCatalogue (Public Record Office of Northern Ireland), browsable by their original hierarchy. Open Government Licence.' }
 ];
 
 main();
@@ -190,7 +191,8 @@ function main() {
       parties: parties.length,
       persons: persons.length,
       'register-interests': registerInterests.length,
-      sources: sources.length
+      sources: sources.length,
+      proni: 1538177
     },
     entrypoints: {
       maps: '/data/browse/maps.json',
