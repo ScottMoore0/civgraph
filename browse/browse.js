@@ -1,6 +1,6 @@
 const DATA_ROOT = '../data/browse';
 const GRAPH_ROOT = '../data/graph';
-const BROWSE_DATA_VERSION = '20260702-proni-2';
+const BROWSE_DATA_VERSION = '20260702-proni-3';
 const THUMBNAIL_ASSET_VERSION = '20260604-tight-admin-frame';
 const ENTITY_CONFIG = {
   maps: { label: 'Maps', singular: 'Map', index: 'maps.json', detailDir: 'maps', action: 'Open in interactive map' },
