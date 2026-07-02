@@ -23,6 +23,7 @@ CREATE TABLE proni (
   description TEXT, access TEXT, digital_record TEXT
 );
 CREATE UNIQUE INDEX proni_ref ON proni(ref);
+CREATE INDEX proni_parent ON proni(parent, ref);
 CREATE VIRTUAL TABLE proni_fts USING fts5(
   ref, title, dates,
   content='proni', content_rowid='rowid',

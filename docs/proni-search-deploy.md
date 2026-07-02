@@ -134,9 +134,14 @@ python scripts/build-proni-roots.py --sqlite proni.sqlite --out data/browse/pron
 
 ## Schema / query notes
 
-- Base table `proni` with `UNIQUE(ref)` + external-content FTS5 `proni_fts`
-  (over `ref`, `title`, `dates`), kept in sync by an `AFTER INSERT` trigger.
-  Display columns `description`, `access`, `digital_record` are UNINDEXED.
+- Base table `proni` with `UNIQUE(ref)`, a composite `(parent, ref)` index
+  (`proni_parent` — required: browse child queries are `WHERE parent = ? ORDER BY
+  ref`, and without it they full-scan 1.5M rows / ~6-7s per node), and an
+  external-content FTS5 `proni_fts` (over `ref`, `title`, `dates`) kept in sync by
+  an `AFTER INSERT` trigger. Display columns `description`, `access`,
+  `digital_record` are UNINDEXED.
+- On an existing DB that predates the index:
+  `CREATE INDEX proni_parent ON proni(parent, ref);` (one-time, ~seconds).
 - `buildMatch` (Function): free text is tokenised on non-alphanumerics, ANDed,
   last term prefixed for search-as-you-type; `BG/1` → terms `bg AND 1`.
 - Exact-reference fast path: whitespace-free queries are also looked up as a
