@@ -1,6 +1,6 @@
 const DATA_ROOT = '../data/browse';
 const GRAPH_ROOT = '../data/graph';
-const BROWSE_DATA_VERSION = '20260702-proni-d1';
+const BROWSE_DATA_VERSION = '20260702-proni-2';
 const THUMBNAIL_ASSET_VERSION = '20260604-tight-admin-frame';
 const ENTITY_CONFIG = {
   maps: { label: 'Maps', singular: 'Map', index: 'maps.json', detailDir: 'maps', action: 'Open in interactive map' },
@@ -567,7 +567,7 @@ function portalSections() {
       id: 'proni',
       title: 'PRONI Records',
       href: '#/proni',
-      count: counts.proni,
+      count: counts.proni || 1538177,
       summary: 'Archival catalogue records from the PRONI eCatalogue (Public Record Office of Northern Ireland), browsable by their original hierarchy. Open Government Licence.',
       columns: [
         { heading: 'Browse the hierarchy', links: [['All fonds', '#/proni'], ['Boards of Guardians (BG)', '#/proni/BG']] }
