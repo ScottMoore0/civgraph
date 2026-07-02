@@ -16,7 +16,7 @@
  */
 import { buildMatch, buildFilters } from './_query.js';
 
-const CACHE_VERSION = 'v4';
+const CACHE_VERSION = 'v5';
 const MAX_LIMIT = 60;
 const DEFAULT_LIMIT = 25;
 const DESC_PREVIEW = 160; // trimmed list preview — full text is fetched on the record page
@@ -74,11 +74,17 @@ export async function onRequestGet(context) {
   }
 
   const resp = await handle(context);
+  let kvWrote = 'skip';
   if (resp.status === 200) {
     context.waitUntil(cache.put(cacheKey, resp.clone()));
-    if (kv) context.waitUntil(resp.clone().text().then((b) => kv.put(kvKey, b, { expirationTtl: 86400 })));
+    if (kv) {
+      try { const b = await resp.clone().text(); await kv.put(kvKey, b, { expirationTtl: 86400 }); kvWrote = 'ok'; }
+      catch (e) { kvWrote = 'ERR:' + String(e && e.message || e); }
+    }
   }
-  return resp;
+  const out = new Response(resp.body, resp);
+  out.headers.set('x-kv-wrote', kvWrote);
+  return out;
 }
 
 async function handle(context) {
