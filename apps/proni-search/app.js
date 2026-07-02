@@ -63,16 +63,19 @@ function card(r, depth = 0) {
     ? `<button type="button" class="ps-expand" data-expand="${esc(r.ref)}" aria-expanded="false"><span class="ps-expand__icon">▸</span> <span class="ps-expand__label">Expand</span></button>`
     : '';
   const meta = metaHtml(r);
+  // The sticky region holds the title, top-right reference block, and the
+  // record's details (level/dates/…) so all of it stays pinned while the
+  // record's children scroll beneath an expanded card.
   return `<li class="ps-card" data-ref="${esc(r.ref)}" data-depth="${depth}" style="--depth:${depth}">
-    <div class="ps-card__bar">
-      <a class="ps-card__title" href="${path}" data-go="${path}">${esc(r.title || r.ref)}</a>
-      ${expand}
-    </div>
-    <div class="ps-card__body">
+    <div class="ps-card__sticky">
+      <div class="ps-card__head">
+        <a class="ps-card__title" href="${path}" data-go="${path}">${esc(r.title || r.ref)}</a>
+        ${refWidget(r.ref, true)}
+      </div>
       ${meta ? `<div class="ps-card__meta">${meta}</div>` : ''}
-      ${refWidget(r.ref, true)}
-      ${descHtml}
+      ${expand ? `<div class="ps-card__actions">${expand}</div>` : ''}
     </div>
+    <div class="ps-card__body">${descHtml}</div>
     <ul class="ps-children" hidden></ul>
   </li>`;
 }
@@ -205,10 +208,15 @@ function pager(nav) {
   </div>`;
 }
 
-function breadcrumbs(ancestors, it) {
-  const crumbs = [`<a href="/proni" data-go="/proni">Home</a>`]
-    .concat((ancestors || []).map((a) => `<a href="${refToPath(a.ref)}" data-go="${refToPath(a.ref)}">${esc(a.ref)}</a>`));
-  return `<nav class="ps-crumbs" aria-label="Breadcrumb">${crumbs.join('<span aria-hidden="true">›</span>')}<span aria-hidden="true">›</span><b>${esc(it.ref)}</b></nav>`;
+// The levels between this record and the top of the archive, shown vertically
+// with each level's title (not just its reference) and linking to that level.
+function levelsNav(ancestors, it) {
+  const rows = (ancestors || []).map((a) =>
+    `<a class="ps-levels__item" href="${refToPath(a.ref)}" data-go="${refToPath(a.ref)}"><span class="ps-ref">${esc(a.ref)}</span> <span class="ps-levels__t">${esc(a.title || '')}</span></a>`).join('');
+  return `<nav class="ps-levels" aria-label="Levels above this record">
+    ${rows}
+    <span class="ps-levels__current"><span class="ps-ref">${esc(it.ref)}</span> <span class="ps-levels__t">${esc(it.title || '')}</span></span>
+  </nav>`;
 }
 
 async function renderRecord(ref) {
@@ -260,7 +268,7 @@ async function renderRecord(ref) {
   els.viewRecord.innerHTML = `
     <div class="ps-rec__toolbar">
       <a class="ps-back" href="/proni" data-go="/proni">← Back to search</a>
-      ${breadcrumbs(data.ancestors, it)}
+      ${levelsNav(data.ancestors, it)}
     </div>
     <article class="ps-rec">
       <h2 class="ps-rec__title">${esc(it.title || it.ref)}</h2>
@@ -296,7 +304,14 @@ function renderEcat(ref) {
         </li>
         <li>
           <p class="ps-guide__lead">Paste it into the “Input a PRONI reference” field on the next page:</p>
-          <img class="ps-guide__shot" src="/apps/proni-search/proni-ecatalogue-browse.png" alt="The official PRONI eCatalogue browse page, showing the 'Input a PRONI reference' field and a Search button">
+          <figure class="ps-shotframe">
+            <div class="ps-shotframe__bar" aria-hidden="true">
+              <span class="ps-shotframe__dots"><i></i><i></i><i></i></span>
+              <span class="ps-shotframe__url">apps.proni.gov.uk/eCatNI_IE/BrowseSearchPage.aspx</span>
+            </div>
+            <img class="ps-guide__shot" src="/apps/proni-search/proni-ecatalogue-browse.png" alt="The official PRONI eCatalogue browse page, showing the 'Input a PRONI reference' field and a Search button">
+            <figcaption class="ps-shotframe__cap">📷 Example screenshot of the official PRONI eCatalogue — not part of this page</figcaption>
+          </figure>
         </li>
         <li>
           <p class="ps-guide__lead">Press ‘Search’.</p>
