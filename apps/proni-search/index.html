@@ -3,33 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Civgraph PRONI Search</title>
-  <meta name="description" content="Search the PRONI eCatalogue — 1.5 million archival catalogue records from the Public Record Office of Northern Ireland. An app made by Civgraph.">
+  <title>Independent PRONI Search</title>
+  <meta name="description" content="Independent PRONI Search — an app made by Civgraph. Search all 1,538,177 records from the PRONI eCatalogue with a modern interface and powerful search.">
   <link rel="icon" type="image/svg+xml" href="../../assets/images/favicon.svg">
-  <link rel="stylesheet" href="app.css?v=2">
+  <link rel="stylesheet" href="app.css?v=3">
 </head>
 <body>
   <header class="ps-header">
     <div class="ps-header__title">
-      <span class="ps-header__crest" aria-hidden="true">▤</span>
-      <div>
-        <h1>Civgraph PRONI Search</h1>
-        <p>Public Record Office of Northern Ireland — eCatalogue</p>
-      </div>
+      <h1>Independent PRONI Search</h1>
+      <p>An app made by Civgraph</p>
     </div>
-    <a class="ps-provided" href="https://civgraph.net" target="_blank" rel="noopener">
+    <a class="ps-provided" href="https://civgraph.net" target="_blank" rel="noopener" aria-label="Provided by Civgraph, using PRONI data">
       <span class="ps-provided__by">provided by</span>
-      <span class="ps-provided__brand">Civgraph</span>
+      <img class="ps-provided__logo" src="civgraph-navy.svg" alt="Civgraph" width="150" height="35">
       <span class="ps-provided__note">using PRONI data</span>
     </a>
   </header>
+
+  <div class="ps-divider" role="separator"></div>
 
   <main class="ps-main">
     <section class="ps-search" aria-label="Search">
       <div class="ps-search__bar">
         <span class="ps-search__icon" aria-hidden="true">⚲</span>
         <input type="search" id="q" class="ps-search__input" autocomplete="off" autofocus
-               placeholder="Search titles, descriptions, references…  (try  title:workhouse  -belfast  &quot;poor law&quot;  ref:D1071)">
+               placeholder="Search titles, descriptions, references…">
         <button type="button" id="clearBtn" class="ps-search__clear" title="Clear" hidden>×</button>
       </div>
 
@@ -50,7 +49,9 @@
             <option value="date">Date</option>
             <option value="level">Level</option>
           </select>
-          <button type="button" id="dirBtn" class="ps-btn ps-btn--icon" data-dir="desc" title="Sort direction">↓</button>
+          <button type="button" id="dirBtn" class="ps-sortdir" data-dir="desc" title="Sort descending — click for ascending" aria-label="Sort direction: descending">
+            <span class="ps-sortdir__label">Z–A</span><span class="ps-sortdir__arrow" aria-hidden="true">▼</span>
+          </button>
         </div>
       </div>
 
@@ -72,16 +73,18 @@
 
   <footer class="ps-footer">
     <p>
-      Catalogue data © Crown copyright, from the
-      <a href="https://apps.proni.gov.uk/eCatNI_IE/SearchPage.aspx" target="_blank" rel="noopener">PRONI eCatalogue</a>,
-      reproduced under the <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" target="_blank" rel="noopener">Open Government Licence v3.0</a>.
-      Public Record Office of Northern Ireland:
-      <a href="https://www.nidirect.gov.uk/proni" target="_blank" rel="noopener">proni</a>.
+      Independent PRONI Search is an app created independently by Civgraph, which contains all 1,538,177 records
+      which exist on the official PRONI eCatalogue, while providing an easier user interface, powerful search
+      features, exportable spreadsheets of record data, and easily-shareable records. Civgraph, and this app which
+      it runs, are independent of, unassociated with, and not endorsed by the Public Record Office of Northern
+      Ireland. This app is not an official PRONI service. You can find the official PRONI website
+      <a href="https://www.nidirect.gov.uk/proni" target="_blank" rel="noopener">here</a>, and the official PRONI
+      eCatalogue <a href="https://apps.proni.gov.uk/eCatNI_IE/SearchPage.aspx" target="_blank" rel="noopener">here</a>.
+      PRONI data is Crown copyright and used under the
+      <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" target="_blank" rel="noopener">Open Government Licence</a>.
     </p>
-    <p class="ps-footer__maker">An app made by <a href="https://civgraph.net" target="_blank" rel="noopener">Civgraph</a>.</p>
   </footer>
 
-  <!-- record detail modal -->
   <div class="ps-modal" id="modal" hidden>
     <div class="ps-modal__backdrop" data-close></div>
     <div class="ps-modal__panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
@@ -90,6 +93,6 @@
     </div>
   </div>
 
-  <script type="module" src="app.js?v=2"></script>
+  <script type="module" src="app.js?v=3"></script>
 </body>
 </html>

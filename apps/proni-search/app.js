@@ -144,9 +144,12 @@ const debounced = () => { clearTimeout(timer); timer = setTimeout(() => search(t
 [els.from, els.to, els.sort].forEach((el) => el.addEventListener('change', () => search(true)));
 
 els.dir.addEventListener('click', () => {
-  const asc = els.dir.dataset.dir === 'asc';
-  els.dir.dataset.dir = asc ? 'desc' : 'asc';
-  els.dir.textContent = asc ? '↓' : '↑';
+  const next = els.dir.dataset.dir === 'asc' ? 'desc' : 'asc';
+  els.dir.dataset.dir = next;
+  els.dir.querySelector('.ps-sortdir__label').textContent = next === 'asc' ? 'A–Z' : 'Z–A';
+  els.dir.querySelector('.ps-sortdir__arrow').textContent = next === 'asc' ? '▲' : '▼';
+  els.dir.title = next === 'asc' ? 'Sort ascending — click for descending' : 'Sort descending — click for ascending';
+  els.dir.setAttribute('aria-label', `Sort direction: ${next === 'asc' ? 'ascending' : 'descending'}`);
   search(true);
 });
 els.adv.addEventListener('click', () => {
