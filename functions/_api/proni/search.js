@@ -16,7 +16,7 @@
  */
 import { buildMatch, buildFilters } from './_query.js';
 
-const CACHE_VERSION = 'v3';
+const CACHE_VERSION = 'v4';
 const MAX_LIMIT = 60;
 const DEFAULT_LIMIT = 25;
 const DESC_PREVIEW = 160; // trimmed list preview — full text is fetched on the record page
@@ -141,7 +141,7 @@ async function handle(context) {
     const { results } = await rdb.prepare(sql).bind(...bindArr).all();
     for (const r of results || []) { if (!seen.has(r.ref)) out.push(mapRow(r, false)); }
 
-    return json({ query: q, match, sort, dir, letter, from: from || null, to: to || null, offset, limit, count: out.length, results: out.slice(0, limit + 1) });
+    return json({ query: q, match, sort, dir, letter, from: from || null, to: to || null, offset, limit, count: out.length, kvBound: !!context.env.PRONI_KV, results: out.slice(0, limit + 1) });
   } catch (error) {
     return json({ query: q, results: [], error: String(error && error.message || error) }, 500);
   }
