@@ -17,7 +17,8 @@ def slugify(ref): return ref.replace('/', '~')
 DDL = """CREATE TABLE proni (
   ref TEXT NOT NULL,
   title TEXT, dates TEXT, slug TEXT, level TEXT,
-  parent TEXT, parent_slug TEXT, has_children INTEGER, fond TEXT
+  parent TEXT, parent_slug TEXT, has_children INTEGER, fond TEXT,
+  description TEXT, access TEXT, digital_record TEXT
 );
 CREATE UNIQUE INDEX proni_ref ON proni(ref);
 CREATE VIRTUAL TABLE proni_fts USING fts5(
@@ -28,7 +29,8 @@ CREATE VIRTUAL TABLE proni_fts USING fts5(
 
 FTS_REBUILD = "INSERT INTO proni_fts(proni_fts) VALUES('rebuild');"
 
-COLS = ['ref', 'title', 'dates', 'slug', 'level', 'parent', 'parent_slug', 'has_children', 'fond']
+COLS = ['ref', 'title', 'dates', 'slug', 'level', 'parent', 'parent_slug', 'has_children', 'fond',
+        'description', 'access', 'digital_record']
 
 def stream(src):
     with open(src, encoding='utf-8') as f:
@@ -57,6 +59,9 @@ def row_for(d, containers):
         'parent_slug': slugify(parent) if parent else '',
         'has_children': 1 if ref in containers else 0,
         'fond': fond,
+        'description': d.get('description') or '',
+        'access': d.get('access') or '',
+        'digital_record': d.get('digitalRecord') or '',
     }
 
 def sql_lit(v):

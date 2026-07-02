@@ -799,22 +799,14 @@ const PRONI_ECAT_URL = 'https://apps.proni.gov.uk/eCatNI_IE/Default.aspx';
 function proniRefToSlug(ref) { return String(ref).replace(/\//g, '~'); }
 function proniSlugToRef(slug) { return String(slug).replace(/~/g, '/'); }
 
-async function loadProniShard(slug) {
-  return loadJson(`${DATA_ROOT}/details/proni/${encodeURIComponent(slug)}.json`).catch(() => null);
-}
-
+// Browse data is served from D1 via the node API (not static shards), so it
+// scales to the full ~1.5M-record tree without shipping shard files.
 async function loadProniNode(slug) {
   const ref = proniSlugToRef(slug);
-  const own = await loadProniShard(slug);
-  if (own && own.item) return { kind: 'container', item: own.item };
-  // Leaf: fetch parent container shard and locate this record among its children.
-  const parentRef = ref.split('/').slice(0, -1).join('/');
-  if (!parentRef) return null;
-  const parentShard = await loadProniShard(proniRefToSlug(parentRef));
-  if (!parentShard || !parentShard.item) return null;
-  const child = (parentShard.item.children || []).find((c) => c.ref === ref);
-  if (!child) return null;
-  return { kind: 'leaf', item: child, parent: parentShard.item };
+  const data = await loadJson(`/_api/proni/node?ref=${encodeURIComponent(ref)}`).catch(() => null);
+  if (!data || !data.item) return null;
+  const item = { ...data.item, path: data.ancestors || [], children: data.children || [] };
+  return { item };
 }
 
 async function renderProniRoute(id) {
@@ -823,8 +815,8 @@ async function renderProniRoute(id) {
   if (!id) {
     setHero(config, null);
     els.results.innerHTML = '<div class="browse-loading">Loading PRONI records...</div>';
-    const data = await loadIndex('proni');
-    renderProniLanding(config, data.items || []);
+    const data = await loadJson('/_api/proni/node').catch(() => null);
+    renderProniLanding(config, (data && data.roots) || []);
     return;
   }
   els.results.innerHTML = '<div class="browse-loading">Loading record...</div>';
@@ -848,19 +840,20 @@ function renderProniLanding(config, items) {
       <div id="proni-search-results" class="proni-search-results"></div>
     </section>
     <section class="proni-fonds">
-      <h2 class="proni-section-title">Browse by collection</h2>
+      <h2 class="proni-section-title">Browse by collection${items.length ? ` (${formatNumber(items.length)})` : ''}</h2>
       <ul class="proni-child-list">
-        ${items.map((it) => `
+        ${items.slice(0, 800).map((it) => `
           <li class="proni-child proni-child--container">
             <a href="#/proni/${encodeURIComponent(it.slug)}" data-browse-link>
               <span class="proni-child-icon" aria-hidden="true">&#128193;</span>
               <span class="proni-child-main">
-                <span class="proni-child-title">${escapeHtml(it.title || it.id)}</span>
-                <span class="proni-child-meta">${escapeHtml(it.id)}${it.childCount ? `<span class="proni-child-level">${formatNumber(it.childCount)} records</span>` : ''}</span>
+                <span class="proni-child-title">${escapeHtml(it.title || it.ref)}</span>
+                <span class="proni-child-meta">${escapeHtml(it.ref)}${it.level ? `<span class="proni-child-level">${escapeHtml(it.level)}</span>` : ''}</span>
               </span>
             </a>
           </li>`).join('')}
       </ul>
+      ${items.length > 800 ? `<p class="browse-description">Showing the first 800 of ${formatNumber(items.length)} collections. Use the search box above to find any record.</p>` : ''}
     </section>`;
   const input = document.getElementById('proni-search-input');
   if (input) {
@@ -919,15 +912,8 @@ function renderProniSearchResults(box, data) {
 }
 
 function proniBreadcrumb(node) {
-  // Build ancestor chain of {slug,title}. Container: item.path holds ancestors.
-  // Leaf: parent.path + the parent itself are the ancestors.
-  let ancestors = [];
-  if (node.kind === 'container') {
-    ancestors = (node.item.path || []).map((a) => ({ slug: a.slug, title: a.title || a.ref }));
-  } else {
-    ancestors = (node.parent.path || []).map((a) => ({ slug: a.slug, title: a.title || a.ref }));
-    ancestors.push({ slug: node.parent.slug, title: node.parent.title || node.parent.ref });
-  }
+  // The node API returns the full ancestor chain for any node.
+  const ancestors = (node.item.path || []).map((a) => ({ slug: a.slug, title: a.title || a.ref }));
   const crumbs = ['<a href="#/proni" data-browse-link>PRONI Records</a>'];
   ancestors.forEach((a) => {
     crumbs.push(`<a href="#/proni/${encodeURIComponent(a.slug)}" data-browse-link>${escapeHtml(a.title)}</a>`);
@@ -968,7 +954,7 @@ function proniChildRow(c) {
 
 function renderProniDetailPage(node) {
   const it = node.item;
-  const children = node.kind === 'container' ? (it.children || []) : [];
+  const children = it.children || [];
   const childList = children.length
     ? `<section class="proni-children">
          <h2 class="proni-section-title">Contains ${formatNumber(children.length)} ${children.length === 1 ? 'record' : 'records'}</h2>

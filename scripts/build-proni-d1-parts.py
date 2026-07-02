@@ -12,13 +12,15 @@ numbered insert parts, each INSERT OR IGNORE (retry-safe).
 """
 import sqlite3, os, argparse
 
-COLS = ['ref', 'title', 'dates', 'slug', 'level', 'parent', 'parent_slug', 'has_children', 'fond']
+COLS = ['ref', 'title', 'dates', 'slug', 'level', 'parent', 'parent_slug', 'has_children', 'fond',
+        'description', 'access', 'digital_record']
 
 SCHEMA = """PRAGMA defer_foreign_keys=true;
 CREATE TABLE proni (
   ref TEXT NOT NULL,
   title TEXT, dates TEXT, slug TEXT, level TEXT,
-  parent TEXT, parent_slug TEXT, has_children INTEGER, fond TEXT
+  parent TEXT, parent_slug TEXT, has_children INTEGER, fond TEXT,
+  description TEXT, access TEXT, digital_record TEXT
 );
 CREATE UNIQUE INDEX proni_ref ON proni(ref);
 CREATE VIRTUAL TABLE proni_fts USING fts5(
@@ -44,19 +46,39 @@ def main():
     ap.add_argument('--outdir', required=True)
     ap.add_argument('--rows-per-statement', type=int, default=100)
     ap.add_argument('--rows-per-part', type=int, default=60000)
+    ap.add_argument('--max-stmt-bytes', type=int, default=90000,
+                    help='flush a statement before a row would push it past this many bytes '
+                         '(D1 caps a single statement at ~100 KB)')
+    ap.add_argument('--max-value-chars', type=int, default=85000,
+                    help='truncate any string value to this length; only ~113 finding-aid '
+                         'descriptions exceed this (max 527 KB) and cannot fit a lone statement')
+    ap.add_argument('--upsert', action='store_true',
+                    help='emit INSERT..ON CONFLICT DO UPDATE (updates description/access/'
+                         'digital_record on existing rows); skips the schema file')
     args = ap.parse_args()
     os.makedirs(args.outdir, exist_ok=True)
 
-    with open(os.path.join(args.outdir, '000-schema.sql'), 'w', encoding='utf-8') as o:
-        o.write(SCHEMA)
+    if not args.upsert:
+        with open(os.path.join(args.outdir, '000-schema.sql'), 'w', encoding='utf-8') as o:
+            o.write(SCHEMA)
 
+    # In upsert mode every row already exists, so carry only ref + the columns we
+    # actually update — far smaller statements than repeating all 12 columns.
+    use_cols = ['ref', 'description', 'access', 'digital_record'] if args.upsert else COLS
     db = sqlite3.connect(args.sqlite)
-    cur = db.execute(f"SELECT {','.join(COLS)} FROM proni")
-    head = f"INSERT OR IGNORE INTO proni({','.join(COLS)}) VALUES\n"
+    cur = db.execute(f"SELECT {','.join(use_cols)} FROM proni")
+    if args.upsert:
+        head = f"INSERT INTO proni({','.join(use_cols)}) VALUES\n"
+        tail = (" ON CONFLICT(ref) DO UPDATE SET description=excluded.description,"
+                " access=excluded.access, digital_record=excluded.digital_record;\n")
+    else:
+        head = f"INSERT OR IGNORE INTO proni({','.join(COLS)}) VALUES\n"
+        tail = ";\n"
 
     part = 0
     rows_in_part = 0
     stmt_rows = []
+    stmt_bytes = 0
     out = None
 
     def open_part():
@@ -66,19 +88,27 @@ def main():
         rows_in_part = 0
 
     def flush_stmt():
-        nonlocal stmt_rows
+        nonlocal stmt_rows, stmt_bytes
         if stmt_rows:
-            out.write(head + ',\n'.join(stmt_rows) + ';\n')
+            out.write(head + ',\n'.join(stmt_rows) + tail)
             stmt_rows = []
+            stmt_bytes = 0
 
     open_part()
     total = 0
+    maxv = args.max_value_chars
     for row in cur:
-        stmt_rows.append('(' + ','.join(lit(v) for v in row) + ')')
+        row = [(v[:maxv] + '…' if isinstance(v, str) and len(v) > maxv else v) for v in row]
+        val = '(' + ','.join(lit(v) for v in row) + ')'
+        # Flush BEFORE appending so a statement never exceeds the byte cap (a lone
+        # oversized row still becomes its own statement, bounded by max-value-chars).
+        if stmt_rows and (len(stmt_rows) >= args.rows_per_statement
+                          or stmt_bytes + len(val) + 2 > args.max_stmt_bytes):
+            flush_stmt()
+        stmt_rows.append(val)
+        stmt_bytes += len(val) + 2
         rows_in_part += 1
         total += 1
-        if len(stmt_rows) >= args.rows_per_statement:
-            flush_stmt()
         if rows_in_part >= args.rows_per_part:
             flush_stmt(); out.close(); open_part()
     flush_stmt()

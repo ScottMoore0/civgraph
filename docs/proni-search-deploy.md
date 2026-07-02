@@ -83,10 +83,41 @@ for f in $(ls D:/PRONI/eCatalogue/d1-parts/0[0-9][0-9].sql | sort); do
 npx wrangler pages dev . --d1 PRONI_DB=proni-catalogue
 ```
 
+## Browse hierarchy + descriptions
+
+The browse UI (`/browse/#/proni`) is also served from D1, via
+`functions/_api/proni/node.js` — `GET /_api/proni/node` returns the top-level
+fonds (landing) and `?ref=<ref>` returns a node's metadata, children
+(`WHERE parent = ref`), and breadcrumb ancestors. No static shard files are
+shipped, so it scales to the whole tree.
+
+This needs the display columns `description`, `access`, `digital_record` in the
+base table. `scripts/build-proni-d1.py` includes them in a fresh build. To add
+them to an existing (search-only) DB without downtime:
+
+```bash
+# 1. add the columns (instant, non-destructive; search stays up)
+npx wrangler d1 execute proni-catalogue --remote --command \
+  "ALTER TABLE proni ADD COLUMN description TEXT; ALTER TABLE proni ADD COLUMN access TEXT; ALTER TABLE proni ADD COLUMN digital_record TEXT;"
+
+# 2. upsert the values (updates existing rows; ~85 KB cap keeps statements < 100 KB)
+python scripts/build-proni-d1-parts.py --sqlite proni.sqlite --outdir d1-upsert --upsert
+for f in $(ls d1-upsert/*.sql | sort); do npx wrangler d1 execute proni-catalogue --remote --yes --file="$f"; done
+
+# 3. restore the ~128 descriptions over 85 KB in full via chunked concatenation
+python scripts/build-proni-d1-bigdesc.py --sqlite proni.sqlite --out d1-bigdesc.sql
+npx wrangler d1 execute proni-catalogue --remote --yes --file=d1-bigdesc.sql
+```
+
+D1 stores values up to 2 MB; the 100 KB limit is per SQL *statement*, which is
+why oversized descriptions (max 527 KB) are loaded in `description || '<chunk>'`
+pieces rather than one statement.
+
 ## Schema / query notes
 
 - Base table `proni` with `UNIQUE(ref)` + external-content FTS5 `proni_fts`
   (over `ref`, `title`, `dates`), kept in sync by an `AFTER INSERT` trigger.
+  Display columns `description`, `access`, `digital_record` are UNINDEXED.
 - `buildMatch` (Function): free text is tokenised on non-alphanumerics, ANDed,
   last term prefixed for search-as-you-type; `BG/1` → terms `bg AND 1`.
 - Exact-reference fast path: whitespace-free queries are also looked up as a
