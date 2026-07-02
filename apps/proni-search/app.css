@@ -58,6 +58,14 @@ a { color: var(--accent-dark); }
 .ps-btn { font: inherit; font-size: 0.85rem; font-weight: 700; cursor: pointer; border-radius: 6px; border: 1px solid var(--line); background: #fff; color: var(--ink); padding: 0.45rem 0.8rem; }
 .ps-btn:hover { border-color: var(--accent); color: var(--accent-dark); }
 .ps-btn--ghost { border-color: var(--accent); color: var(--accent-dark); }
+.ps-btn:disabled, .ps-btn[disabled] { opacity: 0.5; cursor: default; }
+
+/* export row */
+.ps-export { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 0.75rem; margin: 0.9rem 0 0; padding-top: 0.85rem; border-top: 1px solid var(--line); }
+a.ps-btn--export { text-decoration: none; display: inline-flex; align-items: center; }
+.ps-btn--export { color: var(--brand); border-color: var(--accent); }
+.ps-btn--export:not([disabled]):hover { background: #f2f8ff; }
+.ps-export__note { flex: 1 1 14rem; min-width: 12rem; font-size: 0.75rem; color: var(--muted); line-height: 1.4; }
 
 .ps-dates { display: flex; align-items: center; gap: 0.6rem; }
 .ps-date { display: flex; align-items: center; gap: 0.35rem; font-size: 0.82rem; color: var(--muted); }

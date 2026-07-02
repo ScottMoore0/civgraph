@@ -14,56 +14,12 @@
  * FTS index covers ref,title,dates,description. Base table has parsed
  * start_year/end_year for date filtering.
  */
-const CACHE_VERSION = 'v2';
+import { buildMatch, buildFilters } from './_query.js';
+
+const CACHE_VERSION = 'v3';
 const MAX_LIMIT = 60;
 const DEFAULT_LIMIT = 25;
-const DESC_PREVIEW = 600;
-
-const FIELD_COL = { title: 'title', ref: 'ref', date: 'dates', dates: 'dates', description: 'description', desc: 'description', text: '{title description}' };
-
-const cleanTerm = (t) => String(t).replace(/["]/g, '').trim();
-const ftsPhrase = (t, col, prefix) => {
-  const q = `"${cleanTerm(t)}"${prefix ? '*' : ''}`;
-  return col ? `${col}:${q}` : q;
-};
-
-// Tokenize free text honoring "quotes", field:value, +require, -exclude.
-function parseQuery(q) {
-  const positives = [];
-  const negatives = [];
-  const re = /(-)?([a-zA-Z]+):"([^"]+)"|(-)?([a-zA-Z]+):(\S+)|(-)?"([^"]+)"|(-)?(\+)?(\S+)/g;
-  let m;
-  while ((m = re.exec(q)) !== null) {
-    let neg = false, col = null, val = null;
-    if (m[2]) { neg = !!m[1]; col = FIELD_COL[m[2].toLowerCase()]; val = m[3]; }
-    else if (m[5]) { neg = !!m[4]; col = FIELD_COL[m[5].toLowerCase()]; val = m[6]; }
-    else if (m[8]) { neg = !!m[7]; val = m[8]; }             // "phrase"
-    else if (m[11]) { neg = !!m[9]; val = m[11]; }           // bare / +term
-    if (!val) continue;
-    // an unknown field: prefix (e.g. foo:) falls back to a plain term
-    if (m[2] && col === undefined) { col = null; val = m[3]; }
-    if (m[5] && col === undefined) { col = null; val = m[6]; }
-    (neg ? negatives : positives).push({ col, val, isField: !!(m[2] || m[5]) });
-  }
-  return { positives, negatives };
-}
-
-function buildMatch(q, fields) {
-  const { positives, negatives } = parseQuery(q || '');
-  // per-field advanced boxes -> field-scoped positives
-  for (const [key, col] of [['title', 'title'], ['description', 'description'], ['ref', 'ref'], ['text', '{title description}'], ['dates', 'dates']]) {
-    const v = (fields[key] || '').trim();
-    if (v) positives.push({ col, val: v, isField: true });
-  }
-  if (!positives.length && !negatives.length) return null;
-  const parts = [];
-  positives.forEach((p, i) => {
-    const last = i === positives.length - 1 && !p.isField && cleanTerm(p.val).length >= 2;
-    parts.push(ftsPhrase(p.val, p.col, last));
-  });
-  for (const n of negatives) parts.push(`NOT ${ftsPhrase(n.val, n.col, false)}`);
-  return parts.join(' ').trim() || null;
-}
+const DESC_PREVIEW = 160; // trimmed list preview — full text is fetched on the record page
 
 const ORDER = {
   relevance: 'bm25(proni_fts)',
@@ -93,6 +49,8 @@ function mapRow(r, exact) {
   };
 }
 
+const JSON_HEADERS = { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=3600, s-maxage=86400', 'Access-Control-Allow-Origin': '*' };
+
 export async function onRequestGet(context) {
   const cache = caches.default;
   const keyUrl = new URL(context.request.url);
@@ -100,8 +58,26 @@ export async function onRequestGet(context) {
   const cacheKey = new Request(keyUrl.toString(), { method: 'GET' });
   const hit = await cache.match(cacheKey);
   if (hit) return hit;
+
+  // Second tier: Workers KV is replicated to every edge, so a query answered
+  // anywhere is fast everywhere (the per-PoP cache above only helps locally).
+  // Feature-detected — no-op until a PRONI_KV binding is added.
+  const kv = context.env.PRONI_KV;
+  const kvKey = `search:${CACHE_VERSION}:${keyUrl.search}`;
+  if (kv) {
+    const cached = await kv.get(kvKey);
+    if (cached) {
+      const resp = new Response(cached, { headers: JSON_HEADERS });
+      context.waitUntil(cache.put(cacheKey, resp.clone()));
+      return resp;
+    }
+  }
+
   const resp = await handle(context);
-  if (resp.status === 200) context.waitUntil(cache.put(cacheKey, resp.clone()));
+  if (resp.status === 200) {
+    context.waitUntil(cache.put(cacheKey, resp.clone()));
+    if (kv) context.waitUntil(resp.clone().text().then((b) => kv.put(kvKey, b, { expirationTtl: 86400 })));
+  }
   return resp;
 }
 
@@ -130,11 +106,11 @@ async function handle(context) {
   if (!match && !hasFilters) return json({ query: q, results: [], count: 0 });
 
   // WHERE fragments shared by both modes
-  const where = [];
-  const binds = [];
-  if (letter && /^[A-Z]$/.test(letter)) { where.push('p.ref LIKE ?'); binds.push(letter + '%'); }
-  if (Number.isFinite(from)) { where.push('p.end_year >= ?'); binds.push(from); }
-  if (Number.isFinite(to)) { where.push('p.start_year <= ?'); binds.push(to); }
+  const { where, binds } = buildFilters({ letter, from, to });
+
+  // Serve reads from a nearby D1 replica when replication is enabled (falls back
+  // to the primary otherwise; harmless where withSession is unavailable).
+  const rdb = db.withSession ? db.withSession('first-unconstrained') : db;
 
   try {
     const out = [];
@@ -142,7 +118,7 @@ async function handle(context) {
 
     // exact-ref fast path (page 1 only, no explicit sort)
     if (!offset && q && !/\s/.test(q) && !q.includes(':') && sort === 'relevance') {
-      const ex = await db.prepare(`SELECT ${SELECT_COLS} FROM proni p WHERE p.ref = ?1 LIMIT 1`).bind(q.toUpperCase()).all();
+      const ex = await rdb.prepare(`SELECT ${SELECT_COLS} FROM proni p WHERE p.ref = ?1 LIMIT 1`).bind(q.toUpperCase()).all();
       for (const r of ex.results || []) { out.push(mapRow(r, true)); seen.add(r.ref); }
     }
 
@@ -162,7 +138,7 @@ async function handle(context) {
              ORDER BY ${order} LIMIT ? OFFSET ?`;
       bindArr = [...binds, limit, offset];
     }
-    const { results } = await db.prepare(sql).bind(...bindArr).all();
+    const { results } = await rdb.prepare(sql).bind(...bindArr).all();
     for (const r of results || []) { if (!seen.has(r.ref)) out.push(mapRow(r, false)); }
 
     return json({ query: q, match, sort, dir, letter, from: from || null, to: to || null, offset, limit, count: out.length, results: out.slice(0, limit + 1) });

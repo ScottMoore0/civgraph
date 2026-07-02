@@ -4,6 +4,8 @@
 //   /proni/<reference>          -> individual record page (e.g. /proni/AA/3)
 //   /proni…?ecat=<reference>    -> "View on PRONI eCatalogue" instructions
 const API = '/_api/proni/search';
+const COUNT_API = '/_api/proni/count';
+const EXPORT_API = '/_api/proni/export';
 const NODE_API = '/_api/proni/node';
 const ECAT_BROWSE = 'https://apps.proni.gov.uk/eCatNI_IE/BrowseSearchPage.aspx';
 const LIMIT = 25;
@@ -16,9 +18,10 @@ const els = {
   az: $('azBar'), status: $('status'), results: $('results'), sentinel: $('sentinel'),
   modal: $('modal'), modalBody: $('modalBody'),
   viewSearch: $('viewSearch'), viewRecord: $('viewRecord'), viewEcat: $('viewEcat'),
+  exportResults: $('exportResults'), exportAll: $('exportAll'),
 };
 
-const state = { offset: 0, done: false, loading: false, seen: new Set(), letter: '', reqId: 0 };
+const state = { offset: 0, done: false, loading: false, seen: new Set(), letter: '', reqId: 0, queryId: 0, total: null };
 
 const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const yearOf = (v) => (v && /^\d{4}/.test(v) ? v.slice(0, 4) : '');
@@ -82,7 +85,8 @@ function card(r, depth = 0) {
 
 /* =========================== search (home) =========================== */
 
-function params(offset) {
+// Query + filters only (no paging/sort) — shared by count and export.
+function queryParams() {
   const p = new URLSearchParams();
   const q = els.q.value.trim();
   if (q) p.set('q', q);
@@ -94,6 +98,11 @@ function params(offset) {
   if (from) p.set('from', from);
   if (to) p.set('to', to);
   if (state.letter) p.set('letter', state.letter);
+  return p;
+}
+
+function params(offset) {
+  const p = queryParams();
   p.set('sort', els.sort.value);
   p.set('dir', els.dir.dataset.dir);
   p.set('limit', String(LIMIT));
@@ -106,19 +115,42 @@ function hasAnyInput() {
     els.fRef.value.trim() || els.fDates.value.trim() || yearOf(els.from.value) || yearOf(els.to.value) || state.letter;
 }
 
+// The status line prefers the exact total once the (async, parallel) count
+// lands; until then it shows the loaded-so-far "N+" fallback.
+function updateStatus() {
+  const hasInput = hasAnyInput();
+  if (els.exportResults) els.exportResults.disabled = !hasInput || state.total === 0;
+  if (!hasInput) { els.status.textContent = 'Type to search 1,538,177 PRONI catalogue records — or pick a starting letter.'; return; }
+  if (state.total != null) {
+    els.status.textContent = state.total === 0 ? 'No matching records.' : `${state.total.toLocaleString()} result${state.total === 1 ? '' : 's'}`;
+    return;
+  }
+  const n = state.seen.size;
+  if (n) els.status.textContent = `${n.toLocaleString()}${state.done ? '' : '+'} result${n === 1 ? '' : 's'}`;
+  else els.status.textContent = state.done ? 'No matching records.' : 'Searching…';
+}
+
+async function fetchCount(qid) {
+  try {
+    const data = await (await fetch(`${COUNT_API}?${queryParams()}`)).json();
+    if (qid !== state.queryId) return;                 // a newer query superseded this
+    if (typeof data.count === 'number') { state.total = data.count; updateStatus(); }
+  } catch { /* keep the loaded-so-far fallback */ }
+}
+
 async function search(reset) {
   if (state.loading) return;
-  if (reset) { state.offset = 0; state.done = false; state.seen = new Set(); }
+  if (reset) { state.offset = 0; state.done = false; state.seen = new Set(); state.total = null; state.queryId += 1; }
   if (state.done) return;
   if (!hasAnyInput()) {
     els.results.innerHTML = '';
-    els.status.textContent = 'Type to search 1,538,177 PRONI catalogue records — or pick a starting letter.';
     state.done = true;
+    updateStatus();
     return;
   }
   state.loading = true;
   const rid = ++state.reqId;
-  if (reset) els.status.textContent = 'Searching…';
+  if (reset) { els.status.textContent = 'Searching…'; fetchCount(state.queryId); }
   try {
     const resp = await fetch(`${API}?${params(state.offset)}`);
     const data = await resp.json();
@@ -130,9 +162,8 @@ async function search(reset) {
     fresh.forEach((r) => { state.seen.add(r.ref); els.results.insertAdjacentHTML('beforeend', card(r)); });
     state.offset += LIMIT;
     if (batch.length < LIMIT) state.done = true;
-    const n = state.seen.size;
-    els.status.textContent = n ? `${n.toLocaleString()}${state.done ? '' : '+'} result${n === 1 ? '' : 's'}` : 'No matching records.';
-    if (!n) els.results.innerHTML = '<li class="ps-empty">No records match your search. Try fewer or broader terms.</li>';
+    if (!state.seen.size) els.results.innerHTML = '<li class="ps-empty">No records match your search. Try fewer or broader terms.</li>';
+    updateStatus();
   } catch {
     if (rid === state.reqId) els.status.textContent = 'Search is temporarily unavailable.';
   } finally {
@@ -454,6 +485,10 @@ els.adv.addEventListener('click', () => {
   els.adv.textContent = open ? 'Advanced search ▴' : 'Advanced search ▾';
 });
 els.clear.addEventListener('click', () => { els.q.value = ''; els.clear.hidden = true; search(true); els.q.focus(); });
+els.exportResults.addEventListener('click', () => {
+  if (!hasAnyInput()) return;
+  window.location.href = `${EXPORT_API}?${queryParams()}`; // streamed CSV download
+});
 els.az.addEventListener('click', (e) => {
   const btn = e.target.closest('[data-letter]');
   if (btn) {

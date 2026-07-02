@@ -6,7 +6,7 @@
   <title>Independent PRONI Search</title>
   <meta name="description" content="Independent PRONI Search — an app made by Civgraph. Search all 1,538,177 records from the PRONI eCatalogue with a modern interface and powerful search.">
   <link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg">
-  <link rel="stylesheet" href="/apps/proni-search/app.css?v=7">
+  <link rel="stylesheet" href="/apps/proni-search/app.css?v=8">
 </head>
 <body>
   <header class="ps-header">
@@ -66,6 +66,12 @@
         </fieldset>
 
         <div class="ps-az" role="group" aria-label="Filter by starting letter" id="azBar"></div>
+
+        <div class="ps-export">
+          <button type="button" id="exportResults" class="ps-btn ps-btn--export" disabled>⭳ Export results (CSV)</button>
+          <a id="exportAll" class="ps-btn ps-btn--export" href="https://archive.org/download/civgraph-proni-ecatalogue-csv/proni-ecatalogue-records.csv.gz" target="_blank" rel="noopener">⭳ Export all (CSV)</a>
+          <span class="ps-export__note" id="exportNote">Export results downloads the records matching your current search; Export all is the complete catalogue (hosted on the Internet Archive).</span>
+        </div>
       </section>
 
       <p class="ps-status" id="status" aria-live="polite"></p>
@@ -101,6 +107,6 @@
     </div>
   </div>
 
-  <script type="module" src="/apps/proni-search/app.js?v=7"></script>
+  <script type="module" src="/apps/proni-search/app.js?v=8"></script>
 </body>
 </html>
