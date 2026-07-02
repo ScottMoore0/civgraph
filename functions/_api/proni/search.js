@@ -16,7 +16,7 @@
  */
 import { buildMatch, buildFilters } from './_query.js';
 
-const CACHE_VERSION = 'v5';
+const CACHE_VERSION = 'v6';
 const MAX_LIMIT = 60;
 const DEFAULT_LIMIT = 25;
 const DESC_PREVIEW = 160; // trimmed list preview — full text is fetched on the record page
@@ -78,8 +78,12 @@ export async function onRequestGet(context) {
   if (resp.status === 200) {
     context.waitUntil(cache.put(cacheKey, resp.clone()));
     if (kv) {
-      try { const b = await resp.clone().text(); await kv.put(kvKey, b, { expirationTtl: 86400 }); kvWrote = 'ok'; }
-      catch (e) { kvWrote = 'ERR:' + String(e && e.message || e); }
+      try {
+        const b = await resp.clone().text();
+        await kv.put(kvKey, b, { expirationTtl: 86400 });
+        const rb = await kv.get(kvKey);           // read-back in the same request
+        kvWrote = rb ? 'ok-readback' : 'ok-but-readback-null';
+      } catch (e) { kvWrote = 'ERR:' + String(e && e.message || e); }
     }
   }
   const out = new Response(resp.body, resp);
