@@ -29,7 +29,26 @@ function mapChild(r) {
   };
 }
 
+// Bump when the underlying D1 data changes (re-import) to invalidate the edge
+// cache without a manual purge — it is folded into the cache key.
+const CACHE_VERSION = 'v1';
+
+// The PRONI data is a static snapshot, so responses are safe to edge-cache
+// aggressively. Serve from Cloudflare's cache when warm; otherwise compute and
+// store. Keyed by URL + CACHE_VERSION so a data change is a one-line bust.
 export async function onRequestGet(context) {
+  const cache = caches.default;
+  const keyUrl = new URL(context.request.url);
+  keyUrl.searchParams.set('_cv', CACHE_VERSION);
+  const cacheKey = new Request(keyUrl.toString(), { method: 'GET' });
+  const hit = await cache.match(cacheKey);
+  if (hit) return hit;
+  const resp = await handle(context);
+  if (resp.status === 200) context.waitUntil(cache.put(cacheKey, resp.clone()));
+  return resp;
+}
+
+async function handle(context) {
   const url = new URL(context.request.url);
   const ref = (url.searchParams.get('ref') || '').trim();
 
@@ -37,7 +56,7 @@ export async function onRequestGet(context) {
     status,
     headers: {
       'Content-Type': 'application/json',
-      'Cache-Control': 'public, max-age=300',
+      'Cache-Control': 'public, max-age=3600, s-maxage=86400',
       'Access-Control-Allow-Origin': '*',
     },
   });
