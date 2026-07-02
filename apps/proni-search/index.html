@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Civgraph PRONI Search</title>
+  <meta name="description" content="Search the PRONI eCatalogue — 1.5 million archival catalogue records from the Public Record Office of Northern Ireland. An app made by Civgraph.">
+  <link rel="icon" type="image/svg+xml" href="../../assets/images/favicon.svg">
+  <link rel="stylesheet" href="app.css?v=1">
+</head>
+<body>
+  <header class="ps-header">
+    <div class="ps-header__title">
+      <span class="ps-header__crest" aria-hidden="true">▤</span>
+      <div>
+        <h1>Civgraph PRONI Search</h1>
+        <p>Public Record Office of Northern Ireland — eCatalogue</p>
+      </div>
+    </div>
+    <a class="ps-provided" href="https://civgraph.net" target="_blank" rel="noopener">
+      <span class="ps-provided__by">provided by</span>
+      <span class="ps-provided__brand">Civgraph</span>
+      <span class="ps-provided__note">using PRONI data</span>
+    </a>
+  </header>
+
+  <main class="ps-main">
+    <section class="ps-search" aria-label="Search">
+      <div class="ps-search__bar">
+        <span class="ps-search__icon" aria-hidden="true">⚲</span>
+        <input type="search" id="q" class="ps-search__input" autocomplete="off" autofocus
+               placeholder="Search titles, descriptions, references…  (try  title:workhouse  -belfast  &quot;poor law&quot;  ref:D1071)">
+        <button type="button" id="clearBtn" class="ps-search__clear" title="Clear" hidden>×</button>
+      </div>
+
+      <div class="ps-controls">
+        <button type="button" id="advToggle" class="ps-btn ps-btn--ghost" aria-expanded="false">Advanced search ▾</button>
+
+        <div class="ps-dates">
+          <label class="ps-date">From <input type="date" id="dateFrom" class="ps-date__input"></label>
+          <label class="ps-date">To <input type="date" id="dateTo" class="ps-date__input"></label>
+        </div>
+
+        <div class="ps-sort">
+          <label for="sort" class="ps-sort__label">Sort</label>
+          <select id="sort" class="ps-select">
+            <option value="relevance">Relevance</option>
+            <option value="ref">Reference</option>
+            <option value="title">Title</option>
+            <option value="date">Date</option>
+            <option value="level">Level</option>
+          </select>
+          <button type="button" id="dirBtn" class="ps-btn ps-btn--icon" data-dir="desc" title="Sort direction">↓</button>
+        </div>
+      </div>
+
+      <fieldset class="ps-advanced" id="advanced" hidden>
+        <legend class="visually-hidden">Field-specific search</legend>
+        <label class="ps-field">Title<input type="text" id="fTitle" autocomplete="off"></label>
+        <label class="ps-field">Description / text<input type="text" id="fDescription" autocomplete="off"></label>
+        <label class="ps-field">PRONI reference<input type="text" id="fRef" autocomplete="off" placeholder="e.g. D1071/H/V"></label>
+        <label class="ps-field">Dates (text)<input type="text" id="fDates" autocomplete="off" placeholder="e.g. 1897"></label>
+      </fieldset>
+
+      <div class="ps-az" role="group" aria-label="Filter by starting letter" id="azBar"></div>
+    </section>
+
+    <p class="ps-status" id="status" aria-live="polite"></p>
+    <ul class="ps-results" id="results"></ul>
+    <div class="ps-sentinel" id="sentinel"></div>
+  </main>
+
+  <footer class="ps-footer">
+    <p>
+      Catalogue data © Crown copyright, from the
+      <a href="https://apps.proni.gov.uk/eCatNI_IE/SearchPage.aspx" target="_blank" rel="noopener">PRONI eCatalogue</a>,
+      reproduced under the <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" target="_blank" rel="noopener">Open Government Licence v3.0</a>.
+      Public Record Office of Northern Ireland:
+      <a href="https://www.nidirect.gov.uk/proni" target="_blank" rel="noopener">proni</a>.
+    </p>
+    <p class="ps-footer__maker">An app made by <a href="https://civgraph.net" target="_blank" rel="noopener">Civgraph</a>.</p>
+  </footer>
+
+  <!-- record detail modal -->
+  <div class="ps-modal" id="modal" hidden>
+    <div class="ps-modal__backdrop" data-close></div>
+    <div class="ps-modal__panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button type="button" class="ps-modal__close" data-close aria-label="Close">×</button>
+      <div class="ps-modal__body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <script type="module" src="app.js?v=1"></script>
+</body>
+</html>
