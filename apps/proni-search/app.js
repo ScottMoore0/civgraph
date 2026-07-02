@@ -139,7 +139,7 @@ async function fetchCount(qid) {
 }
 
 async function search(reset) {
-  if (state.loading) return;
+  if (state.loading && !reset) return; // a new query interrupts an in-flight load; only pagination waits
   if (reset) { state.offset = 0; state.done = false; state.seen = new Set(); state.total = null; state.queryId += 1; }
   if (state.done) return;
   if (!hasAnyInput()) {
