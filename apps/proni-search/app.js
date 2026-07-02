@@ -72,6 +72,11 @@ async function search(reset) {
     if (rid === state.reqId) els.status.textContent = 'Search is temporarily unavailable.';
   } finally {
     state.loading = false;
+    // keep loading until the results fill the viewport (short result sets, so the
+    // scroll observer alone would never re-fire)
+    if (!state.done && hasAnyInput() && els.sentinel.getBoundingClientRect().top < window.innerHeight + 300) {
+      setTimeout(() => search(false), 80);
+    }
   }
 }
 

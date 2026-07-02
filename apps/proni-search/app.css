@@ -67,6 +67,7 @@ a { color: var(--accent-dark); }
 .ps-select { font: inherit; font-size: 0.85rem; padding: 0.4rem 0.5rem; border: 1px solid var(--line); border-radius: 6px; background: #fff; color: var(--ink); }
 
 .ps-advanced { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.7rem 1rem; margin: 0.9rem 0 0; padding: 0.9rem 1rem; border: 1px dashed var(--line); border-radius: var(--radius); background: #f7fafd; }
+.ps-advanced[hidden] { display: none; }
 .ps-field { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.78rem; font-weight: 600; color: var(--muted); }
 .ps-field input { font: inherit; font-size: 0.92rem; font-weight: 400; color: var(--ink); padding: 0.45rem 0.55rem; border: 1px solid var(--line); border-radius: 6px; }
 .ps-field input:focus { outline: none; border-color: var(--accent); }
