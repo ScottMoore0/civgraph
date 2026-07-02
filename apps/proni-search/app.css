@@ -124,8 +124,94 @@ a { color: var(--accent-dark); }
 .ps-footer a { color: #9fc4ec; }
 .ps-footer p { margin: 0; max-width: 1000px; margin-inline: auto; line-height: 1.6; }
 
+/* ===================== card: bar + body + children ===================== */
+.ps-card__bar { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; }
+.ps-card__title { font-family: var(--serif); font-size: 1.1rem; font-weight: 700; color: var(--brand); text-decoration: none; cursor: pointer; }
+.ps-card__title:hover { text-decoration: underline; }
+.ps-card__body { margin-top: 0.45rem; }
+
+.ps-expand { flex: none; display: inline-flex; align-items: center; gap: 0.3rem; font: inherit; font-size: 0.8rem; font-weight: 700; color: var(--accent-dark); background: #eef4fb; border: 1px solid var(--line); border-radius: 6px; padding: 0.32rem 0.65rem; cursor: pointer; white-space: nowrap; }
+.ps-expand:hover { border-color: var(--accent); background: #e2eefb; }
+.ps-expand.is-open { background: var(--brand); color: #fff; border-color: var(--brand); }
+.ps-expand__icon { font-size: 0.7rem; }
+
+/* the parent bar sticks while its children scroll beneath; nested bars stack by
+   depth so a deeper branch's header sits just below its ancestor's */
+.ps-card.is-expanded > .ps-card__bar {
+  position: sticky; top: calc(var(--depth, 0) * 2.9rem); z-index: 6;
+  background: var(--card); padding: 0.5rem 0.15rem; margin: -0.2rem -0.15rem 0;
+  border-bottom: 2px solid var(--brand); box-shadow: 0 3px 8px rgba(16, 40, 70, .14); border-radius: 4px;
+}
+
+.ps-children { list-style: none; margin: 0.75rem 0 0.15rem; padding: 0 0 0 1.25rem; display: grid; gap: 0.7rem; border-left: 2px dashed #c4d3e4; }
+.ps-children[hidden] { display: none; }
+.ps-children__empty { color: var(--muted); font-size: 0.85rem; padding: 0.3rem 0; }
+
+/* ===================== reference widget (ref + copy + link) ===================== */
+.ps-refwidget { margin: 0.55rem 0 0; }
+.ps-refwidget__row { display: flex; align-items: center; flex-wrap: wrap; gap: 0.45rem 0.6rem; }
+.ps-refwidget__label { font-weight: 800; color: var(--ink); font-size: 0.85rem; }
+.ps-ref { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-weight: 700; color: var(--accent-dark); font-size: 0.95rem; }
+.ps-copy { font: inherit; font-size: 0.72rem; font-weight: 700; color: var(--accent-dark); background: #fff; border: 1px solid var(--line); border-radius: 6px; padding: 0.22rem 0.5rem; cursor: pointer; line-height: 1.2; white-space: nowrap; }
+.ps-copy:hover { border-color: var(--accent); }
+.ps-copy.is-copied { background: #e9f7ee; color: #1a7a3e; border-color: #bfe6cd; }
+.ps-ecatlink { display: inline-block; margin-top: 0.3rem; font-size: 0.8rem; font-weight: 700; color: var(--accent-dark); text-decoration: none; border-bottom: 1px dotted var(--accent-dark); }
+.ps-ecatlink:hover { color: var(--brand); border-bottom-style: solid; }
+
+/* ===================== record page ===================== */
+.ps-rec__toolbar { display: flex; align-items: center; flex-wrap: wrap; gap: 0.6rem 1rem; margin: 1rem 0 0.9rem; }
+.ps-back { display: inline-flex; align-items: center; gap: 0.3rem; font: inherit; font-size: 0.85rem; font-weight: 700; color: #fff; background: var(--brand); border: 1px solid var(--brand); border-radius: 6px; padding: 0.42rem 0.85rem; text-decoration: none; cursor: pointer; }
+.ps-back:hover { background: var(--navy-dark); border-color: var(--navy-dark); }
+.ps-crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; font-size: 0.82rem; color: var(--muted); }
+.ps-crumbs a { color: var(--accent-dark); text-decoration: none; }
+.ps-crumbs a:hover { text-decoration: underline; }
+.ps-crumbs span { color: var(--line); }
+.ps-crumbs b { color: var(--ink); font-family: ui-monospace, monospace; }
+
+.ps-rec { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.2rem 1.3rem 1.5rem; }
+.ps-rec__title { font-family: var(--serif); color: var(--brand); font-size: 1.4rem; font-weight: 700; margin: 0 0 0.8rem; }
+
+.ps-pager { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; margin: 0.6rem 0; padding: 0.4rem; background: #eef2f7; border: 1px solid var(--line); border-radius: 6px; }
+.ps-pager__btn { font: inherit; font-size: 0.82rem; font-weight: 700; color: var(--accent-dark); background: #fff; border: 1px solid var(--line); border-radius: 5px; padding: 0.32rem 0.7rem; text-decoration: none; cursor: pointer; }
+.ps-pager__btn:hover { border-color: var(--accent); background: #f2f8ff; }
+.ps-pager__btn.is-disabled { color: #9aa8b6; background: #f4f6f9; cursor: default; pointer-events: none; }
+.ps-pager__count { font-size: 0.82rem; font-weight: 700; color: var(--muted); margin: 0 0.3rem; }
+
+.ps-rec__table { width: 100%; border-collapse: collapse; margin: 0.4rem 0; font-size: 1rem; }
+.ps-rec__table tr { border-bottom: 1px solid var(--line); }
+.ps-rec__table tr:nth-child(odd) { background: #f5f8fb; }
+.ps-rec__table th { text-align: left; vertical-align: top; font-weight: 700; color: var(--ink); width: 12.5rem; max-width: 40%; padding: 0.6rem 0.9rem; white-space: nowrap; }
+.ps-rec__table td { vertical-align: top; padding: 0.6rem 0.9rem; color: #2a3846; }
+.ps-rec__desc { white-space: pre-wrap; line-height: 1.6; max-height: 46vh; overflow: auto; }
+@media (max-width: 640px) {
+  .ps-rec__table th { white-space: normal; width: 8.5rem; }
+}
+
+.ps-rec__children { margin-top: 1.3rem; border-top: 1px solid var(--line); padding-top: 1rem; }
+.ps-rec__children h3 { font-family: var(--serif); color: var(--brand); font-size: 1.05rem; margin: 0 0 0.6rem; }
+.ps-rec__count { color: var(--muted); font-weight: 400; font-family: var(--sans); font-size: 0.85rem; }
+.ps-rec__children ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.35rem; }
+.ps-rec__children a { text-decoration: none; color: var(--ink); }
+.ps-rec__children a:hover { color: var(--accent-dark); text-decoration: underline; }
+.ps-rec__morenote { color: var(--muted); font-size: 0.82rem; font-style: italic; }
+
+/* ===================== "View on PRONI eCatalogue" guide ===================== */
+.ps-guide { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.3rem 1.4rem 1.6rem; max-width: 820px; }
+.ps-guide__title { font-family: var(--serif); color: var(--brand); font-size: 1.35rem; margin: 0 0 1rem; }
+.ps-guide__steps { margin: 0; padding-left: 1.4rem; display: grid; gap: 1.4rem; }
+.ps-guide__steps > li { padding-left: 0.3rem; }
+.ps-guide__lead { margin: 0 0 0.6rem; font-weight: 700; font-size: 1.02rem; }
+.ps-guide__reffield { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 1.6rem; font-weight: 700; color: var(--brand); background: #f2f7fd; border: 2px dashed var(--accent); border-radius: 8px; padding: 0.9rem 1.1rem; cursor: pointer; user-select: all; word-break: break-all; transition: background .12s; }
+.ps-guide__reffield:hover { background: #e7f1fc; }
+.ps-guide__reffield.is-copied { background: #e9f7ee; border-color: #2f9a56; color: #1a7a3e; }
+.ps-guide__copied { display: inline-block; margin-top: 0.45rem; font-size: 0.85rem; font-weight: 700; color: #1a7a3e; }
+.ps-guide__shot { display: block; margin-top: 0.4rem; max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 6px; box-shadow: var(--shadow); }
+.ps-guide__cta { display: inline-block; margin-top: 1.6rem; font-size: 1.05rem; font-weight: 800; color: #fff; background: var(--brand); border-radius: 8px; padding: 0.85rem 1.4rem; text-decoration: none; box-shadow: var(--shadow); }
+.ps-guide__cta:hover { background: var(--navy-dark); }
+
 @media (max-width: 640px) {
   .ps-sort { margin-left: 0; }
   .ps-header { flex-direction: column; gap: 0.6rem; }
   .ps-provided { justify-self: start; }
+  .ps-guide__reffield { font-size: 1.25rem; }
 }

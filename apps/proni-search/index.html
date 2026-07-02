@@ -5,18 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Independent PRONI Search</title>
   <meta name="description" content="Independent PRONI Search — an app made by Civgraph. Search all 1,538,177 records from the PRONI eCatalogue with a modern interface and powerful search.">
-  <link rel="icon" type="image/svg+xml" href="../../assets/images/favicon.svg">
-  <link rel="stylesheet" href="app.css?v=5">
+  <link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg">
+  <link rel="stylesheet" href="/apps/proni-search/app.css?v=6">
 </head>
 <body>
   <header class="ps-header">
     <div class="ps-header__title">
-      <h1>Independent PRONI Search</h1>
+      <h1><a href="/proni" data-home>Independent PRONI Search</a></h1>
       <p>An app made by Civgraph</p>
     </div>
     <a class="ps-provided" href="https://civgraph.net" target="_blank" rel="noopener" aria-label="Provided by Civgraph, using PRONI data">
       <span class="ps-provided__by">provided by</span>
-      <img class="ps-provided__logo" src="civgraph-navy.svg" alt="Civgraph" width="150" height="35">
+      <img class="ps-provided__logo" src="/apps/proni-search/civgraph-navy.svg" alt="Civgraph" width="150" height="35">
       <span class="ps-provided__note">using PRONI data</span>
     </a>
   </header>
@@ -24,51 +24,60 @@
   <div class="ps-divider" role="separator"></div>
 
   <main class="ps-main">
-    <section class="ps-search" aria-label="Search">
-      <div class="ps-search__bar">
-        <span class="ps-search__icon" aria-hidden="true">⚲</span>
-        <input type="search" id="q" class="ps-search__input" autocomplete="off" autofocus
-               placeholder="Search titles, descriptions, references…">
-        <button type="button" id="clearBtn" class="ps-search__clear" title="Clear" hidden>×</button>
-      </div>
-
-      <div class="ps-controls">
-        <button type="button" id="advToggle" class="ps-btn ps-btn--ghost" aria-expanded="false">Advanced search ▾</button>
-
-        <div class="ps-dates">
-          <label class="ps-date">From <input type="date" id="dateFrom" class="ps-date__input"></label>
-          <label class="ps-date">To <input type="date" id="dateTo" class="ps-date__input"></label>
+    <!-- ===================== SEARCH (home) ===================== -->
+    <div id="viewSearch">
+      <section class="ps-search" aria-label="Search">
+        <div class="ps-search__bar">
+          <span class="ps-search__icon" aria-hidden="true">⚲</span>
+          <input type="search" id="q" class="ps-search__input" autocomplete="off" autofocus
+                 placeholder="Search titles, descriptions, references…">
+          <button type="button" id="clearBtn" class="ps-search__clear" title="Clear" hidden>×</button>
         </div>
 
-        <div class="ps-sort">
-          <label for="sort" class="ps-sort__label">Sort</label>
-          <select id="sort" class="ps-select">
-            <option value="relevance">Relevance</option>
-            <option value="ref">Reference</option>
-            <option value="title">Title</option>
-            <option value="date">Date</option>
-            <option value="level">Level</option>
-          </select>
-          <button type="button" id="dirBtn" class="ps-sortdir" data-dir="desc" title="Sort descending — click for ascending" aria-label="Sort direction: descending">
-            <span class="ps-sortdir__label">Z–A</span><span class="ps-sortdir__arrow" aria-hidden="true">▼</span>
-          </button>
+        <div class="ps-controls">
+          <button type="button" id="advToggle" class="ps-btn ps-btn--ghost" aria-expanded="false">Advanced search ▾</button>
+
+          <div class="ps-dates">
+            <label class="ps-date">From <input type="date" id="dateFrom" class="ps-date__input"></label>
+            <label class="ps-date">To <input type="date" id="dateTo" class="ps-date__input"></label>
+          </div>
+
+          <div class="ps-sort">
+            <label for="sort" class="ps-sort__label">Sort</label>
+            <select id="sort" class="ps-select">
+              <option value="relevance">Relevance</option>
+              <option value="ref">Reference</option>
+              <option value="title">Title</option>
+              <option value="date">Date</option>
+              <option value="level">Level</option>
+            </select>
+            <button type="button" id="dirBtn" class="ps-sortdir" data-dir="desc" title="Sort descending — click for ascending" aria-label="Sort direction: descending">
+              <span class="ps-sortdir__label">Z–A</span><span class="ps-sortdir__arrow" aria-hidden="true">▼</span>
+            </button>
+          </div>
         </div>
-      </div>
 
-      <fieldset class="ps-advanced" id="advanced" hidden>
-        <legend class="visually-hidden">Field-specific search</legend>
-        <label class="ps-field">Title<input type="text" id="fTitle" autocomplete="off"></label>
-        <label class="ps-field">Description / text<input type="text" id="fDescription" autocomplete="off"></label>
-        <label class="ps-field">PRONI reference<input type="text" id="fRef" autocomplete="off" placeholder="e.g. D1071/H/V"></label>
-        <label class="ps-field">Dates (text)<input type="text" id="fDates" autocomplete="off" placeholder="e.g. 1897"></label>
-      </fieldset>
+        <fieldset class="ps-advanced" id="advanced" hidden>
+          <legend class="visually-hidden">Field-specific search</legend>
+          <label class="ps-field">Title<input type="text" id="fTitle" autocomplete="off"></label>
+          <label class="ps-field">Description / text<input type="text" id="fDescription" autocomplete="off"></label>
+          <label class="ps-field">PRONI reference<input type="text" id="fRef" autocomplete="off" placeholder="e.g. D1071/H/V"></label>
+          <label class="ps-field">Dates (text)<input type="text" id="fDates" autocomplete="off" placeholder="e.g. 1897"></label>
+        </fieldset>
 
-      <div class="ps-az" role="group" aria-label="Filter by starting letter" id="azBar"></div>
-    </section>
+        <div class="ps-az" role="group" aria-label="Filter by starting letter" id="azBar"></div>
+      </section>
 
-    <p class="ps-status" id="status" aria-live="polite"></p>
-    <ul class="ps-results" id="results"></ul>
-    <div class="ps-sentinel" id="sentinel"></div>
+      <p class="ps-status" id="status" aria-live="polite"></p>
+      <ul class="ps-results" id="results"></ul>
+      <div class="ps-sentinel" id="sentinel"></div>
+    </div>
+
+    <!-- ===================== RECORD (detail) ===================== -->
+    <div id="viewRecord" hidden></div>
+
+    <!-- ============== VIEW-ON-PRONI (instructions) ============== -->
+    <div id="viewEcat" hidden></div>
   </main>
 
   <footer class="ps-footer">
@@ -93,6 +102,6 @@
     </div>
   </div>
 
-  <script type="module" src="app.js?v=5"></script>
+  <script type="module" src="/apps/proni-search/app.js?v=6"></script>
 </body>
 </html>

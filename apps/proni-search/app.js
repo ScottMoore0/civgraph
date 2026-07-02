@@ -1,6 +1,11 @@
-// Civgraph PRONI Search — live search over the D1-backed PRONI catalogue.
+// Independent PRONI Search — a small client-routed app over the D1-backed PRONI
+// catalogue. Three views share one shell:
+//   /proni                      -> search (home)
+//   /proni/<reference>          -> individual record page (e.g. /proni/AA/3)
+//   /proni…?ecat=<reference>    -> "View on PRONI eCatalogue" instructions
 const API = '/_api/proni/search';
 const NODE_API = '/_api/proni/node';
+const ECAT_BROWSE = 'https://apps.proni.gov.uk/eCatNI_IE/BrowseSearchPage.aspx';
 const LIMIT = 25;
 
 const $ = (id) => document.getElementById(id);
@@ -10,12 +15,69 @@ const els = {
   from: $('dateFrom'), to: $('dateTo'), sort: $('sort'), dir: $('dirBtn'),
   az: $('azBar'), status: $('status'), results: $('results'), sentinel: $('sentinel'),
   modal: $('modal'), modalBody: $('modalBody'),
+  viewSearch: $('viewSearch'), viewRecord: $('viewRecord'), viewEcat: $('viewEcat'),
 };
 
 const state = { offset: 0, done: false, loading: false, seen: new Set(), letter: '', reqId: 0 };
 
 const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const yearOf = (v) => (v && /^\d{4}/.test(v) ? v.slice(0, 4) : '');
+// Clean URL for a reference: /proni/AA/3 — slashes stay as path separators,
+// each segment is percent-encoded so spaces/odd chars survive.
+const refToPath = (ref) => '/proni/' + String(ref).split('/').map(encodeURIComponent).join('/');
+
+/* =========================== shared UI bits =========================== */
+
+function metaHtml(r) {
+  const m = [];
+  if (r.level) m.push(`<span><b>Level:</b> ${esc(r.level)}</span>`);
+  if (r.dates) m.push(`<span><b>Dates:</b> ${esc(r.dates)}</span>`);
+  if (r.access) m.push(`<span><b>Access:</b> ${esc(r.access)}</span>`);
+  if (r.fond) m.push(`<span class="ps-badge">${esc(r.fond)}</span>`);
+  if (r.digitalRecord) m.push('<span class="ps-badge ps-badge--digi">Digitised</span>');
+  return m.join('');
+}
+
+// The reference widget: heavier ref + copy-to-clipboard on one row, with a
+// "View on PRONI eCatalogue" link below. `withLabel` prefixes "PRONI Ref:" (used
+// on cards; omitted on the record page where the table row already labels it).
+function refWidget(ref, withLabel) {
+  const rid = esc(ref);
+  return `<div class="ps-refwidget">
+    <div class="ps-refwidget__row">
+      ${withLabel ? '<span class="ps-refwidget__label">PRONI Ref:</span>' : ''}
+      <span class="ps-ref">${rid}</span>
+      <button type="button" class="ps-copy" data-copy="${rid}" title="Copy reference to clipboard" aria-label="Copy PRONI reference to clipboard">⧉ Copy</button>
+    </div>
+    <a class="ps-ecatlink" href="/proni?ecat=${encodeURIComponent(ref)}" data-ecat="${rid}">View on PRONI eCatalogue</a>
+  </div>`;
+}
+
+function card(r, depth = 0) {
+  const path = refToPath(r.ref);
+  const descHtml = r.description
+    ? `<p class="ps-card__desc">${esc(r.description)}${r.descTruncated ? '…' : ''}</p>` +
+      (r.descTruncated ? `<button type="button" class="ps-card__more" data-more="${esc(r.ref)}">Show more</button>` : '')
+    : '';
+  const expand = r.hasChildren
+    ? `<button type="button" class="ps-expand" data-expand="${esc(r.ref)}" aria-expanded="false"><span class="ps-expand__icon">▸</span> <span class="ps-expand__label">Expand</span></button>`
+    : '';
+  const meta = metaHtml(r);
+  return `<li class="ps-card" data-ref="${esc(r.ref)}" data-depth="${depth}" style="--depth:${depth}">
+    <div class="ps-card__bar">
+      <a class="ps-card__title" href="${path}" data-go="${path}">${esc(r.title || r.ref)}</a>
+      ${expand}
+    </div>
+    <div class="ps-card__body">
+      ${meta ? `<div class="ps-card__meta">${meta}</div>` : ''}
+      ${refWidget(r.ref, true)}
+      ${descHtml}
+    </div>
+    <ul class="ps-children" hidden></ul>
+  </li>`;
+}
+
+/* =========================== search (home) =========================== */
 
 function params(offset) {
   const p = new URLSearchParams();
@@ -73,35 +135,251 @@ async function search(reset) {
   } finally {
     state.loading = false;
     // keep loading until the results fill the viewport (short result sets, so the
-    // scroll observer alone would never re-fire)
-    if (!state.done && hasAnyInput() && els.sentinel.getBoundingClientRect().top < window.innerHeight + 300) {
+    // scroll observer alone would never re-fire) — only while the home view is up
+    if (currentView === 'search' && !state.done && hasAnyInput() &&
+        els.sentinel.getBoundingClientRect().top < window.innerHeight + 300) {
       setTimeout(() => search(false), 80);
     }
   }
 }
 
-function card(r) {
-  const meta = [];
-  if (r.level) meta.push(`<span><b>Level:</b> ${esc(r.level)}</span>`);
-  if (r.dates) meta.push(`<span><b>Dates:</b> ${esc(r.dates)}</span>`);
-  if (r.access) meta.push(`<span><b>Access:</b> ${esc(r.access)}</span>`);
-  if (r.fond) meta.push(`<span class="ps-badge">${esc(r.fond)}</span>`);
-  if (r.digitalRecord) meta.push('<span class="ps-badge ps-badge--digi">Digitised</span>');
-  const desc = r.description
-    ? `<p class="ps-card__desc">${esc(r.description)}${r.descTruncated ? '…' : ''}</p>` +
-      (r.descTruncated ? `<button type="button" class="ps-card__more" data-ref="${esc(r.ref)}">Show more</button>` : '')
-    : '';
-  return `<li class="ps-card">
-    <div class="ps-card__top">
-      <h2 class="ps-card__title">${esc(r.title || r.ref)}</h2>
-      <span class="ps-card__ref">${esc(r.ref)}</span>
-    </div>
-    <div class="ps-card__meta">${meta.join('')}</div>
-    ${desc}
-  </li>`;
+/* =================== expand / collapse (sticky parent) =================== */
+
+function setExpandLabel(btn, expanded, loading) {
+  const icon = btn.querySelector('.ps-expand__icon');
+  const label = btn.querySelector('.ps-expand__label');
+  if (loading) { if (label) label.textContent = 'Loading…'; return; }
+  if (icon) icon.textContent = expanded ? '▾' : '▸';
+  if (label) label.textContent = expanded ? 'Collapse' : 'Expand';
+  btn.setAttribute('aria-expanded', String(expanded));
+  btn.classList.toggle('is-open', expanded);
 }
 
-// --- detail modal (full record incl. full description) ---
+async function toggleExpand(ref, btn) {
+  const li = btn.closest('.ps-card');
+  if (!li) return;
+  const kids = li.querySelector(':scope > .ps-children');
+  const depth = Number(li.dataset.depth) || 0;
+
+  if (li.classList.contains('is-expanded')) {
+    // Collapse — then land the user back on the card they collapsed, rather than
+    // wherever the shrinking page leaves the scroll position.
+    li.classList.remove('is-expanded');
+    kids.hidden = true; kids.innerHTML = '';
+    setExpandLabel(btn, false);
+    const y = li.getBoundingClientRect().top + window.scrollY - 8;
+    window.scrollTo({ top: Math.max(0, y) });
+    return;
+  }
+
+  setExpandLabel(btn, false, true);
+  btn.disabled = true;
+  try {
+    const data = await (await fetch(`${NODE_API}?ref=${encodeURIComponent(ref)}`)).json();
+    const children = data.children || [];
+    kids.innerHTML = children.length
+      ? children.map((c) => card(c, depth + 1)).join('')
+      : '<li class="ps-children__empty">No sub-records found.</li>';
+    kids.hidden = false;
+    li.classList.add('is-expanded');
+    setExpandLabel(btn, true);
+  } catch {
+    setExpandLabel(btn, false);
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+/* =========================== record page =========================== */
+
+function pager(nav) {
+  const btn = (label, target, disabled) => disabled || !target
+    ? `<span class="ps-pager__btn is-disabled">${label}</span>`
+    : `<a class="ps-pager__btn" href="${refToPath(target)}" data-go="${refToPath(target)}">${label}</a>`;
+  return `<div class="ps-pager" role="navigation" aria-label="Sibling records">
+    ${btn('« First', nav.first, !nav.prev)}
+    ${btn('‹ Previous', nav.prev, !nav.prev)}
+    <span class="ps-pager__count">[${nav.position || 0} – ${nav.total || 0}]</span>
+    ${btn('Next ›', nav.next, !nav.next)}
+    ${btn('Last »', nav.last, !nav.next)}
+  </div>`;
+}
+
+function breadcrumbs(ancestors, it) {
+  const crumbs = [`<a href="/proni" data-go="/proni">Home</a>`]
+    .concat((ancestors || []).map((a) => `<a href="${refToPath(a.ref)}" data-go="${refToPath(a.ref)}">${esc(a.ref)}</a>`));
+  return `<nav class="ps-crumbs" aria-label="Breadcrumb">${crumbs.join('<span aria-hidden="true">›</span>')}<span aria-hidden="true">›</span><b>${esc(it.ref)}</b></nav>`;
+}
+
+async function renderRecord(ref) {
+  currentView = 'record';
+  els.viewSearch.hidden = true; els.viewEcat.hidden = true; els.viewRecord.hidden = false;
+  window.scrollTo(0, 0);
+  document.title = `${ref} — Independent PRONI Search`;
+  els.viewRecord.innerHTML = '<p class="ps-loading">Loading record…</p>';
+  const token = routeToken;
+
+  let data;
+  try {
+    data = await (await fetch(`${NODE_API}?ref=${encodeURIComponent(ref)}`)).json();
+  } catch {
+    if (token === routeToken) els.viewRecord.innerHTML = recordShell('<p class="ps-empty">Could not load this record. Please try again.</p>');
+    return;
+  }
+  if (token !== routeToken) return;
+  if (!data || !data.item) {
+    els.viewRecord.innerHTML = recordShell(`<p class="ps-empty">No record found for reference <b>${esc(ref)}</b>.</p>`);
+    return;
+  }
+
+  const it = data.item;
+  const nav = data.nav || {};
+  const digital = it.digitalRecord ? 'Digitised — held by PRONI' : '';
+  const rows = [
+    ['Repository', 'Public Record Office of Northern Ireland'],
+    ['PRONI Reference', refWidget(it.ref, false)],
+    ['Level', esc(it.level)],
+    ['Access', esc(it.access)],
+    ['Title', esc(it.title)],
+    ['Dates', esc(it.dates)],
+    ['Description', it.description ? `<div class="ps-rec__desc">${esc(it.description)}</div>` : ''],
+    ['Digital Record', esc(digital)],
+  ];
+  const table = `<table class="ps-rec__table"><tbody>${
+    rows.map(([k, v]) => `<tr><th scope="row">${k}</th><td>${v || ''}</td></tr>`).join('')
+  }</tbody></table>`;
+
+  const kids = data.children || [];
+  const CAP = 200;
+  const childList = kids.length ? `<section class="ps-rec__children">
+    <h3>Records within ${esc(it.ref)} <span class="ps-rec__count">(${kids.length.toLocaleString()})</span></h3>
+    <ul>${kids.slice(0, CAP).map((c) => `<li><a href="${refToPath(c.ref)}" data-go="${refToPath(c.ref)}"><span class="ps-ref">${esc(c.ref)}</span> ${esc(c.title || '')}</a></li>`).join('')}
+      ${kids.length > CAP ? `<li class="ps-rec__morenote">…and ${(kids.length - CAP).toLocaleString()} more. Use search to find a specific record.</li>` : ''}</ul>
+  </section>` : '';
+
+  els.viewRecord.innerHTML = `
+    <div class="ps-rec__toolbar">
+      <a class="ps-back" href="/proni" data-go="/proni">← Back to search</a>
+      ${breadcrumbs(data.ancestors, it)}
+    </div>
+    <article class="ps-rec">
+      <h2 class="ps-rec__title">${esc(it.title || it.ref)}</h2>
+      ${pager(nav)}
+      ${table}
+      ${pager(nav)}
+      ${childList}
+    </article>`;
+}
+
+function recordShell(inner) {
+  return `<div class="ps-rec__toolbar"><a class="ps-back" href="/proni" data-go="/proni">← Back to search</a></div>
+    <article class="ps-rec">${inner}</article>`;
+}
+
+/* ==================== "View on PRONI eCatalogue" page ==================== */
+
+function renderEcat(ref) {
+  currentView = 'ecat';
+  els.viewSearch.hidden = true; els.viewRecord.hidden = true; els.viewEcat.hidden = false;
+  window.scrollTo(0, 0);
+  document.title = 'View on PRONI eCatalogue — Independent PRONI Search';
+  const rid = esc(ref);
+  els.viewEcat.innerHTML = `
+    <div class="ps-rec__toolbar"><button type="button" class="ps-back" data-back>← Back</button></div>
+    <article class="ps-guide">
+      <h2 class="ps-guide__title">How to view this record on the official PRONI eCatalogue</h2>
+      <ol class="ps-guide__steps">
+        <li>
+          <p class="ps-guide__lead">Click the reference below to copy it to your clipboard:</p>
+          <div class="ps-guide__reffield" role="button" tabindex="0" data-copy="${rid}" title="Click to copy">${rid}</div>
+          <span class="ps-guide__copied" hidden>Copied to clipboard ✓</span>
+        </li>
+        <li>
+          <p class="ps-guide__lead">Paste it into the “Input a PRONI reference” field on the next page:</p>
+          <img class="ps-guide__shot" src="/apps/proni-search/proni-ecatalogue-browse.png" alt="The official PRONI eCatalogue browse page, showing the 'Input a PRONI reference' field and a Search button">
+        </li>
+        <li>
+          <p class="ps-guide__lead">Press ‘Search’.</p>
+        </li>
+      </ol>
+      <a class="ps-guide__cta" href="${ECAT_BROWSE}" target="_blank" rel="noopener">View record on PRONI eCatalogue now ↗</a>
+    </article>`;
+}
+
+/* =============================== router =============================== */
+
+let currentView = 'search';
+let homeScrollY = 0;
+let routeToken = 0;
+let inAppNavs = 0;
+
+function currentRef() {
+  const p = decodeURIComponent(location.pathname);
+  if (p === '/proni' || p === '/proni/') return null;
+  if (p.startsWith('/proni/')) return p.slice('/proni/'.length).replace(/\/+$/, '');
+  return null; // /apps/proni-search/ etc. -> home
+}
+
+function showHome() {
+  currentView = 'search';
+  els.viewRecord.hidden = true; els.viewEcat.hidden = true; els.viewSearch.hidden = false;
+  document.title = 'Independent PRONI Search';
+  window.scrollTo(0, homeScrollY);
+}
+
+function route() {
+  if (currentView === 'search') homeScrollY = window.scrollY;
+  routeToken += 1;
+  closeModal();
+  const ecat = new URLSearchParams(location.search).get('ecat');
+  if (ecat) { renderEcat(ecat); return; }
+  const ref = currentRef();
+  if (ref) { renderRecord(ref); return; }
+  showHome();
+}
+
+function go(url, replace) {
+  closeModal();
+  if (replace) history.replaceState(null, '', url); else history.pushState(null, '', url);
+  inAppNavs += 1;
+  route();
+}
+
+function goBack() {
+  if (inAppNavs > 0) history.back(); else go('/proni', true);
+}
+
+/* ============================ clipboard ============================ */
+
+function fallbackCopy(text) {
+  const ta = document.createElement('textarea');
+  ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.focus(); ta.select();
+  try { document.execCommand('copy'); } catch { /* no-op */ }
+  document.body.removeChild(ta);
+}
+
+async function copyRef(el) {
+  const ref = el.getAttribute('data-copy');
+  if (!ref) return;
+  try { await navigator.clipboard.writeText(ref); } catch { fallbackCopy(ref); }
+  if (el.classList.contains('ps-copy')) {
+    const old = el.innerHTML;
+    el.innerHTML = '✓ Copied'; el.classList.add('is-copied');
+    setTimeout(() => { el.innerHTML = old; el.classList.remove('is-copied'); }, 1400);
+  } else {
+    el.classList.add('is-copied');
+    const note = el.parentElement && el.parentElement.querySelector('.ps-guide__copied');
+    if (note) { note.hidden = false; }
+    setTimeout(() => {
+      el.classList.remove('is-copied');
+      if (note) note.hidden = true;
+    }, 1600);
+  }
+}
+
+/* ============================= detail modal ============================= */
+
 async function openModal(ref) {
   els.modal.hidden = false;
   els.modalBody.innerHTML = '<p class="ps-loading">Loading record…</p>';
@@ -120,14 +398,15 @@ async function openModal(ref) {
       <div class="ps-modal__ref">${esc(it.ref)}</div>
       <dl class="ps-dl">${rows}</dl>
       ${it.description ? `<div class="ps-modal__descheading">Description</div><div class="ps-modal__desc">${esc(it.description)}</div>` : ''}
-      <a class="ps-modal__link" href="/browse/#/proni/${encodeURIComponent(it.slug)}" target="_blank" rel="noopener">Open in Civgraph Browse ↗</a>`;
+      <a class="ps-modal__link" href="${refToPath(it.ref)}" data-go="${refToPath(it.ref)}">Open full record ↗</a>`;
   } catch {
     els.modalBody.innerHTML = '<p class="ps-empty">Could not load this record.</p>';
   }
 }
 function closeModal() { els.modal.hidden = true; document.body.style.overflow = ''; }
 
-// --- A-Z bar ---
+/* ============================== A-Z bar ============================== */
+
 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach((L) => {
   const b = document.createElement('button');
   b.type = 'button'; b.className = 'ps-az__btn'; b.textContent = L; b.dataset.letter = L;
@@ -137,7 +416,8 @@ const azClear = document.createElement('button');
 azClear.type = 'button'; azClear.className = 'ps-az__clear'; azClear.textContent = 'All';
 els.az.appendChild(azClear);
 
-// --- events ---
+/* =============================== events =============================== */
+
 let timer;
 const debounced = () => { clearTimeout(timer); timer = setTimeout(() => search(true), 220); els.clear.hidden = !els.q.value; };
 [els.q, els.fTitle, els.fDescription, els.fRef, els.fDates].forEach((el) => el.addEventListener('input', debounced));
@@ -169,15 +449,49 @@ els.az.addEventListener('click', (e) => {
   els.az.querySelectorAll('.ps-az__btn').forEach((b) => b.classList.toggle('is-active', b.dataset.letter === state.letter));
   search(true);
 });
-els.results.addEventListener('click', (e) => {
-  const more = e.target.closest('[data-ref]');
-  if (more) openModal(more.dataset.ref);
+
+// One delegated handler for the whole app (search cards, record page, guide).
+const isModified = (e) => e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0;
+document.addEventListener('click', (e) => {
+  const copyEl = e.target.closest('[data-copy]');
+  if (copyEl) { e.preventDefault(); copyRef(copyEl); return; }
+
+  const expandEl = e.target.closest('[data-expand]');
+  if (expandEl) { e.preventDefault(); toggleExpand(expandEl.getAttribute('data-expand'), expandEl); return; }
+
+  const moreEl = e.target.closest('[data-more]');
+  if (moreEl) { e.preventDefault(); openModal(moreEl.getAttribute('data-more')); return; }
+
+  if (e.target.closest('[data-close]')) { closeModal(); return; }
+
+  const backEl = e.target.closest('[data-back]');
+  if (backEl) { e.preventDefault(); goBack(); return; }
+
+  if (isModified(e)) return; // let ctrl/cmd-click open a new tab
+
+  const ecatEl = e.target.closest('[data-ecat]');
+  if (ecatEl) { e.preventDefault(); go(`${location.pathname}?ecat=${encodeURIComponent(ecatEl.getAttribute('data-ecat'))}`); return; }
+
+  const homeEl = e.target.closest('[data-home]');
+  if (homeEl) { e.preventDefault(); go('/proni'); return; }
+
+  const goEl = e.target.closest('[data-go]');
+  if (goEl) { e.preventDefault(); go(goEl.getAttribute('data-go')); return; }
 });
-els.modal.addEventListener('click', (e) => { if (e.target.closest('[data-close]')) closeModal(); });
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !els.modal.hidden) closeModal(); });
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && !els.modal.hidden) { closeModal(); return; }
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('[data-copy].ps-guide__reffield')) {
+    e.preventDefault(); copyRef(e.target);
+  }
+});
+
+window.addEventListener('popstate', route);
 
 new IntersectionObserver((entries) => {
-  if (entries[0].isIntersecting && !state.loading && !state.done && hasAnyInput()) search(false);
+  if (entries[0].isIntersecting && currentView === 'search' && !state.loading && !state.done && hasAnyInput()) search(false);
 }, { rootMargin: '600px' }).observe(els.sentinel);
 
+// Initialise the home view, then render whatever the current URL asks for.
 search(true);
+route();

@@ -29,9 +29,42 @@ function mapChild(r) {
   };
 }
 
+// The immediate parent of a reference is its '/'-prefix minus the last segment
+// ('' for a top-level fond). Siblings are all records that share that parent.
+function parentRef(ref) {
+  const anc = ancestorRefs(ref);
+  return anc.length ? anc[anc.length - 1] : '';
+}
+
+// First / Previous / Next / Last navigation across siblings (same parent),
+// ordered by reference — mirrors the PRONI eCatalogue record pager. Returns the
+// target refs plus 1-based position and total, so the record page can render
+// "[1 - 3]" and disable the ends.
+async function siblingNav(db, ref) {
+  const parent = parentRef(ref);
+  const rows = await db.batch([
+    db.prepare('SELECT ref FROM proni WHERE parent = ?1 ORDER BY ref ASC LIMIT 1').bind(parent),
+    db.prepare('SELECT ref FROM proni WHERE parent = ?1 ORDER BY ref DESC LIMIT 1').bind(parent),
+    db.prepare('SELECT ref FROM proni WHERE parent = ?1 AND ref < ?2 ORDER BY ref DESC LIMIT 1').bind(parent, ref),
+    db.prepare('SELECT ref FROM proni WHERE parent = ?1 AND ref > ?2 ORDER BY ref ASC LIMIT 1').bind(parent, ref),
+    db.prepare('SELECT COUNT(*) AS n FROM proni WHERE parent = ?1').bind(parent),
+    db.prepare('SELECT COUNT(*) AS n FROM proni WHERE parent = ?1 AND ref <= ?2').bind(parent, ref),
+  ]);
+  const one = (r) => ((r.results || [])[0] || {});
+  return {
+    parent,
+    first: one(rows[0]).ref || null,
+    last: one(rows[1]).ref || null,
+    prev: one(rows[2]).ref || null,
+    next: one(rows[3]).ref || null,
+    total: one(rows[4]).n || 0,
+    position: one(rows[5]).n || 0,
+  };
+}
+
 // Bump when the underlying D1 data changes (re-import) to invalidate the edge
 // cache without a manual purge — it is folded into the cache key.
-const CACHE_VERSION = 'v1';
+const CACHE_VERSION = 'v2';
 
 // The PRONI data is a static snapshot, so responses are safe to edge-cache
 // aggressively. Serve from Cloudflare's cache when warm; otherwise compute and
@@ -80,6 +113,8 @@ async function handle(context) {
       `SELECT ${childCols} FROM proni WHERE parent = ?1 ORDER BY ref`
     ).bind(ref).all();
 
+    const nav = await siblingNav(db, ref);
+
     const ancRefs = ancestorRefs(ref);
     let ancestors = [];
     if (ancRefs.length) {
@@ -103,6 +138,7 @@ async function handle(context) {
         hasChildren: !!item.hasChildren, fond: item.fond || '',
       },
       ancestors,
+      nav,
       children: (kids.results || []).map(mapChild),
     });
   } catch (error) {
