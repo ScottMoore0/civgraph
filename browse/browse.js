@@ -257,6 +257,19 @@ function bindEvents() {
       return;
     }
 
+    const descToggle = event.target.closest('[data-proni-desc-toggle]');
+    if (descToggle) {
+      event.preventDefault();
+      const section = descToggle.closest('[data-proni-desc]');
+      if (section) {
+        const expanded = section.getAttribute('data-expanded') === 'true';
+        section.setAttribute('data-expanded', String(!expanded));
+        descToggle.setAttribute('aria-expanded', String(!expanded));
+        descToggle.textContent = expanded ? 'Show more' : 'Show less';
+      }
+      return;
+    }
+
     const link = event.target.closest('[data-browse-link]');
     if (link) {
       event.preventDefault();
@@ -954,6 +967,30 @@ function proniChildRow(c) {
     </li>`;
 }
 
+const PRONI_DESC_LIMIT = 280;
+
+// Descriptions over the limit collapse to a preview with a Show more/less toggle.
+// Both the preview and the full text are rendered; CSS shows one at a time.
+function renderProniDescription(text) {
+  if (!text) return '';
+  const full = escapeHtml(text);
+  const heading = '<h2 class="proni-section-title">Description</h2>';
+  if (text.length <= PRONI_DESC_LIMIT) {
+    return `<section class="proni-description">${heading}<p>${full}</p></section>`;
+  }
+  let cut = text.slice(0, PRONI_DESC_LIMIT);
+  const sp = cut.lastIndexOf(' ');
+  if (sp > PRONI_DESC_LIMIT * 0.6) cut = cut.slice(0, sp);
+  const short = escapeHtml(cut.replace(/[\s.,;:]+$/, '')) + '…';
+  return `
+    <section class="proni-description" data-proni-desc data-expanded="false">
+      ${heading}
+      <p class="proni-desc-short">${short}</p>
+      <p class="proni-desc-full">${full}</p>
+      <button type="button" class="proni-desc-toggle" data-proni-desc-toggle aria-expanded="false">Show more</button>
+    </section>`;
+}
+
 function renderProniDetailPage(node) {
   const it = node.item;
   const children = it.children || [];
@@ -963,9 +1000,7 @@ function renderProniDetailPage(node) {
          <ul class="proni-child-list">${children.map(proniChildRow).join('')}</ul>
        </section>`
     : '';
-  const description = it.description
-    ? `<section class="proni-description"><h2 class="proni-section-title">Description</h2><p>${escapeHtml(it.description)}</p></section>`
-    : '';
+  const description = renderProniDescription(it.description);
   return `
     <div class="browse-detail browse-detail--reader proni-detail">
       ${proniBreadcrumb(node)}

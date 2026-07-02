@@ -2079,3 +2079,13 @@ a:hover {
 .proni-search-results { margin-top: 1rem; }
 .proni-search-count { font-size: 0.82rem; color: var(--color-text-muted); margin: 0 0 0.6rem; }
 .proni-fonds { margin-top: 1.5rem; }
+
+/* --- PRONI description expand/collapse ---------------------------------- */
+.proni-description[data-expanded="false"] .proni-desc-full { display: none; }
+.proni-description[data-expanded="true"] .proni-desc-short { display: none; }
+.proni-desc-toggle {
+  margin-top: 0.4rem; padding: 0; border: none; background: none;
+  font: inherit; font-size: 0.85rem; font-weight: 600;
+  color: var(--color-primary); cursor: pointer;
+}
+.proni-desc-toggle:hover { text-decoration: underline; }
