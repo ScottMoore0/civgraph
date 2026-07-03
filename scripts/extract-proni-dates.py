@@ -66,10 +66,17 @@ def parse_expr(s):
         if m:
             bound = 'before'; s = s[m.end():].strip()
     low = s.lower()
+    def cnum(w):
+        return ORD.get(w) or (int(re.match(r"(\d{1,2})", w).group(1)) if re.match(r"\d", w) else None)
+    # multi-century span: '17th and 18th centuries' -> 1600-1799, '13th or 14th' -> 1200-1399
+    m = re.search(r"([\w-]+)\s+(?:and|or)\s+([\w-]+)\s+cent(?:ury|uries)?\.?", low)
+    if m:
+        cs = [cnum(m.group(1)), cnum(m.group(2))]
+        if all(cs):
+            return dict(y=(min(cs) - 1) * 100, m=None, d=None, prec='century', circa=circa, bound=bound, y_end=(max(cs) - 1) * 100 + 99)
     m = re.search(r"([\w-]+)\s+cent(?:ury|uries)?\.?", low)  # 'century', 'centuries', 'Cent.'
     if m:
-        w = m.group(1)
-        c = ORD.get(w) or (int(re.match(r"(\d{1,2})", w).group(1)) if re.match(r"\d", w) else None)
+        c = cnum(m.group(1))
         if c:
             return dict(y=(c - 1) * 100, m=None, d=None, prec='century', circa=circa, bound=bound, y_end=(c - 1) * 100 + 99)
     m = re.match(r"(1\d\d|20\d)0s\b", low)
@@ -100,6 +107,11 @@ def edtf(y, m, d):
     return f"{y:04d}"
 
 
+def ordinal(n):
+    suf = 'th' if 10 <= n % 100 <= 20 else {1: 'st', 2: 'nd', 3: 'rd'}.get(n % 10, 'th')
+    return f"{n}{suf}"
+
+
 def fmt(e):
     if e['d'] and e['m']:
         b = f"{e['d']} {MONTHNAMES[e['m']]} {e['y']}"
@@ -108,7 +120,9 @@ def fmt(e):
     elif e['prec'] == 'decade':
         b = f"{e['y']}s"
     elif e['prec'] == 'century':
-        b = f"{e['y'] // 100 + 1}th century"
+        c1 = e['y'] // 100 + 1
+        c2 = (e.get('y_end') or e['y']) // 100 + 1
+        b = f"{ordinal(c1)} century" if c1 == c2 else f"{ordinal(c1)}–{ordinal(c2)} century"
     else:
         b = str(e['y'])
     return ('c. ' if e['circa'] else '') + b
@@ -148,10 +162,9 @@ def extract(raw):
     ed = '' if open_end else (f"{hi['y_end']:04d}" if hi.get('y_end') else edtf(hi['y'], hi['m'], hi['d']))
     circa = 1 if (a['circa'] or hi['circa']) else 0
     bound = 'after' if open_end else ('before' if open_start else '')
-    # a single century resolves to its 100-year span; only genuinely multi/uncertain
-    # ones ('17th and 18th', '13th or 14th') stay for review
-    is_century = (a['prec'] == 'century' or hi['prec'] == 'century')
-    review = 1 if (is_century and re.search(r"\b(and|or)\b|&", d, re.I)) else 0
+    # centuries (single or multi) now resolve to a year span; anything the parser
+    # couldn't read at all is handled by the unparsed branch above (review=1)
+    review = 0
     disp = fmt_bound(a)
     if b and (b['y'] != a['y'] or b['m'] != a['m'] or b['d'] != a['d']):
         disp = fmt_bound(a) + ' – ' + fmt_bound(b)
