@@ -4,7 +4,8 @@ Civgraph 'Additional Data' — Extracted Dates pipeline.
 
 Reads the original PRONI `dates` free text for every record and produces a
 cleaned, structured version:
-  ext_start_date / ext_end_date  (ISO, best available precision)
+  ext_start_date / ext_end_date  (EDTF/ISO-8601-2 partial dates, native precision:
+                                  '1906', '1897-04' or '1973-04-12' — never padded)
   ext_start_year / ext_end_year  (ints — power the app's From/To range filter)
   ext_precision                  (day|month|year|decade|century|range|'')
   ext_circa, ext_undated         (flags)
@@ -19,7 +20,7 @@ Outputs:
   D:/PRONI/eCatalogue/extracted-dates.sqlite   (table `ext`, keyed by ref -> for D1)
   D:/PRONI/eCatalogue/date-needs-review.csv     (the needs_review rows to work from)
 """
-import sqlite3, re, csv, calendar, os
+import sqlite3, re, csv, os
 
 SRC = r"D:/PRONI/eCatalogue/proni.sqlite"
 OUT_DB = r"D:/PRONI/eCatalogue/extracted-dates.sqlite"
@@ -72,14 +73,16 @@ def parse_expr(s):
     return None
 
 
-def iso(y, m, d, end):
+def edtf(y, m, d):
+    """Variable-precision EDTF / ISO-8601-2 partial date — never padded, so the
+    string's own length carries the precision: '1906', '1897-04', '1973-04-12'."""
     if y is None:
         return ''
     if d and m:
         return f"{y:04d}-{m:02d}-{d:02d}"
     if m:
-        return f"{y:04d}-{m:02d}-{calendar.monthrange(y, m)[1]:02d}" if end else f"{y:04d}-{m:02d}-01"
-    return f"{y:04d}-12-31" if end else f"{y:04d}-01-01"
+        return f"{y:04d}-{m:02d}"
+    return f"{y:04d}"
 
 
 def fmt(e):
@@ -110,8 +113,8 @@ def extract(raw):
     hi = b if b else a
     sy = a.get('y')
     ey = hi.get('y_end', hi.get('y'))
-    sd = iso(a['y'], a['m'], a['d'], False)
-    ed = (f"{hi['y_end']:04d}-12-31" if hi.get('y_end') else iso(hi['y'], hi['m'], hi['d'], True))
+    sd = edtf(a['y'], a['m'], a['d'])
+    ed = (f"{hi['y_end']:04d}" if hi.get('y_end') else edtf(hi['y'], hi['m'], hi['d']))
     circa = 1 if (a['circa'] or hi['circa']) else 0
     review = 1 if (a['uncertain'] or hi['uncertain'] or a['prec'] == 'century') else 0
     disp = fmt(a)
@@ -175,12 +178,15 @@ def main():
     out.execute("CREATE INDEX ext_years ON ext(ext_start_year, ext_end_year)")
     out.commit(); out.close(); con.close()
 
-    with open(REVIEW_CSV, 'w', newline='', encoding='utf-8-sig') as f:
-        w = csv.writer(f)
-        w.writerow(['ref', 'dates (raw PRONI)', 'auto ext_start_date', 'auto ext_end_date', 'auto ext_display',
-                    '-> ext_start_date', 'ext_end_date', 'ext_start_year', 'ext_end_year', 'ext_display', 'ext_undated'])
-        for ref, raw, sd, ed, disp in review_rows:
-            w.writerow([ref, raw, sd, ed, disp, '', '', '', '', '', ''])
+    try:
+        with open(REVIEW_CSV, 'w', newline='', encoding='utf-8-sig') as f:
+            w = csv.writer(f)
+            w.writerow(['ref', 'dates (raw PRONI)', 'auto ext_start_date', 'auto ext_end_date', 'auto ext_display',
+                        '-> ext_start_date', 'ext_end_date', 'ext_start_year', 'ext_end_year', 'ext_display', 'ext_undated'])
+            for ref, raw, sd, ed, disp in review_rows:
+                w.writerow([ref, raw, sd, ed, disp, '', '', '', '', '', ''])
+    except PermissionError:
+        print(f"WARN: {REVIEW_CSV} is open/locked — left untouched (ext table still written).")
 
     print(f"records: {total:,}   overrides applied: {n_over:,}")
     for k, v in sorted(stat.items(), key=lambda x: -x[1]):
