@@ -181,7 +181,7 @@ function stripHtmlKeepBreaks(html = "") {
   return decodeHtml(String(html)
     .replace(/<script\b[\s\S]*?<\/script>/gi, " ")
     .replace(/<style\b[\s\S]*?<\/style>/gi, " ")
-    .replace(/<br\s*\/?>/gi, "\n")
+    .replace(/<\/?br\s*\/?>/gi, "\n")  // PRONI emits malformed '</br>' between entries
     .replace(/<\/(p|div|li|tr|h[1-6])\s*>/gi, "\n")
     .replace(/<[^>]+>/g, " "))
     .replace(/[ \t\f\v]+/g, " ")
