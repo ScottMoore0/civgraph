@@ -108,19 +108,16 @@ function queryParams() {
   const from = yearOf(els.from.value), to = yearOf(els.to.value);
   if (from) p.set('from', from);
   if (to) p.set('to', to);
-  // a selected letter is a top-level browse (fonds under that letter, A→Z), not a
-  // filter on the current search — hence top=1 and no text query alongside it
-  if (state.letter) { p.set('letter', state.letter); p.set('top', '1'); }
+  // A selected letter restricts to records whose reference begins with it. With
+  // no search terms this browses the top-level fonds (top=1); with search terms
+  // it filters to all matching records within those fonds (no top).
+  if (state.letter) {
+    p.set('letter', state.letter);
+    if (!hasTextInput()) p.set('top', '1');
+  }
   return p;
 }
 
-// The text search terms (main box + advanced fields + dates) — cleared when the
-// user switches to letter-browse.
-function clearSearchTerms() {
-  els.q.value = ''; els.clear.hidden = true;
-  els.fTitle.value = ''; els.fDescription.value = ''; els.fRef.value = ''; els.fDates.value = '';
-  els.from.value = ''; els.to.value = '';
-}
 function hasTextInput() {
   return !!(els.q.value.trim() || els.fTitle.value.trim() || els.fDescription.value.trim() ||
     els.fRef.value.trim() || els.fDates.value.trim());
@@ -146,30 +143,34 @@ function updateStatus() {
   const hasInput = hasAnyInput();
   if (els.exportResults) els.exportResults.disabled = !hasInput || state.total === 0;
   if (!hasInput) { els.status.textContent = 'Type to search 1,538,177 PRONI catalogue records — or pick a starting letter.'; return; }
-  // letter-browse: summarise everything under the letter by archival level
-  if (state.letter && state.levels && state.levels.length) {
+  // letter alone browses fonds -> summarise everything under the letter by level;
+  // letter + search terms is a filtered search -> show the matching-result count
+  const browseMode = state.letter && !hasTextInput();
+  if (browseMode && state.levels && state.levels.length) {
     els.status.textContent = `Reference ${state.letter} — ${formatLevels(state.levels)}`;
     return;
   }
-  if (state.total != null && !state.letter) {
-    els.status.textContent = state.total === 0 ? 'No matching records.' : `${state.total.toLocaleString()} result${state.total === 1 ? '' : 's'}`;
+  if (state.total != null && !browseMode) {
+    const scope = state.letter ? ` in reference ${state.letter}` : '';
+    els.status.textContent = state.total === 0 ? 'No matching records.' : `${state.total.toLocaleString()} result${state.total === 1 ? '' : 's'}${scope}`;
     return;
   }
   const n = state.seen.size;
-  if (n) els.status.textContent = state.letter ? `Reference ${state.letter} — loading breakdown…` : `${n.toLocaleString()}${state.done ? '' : '+'} result${n === 1 ? '' : 's'}`;
+  if (n) els.status.textContent = browseMode ? `Reference ${state.letter} — loading breakdown…` : `${n.toLocaleString()}${state.done ? '' : '+'} result${n === 1 ? '' : 's'}`;
   else els.status.textContent = state.done ? 'No matching records.' : 'Searching…';
 }
 
 async function fetchCount(qid) {
   try {
-    // In letter-browse, ask for a per-level breakdown of ALL records under the
-    // letter (not just the top-level fonds shown in the list).
-    const url = state.letter
+    // letter alone -> per-level breakdown of everything under the letter;
+    // letter + terms (or plain search) -> a normal matching-result count
+    const browseMode = state.letter && !hasTextInput();
+    const url = browseMode
       ? `${COUNT_API}?letter=${encodeURIComponent(state.letter)}&breakdown=1`
       : `${COUNT_API}?${queryParams()}`;
     const data = await (await fetch(url)).json();
     if (qid !== state.queryId) return;                 // a newer query superseded this
-    if (state.letter && Array.isArray(data.levels)) { state.levels = data.levels; state.total = data.count ?? null; updateStatus(); }
+    if (browseMode && Array.isArray(data.levels)) { state.levels = data.levels; state.total = data.count ?? null; updateStatus(); }
     else if (typeof data.count === 'number') { state.total = data.count; state.levels = null; updateStatus(); }
   } catch { /* keep the loaded-so-far fallback */ }
 }
@@ -504,11 +505,7 @@ let timer;
 const debounced = () => {
   clearTimeout(timer);
   els.clear.hidden = !els.q.value;
-  // typing a search term deselects the browse letter (search supersedes browse)
-  if (state.letter && hasTextInput()) {
-    state.letter = '';
-    els.az.querySelectorAll('.ps-az__btn').forEach((b) => b.classList.remove('is-active'));
-  }
+  // typing filters *within* the selected letter — the letter stays selected
   timer = setTimeout(() => search(true), 220);
 };
 [els.q, els.fTitle, els.fDescription, els.fRef, els.fDates].forEach((el) => el.addEventListener('input', debounced));
@@ -537,8 +534,8 @@ els.exportResults.addEventListener('click', () => {
 els.az.addEventListener('click', (e) => {
   const btn = e.target.closest('[data-letter]');
   if (btn) {
+    // toggle the letter; it filters alongside any active search terms
     state.letter = state.letter === btn.dataset.letter ? '' : btn.dataset.letter;
-    if (state.letter) clearSearchTerms(); // browsing a letter replaces any active search
   } else if (e.target === azClear) {
     state.letter = '';
   } else return;
