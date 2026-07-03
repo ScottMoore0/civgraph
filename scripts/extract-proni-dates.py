@@ -224,19 +224,19 @@ def main():
         ext_bound TEXT, ext_undated INT, ext_display TEXT, needs_review INT, overridden INT)""")
     review_rows = []
     batch = []
-    allrecs = con.execute("SELECT ref, dates FROM proni").fetchall()
+    allrecs = con.execute("SELECT ref, dates, title FROM proni").fetchall()
     rec = lambda dates: (memo[dates] if dates in memo else extract(dates))
 
     # 2-digit slash years with no in-string anchor -> resolve the century from the
     # nearest ANCESTOR record that has a known 4-digit year (never assume 19xx).
     wanted = set()
-    for ref, dates in allrecs:
+    for ref, dates, title in allrecs:
         if rec(dates).get('needs_century'):
             cur2 = ref
             while '/' in cur2:
                 cur2 = cur2.rsplit('/', 1)[0]; wanted.add(cur2)
     anchors = {}
-    for ref, dates in allrecs:
+    for ref, dates, title in allrecs:
         if ref in wanted:
             rr = rec(dates)
             if not rr.get('needs_century') and rr['sy'] is not None:
@@ -251,8 +251,8 @@ def main():
                 return (asy // 100) * 100, asy, aey
         return None, None, None
 
-    n_over = n_slash = n_slash_manual = 0
-    for ref, dates in allrecs:
+    n_over = n_slash = n_slash_manual = n_placeholder = n_floor_undated = n_floor_clamped = 0
+    for ref, dates, title in allrecs:
         r = dict(rec(dates))
         if r.get('needs_century'):
             century, asy, aey = anc_century(ref)
@@ -291,6 +291,24 @@ def main():
             if o.get('ext_undated'): r['undated'] = int(o['ext_undated'] or 0)
             if o.get('ext_circa'): r['circa'] = int(o['ext_circa'] or 0)
             r['review'] = 0
+        # --- data corrections (skip anything the user overrode by hand) ---
+        # (a) 'NUMBER NOT USED' (and the 'NOR USED' typo) = an unassigned reference
+        #     with no actual document -> undated.
+        # (b) PRONI's oldest document is the 1219 Papal Bull of Honorius III, so no
+        #     extracted date may precede it: fully pre-1219 dates (placeholders,
+        #     reference numbers mis-read as years, impossible singles) -> undated;
+        #     a range crossing 1219 has its spurious start clamped up to 1219.
+        if not overridden:
+            undate = dict(sd='', ed='', sy=None, ey=None, prec='', circa=0, estimated=0,
+                          bound='', undated=1, display='Undated', review=0)
+            if title and re.match(r"\s*NUMBER\s+NO[TR]\s+USED", title, re.I):
+                r.update(undate); n_placeholder += 1
+            elif r['sy'] is not None and r['sy'] < 1219:
+                if r['ey'] is None or r['ey'] < 1219:
+                    r.update(undate); n_floor_undated += 1
+                else:
+                    tail = r['display'].split(' – ', 1)[1] if ' – ' in (r.get('display') or '') else str(r['ey'])
+                    r.update(sy=1219, sd='1219', display=f"1219 – {tail}"); n_floor_clamped += 1
         batch.append((ref, r['sd'], r['ed'], r['sy'], r['ey'], r['prec'], r['circa'], r['estimated'], r['bound'], r['undated'], r['display'], r['review'], overridden))
         if r['review'] and not overridden:
             review_rows.append((ref, dates or '', r['sd'], r['ed'], r['display']))
@@ -317,6 +335,7 @@ def main():
     print(f"  {'estimated*':14s} {n_est:>10,}  {100 * n_est / total:5.1f}%   (* PRONI-estimated, cross-cuts the above)")
     print(f"  bound: after={n_after:,}  before={n_before:,}  (open-ended dates, one year NULL)")
     print(f"  slash DD/MM/YY resolved via ancestor century: {n_slash:,}  (unresolved -> review: {n_slash_manual:,})")
+    print(f"  1219 floor: {n_placeholder:,} 'NUMBER NOT USED' + {n_floor_undated:,} fully-pre-1219 -> undated; {n_floor_clamped:,} crossing ranges clamped to 1219")
     print(f"needs-review rows written: {len(review_rows):,} -> {REVIEW_CSV}")
 
 
