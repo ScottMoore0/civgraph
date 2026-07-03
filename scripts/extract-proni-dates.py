@@ -1,0 +1,192 @@
+#!/usr/bin/env python3
+"""
+Civgraph 'Additional Data' — Extracted Dates pipeline.
+
+Reads the original PRONI `dates` free text for every record and produces a
+cleaned, structured version:
+  ext_start_date / ext_end_date  (ISO, best available precision)
+  ext_start_year / ext_end_year  (ints — power the app's From/To range filter)
+  ext_precision                  (day|month|year|decade|century|range|'')
+  ext_circa, ext_undated         (flags)
+  ext_display                    (human string, e.g. '12 April 1973 – 10 May 1973')
+  needs_review                   (1 = ambiguous: bracketed/uncertain/century)
+
+Manual overrides: rows in data/proni/date-overrides.csv (keyed by PRONI ref)
+win over the auto-extraction, so you can correct records 'to an extent'. The
+run is idempotent — re-run any time after editing the overrides file.
+
+Outputs:
+  D:/PRONI/eCatalogue/extracted-dates.sqlite   (table `ext`, keyed by ref -> for D1)
+  D:/PRONI/eCatalogue/date-needs-review.csv     (the needs_review rows to work from)
+"""
+import sqlite3, re, csv, calendar, os
+
+SRC = r"D:/PRONI/eCatalogue/proni.sqlite"
+OUT_DB = r"D:/PRONI/eCatalogue/extracted-dates.sqlite"
+REVIEW_CSV = r"D:/PRONI/eCatalogue/date-needs-review.csv"
+OVERRIDES = os.path.join(os.path.dirname(__file__), "..", "data", "proni", "date-overrides.csv")
+
+MONTHNAMES = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July',
+              'August', 'September', 'October', 'November', 'December']
+MONTHS = {m.lower(): i for i, m in enumerate(MONTHNAMES) if m}
+for a, f in [('jan', 'january'), ('feb', 'february'), ('mar', 'march'), ('apr', 'april'),
+             ('jun', 'june'), ('jul', 'july'), ('aug', 'august'), ('sep', 'september'),
+             ('sept', 'september'), ('oct', 'october'), ('nov', 'november'), ('dec', 'december')]:
+    MONTHS[a] = MONTHS[f]
+ORD = {'first': 1, 'second': 2, 'third': 3, 'fourth': 4, 'fifth': 5, 'sixth': 6, 'seventh': 7,
+       'eighth': 8, 'ninth': 9, 'tenth': 10, 'eleventh': 11, 'twelfth': 12, 'thirteenth': 13,
+       'fourteenth': 14, 'fifteenth': 15, 'sixteenth': 16, 'seventeenth': 17, 'eighteenth': 18,
+       'nineteenth': 19, 'twentieth': 20, 'twenty-first': 21, 'twenty first': 21}
+YEAR = r"(1[5-9]\d{2}|20\d{2})"
+
+
+def parse_expr(s):
+    s = s.strip()
+    if not s:
+        return None
+    circa = unc = False
+    if re.match(r"^(c\.?\s*|circa\s+)", s, re.I):
+        circa = True; s = re.sub(r"^(c\.?\s*|circa\s+)", "", s, flags=re.I)
+    if '[' in s or ']' in s or '?' in s:
+        unc = True; s = s.replace('[', '').replace(']', '').replace('?', '').strip()
+    low = s.lower()
+    m = re.search(r"([\w-]+)\s+centur", low)
+    if m:
+        w = m.group(1)
+        c = ORD.get(w) or (int(re.match(r"(\d{1,2})", w).group(1)) if re.match(r"\d", w) else None)
+        if c:
+            return dict(y=(c - 1) * 100, m=None, d=None, prec='century', circa=circa, uncertain=True, y_end=(c - 1) * 100 + 99)
+    m = re.match(r"(1[5-9]\d|20\d)0s\b", low)
+    if m:
+        y = int(m.group(1)) * 10
+        return dict(y=y, m=None, d=None, prec='decade', circa=circa, uncertain=unc, y_end=y + 9)
+    m = re.match(r"(\d{1,2})\s+([A-Za-z]+)\s+" + YEAR, s)
+    if m and m.group(2).lower() in MONTHS:
+        return dict(y=int(m.group(3)), m=MONTHS[m.group(2).lower()], d=int(m.group(1)), prec='day', circa=circa, uncertain=unc)
+    m = re.match(r"([A-Za-z]+)\s+" + YEAR, s)
+    if m and m.group(1).lower() in MONTHS:
+        return dict(y=int(m.group(2)), m=MONTHS[m.group(1).lower()], d=None, prec='month', circa=circa, uncertain=unc)
+    m = re.search(YEAR, s)
+    if m:
+        return dict(y=int(m.group(1)), m=None, d=None, prec='year', circa=circa, uncertain=unc)
+    return None
+
+
+def iso(y, m, d, end):
+    if y is None:
+        return ''
+    if d and m:
+        return f"{y:04d}-{m:02d}-{d:02d}"
+    if m:
+        return f"{y:04d}-{m:02d}-{calendar.monthrange(y, m)[1]:02d}" if end else f"{y:04d}-{m:02d}-01"
+    return f"{y:04d}-12-31" if end else f"{y:04d}-01-01"
+
+
+def fmt(e):
+    if e['d'] and e['m']:
+        b = f"{e['d']} {MONTHNAMES[e['m']]} {e['y']}"
+    elif e['m']:
+        b = f"{MONTHNAMES[e['m']]} {e['y']}"
+    elif e['prec'] == 'decade':
+        b = f"{e['y']}s"
+    elif e['prec'] == 'century':
+        b = f"{e['y'] // 100 + 1}th century"
+    else:
+        b = str(e['y'])
+    return ('c. ' if e['circa'] else '') + b
+
+
+def extract(raw):
+    d = (raw or '').strip()
+    if d == '' or re.fullmatch(r"[Nn]o\s+[Dd]ate\.?", d):
+        return dict(sd='', ed='', sy=None, ey=None, prec='', circa=0, undated=1, display='Undated', review=0)
+    parts = re.split(r"\s*[-–—]\s*|\s+to\s+|\s+x\s+", d, maxsplit=1)
+    a = parse_expr(parts[0])
+    b = parse_expr(parts[1]) if len(parts) > 1 else None
+    if a is None and b is None:
+        return dict(sd='', ed='', sy=None, ey=None, prec='', circa=0, undated=0, display=d, review=1)
+    if a is None:
+        a = b
+    hi = b if b else a
+    sy = a.get('y')
+    ey = hi.get('y_end', hi.get('y'))
+    sd = iso(a['y'], a['m'], a['d'], False)
+    ed = (f"{hi['y_end']:04d}-12-31" if hi.get('y_end') else iso(hi['y'], hi['m'], hi['d'], True))
+    circa = 1 if (a['circa'] or hi['circa']) else 0
+    review = 1 if (a['uncertain'] or hi['uncertain'] or a['prec'] == 'century') else 0
+    disp = fmt(a)
+    if b and (b['y'] != a['y'] or b['m'] != a['m'] or b['d'] != a['d']):
+        disp += ' – ' + fmt(b)
+    prec = 'range' if b else a['prec']
+    return dict(sd=sd, ed=ed, sy=sy, ey=ey, prec=prec, circa=circa, undated=0, display=disp, review=review)
+
+
+def load_overrides():
+    ov = {}
+    if os.path.exists(OVERRIDES):
+        with open(OVERRIDES, newline='', encoding='utf-8-sig') as f:
+            for row in csv.DictReader(f):
+                ref = (row.get('ref') or '').strip()
+                if ref:
+                    ov[ref] = row
+    return ov
+
+
+def main():
+    ov = load_overrides()
+    con = sqlite3.connect(SRC); con.text_factory = lambda b: b.decode('utf-8', 'replace')
+    rows = con.execute("SELECT dates, COUNT(*) n FROM proni GROUP BY dates").fetchall()
+    memo = {d: extract(d) for d, n in rows}
+    total = sum(n for _, n in rows)
+    stat = {}
+    for d, n in rows:
+        r = memo[d]
+        k = 'undated' if r['undated'] else ('needs_review' if r['review'] else ('circa' if r['circa'] else ('dated' if r['sy'] is not None else 'unparsed')))
+        stat[k] = stat.get(k, 0) + n
+
+    out = sqlite3.connect(OUT_DB)
+    out.execute("DROP TABLE IF EXISTS ext")
+    out.execute("""CREATE TABLE ext (ref TEXT PRIMARY KEY, ext_start_date TEXT, ext_end_date TEXT,
+        ext_start_year INT, ext_end_year INT, ext_precision TEXT, ext_circa INT, ext_undated INT,
+        ext_display TEXT, needs_review INT, overridden INT)""")
+    review_rows = []
+    batch = []
+    cur = con.execute("SELECT ref, dates FROM proni")
+    n_over = 0
+    for ref, dates in cur:
+        r = dict(memo[(dates or '').strip() if (dates is not None) else ''] if (dates or '').strip() in memo else extract(dates))
+        overridden = 0
+        if ref in ov:
+            o = ov[ref]; overridden = 1; n_over += 1
+            if o.get('ext_start_date'): r['sd'] = o['ext_start_date'].strip()
+            if o.get('ext_end_date'): r['ed'] = o['ext_end_date'].strip()
+            if o.get('ext_start_year'): r['sy'] = int(o['ext_start_year'])
+            if o.get('ext_end_year'): r['ey'] = int(o['ext_end_year'])
+            if o.get('ext_display'): r['display'] = o['ext_display'].strip()
+            if o.get('ext_undated'): r['undated'] = int(o['ext_undated'] or 0)
+            r['review'] = 0
+        batch.append((ref, r['sd'], r['ed'], r['sy'], r['ey'], r['prec'], r['circa'], r['undated'], r['display'], r['review'], overridden))
+        if r['review'] and not overridden:
+            review_rows.append((ref, dates or '', r['sd'], r['ed'], r['display']))
+        if len(batch) >= 20000:
+            out.executemany("INSERT INTO ext VALUES (?,?,?,?,?,?,?,?,?,?,?)", batch); batch = []
+    if batch:
+        out.executemany("INSERT INTO ext VALUES (?,?,?,?,?,?,?,?,?,?,?)", batch)
+    out.execute("CREATE INDEX ext_years ON ext(ext_start_year, ext_end_year)")
+    out.commit(); out.close(); con.close()
+
+    with open(REVIEW_CSV, 'w', newline='', encoding='utf-8-sig') as f:
+        w = csv.writer(f)
+        w.writerow(['ref', 'dates (raw PRONI)', 'auto ext_start_date', 'auto ext_end_date', 'auto ext_display',
+                    '-> ext_start_date', 'ext_end_date', 'ext_start_year', 'ext_end_year', 'ext_display', 'ext_undated'])
+        for ref, raw, sd, ed, disp in review_rows:
+            w.writerow([ref, raw, sd, ed, disp, '', '', '', '', '', ''])
+
+    print(f"records: {total:,}   overrides applied: {n_over:,}")
+    for k, v in sorted(stat.items(), key=lambda x: -x[1]):
+        print(f"  {k:14s} {v:>10,}  {100 * v / total:5.1f}%")
+    print(f"needs-review rows written: {len(review_rows):,} -> {REVIEW_CSV}")
+
+
+if __name__ == '__main__':
+    main()
