@@ -174,6 +174,22 @@ function stripHtml(html = "") {
     .trim();
 }
 
+// Like stripHtml but preserves line/paragraph breaks (for the Description field):
+// <br> and block-level closes become newlines; only horizontal whitespace is
+// collapsed, so the PRONI layout (e.g. one 'Date: …' entry per paragraph) survives.
+function stripHtmlKeepBreaks(html = "") {
+  return decodeHtml(String(html)
+    .replace(/<script\b[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style\b[\s\S]*?<\/style>/gi, " ")
+    .replace(/<br\s*\/?>/gi, "\n")
+    .replace(/<\/(p|div|li|tr|h[1-6])\s*>/gi, "\n")
+    .replace(/<[^>]+>/g, " "))
+    .replace(/[ \t\f\v]+/g, " ")
+    .replace(/ *\n */g, "\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
 function getTagAttribute(tag, name) {
   const m = String(tag).match(new RegExp(`${name}\\s*=\\s*(['"])([\\s\\S]*?)\\1`, "i"));
   return m ? decodeHtml(m[2]) : "";
@@ -249,10 +265,12 @@ function extractDetailFields(html) {
     if (!labelMatch) continue;
     const key = stripHtml(labelMatch[1]).replace(/:$/, "").trim();
     if (!key) continue;
+    const keepBreaks = key === "Description"; // only the description carries line breaks
+    const strip = keepBreaks ? stripHtmlKeepBreaks : stripHtml;
     const cells = [...rowHtml.matchAll(/<td\b[^>]*>([\s\S]*?)<\/td>/gi)]
-      .map((cell) => stripHtml(cell[1]))
+      .map((cell) => strip(cell[1]))
       .filter(Boolean);
-    const value = cells.length >= 2 ? cells.slice(1).join(" ").trim() : "";
+    const value = cells.length >= 2 ? cells.slice(1).join(keepBreaks ? "\n" : " ").trim() : "";
     if (rawAttributes[key] === undefined) rawAttributes[key] = value;
     else if (Array.isArray(rawAttributes[key])) rawAttributes[key].push(value);
     else rawAttributes[key] = [rawAttributes[key], value];
