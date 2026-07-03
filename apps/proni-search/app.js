@@ -21,7 +21,18 @@ const els = {
   exportResults: $('exportResults'), exportAll: $('exportAll'),
 };
 
-const state = { offset: 0, done: false, loading: false, seen: new Set(), letter: '', reqId: 0, queryId: 0, total: null };
+const state = { offset: 0, done: false, loading: false, seen: new Set(), letter: '', reqId: 0, queryId: 0, total: null, levels: null };
+
+// Archival hierarchy order for the letter-browse level breakdown.
+const LEVEL_ORDER = ['Fond', 'Sub-fond', 'Series', 'Sub-series', 'Sub-sub-series', 'Sub-sub-sub-series', 'Sub-sub-sub-sub-series', 'Sub-sub-sub-sub-sub-series', 'Sub-sub-sub-sub-sub-sub-series', 'File', 'Item'];
+const levelRank = (l) => { const i = LEVEL_ORDER.indexOf(l); return i === -1 ? 999 : i; };
+const pluralLevel = (level, n) => (n === 1 || /s$/i.test(level) ? level : `${level}s`);
+function formatLevels(levels) {
+  return levels.slice()
+    .sort((a, b) => levelRank(a.level) - levelRank(b.level) || String(a.level).localeCompare(String(b.level)))
+    .map((l) => `${l.n.toLocaleString()} ${pluralLevel(l.level || 'Other', l.n)}`)
+    .join(', ');
+}
 
 const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const yearOf = (v) => (v && /^\d{4}/.test(v) ? v.slice(0, 4) : '');
@@ -51,8 +62,8 @@ function refWidget(ref, withLabel) {
       ${withLabel ? '<span class="ps-refwidget__label">PRONI Ref:</span>' : ''}
       <span class="ps-ref">${rid}</span>
       <button type="button" class="ps-copy" data-copy="${rid}" title="Copy reference to clipboard" aria-label="Copy PRONI reference to clipboard">⧉ Copy</button>
+      <button type="button" class="ps-copy ps-source" data-ecat="${rid}" title="How to view this record on the official PRONI eCatalogue" aria-label="View this record's source on the official PRONI eCatalogue">↗ Source</button>
     </div>
-    <a class="ps-ecatlink" href="/proni?ecat=${encodeURIComponent(ref)}" data-ecat="${rid}">View on PRONI eCatalogue</a>
   </div>`;
 }
 
@@ -135,26 +146,37 @@ function updateStatus() {
   const hasInput = hasAnyInput();
   if (els.exportResults) els.exportResults.disabled = !hasInput || state.total === 0;
   if (!hasInput) { els.status.textContent = 'Type to search 1,538,177 PRONI catalogue records — or pick a starting letter.'; return; }
-  if (state.total != null) {
+  // letter-browse: summarise everything under the letter by archival level
+  if (state.letter && state.levels && state.levels.length) {
+    els.status.textContent = `Reference ${state.letter} — ${formatLevels(state.levels)}`;
+    return;
+  }
+  if (state.total != null && !state.letter) {
     els.status.textContent = state.total === 0 ? 'No matching records.' : `${state.total.toLocaleString()} result${state.total === 1 ? '' : 's'}`;
     return;
   }
   const n = state.seen.size;
-  if (n) els.status.textContent = `${n.toLocaleString()}${state.done ? '' : '+'} result${n === 1 ? '' : 's'}`;
+  if (n) els.status.textContent = state.letter ? `Reference ${state.letter} — loading breakdown…` : `${n.toLocaleString()}${state.done ? '' : '+'} result${n === 1 ? '' : 's'}`;
   else els.status.textContent = state.done ? 'No matching records.' : 'Searching…';
 }
 
 async function fetchCount(qid) {
   try {
-    const data = await (await fetch(`${COUNT_API}?${queryParams()}`)).json();
+    // In letter-browse, ask for a per-level breakdown of ALL records under the
+    // letter (not just the top-level fonds shown in the list).
+    const url = state.letter
+      ? `${COUNT_API}?letter=${encodeURIComponent(state.letter)}&breakdown=1`
+      : `${COUNT_API}?${queryParams()}`;
+    const data = await (await fetch(url)).json();
     if (qid !== state.queryId) return;                 // a newer query superseded this
-    if (typeof data.count === 'number') { state.total = data.count; updateStatus(); }
+    if (state.letter && Array.isArray(data.levels)) { state.levels = data.levels; state.total = data.count ?? null; updateStatus(); }
+    else if (typeof data.count === 'number') { state.total = data.count; state.levels = null; updateStatus(); }
   } catch { /* keep the loaded-so-far fallback */ }
 }
 
 async function search(reset) {
   if (state.loading && !reset) return; // a new query interrupts an in-flight load; only pagination waits
-  if (reset) { state.offset = 0; state.done = false; state.seen = new Set(); state.total = null; state.queryId += 1; }
+  if (reset) { state.offset = 0; state.done = false; state.seen = new Set(); state.total = null; state.levels = null; state.queryId += 1; }
   if (state.done) return;
   if (!hasAnyInput()) {
     els.results.innerHTML = '';

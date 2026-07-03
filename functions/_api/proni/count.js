@@ -39,11 +39,28 @@ async function handle(context) {
   const db = context.env.PRONI_DB;
   if (!db) return json({ count: null, error: 'PRONI_DB binding not configured' }, 503);
 
+  const breakdown = g('breakdown') === '1'; // letter-browse: counts grouped by level
   const match = buildMatch(q, fields);
   const { where, binds } = buildFilters({ letter: g('letter'), from, to, top: g('top') === '1' });
-  if (!match && !where.length) return json({ count: 0, exact: true });
+  if (!match && !where.length) return json({ count: 0, exact: true, levels: [] });
 
   try {
+    if (breakdown) {
+      let bsql, barr;
+      if (match) {
+        const w = where.length ? ' AND ' + where.join(' AND ') : '';
+        bsql = `SELECT p.level AS level, COUNT(*) AS n FROM proni_fts f JOIN proni p ON p.rowid = f.rowid WHERE proni_fts MATCH ?${w} GROUP BY p.level`;
+        barr = [match, ...binds];
+      } else {
+        bsql = `SELECT p.level AS level, COUNT(*) AS n FROM proni p WHERE ${where.join(' AND ')} GROUP BY p.level`;
+        barr = binds;
+      }
+      const rows = await db.prepare(bsql).bind(...barr).all();
+      const levels = (rows.results || []).map((r) => ({ level: r.level || '', n: r.n })).filter((l) => l.n > 0);
+      const total = levels.reduce((s, l) => s + l.n, 0);
+      return json({ count: total, levels, exact: true });
+    }
+
     let sql, bindArr;
     if (match) {
       const w = where.length ? ' AND ' + where.join(' AND ') : '';
