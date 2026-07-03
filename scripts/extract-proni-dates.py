@@ -83,6 +83,14 @@ def parse_expr(s):
     if m:
         y = int(m.group(1)) * 10
         return dict(y=y, m=None, d=None, prec='decade', circa=circa, bound=bound, y_end=y + 9)
+    # slash dates, British order DD/MM/YYYY or DD/MM/YY. A 2-digit year is NOT
+    # assumed to be 19xx — the century is resolved from context (extract()/main()).
+    m = re.match(r"(\d{1,2})/(\d{1,2})/(\d{4})\b", s)
+    if m and 1 <= int(m.group(1)) <= 31 and 1 <= int(m.group(2)) <= 12:
+        return dict(y=int(m.group(3)), m=int(m.group(2)), d=int(m.group(1)), prec='day', circa=circa, bound=bound)
+    m = re.match(r"(\d{1,2})/(\d{1,2})/(\d{2})\b", s)
+    if m and 1 <= int(m.group(1)) <= 31 and 1 <= int(m.group(2)) <= 12:
+        return dict(y=None, yy=int(m.group(3)), m=int(m.group(2)), d=int(m.group(1)), prec='day', circa=circa, bound=bound, needs_century=True)
     m = re.match(r"(\d{1,2})\s+([A-Za-z]+)\s+" + YEAR, s)
     if m and m.group(2).lower() in MONTHS:
         return dict(y=int(m.group(3)), m=MONTHS[m.group(2).lower()], d=int(m.group(1)), prec='day', circa=circa, bound=bound)
@@ -153,6 +161,17 @@ def extract(raw):
     if a is None:
         a = b
     hi = b if b else a
+    # 2-digit slash years: expand using a 4-digit year in the SAME string as anchor
+    # (e.g. '11/11/33-19/5/1938' -> 1933); if none, defer to main() (ancestor lookup).
+    if a.get('needs_century') or (b and b.get('needs_century')):
+        anchor = next(((e['y'] // 100) * 100 for e in (a, b) if e and not e.get('needs_century') and e.get('y') is not None), None)
+        if anchor is not None:
+            for e in (a, b):
+                if e and e.get('needs_century'):
+                    e['y'] = anchor + e['yy']; e['needs_century'] = False
+        if a.get('needs_century') or (b and b.get('needs_century')):
+            return dict(sd='', ed='', sy=None, ey=None, prec='day', circa=1 if (a['circa'] or hi['circa']) else 0,
+                        estimated=estimated, bound='', undated=0, display=d, review=0, needs_century=True, _a=a, _b=b)
     # 'before X' opens the start (lower bound unknown); 'after X' opens the end.
     open_start = (a['bound'] == 'before')
     open_end = (hi['bound'] == 'after')
@@ -205,10 +224,62 @@ def main():
         ext_bound TEXT, ext_undated INT, ext_display TEXT, needs_review INT, overridden INT)""")
     review_rows = []
     batch = []
-    cur = con.execute("SELECT ref, dates FROM proni")
-    n_over = 0
-    for ref, dates in cur:
-        r = dict(memo[(dates or '').strip() if (dates is not None) else ''] if (dates or '').strip() in memo else extract(dates))
+    allrecs = con.execute("SELECT ref, dates FROM proni").fetchall()
+    rec = lambda dates: (memo[dates] if dates in memo else extract(dates))
+
+    # 2-digit slash years with no in-string anchor -> resolve the century from the
+    # nearest ANCESTOR record that has a known 4-digit year (never assume 19xx).
+    wanted = set()
+    for ref, dates in allrecs:
+        if rec(dates).get('needs_century'):
+            cur2 = ref
+            while '/' in cur2:
+                cur2 = cur2.rsplit('/', 1)[0]; wanted.add(cur2)
+    anchors = {}
+    for ref, dates in allrecs:
+        if ref in wanted:
+            rr = rec(dates)
+            if not rr.get('needs_century') and rr['sy'] is not None:
+                anchors[ref] = (rr['sy'], rr['ey'] if rr['ey'] is not None else rr['sy'])
+
+    def anc_century(ref):
+        cur2 = ref
+        while '/' in cur2:
+            cur2 = cur2.rsplit('/', 1)[0]
+            if cur2 in anchors:
+                asy, aey = anchors[cur2]
+                return (asy // 100) * 100, asy, aey
+        return None, None, None
+
+    n_over = n_slash = n_slash_manual = 0
+    for ref, dates in allrecs:
+        r = dict(rec(dates))
+        if r.get('needs_century'):
+            century, asy, aey = anc_century(ref)
+            if century is None:
+                r['review'] = 1; n_slash_manual += 1
+            else:
+                def yr(e):
+                    if e is None:
+                        return None, None, None
+                    if e.get('y') is not None:
+                        return e['y'], e['m'], e['d']
+                    y = century + e['yy']
+                    if not (asy <= y <= aey):
+                        y = next((c for c in (y + 100, y - 100) if asy <= c <= aey), y)
+                    return y, e['m'], e['d']
+                _a, _b = r['_a'], r['_b']
+                ay, am, ad = yr(_a)
+                hy, hm, hd = yr(_b) if _b else (ay, am, ad)
+                r['sy'], r['ey'] = ay, hy
+                r['sd'], r['ed'] = edtf(ay, am, ad), edtf(hy, hm, hd)
+                ea = {'y': ay, 'm': am, 'd': ad, 'prec': 'day', 'circa': False, 'bound': None}
+                r['display'] = fmt_bound(ea)
+                if _b:
+                    eb = {'y': hy, 'm': hm, 'd': hd, 'prec': 'day', 'circa': False, 'bound': None}
+                    r['display'] = fmt_bound(ea) + ' – ' + fmt_bound(eb)
+                r['prec'] = 'range' if _b else 'day'
+                r['review'] = 0; n_slash += 1
         overridden = 0
         if ref in ov:
             o = ov[ref]; overridden = 1; n_over += 1
@@ -244,6 +315,7 @@ def main():
         print(f"  {k:14s} {v:>10,}  {100 * v / total:5.1f}%")
     print(f"  {'estimated*':14s} {n_est:>10,}  {100 * n_est / total:5.1f}%   (* PRONI-estimated, cross-cuts the above)")
     print(f"  bound: after={n_after:,}  before={n_before:,}  (open-ended dates, one year NULL)")
+    print(f"  slash DD/MM/YY resolved via ancestor century: {n_slash:,}  (unresolved -> review: {n_slash_manual:,})")
     print(f"needs-review rows written: {len(review_rows):,} -> {REVIEW_CSV}")
 
 
