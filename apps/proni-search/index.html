@@ -6,7 +6,7 @@
   <title>Independent PRONI Search</title>
   <meta name="description" content="Independent PRONI Search — an app made by Civgraph. Search all 1,538,177 records from the PRONI eCatalogue with a modern interface and powerful search.">
   <link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg">
-  <link rel="stylesheet" href="/apps/proni-search/app.css?v=14">
+  <link rel="stylesheet" href="/apps/proni-search/app.css?v=15">
 </head>
 <body>
   <header class="ps-header">
@@ -63,6 +63,26 @@
           <label class="ps-field">Description / text<input type="text" id="fDescription" autocomplete="off"></label>
           <label class="ps-field">PRONI reference<input type="text" id="fRef" autocomplete="off" placeholder="e.g. D1071/H/V"></label>
           <label class="ps-field">Dates (text)<input type="text" id="fDates" autocomplete="off" placeholder="e.g. 1897"></label>
+          <label class="ps-field">Level<select id="fLevel">
+            <option value="">Any level</option>
+            <option>Fond</option>
+            <option>Sub-fond</option>
+            <option>Series</option>
+            <option>Sub-series</option>
+            <option>Sub-sub-series</option>
+            <option>Sub-sub-sub-series</option>
+            <option>Sub-sub-sub-sub-series</option>
+            <option>Sub-sub-sub-sub-sub-series</option>
+            <option>Sub-sub-sub-sub-sub-sub-series</option>
+            <option>File</option>
+            <option>Item</option>
+          </select></label>
+          <label class="ps-field">Access<select id="fAccess">
+            <option value="">Any access</option>
+            <option>Open</option>
+            <option>Closed</option>
+            <option>Open - On-Site Only</option>
+          </select></label>
         </fieldset>
 
         <div class="ps-az" role="group" aria-label="Filter by starting letter" id="azBar"></div>
@@ -107,6 +127,6 @@
     </div>
   </div>
 
-  <script type="module" src="/apps/proni-search/app.js?v=14"></script>
+  <script type="module" src="/apps/proni-search/app.js?v=15"></script>
 </body>
 </html>

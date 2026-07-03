@@ -10,7 +10,7 @@
  */
 import { buildMatch, buildFilters } from './_query.js';
 
-const CACHE_VERSION = 'v2';
+const CACHE_VERSION = 'v3';
 
 export async function onRequestGet(context) {
   const cache = caches.default;
@@ -41,7 +41,7 @@ async function handle(context) {
 
   const breakdown = g('breakdown') === '1'; // letter-browse: counts grouped by level
   const match = buildMatch(q, fields);
-  const { where, binds } = buildFilters({ letter: g('letter'), from, to, top: g('top') === '1' });
+  const { where, binds } = buildFilters({ letter: g('letter'), from, to, top: g('top') === '1', level: g('level'), access: g('access') });
   if (!match && !where.length) return json({ count: 0, exact: true, levels: [] });
 
   try {

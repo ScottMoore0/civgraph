@@ -16,7 +16,7 @@
  */
 import { buildMatch, buildFilters } from './_query.js';
 
-const CACHE_VERSION = 'v8';
+const CACHE_VERSION = 'v9';
 const MAX_LIMIT = 60;
 const DEFAULT_LIMIT = 25;
 const DESC_PREVIEW = 160; // trimmed list preview — full text is fetched on the record page
@@ -102,12 +102,13 @@ async function handle(context) {
   if (!db) return json({ results: [], error: 'PRONI_DB binding not configured' }, 503);
 
   const top = g('top') === '1'; // letter-browse: top-level records only, alphabetical
+  const level = g('level'); const access = g('access');
   const match = buildMatch(q, fields);
-  const hasFilters = letter || top || Number.isFinite(from) || Number.isFinite(to);
+  const hasFilters = letter || top || level || access || Number.isFinite(from) || Number.isFinite(to);
   if (!match && !hasFilters) return json({ query: q, results: [], count: 0 });
 
   // WHERE fragments shared by both modes
-  const { where, binds } = buildFilters({ letter, from, to, top });
+  const { where, binds } = buildFilters({ letter, from, to, top, level, access });
 
   // Serve reads from a nearby D1 replica when replication is enabled (falls back
   // to the primary otherwise; harmless where withSession is unavailable).

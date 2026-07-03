@@ -14,6 +14,7 @@ const $ = (id) => document.getElementById(id);
 const els = {
   q: $('q'), clear: $('clearBtn'), adv: $('advToggle'), advanced: $('advanced'),
   fTitle: $('fTitle'), fDescription: $('fDescription'), fRef: $('fRef'), fDates: $('fDates'),
+  fLevel: $('fLevel'), fAccess: $('fAccess'),
   from: $('dateFrom'), to: $('dateTo'), sort: $('sort'), dir: $('dirBtn'),
   az: $('azBar'), status: $('status'), results: $('results'), sentinel: $('sentinel'),
   modal: $('modal'), modalBody: $('modalBody'),
@@ -105,6 +106,8 @@ function queryParams() {
   if (els.fDescription.value.trim()) p.set('description', els.fDescription.value.trim());
   if (els.fRef.value.trim()) p.set('ref', els.fRef.value.trim());
   if (els.fDates.value.trim()) p.set('dates', els.fDates.value.trim());
+  if (els.fLevel.value) p.set('level', els.fLevel.value);
+  if (els.fAccess.value) p.set('access', els.fAccess.value);
   const from = yearOf(els.from.value), to = yearOf(els.to.value);
   if (from) p.set('from', from);
   if (to) p.set('to', to);
@@ -120,7 +123,7 @@ function queryParams() {
 
 function hasTextInput() {
   return !!(els.q.value.trim() || els.fTitle.value.trim() || els.fDescription.value.trim() ||
-    els.fRef.value.trim() || els.fDates.value.trim());
+    els.fRef.value.trim() || els.fDates.value.trim() || els.fLevel.value || els.fAccess.value);
 }
 
 function params(offset) {
@@ -134,7 +137,8 @@ function params(offset) {
 
 function hasAnyInput() {
   return els.q.value.trim() || els.fTitle.value.trim() || els.fDescription.value.trim() ||
-    els.fRef.value.trim() || els.fDates.value.trim() || yearOf(els.from.value) || yearOf(els.to.value) || state.letter;
+    els.fRef.value.trim() || els.fDates.value.trim() || els.fLevel.value || els.fAccess.value ||
+    yearOf(els.from.value) || yearOf(els.to.value) || state.letter;
 }
 
 // The status line prefers the exact total once the (async, parallel) count
@@ -509,7 +513,7 @@ const debounced = () => {
   timer = setTimeout(() => search(true), 220);
 };
 [els.q, els.fTitle, els.fDescription, els.fRef, els.fDates].forEach((el) => el.addEventListener('input', debounced));
-[els.from, els.to, els.sort].forEach((el) => el.addEventListener('change', () => search(true)));
+[els.from, els.to, els.sort, els.fLevel, els.fAccess].forEach((el) => el.addEventListener('change', () => search(true)));
 
 els.dir.addEventListener('click', () => {
   const next = els.dir.dataset.dir === 'asc' ? 'desc' : 'asc';

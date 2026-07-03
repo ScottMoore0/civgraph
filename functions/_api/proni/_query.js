@@ -52,13 +52,16 @@ export function buildMatch(q, fields = {}) {
 
 // Base-table filters shared by both query modes. `letter` matches a ref prefix;
 // `top` restricts to top-level records (fonds, parent='') for letter-browse;
-// from/to bound the parsed year range inclusively.
-export function buildFilters({ letter, from, to, top }) {
+// `level`/`access` are exact-match column filters (advanced search); from/to
+// bound the parsed year range inclusively.
+export function buildFilters({ letter, from, to, top, level, access }) {
   const where = [];
   const binds = [];
   const L = (letter || '').slice(0, 1).toUpperCase();
   if (L && /^[A-Z]$/.test(L)) { where.push('p.ref LIKE ?'); binds.push(L + '%'); }
   if (top) where.push("p.parent = ''");
+  if (level) { where.push('p.level = ?'); binds.push(level); }
+  if (access) { where.push('p.access = ?'); binds.push(access); }
   if (Number.isFinite(from)) { where.push('p.end_year >= ?'); binds.push(from); }
   if (Number.isFinite(to)) { where.push('p.start_year <= ?'); binds.push(to); }
   return { where, binds };
