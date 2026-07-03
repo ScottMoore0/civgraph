@@ -28,15 +28,18 @@ a { color: var(--accent-dark); }
 
 /* header — no bar, transparent over the page background */
 .ps-header {
-  display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem;
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem 1.25rem; flex-wrap: nowrap;
   max-width: 1080px; margin: 0 auto; padding: 1.1rem clamp(0.75rem, 3vw, 2rem) 0.6rem;
 }
-.ps-header__title h1 { font-family: var(--serif); color: var(--brand); font-size: clamp(1.5rem, 3.6vw, 2.15rem); margin: 0; font-weight: 500; letter-spacing: .2px; }
+/* the title takes the remaining width and wraps; the "provided by" lockup keeps
+   its natural size, anchored to the top-right, so the two never overlap */
+.ps-header__title { flex: 1 1 auto; min-width: 0; }
+.ps-header__title h1 { font-family: var(--serif); color: var(--brand); font-size: clamp(1.5rem, 3.6vw, 2.15rem); margin: 0; font-weight: 500; letter-spacing: .2px; overflow-wrap: anywhere; }
 .ps-header__title h1 a { color: inherit; text-decoration: none; }
 .ps-header__title h1 a:hover { color: var(--navy-light); }
 .ps-header__title p { font-family: var(--sans); font-weight: 700; color: var(--muted); margin: 0.15rem 0 0; font-size: 0.85rem; }
 
-.ps-provided { display: grid; grid-template-columns: auto auto; align-items: center; gap: 0 0.55rem; text-decoration: none; }
+.ps-provided { flex: 0 0 auto; display: grid; grid-template-columns: auto auto; align-items: center; gap: 0 0.55rem; text-decoration: none; }
 .ps-provided__by { grid-column: 1; grid-row: 1; font-family: var(--sans); font-size: 0.78rem; color: var(--muted); align-self: center; }
 .ps-provided__logo { grid-column: 2; grid-row: 1; height: 34px; width: auto; display: block; }
 .ps-provided__note { grid-column: 2; grid-row: 2; font-family: var(--sans); font-size: 0.7rem; color: var(--muted); text-align: right; margin-top: 1px; }
@@ -242,7 +245,12 @@ a.ps-btn--export { text-decoration: none; display: inline-flex; align-items: cen
 
 @media (max-width: 640px) {
   .ps-sort { margin-left: 0; }
-  .ps-header { flex-direction: column; gap: 0.6rem; }
-  .ps-provided { justify-self: start; }
   .ps-guide__reffield { font-size: 1.25rem; }
+}
+/* keep the lockup at the top-right on small screens (no longer stacked below the
+   title); shrink it so the wrapping title keeps enough room */
+@media (max-width: 560px) {
+  .ps-provided__by { font-size: 0.68rem; }
+  .ps-provided__logo { height: 26px; }
+  .ps-provided__note { font-size: 0.6rem; }
 }
