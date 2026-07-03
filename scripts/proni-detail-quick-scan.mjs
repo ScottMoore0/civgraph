@@ -52,6 +52,7 @@ function parseArgs(argv) {
     adaptive: true,
     resume: false,
     enrichMode: false,
+    foldContainers: false,
     traversal: "branch",
     maxSubtreeRecords: 6000,
     maxSubtreeWalkErrors: 25,
@@ -103,6 +104,7 @@ function parseArgs(argv) {
       case "resume": out.resume = true; break;
       case "no-resume": out.resume = false; break;
       case "enrich-mode": out.enrichMode = true; break;
+      case "fold-containers": out.foldContainers = true; break;
       case "traversal": out.traversal = take(); break;
       case "max-subtree-records": out.maxSubtreeRecords = Number(take()); break;
       case "max-subtree-walk-errors": out.maxSubtreeWalkErrors = Number(take()); break;
@@ -139,6 +141,8 @@ Key options:
   --traversal branch         Traversal mode: branch (re-walk from root per branch) or
                              dfs (walk subtrees with a cached parent-listing stack;
                              far fewer requests per record on deep branches).
+  --fold-containers          DFS only: also capture fond/container (internal-node)
+                             descriptions during the same walk, not just leaf items.
   --max-subtree-records 6000 DFS only: split subtrees larger than this for load balancing
                              (6000 ~= req/rec knee; lower for more parallelism/smaller blast radius).
 `;
@@ -982,6 +986,18 @@ function buildSubtreeUnits(records, options) {
   for (const [letter, recs] of letterRoot) {
     units.push({ type: "letter-root", letter, records: recs, refs: new Set(recs.map((r) => r.expectedRef)), rowCount: recs.length });
   }
+  if (options.foldContainers) {
+    // Top-level fonds that have children are subtree roots, not letter-root
+    // records — their own detail row sits on the letter listing, which the
+    // subtree walks descend past without sweeping. Force a whole-letter sweep
+    // per letter (records: []) so fold mode captures every fond too.
+    const haveLetterRoot = new Set(letterRoot.keys());
+    for (const letter of new Set([...nodes.values()].map((n) => n.letter))) {
+      if (!haveLetterRoot.has(letter)) {
+        units.push({ type: "letter-root", letter, records: [], refs: new Set(), rowCount: 0 });
+      }
+    }
+  }
   units.sort((a, b) => b.rowCount - a.rowCount);
   return units;
 }
@@ -1005,26 +1021,46 @@ async function recordWalkError(writers, stats, workerId, branchRef, phase, error
 // rows of a listing page we're already on and clickMores any row whose ref is a
 // wanted (missing) container. Page-independent by design: we detail from whatever
 // page the row actually appears on, so no page numbers are needed in the input.
+// Ancestor ref chain derived from a reference: D552/B/1 -> [D552, D552/B].
+function ancestorChain(ref) {
+  const parts = String(ref).split("/");
+  const out = [];
+  for (let i = 1; i < parts.length; i += 1) out.push(parts.slice(0, i).join("/"));
+  return out;
+}
+
+// Capture container/fond (internal-node) details from a listing page we are
+// already on. Two callers:
+//   enrich mode      - only rows in the named target set (stats.enrichRefs).
+//   fold-containers  - every real container row (a non-disabled ResultsSelect
+//                      means the node has children, i.e. it is a container/fond),
+//                      so leaf items are naturally excluded and no target list is
+//                      needed. Ancestors are derived from the ref itself.
+// Deduped via completedRefs by writeMatchedDetail, so a row seen on several pages
+// (or reached by several paths) is only written once.
 async function enrichRowsOnPage(session, html, writers, options, stats, workerId, page, branchKey) {
-  if (!options.enrichMode) return;
+  const fold = options.foldContainers;
+  if (!options.enrichMode && !fold) return;
   for (const row of parseGridRows(html)) {
     const cref = row.ResultsSelect?.value;
-    if (!cref || !stats.enrichRefs.has(cref) || stats.completedRefs.has(cref)) continue;
+    if (!cref || stats.completedRefs.has(cref)) continue;
+    if (fold) { if (row.ResultsSelect.disabled) continue; }
+    else if (!stats.enrichRefs.has(cref)) continue;
     if (!row.ResultsView || row.ResultsView.disabled) continue;
     try {
       const detail = await clickMore(session, html, row, cref);
       if (detail.matched) {
-        const anc = stats.enrichPath.get(cref) || [];
+        const anc = fold ? ancestorChain(cref) : (stats.enrichPath.get(cref) || []);
         const top = anc[0] || cref;
         const letter = (String(top).match(/[A-Za-z]/)?.[0] || String(top)[0] || "").toUpperCase();
-        await writeMatchedDetail({ branchKey, letter, path: anc, page, ctl: row.ctl, expectedRef: cref }, detail, writers, stats, workerId, "raw-http-container-enrich");
+        await writeMatchedDetail({ branchKey, letter, path: anc, page, ctl: row.ctl, expectedRef: cref }, detail, writers, stats, workerId, fold ? "raw-http-container-fold" : "raw-http-container-enrich");
       } else {
         stats.mismatches += 1;
-        await writers.mismatches.write({ at: nowIso(), type: "enrich-mismatch", workerId, expectedRef: cref, extractedRef: detail.extractedRef });
+        await writers.mismatches.write({ at: nowIso(), type: fold ? "fold-mismatch" : "enrich-mismatch", workerId, expectedRef: cref, extractedRef: detail.extractedRef });
       }
     } catch (error) {
       stats.failures += 1;
-      await writers.failures.write({ at: nowIso(), type: "enrich-more-error", workerId, expectedRef: cref, error: String(error?.message || error) });
+      await writers.failures.write({ at: nowIso(), type: fold ? "fold-more-error" : "enrich-more-error", workerId, expectedRef: cref, error: String(error?.message || error) });
     }
   }
 }
@@ -1055,7 +1091,7 @@ async function walkSubtreeNode(session, listingHtml, branchRef, unit, writers, o
         await recordWalkError(writers, stats, workerId, branchRef, "page-records", error, ctx);
       }
     }
-    if (options.enrichMode) {
+    if (options.enrichMode || options.foldContainers) {
       try {
         await enrichRowsOnPage(session, html, writers, options, stats, workerId, page, unit.rootBranchKey);
       } catch (error) {
@@ -1110,7 +1146,7 @@ async function processLetterRootUnit(unit, writers, options, stats, workerId) {
   }
   // Enrich mode must sweep the whole letter listing (fond rows can be on any
   // page); normal mode only needs the pages its records name.
-  const maxPage = options.enrichMode
+  const maxPage = (options.enrichMode || options.foldContainers)
     ? options.maxPagesPerBranch
     : unit.records.reduce((m, r) => Math.max(m, Number(r.page || 1)), 1);
   let page = 1;
@@ -1123,7 +1159,7 @@ async function processLetterRootUnit(unit, writers, options, stats, workerId) {
         await writers.failures.write({ at: nowIso(), type: "letter-root-error", workerId, letter: unit.letter, page, error: String(error?.message || error) });
       }
     }
-    if (options.enrichMode) {
+    if (options.enrichMode || options.foldContainers) {
       try {
         await enrichRowsOnPage(session, html, writers, options, stats, workerId, page, `${unit.letter}|`);
       } catch (error) {
