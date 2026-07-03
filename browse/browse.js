@@ -971,22 +971,33 @@ const PRONI_DESC_LIMIT = 280;
 
 // Descriptions over the limit collapse to a preview with a Show more/less toggle.
 // Both the preview and the full text are rendered; CSS shows one at a time.
+// Render description text as HTML paragraphs, preserving the line/paragraph
+// breaks captured from PRONI: blank lines (\n\n) split paragraphs, single
+// newlines become <br>. Every segment is escaped before any markup is added.
+function proniDescParas(text) {
+  return String(text)
+    .split(/\n{2,}/)
+    .map((p) => p.trim())
+    .filter(Boolean)
+    .map((p) => `<p>${escapeHtml(p).replace(/\n/g, '<br>')}</p>`)
+    .join('');
+}
+
 function renderProniDescription(text) {
   if (!text) return '';
-  const full = escapeHtml(text);
   const heading = '<h2 class="proni-section-title">Description</h2>';
   if (text.length <= PRONI_DESC_LIMIT) {
-    return `<section class="proni-description">${heading}<p>${full}</p></section>`;
+    return `<section class="proni-description">${heading}${proniDescParas(text)}</section>`;
   }
   let cut = text.slice(0, PRONI_DESC_LIMIT);
   const sp = cut.lastIndexOf(' ');
   if (sp > PRONI_DESC_LIMIT * 0.6) cut = cut.slice(0, sp);
-  const short = escapeHtml(cut.replace(/[\s.,;:]+$/, '')) + '…';
+  const short = cut.replace(/[\s.,;:]+$/, '') + '…';
   return `
     <section class="proni-description" data-proni-desc data-expanded="false">
       ${heading}
-      <p class="proni-desc-short">${short}</p>
-      <p class="proni-desc-full">${full}</p>
+      <div class="proni-desc-short">${proniDescParas(short)}</div>
+      <div class="proni-desc-full">${proniDescParas(text)}</div>
       <button type="button" class="proni-desc-toggle" data-proni-desc-toggle aria-expanded="false">Show more</button>
     </section>`;
 }
