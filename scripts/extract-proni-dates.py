@@ -66,7 +66,7 @@ def parse_expr(s):
         if m:
             bound = 'before'; s = s[m.end():].strip()
     low = s.lower()
-    m = re.search(r"([\w-]+)\s+centur", low)
+    m = re.search(r"([\w-]+)\s+cent(?:ury|uries)?\.?", low)  # 'century', 'centuries', 'Cent.'
     if m:
         w = m.group(1)
         c = ORD.get(w) or (int(re.match(r"(\d{1,2})", w).group(1)) if re.match(r"\d", w) else None)
@@ -127,7 +127,9 @@ def extract(raw):
     d = (raw or '').strip()
     # square brackets / '?' = date supplied or queried by the PRONI cataloguer
     estimated = 1 if ('[' in d or ']' in d or '?' in d) else 0
-    if d == '' or re.fullmatch(r"[\(\[]?\s*(no\.?\s*date|n\.?\s*d\.?|undated|unknown|not\s+dated)\s*[\)\]]?\.?", d, re.I):
+    # undated/unknown: empty, a 'No date' variant, or nothing but brackets/'?'
+    if d == '' or d.replace('[', '').replace(']', '').replace('?', '').strip() == '' \
+            or re.fullmatch(r"[\(\[]?\s*(no\.?\s*date|n\.?\s*d\.?|undated|unknown|not\s+dated)\s*[\)\]]?\.?", d, re.I):
         return dict(sd='', ed='', sy=None, ey=None, prec='', circa=0, estimated=0, bound='', undated=1, display='Undated', review=0)
     parts = re.split(r"\s*[-–—]\s*|\s+to\s+|\s+x\s+", d, maxsplit=1)
     a = parse_expr(parts[0])
@@ -146,7 +148,10 @@ def extract(raw):
     ed = '' if open_end else (f"{hi['y_end']:04d}" if hi.get('y_end') else edtf(hi['y'], hi['m'], hi['d']))
     circa = 1 if (a['circa'] or hi['circa']) else 0
     bound = 'after' if open_end else ('before' if open_start else '')
-    review = 1 if (a['prec'] == 'century' or hi['prec'] == 'century') else 0
+    # a single century resolves to its 100-year span; only genuinely multi/uncertain
+    # ones ('17th and 18th', '13th or 14th') stay for review
+    is_century = (a['prec'] == 'century' or hi['prec'] == 'century')
+    review = 1 if (is_century and re.search(r"\b(and|or)\b|&", d, re.I)) else 0
     disp = fmt_bound(a)
     if b and (b['y'] != a['y'] or b['m'] != a['m'] or b['d'] != a['d']):
         disp = fmt_bound(a) + ' – ' + fmt_bound(b)
