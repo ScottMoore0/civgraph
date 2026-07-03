@@ -289,6 +289,7 @@ def main():
             if o.get('ext_end_year'): r['ey'] = int(o['ext_end_year'])
             if o.get('ext_display'): r['display'] = o['ext_display'].strip()
             if o.get('ext_undated'): r['undated'] = int(o['ext_undated'] or 0)
+            if o.get('ext_circa'): r['circa'] = int(o['ext_circa'] or 0)
             r['review'] = 0
         batch.append((ref, r['sd'], r['ed'], r['sy'], r['ey'], r['prec'], r['circa'], r['estimated'], r['bound'], r['undated'], r['display'], r['review'], overridden))
         if r['review'] and not overridden:
