@@ -976,6 +976,7 @@ const PRONI_DESC_LIMIT = 280;
 // newlines become <br>. Every segment is escaped before any markup is added.
 function proniDescParas(text) {
   return String(text)
+    .replace(/\r\n?/g, '\n')
     .split(/\n{2,}/)
     .map((p) => p.trim())
     .filter(Boolean)
