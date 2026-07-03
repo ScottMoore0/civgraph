@@ -37,18 +37,27 @@ function parentRef(ref) {
 }
 
 // First / Previous / Next / Last navigation across siblings (same parent),
-// ordered by reference — mirrors the PRONI eCatalogue record pager. Returns the
-// target refs plus 1-based position and total, so the record page can render
-// "[1 - 3]" and disable the ends.
+// in NATURAL numeric order of the last reference segment — so …/2 comes before
+// …/10, not after it. The segment is the part of the reference after the parent
+// prefix; the sort key is (CAST(segment AS INTEGER), segment) so numeric parts
+// sort numerically and any letter suffixes (e.g. 56C) break ties as text.
 async function siblingNav(db, ref) {
   const parent = parentRef(ref);
+  const seg = "substr(ref, CASE WHEN ?1 = '' THEN 1 ELSE length(?1) + 2 END)";
+  const asc = `ORDER BY CAST(${seg} AS INTEGER) ASC, ${seg} ASC`;
+  const desc = `ORDER BY CAST(${seg} AS INTEGER) DESC, ${seg} DESC`;
+  const lt = `(CAST(${seg} AS INTEGER), ${seg}) < (?2, ?3)`;
+  const gt = `(CAST(${seg} AS INTEGER), ${seg}) > (?2, ?3)`;
+  const le = `(CAST(${seg} AS INTEGER), ${seg}) <= (?2, ?3)`;
+  const curSeg = parent === '' ? ref : ref.slice(parent.length + 1);
+  const curInt = parseInt(curSeg, 10) || 0;
   const rows = await db.batch([
-    db.prepare('SELECT ref FROM proni WHERE parent = ?1 ORDER BY ref ASC LIMIT 1').bind(parent),
-    db.prepare('SELECT ref FROM proni WHERE parent = ?1 ORDER BY ref DESC LIMIT 1').bind(parent),
-    db.prepare('SELECT ref FROM proni WHERE parent = ?1 AND ref < ?2 ORDER BY ref DESC LIMIT 1').bind(parent, ref),
-    db.prepare('SELECT ref FROM proni WHERE parent = ?1 AND ref > ?2 ORDER BY ref ASC LIMIT 1').bind(parent, ref),
+    db.prepare(`SELECT ref FROM proni WHERE parent = ?1 ${asc} LIMIT 1`).bind(parent),
+    db.prepare(`SELECT ref FROM proni WHERE parent = ?1 ${desc} LIMIT 1`).bind(parent),
+    db.prepare(`SELECT ref FROM proni WHERE parent = ?1 AND ${lt} ${desc} LIMIT 1`).bind(parent, curInt, curSeg),
+    db.prepare(`SELECT ref FROM proni WHERE parent = ?1 AND ${gt} ${asc} LIMIT 1`).bind(parent, curInt, curSeg),
     db.prepare('SELECT COUNT(*) AS n FROM proni WHERE parent = ?1').bind(parent),
-    db.prepare('SELECT COUNT(*) AS n FROM proni WHERE parent = ?1 AND ref <= ?2').bind(parent, ref),
+    db.prepare(`SELECT COUNT(*) AS n FROM proni WHERE parent = ?1 AND ${le}`).bind(parent, curInt, curSeg),
   ]);
   const one = (r) => ((r.results || [])[0] || {});
   return {
@@ -64,7 +73,7 @@ async function siblingNav(db, ref) {
 
 // Bump when the underlying D1 data changes (re-import) to invalidate the edge
 // cache without a manual purge — it is folded into the cache key.
-const CACHE_VERSION = 'v2';
+const CACHE_VERSION = 'v3';
 
 // The PRONI data is a static snapshot, so responses are safe to edge-cache
 // aggressively. Serve from Cloudflare's cache when warm; otherwise compute and
@@ -109,8 +118,9 @@ async function handle(context) {
     const item = (itemRow.results || [])[0];
     if (!item) return json({ error: 'not found', ref }, 404);
 
+    const kseg = 'substr(ref, length(?1) + 2)'; // ?1 (a real record ref) is never ''
     const kids = await db.prepare(
-      `SELECT ${childCols} FROM proni WHERE parent = ?1 ORDER BY ref`
+      `SELECT ${childCols} FROM proni WHERE parent = ?1 ORDER BY CAST(${kseg} AS INTEGER), ${kseg}`
     ).bind(ref).all();
 
     const nav = await siblingNav(db, ref);
