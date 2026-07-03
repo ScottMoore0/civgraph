@@ -97,8 +97,22 @@ function queryParams() {
   const from = yearOf(els.from.value), to = yearOf(els.to.value);
   if (from) p.set('from', from);
   if (to) p.set('to', to);
-  if (state.letter) p.set('letter', state.letter);
+  // a selected letter is a top-level browse (fonds under that letter, A→Z), not a
+  // filter on the current search — hence top=1 and no text query alongside it
+  if (state.letter) { p.set('letter', state.letter); p.set('top', '1'); }
   return p;
+}
+
+// The text search terms (main box + advanced fields + dates) — cleared when the
+// user switches to letter-browse.
+function clearSearchTerms() {
+  els.q.value = ''; els.clear.hidden = true;
+  els.fTitle.value = ''; els.fDescription.value = ''; els.fRef.value = ''; els.fDates.value = '';
+  els.from.value = ''; els.to.value = '';
+}
+function hasTextInput() {
+  return !!(els.q.value.trim() || els.fTitle.value.trim() || els.fDescription.value.trim() ||
+    els.fRef.value.trim() || els.fDates.value.trim());
 }
 
 function params(offset) {
@@ -465,7 +479,16 @@ els.az.appendChild(azClear);
 /* =============================== events =============================== */
 
 let timer;
-const debounced = () => { clearTimeout(timer); timer = setTimeout(() => search(true), 220); els.clear.hidden = !els.q.value; };
+const debounced = () => {
+  clearTimeout(timer);
+  els.clear.hidden = !els.q.value;
+  // typing a search term deselects the browse letter (search supersedes browse)
+  if (state.letter && hasTextInput()) {
+    state.letter = '';
+    els.az.querySelectorAll('.ps-az__btn').forEach((b) => b.classList.remove('is-active'));
+  }
+  timer = setTimeout(() => search(true), 220);
+};
 [els.q, els.fTitle, els.fDescription, els.fRef, els.fDates].forEach((el) => el.addEventListener('input', debounced));
 [els.from, els.to, els.sort].forEach((el) => el.addEventListener('change', () => search(true)));
 
@@ -493,6 +516,7 @@ els.az.addEventListener('click', (e) => {
   const btn = e.target.closest('[data-letter]');
   if (btn) {
     state.letter = state.letter === btn.dataset.letter ? '' : btn.dataset.letter;
+    if (state.letter) clearSearchTerms(); // browsing a letter replaces any active search
   } else if (e.target === azClear) {
     state.letter = '';
   } else return;

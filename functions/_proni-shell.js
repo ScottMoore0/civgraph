@@ -4,7 +4,7 @@
  * its client-side router renders the right view. The app's assets are absolute
  * (/apps/proni-search/…), so the same HTML works under any /proni/* path.
  */
-const SHELL_VERSION = 'v4';
+const SHELL_VERSION = 'v5';
 
 export async function serveShell(context) {
   const cache = caches.default;

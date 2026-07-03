@@ -31,7 +31,7 @@ export async function onRequestGet(context) {
   if (!db) return new Response('PRONI_DB binding not configured', { status: 503 });
 
   const match = buildMatch(q, fields);
-  const { where, binds } = buildFilters({ letter: g('letter'), from, to });
+  const { where, binds } = buildFilters({ letter: g('letter'), from, to, top: g('top') === '1' });
   if (!match && !where.length) return new Response('Provide a search query or filter to export.', { status: 400 });
 
   let sql;

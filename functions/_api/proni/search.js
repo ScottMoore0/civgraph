@@ -16,7 +16,7 @@
  */
 import { buildMatch, buildFilters } from './_query.js';
 
-const CACHE_VERSION = 'v7';
+const CACHE_VERSION = 'v8';
 const MAX_LIMIT = 60;
 const DEFAULT_LIMIT = 25;
 const DESC_PREVIEW = 160; // trimmed list preview — full text is fetched on the record page
@@ -101,12 +101,13 @@ async function handle(context) {
   const db = context.env.PRONI_DB;
   if (!db) return json({ results: [], error: 'PRONI_DB binding not configured' }, 503);
 
+  const top = g('top') === '1'; // letter-browse: top-level records only, alphabetical
   const match = buildMatch(q, fields);
-  const hasFilters = letter || Number.isFinite(from) || Number.isFinite(to);
+  const hasFilters = letter || top || Number.isFinite(from) || Number.isFinite(to);
   if (!match && !hasFilters) return json({ query: q, results: [], count: 0 });
 
   // WHERE fragments shared by both modes
-  const { where, binds } = buildFilters({ letter, from, to });
+  const { where, binds } = buildFilters({ letter, from, to, top });
 
   // Serve reads from a nearby D1 replica when replication is enabled (falls back
   // to the primary otherwise; harmless where withSession is unavailable).
@@ -124,7 +125,7 @@ async function handle(context) {
 
     let sql, bindArr;
     if (match) {
-      const order = sort === 'relevance' ? 'bm25(proni_fts)' : `${ORDER[sort] || 'p.ref'} ${dir}`;
+      const order = top ? 'p.ref ASC' : (sort === 'relevance' ? 'bm25(proni_fts)' : `${ORDER[sort] || 'p.ref'} ${dir}`);
       const w = where.length ? ' AND ' + where.join(' AND ') : '';
       sql = `SELECT ${SELECT_COLS}${sort === 'relevance' ? ', bm25(proni_fts) AS rank' : ''}
              FROM proni_fts f JOIN proni p ON p.rowid = f.rowid
@@ -132,7 +133,7 @@ async function handle(context) {
              ORDER BY ${order} LIMIT ? OFFSET ?`;
       bindArr = [match, ...binds, limit, offset];
     } else {
-      const order = `${ORDER[sort] && sort !== 'relevance' ? ORDER[sort] : 'p.ref'} ${dir}`;
+      const order = top ? 'p.ref ASC' : `${ORDER[sort] && sort !== 'relevance' ? ORDER[sort] : 'p.ref'} ${dir}`;
       sql = `SELECT ${SELECT_COLS} FROM proni p
              WHERE ${where.join(' AND ')}
              ORDER BY ${order} LIMIT ? OFFSET ?`;
