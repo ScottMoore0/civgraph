@@ -136,7 +136,7 @@ a.ps-btn--export { text-decoration: none; display: inline-flex; align-items: cen
 
 /* ===================== card: head (title + ref) + meta + body ===================== */
 .ps-card__head { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.6rem 1.25rem; flex-wrap: wrap; }
-.ps-card__title { font-family: var(--serif); font-size: 1.1rem; font-weight: 700; color: var(--brand); text-decoration: none; cursor: pointer; flex: 1 1 15rem; min-width: 0; overflow-wrap: anywhere; }
+.ps-card__title { font-family: var(--sans); font-size: 1.1rem; font-weight: 800; color: var(--ink); text-decoration: none; cursor: pointer; flex: 1 1 15rem; min-width: 0; overflow-wrap: anywhere; }
 .ps-card__title:hover { text-decoration: underline; }
 /* reference block pinned to the card's top-right; ref+copy on one row, the
    "View on PRONI eCatalogue" link on the line below */
@@ -190,7 +190,7 @@ a.ps-btn--export { text-decoration: none; display: inline-flex; align-items: cen
 .ps-levels__current .ps-ref { color: var(--brand); }
 
 .ps-rec { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.2rem 1.3rem 1.5rem; }
-.ps-rec__title { font-family: var(--serif); color: var(--brand); font-size: 1.4rem; font-weight: 700; margin: 0 0 0.8rem; }
+.ps-rec__title { font-family: var(--sans); color: var(--ink); font-size: 1.4rem; font-weight: 800; margin: 0 0 0.8rem; }
 
 .ps-pager { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.4rem; margin: 0.6rem 0; padding: 0.4rem; background: #eef2f7; border: 1px solid var(--line); border-radius: 6px; }
 .ps-pager__btn { font: inherit; font-size: 0.82rem; font-weight: 700; color: var(--accent-dark); background: #fff; border: 1px solid var(--line); border-radius: 5px; padding: 0.32rem 0.7rem; text-decoration: none; cursor: pointer; }
