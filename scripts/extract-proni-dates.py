@@ -11,6 +11,8 @@ cleaned, structured version:
   ext_circa                      (approximate — source said 'c.'/'circa')
   ext_estimated                  (source date was square-bracketed or queried '?',
                                   i.e. supplied/estimated by the PRONI cataloguer)
+  ext_bound                      ('after' | 'before' | '' — one-sided open date, e.g.
+                                  'post 1929' -> after; the open side's year is NULL)
   ext_undated                    (flag)
   ext_display                    (human string, e.g. '12 April 1973 – 10 May 1973')
   needs_review                   (1 = ambiguous: bracketed/uncertain/century)
@@ -48,31 +50,41 @@ def parse_expr(s):
     s = s.strip()
     if not s:
         return None
-    circa = unc = False
+    if '[' in s or ']' in s or '?' in s:            # supplied/queried -> ext_estimated (set in extract)
+        s = s.replace('[', '').replace(']', '').replace('?', '').strip()
+    circa = False
     if re.match(r"^(c\.?\s*|circa\s+)", s, re.I):
-        circa = True; s = re.sub(r"^(c\.?\s*|circa\s+)", "", s, flags=re.I)
-    if '[' in s or ']' in s or '?' in s:
-        unc = True; s = s.replace('[', '').replace(']', '').replace('?', '').strip()
+        circa = True; s = re.sub(r"^(c\.?\s*|circa\s+)", "", s, flags=re.I).strip()
+    # one-sided bound word, anchored at the start and followed by a date -> after/before.
+    # NB: 'by'/'from' deliberately excluded (they mean "endorsed by <person>" / "from <place>").
+    bound = None
+    m = re.match(r"(not\s+before|post|after|since)\b", s, re.I)
+    if m:
+        bound = 'after'; s = s[m.end():].strip()
+    else:
+        m = re.match(r"(not\s+after|pre|before|until|ante)\b", s, re.I)
+        if m:
+            bound = 'before'; s = s[m.end():].strip()
     low = s.lower()
     m = re.search(r"([\w-]+)\s+centur", low)
     if m:
         w = m.group(1)
         c = ORD.get(w) or (int(re.match(r"(\d{1,2})", w).group(1)) if re.match(r"\d", w) else None)
         if c:
-            return dict(y=(c - 1) * 100, m=None, d=None, prec='century', circa=circa, uncertain=True, y_end=(c - 1) * 100 + 99)
+            return dict(y=(c - 1) * 100, m=None, d=None, prec='century', circa=circa, bound=bound, y_end=(c - 1) * 100 + 99)
     m = re.match(r"(1\d\d|20\d)0s\b", low)
     if m:
         y = int(m.group(1)) * 10
-        return dict(y=y, m=None, d=None, prec='decade', circa=circa, uncertain=unc, y_end=y + 9)
+        return dict(y=y, m=None, d=None, prec='decade', circa=circa, bound=bound, y_end=y + 9)
     m = re.match(r"(\d{1,2})\s+([A-Za-z]+)\s+" + YEAR, s)
     if m and m.group(2).lower() in MONTHS:
-        return dict(y=int(m.group(3)), m=MONTHS[m.group(2).lower()], d=int(m.group(1)), prec='day', circa=circa, uncertain=unc)
+        return dict(y=int(m.group(3)), m=MONTHS[m.group(2).lower()], d=int(m.group(1)), prec='day', circa=circa, bound=bound)
     m = re.match(r"([A-Za-z]+)\s+" + YEAR, s)
     if m and m.group(1).lower() in MONTHS:
-        return dict(y=int(m.group(2)), m=MONTHS[m.group(1).lower()], d=None, prec='month', circa=circa, uncertain=unc)
+        return dict(y=int(m.group(2)), m=MONTHS[m.group(1).lower()], d=None, prec='month', circa=circa, bound=bound)
     m = re.search(YEAR, s)
     if m:
-        return dict(y=int(m.group(1)), m=None, d=None, prec='year', circa=circa, uncertain=unc)
+        return dict(y=int(m.group(1)), m=None, d=None, prec='year', circa=circa, bound=bound)
     return None
 
 
@@ -102,33 +114,44 @@ def fmt(e):
     return ('c. ' if e['circa'] else '') + b
 
 
+def fmt_bound(e):
+    base = fmt(e)
+    if e.get('bound') == 'after':
+        return 'after ' + base
+    if e.get('bound') == 'before':
+        return 'before ' + base
+    return base
+
+
 def extract(raw):
     d = (raw or '').strip()
     # square brackets / '?' = date supplied or queried by the PRONI cataloguer
     estimated = 1 if ('[' in d or ']' in d or '?' in d) else 0
     if d == '' or re.fullmatch(r"[\(\[]?\s*(no\.?\s*date|n\.?\s*d\.?|undated|unknown|not\s+dated)\s*[\)\]]?\.?", d, re.I):
-        return dict(sd='', ed='', sy=None, ey=None, prec='', circa=0, estimated=0, undated=1, display='Undated', review=0)
-    # one-sided bounds the parser can't turn into a closed range -> keep for review
-    open_bound = 1 if re.search(r"\b(post|pre|before|after|by|from|until|till)\b", d, re.I) else 0
+        return dict(sd='', ed='', sy=None, ey=None, prec='', circa=0, estimated=0, bound='', undated=1, display='Undated', review=0)
     parts = re.split(r"\s*[-–—]\s*|\s+to\s+|\s+x\s+", d, maxsplit=1)
     a = parse_expr(parts[0])
     b = parse_expr(parts[1]) if len(parts) > 1 else None
     if a is None and b is None:
-        return dict(sd='', ed='', sy=None, ey=None, prec='', circa=0, estimated=estimated, undated=0, display=d, review=1)
+        return dict(sd='', ed='', sy=None, ey=None, prec='', circa=0, estimated=estimated, bound='', undated=0, display=d, review=1)
     if a is None:
         a = b
     hi = b if b else a
-    sy = a.get('y')
-    ey = hi.get('y_end', hi.get('y'))
-    sd = edtf(a['y'], a['m'], a['d'])
-    ed = (f"{hi['y_end']:04d}" if hi.get('y_end') else edtf(hi['y'], hi['m'], hi['d']))
+    # 'before X' opens the start (lower bound unknown); 'after X' opens the end.
+    open_start = (a['bound'] == 'before')
+    open_end = (hi['bound'] == 'after')
+    sy = None if open_start else a.get('y')
+    ey = None if open_end else hi.get('y_end', hi.get('y'))
+    sd = '' if open_start else edtf(a['y'], a['m'], a['d'])
+    ed = '' if open_end else (f"{hi['y_end']:04d}" if hi.get('y_end') else edtf(hi['y'], hi['m'], hi['d']))
     circa = 1 if (a['circa'] or hi['circa']) else 0
-    review = 1 if (open_bound or a['prec'] == 'century' or hi['prec'] == 'century') else 0
-    disp = fmt(a)
+    bound = 'after' if open_end else ('before' if open_start else '')
+    review = 1 if (a['prec'] == 'century' or hi['prec'] == 'century') else 0
+    disp = fmt_bound(a)
     if b and (b['y'] != a['y'] or b['m'] != a['m'] or b['d'] != a['d']):
-        disp += ' – ' + fmt(b)
+        disp = fmt_bound(a) + ' – ' + fmt_bound(b)
     prec = 'range' if b else a['prec']
-    return dict(sd=sd, ed=ed, sy=sy, ey=ey, prec=prec, circa=circa, estimated=estimated, undated=0, display=disp, review=review)
+    return dict(sd=sd, ed=ed, sy=sy, ey=ey, prec=prec, circa=circa, estimated=estimated, bound=bound, undated=0, display=disp, review=review)
 
 
 def load_overrides():
@@ -149,6 +172,8 @@ def main():
     memo = {d: extract(d) for d, n in rows}
     total = sum(n for _, n in rows)
     n_est = sum(n for d, n in rows if memo[d]['estimated'])   # cross-cutting: also dated/circa
+    n_after = sum(n for d, n in rows if memo[d].get('bound') == 'after')
+    n_before = sum(n for d, n in rows if memo[d].get('bound') == 'before')
     stat = {}
     for d, n in rows:
         r = memo[d]
@@ -159,7 +184,7 @@ def main():
     out.execute("DROP TABLE IF EXISTS ext")
     out.execute("""CREATE TABLE ext (ref TEXT PRIMARY KEY, ext_start_date TEXT, ext_end_date TEXT,
         ext_start_year INT, ext_end_year INT, ext_precision TEXT, ext_circa INT, ext_estimated INT,
-        ext_undated INT, ext_display TEXT, needs_review INT, overridden INT)""")
+        ext_bound TEXT, ext_undated INT, ext_display TEXT, needs_review INT, overridden INT)""")
     review_rows = []
     batch = []
     cur = con.execute("SELECT ref, dates FROM proni")
@@ -176,13 +201,13 @@ def main():
             if o.get('ext_display'): r['display'] = o['ext_display'].strip()
             if o.get('ext_undated'): r['undated'] = int(o['ext_undated'] or 0)
             r['review'] = 0
-        batch.append((ref, r['sd'], r['ed'], r['sy'], r['ey'], r['prec'], r['circa'], r['estimated'], r['undated'], r['display'], r['review'], overridden))
+        batch.append((ref, r['sd'], r['ed'], r['sy'], r['ey'], r['prec'], r['circa'], r['estimated'], r['bound'], r['undated'], r['display'], r['review'], overridden))
         if r['review'] and not overridden:
             review_rows.append((ref, dates or '', r['sd'], r['ed'], r['display']))
         if len(batch) >= 20000:
-            out.executemany("INSERT INTO ext VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", batch); batch = []
+            out.executemany("INSERT INTO ext VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)", batch); batch = []
     if batch:
-        out.executemany("INSERT INTO ext VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", batch)
+        out.executemany("INSERT INTO ext VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)", batch)
     out.execute("CREATE INDEX ext_years ON ext(ext_start_year, ext_end_year)")
     out.commit(); out.close(); con.close()
 
@@ -200,6 +225,7 @@ def main():
     for k, v in sorted(stat.items(), key=lambda x: -x[1]):
         print(f"  {k:14s} {v:>10,}  {100 * v / total:5.1f}%")
     print(f"  {'estimated*':14s} {n_est:>10,}  {100 * n_est / total:5.1f}%   (* PRONI-estimated, cross-cuts the above)")
+    print(f"  bound: after={n_after:,}  before={n_before:,}  (open-ended dates, one year NULL)")
     print(f"needs-review rows written: {len(review_rows):,} -> {REVIEW_CSV}")
 
 
