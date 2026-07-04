@@ -19,8 +19,12 @@ function ancestorRefs(ref) {
 
 const childCols =
   'ref, slug, title, level, dates, has_children AS hasChildren';
+// proni.* columns are qualified because the item query LEFT JOINs the Extracted
+// Dates "Additional Data" table (ext), which also has a `ref` column.
 const itemCols =
-  'ref, slug, title, level, dates, description, access, digital_record AS digitalRecord, has_children AS hasChildren, fond';
+  'proni.ref, proni.slug, proni.title, proni.level, proni.dates, proni.description, '
+  + 'proni.access, proni.digital_record AS digitalRecord, proni.has_children AS hasChildren, proni.fond, '
+  + 'ext.ext_display, ext.ext_start_year, ext.ext_end_year, ext.ext_circa, ext.ext_estimated, ext.ext_bound, ext.ext_undated';
 
 function mapChild(r) {
   return {
@@ -73,7 +77,7 @@ async function siblingNav(db, ref) {
 
 // Bump when the underlying D1 data changes (re-import) to invalidate the edge
 // cache without a manual purge — it is folded into the cache key.
-const CACHE_VERSION = 'v4';
+const CACHE_VERSION = 'v5';
 
 // The PRONI data is a static snapshot, so responses are safe to edge-cache
 // aggressively. Serve from Cloudflare's cache when warm; otherwise compute and
@@ -114,7 +118,7 @@ async function handle(context) {
       return json({ roots: (results || []).map(mapChild), count: (results || []).length });
     }
 
-    const itemRow = await db.prepare(`SELECT ${itemCols} FROM proni WHERE ref = ?1 LIMIT 1`).bind(ref).all();
+    const itemRow = await db.prepare(`SELECT ${itemCols} FROM proni LEFT JOIN ext ON ext.ref = proni.ref WHERE proni.ref = ?1 LIMIT 1`).bind(ref).all();
     const item = (itemRow.results || [])[0];
     if (!item) return json({ error: 'not found', ref }, 404);
 
@@ -146,6 +150,14 @@ async function handle(context) {
         description: item.description || '', access: item.access || '',
         digitalRecord: item.digitalRecord || '',
         hasChildren: !!item.hasChildren, fond: item.fond || '',
+        // Civgraph "Additional Data" — Extracted Dates (null if the ext row is not
+        // yet loaded / no match). ext_undated is 0/1 on a matched row, null if none.
+        extractedDates: item.ext_undated != null ? {
+          display: item.ext_display || '',
+          startYear: item.ext_start_year, endYear: item.ext_end_year,
+          circa: !!item.ext_circa, estimated: !!item.ext_estimated,
+          bound: item.ext_bound || '', undated: !!item.ext_undated,
+        } : null,
       },
       ancestors,
       nav,

@@ -329,6 +329,16 @@ async function renderRecord(ref) {
     rows.map(([k, v]) => `<tr><th scope="row">${k}</th><td>${v || ''}</td></tr>`).join('')
   }</tbody></table>`;
 
+  // Civgraph "Additional Data" — a layer on top of the untouched PRONI fields.
+  // First field: Extracted Dates (a cleaned/structured reading of the raw Dates).
+  const ed = it.extractedDates;
+  const additional = ed ? `<section class="ps-rec__additional">
+    <h3 class="ps-rec__addhead">Additional Data <span class="ps-rec__addtag">by Civgraph</span></h3>
+    <table class="ps-rec__table"><tbody>
+      <tr><th scope="row">Extracted Dates</th><td>${esc(ed.display || 'Undated')}${extractedDateNote(ed)}</td></tr>
+    </tbody></table>
+  </section>` : '';
+
   const kids = data.children || [];
   const CAP = 200;
   const childList = kids.length ? `<section class="ps-rec__children">
@@ -346,9 +356,21 @@ async function renderRecord(ref) {
       <h2 class="ps-rec__title">${esc(it.title || it.ref)}</h2>
       ${pager(nav)}
       ${table}
+      ${additional}
       ${pager(nav)}
       ${childList}
     </article>`;
+}
+
+// Qualifier note for an Extracted Date: circa (approximate), estimated
+// (supplied by the PRONI cataloguer), or one-sided open-ended bounds.
+function extractedDateNote(ed) {
+  const t = [];
+  if (ed.circa) t.push('approximate');
+  if (ed.estimated) t.push('cataloguer-supplied');
+  if (ed.bound === 'after') t.push('open-ended (on/after)');
+  if (ed.bound === 'before') t.push('open-ended (on/before)');
+  return t.length ? ` <span class="ps-rec__datetags">(${t.map(esc).join('; ')})</span>` : '';
 }
 
 function recordShell(inner) {
