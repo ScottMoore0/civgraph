@@ -184422,6 +184422,53 @@
       "loadable": true,
       "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/corine-land-cover-2018-vector-test.pmtiles",
       "tilesFallback": "/test/tiles/generated/corine-land-cover-2018/{z}/{x}/{y}.pbf"
+    },
+    {
+      "id": "osni-lidar-stonyford-2014-raster-test",
+      "sourceMapId": "osni-lidar-stonyford-2014",
+      "name": "OSNI River Basin LiDAR — Stonyford (2014, 1 m hillshade)",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2014,
+      "provider": [
+        "Land & Property Services",
+        "OSNI"
+      ],
+      "license": "Open Government Licence v3.0",
+      "licenseUrl": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+      "description": "Multidirectional hillshade of the 1 m bare-earth LiDAR digital terrain model (DTM) for the Stonyford catchment, flown 2014 in the OSNI/LPS River Basin LiDAR survey. Reveals fine ground topography — stream channels, field drains, banks and earthworks — beneath vegetation.",
+      "renderer": "maplibre",
+      "sourceType": "raster",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/osni-lidar-stonyford-2014/{z}/{x}/{y}.png",
+      "bounds": [
+        [
+          54.5542,
+          -6.1618
+        ],
+        [
+          54.5821,
+          -6.0988
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 20,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 0.95,
+      "style": {
+        "color": "#6B7280",
+        "fillColor": "#9CA3AF",
+        "fillOpacity": 0.2,
+        "weight": 1
+      },
+      "references": [
+        {
+          "label": "OSNI Open Data — River Basin LiDAR (2014 DTMs and DSMs)",
+          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-river-basin-lidar-2014-dtms-and-dsms",
+          "note": ""
+        }
+      ]
     }
   ]
 }

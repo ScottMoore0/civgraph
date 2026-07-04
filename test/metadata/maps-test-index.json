@@ -93019,9 +93019,48 @@
         "vector tiles"
       ],
       "detailUrl": "/test/metadata/layer-details-test2/corine-land-cover-2018-vector-test.json"
+    },
+    {
+      "id": "osni-lidar-stonyford-2014-raster-test",
+      "sourceMapId": "osni-lidar-stonyford-2014",
+      "name": "OSNI River Basin LiDAR — Stonyford (2014, 1 m hillshade)",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "provider": [
+        "Land & Property Services",
+        "OSNI"
+      ],
+      "date": 2014,
+      "description": "Multidirectional hillshade of the 1 m bare-earth LiDAR digital terrain model (DTM) for the Stonyford catchment, flown 2014 in the OSNI/LPS River Basin LiDAR survey. Reveals fine ground topography — stream channels, field drains, banks and earthworks — beneath vegetation.",
+      "sourceType": "raster",
+      "geometryType": "raster",
+      "renderer": "maplibre",
+      "bounds": [
+        [
+          54.5542,
+          -6.1618
+        ],
+        [
+          54.5821,
+          -6.0988
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 20,
+      "maxNativeZoom": 16,
+      "tiles": "https://data.civgraph.net/data/maps/physical/osni-lidar-stonyford-2014/{z}/{x}/{y}.png",
+      "tileSize": 256,
+      "rasterOpacity": 0.95,
+      "style": {
+        "color": "#6B7280",
+        "fillColor": "#9CA3AF",
+        "fillOpacity": 0.2,
+        "weight": 1
+      },
+      "detailUrl": "/test/metadata/layer-details-test2/osni-lidar-stonyford-2014-raster-test.json"
     }
   ],
   "generatedFrom": "test/metadata/maps-test.json",
   "detailIndex": true,
-  "detailLayerCount": 770
+  "detailLayerCount": 771
 }
