@@ -112,6 +112,35 @@
             font-weight: var(--font-bold);
             color: var(--color-accent);
         }
+
+        /* Each app's card mirrors that app's own styling, formatting and colours,
+           so the card is a faithful preview of the app. Because the apps set their
+           own fixed palettes, these cards are intentionally not theme-adaptive.
+
+           Independent PRONI Search: Rockwell slab-serif title + Verdana body, in
+           brand navy on the app's light-blue search-panel colour. */
+        .app-card--proni {
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+            background: #e9f1fa;
+            border-color: #d9e0e8;
+            border-left-color: #053b83;
+        }
+        .app-card--proni:hover {
+            border-color: #1a73c2;
+            box-shadow: 0 1px 3px rgba(16, 40, 70, .16), 0 1px 2px rgba(16, 40, 70, .1);
+        }
+        .app-card--proni .app-card__title {
+            font-family: "Rockwell Bold", Rockwell, Georgia, "Palatino Linotype", Palatino, "URW Palladio L", Times, "Times New Roman", serif;
+            font-weight: 500;
+            letter-spacing: .2px;
+            color: #053b83;
+        }
+        .app-card--proni .app-card__desc {
+            color: #1b2733;
+        }
+        .app-card--proni .app-card__cta {
+            color: #135a9a;
+        }
     </style>
 </head>
 
@@ -143,7 +172,7 @@
         </header>
 
         <div class="apps-list">
-            <a class="app-card" href="/proni">
+            <a class="app-card app-card--proni" href="/proni">
                 <h2 class="app-card__title">Independent PRONI Search</h2>
                 <p class="app-card__desc">
                     A faster, independent interface to search all 1,538,177 records in the Public Record
