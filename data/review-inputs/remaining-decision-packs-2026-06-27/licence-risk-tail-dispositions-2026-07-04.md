@@ -34,11 +34,18 @@ here warrants publication.
 - **Sensitive / personal data — permanent hold, never publish:** row 555
   `properties` (EONI standalone) and any Pointer/UPRN/address-bearing layer.
   Preserve the local source file; never mirror, convert, or upload.
-- **Tellus airborne geophysics rasters (24 rows):** Electromagnetics / Magnetics /
-  Radiometrics products (`tellus-*-merc/-rgba`, `Tellus_*_ESRIGRID`). Raster data on
-  a separate acquisition + georeferencing track (not vector-PMTiles). No public
-  provider URL recorded → source-only until a GSNI/GSI public URL and the Tellus
-  open-data terms are confirmed. (See the raster-georef pipeline note.)
+- **Tellus airborne geophysics rasters — RESOLVED 2026-07-04, already published.**
+  The review's `tellus-*-merc/-rgba` / `Tellus_*_ESRIGRID` rows are the raw/intermediate
+  artifacts of layers **already live on the site**: 10 XYZ raster tile layers
+  (`tellus-em-14khz`, `tellus-em-3khz`, `tellus-mag-tmi/-rtp/-rtp-tilt`,
+  `tellus-rad-k/-u/-th/-total/-ternary`) served from
+  `data.civgraph.net/data/maps/geology/<id>/{z}/{x}/{y}.png` and loadable on the main
+  map via their `-raster-test` entries, plus 10 GSNI Tellus geochemistry vector layers,
+  3 "raw" placeholders, and flight-tracks. The "no derivable provider URL" flag was a
+  stale metadata gap; the published entries already cite the OSNI Open Data Tellus
+  datasets. **GSNI Tellus is Open Government Licence (user-confirmed).** OGL v3.0 has
+  now been attached (`license` + `licenseUrl`) to all 24 Tellus layers in `maps.json`
+  and their 21 `maps-test.json` entries. Disposition: **published, OGL v3.0** — closed.
 - **OSNI Fusion `shard0`/`shard1`:** local standalone shards, no URL → source-only.
 
 ## C. Blocked local-source rights review (19) — source-only
