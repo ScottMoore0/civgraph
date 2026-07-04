@@ -11,8 +11,9 @@
   --ink: #1b2733;
   --muted: #5c6b7a;
   --line: #d9e0e8;
-  --bg: #eef2f6;
+  --bg: #fbfcfe;            /* white-ish page, like the PRONI eCatalogue background */
   --card: #ffffff;
+  --panel-blue: #e9f1fa;    /* light-blue search box, like PRONI's search-fields box */
   --radius: 8px;
   --shadow: 0 1px 3px rgba(16, 40, 70, .12), 0 1px 2px rgba(16, 40, 70, .08);
   /* PRONI's fonts: Rockwell slab-serif for headings; Verdana for all body and
@@ -49,8 +50,8 @@ a { color: var(--accent-dark); }
 
 /* main + search */
 .ps-main { max-width: 1080px; margin: 0 auto; padding: 0 clamp(0.75rem, 3vw, 2rem) 3rem; }
-.ps-search { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1rem 1rem 0.85rem; }
-.ps-search__bar { display: flex; align-items: center; gap: 0.6rem; border: 2px solid var(--line); border-radius: var(--radius); padding: 0.15rem 0.75rem; transition: border-color .12s, box-shadow .12s; }
+.ps-search { background: var(--panel-blue); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1rem 1rem 0.85rem; }
+.ps-search__bar { display: flex; align-items: center; gap: 0.6rem; background: #fff; border: 2px solid var(--line); border-radius: var(--radius); padding: 0.15rem 0.75rem; transition: border-color .12s, box-shadow .12s; }
 .ps-search__bar:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(26,115,194,.15); }
 .ps-search__icon { color: var(--muted); font-size: 1.2rem; }
 .ps-search__input { flex: 1; border: none; outline: none; font-family: var(--sans); font-size: 1.05rem; padding: 0.65rem 0; background: transparent; color: var(--ink); }
