@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Apps by Civgraph — independent tools built on public data, including Independent PRONI Search.">
+    <title>Apps - Civgraph</title>
+
+    <style>
+        @font-face {
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 400 700;
+            font-display: swap;
+            src: url(../assets/fonts/inter-latin.woff2) format('woff2');
+        }
+        @font-face {
+            font-family: 'Plus Jakarta Sans';
+            font-style: normal;
+            font-weight: 600 700;
+            font-display: swap;
+            src: url(../assets/fonts/plus-jakarta-sans-latin.woff2) format('woff2');
+        }
+    </style>
+    <link rel="stylesheet" href="../build/about.css">
+
+    <style>
+        .page-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: var(--space-8);
+        }
+
+        .page-header {
+            margin-bottom: var(--space-6);
+        }
+
+        .page-title {
+            font-size: var(--text-4xl);
+            font-weight: var(--font-bold);
+            margin-bottom: var(--space-2);
+        }
+
+        .page-lead {
+            color: var(--color-text-muted);
+            line-height: var(--leading-relaxed);
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            font-size: var(--text-sm);
+            color: var(--color-text-muted);
+            margin-bottom: var(--space-4);
+        }
+
+        .breadcrumb a {
+            color: var(--color-primary-light);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb__separator {
+            color: var(--color-text-muted);
+        }
+
+        .apps-list {
+            display: grid;
+            gap: var(--space-4);
+        }
+
+        .app-card {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-left: 4px solid var(--color-primary-light);
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+            transition: border-color .12s, box-shadow .12s, transform .12s;
+        }
+
+        .app-card:hover {
+            border-color: var(--color-primary-light);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
+        }
+
+        .app-card__title {
+            font-family: var(--font-display);
+            font-size: var(--text-2xl);
+            font-weight: var(--font-bold);
+            color: var(--color-primary-light);
+            margin: 0 0 var(--space-2);
+        }
+
+        .app-card__desc {
+            color: var(--color-text);
+            line-height: var(--leading-relaxed);
+            margin: 0 0 var(--space-3);
+        }
+
+        .app-card__cta {
+            display: inline-block;
+            font-weight: var(--font-bold);
+            color: var(--color-accent);
+        }
+    </style>
+</head>
+
+<body style="overflow: auto; height: auto;">
+    <header class="app-header">
+        <a href="../index.html" class="app-header__brand">
+            <img src="../assets/images/civgraph-logo-icon.svg" alt="" class="app-header__logo-icon">
+            <span class="app-header__wordmark">Civgraph</span>
+        </a>
+
+        <nav class="app-header__nav" aria-label="Main navigation">
+            <a href="../index.html" class="app-header__link">Home</a>
+            <a href="../browse/" class="app-header__link">Browse</a>
+            <a href="/apps/" class="app-header__link app-header__link--active">Apps</a>
+            <a href="../pages/about.html" class="app-header__link">About</a>
+        </nav>
+    </header>
+
+    <main class="page-container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="../index.html">Home</a>
+            <span class="breadcrumb__separator">/</span>
+            <span>Apps</span>
+        </nav>
+
+        <header class="page-header">
+            <h1 class="page-title">Apps</h1>
+            <p class="page-lead">Independent tools built by Civgraph on public data.</p>
+        </header>
+
+        <div class="apps-list">
+            <a class="app-card" href="/proni">
+                <h2 class="app-card__title">Independent PRONI Search</h2>
+                <p class="app-card__desc">
+                    A faster, independent interface to search all 1,538,177 records in the Public Record
+                    Office of Northern Ireland (PRONI) eCatalogue — with advanced search, exportable
+                    spreadsheets of record data, and easily shareable record links. Built by Civgraph using
+                    PRONI data; not an official PRONI service.
+                </p>
+                <span class="app-card__cta">Open app →</span>
+            </a>
+        </div>
+    </main>
+</body>
+
+</html>

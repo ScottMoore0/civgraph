@@ -31,7 +31,7 @@
 
   <!-- Modulepreload — start fetching the entry bundle before parser reaches
        the <script type=module> tag at the end of <body>. -->
-  <link rel="modulepreload" href="/app/build/app.bundle.js?v=c96fdf7e3783" fetchpriority="high">
+  <link rel="modulepreload" href="/app/build/app.bundle.js?v=67d12f2a0fd8" fetchpriority="high">
   <style>
     @font-face {
       font-family: 'Inter';
@@ -66,8 +66,8 @@
   <!-- Deferred CSS: remaining ~186 KB (catalogue cards, modals, charts, …)
        loaded async via media=print + onload swap so it doesn't block first
        paint. Browsers without JS fall back via <noscript>. -->
-    <link rel="stylesheet" href="/build/main.css?v=0284e39586fc" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="/build/main.css?v=0284e39586fc"></noscript>
+    <link rel="stylesheet" href="/build/main.css?v=3d93dc7b85c7" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="/build/main.css?v=3d93dc7b85c7"></noscript>
   <link rel="stylesheet" href="/app/build/app.bundle.css?v=aebfc68e6ee0">
 
   <!-- Election Viewer & Animation CSS (deferred — not needed for first paint) -->
@@ -118,6 +118,7 @@
     <nav class="app-header__nav" aria-label="Main navigation">
       <a href="/" class="app-header__link app-header__link--active">Home</a>
       <a href="/browse/" class="app-header__link">Browse</a>
+      <a href="/apps/" class="app-header__link">Apps</a>
       <a href="pages/about.html" class="app-header__link">About</a>
 
       <!-- Support Us Button -->
@@ -161,6 +162,7 @@
     <div id="mobileMenu" class="mobile-menu hidden">
       <a href="/" class="mobile-menu__link">Home</a>
       <a href="/browse/" class="mobile-menu__link">Browse</a>
+      <a href="/apps/" class="mobile-menu__link">Apps</a>
       <a href="pages/about.html" class="mobile-menu__link">About</a>
     </div>
   </header>
@@ -661,7 +663,7 @@
        and animation code are loaded lazily by the /app module bundle. -->
 
   <!-- Application (bundled + minified) -->
-  <script type="module" src="/app/build/app.bundle.js?v=c96fdf7e3783"></script>
+  <script type="module" src="/app/build/app.bundle.js?v=67d12f2a0fd8"></script>
 
   <!-- Service worker — repeat-visit cache + offline tolerance. Registered
        after window.load so it doesn't contend with critical resources.
