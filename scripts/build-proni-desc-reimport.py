@@ -73,7 +73,7 @@ def main():
                 r = json.loads(line)
             except Exception:
                 continue
-            ref = r.get('expectedRef') or r.get('proniReference')
+            ref = r.get('expectedRef') or r.get('proniReference') or r.get('ref')
             d = r.get('description') or ''
             if not ref or not d.strip():
                 continue

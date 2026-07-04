@@ -77,7 +77,7 @@ async function siblingNav(db, ref) {
 
 // Bump when the underlying D1 data changes (re-import) to invalidate the edge
 // cache without a manual purge — it is folded into the cache key.
-const CACHE_VERSION = 'v6';
+const CACHE_VERSION = 'v7';
 
 // The PRONI data is a static snapshot, so responses are safe to edge-cache
 // aggressively. Serve from Cloudflare's cache when warm; otherwise compute and
