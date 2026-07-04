@@ -1880,6 +1880,21 @@ button.catalogue-flat__toc-toplink {
   text-decoration: underline;
 }
 
+/* Dark mode: light-mode hover uses dark navy --color-primary, which is unreadable
+   on the dark catalogue surface. Keep class-member (dataset) titles a readable
+   light blue on hover — both the name-link and the row-hover-on-name rule, for the
+   theme toggle and OS preference. */
+[data-theme="dark"] .class-member__name-link:hover,
+[data-theme="dark"] .class-member:not(.class-member--placeholder):hover .class-member__name {
+  color: #9fc3ff;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .class-member__name-link:hover,
+  :root:not([data-theme="light"]) .class-member:not(.class-member--placeholder):hover .class-member__name {
+    color: #9fc3ff;
+  }
+}
+
 .category-pills {
   display: flex;
   flex-wrap: wrap;
