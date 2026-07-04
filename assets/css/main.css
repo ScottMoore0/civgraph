@@ -939,6 +939,24 @@ button.catalogue-flat__toc-toplink {
   color: var(--color-primary, #1a365d);
 }
 
+/* Dark mode: the light hover background + dark navy --color-primary text/border
+   are unreadable on the dark surface. Use a subtle blue background with light-blue
+   text/border, for both the theme toggle and OS preference. */
+[data-theme="dark"] .catalogue-flat__toc-decade-btn:hover,
+[data-theme="dark"] .catalogue-flat__toc-decade-btn:focus-visible {
+  background: rgba(66, 153, 225, 0.16);
+  border-color: #4b93ff;
+  color: #9fc3ff;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .catalogue-flat__toc-decade-btn:hover,
+  :root:not([data-theme="light"]) .catalogue-flat__toc-decade-btn:focus-visible {
+    background: rgba(66, 153, 225, 0.16);
+    border-color: #4b93ff;
+    color: #9fc3ff;
+  }
+}
+
 .catalogue-flat__toc-row--indented .catalogue-flat__toc-link {
   padding-left: 18px;
 }
