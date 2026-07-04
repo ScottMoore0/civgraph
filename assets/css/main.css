@@ -2396,6 +2396,20 @@ button.catalogue-flat__toc-toplink {
   text-decoration: underline;
 }
 
+/* Dark mode: light-mode hover uses dark navy --color-primary (#1a365d), which is
+   unreadable on the dark catalogue surface. Keep the name a readable light blue on
+   hover, for both the theme toggle and OS preference. */
+[data-theme="dark"] .map-card:hover .map-card__name,
+[data-theme="dark"] .map-card__name-link:hover {
+  color: #9fc3ff;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .map-card:hover .map-card__name,
+  :root:not([data-theme="light"]) .map-card__name-link:hover {
+    color: #9fc3ff;
+  }
+}
+
 .map-card__meta {
   font-size: var(--text-xs);
   color: var(--color-text-muted);
