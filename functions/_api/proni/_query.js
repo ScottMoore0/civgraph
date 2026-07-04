@@ -54,15 +54,19 @@ export function buildMatch(q, fields = {}) {
 // `top` restricts to top-level records (fonds, parent='') for letter-browse;
 // `level`/`access` are exact-match column filters (advanced search); from/to
 // bound the parsed year range inclusively.
+// The year range is matched against the Extracted Dates layer (ext.ext_start_year
+// /ext_end_year), so any caller that passes from/to must JOIN `ext` — signalled by
+// the returned `joinExt` flag so callers can add the join only when it's needed.
 export function buildFilters({ letter, from, to, top, level, access }) {
   const where = [];
   const binds = [];
+  let joinExt = false;
   const L = (letter || '').slice(0, 1).toUpperCase();
   if (L && /^[A-Z]$/.test(L)) { where.push('p.ref LIKE ?'); binds.push(L + '%'); }
   if (top) where.push("p.parent = ''");
   if (level) { where.push('p.level = ?'); binds.push(level); }
   if (access) { where.push('p.access = ?'); binds.push(access); }
-  if (Number.isFinite(from)) { where.push('p.end_year >= ?'); binds.push(from); }
-  if (Number.isFinite(to)) { where.push('p.start_year <= ?'); binds.push(to); }
-  return { where, binds };
+  if (Number.isFinite(from)) { where.push('ext.ext_end_year >= ?'); binds.push(from); joinExt = true; }
+  if (Number.isFinite(to)) { where.push('ext.ext_start_year <= ?'); binds.push(to); joinExt = true; }
+  return { where, binds, joinExt };
 }

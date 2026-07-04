@@ -11,8 +11,12 @@ import { buildMatch, buildFilters } from './_query.js';
 
 const MAX_ROWS = 50000;
 const PAGE = 1000;
-const COLS = 'p.ref, p.title, p.level, p.dates, p.access, p.digital_record, p.parent, p.start_year, p.end_year, p.description';
-const HEADER = ['PRONI Reference', 'Title', 'Level', 'Dates', 'Access', 'Digitised', 'Parent reference', 'Start year', 'End year', 'Description'];
+const COLS = 'p.ref, p.title, p.level, p.dates, p.access, p.digital_record, p.parent, '
+  + 'ext.ext_display, ext.ext_start_year, ext.ext_end_year, ext.ext_circa, ext.ext_estimated, ext.ext_bound, ext.ext_undated, '
+  + 'p.description';
+const HEADER = ['PRONI Reference', 'Title', 'Level', 'Dates', 'Access', 'Digitised', 'Parent reference',
+  'Extracted Dates', 'Extracted start year', 'Extracted end year', 'Approximate', 'Cataloguer-supplied', 'Open-ended bound', 'Undated',
+  'Description'];
 
 const csvCell = (v) => {
   const s = v == null ? '' : String(v);
@@ -37,9 +41,9 @@ export async function onRequestGet(context) {
   let sql;
   if (match) {
     const w = where.length ? ' AND ' + where.join(' AND ') : '';
-    sql = `SELECT ${COLS} FROM proni_fts f JOIN proni p ON p.rowid = f.rowid WHERE proni_fts MATCH ?${w} ORDER BY p.ref LIMIT ? OFFSET ?`;
+    sql = `SELECT ${COLS} FROM proni_fts f JOIN proni p ON p.rowid = f.rowid LEFT JOIN ext ON ext.ref = p.ref WHERE proni_fts MATCH ?${w} ORDER BY p.ref LIMIT ? OFFSET ?`;
   } else {
-    sql = `SELECT ${COLS} FROM proni p WHERE ${where.join(' AND ')} ORDER BY p.ref LIMIT ? OFFSET ?`;
+    sql = `SELECT ${COLS} FROM proni p LEFT JOIN ext ON ext.ref = p.ref WHERE ${where.join(' AND ')} ORDER BY p.ref LIMIT ? OFFSET ?`;
   }
   const head = match ? [match, ...binds] : binds;
 
@@ -63,7 +67,10 @@ export async function onRequestGet(context) {
       for (const r of rows) {
         controller.enqueue(enc.encode(csvRow([
           r.ref, r.title, r.level, r.dates, r.access,
-          r.digital_record ? 'Yes' : '', r.parent, r.start_year, r.end_year, r.description,
+          r.digital_record ? 'Yes' : '', r.parent,
+          r.ext_display, r.ext_start_year, r.ext_end_year,
+          r.ext_circa ? 'Yes' : '', r.ext_estimated ? 'Yes' : '', r.ext_bound || '', r.ext_undated ? 'Yes' : '',
+          r.description,
         ])));
       }
       sent += rows.length;

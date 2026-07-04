@@ -16,7 +16,7 @@
  */
 import { buildMatch, buildFilters } from './_query.js';
 
-const CACHE_VERSION = 'v9';
+const CACHE_VERSION = 'v10';
 const MAX_LIMIT = 60;
 const DEFAULT_LIMIT = 25;
 const DESC_PREVIEW = 160; // trimmed list preview — full text is fetched on the record page
@@ -25,13 +25,13 @@ const ORDER = {
   relevance: 'bm25(proni_fts)',
   ref: 'p.ref',
   title: 'p.title',
-  date: 'p.start_year',
+  date: 'ext.ext_start_year',
   level: 'p.level',
 };
 
 const SELECT_COLS = `p.ref, p.slug, p.title, p.level, p.dates, p.parent,
   p.parent_slug AS parentSlug, p.has_children AS hasChildren, p.fond,
-  p.access, p.digital_record AS digitalRecord, p.start_year AS startYear, p.end_year AS endYear,
+  p.access, p.digital_record AS digitalRecord, ext.ext_start_year AS startYear, ext.ext_end_year AS endYear,
   substr(p.description,1,${DESC_PREVIEW + 1}) AS descPreview, length(p.description) AS descLen`;
 
 function mapRow(r, exact) {
@@ -120,7 +120,7 @@ async function handle(context) {
 
     // exact-ref fast path (page 1 only, no explicit sort)
     if (!offset && q && !/\s/.test(q) && !q.includes(':') && sort === 'relevance') {
-      const ex = await rdb.prepare(`SELECT ${SELECT_COLS} FROM proni p WHERE p.ref = ?1 LIMIT 1`).bind(q.toUpperCase()).all();
+      const ex = await rdb.prepare(`SELECT ${SELECT_COLS} FROM proni p LEFT JOIN ext ON ext.ref = p.ref WHERE p.ref = ?1 LIMIT 1`).bind(q.toUpperCase()).all();
       for (const r of ex.results || []) { out.push(mapRow(r, true)); seen.add(r.ref); }
     }
 
@@ -129,13 +129,13 @@ async function handle(context) {
       const order = top ? 'p.ref ASC' : (sort === 'relevance' ? 'bm25(proni_fts)' : `${ORDER[sort] || 'p.ref'} ${dir}`);
       const w = where.length ? ' AND ' + where.join(' AND ') : '';
       sql = `SELECT ${SELECT_COLS}${sort === 'relevance' ? ', bm25(proni_fts) AS rank' : ''}
-             FROM proni_fts f JOIN proni p ON p.rowid = f.rowid
+             FROM proni_fts f JOIN proni p ON p.rowid = f.rowid LEFT JOIN ext ON ext.ref = p.ref
              WHERE proni_fts MATCH ?${w}
              ORDER BY ${order} LIMIT ? OFFSET ?`;
       bindArr = [match, ...binds, limit, offset];
     } else {
       const order = top ? 'p.ref ASC' : `${ORDER[sort] && sort !== 'relevance' ? ORDER[sort] : 'p.ref'} ${dir}`;
-      sql = `SELECT ${SELECT_COLS} FROM proni p
+      sql = `SELECT ${SELECT_COLS} FROM proni p LEFT JOIN ext ON ext.ref = p.ref
              WHERE ${where.join(' AND ')}
              ORDER BY ${order} LIMIT ? OFFSET ?`;
       bindArr = [...binds, limit, offset];

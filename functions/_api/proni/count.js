@@ -10,7 +10,7 @@
  */
 import { buildMatch, buildFilters } from './_query.js';
 
-const CACHE_VERSION = 'v3';
+const CACHE_VERSION = 'v4';
 
 export async function onRequestGet(context) {
   const cache = caches.default;
@@ -41,7 +41,8 @@ async function handle(context) {
 
   const breakdown = g('breakdown') === '1'; // letter-browse: counts grouped by level
   const match = buildMatch(q, fields);
-  const { where, binds } = buildFilters({ letter: g('letter'), from, to, top: g('top') === '1', level: g('level'), access: g('access') });
+  const { where, binds, joinExt } = buildFilters({ letter: g('letter'), from, to, top: g('top') === '1', level: g('level'), access: g('access') });
+  const jx = joinExt ? ' LEFT JOIN ext ON ext.ref = p.ref' : ''; // only when a year range is filtered
   if (!match && !where.length) return json({ count: 0, exact: true, levels: [] });
 
   try {
@@ -49,10 +50,10 @@ async function handle(context) {
       let bsql, barr;
       if (match) {
         const w = where.length ? ' AND ' + where.join(' AND ') : '';
-        bsql = `SELECT p.level AS level, COUNT(*) AS n FROM proni_fts f JOIN proni p ON p.rowid = f.rowid WHERE proni_fts MATCH ?${w} GROUP BY p.level`;
+        bsql = `SELECT p.level AS level, COUNT(*) AS n FROM proni_fts f JOIN proni p ON p.rowid = f.rowid${jx} WHERE proni_fts MATCH ?${w} GROUP BY p.level`;
         barr = [match, ...binds];
       } else {
-        bsql = `SELECT p.level AS level, COUNT(*) AS n FROM proni p WHERE ${where.join(' AND ')} GROUP BY p.level`;
+        bsql = `SELECT p.level AS level, COUNT(*) AS n FROM proni p${jx} WHERE ${where.join(' AND ')} GROUP BY p.level`;
         barr = binds;
       }
       const rows = await db.prepare(bsql).bind(...barr).all();
@@ -64,10 +65,10 @@ async function handle(context) {
     let sql, bindArr;
     if (match) {
       const w = where.length ? ' AND ' + where.join(' AND ') : '';
-      sql = `SELECT COUNT(*) AS n FROM proni_fts f JOIN proni p ON p.rowid = f.rowid WHERE proni_fts MATCH ?${w}`;
+      sql = `SELECT COUNT(*) AS n FROM proni_fts f JOIN proni p ON p.rowid = f.rowid${jx} WHERE proni_fts MATCH ?${w}`;
       bindArr = [match, ...binds];
     } else {
-      sql = `SELECT COUNT(*) AS n FROM proni p WHERE ${where.join(' AND ')}`;
+      sql = `SELECT COUNT(*) AS n FROM proni p${jx} WHERE ${where.join(' AND ')}`;
       bindArr = binds;
     }
     const { results } = await db.prepare(sql).bind(...bindArr).all();
