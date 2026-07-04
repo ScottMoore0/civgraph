@@ -1,26 +1,30 @@
 #!/usr/bin/env node
 /*
- * Gap-closer for the description re-scrape: fetches records that exist in the
- * catalogue but were not reached by the fold DFS run (mostly leaf items the
- * discovery index missed). Groups the uncaptured refs by parent, navigates to
- * each parent's children listing once, pages through it, and clickMores every
- * uncaptured child (matched by ResultsSelect.value == ref) — so navigation is
- * amortised across siblings. Descriptions come through with line breaks (same
- * extractDetailFields path as the main scan). Resumable: refs already in the
- * output are skipped.
+ * Gap-closer (DFS) for the description re-scrape: fetches catalogue records the
+ * fold DFS run did not reach (mostly leaf items the discovery index missed).
  *
+ * Efficient traversal: group uncaptured refs by LETTER, and for each letter walk
+ * its browse tree ONCE — descending only into branches that are ancestors of a
+ * wanted ref, and clickMoring any wanted ref (item or container) found on a
+ * listing (matched by ResultsSelect.value). Every listing early-exits once all
+ * its expected in-scope children have been seen, so we never page a listing
+ * further than needed. This pays the (expensive) letter-listing navigation once
+ * per letter instead of once per parent — ~70x fewer requests than a per-parent
+ * re-walk, so the record rate is bounded by clickMores, not navigation.
+ *
+ * Resumable: refs already in the output are skipped.
  * usage: node scripts/proni-gap-closer.mjs <uncaptured.txt> <out.jsonl> [workers]
  */
 import { readFileSync, appendFileSync, existsSync } from "node:fs";
 import { Agent as HttpsAgent } from "node:https";
 import {
-  parseArgs, makeStats, Session, openBranchPage, clickMore,
-  parseGridRows, findNextButton, clickNext,
+  parseArgs, makeStats, Session, startBrowseLetter, clickSelect,
+  clickNext, parseGridRows, findNextButton, clickMore,
 } from "./proni-detail-quick-scan.mjs";
 
 const UNCAPTURED = process.argv[2];
 const OUT = process.argv[3];
-const WORKERS = Number(process.argv[4] || 5);
+const WORKERS = Number(process.argv[4] || 6);
 
 function buildOptions() {
   const o = parseArgs([]);
@@ -37,79 +41,98 @@ function buildOptions() {
   return o;
 }
 const writers = { failures: { write: async () => {} }, mismatches: { write: async () => {} } };
-
-const inclusivePath = (parent) => {
-  if (!parent || parent === "(top)") return [];
-  const parts = parent.split("/");
-  const out = [];
-  for (let i = 1; i <= parts.length; i += 1) out.push(parts.slice(0, i).join("/"));
-  return out;
-};
 const letterOf = (ref) => (String(ref).match(/[A-Za-z]/)?.[0] || String(ref)[0] || "").toUpperCase();
+const parentOf = (ref) => { const p = ref.split("/"); return p.length > 1 ? p.slice(0, -1).join("/") : ""; };
 
-// Resume: skip refs already captured in a prior run.
+// Resume
 const seen = new Set();
 if (existsSync(OUT)) {
-  for (const line of readFileSync(OUT, "utf8").split(/\n/)) {
-    const t = line.trim();
-    if (!t) continue;
-    try { seen.add(JSON.parse(t).ref); } catch { /* ignore */ }
+  for (const l of readFileSync(OUT, "utf8").split(/\n/)) {
+    const t = l.trim();
+    if (t) try { seen.add(JSON.parse(t).ref); } catch { /* ignore */ }
   }
 }
 
-const groups = new Map();
+// Group by TOP-LEVEL FOND (unit of parallel work): wanted (to capture) + descend
+// (ancestor branches to walk through). Per-fond units spread a big letter's work
+// across workers, and there are far fewer fonds than parents so the letter-listing
+// navigation to reach each fond is paid few times, not 6,050 times.
+const byFond = new Map();
 let total = 0;
 for (const line of readFileSync(UNCAPTURED, "utf8").split(/\n/)) {
   const ref = line.trim();
   if (!ref || seen.has(ref)) continue;
-  const parent = ref.split("/").slice(0, -1).join("/") || "(top)";
-  if (!groups.has(parent)) groups.set(parent, []);
-  groups.get(parent).push(ref);
+  const fond = ref.split("/")[0];
+  if (!byFond.has(fond)) byFond.set(fond, { letter: letterOf(ref), wanted: new Set(), descend: new Set() });
+  const g = byFond.get(fond);
+  g.wanted.add(ref);
+  const parts = ref.split("/");
+  for (let i = 1; i < parts.length; i += 1) g.descend.add(parts.slice(0, i).join("/"));
   total += 1;
 }
-const queue = [...groups.entries()];
-console.error(`gap-closer: ${total} refs (skipped ${seen.size} already done) in ${queue.length} parent groups, ${WORKERS} workers`);
+// Bigger fonds first so the long poles start early
+const queue = [...byFond.entries()].sort((a, b) => b[1].wanted.size - a[1].wanted.size);
+console.error(`gap-closer-dfs: ${total} refs (skipped ${seen.size}) across ${queue.length} fonds, ${WORKERS} workers`);
 
-let qi = 0, doneParents = 0, captured = 0, notfound = 0, errors = 0;
-const writeRec = (rec) => appendFileSync(OUT, JSON.stringify(rec) + "\n");
+let captured = 0, notfound = 0, errors = 0, qi = 0;
+const writeRec = (r) => appendFileSync(OUT, JSON.stringify(r) + "\n");
+
+async function walk(session, listingHtml, branchRef, g, childrenByParent, capset, MAXP) {
+  const expected = childrenByParent.get(branchRef) || new Set();
+  const found = new Set();
+  const toDescend = [];
+  let cur = listingHtml;
+  for (let page = 1; page <= MAXP; page += 1) {
+    for (const row of parseGridRows(cur)) {
+      const ref = row.ResultsSelect?.value;
+      if (!ref || !expected.has(ref) || found.has(ref)) continue;
+      found.add(ref);
+      if (g.wanted.has(ref) && !capset.has(ref) && row.ResultsView && !row.ResultsView.disabled) {
+        try {
+          const d = await clickMore(session, cur, row, ref);
+          if (d.matched) {
+            writeRec({ ref, description: d.fields.description || "", access: d.fields.access || "", digitalRecord: d.fields.digitalRecord || "", level: d.fields.level || "", title: d.fields.title || "", dates: d.fields.dates || "" });
+            captured += 1;
+          } else notfound += 1;
+          capset.add(ref);
+        } catch { errors += 1; capset.add(ref); }
+      }
+      if (g.descend.has(ref) && row.ResultsSelect && !row.ResultsSelect.disabled) toDescend.push({ row, pageHtml: cur });
+    }
+    if (found.size >= expected.size) break;          // all in-scope children on this listing seen
+    const next = findNextButton(cur);
+    if (!next) break;
+    try { cur = await clickNext(session, cur, next); } catch { break; }
+  }
+  for (const { row, pageHtml } of toDescend) {
+    try {
+      const childHtml = await clickSelect(session, pageHtml, row);
+      await walk(session, childHtml, row.ResultsSelect.value, g, childrenByParent, capset, MAXP);
+    } catch { errors += 1; }
+  }
+}
 
 async function worker(id) {
   const stats = makeStats();
   const session = new Session(`gap${id}`, buildOptions(), writers, stats);
+  const MAXP = session.options.maxPagesPerBranch;
   while (qi < queue.length) {
-    const [parent, want] = queue[qi++];
-    const remaining = new Set(want);
+    const [fond, g] = queue[qi++];
+    // childrenByParent (over wanted ∪ descend): '' = this fond on the letter listing
+    const childrenByParent = new Map();
+    for (const r of new Set([...g.wanted, ...g.descend])) {
+      const p = parentOf(r);
+      if (!childrenByParent.has(p)) childrenByParent.set(p, new Set());
+      childrenByParent.get(p).add(r);
+    }
+    const capset = new Set();
     try {
-      let html = await openBranchPage(session, { letter: letterOf(want[0]), path: inclusivePath(parent), page: 1, branchKey: parent });
-      for (let page = 1; page <= session.options.maxPagesPerBranch && remaining.size; page += 1) {
-        const byRef = new Map(parseGridRows(html).map((r) => [r.ResultsSelect?.value, r]));
-        for (const ref of [...remaining]) {
-          const gr = byRef.get(ref);
-          if (!gr || !gr.ResultsView) continue;
-          try {
-            const d = await clickMore(session, html, gr, ref);
-            if (d.matched) {
-              writeRec({
-                ref, description: d.fields.description || "", access: d.fields.access || "",
-                digitalRecord: d.fields.digitalRecord || "", level: d.fields.level || "",
-                title: d.fields.title || "", dates: d.fields.dates || "",
-              });
-              captured += 1;
-            } else notfound += 1;
-          } catch { errors += 1; }
-          remaining.delete(ref);
-        }
-        if (!remaining.size) break;
-        const next = findNextButton(html);
-        if (!next) break;
-        html = await clickNext(session, html, next);
-      }
-    } catch { errors += remaining.size; }
-    notfound += remaining.size;
-    doneParents += 1;
-    if (doneParents % 200 === 0) console.error(`  ${doneParents}/${queue.length} parents | captured=${captured} notfound=${notfound} errors=${errors} req=${stats.requests}`);
+      const html = await startBrowseLetter(session, g.letter);
+      await walk(session, html, "", g, childrenByParent, capset, MAXP);
+    } catch { errors += g.wanted.size; }
+    if (qi % 25 === 0 || g.wanted.size > 300) console.error(`  ${qi}/${queue.length} fonds | last ${fond} (wanted=${g.wanted.size}) | captured=${captured} notfound=${notfound} errors=${errors} req=${stats.requests}`);
   }
 }
 
 await Promise.all(Array.from({ length: WORKERS }, (_, i) => worker(i)));
-console.error(`DONE: parents=${doneParents} captured=${captured} notfound=${notfound} errors=${errors}`);
+console.error(`DONE: captured=${captured} notfound=${notfound} errors=${errors}`);
