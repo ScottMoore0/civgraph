@@ -657,10 +657,12 @@ export class Test2ElectionManager {
     const seen = new Set();
     for (const result of results || []) {
       if (!result.matched && !(this.isLocalGovernmentElection() && this.activeLocalMode === 'district')) continue;
-      for (const label of resultFeatureLabels(result)) {
-        if (seen.has(label)) continue;
-        seen.add(label);
-        labels.push(label, valueForResult(result));
+      for (const baseLabel of resultFeatureLabels(result)) {
+        for (const label of matchLabelWhitespaceVariants(baseLabel)) {
+          if (seen.has(label)) continue;
+          seen.add(label);
+          labels.push(label, valueForResult(result));
+        }
       }
     }
     if (!labels.length) return fallback;
@@ -4247,6 +4249,23 @@ function councilFeatureAliases(name = '') {
     aliases.add('Armagh City Banbridge Craigavon');
   }
   return [...aliases].map((value) => String(value || '').trim()).filter(Boolean);
+}
+
+// Some source geometries carry stray trailing whitespace in the label attribute
+// — e.g. the dail-2013 constituency tiles store "Cavan-Monaghan (4)\n", with a
+// newline baked into MAX_CON_NA. MapLibre `match` is exact-equality and the
+// vector tiles serve the value verbatim, but our result labels are trimmed, so
+// the polluted feature never matches and falls through to the pale unmatched
+// fill. MapLibre has no trim() to normalise the input, so instead we emit the
+// clean label plus a few trailing-whitespace variants as extra match keys. This
+// stays on the safe (key) side — an unmatched variant just leaves the status
+// quo, it can never break the whole expression the way a malformed input
+// transform could. The real data lives in the FGB/PMTiles and should be trimmed
+// at intake; this keeps the map correct until that regeneration happens.
+function matchLabelWhitespaceVariants(label) {
+  const base = String(label ?? '');
+  if (!base) return [base];
+  return [base, `${base}\n`, `${base}\r\n`, `${base}\r`, `${base} `];
 }
 
 function resultFeatureLabels(result) {
