@@ -1,0 +1,33 @@
+{
+  "generatedAt": "2026-07-05",
+  "purpose": "Attribution metadata to attach to each record at publish time. Key each published record by its provider/jurisdiction to the matching variant below.",
+  "keyBy": {
+    "field": "provider",
+    "rule": "provider == 'CSO PXStat' -> cso ; provider == 'NISRA' OR jurisdiction == 'Northern Ireland' -> nisra"
+  },
+  "variants": {
+    "cso": {
+      "appliesTo": "All CSO PxStat records (provider = 'CSO PXStat', jurisdiction != 'Northern Ireland').",
+      "licence": "Creative Commons Attribution 4.0 International (CC BY 4.0)",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "attributionText": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "rightsHolder": "Central Statistics Office (CSO)",
+      "providerHome": "https://data.cso.ie",
+      "sourceUrlPattern": "https://data.cso.ie/table/{sourceSlugOrId}",
+      "sourceUrlExample": "https://data.cso.ie/table/BDR03",
+      "apiUrlPattern": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/{sourceSlugOrId}/JSON-stat/2.0/en",
+      "sourceUrlNote": "sourceSlugOrId is the PxStat matrix code (e.g. BDR03). Human-facing table page is the /table/{code} URL; the JSON-stat cube used for staging is the api.restful ReadDataset URL."
+    },
+    "nisra": {
+      "appliesTo": "NISRA records (provider = 'NISRA') and any record with jurisdiction = 'Northern Ireland'. These are Crown/Northern Ireland public sector data, NOT CSO CC-BY.",
+      "licence": "Open Government Licence v3.0 (OGL v3.0)",
+      "licenceUrl": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+      "attributionText": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "rightsHolder": "Northern Ireland Statistics and Research Agency (NISRA)",
+      "providerHome": "https://www.nisra.gov.uk",
+      "sourceUrlPattern": "https://data.nisra.gov.uk/table/{sourceSlugOrId}",
+      "sourceUrlNote": "NISRA slugs are not uniformly PxStat matrix codes across the corpus; verify each record's resolved source URL from its staging localPath/reference before publishing. Where no clean per-record URL is derivable, cite providerHome. These records must carry OGL attribution or be deferred pending per-record source-URL resolution.",
+      "carveout": "35 of these records have provider = 'CSO PXStat' but jurisdiction = 'Northern Ireland' (CSO cubes about NI). Licence origin is CSO CC-BY, but they are held out of the CC-BY auto-publish tranche for manual review; do not auto-apply OGL to these without confirming the true rights holder."
+    }
+  }
+}
