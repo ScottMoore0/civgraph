@@ -893,7 +893,9 @@ export class TestMapLibreController {
     const source = this.buildSource(layer);
     this.map.addSource(sourceId, source);
     let interactionOverlayIds = { layerIds: [], sourceIds: [] };
-    if (layer.sourceType === 'raster' || layer.sourceType === 'image') {
+    if (layer.sourceType === 'raster-dem') {
+      interactionOverlayIds = this.addTerrainLayer(layer, { sourceId, rasterId });
+    } else if (layer.sourceType === 'raster' || layer.sourceType === 'image') {
       this.addRasterLayer(layer, { sourceId, rasterId });
     } else {
       this.addGeometryLayers(layer, { sourceId, fillId, lineId, hoverId, selectedFillId, selectedId });
@@ -928,7 +930,7 @@ export class TestMapLibreController {
     });
     this.applySavedLayerPreferences(layer.id);
 
-    if (layer.sourceType !== 'raster' && layer.sourceType !== 'image') {
+    if (layer.sourceType !== 'raster' && layer.sourceType !== 'image' && layer.sourceType !== 'raster-dem') {
       this.interactionCleanups.set(layer.id, this.bindLayerInteractions(layer, fillId, labelId, sourceId));
       this.scheduleDomLabelRefresh(layer.id);
     }
@@ -957,6 +959,55 @@ export class TestMapLibreController {
         'raster-opacity': clamp(layer.rasterOpacity ?? layer.style?.opacity ?? 0.85, 0, 1)
       }
     });
+  }
+
+  // 3D LiDAR / DEM terrain entries. The layer's raster-dem source (sourceId) is
+  // already added; enable it as the map's terrain and, if present, drape a baked
+  // hillshade raster over it. MapLibre supports a single global terrain, so the
+  // most recently loaded raster-dem layer owns the terrain until it is unloaded.
+  addTerrainLayer(layer, ids) {
+    const { sourceId, rasterId } = ids;
+    const overlay = { layerIds: [], sourceIds: [] };
+    const exaggeration = clamp(layer.exaggeration ?? 1.5, 0, 12);
+    this.map.setTerrain({ source: sourceId, exaggeration });
+    this.terrainLayerId = layer.id;
+    this.terrainSourceId = sourceId;
+    this.terrainExaggeration = exaggeration;
+    if (typeof this.map.setMaxPitch === 'function' && this.map.getMaxPitch() < 80) {
+      this.map.setMaxPitch(85);
+    }
+    // Optional baked multidirectional-hillshade drape. Opacity < 1 lets the
+    // currently-selected basemap show through as the surface texture; opacity 1
+    // gives the opaque monochrome-grey relief surface.
+    if (layer.hillshadeTiles) {
+      const hsSourceId = `${sourceId}-hs`;
+      this.map.addSource(hsSourceId, {
+        type: 'raster',
+        tiles: [absoluteTileTemplate(layer.hillshadeTiles)],
+        tileSize: layer.tileSize || 256,
+        minzoom: layer.hillshadeMinzoom ?? layer.minzoom,
+        maxzoom: layer.hillshadeMaxzoom ?? layer.maxzoom,
+        bounds: boundsToFlatBbox(layer.bounds)
+      });
+      this.map.addLayer({
+        id: rasterId,
+        type: 'raster',
+        source: hsSourceId,
+        paint: {
+          'raster-opacity': clamp(layer.hillshadeOpacity ?? 0.5, 0, 1)
+        }
+      });
+      overlay.sourceIds.push(hsSourceId);
+      overlay.layerIds.push(rasterId);
+    }
+    return overlay;
+  }
+
+  setTerrainExaggeration(value) {
+    if (!this.terrainSourceId) return;
+    const exaggeration = clamp(value, 0, 12);
+    this.terrainExaggeration = exaggeration;
+    this.map.setTerrain({ source: this.terrainSourceId, exaggeration });
   }
 
   addGeometryLayers(layer, ids) {
@@ -1181,6 +1232,13 @@ export class TestMapLibreController {
   unloadLayer(layerId) {
     const record = this.layers.get(layerId);
     if (!record) return;
+    // Detach terrain before its raster-dem source is removed, or MapLibre throws.
+    if (this.terrainLayerId === layerId) {
+      this.map.setTerrain(null);
+      this.terrainLayerId = null;
+      this.terrainSourceId = null;
+      this.terrainExaggeration = null;
+    }
     this.clearFeatureState(this.hovered, 'hover');
     this.clearFeatureState(this.selected, 'selected');
     this.interactionCleanups.get(layerId)?.();
@@ -1426,6 +1484,18 @@ export class TestMapLibreController {
         type: 'raster',
         tiles: [absoluteTileTemplate(layer.tiles || layer.tileUrl)],
         tileSize: layer.tileSize || 256,
+        minzoom: layer.minzoom,
+        maxzoom: layer.maxzoom,
+        bounds: boundsToFlatBbox(layer.bounds)
+      };
+    }
+    if (layer.sourceType === 'raster-dem') {
+      if (!layer.tiles && !layer.tileUrl) throw new Error('missing raster-dem tiles URL template');
+      return {
+        type: 'raster-dem',
+        tiles: [absoluteTileTemplate(layer.tiles || layer.tileUrl)],
+        tileSize: layer.tileSize || 256,
+        encoding: layer.demEncoding || 'terrarium',
         minzoom: layer.minzoom,
         maxzoom: layer.maxzoom,
         bounds: boundsToFlatBbox(layer.bounds)
