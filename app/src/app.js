@@ -1826,8 +1826,13 @@ class Test2App {
     const playableItems = Array.isArray(items)
       ? items.filter((item) => !item?.mapId || this.isTimelineMapPlayable(item.mapId))
       : [];
-    const transitionSequence = this.selectTimelineTransitionSequence(playableItems);
-    this.timelineItems = transitionSequence.length >= 2 ? transitionSequence : playableItems;
+    // The slider must span the full playable time series. Do NOT restrict it to the
+    // longest contiguous run of precomputed transition overlays — that truncated the
+    // range (e.g. the LGD chain stopped at 1 Apr 1969, where the admin-areas overlays
+    // end, even with the 2012 map loaded). Play-mode morphing still works:
+    // applyTimelineAnimationTransition looks up an overlay per adjacent pair and falls
+    // back to a plain switch when none exists.
+    this.timelineItems = playableItems;
     this.timelineOnSelect = typeof onSelect === 'function' ? onSelect : null;
     if (!slider || !range || this.timelineItems.length < 2 || !this.timelineOnSelect) {
       this.hideTimeline();
