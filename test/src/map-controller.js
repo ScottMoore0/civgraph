@@ -936,6 +936,7 @@ export class TestMapLibreController {
       this.fallbackCleanups.set(layer.id, this.monitorPmtilesFallback(layer, sourceId));
     }
     this.reorderFromSavedLayerOrder();
+    this.scheduleAllDomLabelRefresh();
     this.fitToLayer(layer.id);
     this.recordMetric({
       layerId: layer.id,
@@ -1194,6 +1195,7 @@ export class TestMapLibreController {
       if (this.map.getSource(sourceId)) this.map.removeSource(sourceId);
     }
     this.layers.delete(layerId);
+    this.scheduleAllDomLabelRefresh();
     if (this.selected?.layerId === layerId) {
       this.selected = null;
       this.options.onSelection?.(null);
@@ -1357,6 +1359,7 @@ export class TestMapLibreController {
         if (this.map.getLayer(id)) this.map.moveLayer(id);
       }
     }
+    this.scheduleAllDomLabelRefresh();
   }
 
   applySavedLayerPreferences(layerId) {
@@ -1769,6 +1772,12 @@ export class TestMapLibreController {
     });
   }
 
+  // Re-place every active layer's labels — used when the layer set or stacking
+  // order changes, so lower layers re-avoid the labels of layers now above them.
+  scheduleAllDomLabelRefresh() {
+    for (const layerId of this.layers.keys()) this.scheduleDomLabelRefresh(layerId);
+  }
+
   refreshDomLabels(layerId) {
     const record = this.layers.get(layerId);
     if (!record || !record.config?.labelProperty) return;
@@ -1785,11 +1794,16 @@ export class TestMapLibreController {
     const labelLimit = getDomLabelLimit(layer);
     const nextKeys = new Set();
     const labelBoxes = [];
-    // Seed with the collision boxes of every OTHER active layer's visible labels,
-    // so labels from different layers don't overlap and obscure each other (these
-    // are DOM labels, so MapLibre's symbol-layer collision doesn't apply to them).
-    for (const [otherId, otherRecord] of this.layers) {
-      if (otherId === layerId || !otherRecord.domLabelMarkers) continue;
+    // Seed with the collision boxes of the layers ABOVE this one, so higher layers'
+    // labels take priority: a lower layer skips any position already occupied by a
+    // higher layer's label, and the top layer (nothing above it) keeps all of its
+    // labels. this.layers is ordered bottom→top (reapplyLayerOrder moves each to the
+    // top in iteration order), so layers AFTER this one in the order are on top of
+    // it. (These are DOM labels, so MapLibre's symbol collision doesn't apply.)
+    const orderedLayerIds = [...this.layers.keys()];
+    for (let i = orderedLayerIds.indexOf(layerId) + 1; i < orderedLayerIds.length; i += 1) {
+      const otherRecord = this.layers.get(orderedLayerIds[i]);
+      if (!otherRecord?.domLabelMarkers) continue;
       for (const otherMarker of otherRecord.domLabelMarkers.values()) {
         const otherEl = otherMarker.getElement?.();
         if (!otherEl || otherEl.hidden || !otherEl.isConnected) continue;
