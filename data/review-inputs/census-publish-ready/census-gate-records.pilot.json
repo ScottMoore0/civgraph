@@ -1,0 +1,1452 @@
+{
+  "schemaVersion": 1,
+  "generatedFrom": "data/review-inputs/census-publish-ready/publish-tranche-cso-highconf.csv",
+  "candidateOnly": true,
+  "note": "Category-1 CSO census cubes as Books/Tables/Sources source records. Merge into data/database/approved-publication-sources.json + run npm run build:browse to materialise.",
+  "counts": {
+    "total": 30,
+    "sourcePool": 6560
+  },
+  "sources": [
+    {
+      "id": "approved-publication:census-cube-bdr03-2002-population-in-each-constituency-as-defined-in-the-electoral-amendment",
+      "slug": "approved-publication-census-cube-bdr03-2002-population-in-each-constituency-as-defined-in-the-electoral-amendment",
+      "type": "approved-table-source",
+      "title": "2002 Population in each Constituency, as defined in the Electoral (Amendment) (No. 2) Act, 1998 for elections to Dail Eireann",
+      "subtitle": "CSO / census-statistical / Browse/Books plus Sources",
+      "category": "Approved tables",
+      "date": "2002",
+      "provider": [
+        "CSO"
+      ],
+      "description": "CSO PxStat statistical cube (matrix BDR03). Published as a Books/Tables/Sources source-table record under CC BY 4.0.",
+      "keywords": [
+        "census-statistical",
+        "statistical-cube",
+        "CSO",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication",
+        "BDR03"
+      ],
+      "proposedBrowsePath": "Browse/Books plus Sources",
+      "publicationStatus": "approved-staged",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "CSO PxStat table BDR03",
+          "url": "https://data.cso.ie/table/BDR03",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "JSON-stat cube (BDR03)",
+          "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/BDR03/JSON-stat/2.0/en",
+          "note": "CC BY 4.0"
+        }
+      ],
+      "approval": {
+        "stagingId": "census-00001-bdr03",
+        "recommendedAction": "publish",
+        "batchId": "cat1-census-cso-ccby",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-cso-pxstat",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "defaultConfidence": "high"
+      }
+    },
+    {
+      "id": "approved-publication:census-cube-cna23-population-by-sex-detailed-marital-status-province-county-or-city-and-cens",
+      "slug": "approved-publication-census-cube-cna23-population-by-sex-detailed-marital-status-province-county-or-city-and-cens",
+      "type": "approved-table-source",
+      "title": "Population by Sex, Detailed Marital Status, Province County or City and CensusYear",
+      "subtitle": "CSO / census-statistical / Browse/Books plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "provider": [
+        "CSO"
+      ],
+      "description": "CSO PxStat statistical cube (matrix CNA23). Published as a Books/Tables/Sources source-table record under CC BY 4.0.",
+      "keywords": [
+        "census-statistical",
+        "statistical-cube",
+        "CSO",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication",
+        "CNA23"
+      ],
+      "proposedBrowsePath": "Browse/Books plus Sources",
+      "publicationStatus": "approved-staged",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "CSO PxStat table CNA23",
+          "url": "https://data.cso.ie/table/CNA23",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "JSON-stat cube (CNA23)",
+          "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/CNA23/JSON-stat/2.0/en",
+          "note": "CC BY 4.0"
+        }
+      ],
+      "approval": {
+        "stagingId": "census-00002-cna23",
+        "recommendedAction": "publish",
+        "batchId": "cat1-census-cso-ccby",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-cso-pxstat",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "defaultConfidence": "high"
+      }
+    },
+    {
+      "id": "approved-publication:census-cube-f1008-population-by-electoral-divisions-in-county-dublin-by-birthplace",
+      "slug": "approved-publication-census-cube-f1008-population-by-electoral-divisions-in-county-dublin-by-birthplace",
+      "type": "approved-table-source",
+      "title": "Population by Electoral Divisions in County Dublin, by Birthplace",
+      "subtitle": "CSO / census-statistical / Browse/Books plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "provider": [
+        "CSO"
+      ],
+      "description": "CSO PxStat statistical cube (matrix F1008). Published as a Books/Tables/Sources source-table record under CC BY 4.0.",
+      "keywords": [
+        "census-statistical",
+        "statistical-cube",
+        "CSO",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication",
+        "F1008"
+      ],
+      "proposedBrowsePath": "Browse/Books plus Sources",
+      "publicationStatus": "approved-staged",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "CSO PxStat table F1008",
+          "url": "https://data.cso.ie/table/F1008",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "JSON-stat cube (F1008)",
+          "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/F1008/JSON-stat/2.0/en",
+          "note": "CC BY 4.0"
+        }
+      ],
+      "approval": {
+        "stagingId": "census-00003-f1008",
+        "recommendedAction": "publish",
+        "batchId": "cat1-census-cso-ccby",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-cso-pxstat",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "defaultConfidence": "high"
+      }
+    },
+    {
+      "id": "approved-publication:census-cube-hhr01-hse-health-region-populations-census-2022",
+      "slug": "approved-publication-census-cube-hhr01-hse-health-region-populations-census-2022",
+      "type": "approved-table-source",
+      "title": "HSE Health Region Populations - Census 2022",
+      "subtitle": "CSO / census-statistical / Browse/Books plus Sources",
+      "category": "Approved tables",
+      "date": "2022",
+      "provider": [
+        "CSO"
+      ],
+      "description": "CSO PxStat statistical cube (matrix HHR01). Published as a Books/Tables/Sources source-table record under CC BY 4.0.",
+      "keywords": [
+        "census-statistical",
+        "statistical-cube",
+        "CSO",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication",
+        "HHR01"
+      ],
+      "proposedBrowsePath": "Browse/Books plus Sources",
+      "publicationStatus": "approved-staged",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "CSO PxStat table HHR01",
+          "url": "https://data.cso.ie/table/HHR01",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "JSON-stat cube (HHR01)",
+          "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/HHR01/JSON-stat/2.0/en",
+          "note": "CC BY 4.0"
+        }
+      ],
+      "approval": {
+        "stagingId": "census-00004-hhr01",
+        "recommendedAction": "publish",
+        "batchId": "cat1-census-cso-ccby",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-cso-pxstat",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "defaultConfidence": "high"
+      }
+    },
+    {
+      "id": "approved-publication:census-cube-a0601-1996-population-usually-resident-in-the-state-at-each-census-since-1981",
+      "slug": "approved-publication-census-cube-a0601-1996-population-usually-resident-in-the-state-at-each-census-since-1981",
+      "type": "approved-table-source",
+      "title": "1996 Population Usually Resident in the State at each Census Since 1981",
+      "subtitle": "CSO / census-statistical / Browse/Books plus Sources",
+      "category": "Approved tables",
+      "date": "1996",
+      "provider": [
+        "CSO"
+      ],
+      "description": "CSO PxStat statistical cube (matrix A0601). Published as a Books/Tables/Sources source-table record under CC BY 4.0.",
+      "keywords": [
+        "census-statistical",
+        "statistical-cube",
+        "CSO",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication",
+        "A0601"
+      ],
+      "proposedBrowsePath": "Browse/Books plus Sources",
+      "publicationStatus": "approved-staged",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "CSO PxStat table A0601",
+          "url": "https://data.cso.ie/table/A0601",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "JSON-stat cube (A0601)",
+          "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/A0601/JSON-stat/2.0/en",
+          "note": "CC BY 4.0"
+        }
+      ],
+      "approval": {
+        "stagingId": "census-00005-a0601",
+        "recommendedAction": "publish",
+        "batchId": "cat1-census-cso-ccby",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-cso-pxstat",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "defaultConfidence": "high"
+      }
+    },
+    {
+      "id": "approved-publication:census-cube-b0532-2002-population-aged-15-years-and-over-in-employment-ilo-and-average-hours",
+      "slug": "approved-publication-census-cube-b0532-2002-population-aged-15-years-and-over-in-employment-ilo-and-average-hours",
+      "type": "approved-table-source",
+      "title": "2002 Population Aged 15 Years and Over in Employment (ILO) and Average Hours Worked in the Week before Census Day",
+      "subtitle": "CSO / census-statistical / Browse/Books plus Sources",
+      "category": "Approved tables",
+      "date": "2002",
+      "provider": [
+        "CSO"
+      ],
+      "description": "CSO PxStat statistical cube (matrix B0532). Published as a Books/Tables/Sources source-table record under CC BY 4.0.",
+      "keywords": [
+        "census-statistical",
+        "statistical-cube",
+        "CSO",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication",
+        "B0532"
+      ],
+      "proposedBrowsePath": "Browse/Books plus Sources",
+      "publicationStatus": "approved-staged",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "CSO PxStat table B0532",
+          "url": "https://data.cso.ie/table/B0532",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "JSON-stat cube (B0532)",
+          "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/B0532/JSON-stat/2.0/en",
+          "note": "CC BY 4.0"
+        }
+      ],
+      "approval": {
+        "stagingId": "census-00007-b0532",
+        "recommendedAction": "publish",
+        "batchId": "cat1-census-cso-ccby",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-cso-pxstat",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "defaultConfidence": "high"
+      }
+    },
+    {
+      "id": "approved-publication:census-cube-b0533-2002-population-aged-15-years-and-over-in-employment-ilo-and-average-hours",
+      "slug": "approved-publication-census-cube-b0533-2002-population-aged-15-years-and-over-in-employment-ilo-and-average-hours",
+      "type": "approved-table-source",
+      "title": "2002 Population Aged 15 Years and Over in Employment (ILO) and Average Hours Worked in the Week before Census Day",
+      "subtitle": "CSO / census-statistical / Browse/Books plus Sources",
+      "category": "Approved tables",
+      "date": "2002",
+      "provider": [
+        "CSO"
+      ],
+      "description": "CSO PxStat statistical cube (matrix B0533). Published as a Books/Tables/Sources source-table record under CC BY 4.0.",
+      "keywords": [
+        "census-statistical",
+        "statistical-cube",
+        "CSO",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication",
+        "B0533"
+      ],
+      "proposedBrowsePath": "Browse/Books plus Sources",
+      "publicationStatus": "approved-staged",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "CSO PxStat table B0533",
+          "url": "https://data.cso.ie/table/B0533",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "JSON-stat cube (B0533)",
+          "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/B0533/JSON-stat/2.0/en",
+          "note": "CC BY 4.0"
+        }
+      ],
+      "approval": {
+        "stagingId": "census-00008-b0533",
+        "recommendedAction": "publish",
+        "batchId": "cat1-census-cso-ccby",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-cso-pxstat",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "defaultConfidence": "high"
+      }
+    },
+    {
+      "id": "approved-publication:census-cube-b0534-2002-population-aged-15-years-and-over-in-employment-ilo-and-average-hours",
+      "slug": "approved-publication-census-cube-b0534-2002-population-aged-15-years-and-over-in-employment-ilo-and-average-hours",
+      "type": "approved-table-source",
+      "title": "2002 Population Aged 15 Years and Over in Employment (ILO) and Average Hours Worked in the Week before Census Day",
+      "subtitle": "CSO / census-statistical / Browse/Books plus Sources",
+      "category": "Approved tables",
+      "date": "2002",
+      "provider": [
+        "CSO"
+      ],
+      "description": "CSO PxStat statistical cube (matrix B0534). Published as a Books/Tables/Sources source-table record under CC BY 4.0.",
+      "keywords": [
+        "census-statistical",
+        "statistical-cube",
+        "CSO",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication",
+        "B0534"
+      ],
+      "proposedBrowsePath": "Browse/Books plus Sources",
+      "publicationStatus": "approved-staged",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "CSO PxStat table B0534",
+          "url": "https://data.cso.ie/table/B0534",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "JSON-stat cube (B0534)",
+          "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/B0534/JSON-stat/2.0/en",
+          "note": "CC BY 4.0"
+        }
+      ],
+      "approval": {
+        "stagingId": "census-00009-b0534",
+        "recommendedAction": "publish",
+        "batchId": "cat1-census-cso-ccby",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-cso-pxstat",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "defaultConfidence": "high"
+      }
+    },
+    {
+      "id": "approved-publication:census-cube-bsr16-2002-population-aged-15-years-and-over-in-employment-ilo-by-average-hours-",
+      "slug": "approved-publication-census-cube-bsr16-2002-population-aged-15-years-and-over-in-employment-ilo-by-average-hours-",
+      "type": "approved-table-source",
+      "title": "2002 Population Aged 15 Years and Over in Employment (ILO) by Average Hours Worked in the Week before Census Day",
+      "subtitle": "CSO / census-statistical / Browse/Books plus Sources",
+      "category": "Approved tables",
+      "date": "2002",
+      "provider": [
+        "CSO"
+      ],
+      "description": "CSO PxStat statistical cube (matrix BSR16). Published as a Books/Tables/Sources source-table record under CC BY 4.0.",
+      "keywords": [
+        "census-statistical",
+        "statistical-cube",
+        "CSO",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication",
+        "BSR16"
+      ],
+      "proposedBrowsePath": "Browse/Books plus Sources",
+      "publicationStatus": "approved-staged",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "CSO PxStat table BSR16",
+          "url": "https://data.cso.ie/table/BSR16",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "JSON-stat cube (BSR16)",
+          "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/BSR16/JSON-stat/2.0/en",
+          "note": "CC BY 4.0"
+        }
+      ],
+      "approval": {
+        "stagingId": "census-00012-bsr16",
+        "recommendedAction": "publish",
+        "batchId": "cat1-census-cso-ccby",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-cso-pxstat",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "defaultConfidence": "high"
+      }
+    },
+    {
+      "id": "approved-publication:census-cube-b1219-2002-population-aged-15-years-and-over-in-employment-ilo-by-average-hours-",
+      "slug": "approved-publication-census-cube-b1219-2002-population-aged-15-years-and-over-in-employment-ilo-by-average-hours-",
+      "type": "approved-table-source",
+      "title": "2002 Population Aged 15 Years and Over in Employment (ILO) by Average Hours Worked in the Week before Census Day",
+      "subtitle": "CSO / census-statistical / Browse/Books plus Sources",
+      "category": "Approved tables",
+      "date": "2002",
+      "provider": [
+        "CSO"
+      ],
+      "description": "CSO PxStat statistical cube (matrix B1219). Published as a Books/Tables/Sources source-table record under CC BY 4.0.",
+      "keywords": [
+        "census-statistical",
+        "statistical-cube",
+        "CSO",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication",
+        "B1219"
+      ],
+      "proposedBrowsePath": "Browse/Books plus Sources",
+      "publicationStatus": "approved-staged",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "CSO PxStat table B1219",
+          "url": "https://data.cso.ie/table/B1219",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "JSON-stat cube (B1219)",
+          "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/B1219/JSON-stat/2.0/en",
+          "note": "CC BY 4.0"
+        }
+      ],
+      "approval": {
+        "stagingId": "census-00013-b1219",
+        "recommendedAction": "publish",
+        "batchId": "cat1-census-cso-ccby",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-cso-pxstat",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "defaultConfidence": "high"
+      }
+    },
+    {
+      "id": "approved-publication:census-cube-b0102-2002-population-at-each-census-since-1841",
+      "slug": "approved-publication-census-cube-b0102-2002-population-at-each-census-since-1841",
+      "type": "approved-table-source",
+      "title": "2002 Population at Each Census Since 1841",
+      "subtitle": "CSO / census-statistical / Browse/Books plus Sources",
+      "category": "Approved tables",
+      "date": "2002",
+      "provider": [
+        "CSO"
+      ],
+      "description": "CSO PxStat statistical cube (matrix B0102). Published as a Books/Tables/Sources source-table record under CC BY 4.0.",
+      "keywords": [
+        "census-statistical",
+        "statistical-cube",
+        "CSO",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication",
+        "B0102"
+      ],
+      "proposedBrowsePath": "Browse/Books plus Sources",
+      "publicationStatus": "approved-staged",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "CSO PxStat table B0102",
+          "url": "https://data.cso.ie/table/B0102",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "JSON-stat cube (B0102)",
+          "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/B0102/JSON-stat/2.0/en",
+          "note": "CC BY 4.0"
+        }
+      ],
+      "approval": {
+        "stagingId": "census-00017-b0102",
+        "recommendedAction": "publish",
+        "batchId": "cat1-census-cso-ccby",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-cso-pxstat",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "defaultConfidence": "high"
+      }
+    },
+    {
+      "id": "approved-publication:census-cube-b0915-2002-population-at-work-aged-15-years-and-over-usually-resident-in-the-sta",
+      "slug": "approved-publication-census-cube-b0915-2002-population-at-work-aged-15-years-and-over-usually-resident-in-the-sta",
+      "type": "approved-table-source",
+      "title": "2002 Population At Work Aged 15 Years and Over Usually Resident in the State and Present in their Usual Residence on Census Night",
+      "subtitle": "CSO / census-statistical / Browse/Books plus Sources",
+      "category": "Approved tables",
+      "date": "2002",
+      "provider": [
+        "CSO"
+      ],
+      "description": "CSO PxStat statistical cube (matrix B0915). Published as a Books/Tables/Sources source-table record under CC BY 4.0.",
+      "keywords": [
+        "census-statistical",
+        "statistical-cube",
+        "CSO",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication",
+        "B0915"
+      ],
+      "proposedBrowsePath": "Browse/Books plus Sources",
+      "publicationStatus": "approved-staged",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "CSO PxStat table B0915",
+          "url": "https://data.cso.ie/table/B0915",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "JSON-stat cube (B0915)",
+          "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/B0915/JSON-stat/2.0/en",
+          "note": "CC BY 4.0"
+        }
+      ],
+      "approval": {
+        "stagingId": "census-00019-b0915",
+        "recommendedAction": "publish",
+        "batchId": "cat1-census-cso-ccby",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-cso-pxstat",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "defaultConfidence": "high"
+      }
+    },
+    {
+      "id": "approved-publication:census-cube-b1201-2002-population-for-relevant-censuses",
+      "slug": "approved-publication-census-cube-b1201-2002-population-for-relevant-censuses",
+      "type": "approved-table-source",
+      "title": "2002 Population for Relevant Censuses",
+      "subtitle": "CSO / census-statistical / Browse/Books plus Sources",
+      "category": "Approved tables",
+      "date": "2002",
+      "provider": [
+        "CSO"
+      ],
+      "description": "CSO PxStat statistical cube (matrix B1201). Published as a Books/Tables/Sources source-table record under CC BY 4.0.",
+      "keywords": [
+        "census-statistical",
+        "statistical-cube",
+        "CSO",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication",
+        "B1201"
+      ],
+      "proposedBrowsePath": "Browse/Books plus Sources",
+      "publicationStatus": "approved-staged",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "CSO PxStat table B1201",
+          "url": "https://data.cso.ie/table/B1201",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "JSON-stat cube (B1201)",
+          "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/B1201/JSON-stat/2.0/en",
+          "note": "CC BY 4.0"
+        }
+      ],
+      "approval": {
+        "stagingId": "census-00020-b1201",
+        "recommendedAction": "publish",
+        "batchId": "cat1-census-cso-ccby",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-cso-pxstat",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "defaultConfidence": "high"
+      }
+    },
+    {
+      "id": "approved-publication:census-cube-b1203-2002-population-for-relevant-censuses",
+      "slug": "approved-publication-census-cube-b1203-2002-population-for-relevant-censuses",
+      "type": "approved-table-source",
+      "title": "2002 Population for Relevant Censuses",
+      "subtitle": "CSO / census-statistical / Browse/Books plus Sources",
+      "category": "Approved tables",
+      "date": "2002",
+      "provider": [
+        "CSO"
+      ],
+      "description": "CSO PxStat statistical cube (matrix B1203). Published as a Books/Tables/Sources source-table record under CC BY 4.0.",
+      "keywords": [
+        "census-statistical",
+        "statistical-cube",
+        "CSO",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication",
+        "B1203"
+      ],
+      "proposedBrowsePath": "Browse/Books plus Sources",
+      "publicationStatus": "approved-staged",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "CSO PxStat table B1203",
+          "url": "https://data.cso.ie/table/B1203",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "JSON-stat cube (B1203)",
+          "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/B1203/JSON-stat/2.0/en",
+          "note": "CC BY 4.0"
+        }
+      ],
+      "approval": {
+        "stagingId": "census-00021-b1203",
+        "recommendedAction": "publish",
+        "batchId": "cat1-census-cso-ccby",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-cso-pxstat",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "defaultConfidence": "high"
+      }
+    },
+    {
+      "id": "approved-publication:census-cube-b0445-2002-population-usually-resident-in-the-state-and-if-present-in-their-usua",
+      "slug": "approved-publication-census-cube-b0445-2002-population-usually-resident-in-the-state-and-if-present-in-their-usua",
+      "type": "approved-table-source",
+      "title": "2002 Population Usually Resident  in the State and if  Present in their Usual Residence on Census Night",
+      "subtitle": "CSO / census-statistical / Browse/Books plus Sources",
+      "category": "Approved tables",
+      "date": "2002",
+      "provider": [
+        "CSO"
+      ],
+      "description": "CSO PxStat statistical cube (matrix B0445). Published as a Books/Tables/Sources source-table record under CC BY 4.0.",
+      "keywords": [
+        "census-statistical",
+        "statistical-cube",
+        "CSO",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication",
+        "B0445"
+      ],
+      "proposedBrowsePath": "Browse/Books plus Sources",
+      "publicationStatus": "approved-staged",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "CSO PxStat table B0445",
+          "url": "https://data.cso.ie/table/B0445",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "JSON-stat cube (B0445)",
+          "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/B0445/JSON-stat/2.0/en",
+          "note": "CC BY 4.0"
+        }
+      ],
+      "approval": {
+        "stagingId": "census-00022-b0445",
+        "recommendedAction": "publish",
+        "batchId": "cat1-census-cso-ccby",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-cso-pxstat",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "defaultConfidence": "high"
+      }
+    },
+    {
+      "id": "approved-publication:census-cube-b0430-2002-population-usually-resident-and-present-in-their-usual-residence-on-c",
+      "slug": "approved-publication-census-cube-b0430-2002-population-usually-resident-and-present-in-their-usual-residence-on-c",
+      "type": "approved-table-source",
+      "title": "2002 Population Usually Resident and Present in their Usual Residence on Census Night",
+      "subtitle": "CSO / census-statistical / Browse/Books plus Sources",
+      "category": "Approved tables",
+      "date": "2002",
+      "provider": [
+        "CSO"
+      ],
+      "description": "CSO PxStat statistical cube (matrix B0430). Published as a Books/Tables/Sources source-table record under CC BY 4.0.",
+      "keywords": [
+        "census-statistical",
+        "statistical-cube",
+        "CSO",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication",
+        "B0430"
+      ],
+      "proposedBrowsePath": "Browse/Books plus Sources",
+      "publicationStatus": "approved-staged",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "CSO PxStat table B0430",
+          "url": "https://data.cso.ie/table/B0430",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "JSON-stat cube (B0430)",
+          "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/B0430/JSON-stat/2.0/en",
+          "note": "CC BY 4.0"
+        }
+      ],
+      "approval": {
+        "stagingId": "census-00023-b0430",
+        "recommendedAction": "publish",
+        "batchId": "cat1-census-cso-ccby",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-cso-pxstat",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "defaultConfidence": "high"
+      }
+    },
+    {
+      "id": "approved-publication:census-cube-b0909-2002-population-usually-resident-and-present-in-their-usual-residence-on-c",
+      "slug": "approved-publication-census-cube-b0909-2002-population-usually-resident-and-present-in-their-usual-residence-on-c",
+      "type": "approved-table-source",
+      "title": "2002 Population Usually Resident and Present in their Usual Residence on Census Night",
+      "subtitle": "CSO / census-statistical / Browse/Books plus Sources",
+      "category": "Approved tables",
+      "date": "2002",
+      "provider": [
+        "CSO"
+      ],
+      "description": "CSO PxStat statistical cube (matrix B0909). Published as a Books/Tables/Sources source-table record under CC BY 4.0.",
+      "keywords": [
+        "census-statistical",
+        "statistical-cube",
+        "CSO",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication",
+        "B0909"
+      ],
+      "proposedBrowsePath": "Browse/Books plus Sources",
+      "publicationStatus": "approved-staged",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "CSO PxStat table B0909",
+          "url": "https://data.cso.ie/table/B0909",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "JSON-stat cube (B0909)",
+          "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/B0909/JSON-stat/2.0/en",
+          "note": "CC BY 4.0"
+        }
+      ],
+      "approval": {
+        "stagingId": "census-00024-b0909",
+        "recommendedAction": "publish",
+        "batchId": "cat1-census-cso-ccby",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-cso-pxstat",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "defaultConfidence": "high"
+      }
+    },
+    {
+      "id": "approved-publication:census-cube-b0910-2002-population-usually-resident-and-present-in-their-usual-residence-on-c",
+      "slug": "approved-publication-census-cube-b0910-2002-population-usually-resident-and-present-in-their-usual-residence-on-c",
+      "type": "approved-table-source",
+      "title": "2002 Population Usually Resident and Present in their Usual Residence on Census Night",
+      "subtitle": "CSO / census-statistical / Browse/Books plus Sources",
+      "category": "Approved tables",
+      "date": "2002",
+      "provider": [
+        "CSO"
+      ],
+      "description": "CSO PxStat statistical cube (matrix B0910). Published as a Books/Tables/Sources source-table record under CC BY 4.0.",
+      "keywords": [
+        "census-statistical",
+        "statistical-cube",
+        "CSO",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication",
+        "B0910"
+      ],
+      "proposedBrowsePath": "Browse/Books plus Sources",
+      "publicationStatus": "approved-staged",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "CSO PxStat table B0910",
+          "url": "https://data.cso.ie/table/B0910",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "JSON-stat cube (B0910)",
+          "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/B0910/JSON-stat/2.0/en",
+          "note": "CC BY 4.0"
+        }
+      ],
+      "approval": {
+        "stagingId": "census-00025-b0910",
+        "recommendedAction": "publish",
+        "batchId": "cat1-census-cso-ccby",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-cso-pxstat",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "defaultConfidence": "high"
+      }
+    },
+    {
+      "id": "approved-publication:census-cube-b0911-2002-population-usually-resident-in-the-state-and-present-in-their-usual-r",
+      "slug": "approved-publication-census-cube-b0911-2002-population-usually-resident-in-the-state-and-present-in-their-usual-r",
+      "type": "approved-table-source",
+      "title": "2002 Population Usually Resident in the State and Present in their Usual Residence on Census Night",
+      "subtitle": "CSO / census-statistical / Browse/Books plus Sources",
+      "category": "Approved tables",
+      "date": "2002",
+      "provider": [
+        "CSO"
+      ],
+      "description": "CSO PxStat statistical cube (matrix B0911). Published as a Books/Tables/Sources source-table record under CC BY 4.0.",
+      "keywords": [
+        "census-statistical",
+        "statistical-cube",
+        "CSO",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication",
+        "B0911"
+      ],
+      "proposedBrowsePath": "Browse/Books plus Sources",
+      "publicationStatus": "approved-staged",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "CSO PxStat table B0911",
+          "url": "https://data.cso.ie/table/B0911",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "JSON-stat cube (B0911)",
+          "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/B0911/JSON-stat/2.0/en",
+          "note": "CC BY 4.0"
+        }
+      ],
+      "approval": {
+        "stagingId": "census-00026-b0911",
+        "recommendedAction": "publish",
+        "batchId": "cat1-census-cso-ccby",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-cso-pxstat",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "defaultConfidence": "high"
+      }
+    },
+    {
+      "id": "approved-publication:census-cube-b0912-2002-population-usually-resident-in-the-state-and-present-in-their-usual-r",
+      "slug": "approved-publication-census-cube-b0912-2002-population-usually-resident-in-the-state-and-present-in-their-usual-r",
+      "type": "approved-table-source",
+      "title": "2002 Population Usually Resident in the State and Present in their Usual Residence on Census Night",
+      "subtitle": "CSO / census-statistical / Browse/Books plus Sources",
+      "category": "Approved tables",
+      "date": "2002",
+      "provider": [
+        "CSO"
+      ],
+      "description": "CSO PxStat statistical cube (matrix B0912). Published as a Books/Tables/Sources source-table record under CC BY 4.0.",
+      "keywords": [
+        "census-statistical",
+        "statistical-cube",
+        "CSO",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication",
+        "B0912"
+      ],
+      "proposedBrowsePath": "Browse/Books plus Sources",
+      "publicationStatus": "approved-staged",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "CSO PxStat table B0912",
+          "url": "https://data.cso.ie/table/B0912",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "JSON-stat cube (B0912)",
+          "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/B0912/JSON-stat/2.0/en",
+          "note": "CC BY 4.0"
+        }
+      ],
+      "approval": {
+        "stagingId": "census-00027-b0912",
+        "recommendedAction": "publish",
+        "batchId": "cat1-census-cso-ccby",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-cso-pxstat",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "defaultConfidence": "high"
+      }
+    },
+    {
+      "id": "approved-publication:census-cube-b0913-2002-population-usually-resident-in-the-state-and-present-in-their-usual-r",
+      "slug": "approved-publication-census-cube-b0913-2002-population-usually-resident-in-the-state-and-present-in-their-usual-r",
+      "type": "approved-table-source",
+      "title": "2002 Population Usually Resident in the State and Present in their Usual Residence on Census Night",
+      "subtitle": "CSO / census-statistical / Browse/Books plus Sources",
+      "category": "Approved tables",
+      "date": "2002",
+      "provider": [
+        "CSO"
+      ],
+      "description": "CSO PxStat statistical cube (matrix B0913). Published as a Books/Tables/Sources source-table record under CC BY 4.0.",
+      "keywords": [
+        "census-statistical",
+        "statistical-cube",
+        "CSO",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication",
+        "B0913"
+      ],
+      "proposedBrowsePath": "Browse/Books plus Sources",
+      "publicationStatus": "approved-staged",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "CSO PxStat table B0913",
+          "url": "https://data.cso.ie/table/B0913",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "JSON-stat cube (B0913)",
+          "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/B0913/JSON-stat/2.0/en",
+          "note": "CC BY 4.0"
+        }
+      ],
+      "approval": {
+        "stagingId": "census-00028-b0913",
+        "recommendedAction": "publish",
+        "batchId": "cat1-census-cso-ccby",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-cso-pxstat",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "defaultConfidence": "high"
+      }
+    },
+    {
+      "id": "approved-publication:census-cube-b0914-2002-population-usually-resident-in-the-state-and-present-in-their-usual-r",
+      "slug": "approved-publication-census-cube-b0914-2002-population-usually-resident-in-the-state-and-present-in-their-usual-r",
+      "type": "approved-table-source",
+      "title": "2002 Population Usually Resident in the State and Present in their Usual Residence on Census Night",
+      "subtitle": "CSO / census-statistical / Browse/Books plus Sources",
+      "category": "Approved tables",
+      "date": "2002",
+      "provider": [
+        "CSO"
+      ],
+      "description": "CSO PxStat statistical cube (matrix B0914). Published as a Books/Tables/Sources source-table record under CC BY 4.0.",
+      "keywords": [
+        "census-statistical",
+        "statistical-cube",
+        "CSO",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication",
+        "B0914"
+      ],
+      "proposedBrowsePath": "Browse/Books plus Sources",
+      "publicationStatus": "approved-staged",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "CSO PxStat table B0914",
+          "url": "https://data.cso.ie/table/B0914",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "JSON-stat cube (B0914)",
+          "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/B0914/JSON-stat/2.0/en",
+          "note": "CC BY 4.0"
+        }
+      ],
+      "approval": {
+        "stagingId": "census-00029-b0914",
+        "recommendedAction": "publish",
+        "batchId": "cat1-census-cso-ccby",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-cso-pxstat",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "defaultConfidence": "high"
+      }
+    },
+    {
+      "id": "approved-publication:census-cube-b0916-2002-population-usually-resident-in-the-state-and-present-in-their-usual-r",
+      "slug": "approved-publication-census-cube-b0916-2002-population-usually-resident-in-the-state-and-present-in-their-usual-r",
+      "type": "approved-table-source",
+      "title": "2002 Population Usually Resident in the State and Present in their Usual Residence on Census Night",
+      "subtitle": "CSO / census-statistical / Browse/Books plus Sources",
+      "category": "Approved tables",
+      "date": "2002",
+      "provider": [
+        "CSO"
+      ],
+      "description": "CSO PxStat statistical cube (matrix B0916). Published as a Books/Tables/Sources source-table record under CC BY 4.0.",
+      "keywords": [
+        "census-statistical",
+        "statistical-cube",
+        "CSO",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication",
+        "B0916"
+      ],
+      "proposedBrowsePath": "Browse/Books plus Sources",
+      "publicationStatus": "approved-staged",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "CSO PxStat table B0916",
+          "url": "https://data.cso.ie/table/B0916",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "JSON-stat cube (B0916)",
+          "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/B0916/JSON-stat/2.0/en",
+          "note": "CC BY 4.0"
+        }
+      ],
+      "approval": {
+        "stagingId": "census-00030-b0916",
+        "recommendedAction": "publish",
+        "batchId": "cat1-census-cso-ccby",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-cso-pxstat",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "defaultConfidence": "high"
+      }
+    },
+    {
+      "id": "approved-publication:census-cube-b0917-2002-population-usually-resident-in-the-state-and-present-in-their-usual-r",
+      "slug": "approved-publication-census-cube-b0917-2002-population-usually-resident-in-the-state-and-present-in-their-usual-r",
+      "type": "approved-table-source",
+      "title": "2002 Population Usually Resident in the State and Present in their Usual Residence on Census Night",
+      "subtitle": "CSO / census-statistical / Browse/Books plus Sources",
+      "category": "Approved tables",
+      "date": "2002",
+      "provider": [
+        "CSO"
+      ],
+      "description": "CSO PxStat statistical cube (matrix B0917). Published as a Books/Tables/Sources source-table record under CC BY 4.0.",
+      "keywords": [
+        "census-statistical",
+        "statistical-cube",
+        "CSO",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication",
+        "B0917"
+      ],
+      "proposedBrowsePath": "Browse/Books plus Sources",
+      "publicationStatus": "approved-staged",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "CSO PxStat table B0917",
+          "url": "https://data.cso.ie/table/B0917",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "JSON-stat cube (B0917)",
+          "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/B0917/JSON-stat/2.0/en",
+          "note": "CC BY 4.0"
+        }
+      ],
+      "approval": {
+        "stagingId": "census-00031-b0917",
+        "recommendedAction": "publish",
+        "batchId": "cat1-census-cso-ccby",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-cso-pxstat",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "defaultConfidence": "high"
+      }
+    },
+    {
+      "id": "approved-publication:census-cube-b0918-2002-population-usually-resident-in-the-state-and-present-in-their-usual-r",
+      "slug": "approved-publication-census-cube-b0918-2002-population-usually-resident-in-the-state-and-present-in-their-usual-r",
+      "type": "approved-table-source",
+      "title": "2002 Population Usually Resident in the State and Present in their Usual Residence on Census Night",
+      "subtitle": "CSO / census-statistical / Browse/Books plus Sources",
+      "category": "Approved tables",
+      "date": "2002",
+      "provider": [
+        "CSO"
+      ],
+      "description": "CSO PxStat statistical cube (matrix B0918). Published as a Books/Tables/Sources source-table record under CC BY 4.0.",
+      "keywords": [
+        "census-statistical",
+        "statistical-cube",
+        "CSO",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication",
+        "B0918"
+      ],
+      "proposedBrowsePath": "Browse/Books plus Sources",
+      "publicationStatus": "approved-staged",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "CSO PxStat table B0918",
+          "url": "https://data.cso.ie/table/B0918",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "JSON-stat cube (B0918)",
+          "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/B0918/JSON-stat/2.0/en",
+          "note": "CC BY 4.0"
+        }
+      ],
+      "approval": {
+        "stagingId": "census-00032-b0918",
+        "recommendedAction": "publish",
+        "batchId": "cat1-census-cso-ccby",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-cso-pxstat",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "defaultConfidence": "high"
+      }
+    },
+    {
+      "id": "approved-publication:census-cube-b0919-2002-population-usually-resident-in-the-state-and-present-in-their-usual-r",
+      "slug": "approved-publication-census-cube-b0919-2002-population-usually-resident-in-the-state-and-present-in-their-usual-r",
+      "type": "approved-table-source",
+      "title": "2002 Population Usually Resident in the State and Present in their Usual Residence on Census Night",
+      "subtitle": "CSO / census-statistical / Browse/Books plus Sources",
+      "category": "Approved tables",
+      "date": "2002",
+      "provider": [
+        "CSO"
+      ],
+      "description": "CSO PxStat statistical cube (matrix B0919). Published as a Books/Tables/Sources source-table record under CC BY 4.0.",
+      "keywords": [
+        "census-statistical",
+        "statistical-cube",
+        "CSO",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication",
+        "B0919"
+      ],
+      "proposedBrowsePath": "Browse/Books plus Sources",
+      "publicationStatus": "approved-staged",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "CSO PxStat table B0919",
+          "url": "https://data.cso.ie/table/B0919",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "JSON-stat cube (B0919)",
+          "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/B0919/JSON-stat/2.0/en",
+          "note": "CC BY 4.0"
+        }
+      ],
+      "approval": {
+        "stagingId": "census-00033-b0919",
+        "recommendedAction": "publish",
+        "batchId": "cat1-census-cso-ccby",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-cso-pxstat",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "defaultConfidence": "high"
+      }
+    },
+    {
+      "id": "approved-publication:census-cube-b0920-2002-population-usually-resident-in-the-state-and-present-in-their-usual-r",
+      "slug": "approved-publication-census-cube-b0920-2002-population-usually-resident-in-the-state-and-present-in-their-usual-r",
+      "type": "approved-table-source",
+      "title": "2002 Population Usually Resident in the State and Present in their Usual Residence on Census Night",
+      "subtitle": "CSO / census-statistical / Browse/Books plus Sources",
+      "category": "Approved tables",
+      "date": "2002",
+      "provider": [
+        "CSO"
+      ],
+      "description": "CSO PxStat statistical cube (matrix B0920). Published as a Books/Tables/Sources source-table record under CC BY 4.0.",
+      "keywords": [
+        "census-statistical",
+        "statistical-cube",
+        "CSO",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication",
+        "B0920"
+      ],
+      "proposedBrowsePath": "Browse/Books plus Sources",
+      "publicationStatus": "approved-staged",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "CSO PxStat table B0920",
+          "url": "https://data.cso.ie/table/B0920",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "JSON-stat cube (B0920)",
+          "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/B0920/JSON-stat/2.0/en",
+          "note": "CC BY 4.0"
+        }
+      ],
+      "approval": {
+        "stagingId": "census-00034-b0920",
+        "recommendedAction": "publish",
+        "batchId": "cat1-census-cso-ccby",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-cso-pxstat",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "defaultConfidence": "high"
+      }
+    },
+    {
+      "id": "approved-publication:census-cube-b0921-2002-population-usually-resident-in-the-state-and-present-in-their-usual-r",
+      "slug": "approved-publication-census-cube-b0921-2002-population-usually-resident-in-the-state-and-present-in-their-usual-r",
+      "type": "approved-table-source",
+      "title": "2002 Population Usually Resident in the State and Present in their Usual Residence on Census Night",
+      "subtitle": "CSO / census-statistical / Browse/Books plus Sources",
+      "category": "Approved tables",
+      "date": "2002",
+      "provider": [
+        "CSO"
+      ],
+      "description": "CSO PxStat statistical cube (matrix B0921). Published as a Books/Tables/Sources source-table record under CC BY 4.0.",
+      "keywords": [
+        "census-statistical",
+        "statistical-cube",
+        "CSO",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication",
+        "B0921"
+      ],
+      "proposedBrowsePath": "Browse/Books plus Sources",
+      "publicationStatus": "approved-staged",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "CSO PxStat table B0921",
+          "url": "https://data.cso.ie/table/B0921",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "JSON-stat cube (B0921)",
+          "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/B0921/JSON-stat/2.0/en",
+          "note": "CC BY 4.0"
+        }
+      ],
+      "approval": {
+        "stagingId": "census-00035-b0921",
+        "recommendedAction": "publish",
+        "batchId": "cat1-census-cso-ccby",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-cso-pxstat",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "defaultConfidence": "high"
+      }
+    },
+    {
+      "id": "approved-publication:census-cube-b0901-2002-population-usually-resident-in-the-state-at-each-census-since-1981",
+      "slug": "approved-publication-census-cube-b0901-2002-population-usually-resident-in-the-state-at-each-census-since-1981",
+      "type": "approved-table-source",
+      "title": "2002 Population Usually Resident in the State at each Census Since 1981",
+      "subtitle": "CSO / census-statistical / Browse/Books plus Sources",
+      "category": "Approved tables",
+      "date": "2002",
+      "provider": [
+        "CSO"
+      ],
+      "description": "CSO PxStat statistical cube (matrix B0901). Published as a Books/Tables/Sources source-table record under CC BY 4.0.",
+      "keywords": [
+        "census-statistical",
+        "statistical-cube",
+        "CSO",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication",
+        "B0901"
+      ],
+      "proposedBrowsePath": "Browse/Books plus Sources",
+      "publicationStatus": "approved-staged",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "CSO PxStat table B0901",
+          "url": "https://data.cso.ie/table/B0901",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "JSON-stat cube (B0901)",
+          "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/B0901/JSON-stat/2.0/en",
+          "note": "CC BY 4.0"
+        }
+      ],
+      "approval": {
+        "stagingId": "census-00036-b0901",
+        "recommendedAction": "publish",
+        "batchId": "cat1-census-cso-ccby",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-cso-pxstat",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "defaultConfidence": "high"
+      }
+    },
+    {
+      "id": "approved-publication:census-cube-b0902-2002-population-usually-resident-in-the-state-at-each-census-since-1981",
+      "slug": "approved-publication-census-cube-b0902-2002-population-usually-resident-in-the-state-at-each-census-since-1981",
+      "type": "approved-table-source",
+      "title": "2002 Population Usually Resident in the State at each Census Since 1981",
+      "subtitle": "CSO / census-statistical / Browse/Books plus Sources",
+      "category": "Approved tables",
+      "date": "2002",
+      "provider": [
+        "CSO"
+      ],
+      "description": "CSO PxStat statistical cube (matrix B0902). Published as a Books/Tables/Sources source-table record under CC BY 4.0.",
+      "keywords": [
+        "census-statistical",
+        "statistical-cube",
+        "CSO",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication",
+        "B0902"
+      ],
+      "proposedBrowsePath": "Browse/Books plus Sources",
+      "publicationStatus": "approved-staged",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "CSO PxStat table B0902",
+          "url": "https://data.cso.ie/table/B0902",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "JSON-stat cube (B0902)",
+          "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/B0902/JSON-stat/2.0/en",
+          "note": "CC BY 4.0"
+        }
+      ],
+      "approval": {
+        "stagingId": "census-00037-b0902",
+        "recommendedAction": "publish",
+        "batchId": "cat1-census-cso-ccby",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-cso-pxstat",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "defaultConfidence": "high"
+      }
+    }
+  ]
+}
