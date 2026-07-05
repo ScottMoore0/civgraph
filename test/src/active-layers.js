@@ -35,6 +35,12 @@ export function renderActiveLayers(els, controller, options = {}) {
         Opacity
         <input data-control="opacity" type="range" min="0" max="1" step="0.05" value="${record.opacity ?? record.config.style?.fillOpacity ?? 0.18}">
       </label>
+      ${record.config.sourceType === 'raster-dem' ? `
+        <label>
+          3D exaggeration
+          <input data-control="terrain-exaggeration" type="range" min="1" max="8" step="0.5" value="${record.config.exaggeration ?? 1.5}">
+        </label>
+      ` : ''}
       ${!isRasterLike(record.config) ? `
         <label>
           Line
@@ -87,6 +93,10 @@ export function renderActiveLayers(els, controller, options = {}) {
     row.querySelector('[data-control="opacity"]').addEventListener('input', (event) => {
       controller.setOpacity(id, Number(event.target.value));
       saveLayerControls(id, controller.layers.get(id));
+      options.onRendered?.();
+    });
+    row.querySelector('[data-control="terrain-exaggeration"]')?.addEventListener('input', (event) => {
+      controller.setTerrainExaggeration(Number(event.target.value));
       options.onRendered?.();
     });
     row.querySelector('[data-control="line-color"]')?.addEventListener('input', (event) => {
@@ -343,7 +353,7 @@ function renderLegend(layer, styleState, record) {
 }
 
 function isRasterLike(layer) {
-  return layer.sourceType === 'raster' || layer.sourceType === 'image';
+  return layer.sourceType === 'raster' || layer.sourceType === 'image' || layer.sourceType === 'raster-dem';
 }
 
 function saveLayerPreset(id, record) {

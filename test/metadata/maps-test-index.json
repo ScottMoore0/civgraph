@@ -96250,9 +96250,3295 @@
       ],
       "status": "converted-raster-tiles",
       "loadable": true
+    },
+    {
+      "id": "ireland-terrain-3d-grey",
+      "sourceMapId": "ireland-terrain-3d-grey",
+      "name": "Ireland 3D Terrain — best-available LiDAR + 30 m — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2026,
+      "provider": [
+        "Copernicus",
+        "ESA",
+        "OSNI",
+        "LPS",
+        "Scott Moore"
+      ],
+      "description": "Island-wide 3D terrain using the most detailed elevation available at each location: 1 m OSNI LiDAR over the surveyed Northern Ireland river basins (zoom in for full detail), falling back to the Copernicus GLO-30 (30 m) model everywhere else. Multidirectional-hillshade relief draped with the currently selected basemap. Tilt and rotate to view in 3D. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ireland-terrain-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 1.8,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ireland-terrain-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 5,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          51.2,
+          -10.9
+        ],
+        [
+          55.7,
+          -5.2
+        ]
+      ],
+      "minzoom": 5,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "license": "Copernicus (free & open) + OGL v3.0 (NI LiDAR)",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Ireland",
+        "Copernicus",
+        "GLO-30",
+        "best available",
+        "DEM",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-1m-3d-grey",
+      "sourceMapId": "ni-lidar-1m-3d-grey",
+      "name": "NI River-Basin LiDAR — 1 m 3D Terrain — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2014,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "Every surveyed OSNI river-basin catchment across Northern Ireland as a single 3D terrain layer: 1 m LiDAR digital terrain model with multidirectional-hillshade relief, draped with the currently selected basemap. Covers the 45 catchments where 1 m LiDAR exists; areas without LiDAR stay flat. Tilt and rotate to view in 3D. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          54.088,
+          -7.613
+        ],
+        [
+          55.224,
+          -5.582
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variants": [
+        {
+          "id": "ni-lidar-armagh-dungannon-coalisland-3d-grey",
+          "title": "Armagh-Dungannon-Coalisland (2010)"
+        },
+        {
+          "id": "ni-lidar-ballycastle-3d-grey",
+          "title": "Ballycastle (2010)"
+        },
+        {
+          "id": "ni-lidar-ballyclare-3d-grey",
+          "title": "Ballyclare (2009)"
+        },
+        {
+          "id": "ni-lidar-ballygalley-3d-grey",
+          "title": "Ballygalley (2010)"
+        },
+        {
+          "id": "ni-lidar-ballygowan-3d-grey",
+          "title": "Ballygowan (2010)"
+        },
+        {
+          "id": "ni-lidar-ballymena-3d-grey",
+          "title": "Ballymena (2009)"
+        },
+        {
+          "id": "ni-lidar-ballynahinch-3d-grey",
+          "title": "Ballynahinch (2010)"
+        },
+        {
+          "id": "ni-lidar-ballynavally-3d-grey",
+          "title": "Ballynavally (2007)"
+        },
+        {
+          "id": "ni-lidar-banbridge-3d-grey",
+          "title": "Banbridge (2010)"
+        },
+        {
+          "id": "ni-lidar-bangor-3d-grey",
+          "title": "Bangor (2007)"
+        },
+        {
+          "id": "ni-lidar-blackwater-3d-grey",
+          "title": "Blackwater (2014)"
+        },
+        {
+          "id": "ni-lidar-bushmills-3d-grey",
+          "title": "Bushmills (2010)"
+        },
+        {
+          "id": "ni-lidar-camowen-3d-grey",
+          "title": "Camowen (2014)"
+        },
+        {
+          "id": "ni-lidar-carrickfergus-3d-grey",
+          "title": "Carrickfergus (2007)"
+        },
+        {
+          "id": "ni-lidar-carryduff-3d-grey",
+          "title": "Carryduff (2010)"
+        },
+        {
+          "id": "ni-lidar-castlederg-3d-grey",
+          "title": "Castlederg (2004)"
+        },
+        {
+          "id": "ni-lidar-castlereagh-3d-grey",
+          "title": "Castlereagh (2007)"
+        },
+        {
+          "id": "ni-lidar-clady-3d-grey",
+          "title": "Clady (2009)"
+        },
+        {
+          "id": "ni-lidar-cloghmills-3d-grey",
+          "title": "Cloghmills (2014)"
+        },
+        {
+          "id": "ni-lidar-coleraine-portstewart-portrush-3d-grey",
+          "title": "Coleraine-Portstewart-Portrush (2010)"
+        },
+        {
+          "id": "ni-lidar-cookstown-3d-grey",
+          "title": "Cookstown (2013)"
+        },
+        {
+          "id": "ni-lidar-cullybackey-3d-grey",
+          "title": "Cullybackey (2010)"
+        },
+        {
+          "id": "ni-lidar-cushendall-3d-grey",
+          "title": "Cushendall (2010)"
+        },
+        {
+          "id": "ni-lidar-downpatrick-3d-grey",
+          "title": "Downpatrick (2009)"
+        },
+        {
+          "id": "ni-lidar-dunmurry-3d-grey",
+          "title": "Dunmurry (2007)"
+        },
+        {
+          "id": "ni-lidar-east-belfast-3d-grey",
+          "title": "East-Belfast (2013)"
+        },
+        {
+          "id": "ni-lidar-foyle-3d-grey",
+          "title": "Foyle (2004)"
+        },
+        {
+          "id": "ni-lidar-killyleagh-3d-grey",
+          "title": "Killyleagh (2010)"
+        },
+        {
+          "id": "ni-lidar-larne-3d-grey",
+          "title": "Larne (2010)"
+        },
+        {
+          "id": "ni-lidar-limavady-3d-grey",
+          "title": "Limavady (2004)"
+        },
+        {
+          "id": "ni-lidar-lisburn-3d-grey",
+          "title": "Lisburn (2010)"
+        },
+        {
+          "id": "ni-lidar-lowerbann-3d-grey",
+          "title": "Lowerbann (2014)"
+        },
+        {
+          "id": "ni-lidar-maghera-3d-grey",
+          "title": "Maghera (2009)"
+        },
+        {
+          "id": "ni-lidar-magherafelt-3d-grey",
+          "title": "Magherafelt (2010)"
+        },
+        {
+          "id": "ni-lidar-newcastle-3d-grey",
+          "title": "Newcastle (2010)"
+        },
+        {
+          "id": "ni-lidar-newry-3d-grey",
+          "title": "Newry (2010)"
+        },
+        {
+          "id": "ni-lidar-newtownabbey-3d-grey",
+          "title": "Newtownabbey (2010)"
+        },
+        {
+          "id": "ni-lidar-newtownards-3d-grey",
+          "title": "Newtownards (2008)"
+        },
+        {
+          "id": "ni-lidar-newtownstewart-3d-grey",
+          "title": "Newtownstewart (2004)"
+        },
+        {
+          "id": "ni-lidar-omagh-3d-grey",
+          "title": "Omagh (2004)"
+        },
+        {
+          "id": "ni-lidar-portadown-3d-grey",
+          "title": "Portadown (2009)"
+        },
+        {
+          "id": "ni-lidar-randalstown-3d-grey",
+          "title": "Randalstown (2010)"
+        },
+        {
+          "id": "ni-lidar-stonyford-3d-grey",
+          "title": "Stonyford (2014)"
+        },
+        {
+          "id": "ni-lidar-strabane-3d-grey",
+          "title": "Strabane (2004)"
+        },
+        {
+          "id": "ni-lidar-tandragee-3d-grey",
+          "title": "Tandragee (2010)"
+        }
+      ],
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Northern Ireland",
+        "river basin",
+        "catchment",
+        "1m",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-armagh-dungannon-coalisland-3d-grey",
+      "sourceMapId": "ni-lidar-armagh-dungannon-coalisland-3d-grey",
+      "name": "NI LiDAR 1 m — Armagh-Dungannon-Coalisland (2010) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2010,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Armagh-Dungannon-Coalisland river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          54.3209,
+          -6.8085
+        ],
+        [
+          54.5576,
+          -6.5597
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Armagh-Dungannon-Coalisland",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-ballycastle-3d-grey",
+      "sourceMapId": "ni-lidar-ballycastle-3d-grey",
+      "name": "NI LiDAR 1 m — Ballycastle (2010) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2010,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Ballycastle river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          55.176,
+          -6.2899
+        ],
+        [
+          55.213,
+          -6.2099
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Ballycastle",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-ballyclare-3d-grey",
+      "sourceMapId": "ni-lidar-ballyclare-3d-grey",
+      "name": "NI LiDAR 1 m — Ballyclare (2009) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2009,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Ballyclare river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          54.6862,
+          -6.2639
+        ],
+        [
+          54.7994,
+          -5.9174
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Ballyclare",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-ballygalley-3d-grey",
+      "sourceMapId": "ni-lidar-ballygalley-3d-grey",
+      "name": "NI LiDAR 1 m — Ballygalley (2010) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2010,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Ballygalley river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          54.8824,
+          -5.8816
+        ],
+        [
+          54.9101,
+          -5.8335
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Ballygalley",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-ballygowan-3d-grey",
+      "sourceMapId": "ni-lidar-ballygowan-3d-grey",
+      "name": "NI LiDAR 1 m — Ballygowan (2010) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2010,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Ballygowan river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          54.4851,
+          -5.825
+        ],
+        [
+          54.5138,
+          -5.731
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Ballygowan",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-ballymena-3d-grey",
+      "sourceMapId": "ni-lidar-ballymena-3d-grey",
+      "name": "NI LiDAR 1 m — Ballymena (2009) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2009,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Ballymena river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          54.7982,
+          -6.3836
+        ],
+        [
+          54.9088,
+          -6.1767
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Ballymena",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-ballynahinch-3d-grey",
+      "sourceMapId": "ni-lidar-ballynahinch-3d-grey",
+      "name": "NI LiDAR 1 m — Ballynahinch (2010) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2010,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Ballynahinch river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          54.3511,
+          -5.9551
+        ],
+        [
+          54.4262,
+          -5.7668
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Ballynahinch",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-ballynavally-3d-grey",
+      "sourceMapId": "ni-lidar-ballynavally-3d-grey",
+      "name": "NI LiDAR 1 m — Ballynavally (2007) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2007,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Ballynavally river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          54.5336,
+          -5.9461
+        ],
+        [
+          54.5518,
+          -5.9298
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Ballynavally",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-banbridge-3d-grey",
+      "sourceMapId": "ni-lidar-banbridge-3d-grey",
+      "name": "NI LiDAR 1 m — Banbridge (2010) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2010,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Banbridge river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          54.3221,
+          -6.3716
+        ],
+        [
+          54.3876,
+          -6.1845
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Banbridge",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-bangor-3d-grey",
+      "sourceMapId": "ni-lidar-bangor-3d-grey",
+      "name": "NI LiDAR 1 m — Bangor (2007) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2007,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Bangor river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          54.6171,
+          -5.8642
+        ],
+        [
+          54.6941,
+          -5.5816
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Bangor",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-blackwater-3d-grey",
+      "sourceMapId": "ni-lidar-blackwater-3d-grey",
+      "name": "NI LiDAR 1 m — Blackwater (2014) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2014,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Blackwater river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          54.2574,
+          -7.2032
+        ],
+        [
+          54.4766,
+          -6.7672
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Blackwater",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-bushmills-3d-grey",
+      "sourceMapId": "ni-lidar-bushmills-3d-grey",
+      "name": "NI LiDAR 1 m — Bushmills (2010) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2010,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Bushmills river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          55.193,
+          -6.5606
+        ],
+        [
+          55.2243,
+          -6.5061
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Bushmills",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-camowen-3d-grey",
+      "sourceMapId": "ni-lidar-camowen-3d-grey",
+      "name": "NI LiDAR 1 m — Camowen (2014) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2014,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Camowen river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          54.5573,
+          -7.2901
+        ],
+        [
+          54.594,
+          -7.1658
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Camowen",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-carrickfergus-3d-grey",
+      "sourceMapId": "ni-lidar-carrickfergus-3d-grey",
+      "name": "NI LiDAR 1 m — Carrickfergus (2007) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2007,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Carrickfergus river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          54.6461,
+          -5.9247
+        ],
+        [
+          54.776,
+          -5.6854
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Carrickfergus",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-carryduff-3d-grey",
+      "sourceMapId": "ni-lidar-carryduff-3d-grey",
+      "name": "NI LiDAR 1 m — Carryduff (2010) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2010,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Carryduff river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          54.4964,
+          -5.9171
+        ],
+        [
+          54.5334,
+          -5.8535
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Carryduff",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-castlederg-3d-grey",
+      "sourceMapId": "ni-lidar-castlederg-3d-grey",
+      "name": "NI LiDAR 1 m — Castlederg (2004) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2004,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Castlederg river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          54.694,
+          -7.613
+        ],
+        [
+          54.7304,
+          -7.4885
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Castlederg",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-castlereagh-3d-grey",
+      "sourceMapId": "ni-lidar-castlereagh-3d-grey",
+      "name": "NI LiDAR 1 m — Castlereagh (2007) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2007,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Castlereagh river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          54.5595,
+          -5.8984
+        ],
+        [
+          54.578,
+          -5.8666
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Castlereagh",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-clady-3d-grey",
+      "sourceMapId": "ni-lidar-clady-3d-grey",
+      "name": "NI LiDAR 1 m — Clady (2009) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2009,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Clady river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          54.7837,
+          -7.5656
+        ],
+        [
+          54.829,
+          -7.4717
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Clady",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-cloghmills-3d-grey",
+      "sourceMapId": "ni-lidar-cloghmills-3d-grey",
+      "name": "NI LiDAR 1 m — Cloghmills (2014) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2014,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Cloghmills river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          54.9615,
+          -6.3931
+        ],
+        [
+          55.0166,
+          -6.2972
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Cloghmills",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-coleraine-portstewart-portrush-3d-grey",
+      "sourceMapId": "ni-lidar-coleraine-portstewart-portrush-3d-grey",
+      "name": "NI LiDAR 1 m — Coleraine-Portstewart-Portrush (2010) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2010,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Coleraine-Portstewart-Portrush river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          55.0311,
+          -6.7794
+        ],
+        [
+          55.2144,
+          -6.4477
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Coleraine-Portstewart-Portrush",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-cookstown-3d-grey",
+      "sourceMapId": "ni-lidar-cookstown-3d-grey",
+      "name": "NI LiDAR 1 m — Cookstown (2013) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2013,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Cookstown river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          54.6196,
+          -6.7769
+        ],
+        [
+          54.6758,
+          -6.517
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Cookstown",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-cullybackey-3d-grey",
+      "sourceMapId": "ni-lidar-cullybackey-3d-grey",
+      "name": "NI LiDAR 1 m — Cullybackey (2010) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2010,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Cullybackey river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          54.8631,
+          -6.3811
+        ],
+        [
+          54.9807,
+          -6.3139
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Cullybackey",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-cushendall-3d-grey",
+      "sourceMapId": "ni-lidar-cushendall-3d-grey",
+      "name": "NI LiDAR 1 m — Cushendall (2010) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2010,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Cushendall river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          55.0473,
+          -6.0799
+        ],
+        [
+          55.0871,
+          -6.0224
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Cushendall",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-downpatrick-3d-grey",
+      "sourceMapId": "ni-lidar-downpatrick-3d-grey",
+      "name": "NI LiDAR 1 m — Downpatrick (2009) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2009,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Downpatrick river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          54.2766,
+          -5.8052
+        ],
+        [
+          54.4055,
+          -5.6293
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Downpatrick",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-dunmurry-3d-grey",
+      "sourceMapId": "ni-lidar-dunmurry-3d-grey",
+      "name": "NI LiDAR 1 m — Dunmurry (2007) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2007,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Dunmurry river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          54.5257,
+          -6.0392
+        ],
+        [
+          54.5713,
+          -5.9907
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Dunmurry",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-east-belfast-3d-grey",
+      "sourceMapId": "ni-lidar-east-belfast-3d-grey",
+      "name": "NI LiDAR 1 m — East-Belfast (2013) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2013,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the East-Belfast river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          54.5267,
+          -5.9482
+        ],
+        [
+          54.6599,
+          -5.7925
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "East-Belfast",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-foyle-3d-grey",
+      "sourceMapId": "ni-lidar-foyle-3d-grey",
+      "name": "NI LiDAR 1 m — Foyle (2004) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2004,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Foyle river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          55.0229,
+          -7.2502
+        ],
+        [
+          55.1239,
+          -6.9506
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Foyle",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-killyleagh-3d-grey",
+      "sourceMapId": "ni-lidar-killyleagh-3d-grey",
+      "name": "NI LiDAR 1 m — Killyleagh (2010) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2010,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Killyleagh river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          54.3843,
+          -5.6764
+        ],
+        [
+          54.4211,
+          -5.6282
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Killyleagh",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-larne-3d-grey",
+      "sourceMapId": "ni-lidar-larne-3d-grey",
+      "name": "NI LiDAR 1 m — Larne (2010) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2010,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Larne river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          54.8332,
+          -5.8505
+        ],
+        [
+          54.8581,
+          -5.7952
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Larne",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-limavady-3d-grey",
+      "sourceMapId": "ni-lidar-limavady-3d-grey",
+      "name": "NI LiDAR 1 m — Limavady (2004) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2004,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Limavady river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          55.0224,
+          -7.0157
+        ],
+        [
+          55.1671,
+          -6.8867
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Limavady",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-lisburn-3d-grey",
+      "sourceMapId": "ni-lidar-lisburn-3d-grey",
+      "name": "NI LiDAR 1 m — Lisburn (2010) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2010,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Lisburn river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          54.3636,
+          -6.3237
+        ],
+        [
+          54.5576,
+          -5.9607
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Lisburn",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-lowerbann-3d-grey",
+      "sourceMapId": "ni-lidar-lowerbann-3d-grey",
+      "name": "NI LiDAR 1 m — Lowerbann (2014) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2014,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Lowerbann river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          54.7566,
+          -6.6187
+        ],
+        [
+          55.0373,
+          -6.4215
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Lowerbann",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-maghera-3d-grey",
+      "sourceMapId": "ni-lidar-maghera-3d-grey",
+      "name": "NI LiDAR 1 m — Maghera (2009) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2009,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Maghera river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          54.7299,
+          -6.7433
+        ],
+        [
+          54.8502,
+          -6.4285
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Maghera",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-magherafelt-3d-grey",
+      "sourceMapId": "ni-lidar-magherafelt-3d-grey",
+      "name": "NI LiDAR 1 m — Magherafelt (2010) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2010,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Magherafelt river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          54.7222,
+          -6.6505
+        ],
+        [
+          54.7774,
+          -6.54
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Magherafelt",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-newcastle-3d-grey",
+      "sourceMapId": "ni-lidar-newcastle-3d-grey",
+      "name": "NI LiDAR 1 m — Newcastle (2010) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2010,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Newcastle river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          54.188,
+          -5.9479
+        ],
+        [
+          54.2823,
+          -5.8512
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Newcastle",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-newry-3d-grey",
+      "sourceMapId": "ni-lidar-newry-3d-grey",
+      "name": "NI LiDAR 1 m — Newry (2010) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2010,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Newry river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          54.088,
+          -6.3802
+        ],
+        [
+          54.2397,
+          -6.1691
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Newry",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-newtownabbey-3d-grey",
+      "sourceMapId": "ni-lidar-newtownabbey-3d-grey",
+      "name": "NI LiDAR 1 m — Newtownabbey (2010) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2010,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Newtownabbey river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          54.6494,
+          -6.0493
+        ],
+        [
+          54.702,
+          -5.9004
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Newtownabbey",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-newtownards-3d-grey",
+      "sourceMapId": "ni-lidar-newtownards-3d-grey",
+      "name": "NI LiDAR 1 m — Newtownards (2008) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2008,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Newtownards river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          54.5286,
+          -5.8381
+        ],
+        [
+          54.6308,
+          -5.6472
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Newtownards",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-newtownstewart-3d-grey",
+      "sourceMapId": "ni-lidar-newtownstewart-3d-grey",
+      "name": "NI LiDAR 1 m — Newtownstewart (2004) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2004,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Newtownstewart river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          54.7023,
+          -7.4113
+        ],
+        [
+          54.7385,
+          -7.3487
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Newtownstewart",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-omagh-3d-grey",
+      "sourceMapId": "ni-lidar-omagh-3d-grey",
+      "name": "NI LiDAR 1 m — Omagh (2004) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2004,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Omagh river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          54.576,
+          -7.3667
+        ],
+        [
+          54.6485,
+          -7.2572
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Omagh",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-portadown-3d-grey",
+      "sourceMapId": "ni-lidar-portadown-3d-grey",
+      "name": "NI LiDAR 1 m — Portadown (2009) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2009,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Portadown river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          54.3513,
+          -6.4781
+        ],
+        [
+          54.4788,
+          -6.3347
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Portadown",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-randalstown-3d-grey",
+      "sourceMapId": "ni-lidar-randalstown-3d-grey",
+      "name": "NI LiDAR 1 m — Randalstown (2010) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2010,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Randalstown river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          54.7093,
+          -6.3406
+        ],
+        [
+          54.8184,
+          -6.2429
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Randalstown",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-stonyford-3d-grey",
+      "sourceMapId": "ni-lidar-stonyford-3d-grey",
+      "name": "NI LiDAR 1 m — Stonyford (2014) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2014,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Stonyford river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          54.5542,
+          -6.1618
+        ],
+        [
+          54.5821,
+          -6.0988
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Stonyford",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-strabane-3d-grey",
+      "sourceMapId": "ni-lidar-strabane-3d-grey",
+      "name": "NI LiDAR 1 m — Strabane (2004) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2004,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Strabane river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          54.8104,
+          -7.5031
+        ],
+        [
+          54.8737,
+          -7.4088
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Strabane",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
+    },
+    {
+      "id": "ni-lidar-tandragee-3d-grey",
+      "sourceMapId": "ni-lidar-tandragee-3d-grey",
+      "name": "NI LiDAR 1 m — Tandragee (2010) — grey relief",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "date": 2010,
+      "provider": [
+        "OSNI",
+        "LPS",
+        "DAERA",
+        "Scott Moore"
+      ],
+      "description": "1 m LiDAR digital terrain model of the Tandragee river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+      "renderer": "maplibre",
+      "sourceType": "raster-dem",
+      "geometryType": "raster",
+      "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+      "demEncoding": "terrarium",
+      "exaggeration": 3,
+      "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+      "hillshadeOpacity": 1.0,
+      "hillshadeMinzoom": 8,
+      "hillshadeMaxzoom": 16,
+      "bounds": [
+        [
+          54.3339,
+          -6.4327
+        ],
+        [
+          54.3705,
+          -6.3852
+        ]
+      ],
+      "minzoom": 8,
+      "maxzoom": 16,
+      "maxNativeZoom": 16,
+      "tileSize": 256,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8a8a8a",
+        "fillColor": "#8a8a8a",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "variantOf": "ni-lidar-1m-3d-grey",
+      "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+      "license": "OGL v3.0",
+      "keywords": [
+        "lidar",
+        "DTM",
+        "elevation",
+        "terrain",
+        "3D",
+        "hillshade",
+        "height",
+        "Physical Geography",
+        "maplibre",
+        "Tandragee",
+        "Northern Ireland",
+        "grey",
+        "monochrome relief"
+      ],
+      "status": "converted-raster-tiles",
+      "loadable": true
     }
   ],
   "generatedFrom": "test/metadata/maps-test.json",
   "detailIndex": true,
-  "detailLayerCount": 818
+  "detailLayerCount": 865
 }
