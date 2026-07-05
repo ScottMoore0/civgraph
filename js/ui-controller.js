@@ -8610,6 +8610,14 @@ class UIController {
         const container = document.getElementById('activeLayersList');
         if (!container) return;
 
+        // Preserve which opacity panels are open, so a re-render (e.g. from a
+        // visibility toggle) doesn't collapse a panel the user has expanded.
+        const openOpacityPanels = new Set(
+            [...container.querySelectorAll('.active-layer-item__opacity-panel')]
+                .filter((panel) => panel.style.display && panel.style.display !== 'none')
+                .map((panel) => panel.dataset.mapId)
+        );
+
         if (!loadedMaps || loadedMaps.length === 0) {
             container.innerHTML = '<p class="text-muted text-sm">No layers loaded</p>';
             return;
@@ -8745,6 +8753,14 @@ class UIController {
                     btn.classList.toggle('active', !showing);
                 }
             });
+        });
+
+        // Re-open any opacity panels that were expanded before this re-render.
+        openOpacityPanels.forEach((mapId) => {
+            const panel = container.querySelector(`.active-layer-item__opacity-panel[data-map-id="${mapId}"]`);
+            const btn = container.querySelector(`.opacity-toggle-btn[data-map-id="${mapId}"]`);
+            if (panel) panel.style.display = 'block';
+            if (btn) btn.classList.add('active');
         });
 
         // Opacity sliders and inputs

@@ -471,7 +471,9 @@ export class Test2MapLibreMainAdapter {
       const property = record.config.geometryType === 'point' ? 'circle-opacity' : 'line-opacity';
       this.map.setPaintProperty(lineId, property, value);
     }
-    this.options.onChange?.(this);
+    // No onChange(): opacity is a live paint change and isn't part of URL/catalogue
+    // state. Firing it here re-renders the Active Layers list, which collapses the
+    // opacity panel and destroys the slider mid-drag (the "control disappears" bug).
   }
 
   setFillOpacity(mainId, opacity) {
@@ -481,17 +483,21 @@ export class Test2MapLibreMainAdapter {
     state._fillOpacity = value;
     const fillId = `${testId}-fill`;
     if (this.map.getLayer(fillId)) this.map.setPaintProperty(fillId, 'fill-opacity', value);
-    this.options.onChange?.(this);
+    // See setStrokeOpacity: no onChange() — avoids collapsing the opacity panel mid-drag.
   }
 
   setRasterOpacity(mainId, opacity) {
-    const state = this.layerStates.get(mainId);
+    // Look up the state in either map (single layers vs groups) and guard against
+    // a missing state/layer — otherwise this threw (unlike setStroke/FillOpacity,
+    // which guard), leaving the raster's opacity un-applied.
+    const state = this.layerStates.get(mainId) || this.groupStates?.get(mainId);
     const testId = state?.testLayerId || this.mainToTest.get(mainId) || mainId;
-    const value = clamp01(opacity);
-    state._rasterOpacity = value;
     const rasterId = `${testId}-raster`;
-    if (this.map.getLayer(rasterId)) this.map.setPaintProperty(rasterId, 'raster-opacity', value);
-    this.options.onChange?.(this);
+    if (!this.map.getLayer(rasterId)) return;
+    const value = clamp01(opacity);
+    if (state) state._rasterOpacity = value;
+    this.map.setPaintProperty(rasterId, 'raster-opacity', value);
+    // See setStrokeOpacity: no onChange() — avoids collapsing the opacity panel mid-drag.
   }
 
   setTransparency(value) {
