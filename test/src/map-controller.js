@@ -1785,6 +1785,20 @@ export class TestMapLibreController {
     const labelLimit = getDomLabelLimit(layer);
     const nextKeys = new Set();
     const labelBoxes = [];
+    // Seed with the collision boxes of every OTHER active layer's visible labels,
+    // so labels from different layers don't overlap and obscure each other (these
+    // are DOM labels, so MapLibre's symbol-layer collision doesn't apply to them).
+    for (const [otherId, otherRecord] of this.layers) {
+      if (otherId === layerId || !otherRecord.domLabelMarkers) continue;
+      for (const otherMarker of otherRecord.domLabelMarkers.values()) {
+        const otherEl = otherMarker.getElement?.();
+        if (!otherEl || otherEl.hidden || !otherEl.isConnected) continue;
+        const otherLngLat = otherMarker.getLngLat?.();
+        const otherLabel = otherEl.querySelector('div')?.textContent;
+        if (!otherLngLat || !otherLabel) continue;
+        labelBoxes.push(labelCollisionBox(this.map.project(otherLngLat), otherLabel));
+      }
+    }
     for (const feature of features) {
       if (nextKeys.size >= labelLimit) break;
       const id = this.readFeatureId(layer, feature);
