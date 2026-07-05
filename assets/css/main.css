@@ -4279,6 +4279,20 @@ button.catalogue-flat__toc-toplink {
   color: var(--color-text-inverse);
 }
 
+/* Dark mode: the open/clicked state used --color-text-inverse for the triangle,
+   which is dark in dark mode — a dark triangle on the dark navy button. Use a
+   brighter blue background with a white triangle so it stays clearly visible. */
+[data-theme="dark"] .active-layers-toggle[aria-expanded="true"] {
+  background: var(--color-primary-light, #2c5282);
+  color: #ffffff;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .active-layers-toggle[aria-expanded="true"] {
+    background: var(--color-primary-light, #2c5282);
+    color: #ffffff;
+  }
+}
+
 .map-controls {
   position: absolute;
   bottom: var(--space-4);
