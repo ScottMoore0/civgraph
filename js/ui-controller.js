@@ -6400,6 +6400,137 @@ class UIController {
     }
 
     /**
+     * Open a download dropdown and pin it inside the viewport.
+     *
+     * The dropdown is normally `position: absolute` inside the button group,
+     * anchored `top:100% right:0`. Near the right/bottom edge — or when the
+     * button sits low in the scrollable catalogue pane — that put the menu
+     * partly off-screen or clipped by an ancestor's overflow. We portal it to
+     * <body> and switch it to `position: fixed` with clamped coordinates
+     * computed from the button's rect. Portalling is what escapes both the
+     * pane's overflow clipping AND the `.map-card:hover { transform }` rule,
+     * which would otherwise make the card the containing block for a fixed
+     * child and throw off the viewport maths.
+     */
+    openDownloadDropdown(dropdown, anchorEl) {
+        if (!dropdown) return;
+        this.closeDownloadDropdown(dropdown, { keepOpen: true }); // clear any stale handlers/portal state first
+
+        // Remember where it lived so we can put it back — the toggle handler
+        // re-queries the dropdown from its original container on the next click.
+        if (!dropdown._ddHome) {
+            dropdown._ddHome = { parent: dropdown.parentNode, next: dropdown.nextSibling };
+        }
+        document.body.appendChild(dropdown);
+        dropdown.style.zIndex = '10000';
+        dropdown.classList.remove('hidden');
+        this.positionDropdownInViewport(dropdown, anchorEl);
+
+        // Close on outside click, scroll, or resize so a fixed-position menu
+        // can't drift away from its button. Cleaned up in closeDownloadDropdown.
+        const close = (e) => {
+            if (e && e.type === 'click' && (dropdown.contains(e.target) || anchorEl?.contains?.(e.target))) return;
+            this.closeDownloadDropdown(dropdown);
+        };
+        dropdown._ddCloseHandler = close;
+        // Defer so the opening click doesn't immediately trigger the outside-click close.
+        setTimeout(() => {
+            document.addEventListener('click', close, true);
+            window.addEventListener('scroll', close, true);
+            window.addEventListener('resize', close, true);
+        }, 0);
+    }
+
+    closeDownloadDropdown(dropdown, { keepOpen = false } = {}) {
+        if (!dropdown) return;
+        if (dropdown._ddCloseHandler) {
+            document.removeEventListener('click', dropdown._ddCloseHandler, true);
+            window.removeEventListener('scroll', dropdown._ddCloseHandler, true);
+            window.removeEventListener('resize', dropdown._ddCloseHandler, true);
+            dropdown._ddCloseHandler = null;
+        }
+        if (keepOpen) return;
+        dropdown.classList.add('hidden');
+        // Restore the CSS-driven absolute positioning.
+        dropdown.style.position = '';
+        dropdown.style.top = '';
+        dropdown.style.left = '';
+        dropdown.style.right = '';
+        dropdown.style.bottom = '';
+        dropdown.style.margin = '';
+        dropdown.style.maxHeight = '';
+        dropdown.style.overflowY = '';
+        dropdown.style.zIndex = '';
+        // Return it to its original spot in the card so the next toggle finds it.
+        const home = dropdown._ddHome;
+        dropdown._ddHome = null;
+        if (home?.parent?.isConnected) {
+            home.parent.insertBefore(dropdown, home.next && home.next.parentNode === home.parent ? home.next : null);
+        } else if (dropdown.parentNode === document.body) {
+            dropdown.remove();
+        }
+    }
+
+    /**
+     * Toggle a download dropdown, positioning it within the viewport when it
+     * opens. Returns the resulting open state.
+     */
+    toggleDownloadDropdown(dropdown, anchorEl) {
+        if (!dropdown) return false;
+        if (dropdown.classList.contains('hidden')) {
+            this.openDownloadDropdown(dropdown, anchorEl);
+            return true;
+        }
+        this.closeDownloadDropdown(dropdown);
+        return false;
+    }
+
+    positionDropdownInViewport(dropdown, anchorEl) {
+        const anchor = anchorEl?.getBoundingClientRect?.();
+        if (!anchor) return;
+        const margin = 8;   // keep this far from every viewport edge
+        const gap = 4;      // space between button and menu
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
+
+        // Switch to fixed positioning so ancestor overflow can't clip it, then
+        // measure at natural size.
+        dropdown.style.position = 'fixed';
+        dropdown.style.margin = '0';
+        dropdown.style.top = '0px';
+        dropdown.style.left = '0px';
+        dropdown.style.right = 'auto';
+        dropdown.style.bottom = 'auto';
+        dropdown.style.maxHeight = '';
+        dropdown.style.overflowY = '';
+
+        let { width, height } = dropdown.getBoundingClientRect();
+
+        // If taller than the available height, cap it and let it scroll.
+        const maxH = vh - margin * 2;
+        if (height > maxH) {
+            dropdown.style.maxHeight = `${maxH}px`;
+            dropdown.style.overflowY = 'auto';
+            height = maxH;
+        }
+
+        // Vertical: below the button, flipping above if it would overflow the bottom.
+        let top = anchor.bottom + gap;
+        if (top + height + margin > vh && anchor.top - gap - height >= margin) {
+            top = anchor.top - gap - height;
+        }
+        top = Math.min(Math.max(top, margin), Math.max(margin, vh - height - margin));
+
+        // Horizontal: right-align to the button, then clamp within the viewport.
+        let left = anchor.right - width;
+        if (left + width + margin > vw) left = vw - width - margin;
+        if (left < margin) left = margin;
+
+        dropdown.style.top = `${Math.round(top)}px`;
+        dropdown.style.left = `${Math.round(left)}px`;
+    }
+
+    /**
      * Returns a heading label for the source-format downloads dropdown
      * section. Uses the map's primary provider where possible.
      */
@@ -6570,11 +6701,14 @@ class UIController {
             this.copyMapUrl(map.id, e.currentTarget);
         });
 
+        // Capture the dropdown reference once: while open it is portalled to
+        // <body>, so re-querying it from `container` on the next click would
+        // miss it. The node itself persists across the move.
+        const downloadDropdown = container.querySelector('.download-dropdown');
         container.querySelector('.download-btn')?.addEventListener('click', (e) => {
             e.stopPropagation();
-            const dropdown = container.querySelector('.download-dropdown');
-            if (dropdown) {
-                dropdown.classList.toggle('hidden');
+            if (downloadDropdown) {
+                this.toggleDownloadDropdown(downloadDropdown, e.currentTarget);
             }
         });
 
@@ -7553,14 +7687,14 @@ class UIController {
         const dropdown = detailView.querySelector('.feature-download-dropdown');
         detailView.querySelector('.feature-download-menu-btn')?.addEventListener('click', (event) => {
             event.stopPropagation();
-            dropdown?.classList.toggle('hidden');
+            if (dropdown) this.toggleDownloadDropdown(dropdown, event.currentTarget);
         });
 
         detailView.querySelectorAll('.feature-download-alt-btn').forEach((btn) => {
             btn.addEventListener('click', (event) => {
                 event.stopPropagation();
                 this.downloadFeature(detailId, btn.dataset.format);
-                dropdown?.classList.add('hidden');
+                if (dropdown) this.closeDownloadDropdown(dropdown);
             });
         });
         if (historyColumns && historyRows) {
