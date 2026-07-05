@@ -2611,7 +2611,15 @@ class Test2App {
       button.title = 'Sources';
       button.setAttribute('aria-label', `Show sources for ${row.querySelector('.active-layer-item__name')?.textContent || mapId}`);
       button.innerHTML = '<span aria-hidden="true">i</span>';
-      button.addEventListener('click', () => this.openSourcePanel(mapId));
+      // Open the map's info page in the catalogue pane (same as opening it from
+      // the catalogue list) rather than the floating source card, which rendered
+      // in the map pane behind the Active Layers overlay. Reveal the catalogue
+      // pane first in case the app is in map-only mode.
+      button.addEventListener('click', () => {
+        // Reveal the catalogue pane if the app is currently in map-only mode.
+        if (uiController.currentStateId === 'map-full') uiController.setSplitState('info-full');
+        uiController.showCatalogueDetailView(mapId);
+      });
       actions.insertBefore(button, actions.firstChild);
     });
   }
@@ -2981,6 +2989,21 @@ class Test2App {
     const link = document.createElement('a');
     link.href = url;
     if (filename) link.download = filename;
+    // The `download` attribute is ignored for cross-origin URLs, and our FGBs
+    // live on data.civgraph.net / archive.org (a different origin from the app).
+    // Without this, a plain click is treated as a top-level navigation and the
+    // whole app is replaced by the raw file URL — which reads as "the download
+    // button does nothing". Open cross-origin targets in a new tab instead so the
+    // app is preserved; the file downloads if the host sends an attachment
+    // disposition, otherwise it opens for the user to save.
+    let crossOrigin = false;
+    try {
+      crossOrigin = new URL(url, window.location.href).origin !== window.location.origin;
+    } catch (_) { /* relative/blob URL — treat as same-origin */ }
+    if (crossOrigin) {
+      link.target = '_blank';
+      link.rel = 'noopener';
+    }
     document.body.appendChild(link);
     link.click();
     link.remove();

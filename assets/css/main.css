@@ -10796,6 +10796,29 @@ kbd {
   min-height: 0;
 }
 
+/* The shared election-pane contract wraps all rendered content in a single
+   <div data-election-renderer> (no class), which sits between
+   .election-pane__content and the results block above. That extra layer broke
+   the flex height chain — the rules above no longer matched, so the results
+   block lost its definite height and its content was clipped by the pane's
+   overflow instead of scrolling. Make the wrapper a flex-fill column and pass
+   the fill through to whichever content block it holds. */
+.election-pane__content > [data-election-renderer] {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.election-pane__content > [data-election-renderer] > .election-party-wrapper,
+.election-pane__content > [data-election-renderer] > .election-constituency-results,
+.election-pane__content > [data-election-renderer] > .election-entity-page,
+.election-pane__content > [data-election-renderer] > .election-no-data,
+.election-pane__content > [data-election-renderer] > .election-loading {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
 .election-pane__content .election-constituency-results {
   display: flex;
   flex-direction: column;
