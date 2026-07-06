@@ -13,6 +13,7 @@
 import { readFileSync, writeFileSync, mkdirSync, rmSync, existsSync, readdirSync, statSync } from 'fs';
 import { brotliCompressSync, gzipSync, constants } from 'zlib';
 import { execFileSync } from 'child_process';
+import { createHash } from 'crypto';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 // Inline .env.local parse (avoid a dotenv dependency)
 try {
@@ -28,11 +29,18 @@ const NO_UPLOAD = process.argv.includes('--no-upload') || DRY;
 const rowsArg = (process.argv.find(a => a.startsWith('--rows=')) || '').split('=')[1]
   || (process.argv.includes('--rows') ? process.argv[process.argv.indexOf('--rows') + 1] : '');
 const wantRows = rowsArg ? new Set(rowsArg.split(',').map(s => s.trim())) : null;
+const manifestArg = (process.argv.find(a => a.startsWith('--manifest=')) || '').split('=')[1]
+  || (process.argv.includes('--manifest') ? process.argv[process.argv.indexOf('--manifest') + 1] : '');
 
 const OGL = 'OGL v3.0';
 const CCBY = 'CC BY 4.0';
 const COLORS = { deas:'#8E44AD', wards:'#2E86C1', townlands:'#16A085', 'local-government':'#C0392B',
-  parliamentary:'#D35400', 'electoral-divisions':'#27AE60', transport:'#34495E' };
+  parliamentary:'#D35400', 'electoral-divisions':'#27AE60', transport:'#34495E',
+  // civic / environmental layers (dedupe publish-new batch)
+  geology:'#7E5109', trees:'#1E8449', flood:'#1F6FB2', water:'#2980B9', parks:'#229954',
+  'fire-stations':'#CB4335', cycle:'#8E44AD', polling:'#B7950B', heritage:'#884EA0',
+  landscape:'#117864', museums:'#A04000', planning:'#5D6D7E', parking:'#616A6B', roads:'#4A235A',
+  civic:'#2C3E50' };
 
 // row, slug, tree, category, name, provider[], licence
 const MANIFEST = [
@@ -57,6 +65,9 @@ const MANIFEST = [
   [19,'osni-open-data-50k-transport-text-labelling','opendatani','transport','Transport Text Labelling — OSNI 50k',['OSNI'],OGL],
   [20,'osni-open-data-50k-transport-transport-points','opendatani','transport','Transport Points — OSNI 50k',['OSNI'],OGL],
 ];
+
+// external manifest override: JSON array of [row,slug,tree,category,name,provider[],licence]
+const ROWS = manifestArg ? JSON.parse(readFileSync(manifestArg, 'utf8')) : MANIFEST;
 
 const LABEL_CANDIDATES = ['Name','NAME','name','WARD','Ward','TOWNLAND','Townland','TOWNLAND_','ED_ENGLISH','ED_NAME',
   'FinalR_NAM','PC_NAME','LGDNAME','LGD_NAME','DEA_NAME','DEA','CountyName','ENGLISH','LABEL','Descriptor','SETTLEMENT'];
@@ -96,7 +107,11 @@ function findGeometry(folder) {
   // shapefile isn't always in the "geospatial"-named archive).
   const zips = readdirSync(folder).filter(f => /\.zip$/i.test(f));
   if (zips.length) {
-    const dest = `${TMP}/unzip-${Buffer.from(folder).toString('hex').slice(0,8)}`;
+    // per-folder unique dest (md5 of full path — Buffer.hex.slice(0,8) collides:
+    // the first 4 bytes of every "D:/datagovie/..." path are identical). Clear it
+    // first so a prior row's extracted shapefile can't leak into this one.
+    const dest = `${TMP}/unzip-${createHash('md5').update(folder).digest('hex').slice(0,16)}`;
+    rmSync(dest, { recursive: true, force: true });
     mkdirSync(dest, { recursive: true });
     for (const zip of zips) {
       // Windows bsdtar (System32) reads zip; git-bash GNU tar does not.
@@ -131,7 +146,7 @@ async function put(key, body, ct) { await s3.send(new PutObjectCommand({ Bucket:
 
 mkdirSync(TMP, { recursive: true });
 const entries = [], report = [];
-for (const [row, slug, tree, category, name, provider, licence] of MANIFEST) {
+for (const [row, slug, tree, category, name, provider, licence] of ROWS) {
   if (wantRows && !wantRows.has(String(row))) continue;
   const R = { row, slug, category };
   try {

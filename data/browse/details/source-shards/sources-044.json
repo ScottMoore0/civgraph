@@ -1,10 +1,1883 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-06T22:01:39.901Z",
+  "generatedAt": "2026-07-06T22:15:05.901Z",
   "kind": "sources",
   "shard": "sources-044.json",
   "total": 200,
   "items": [
+    {
+      "id": "map-source:ni-industrial-heritage",
+      "slug": "map-source-ni-industrial-heritage",
+      "type": "map-source",
+      "title": "NI Industrial Heritage Record source files",
+      "subtitle": "Historic Boundaries / Department for Communities - Historic Environment Division",
+      "category": "Map sources",
+      "date": "2026-03-31",
+      "provider": [
+        "Department for Communities - Historic Environment Division"
+      ],
+      "description": "NI Industrial Heritage Record — published by DfC Historic Environment Division.",
+      "sourceMapId": "ni-industrial-heritage",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "ni-industrial-heritage",
+        "url": "/assets/thumbnails/ni-industrial-heritage.webp",
+        "smallUrl": "/assets/thumbnails/ni-industrial-heritage-60.webp",
+        "alt": "NI Industrial Heritage Record"
+      },
+      "references": [
+        {
+          "label": "Source — admin.opendatani.gov.uk",
+          "url": "https://admin.opendatani.gov.uk/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/historic-environment/ni-industrial-heritage.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/historic-environment/ni-industrial-heritage.geojson"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/historic-environment/ni-industrial-heritage.geojson"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/historic-environment/ni-industrial-heritage.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/historic-environment/ni-industrial-heritage.geojson"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/historic-environment/ni-industrial-heritage.geojson"
+        }
+      ],
+      "interactiveUrl": "/#layers=ni-industrial-heritage",
+      "browseUrl": "/browse/sources/map-source-ni-industrial-heritage",
+      "rawMetadata": {
+        "id": "ni-industrial-heritage",
+        "name": "NI Industrial Heritage Record",
+        "slug": "ni-industrial-heritage",
+        "category": "historic",
+        "provider": [
+          "Department for Communities - Historic Environment Division"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/historic-environment/ni-industrial-heritage.fgb",
+          "downloads": {
+            "geojson": "https://data.civgraph.net/data/maps/historic-environment/ni-industrial-heritage.geojson"
+          },
+          "geojson": "https://data.civgraph.net/data/maps/historic-environment/ni-industrial-heritage.geojson"
+        },
+        "style": {
+          "color": "#283593",
+          "weight": 1,
+          "fillOpacity": 0.4
+        },
+        "keywords": [
+          "heritage",
+          "historic",
+          "ni industrial heritage record",
+          "northern ireland",
+          "protected"
+        ],
+        "description": "NI Industrial Heritage Record — published by DfC Historic Environment Division.",
+        "references": [
+          {
+            "label": "Source — admin.opendatani.gov.uk",
+            "url": "https://admin.opendatani.gov.uk/",
+            "note": ""
+          }
+        ],
+        "date": "2026-03-31",
+        "labelProperty": "CO"
+      }
+    },
+    {
+      "id": "map-source:ni-land-classification",
+      "slug": "map-source-ni-land-classification",
+      "type": "map-source",
+      "title": "Northern Ireland Land Classification source files",
+      "subtitle": "Environment / GSNI, DAERA",
+      "category": "Map sources",
+      "provider": [
+        "GSNI",
+        "DAERA"
+      ],
+      "description": "Northern Ireland Land Classification — Northern Ireland. Source: GSNI (via the Peatlands Geoportal, QUB).",
+      "sourceMapId": "ni-land-classification",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "NI",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Peatlands Geoportal (QUB) — Northern Ireland Land Classification",
+          "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/environment/NI_Land_Classification.fgb"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/environment/NI_Land_Classification.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=ni-land-classification",
+      "browseUrl": "/browse/sources/map-source-ni-land-classification",
+      "rawMetadata": {
+        "id": "ni-land-classification",
+        "name": "Northern Ireland Land Classification",
+        "slug": "ni-land-classification",
+        "category": "environment",
+        "provider": [
+          "GSNI",
+          "DAERA"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/environment/NI_Land_Classification.fgb"
+        },
+        "style": {
+          "color": "#558B2F",
+          "weight": 1,
+          "fillOpacity": 0.4
+        },
+        "keywords": [
+          "NI",
+          "ireland",
+          "land classification",
+          "land use",
+          "environment"
+        ],
+        "description": "Northern Ireland Land Classification — Northern Ireland. Source: GSNI (via the Peatlands Geoportal, QUB).",
+        "references": [
+          {
+            "label": "Peatlands Geoportal (QUB) — Northern Ireland Land Classification",
+            "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/",
+            "note": ""
+          }
+        ],
+        "labelProperty": "ni_land_class",
+        "useLOD": true
+      }
+    },
+    {
+      "id": "map-source:ni-licensed-waste-facilities",
+      "slug": "map-source-ni-licensed-waste-facilities",
+      "type": "map-source",
+      "title": "Licensed Waste Facilities (NI) source files",
+      "subtitle": "Environment / NIEA",
+      "category": "Map sources",
+      "provider": [
+        "NIEA"
+      ],
+      "description": "Licensed Waste Facilities (NI) — Northern Ireland. Source: NIEA (via the Peatlands Geoportal, QUB).",
+      "sourceMapId": "ni-licensed-waste-facilities",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "LW",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Peatlands Geoportal (QUB) — Licensed Waste Facilities (NI)",
+          "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/environment/NI_Licensed_Waste_Facilities.fgb"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/environment/NI_Licensed_Waste_Facilities.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=ni-licensed-waste-facilities",
+      "browseUrl": "/browse/sources/map-source-ni-licensed-waste-facilities",
+      "rawMetadata": {
+        "id": "ni-licensed-waste-facilities",
+        "name": "Licensed Waste Facilities (NI)",
+        "slug": "ni-licensed-waste-facilities",
+        "category": "environment",
+        "provider": [
+          "NIEA"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/environment/NI_Licensed_Waste_Facilities.fgb"
+        },
+        "style": {
+          "color": "#558B2F",
+          "weight": 1,
+          "fillOpacity": 0.5
+        },
+        "keywords": [
+          "NI",
+          "ireland",
+          "waste",
+          "facilities",
+          "environment",
+          "NIEA"
+        ],
+        "description": "Licensed Waste Facilities (NI) — Northern Ireland. Source: NIEA (via the Peatlands Geoportal, QUB).",
+        "references": [
+          {
+            "label": "Peatlands Geoportal (QUB) — Licensed Waste Facilities (NI)",
+            "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/",
+            "note": ""
+          }
+        ],
+        "labelProperty": "Name"
+      }
+    },
+    {
+      "id": "map-source:ni-listed-buildings",
+      "slug": "map-source-ni-listed-buildings",
+      "type": "map-source",
+      "title": "NI Listed Buildings source files",
+      "subtitle": "Historic Boundaries / Department for Communities - Historic Environment Division",
+      "category": "Map sources",
+      "date": "2026-03-31",
+      "provider": [
+        "Department for Communities - Historic Environment Division"
+      ],
+      "description": "NI Listed Buildings — published by DfC Historic Environment Division. 1 related provider/source row is staged as provenance for this existing Civgraph record; provider: Open Data NI; formats: GEOJSON, ZIP; 1 provider dataset link preserved as references.",
+      "sourceMapId": "ni-listed-buildings",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "ni-listed-buildings",
+        "url": "/assets/thumbnails/ni-listed-buildings.webp",
+        "smallUrl": "/assets/thumbnails/ni-listed-buildings-60.webp",
+        "alt": "NI Listed Buildings"
+      },
+      "references": [
+        {
+          "label": "Source — admin.opendatani.gov.uk",
+          "url": "https://admin.opendatani.gov.uk/"
+        },
+        {
+          "label": "Existing Civgraph record: NI Listed Buildings source files",
+          "url": "/browse/maps/ni-listed-buildings",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:ni-listed-buildings",
+          "url": "/browse/sources/map-source-ni-listed-buildings",
+          "source": "Civgraph",
+          "role": "matched-source-record"
+        },
+        {
+          "label": "Provider dataset: Listed Buildings Northern Ireland",
+          "url": "https://admin.opendatani.gov.uk/dataset/listed-buildings-northern-ireland",
+          "source": "Open Data NI",
+          "role": "canonical-provider-dataset",
+          "type": "GEOJSON"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/historic-environment/ni-listed-buildings.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/historic-environment/ni-listed-buildings.geojson"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/historic-environment/ni-listed-buildings.geojson"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/historic-environment/ni-listed-buildings.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/historic-environment/ni-listed-buildings.geojson"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/historic-environment/ni-listed-buildings.geojson"
+        }
+      ],
+      "interactiveUrl": "/#layers=ni-listed-buildings",
+      "browseUrl": "/browse/sources/map-source-ni-listed-buildings",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:ni-listed-buildings",
+          "targetEntityKind": "map",
+          "targetEntityId": "ni-listed-buildings",
+          "targetTitle": "NI Listed Buildings source files",
+          "targetBrowseUrl": "/browse/maps/ni-listed-buildings",
+          "sourceItemCount": 1,
+          "confidence": "high-confidence",
+          "safetyClasses": [
+            "high-confidence enrichment candidate"
+          ],
+          "formats": [
+            "GEOJSON",
+            "ZIP"
+          ],
+          "providers": [
+            "Open Data NI"
+          ],
+          "categories": [
+            "spatial"
+          ],
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "scale/generalisation/edition metadata",
+            "source/provenance metadata"
+          ],
+          "provenanceSummary": "1 related provider/source row is staged as provenance for this existing Civgraph record; provider: Open Data NI; formats: GEOJSON, ZIP; 1 provider dataset link preserved as references.",
+          "sourceItems": [
+            {
+              "auditRowNumber": 639,
+              "title": "Listed Buildings Northern Ireland",
+              "provider": "Open Data NI",
+              "category": "spatial",
+              "formats": [
+                "GEOJSON",
+                "ZIP"
+              ],
+              "safetyClass": "high-confidence enrichment candidate",
+              "providerDatasetUrl": "https://admin.opendatani.gov.uk/dataset/listed-buildings-northern-ireland",
+              "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+              "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews.",
+              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+              "enrichmentTypes": [
+                "alternate-format metadata",
+                "download/source-file metadata",
+                "geospatial source-format metadata",
+                "scale/generalisation/edition metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "habitat-protected-sites"
+              ],
+              "siteFamiliesPresent": [
+                "habitat-protected-sites"
+              ],
+              "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "database-map",
+              "id": "ni-listed-buildings",
+              "title": "NI Listed Buildings",
+              "score": 0.89
+            },
+            {
+              "kind": "browse-source",
+              "id": "map-source:ni-listed-buildings",
+              "title": "NI Listed Buildings source files",
+              "score": 0.89
+            },
+            {
+              "kind": "browse-map",
+              "id": "ni-listed-buildings",
+              "title": "NI Listed Buildings",
+              "score": 0.89
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 639,
+          "title": "Listed Buildings Northern Ireland",
+          "provider": "Open Data NI",
+          "category": "spatial",
+          "formats": [
+            "GEOJSON",
+            "ZIP"
+          ],
+          "safetyClass": "high-confidence enrichment candidate",
+          "providerDatasetUrl": "https://admin.opendatani.gov.uk/dataset/listed-buildings-northern-ireland",
+          "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "scale/generalisation/edition metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "habitat-protected-sites"
+          ],
+          "siteFamiliesPresent": [
+            "habitat-protected-sites"
+          ],
+          "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "alternate-format metadata",
+        "download/source-file metadata",
+        "geospatial source-format metadata",
+        "scale/generalisation/edition metadata",
+        "source/provenance metadata"
+      ],
+      "publicationStatus": "enriched",
+      "rawMetadata": {
+        "id": "ni-listed-buildings",
+        "name": "NI Listed Buildings",
+        "slug": "ni-listed-buildings",
+        "category": "historic",
+        "provider": [
+          "Department for Communities - Historic Environment Division"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/historic-environment/ni-listed-buildings.fgb",
+          "downloads": {
+            "geojson": "https://data.civgraph.net/data/maps/historic-environment/ni-listed-buildings.geojson"
+          },
+          "geojson": "https://data.civgraph.net/data/maps/historic-environment/ni-listed-buildings.geojson"
+        },
+        "style": {
+          "color": "#6A1B9A",
+          "weight": 1,
+          "fillOpacity": 0.4
+        },
+        "keywords": [
+          "heritage",
+          "historic",
+          "ni listed buildings",
+          "northern ireland",
+          "protected"
+        ],
+        "description": "NI Listed Buildings — published by DfC Historic Environment Division.",
+        "references": [
+          {
+            "label": "Source — admin.opendatani.gov.uk",
+            "url": "https://admin.opendatani.gov.uk/",
+            "note": ""
+          }
+        ],
+        "date": "2026-03-31",
+        "labelProperty": "HB_ref"
+      }
+    },
+    {
+      "id": "map-source:ni-livestock-bovine",
+      "slug": "map-source-ni-livestock-bovine",
+      "type": "map-source",
+      "title": "NI Bovine (Cattle) Holdings (April 2019) source files",
+      "subtitle": "Environment / DAERA",
+      "category": "Map sources",
+      "date": "2019-04-01",
+      "provider": [
+        "DAERA"
+      ],
+      "description": "Locations of bovine (cattle) herd/flock holdings in Northern Ireland as of April 2019, sourced from DAERA NI Food Animal Information System.",
+      "sourceMapId": "ni-livestock-bovine",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "NB",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Source — admin.opendatani.gov.uk",
+          "url": "https://admin.opendatani.gov.uk/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-bovine.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-bovine.geojson"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-bovine.geojson"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-bovine.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-bovine.geojson"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-bovine.geojson"
+        }
+      ],
+      "interactiveUrl": "/#layers=ni-livestock-bovine",
+      "browseUrl": "/browse/sources/map-source-ni-livestock-bovine",
+      "rawMetadata": {
+        "id": "ni-livestock-bovine",
+        "name": "NI Bovine (Cattle) Holdings (April 2019)",
+        "slug": "ni-livestock-bovine",
+        "category": "environment",
+        "provider": [
+          "DAERA"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-bovine.fgb",
+          "downloads": {
+            "geojson": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-bovine.geojson"
+          },
+          "geojson": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-bovine.geojson"
+        },
+        "style": {
+          "color": "#8B4513",
+          "weight": 1,
+          "fillOpacity": 0.4
+        },
+        "keywords": [
+          "DAERA",
+          "livestock",
+          "farming",
+          "agriculture",
+          "bovine",
+          "bovine (cattle)",
+          "herd",
+          "flock",
+          "rural"
+        ],
+        "description": "Locations of bovine (cattle) herd/flock holdings in Northern Ireland as of April 2019, sourced from DAERA NI Food Animal Information System.",
+        "references": [
+          {
+            "label": "Source — admin.opendatani.gov.uk",
+            "url": "https://admin.opendatani.gov.uk/",
+            "note": ""
+          }
+        ],
+        "date": "2019-04-01",
+        "labelProperty": "Herd Map Ref"
+      }
+    },
+    {
+      "id": "map-source:ni-livestock-caprine",
+      "slug": "map-source-ni-livestock-caprine",
+      "type": "map-source",
+      "title": "NI Caprine (Goats) Holdings (April 2019) source files",
+      "subtitle": "Environment / DAERA",
+      "category": "Map sources",
+      "date": "2019-04-01",
+      "provider": [
+        "DAERA"
+      ],
+      "description": "Locations of caprine (goats) herd/flock holdings in Northern Ireland as of April 2019, sourced from DAERA NI Food Animal Information System.",
+      "sourceMapId": "ni-livestock-caprine",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "NC",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Source — admin.opendatani.gov.uk",
+          "url": "https://admin.opendatani.gov.uk/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-caprine.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-caprine.geojson"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-caprine.geojson"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-caprine.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-caprine.geojson"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-caprine.geojson"
+        }
+      ],
+      "interactiveUrl": "/#layers=ni-livestock-caprine",
+      "browseUrl": "/browse/sources/map-source-ni-livestock-caprine",
+      "rawMetadata": {
+        "id": "ni-livestock-caprine",
+        "name": "NI Caprine (Goats) Holdings (April 2019)",
+        "slug": "ni-livestock-caprine",
+        "category": "environment",
+        "provider": [
+          "DAERA"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-caprine.fgb",
+          "downloads": {
+            "geojson": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-caprine.geojson"
+          },
+          "geojson": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-caprine.geojson"
+        },
+        "style": {
+          "color": "#A0522D",
+          "weight": 1,
+          "fillOpacity": 0.4
+        },
+        "keywords": [
+          "DAERA",
+          "livestock",
+          "farming",
+          "agriculture",
+          "caprine",
+          "caprine (goats)",
+          "herd",
+          "flock",
+          "rural"
+        ],
+        "description": "Locations of caprine (goats) herd/flock holdings in Northern Ireland as of April 2019, sourced from DAERA NI Food Animal Information System.",
+        "references": [
+          {
+            "label": "Source — admin.opendatani.gov.uk",
+            "url": "https://admin.opendatani.gov.uk/",
+            "note": ""
+          }
+        ],
+        "date": "2019-04-01",
+        "labelProperty": "Herd Map Ref"
+      }
+    },
+    {
+      "id": "map-source:ni-livestock-ovine",
+      "slug": "map-source-ni-livestock-ovine",
+      "type": "map-source",
+      "title": "NI Ovine (Sheep) Holdings (April 2019) source files",
+      "subtitle": "Environment / DAERA",
+      "category": "Map sources",
+      "date": "2019-04-01",
+      "provider": [
+        "DAERA"
+      ],
+      "description": "Locations of ovine (sheep) herd/flock holdings in Northern Ireland as of April 2019, sourced from DAERA NI Food Animal Information System.",
+      "sourceMapId": "ni-livestock-ovine",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "NO",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Source — admin.opendatani.gov.uk",
+          "url": "https://admin.opendatani.gov.uk/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-ovine.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-ovine.geojson"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-ovine.geojson"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-ovine.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-ovine.geojson"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-ovine.geojson"
+        }
+      ],
+      "interactiveUrl": "/#layers=ni-livestock-ovine",
+      "browseUrl": "/browse/sources/map-source-ni-livestock-ovine",
+      "rawMetadata": {
+        "id": "ni-livestock-ovine",
+        "name": "NI Ovine (Sheep) Holdings (April 2019)",
+        "slug": "ni-livestock-ovine",
+        "category": "environment",
+        "provider": [
+          "DAERA"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-ovine.fgb",
+          "downloads": {
+            "geojson": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-ovine.geojson"
+          },
+          "geojson": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-ovine.geojson"
+        },
+        "style": {
+          "color": "#FFEBCD",
+          "weight": 1,
+          "fillOpacity": 0.4
+        },
+        "keywords": [
+          "DAERA",
+          "livestock",
+          "farming",
+          "agriculture",
+          "ovine",
+          "ovine (sheep)",
+          "herd",
+          "flock",
+          "rural"
+        ],
+        "description": "Locations of ovine (sheep) herd/flock holdings in Northern Ireland as of April 2019, sourced from DAERA NI Food Animal Information System.",
+        "references": [
+          {
+            "label": "Source — admin.opendatani.gov.uk",
+            "url": "https://admin.opendatani.gov.uk/",
+            "note": ""
+          }
+        ],
+        "date": "2019-04-01",
+        "labelProperty": "Herd Map Ref"
+      }
+    },
+    {
+      "id": "map-source:ni-livestock-porcine",
+      "slug": "map-source-ni-livestock-porcine",
+      "type": "map-source",
+      "title": "NI Porcine (Pigs) Holdings (April 2019) source files",
+      "subtitle": "Environment / DAERA",
+      "category": "Map sources",
+      "date": "2019-04-01",
+      "provider": [
+        "DAERA"
+      ],
+      "description": "Locations of porcine (pigs) herd/flock holdings in Northern Ireland as of April 2019, sourced from DAERA NI Food Animal Information System.",
+      "sourceMapId": "ni-livestock-porcine",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "NP",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Source — admin.opendatani.gov.uk",
+          "url": "https://admin.opendatani.gov.uk/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-porcine.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-porcine.geojson"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-porcine.geojson"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-porcine.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-porcine.geojson"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-porcine.geojson"
+        }
+      ],
+      "interactiveUrl": "/#layers=ni-livestock-porcine",
+      "browseUrl": "/browse/sources/map-source-ni-livestock-porcine",
+      "rawMetadata": {
+        "id": "ni-livestock-porcine",
+        "name": "NI Porcine (Pigs) Holdings (April 2019)",
+        "slug": "ni-livestock-porcine",
+        "category": "environment",
+        "provider": [
+          "DAERA"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-porcine.fgb",
+          "downloads": {
+            "geojson": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-porcine.geojson"
+          },
+          "geojson": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-porcine.geojson"
+        },
+        "style": {
+          "color": "#FFB6C1",
+          "weight": 1,
+          "fillOpacity": 0.4
+        },
+        "keywords": [
+          "DAERA",
+          "livestock",
+          "farming",
+          "agriculture",
+          "porcine",
+          "porcine (pigs)",
+          "herd",
+          "flock",
+          "rural"
+        ],
+        "description": "Locations of porcine (pigs) herd/flock holdings in Northern Ireland as of April 2019, sourced from DAERA NI Food Animal Information System.",
+        "references": [
+          {
+            "label": "Source — admin.opendatani.gov.uk",
+            "url": "https://admin.opendatani.gov.uk/",
+            "note": ""
+          }
+        ],
+        "date": "2019-04-01",
+        "labelProperty": "Herd Map Ref"
+      }
+    },
+    {
+      "id": "map-source:ni-livestock-poultry",
+      "slug": "map-source-ni-livestock-poultry",
+      "type": "map-source",
+      "title": "NI Poultry Holdings (April 2019) source files",
+      "subtitle": "Environment / DAERA",
+      "category": "Map sources",
+      "date": "2019-04-01",
+      "provider": [
+        "DAERA"
+      ],
+      "description": "Locations of poultry herd/flock holdings in Northern Ireland as of April 2019, sourced from DAERA NI Food Animal Information System. 4 related provider/source rows are staged as provenance for this existing Civgraph record; provider: Open Data NI; formats: CSV, GEOJSON, HTML, JSON, KML, SHP; 4 provider dataset links preserved as references; licence: UK Open Government Licence (OGL); relationship: related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval.",
+      "sourceMapId": "ni-livestock-poultry",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "NP",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Source — admin.opendatani.gov.uk",
+          "url": "https://admin.opendatani.gov.uk/"
+        },
+        {
+          "label": "Existing Civgraph record: NI Poultry Holdings (April 2019)",
+          "url": "/browse/maps/ni-livestock-poultry",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:ni-livestock-poultry",
+          "url": "/browse/sources/map-source-ni-livestock-poultry",
+          "source": "Civgraph",
+          "role": "matched-source-record"
+        },
+        {
+          "label": "Provider dataset: N.I. Herd/Flock Map References",
+          "url": "https://admin.opendatani.gov.uk/dataset/ni-herd-flock-map-references",
+          "source": "Open Data NI",
+          "role": "canonical-provider-dataset",
+          "type": "CSV",
+          "note": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval / licence: UK Open Government Licence (OGL)"
+        },
+        {
+          "label": "Licence: UK Open Government Licence (OGL)",
+          "url": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+          "source": "Open Data NI",
+          "role": "source-licence"
+        },
+        {
+          "label": "Provider dataset: Net Shoreline Movement",
+          "url": "https://admin.opendatani.gov.uk/dataset/net-shoreline-movement2",
+          "source": "Open Data NI",
+          "role": "canonical-provider-dataset",
+          "type": "CSV",
+          "note": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval / licence: UK Open Government Licence (OGL)"
+        },
+        {
+          "label": "Provider dataset: Northern Ireland Land Classification",
+          "url": "https://admin.opendatani.gov.uk/dataset/northern-ireland-land-classification",
+          "source": "Open Data NI",
+          "role": "canonical-provider-dataset",
+          "type": "CSV",
+          "note": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval / licence: UK Open Government Licence (OGL)"
+        },
+        {
+          "label": "Provider dataset: Trasencts Definition",
+          "url": "https://admin.opendatani.gov.uk/dataset/trasencts-definition2",
+          "source": "Open Data NI",
+          "role": "canonical-provider-dataset",
+          "type": "CSV",
+          "note": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval / licence: UK Open Government Licence (OGL)"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-poultry.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-poultry.geojson"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-poultry.geojson"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-poultry.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-poultry.geojson"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-poultry.geojson"
+        }
+      ],
+      "interactiveUrl": "/#layers=ni-livestock-poultry",
+      "browseUrl": "/browse/sources/map-source-ni-livestock-poultry",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:ni-livestock-poultry",
+          "targetEntityKind": "map",
+          "targetEntityId": "ni-livestock-poultry",
+          "targetTitle": "NI Poultry Holdings (April 2019)",
+          "targetBrowseUrl": "/browse/maps/ni-livestock-poultry",
+          "sourceItemCount": 4,
+          "confidence": "high-confidence",
+          "safetyClasses": [
+            "variant/source enrichment review"
+          ],
+          "formats": [
+            "CSV",
+            "GEOJSON",
+            "HTML",
+            "JSON",
+            "KML",
+            "SHP"
+          ],
+          "providers": [
+            "Open Data NI"
+          ],
+          "categories": [
+            "spatial"
+          ],
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "raw-source viewport candidate metadata",
+            "scale/generalisation/edition metadata",
+            "schema/table/attribute metadata",
+            "source/provenance metadata"
+          ],
+          "provenanceSummary": "4 related provider/source rows are staged as provenance for this existing Civgraph record; provider: Open Data NI; formats: CSV, GEOJSON, HTML, JSON, KML, SHP; 4 provider dataset links preserved as references; licence: UK Open Government Licence (OGL); relationship: related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval.",
+          "sourceItems": [
+            {
+              "auditRowNumber": 653,
+              "title": "N.I. Herd/Flock Map References",
+              "provider": "Open Data NI",
+              "category": "spatial",
+              "formats": [
+                "CSV",
+                "GEOJSON"
+              ],
+              "safetyClass": "variant/source enrichment review",
+              "approvalStatus": "user-approved-related-source-enrichment",
+              "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+              "providerDatasetUrl": "https://admin.opendatani.gov.uk/dataset/ni-herd-flock-map-references",
+              "licenseTitle": "UK Open Government Licence (OGL)",
+              "licenseUrl": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+              "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+              "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+              "enrichmentTypes": [
+                "alternate-format metadata",
+                "download/source-file metadata",
+                "geospatial source-format metadata",
+                "raw-source viewport candidate metadata",
+                "scale/generalisation/edition metadata",
+                "schema/table/attribute metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "habitat-protected-sites"
+              ],
+              "siteFamiliesPresent": [
+                "habitat-protected-sites"
+              ],
+              "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+            },
+            {
+              "auditRowNumber": 654,
+              "title": "Net Shoreline Movement",
+              "provider": "Open Data NI",
+              "category": "spatial",
+              "formats": [
+                "CSV",
+                "GEOJSON",
+                "HTML",
+                "JSON",
+                "KML",
+                "SHP"
+              ],
+              "safetyClass": "variant/source enrichment review",
+              "approvalStatus": "user-approved-related-source-enrichment",
+              "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+              "providerDatasetUrl": "https://admin.opendatani.gov.uk/dataset/net-shoreline-movement2",
+              "licenseTitle": "UK Open Government Licence (OGL)",
+              "licenseUrl": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+              "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+              "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+              "enrichmentTypes": [
+                "alternate-format metadata",
+                "download/source-file metadata",
+                "geospatial source-format metadata",
+                "raw-source viewport candidate metadata",
+                "scale/generalisation/edition metadata",
+                "schema/table/attribute metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "habitat-protected-sites"
+              ],
+              "siteFamiliesPresent": [
+                "habitat-protected-sites"
+              ],
+              "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+            },
+            {
+              "auditRowNumber": 657,
+              "title": "Northern Ireland Land Classification",
+              "provider": "Open Data NI",
+              "category": "spatial",
+              "formats": [
+                "CSV",
+                "GEOJSON",
+                "HTML",
+                "JSON",
+                "KML",
+                "SHP"
+              ],
+              "safetyClass": "variant/source enrichment review",
+              "approvalStatus": "user-approved-related-source-enrichment",
+              "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+              "providerDatasetUrl": "https://admin.opendatani.gov.uk/dataset/northern-ireland-land-classification",
+              "licenseTitle": "UK Open Government Licence (OGL)",
+              "licenseUrl": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+              "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+              "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+              "enrichmentTypes": [
+                "alternate-format metadata",
+                "download/source-file metadata",
+                "geospatial source-format metadata",
+                "raw-source viewport candidate metadata",
+                "scale/generalisation/edition metadata",
+                "schema/table/attribute metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "habitat-protected-sites"
+              ],
+              "siteFamiliesPresent": [
+                "habitat-protected-sites"
+              ],
+              "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+            },
+            {
+              "auditRowNumber": 697,
+              "title": "Trasencts Definition",
+              "provider": "Open Data NI",
+              "category": "spatial",
+              "formats": [
+                "CSV",
+                "GEOJSON",
+                "HTML",
+                "JSON",
+                "KML",
+                "SHP"
+              ],
+              "safetyClass": "variant/source enrichment review",
+              "approvalStatus": "user-approved-related-source-enrichment",
+              "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+              "providerDatasetUrl": "https://admin.opendatani.gov.uk/dataset/trasencts-definition2",
+              "licenseTitle": "UK Open Government Licence (OGL)",
+              "licenseUrl": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+              "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+              "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+              "enrichmentTypes": [
+                "alternate-format metadata",
+                "download/source-file metadata",
+                "geospatial source-format metadata",
+                "raw-source viewport candidate metadata",
+                "scale/generalisation/edition metadata",
+                "schema/table/attribute metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "habitat-protected-sites"
+              ],
+              "siteFamiliesPresent": [
+                "habitat-protected-sites"
+              ],
+              "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "database-map",
+              "id": "ni-livestock-poultry",
+              "title": "NI Poultry Holdings (April 2019)",
+              "score": 0.79
+            },
+            {
+              "kind": "database-map",
+              "id": "ni-livestock-porcine",
+              "title": "NI Porcine (Pigs) Holdings (April 2019)",
+              "score": 0.79
+            },
+            {
+              "kind": "database-map",
+              "id": "ni-livestock-caprine",
+              "title": "NI Caprine (Goats) Holdings (April 2019)",
+              "score": 0.79
+            },
+            {
+              "kind": "browse-map",
+              "id": "ni-livestock-poultry",
+              "title": "NI Poultry Holdings (April 2019)",
+              "score": 0.45
+            },
+            {
+              "kind": "browse-map",
+              "id": "ni-livestock-porcine",
+              "title": "NI Porcine (Pigs) Holdings (April 2019)",
+              "score": 0.45
+            },
+            {
+              "kind": "browse-map",
+              "id": "ni-livestock-ovine",
+              "title": "NI Ovine (Sheep) Holdings (April 2019)",
+              "score": 0.45
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 653,
+          "title": "N.I. Herd/Flock Map References",
+          "provider": "Open Data NI",
+          "category": "spatial",
+          "formats": [
+            "CSV",
+            "GEOJSON"
+          ],
+          "safetyClass": "variant/source enrichment review",
+          "approvalStatus": "user-approved-related-source-enrichment",
+          "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+          "providerDatasetUrl": "https://admin.opendatani.gov.uk/dataset/ni-herd-flock-map-references",
+          "licenseTitle": "UK Open Government Licence (OGL)",
+          "licenseUrl": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+          "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "raw-source viewport candidate metadata",
+            "scale/generalisation/edition metadata",
+            "schema/table/attribute metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "habitat-protected-sites"
+          ],
+          "siteFamiliesPresent": [
+            "habitat-protected-sites"
+          ],
+          "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+        },
+        {
+          "auditRowNumber": 654,
+          "title": "Net Shoreline Movement",
+          "provider": "Open Data NI",
+          "category": "spatial",
+          "formats": [
+            "CSV",
+            "GEOJSON",
+            "HTML",
+            "JSON",
+            "KML",
+            "SHP"
+          ],
+          "safetyClass": "variant/source enrichment review",
+          "approvalStatus": "user-approved-related-source-enrichment",
+          "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+          "providerDatasetUrl": "https://admin.opendatani.gov.uk/dataset/net-shoreline-movement2",
+          "licenseTitle": "UK Open Government Licence (OGL)",
+          "licenseUrl": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+          "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "raw-source viewport candidate metadata",
+            "scale/generalisation/edition metadata",
+            "schema/table/attribute metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "habitat-protected-sites"
+          ],
+          "siteFamiliesPresent": [
+            "habitat-protected-sites"
+          ],
+          "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+        },
+        {
+          "auditRowNumber": 657,
+          "title": "Northern Ireland Land Classification",
+          "provider": "Open Data NI",
+          "category": "spatial",
+          "formats": [
+            "CSV",
+            "GEOJSON",
+            "HTML",
+            "JSON",
+            "KML",
+            "SHP"
+          ],
+          "safetyClass": "variant/source enrichment review",
+          "approvalStatus": "user-approved-related-source-enrichment",
+          "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+          "providerDatasetUrl": "https://admin.opendatani.gov.uk/dataset/northern-ireland-land-classification",
+          "licenseTitle": "UK Open Government Licence (OGL)",
+          "licenseUrl": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+          "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "raw-source viewport candidate metadata",
+            "scale/generalisation/edition metadata",
+            "schema/table/attribute metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "habitat-protected-sites"
+          ],
+          "siteFamiliesPresent": [
+            "habitat-protected-sites"
+          ],
+          "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+        },
+        {
+          "auditRowNumber": 697,
+          "title": "Trasencts Definition",
+          "provider": "Open Data NI",
+          "category": "spatial",
+          "formats": [
+            "CSV",
+            "GEOJSON",
+            "HTML",
+            "JSON",
+            "KML",
+            "SHP"
+          ],
+          "safetyClass": "variant/source enrichment review",
+          "approvalStatus": "user-approved-related-source-enrichment",
+          "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+          "providerDatasetUrl": "https://admin.opendatani.gov.uk/dataset/trasencts-definition2",
+          "licenseTitle": "UK Open Government Licence (OGL)",
+          "licenseUrl": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+          "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "raw-source viewport candidate metadata",
+            "scale/generalisation/edition metadata",
+            "schema/table/attribute metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "habitat-protected-sites"
+          ],
+          "siteFamiliesPresent": [
+            "habitat-protected-sites"
+          ],
+          "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "alternate-format metadata",
+        "download/source-file metadata",
+        "geospatial source-format metadata",
+        "raw-source viewport candidate metadata",
+        "scale/generalisation/edition metadata",
+        "schema/table/attribute metadata",
+        "source/provenance metadata"
+      ],
+      "publicationStatus": "enriched",
+      "rawMetadata": {
+        "id": "ni-livestock-poultry",
+        "name": "NI Poultry Holdings (April 2019)",
+        "slug": "ni-livestock-poultry",
+        "category": "environment",
+        "provider": [
+          "DAERA"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-poultry.fgb",
+          "downloads": {
+            "geojson": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-poultry.geojson"
+          },
+          "geojson": "https://data.civgraph.net/data/maps/agriculture/ni-livestock-poultry.geojson"
+        },
+        "style": {
+          "color": "#FFC107",
+          "weight": 1,
+          "fillOpacity": 0.4
+        },
+        "keywords": [
+          "DAERA",
+          "livestock",
+          "farming",
+          "agriculture",
+          "poultry",
+          "poultry",
+          "herd",
+          "flock",
+          "rural"
+        ],
+        "description": "Locations of poultry herd/flock holdings in Northern Ireland as of April 2019, sourced from DAERA NI Food Animal Information System.",
+        "references": [
+          {
+            "label": "Source — admin.opendatani.gov.uk",
+            "url": "https://admin.opendatani.gov.uk/",
+            "note": ""
+          }
+        ],
+        "date": "2019-04-01",
+        "labelProperty": "Map Ref"
+      }
+    },
+    {
+      "id": "map-source:ni-mineral-prospecting-licences",
+      "slug": "map-source-ni-mineral-prospecting-licences",
+      "type": "map-source",
+      "title": "NI Mineral Prospecting Licences source files",
+      "subtitle": "Geology and Geophysics / Department for the Economy - Minerals and Petroleum Branch",
+      "category": "Map sources",
+      "provider": [
+        "Department for the Economy - Minerals and Petroleum Branch"
+      ],
+      "description": "NI Mineral Prospecting Licences — published by DfE Minerals and Petroleum Branch. 1 related provider/source row is staged as provenance for this existing Civgraph record; provider: Open Data NI; formats: GPKG; 1 provider dataset link preserved as references.",
+      "sourceMapId": "ni-mineral-prospecting-licences",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "NM",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Source — admin.opendatani.gov.uk",
+          "url": "https://admin.opendatani.gov.uk/"
+        },
+        {
+          "label": "Existing Civgraph record: NI Mineral Prospecting Licences source files",
+          "url": "/browse/maps/ni-mineral-prospecting-licences",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:ni-mineral-prospecting-licences",
+          "url": "/browse/sources/map-source-ni-mineral-prospecting-licences",
+          "source": "Civgraph",
+          "role": "matched-source-record"
+        },
+        {
+          "label": "Provider dataset: Mineral Prospecting Licences",
+          "url": "https://admin.opendatani.gov.uk/dataset/mineral-prospecting-licences",
+          "source": "Open Data NI",
+          "role": "canonical-provider-dataset",
+          "type": "GPKG"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/minerals/ni-mineral-prospecting-licences.fgb"
+        },
+        {
+          "label": "gpkg",
+          "url": "https://data.civgraph.net/data/maps/minerals/ni-mineral-prospecting-licences.gpkg"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/minerals/ni-mineral-prospecting-licences.fgb"
+        },
+        {
+          "label": "gpkg",
+          "url": "https://data.civgraph.net/data/maps/minerals/ni-mineral-prospecting-licences.gpkg"
+        }
+      ],
+      "interactiveUrl": "/#layers=ni-mineral-prospecting-licences",
+      "browseUrl": "/browse/sources/map-source-ni-mineral-prospecting-licences",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:ni-mineral-prospecting-licences",
+          "targetEntityKind": "map",
+          "targetEntityId": "ni-mineral-prospecting-licences",
+          "targetTitle": "NI Mineral Prospecting Licences source files",
+          "targetBrowseUrl": "/browse/maps/ni-mineral-prospecting-licences",
+          "sourceItemCount": 1,
+          "confidence": "high-confidence",
+          "safetyClasses": [
+            "high-confidence enrichment candidate"
+          ],
+          "formats": [
+            "GPKG"
+          ],
+          "providers": [
+            "Open Data NI"
+          ],
+          "categories": [
+            "spatial"
+          ],
+          "enrichmentTypes": [
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "scale/generalisation/edition metadata",
+            "source/provenance metadata"
+          ],
+          "provenanceSummary": "1 related provider/source row is staged as provenance for this existing Civgraph record; provider: Open Data NI; formats: GPKG; 1 provider dataset link preserved as references.",
+          "sourceItems": [
+            {
+              "auditRowNumber": 651,
+              "title": "Mineral Prospecting Licences",
+              "provider": "Open Data NI",
+              "category": "spatial",
+              "formats": [
+                "GPKG"
+              ],
+              "safetyClass": "high-confidence enrichment candidate",
+              "providerDatasetUrl": "https://admin.opendatani.gov.uk/dataset/mineral-prospecting-licences",
+              "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+              "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+              "enrichmentTypes": [
+                "download/source-file metadata",
+                "geospatial source-format metadata",
+                "scale/generalisation/edition metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "habitat-protected-sites",
+                "geology-minerals-tellus"
+              ],
+              "siteFamiliesPresent": [
+                "habitat-protected-sites",
+                "geology-minerals-tellus"
+              ],
+              "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "database-map",
+              "id": "ni-mineral-prospecting-licences",
+              "title": "NI Mineral Prospecting Licences",
+              "score": 0.91
+            },
+            {
+              "kind": "browse-source",
+              "id": "map-source:ni-mineral-prospecting-licences",
+              "title": "NI Mineral Prospecting Licences source files",
+              "score": 0.91
+            },
+            {
+              "kind": "browse-map",
+              "id": "ni-mineral-prospecting-licences",
+              "title": "NI Mineral Prospecting Licences",
+              "score": 0.91
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 651,
+          "title": "Mineral Prospecting Licences",
+          "provider": "Open Data NI",
+          "category": "spatial",
+          "formats": [
+            "GPKG"
+          ],
+          "safetyClass": "high-confidence enrichment candidate",
+          "providerDatasetUrl": "https://admin.opendatani.gov.uk/dataset/mineral-prospecting-licences",
+          "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "enrichmentTypes": [
+            "download/source-file metadata",
+            "geospatial source-format metadata",
+            "scale/generalisation/edition metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "habitat-protected-sites",
+            "geology-minerals-tellus"
+          ],
+          "siteFamiliesPresent": [
+            "habitat-protected-sites",
+            "geology-minerals-tellus"
+          ],
+          "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "download/source-file metadata",
+        "geospatial source-format metadata",
+        "scale/generalisation/edition metadata",
+        "source/provenance metadata"
+      ],
+      "publicationStatus": "enriched",
+      "rawMetadata": {
+        "id": "ni-mineral-prospecting-licences",
+        "name": "NI Mineral Prospecting Licences",
+        "slug": "ni-mineral-prospecting-licences",
+        "category": "geology-geophysics",
+        "provider": [
+          "Department for the Economy - Minerals and Petroleum Branch"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/minerals/ni-mineral-prospecting-licences.fgb",
+          "downloads": {
+            "gpkg": "https://data.civgraph.net/data/maps/minerals/ni-mineral-prospecting-licences.gpkg"
+          }
+        },
+        "style": {
+          "color": "#E65100",
+          "weight": 1,
+          "fillOpacity": 0.4
+        },
+        "keywords": [
+          "minerals",
+          "mining",
+          "petroleum",
+          "geology",
+          "licences",
+          "ni mineral prospecting licences"
+        ],
+        "description": "NI Mineral Prospecting Licences — published by DfE Minerals and Petroleum Branch.",
+        "references": [
+          {
+            "label": "Source — admin.opendatani.gov.uk",
+            "url": "https://admin.opendatani.gov.uk/",
+            "note": ""
+          }
+        ],
+        "labelProperty": "Licence Number"
+      }
+    },
+    {
+      "id": "map-source:ni-mining-leases",
+      "slug": "map-source-ni-mining-leases",
+      "type": "map-source",
+      "title": "NI Mining Leases source files",
+      "subtitle": "Geology and Geophysics / Department for the Economy - Minerals and Petroleum Branch",
+      "category": "Map sources",
+      "provider": [
+        "Department for the Economy - Minerals and Petroleum Branch"
+      ],
+      "description": "NI Mining Leases — published by DfE Minerals and Petroleum Branch.",
+      "sourceMapId": "ni-mining-leases",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "NM",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Source — admin.opendatani.gov.uk",
+          "url": "https://admin.opendatani.gov.uk/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/minerals/ni-mining-leases.fgb"
+        },
+        {
+          "label": "gpkg",
+          "url": "https://data.civgraph.net/data/maps/minerals/ni-mining-leases.gpkg"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/minerals/ni-mining-leases.fgb"
+        },
+        {
+          "label": "gpkg",
+          "url": "https://data.civgraph.net/data/maps/minerals/ni-mining-leases.gpkg"
+        }
+      ],
+      "interactiveUrl": "/#layers=ni-mining-leases",
+      "browseUrl": "/browse/sources/map-source-ni-mining-leases",
+      "rawMetadata": {
+        "id": "ni-mining-leases",
+        "name": "NI Mining Leases",
+        "slug": "ni-mining-leases",
+        "category": "geology-geophysics",
+        "provider": [
+          "Department for the Economy - Minerals and Petroleum Branch"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/minerals/ni-mining-leases.fgb",
+          "downloads": {
+            "gpkg": "https://data.civgraph.net/data/maps/minerals/ni-mining-leases.gpkg"
+          }
+        },
+        "style": {
+          "color": "#BF360C",
+          "weight": 1,
+          "fillOpacity": 0.4
+        },
+        "keywords": [
+          "minerals",
+          "mining",
+          "petroleum",
+          "geology",
+          "licences",
+          "ni mining leases"
+        ],
+        "description": "NI Mining Leases — published by DfE Minerals and Petroleum Branch.",
+        "references": [
+          {
+            "label": "Source — admin.opendatani.gov.uk",
+            "url": "https://admin.opendatani.gov.uk/",
+            "note": ""
+          }
+        ],
+        "labelProperty": "Lease Number"
+      }
+    },
+    {
+      "id": "map-source:ni-priority-habitats-peatland",
+      "slug": "map-source-ni-priority-habitats-peatland",
+      "type": "map-source",
+      "title": "Priority Habitats — Peatland (NI) source files",
+      "subtitle": "Biodiversity & Habitats / Department of Agriculture, Environment and Rural Affairs (DAERA)",
+      "category": "Map sources",
+      "provider": [
+        "Department of Agriculture, Environment and Rural Affairs (DAERA)"
+      ],
+      "description": "Northern Ireland Priority Habitats — Peatland (6,469 polygons), published by DAERA. Licence confirmed.",
+      "sourceMapId": "ni-priority-habitats-peatland",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "PH",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Open Data NI — Priority Habitats - Peatland (DAERA)",
+          "url": "https://admin.opendatani.gov.uk/dataset/priority-habitats-peatland2"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/biodiversity/NI_Priority_Habitats_Peatland.fgb"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/biodiversity/NI_Priority_Habitats_Peatland.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=ni-priority-habitats-peatland",
+      "browseUrl": "/browse/sources/map-source-ni-priority-habitats-peatland",
+      "rawMetadata": {
+        "id": "ni-priority-habitats-peatland",
+        "name": "Priority Habitats — Peatland (NI)",
+        "slug": "ni-priority-habitats-peatland",
+        "category": "biodiversity",
+        "provider": [
+          "Department of Agriculture, Environment and Rural Affairs (DAERA)"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/biodiversity/NI_Priority_Habitats_Peatland.fgb"
+        },
+        "style": {
+          "color": "#5D4037",
+          "weight": 1,
+          "fillOpacity": 0.55
+        },
+        "keywords": [
+          "northern ireland",
+          "NI",
+          "DAERA",
+          "peatland",
+          "priority habitats",
+          "peat",
+          "bog",
+          "blanket bog",
+          "conservation",
+          "biodiversity"
+        ],
+        "description": "Northern Ireland Priority Habitats — Peatland (6,469 polygons), published by DAERA. Licence confirmed.",
+        "references": [
+          {
+            "label": "Open Data NI — Priority Habitats - Peatland (DAERA)",
+            "url": "https://admin.opendatani.gov.uk/dataset/priority-habitats-peatland2",
+            "note": ""
+          }
+        ],
+        "labelProperty": "Hab_Type",
+        "useLOD": true,
+        "chunked": true,
+        "bounds": [
+          [
+            54.03871616,
+            -8.15856891
+          ],
+          [
+            55.31016795,
+            -5.49163357
+          ]
+        ]
+      }
+    },
+    {
+      "id": "map-source:ni-scheduled-monument-areas",
+      "slug": "map-source-ni-scheduled-monument-areas",
+      "type": "map-source",
+      "title": "NI Scheduled Historic Monument Areas source files",
+      "subtitle": "Historic Boundaries / Department for Communities - Historic Environment Division",
+      "category": "Map sources",
+      "date": "2026-03-31",
+      "provider": [
+        "Department for Communities - Historic Environment Division"
+      ],
+      "description": "NI Scheduled Historic Monument Areas — published by DfC Historic Environment Division.",
+      "sourceMapId": "ni-scheduled-monument-areas",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "ni-scheduled-monument-areas",
+        "url": "/assets/thumbnails/ni-scheduled-monument-areas.webp",
+        "smallUrl": "/assets/thumbnails/ni-scheduled-monument-areas-60.webp",
+        "alt": "NI Scheduled Historic Monument Areas"
+      },
+      "references": [
+        {
+          "label": "Source — admin.opendatani.gov.uk",
+          "url": "https://admin.opendatani.gov.uk/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/historic-environment/ni-scheduled-monument-areas.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/historic-environment/ni-scheduled-monument-areas.geojson"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/historic-environment/ni-scheduled-monument-areas.geojson"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/historic-environment/ni-scheduled-monument-areas.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/historic-environment/ni-scheduled-monument-areas.geojson"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/historic-environment/ni-scheduled-monument-areas.geojson"
+        }
+      ],
+      "interactiveUrl": "/#layers=ni-scheduled-monument-areas",
+      "browseUrl": "/browse/sources/map-source-ni-scheduled-monument-areas",
+      "rawMetadata": {
+        "id": "ni-scheduled-monument-areas",
+        "name": "NI Scheduled Historic Monument Areas",
+        "slug": "ni-scheduled-monument-areas",
+        "category": "historic",
+        "provider": [
+          "Department for Communities - Historic Environment Division"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/historic-environment/ni-scheduled-monument-areas.fgb",
+          "downloads": {
+            "geojson": "https://data.civgraph.net/data/maps/historic-environment/ni-scheduled-monument-areas.geojson"
+          },
+          "geojson": "https://data.civgraph.net/data/maps/historic-environment/ni-scheduled-monument-areas.geojson"
+        },
+        "style": {
+          "color": "#8E24AA",
+          "weight": 1,
+          "fillOpacity": 0.4
+        },
+        "keywords": [
+          "heritage",
+          "historic",
+          "ni scheduled historic monument areas",
+          "northern ireland",
+          "protected"
+        ],
+        "description": "NI Scheduled Historic Monument Areas — published by DfC Historic Environment Division.",
+        "references": [
+          {
+            "label": "Source — admin.opendatani.gov.uk",
+            "url": "https://admin.opendatani.gov.uk/",
+            "note": ""
+          }
+        ],
+        "date": "2026-03-31",
+        "labelProperty": "COUNTY"
+      }
+    },
     {
       "id": "map-source:niah-buildings",
       "slug": "map-source-niah-buildings",
@@ -11133,6 +13006,84 @@
       }
     },
     {
+      "id": "map-source:river-and-lake-monitoring-points-2024",
+      "slug": "map-source-river-and-lake-monitoring-points-2024",
+      "type": "map-source",
+      "title": "River and Lake Monitoring Points 2024 source files",
+      "subtitle": "water / Open Data NI",
+      "category": "Map sources",
+      "provider": [
+        "Open Data NI"
+      ],
+      "sourceMapId": "river-and-lake-monitoring-points-2024",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "RA",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "River and Lake Monitoring Points 2024 — Open Data NI",
+          "url": "https://admin.opendatani.gov.uk/dataset/river-and-lake-monitoring-points-2024",
+          "note": "OGL v3.0"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/water/river-and-lake-monitoring-points-2024.fgb"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/water/river-and-lake-monitoring-points-2024.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=river-and-lake-monitoring-points-2024",
+      "browseUrl": "/browse/sources/map-source-river-and-lake-monitoring-points-2024",
+      "rawMetadata": {
+        "id": "river-and-lake-monitoring-points-2024",
+        "name": "River and Lake Monitoring Points 2024",
+        "slug": "river-and-lake-monitoring-points-2024",
+        "category": "water",
+        "provider": [
+          "Open Data NI"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/water/river-and-lake-monitoring-points-2024.fgb"
+        },
+        "style": {
+          "color": "#2980B9",
+          "weight": 2,
+          "radius": 4
+        },
+        "keywords": [
+          "water",
+          "river",
+          "lake",
+          "monitoring",
+          "points",
+          "2024"
+        ],
+        "licence": "OGL v3.0",
+        "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+        "labelProperty": "Sitename",
+        "bounds": [
+          -8.14468,
+          54.054927,
+          -5.500878,
+          55.237121
+        ],
+        "references": [
+          {
+            "label": "River and Lake Monitoring Points 2024 — Open Data NI",
+            "url": "https://admin.opendatani.gov.uk/dataset/river-and-lake-monitoring-points-2024",
+            "note": "OGL v3.0"
+          }
+        ],
+        "useLOD": false
+      }
+    },
+    {
       "id": "map-source:river-basin-districts",
       "slug": "map-source-river-basin-districts",
       "type": "map-source",
@@ -22017,6 +23968,79 @@
       }
     },
     {
+      "id": "map-source:use-zoning-objectives1",
+      "slug": "map-source-use-zoning-objectives1",
+      "type": "map-source",
+      "title": "Use Zoning Objectives source files",
+      "subtitle": "planning / data.gov.ie",
+      "category": "Map sources",
+      "provider": [
+        "data.gov.ie"
+      ],
+      "sourceMapId": "use-zoning-objectives1",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "UZ",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Use Zoning Objectives — data.gov.ie",
+          "url": "https://data.gov.ie/dataset/use-zoning-objectives1",
+          "note": "CC BY 4.0"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/planning/use-zoning-objectives1.fgb"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/planning/use-zoning-objectives1.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=use-zoning-objectives1",
+      "browseUrl": "/browse/sources/map-source-use-zoning-objectives1",
+      "rawMetadata": {
+        "id": "use-zoning-objectives1",
+        "name": "Use Zoning Objectives",
+        "slug": "use-zoning-objectives1",
+        "category": "planning",
+        "provider": [
+          "data.gov.ie"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/planning/use-zoning-objectives1.fgb"
+        },
+        "style": {
+          "color": "#5D6D7E",
+          "weight": 2
+        },
+        "keywords": [
+          "planning",
+          "zoning",
+          "objectives"
+        ],
+        "licence": "CC BY 4.0",
+        "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+        "bounds": [
+          -6.546885,
+          53.178214,
+          -6.269236,
+          53.368484
+        ],
+        "references": [
+          {
+            "label": "Use Zoning Objectives — data.gov.ie",
+            "url": "https://data.gov.ie/dataset/use-zoning-objectives1",
+            "note": "CC BY 4.0"
+          }
+        ],
+        "useLOD": false
+      }
+    },
+    {
       "id": "map-source:wards-1972",
       "slug": "map-source-wards-1972",
       "type": "map-source",
@@ -24274,6 +26298,84 @@
       }
     },
     {
+      "id": "map-source:water-framework-directive-2nd-cycle-interim-status1",
+      "slug": "map-source-water-framework-directive-2nd-cycle-interim-status1",
+      "type": "map-source",
+      "title": "Water Framework Directive 2nd Cycle Interim Status source files",
+      "subtitle": "water / Open Data NI",
+      "category": "Map sources",
+      "provider": [
+        "Open Data NI"
+      ],
+      "sourceMapId": "water-framework-directive-2nd-cycle-interim-status1",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "WF",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Water Framework Directive 2nd Cycle Interim Status — Open Data NI",
+          "url": "https://admin.opendatani.gov.uk/dataset/water-framework-directive-2nd-cycle-interim-status1",
+          "note": "OGL v3.0"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/water/water-framework-directive-2nd-cycle-interim-status1.fgb"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/water/water-framework-directive-2nd-cycle-interim-status1.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=water-framework-directive-2nd-cycle-interim-status1",
+      "browseUrl": "/browse/sources/map-source-water-framework-directive-2nd-cycle-interim-status1",
+      "rawMetadata": {
+        "id": "water-framework-directive-2nd-cycle-interim-status1",
+        "name": "Water Framework Directive 2nd Cycle Interim Status",
+        "slug": "water-framework-directive-2nd-cycle-interim-status1",
+        "category": "water",
+        "provider": [
+          "Open Data NI"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/water/water-framework-directive-2nd-cycle-interim-status1.fgb"
+        },
+        "style": {
+          "color": "#2980B9",
+          "weight": 2
+        },
+        "keywords": [
+          "water",
+          "water",
+          "framework",
+          "directive",
+          "cycle",
+          "interim",
+          "status"
+        ],
+        "licence": "OGL v3.0",
+        "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+        "labelProperty": "namespace",
+        "bounds": [
+          -8.350504,
+          53.959262,
+          -5.377324,
+          55.329365
+        ],
+        "references": [
+          {
+            "label": "Water Framework Directive 2nd Cycle Interim Status — Open Data NI",
+            "url": "https://admin.opendatani.gov.uk/dataset/water-framework-directive-2nd-cycle-interim-status1",
+            "note": "OGL v3.0"
+          }
+        ],
+        "useLOD": false
+      }
+    },
+    {
       "id": "map-source:west-bann-sperrins",
       "slug": "map-source-west-bann-sperrins",
       "type": "map-source",
@@ -24408,6 +26510,239 @@
       }
     },
     {
+      "id": "map-source:wicklow-county-council-tree-preservation-orders",
+      "slug": "map-source-wicklow-county-council-tree-preservation-orders",
+      "type": "map-source",
+      "title": "Wicklow County Council - Tree Preservation Orders source files",
+      "subtitle": "trees / data.gov.ie",
+      "category": "Map sources",
+      "provider": [
+        "data.gov.ie"
+      ],
+      "sourceMapId": "wicklow-county-council-tree-preservation-orders",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "WC",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Wicklow County Council - Tree Preservation Orders — data.gov.ie",
+          "url": "https://data.gov.ie/dataset/wicklow-county-council-tree-preservation-orders",
+          "note": "CC BY 4.0"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/trees/wicklow-county-council-tree-preservation-orders.fgb"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/trees/wicklow-county-council-tree-preservation-orders.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=wicklow-county-council-tree-preservation-orders",
+      "browseUrl": "/browse/sources/map-source-wicklow-county-council-tree-preservation-orders",
+      "rawMetadata": {
+        "id": "wicklow-county-council-tree-preservation-orders",
+        "name": "Wicklow County Council - Tree Preservation Orders",
+        "slug": "wicklow-county-council-tree-preservation-orders",
+        "category": "trees",
+        "provider": [
+          "data.gov.ie"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/trees/wicklow-county-council-tree-preservation-orders.fgb"
+        },
+        "style": {
+          "color": "#1E8449",
+          "weight": 2,
+          "radius": 4
+        },
+        "keywords": [
+          "trees",
+          "wicklow",
+          "county",
+          "council",
+          "tree",
+          "preservation",
+          "orders"
+        ],
+        "licence": "CC BY 4.0",
+        "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+        "labelProperty": "Descriptio",
+        "bounds": [
+          -6.622262,
+          52.739805,
+          -6.065485,
+          53.199989
+        ],
+        "references": [
+          {
+            "label": "Wicklow County Council - Tree Preservation Orders — data.gov.ie",
+            "url": "https://data.gov.ie/dataset/wicklow-county-council-tree-preservation-orders",
+            "note": "CC BY 4.0"
+          }
+        ],
+        "useLOD": false
+      }
+    },
+    {
+      "id": "map-source:wicklow-county-council-tree-preservation-orders-bray",
+      "slug": "map-source-wicklow-county-council-tree-preservation-orders-bray",
+      "type": "map-source",
+      "title": "Wicklow County Council - Tree Preservation Orders Bray source files",
+      "subtitle": "trees / data.gov.ie",
+      "category": "Map sources",
+      "provider": [
+        "data.gov.ie"
+      ],
+      "sourceMapId": "wicklow-county-council-tree-preservation-orders-bray",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "WC",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Wicklow County Council - Tree Preservation Orders Bray — data.gov.ie",
+          "url": "https://data.gov.ie/dataset/wicklow-county-council-tree-preservation-orders-bray",
+          "note": "CC BY 4.0"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/trees/wicklow-county-council-tree-preservation-orders-bray.fgb"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/trees/wicklow-county-council-tree-preservation-orders-bray.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=wicklow-county-council-tree-preservation-orders-bray",
+      "browseUrl": "/browse/sources/map-source-wicklow-county-council-tree-preservation-orders-bray",
+      "rawMetadata": {
+        "id": "wicklow-county-council-tree-preservation-orders-bray",
+        "name": "Wicklow County Council - Tree Preservation Orders Bray",
+        "slug": "wicklow-county-council-tree-preservation-orders-bray",
+        "category": "trees",
+        "provider": [
+          "data.gov.ie"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/trees/wicklow-county-council-tree-preservation-orders-bray.fgb"
+        },
+        "style": {
+          "color": "#1E8449",
+          "weight": 2,
+          "radius": 4
+        },
+        "keywords": [
+          "trees",
+          "wicklow",
+          "county",
+          "council",
+          "tree",
+          "preservation",
+          "orders",
+          "bray"
+        ],
+        "licence": "CC BY 4.0",
+        "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+        "bounds": [
+          -6.13756,
+          53.182537,
+          -6.084713,
+          53.207871
+        ],
+        "references": [
+          {
+            "label": "Wicklow County Council - Tree Preservation Orders Bray — data.gov.ie",
+            "url": "https://data.gov.ie/dataset/wicklow-county-council-tree-preservation-orders-bray",
+            "note": "CC BY 4.0"
+          }
+        ],
+        "useLOD": false
+      }
+    },
+    {
+      "id": "map-source:wicklow-fire-stations",
+      "slug": "map-source-wicklow-fire-stations",
+      "type": "map-source",
+      "title": "Wicklow Fire Stations source files",
+      "subtitle": "fire-stations / data.gov.ie",
+      "category": "Map sources",
+      "provider": [
+        "data.gov.ie"
+      ],
+      "sourceMapId": "wicklow-fire-stations",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "WF",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Wicklow Fire Stations — data.gov.ie",
+          "url": "https://data.gov.ie/dataset/wicklow-fire-stations",
+          "note": "CC BY 4.0"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/fire-stations/wicklow-fire-stations.fgb"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/fire-stations/wicklow-fire-stations.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=wicklow-fire-stations",
+      "browseUrl": "/browse/sources/map-source-wicklow-fire-stations",
+      "rawMetadata": {
+        "id": "wicklow-fire-stations",
+        "name": "Wicklow Fire Stations",
+        "slug": "wicklow-fire-stations",
+        "category": "fire-stations",
+        "provider": [
+          "data.gov.ie"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/fire-stations/wicklow-fire-stations.fgb"
+        },
+        "style": {
+          "color": "#CB4335",
+          "weight": 2,
+          "radius": 4
+        },
+        "keywords": [
+          "fire-stations",
+          "wicklow",
+          "fire",
+          "stations"
+        ],
+        "licence": "CC BY 4.0",
+        "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+        "bounds": [
+          -6.706621,
+          52.712106,
+          -6.051262,
+          53.187433
+        ],
+        "references": [
+          {
+            "label": "Wicklow Fire Stations — data.gov.ie",
+            "url": "https://data.gov.ie/dataset/wicklow-fire-stations",
+            "note": "CC BY 4.0"
+          }
+        ],
+        "useLOD": false
+      }
+    },
+    {
       "id": "map-source:wq-agricultural-critical-risk",
       "slug": "map-source-wq-agricultural-critical-risk",
       "type": "map-source",
@@ -24487,2336 +26822,6 @@
           {
             "label": "OSNI Open Data — Agricultural Critical Risk Areas",
             "url": "https://admin.opendatani.gov.uk/dataset/agricultural-critical-risk-areas",
-            "note": ""
-          }
-        ]
-      }
-    },
-    {
-      "id": "map-source:wq-aquatroll-realtime",
-      "slug": "map-source-wq-aquatroll-realtime",
-      "type": "map-source",
-      "title": "AquaTROLL Real-Time Water Quality Sensors source files",
-      "subtitle": "Water Quality / DAERA, NIEA",
-      "category": "Map sources",
-      "provider": [
-        "DAERA",
-        "NIEA"
-      ],
-      "description": "Live AquaTROLL multi-parameter sensor monitoring sites publishing real-time water-quality metrics (pH, conductivity, dissolved oxygen, temperature, turbidity, etc.) at three locations in Northern Ireland.",
-      "sourceMapId": "wq-aquatroll-realtime",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "AR",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "Rea’s Wood AquaTROLL Metrics View",
-          "url": "https://admin.opendatani.gov.uk/dataset/reas-wood-aquatroll-metrics-view"
-        },
-        {
-          "label": "Toome AquaTROLL Metrics View",
-          "url": "https://admin.opendatani.gov.uk/dataset/toome-aquatroll-metrics-view"
-        },
-        {
-          "label": "Washing Bay AquaTROLL Metrics View",
-          "url": "https://admin.opendatani.gov.uk/dataset/washing-bay-aquatroll-metrics-view"
-        }
-      ],
-      "interactiveUrl": "/#layers=wq-aquatroll-realtime",
-      "browseUrl": "/browse/sources/map-source-wq-aquatroll-realtime",
-      "rawMetadata": {
-        "id": "wq-aquatroll-realtime",
-        "name": "AquaTROLL Real-Time Water Quality Sensors",
-        "slug": "wq-aquatroll-realtime",
-        "category": "water-quality",
-        "provider": [
-          "DAERA",
-          "NIEA"
-        ],
-        "description": "Live AquaTROLL multi-parameter sensor monitoring sites publishing real-time water-quality metrics (pH, conductivity, dissolved oxygen, temperature, turbidity, etc.) at three locations in Northern Ireland.",
-        "keywords": [
-          "aquatroll",
-          "real time",
-          "sensor",
-          "monitoring",
-          "live",
-          "multi parameter"
-        ],
-        "references": [
-          {
-            "label": "Rea’s Wood AquaTROLL Metrics View",
-            "url": "https://admin.opendatani.gov.uk/dataset/reas-wood-aquatroll-metrics-view",
-            "note": ""
-          },
-          {
-            "label": "Toome AquaTROLL Metrics View",
-            "url": "https://admin.opendatani.gov.uk/dataset/toome-aquatroll-metrics-view",
-            "note": ""
-          },
-          {
-            "label": "Washing Bay AquaTROLL Metrics View",
-            "url": "https://admin.opendatani.gov.uk/dataset/washing-bay-aquatroll-metrics-view",
-            "note": ""
-          }
-        ],
-        "placeholder": true
-      }
-    },
-    {
-      "id": "map-source:wq-groundwater-bodies",
-      "slug": "map-source-wq-groundwater-bodies",
-      "type": "map-source",
-      "title": "Northern Ireland Groundwater Bodies source files",
-      "subtitle": "Water Quality / DAERA, NIEA",
-      "category": "Map sources",
-      "provider": [
-        "DAERA",
-        "NIEA"
-      ],
-      "description": "Polygons of groundwater bodies — the underground aquifer-based units used for WFD groundwater status assessment. 1 ArcGIS metadata item staged as provenance for this existing Civgraph record; owner/provider: DAERA_OpenContent; ArcGIS item ID: 419801229efd42988a8745ae4aa776ca; modified: 2023-08-17; access: public; 1 service link preserved as references; licence note: The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion.",
-      "sourceMapId": "wq-groundwater-bodies",
-      "thumbnail": {
-        "kind": "asset",
-        "id": "wq-groundwater-bodies",
-        "url": "/assets/thumbnails/wq-groundwater-bodies.webp",
-        "smallUrl": "/assets/thumbnails/wq-groundwater-bodies-60.webp",
-        "alt": "Northern Ireland Groundwater Bodies"
-      },
-      "references": [
-        {
-          "label": "OSNI Open Data — Northern Ireland Groundwater Bodies",
-          "url": "https://admin.opendatani.gov.uk/dataset/northern-ireland-groundwater-bodies2"
-        },
-        {
-          "label": "Existing Civgraph record: Northern Ireland Groundwater Bodies",
-          "url": "/browse/maps/wq-groundwater-bodies",
-          "source": "Civgraph",
-          "role": "matched-existing-record"
-        },
-        {
-          "label": "Existing Civgraph source record: map-source:wq-groundwater-bodies",
-          "url": "/browse/sources/map-source-wq-groundwater-bodies",
-          "source": "Civgraph",
-          "role": "matched-source-record"
-        },
-        {
-          "label": "ArcGIS item: Northern Ireland Groundwater Bodies",
-          "url": "https://www.arcgis.com/home/item.html?id=419801229efd42988a8745ae4aa776ca",
-          "source": "DAERA_OpenContent",
-          "role": "arcgis-item-page",
-          "type": "Feature Service",
-          "note": "Item ID 419801229efd42988a8745ae4aa776ca / modified 2023-08-17 / access public"
-        },
-        {
-          "label": "ArcGIS service: Northern Ireland Groundwater Bodies",
-          "url": "https://services-eu1.arcgis.com/kswen6BYexuc1SUk/arcgis/rest/services/NorthernIrelandGroundwaterBodies/FeatureServer",
-          "source": "DAERA_OpenContent",
-          "role": "arcgis-service-url",
-          "type": "ArcGIS service",
-          "note": "geometry: esriGeometryPolygon / capabilities: Query, Sync / 1 layers"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/northern-ireland-groundwater-bodies2.fgb"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/northern-ireland-groundwater-bodies2.fgb"
-        }
-      ],
-      "interactiveUrl": "/#layers=wq-groundwater-bodies",
-      "browseUrl": "/browse/sources/map-source-wq-groundwater-bodies",
-      "alreadyOnSiteEnrichments": [
-        {
-          "sourceTargetId": "map-source:wq-groundwater-bodies",
-          "targetEntityKind": "map",
-          "targetEntityId": "wq-groundwater-bodies",
-          "targetTitle": "Northern Ireland Groundwater Bodies",
-          "targetBrowseUrl": "/browse/maps/wq-groundwater-bodies",
-          "sourceItemCount": 1,
-          "confidence": "safe",
-          "safetyClasses": [
-            "safe metadata enrichment candidate"
-          ],
-          "formats": [
-            "Feature Service"
-          ],
-          "providers": [
-            "DAERA_OpenContent"
-          ],
-          "categories": [
-            "Peatland Geoportal duplicate-match enrichment"
-          ],
-          "enrichmentTypes": [
-            "ArcGIS item provenance",
-            "provider metadata",
-            "source URL",
-            "service URL",
-            "alternative service link"
-          ],
-          "arcgisItemIds": [
-            "419801229efd42988a8745ae4aa776ca"
-          ],
-          "arcgisItemPages": [
-            "https://www.arcgis.com/home/item.html?id=419801229efd42988a8745ae4aa776ca"
-          ],
-          "serviceUrls": [
-            "https://services-eu1.arcgis.com/kswen6BYexuc1SUk/arcgis/rest/services/NorthernIrelandGroundwaterBodies/FeatureServer"
-          ],
-          "modifiedDates": [
-            "2023-08-17T00:02:47.000Z"
-          ],
-          "accessStates": [
-            "public"
-          ],
-          "licenseNotes": [
-            "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
-          ],
-          "provenanceSummary": "1 ArcGIS metadata item staged as provenance for this existing Civgraph record; owner/provider: DAERA_OpenContent; ArcGIS item ID: 419801229efd42988a8745ae4aa776ca; modified: 2023-08-17; access: public; 1 service link preserved as references; licence note: The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion.",
-          "sourceItems": [
-            {
-              "auditRowNumber": 293,
-              "title": "Northern Ireland Groundwater Bodies",
-              "provider": "DAERA_OpenContent",
-              "category": "habitat-protected-site-context",
-              "formats": [
-                "Feature Service"
-              ],
-              "arcgisItemId": "419801229efd42988a8745ae4aa776ca",
-              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=419801229efd42988a8745ae4aa776ca",
-              "serviceUrl": "https://services-eu1.arcgis.com/kswen6BYexuc1SUk/arcgis/rest/services/NorthernIrelandGroundwaterBodies/FeatureServer",
-              "modified": "2023-08-17T00:02:47.000Z",
-              "access": "public",
-              "tags": [
-                "Groundwater",
-                "hydrogeology",
-                "WFD",
-                "Water Framework Directive",
-                "Aquifers"
-              ],
-              "serviceLayerCount": 1,
-              "serviceTableCount": 0,
-              "geometryTypes": [
-                "esriGeometryPolygon"
-              ],
-              "capabilities": [
-                "Query",
-                "Sync"
-              ],
-              "recommendedAction": "likely-duplicate-enrich-existing",
-              "duplicateReason": "Very close Civgraph title/provider match: Northern Ireland Groundwater Bodies",
-              "civgraphMatchId": "wq-groundwater-bodies",
-              "civgraphMatchTitle": "Northern Ireland Groundwater Bodies",
-              "civgraphMatchKind": "map",
-              "civgraphMatchScore": 1,
-              "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
-            }
-          ],
-          "evidence": [
-            {
-              "kind": "map",
-              "id": "wq-groundwater-bodies",
-              "title": "Northern Ireland Groundwater Bodies",
-              "score": 1
-            }
-          ]
-        }
-      ],
-      "sourceItems": [
-        {
-          "auditRowNumber": 293,
-          "title": "Northern Ireland Groundwater Bodies",
-          "provider": "DAERA_OpenContent",
-          "category": "habitat-protected-site-context",
-          "formats": [
-            "Feature Service"
-          ],
-          "arcgisItemId": "419801229efd42988a8745ae4aa776ca",
-          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=419801229efd42988a8745ae4aa776ca",
-          "serviceUrl": "https://services-eu1.arcgis.com/kswen6BYexuc1SUk/arcgis/rest/services/NorthernIrelandGroundwaterBodies/FeatureServer",
-          "modified": "2023-08-17T00:02:47.000Z",
-          "access": "public",
-          "tags": [
-            "Groundwater",
-            "hydrogeology",
-            "WFD",
-            "Water Framework Directive",
-            "Aquifers"
-          ],
-          "serviceLayerCount": 1,
-          "serviceTableCount": 0,
-          "geometryTypes": [
-            "esriGeometryPolygon"
-          ],
-          "capabilities": [
-            "Query",
-            "Sync"
-          ],
-          "recommendedAction": "likely-duplicate-enrich-existing",
-          "duplicateReason": "Very close Civgraph title/provider match: Northern Ireland Groundwater Bodies",
-          "civgraphMatchId": "wq-groundwater-bodies",
-          "civgraphMatchTitle": "Northern Ireland Groundwater Bodies",
-          "civgraphMatchKind": "map",
-          "civgraphMatchScore": 1,
-          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
-        }
-      ],
-      "keywords": [
-        "already-on-site-enrichment",
-        "duplicate-source-match",
-        "ArcGIS item provenance",
-        "provider metadata",
-        "source URL",
-        "service URL",
-        "alternative service link"
-      ],
-      "publicationStatus": "enriched",
-      "rawMetadata": {
-        "id": "wq-groundwater-bodies",
-        "name": "Northern Ireland Groundwater Bodies",
-        "slug": "wq-groundwater-bodies",
-        "category": "water-quality",
-        "provider": [
-          "DAERA",
-          "NIEA"
-        ],
-        "description": "Polygons of groundwater bodies — the underground aquifer-based units used for WFD groundwater status assessment.",
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/water-quality/northern-ireland-groundwater-bodies2.fgb"
-        },
-        "style": {
-          "color": "#6a3d9a",
-          "weight": 1,
-          "fillOpacity": 0.3
-        },
-        "keywords": [
-          "groundwater",
-          "aquifer",
-          "water body",
-          "wfd",
-          "subsurface"
-        ],
-        "useLOD": true,
-        "references": [
-          {
-            "label": "OSNI Open Data — Northern Ireland Groundwater Bodies",
-            "url": "https://admin.opendatani.gov.uk/dataset/northern-ireland-groundwater-bodies2",
-            "note": ""
-          }
-        ]
-      }
-    },
-    {
-      "id": "map-source:wq-groundwater-dwpa",
-      "slug": "map-source-wq-groundwater-dwpa",
-      "type": "map-source",
-      "title": "Groundwater Drinking-Water Protected Areas (DWPAs) source files",
-      "subtitle": "Water Quality / DAERA, NIEA",
-      "category": "Map sources",
-      "provider": [
-        "DAERA",
-        "NIEA"
-      ],
-      "description": "Designated protection zones where groundwater is abstracted for drinking-water supply, subject to elevated water-quality safeguards.",
-      "sourceMapId": "wq-groundwater-dwpa",
-      "thumbnail": {
-        "kind": "asset",
-        "id": "wq-groundwater-dwpa",
-        "url": "/assets/thumbnails/wq-groundwater-dwpa.webp",
-        "smallUrl": "/assets/thumbnails/wq-groundwater-dwpa-60.webp",
-        "alt": "Groundwater Drinking-Water Protected Areas (DWPAs)"
-      },
-      "references": [
-        {
-          "label": "OSNI Open Data — Groundwater Drinking Water Protected Areas (DWPAs)",
-          "url": "https://admin.opendatani.gov.uk/dataset/groundwater-drinking-water-protected-areas-dwpas1"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/groundwater-drinking-water-protected-areas-dwpas1.fgb"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/groundwater-drinking-water-protected-areas-dwpas1.fgb"
-        }
-      ],
-      "interactiveUrl": "/#layers=wq-groundwater-dwpa",
-      "browseUrl": "/browse/sources/map-source-wq-groundwater-dwpa",
-      "rawMetadata": {
-        "id": "wq-groundwater-dwpa",
-        "name": "Groundwater Drinking-Water Protected Areas (DWPAs)",
-        "slug": "wq-groundwater-dwpa",
-        "category": "water-quality",
-        "provider": [
-          "DAERA",
-          "NIEA"
-        ],
-        "description": "Designated protection zones where groundwater is abstracted for drinking-water supply, subject to elevated water-quality safeguards.",
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/water-quality/groundwater-drinking-water-protected-areas-dwpas1.fgb"
-        },
-        "style": {
-          "color": "#fdbf6f",
-          "weight": 1,
-          "fillOpacity": 0.4
-        },
-        "keywords": [
-          "drinking water",
-          "protected area",
-          "dwpa",
-          "groundwater",
-          "abstraction"
-        ],
-        "useLOD": true,
-        "references": [
-          {
-            "label": "OSNI Open Data — Groundwater Drinking Water Protected Areas (DWPAs)",
-            "url": "https://admin.opendatani.gov.uk/dataset/groundwater-drinking-water-protected-areas-dwpas1",
-            "note": ""
-          }
-        ]
-      }
-    },
-    {
-      "id": "map-source:wq-lake-water-bodies",
-      "slug": "map-source-wq-lake-water-bodies",
-      "type": "map-source",
-      "title": "Lake Water Bodies source files",
-      "subtitle": "Water Quality / DAERA, NIEA",
-      "category": "Map sources",
-      "provider": [
-        "DAERA",
-        "NIEA"
-      ],
-      "description": "Polygons of lakes and standing waters classified as WFD water bodies in Northern Ireland. 1 ArcGIS metadata item staged as provenance for this existing Civgraph record; owner/provider: DAERA_OpenContent; ArcGIS item ID: b28bf03a9c5a487eb91a98386960feab; modified: 2023-08-17; access: public; 1 service link preserved as references; licence note: The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion.",
-      "sourceMapId": "wq-lake-water-bodies",
-      "thumbnail": {
-        "kind": "asset",
-        "id": "wq-lake-water-bodies",
-        "url": "/assets/thumbnails/wq-lake-water-bodies.webp",
-        "smallUrl": "/assets/thumbnails/wq-lake-water-bodies-60.webp",
-        "alt": "Lake Water Bodies"
-      },
-      "references": [
-        {
-          "label": "OSNI Open Data — Lake Water Bodies",
-          "url": "https://admin.opendatani.gov.uk/dataset/lake-water-bodies1"
-        },
-        {
-          "label": "Existing Civgraph record: Lake Water Bodies",
-          "url": "/browse/maps/wq-lake-water-bodies",
-          "source": "Civgraph",
-          "role": "matched-existing-record"
-        },
-        {
-          "label": "Existing Civgraph source record: map-source:wq-lake-water-bodies",
-          "url": "/browse/sources/map-source-wq-lake-water-bodies",
-          "source": "Civgraph",
-          "role": "matched-source-record"
-        },
-        {
-          "label": "ArcGIS item: Lake Water Bodies",
-          "url": "https://www.arcgis.com/home/item.html?id=b28bf03a9c5a487eb91a98386960feab",
-          "source": "DAERA_OpenContent",
-          "role": "arcgis-item-page",
-          "type": "Feature Service",
-          "note": "Item ID b28bf03a9c5a487eb91a98386960feab / modified 2023-08-17 / access public"
-        },
-        {
-          "label": "ArcGIS service: Lake Water Bodies",
-          "url": "https://services-eu1.arcgis.com/kswen6BYexuc1SUk/arcgis/rest/services/Lake_Water_Bodies_2016/FeatureServer",
-          "source": "DAERA_OpenContent",
-          "role": "arcgis-service-url",
-          "type": "ArcGIS service",
-          "note": "geometry: esriGeometryPolygon / capabilities: Query, Extract, Sync / 1 layers"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/lake-water-bodies1.fgb"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/lake-water-bodies1.fgb"
-        }
-      ],
-      "interactiveUrl": "/#layers=wq-lake-water-bodies",
-      "browseUrl": "/browse/sources/map-source-wq-lake-water-bodies",
-      "alreadyOnSiteEnrichments": [
-        {
-          "sourceTargetId": "map-source:wq-lake-water-bodies",
-          "targetEntityKind": "map",
-          "targetEntityId": "wq-lake-water-bodies",
-          "targetTitle": "Lake Water Bodies",
-          "targetBrowseUrl": "/browse/maps/wq-lake-water-bodies",
-          "sourceItemCount": 1,
-          "confidence": "safe",
-          "safetyClasses": [
-            "safe metadata enrichment candidate"
-          ],
-          "formats": [
-            "Feature Service"
-          ],
-          "providers": [
-            "DAERA_OpenContent"
-          ],
-          "categories": [
-            "Peatland Geoportal duplicate-match enrichment"
-          ],
-          "enrichmentTypes": [
-            "ArcGIS item provenance",
-            "provider metadata",
-            "source URL",
-            "service URL",
-            "alternative service link"
-          ],
-          "arcgisItemIds": [
-            "b28bf03a9c5a487eb91a98386960feab"
-          ],
-          "arcgisItemPages": [
-            "https://www.arcgis.com/home/item.html?id=b28bf03a9c5a487eb91a98386960feab"
-          ],
-          "serviceUrls": [
-            "https://services-eu1.arcgis.com/kswen6BYexuc1SUk/arcgis/rest/services/Lake_Water_Bodies_2016/FeatureServer"
-          ],
-          "modifiedDates": [
-            "2023-08-17T00:02:43.000Z"
-          ],
-          "accessStates": [
-            "public"
-          ],
-          "licenseNotes": [
-            "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
-          ],
-          "provenanceSummary": "1 ArcGIS metadata item staged as provenance for this existing Civgraph record; owner/provider: DAERA_OpenContent; ArcGIS item ID: b28bf03a9c5a487eb91a98386960feab; modified: 2023-08-17; access: public; 1 service link preserved as references; licence note: The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion.",
-          "sourceItems": [
-            {
-              "auditRowNumber": 192,
-              "title": "Lake Water Bodies",
-              "provider": "DAERA_OpenContent",
-              "category": "habitat-protected-site-context",
-              "formats": [
-                "Feature Service"
-              ],
-              "arcgisItemId": "b28bf03a9c5a487eb91a98386960feab",
-              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=b28bf03a9c5a487eb91a98386960feab",
-              "serviceUrl": "https://services-eu1.arcgis.com/kswen6BYexuc1SUk/arcgis/rest/services/Lake_Water_Bodies_2016/FeatureServer",
-              "modified": "2023-08-17T00:02:43.000Z",
-              "access": "public",
-              "tags": [
-                "WFD",
-                "Lake Water Bodies",
-                "2nd cycle",
-                "NIEA",
-                "Water Framework Directive",
-                "DAERA",
-                "Water"
-              ],
-              "serviceLayerCount": 1,
-              "serviceTableCount": 0,
-              "geometryTypes": [
-                "esriGeometryPolygon"
-              ],
-              "capabilities": [
-                "Query",
-                "Extract",
-                "Sync"
-              ],
-              "recommendedAction": "likely-duplicate-enrich-existing",
-              "duplicateReason": "Very close Civgraph title/provider match: Lake Water Bodies",
-              "civgraphMatchId": "wq-lake-water-bodies",
-              "civgraphMatchTitle": "Lake Water Bodies",
-              "civgraphMatchKind": "map",
-              "civgraphMatchScore": 1,
-              "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
-            }
-          ],
-          "evidence": [
-            {
-              "kind": "map",
-              "id": "wq-lake-water-bodies",
-              "title": "Lake Water Bodies",
-              "score": 1
-            }
-          ]
-        }
-      ],
-      "sourceItems": [
-        {
-          "auditRowNumber": 192,
-          "title": "Lake Water Bodies",
-          "provider": "DAERA_OpenContent",
-          "category": "habitat-protected-site-context",
-          "formats": [
-            "Feature Service"
-          ],
-          "arcgisItemId": "b28bf03a9c5a487eb91a98386960feab",
-          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=b28bf03a9c5a487eb91a98386960feab",
-          "serviceUrl": "https://services-eu1.arcgis.com/kswen6BYexuc1SUk/arcgis/rest/services/Lake_Water_Bodies_2016/FeatureServer",
-          "modified": "2023-08-17T00:02:43.000Z",
-          "access": "public",
-          "tags": [
-            "WFD",
-            "Lake Water Bodies",
-            "2nd cycle",
-            "NIEA",
-            "Water Framework Directive",
-            "DAERA",
-            "Water"
-          ],
-          "serviceLayerCount": 1,
-          "serviceTableCount": 0,
-          "geometryTypes": [
-            "esriGeometryPolygon"
-          ],
-          "capabilities": [
-            "Query",
-            "Extract",
-            "Sync"
-          ],
-          "recommendedAction": "likely-duplicate-enrich-existing",
-          "duplicateReason": "Very close Civgraph title/provider match: Lake Water Bodies",
-          "civgraphMatchId": "wq-lake-water-bodies",
-          "civgraphMatchTitle": "Lake Water Bodies",
-          "civgraphMatchKind": "map",
-          "civgraphMatchScore": 1,
-          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
-        }
-      ],
-      "keywords": [
-        "already-on-site-enrichment",
-        "duplicate-source-match",
-        "ArcGIS item provenance",
-        "provider metadata",
-        "source URL",
-        "service URL",
-        "alternative service link"
-      ],
-      "publicationStatus": "enriched",
-      "rawMetadata": {
-        "id": "wq-lake-water-bodies",
-        "name": "Lake Water Bodies",
-        "slug": "wq-lake-water-bodies",
-        "category": "water-quality",
-        "provider": [
-          "DAERA",
-          "NIEA"
-        ],
-        "description": "Polygons of lakes and standing waters classified as WFD water bodies in Northern Ireland.",
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/water-quality/lake-water-bodies1.fgb"
-        },
-        "style": {
-          "color": "#1f78b4",
-          "weight": 1,
-          "fillOpacity": 0.5
-        },
-        "keywords": [
-          "lake",
-          "lough",
-          "water body",
-          "wfd",
-          "standing water"
-        ],
-        "useLOD": true,
-        "references": [
-          {
-            "label": "OSNI Open Data — Lake Water Bodies",
-            "url": "https://admin.opendatani.gov.uk/dataset/lake-water-bodies1",
-            "note": ""
-          }
-        ]
-      }
-    },
-    {
-      "id": "map-source:wq-network-contribution",
-      "slug": "map-source-wq-network-contribution",
-      "type": "map-source",
-      "title": "DAERA Network Contribution — SciMAP modelled pollution scores by river basin (26 catchments) source files",
-      "subtitle": "Water Quality / DAERA, NIEA",
-      "category": "Map sources",
-      "provider": [
-        "DAERA",
-        "NIEA"
-      ],
-      "description": "Per-river-basin pollution-contribution scores from the SciMAP hydrological model (CEH Land Cover 2007 + Met Office rainfall + 5 m DTM), rasterised at 25 m and rendered as a Web Mercator tile pyramid coloured on inferno (low → high contribution). Raw GRIDCODE values of 58–100 stretch the inferno ramp from dark purple to pale yellow. Each parcel of land is scored for how much sediment / nutrient pollution its upstream catchment contributes to receiving waters. 26 catchment datasets were rasterised individually, mosaicked, and re-projected; per-catchment download links remain in sourceDownloads for the raw vector data.",
-      "sourceMapId": "wq-network-contribution",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "DN",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "DAERA Open Data Hub — Network Contribution datasets",
-          "url": "https://opendata-daerani.hub.arcgis.com/search?q=network%20contribution"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "label",
-          "url": "Ballinderry Network Contribution"
-        },
-        {
-          "label": "file",
-          "url": "https://opendata-daerani.hub.arcgis.com/datasets/ballinderry-network-contribution"
-        },
-        {
-          "label": "label",
-          "url": "Belfast Lough Network Contribution"
-        },
-        {
-          "label": "file",
-          "url": "https://opendata-daerani.hub.arcgis.com/datasets/belfast-lough-network-contribution"
-        },
-        {
-          "label": "label",
-          "url": "Braid And Main Network Contribution"
-        },
-        {
-          "label": "file",
-          "url": "https://opendata-daerani.hub.arcgis.com/datasets/braid-and-main-network-contribution"
-        },
-        {
-          "label": "label",
-          "url": "Burn Dennet And Foyle Network Contribution"
-        },
-        {
-          "label": "file",
-          "url": "https://opendata-daerani.hub.arcgis.com/datasets/burn-dennet-and-foyle-network-contribution"
-        },
-        {
-          "label": "label",
-          "url": "Bush Network Contribution"
-        },
-        {
-          "label": "file",
-          "url": "https://opendata-daerani.hub.arcgis.com/datasets/bush-network-contribution"
-        },
-        {
-          "label": "label",
-          "url": "Carlingford And Newry Network Contribution"
-        },
-        {
-          "label": "file",
-          "url": "https://opendata-daerani.hub.arcgis.com/datasets/carlingford-and-newry-network-contribution"
-        },
-        {
-          "label": "label",
-          "url": "Derg And Mourne Network Contribution"
-        },
-        {
-          "label": "file",
-          "url": "https://opendata-daerani.hub.arcgis.com/datasets/derg-and-mourne-network-contribution"
-        },
-        {
-          "label": "label",
-          "url": "Faughan Network Contribution"
-        },
-        {
-          "label": "file",
-          "url": "https://opendata-daerani.hub.arcgis.com/datasets/faughan-network-contribution"
-        },
-        {
-          "label": "label",
-          "url": "Glens Rathlin Network Contribution"
-        },
-        {
-          "label": "file",
-          "url": "https://opendata-daerani.hub.arcgis.com/datasets/glens-rathlin-network-contribution"
-        },
-        {
-          "label": "label",
-          "url": "Lagan Network Contribution"
-        },
-        {
-          "label": "file",
-          "url": "https://opendata-daerani.hub.arcgis.com/datasets/lagan-network-contribution"
-        },
-        {
-          "label": "label",
-          "url": "Larne Lough Network Contribution"
-        },
-        {
-          "label": "file",
-          "url": "https://opendata-daerani.hub.arcgis.com/datasets/larne-lough-network-contribution"
-        },
-        {
-          "label": "label",
-          "url": "Lough Melvin And Arney Network Contribution"
-        },
-        {
-          "label": "file",
-          "url": "https://opendata-daerani.hub.arcgis.com/datasets/lough-melvin-and-arney-network-contribution"
-        },
-        {
-          "label": "label",
-          "url": "Lough Neagh Network Contribution"
-        },
-        {
-          "label": "file",
-          "url": "https://opendata-daerani.hub.arcgis.com/datasets/lough-neagh-network-contribution"
-        },
-        {
-          "label": "label",
-          "url": "Lower Bann Network Contribution"
-        },
-        {
-          "label": "file",
-          "url": "https://opendata-daerani.hub.arcgis.com/datasets/lower-bann-network-contribution"
-        },
-        {
-          "label": "label",
-          "url": "Lower Lough Erne Network Contribution"
-        },
-        {
-          "label": "file",
-          "url": "https://opendata-daerani.hub.arcgis.com/datasets/lower-lough-erne-network-contribution"
-        },
-        {
-          "label": "label",
-          "url": "Moyola Network Contribution"
-        },
-        {
-          "label": "file",
-          "url": "https://opendata-daerani.hub.arcgis.com/datasets/moyola-network-contribution"
-        },
-        {
-          "label": "label",
-          "url": "Owenkillew Network Contribution"
-        },
-        {
-          "label": "file",
-          "url": "https://opendata-daerani.hub.arcgis.com/datasets/owenkillew-network-contribution"
-        },
-        {
-          "label": "label",
-          "url": "Quoile Network Contribution"
-        },
-        {
-          "label": "file",
-          "url": "https://opendata-daerani.hub.arcgis.com/datasets/quoile-network-contribution"
-        },
-        {
-          "label": "label",
-          "url": "River Blackwater Network Contribution"
-        },
-        {
-          "label": "file",
-          "url": "https://opendata-daerani.hub.arcgis.com/datasets/river-blackwater-network-contribution"
-        },
-        {
-          "label": "label",
-          "url": "Roe Network Contribution"
-        },
-        {
-          "label": "file",
-          "url": "https://opendata-daerani.hub.arcgis.com/datasets/roe-network-contribution"
-        },
-        {
-          "label": "label",
-          "url": "Six Mile Water Network Contribution"
-        },
-        {
-          "label": "file",
-          "url": "https://opendata-daerani.hub.arcgis.com/datasets/six-mile-water-network-contribution"
-        },
-        {
-          "label": "label",
-          "url": "South Down Network Contribution"
-        },
-        {
-          "label": "file",
-          "url": "https://opendata-daerani.hub.arcgis.com/datasets/south-down-network-contribution"
-        },
-        {
-          "label": "label",
-          "url": "Strangford Network Contribution"
-        },
-        {
-          "label": "file",
-          "url": "https://opendata-daerani.hub.arcgis.com/datasets/strangford-network-contribution"
-        },
-        {
-          "label": "label",
-          "url": "Strule Network Contribution"
-        },
-        {
-          "label": "file",
-          "url": "https://opendata-daerani.hub.arcgis.com/datasets/strule-network-contribution"
-        },
-        {
-          "label": "label",
-          "url": "Upper Bann Network Contribution"
-        },
-        {
-          "label": "file",
-          "url": "https://opendata-daerani.hub.arcgis.com/datasets/upper-bann-network-contribution"
-        },
-        {
-          "label": "label",
-          "url": "Upper Lough Erne Network Contribution"
-        },
-        {
-          "label": "file",
-          "url": "https://opendata-daerani.hub.arcgis.com/datasets/upper-lough-erne-network-contribution"
-        },
-        {
-          "label": "xyz",
-          "url": "https://data.civgraph.net/data/maps/water-quality/network-contribution-tiles/{z}/{x}/{y}.png"
-        }
-      ],
-      "interactiveUrl": "/#layers=wq-network-contribution",
-      "browseUrl": "/browse/sources/map-source-wq-network-contribution",
-      "rawMetadata": {
-        "id": "wq-network-contribution",
-        "name": "DAERA Network Contribution — SciMAP modelled pollution scores by river basin (26 catchments)",
-        "slug": "wq-network-contribution",
-        "category": "water-quality",
-        "provider": [
-          "DAERA",
-          "NIEA"
-        ],
-        "description": "Per-river-basin pollution-contribution scores from the SciMAP hydrological model (CEH Land Cover 2007 + Met Office rainfall + 5 m DTM), rasterised at 25 m and rendered as a Web Mercator tile pyramid coloured on inferno (low → high contribution). Raw GRIDCODE values of 58–100 stretch the inferno ramp from dark purple to pale yellow. Each parcel of land is scored for how much sediment / nutrient pollution its upstream catchment contributes to receiving waters. 26 catchment datasets were rasterised individually, mosaicked, and re-projected; per-catchment download links remain in sourceDownloads for the raw vector data.",
-        "keywords": [
-          "scimap",
-          "pollution",
-          "river",
-          "catchment",
-          "daera",
-          "niea",
-          "network contribution",
-          "runoff",
-          "diffuse"
-        ],
-        "references": [
-          {
-            "label": "DAERA Open Data Hub — Network Contribution datasets",
-            "url": "https://opendata-daerani.hub.arcgis.com/search?q=network%20contribution",
-            "note": ""
-          }
-        ],
-        "sourceDownloads": [
-          {
-            "label": "Ballinderry Network Contribution",
-            "file": "https://opendata-daerani.hub.arcgis.com/datasets/ballinderry-network-contribution"
-          },
-          {
-            "label": "Belfast Lough Network Contribution",
-            "file": "https://opendata-daerani.hub.arcgis.com/datasets/belfast-lough-network-contribution"
-          },
-          {
-            "label": "Braid And Main Network Contribution",
-            "file": "https://opendata-daerani.hub.arcgis.com/datasets/braid-and-main-network-contribution"
-          },
-          {
-            "label": "Burn Dennet And Foyle Network Contribution",
-            "file": "https://opendata-daerani.hub.arcgis.com/datasets/burn-dennet-and-foyle-network-contribution"
-          },
-          {
-            "label": "Bush Network Contribution",
-            "file": "https://opendata-daerani.hub.arcgis.com/datasets/bush-network-contribution"
-          },
-          {
-            "label": "Carlingford And Newry Network Contribution",
-            "file": "https://opendata-daerani.hub.arcgis.com/datasets/carlingford-and-newry-network-contribution"
-          },
-          {
-            "label": "Derg And Mourne Network Contribution",
-            "file": "https://opendata-daerani.hub.arcgis.com/datasets/derg-and-mourne-network-contribution"
-          },
-          {
-            "label": "Faughan Network Contribution",
-            "file": "https://opendata-daerani.hub.arcgis.com/datasets/faughan-network-contribution"
-          },
-          {
-            "label": "Glens Rathlin Network Contribution",
-            "file": "https://opendata-daerani.hub.arcgis.com/datasets/glens-rathlin-network-contribution"
-          },
-          {
-            "label": "Lagan Network Contribution",
-            "file": "https://opendata-daerani.hub.arcgis.com/datasets/lagan-network-contribution"
-          },
-          {
-            "label": "Larne Lough Network Contribution",
-            "file": "https://opendata-daerani.hub.arcgis.com/datasets/larne-lough-network-contribution"
-          },
-          {
-            "label": "Lough Melvin And Arney Network Contribution",
-            "file": "https://opendata-daerani.hub.arcgis.com/datasets/lough-melvin-and-arney-network-contribution"
-          },
-          {
-            "label": "Lough Neagh Network Contribution",
-            "file": "https://opendata-daerani.hub.arcgis.com/datasets/lough-neagh-network-contribution"
-          },
-          {
-            "label": "Lower Bann Network Contribution",
-            "file": "https://opendata-daerani.hub.arcgis.com/datasets/lower-bann-network-contribution"
-          },
-          {
-            "label": "Lower Lough Erne Network Contribution",
-            "file": "https://opendata-daerani.hub.arcgis.com/datasets/lower-lough-erne-network-contribution"
-          },
-          {
-            "label": "Moyola Network Contribution",
-            "file": "https://opendata-daerani.hub.arcgis.com/datasets/moyola-network-contribution"
-          },
-          {
-            "label": "Owenkillew Network Contribution",
-            "file": "https://opendata-daerani.hub.arcgis.com/datasets/owenkillew-network-contribution"
-          },
-          {
-            "label": "Quoile Network Contribution",
-            "file": "https://opendata-daerani.hub.arcgis.com/datasets/quoile-network-contribution"
-          },
-          {
-            "label": "River Blackwater Network Contribution",
-            "file": "https://opendata-daerani.hub.arcgis.com/datasets/river-blackwater-network-contribution"
-          },
-          {
-            "label": "Roe Network Contribution",
-            "file": "https://opendata-daerani.hub.arcgis.com/datasets/roe-network-contribution"
-          },
-          {
-            "label": "Six Mile Water Network Contribution",
-            "file": "https://opendata-daerani.hub.arcgis.com/datasets/six-mile-water-network-contribution"
-          },
-          {
-            "label": "South Down Network Contribution",
-            "file": "https://opendata-daerani.hub.arcgis.com/datasets/south-down-network-contribution"
-          },
-          {
-            "label": "Strangford Network Contribution",
-            "file": "https://opendata-daerani.hub.arcgis.com/datasets/strangford-network-contribution"
-          },
-          {
-            "label": "Strule Network Contribution",
-            "file": "https://opendata-daerani.hub.arcgis.com/datasets/strule-network-contribution"
-          },
-          {
-            "label": "Upper Bann Network Contribution",
-            "file": "https://opendata-daerani.hub.arcgis.com/datasets/upper-bann-network-contribution"
-          },
-          {
-            "label": "Upper Lough Erne Network Contribution",
-            "file": "https://opendata-daerani.hub.arcgis.com/datasets/upper-lough-erne-network-contribution"
-          }
-        ],
-        "files": {
-          "xyz": "https://data.civgraph.net/data/maps/water-quality/network-contribution-tiles/{z}/{x}/{y}.png"
-        },
-        "rasterStyle": {
-          "opacity": 0.78,
-          "minZoom": 5,
-          "maxZoom": 17,
-          "maxNativeZoom": 13
-        },
-        "bounds": [
-          [
-            54,
-            -8.2
-          ],
-          [
-            55.32,
-            -5.43
-          ]
-        ]
-      }
-    },
-    {
-      "id": "map-source:wq-ni-water-drinking",
-      "slug": "map-source-wq-ni-water-drinking",
-      "type": "map-source",
-      "title": "NI Water — Drinking-Water Quality Public Registers source files",
-      "subtitle": "Water Quality / NI Water",
-      "category": "Map sources",
-      "provider": [
-        "NI Water"
-      ],
-      "description": "NI Water’s Drinking-Water Quality Public Registers — Individual Customer Tap & Authorised Supply Point Results, plus annual reports. Per-tap test results (CSV) and per-year summary PDFs.",
-      "sourceMapId": "wq-ni-water-drinking",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "NW",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "OSNI Open Data — NI Water Drinking Water Quality Public Registers",
-          "url": "https://admin.opendatani.gov.uk/dataset/ni-water-customer-tap-authorised-supply-point-results"
-        }
-      ],
-      "interactiveUrl": "/#layers=wq-ni-water-drinking",
-      "browseUrl": "/browse/sources/map-source-wq-ni-water-drinking",
-      "rawMetadata": {
-        "id": "wq-ni-water-drinking",
-        "name": "NI Water — Drinking-Water Quality Public Registers",
-        "slug": "wq-ni-water-drinking",
-        "category": "water-quality",
-        "provider": [
-          "NI Water"
-        ],
-        "description": "NI Water’s Drinking-Water Quality Public Registers — Individual Customer Tap & Authorised Supply Point Results, plus annual reports. Per-tap test results (CSV) and per-year summary PDFs.",
-        "keywords": [
-          "ni water",
-          "drinking water",
-          "tap",
-          "supply point",
-          "public register",
-          "annual report"
-        ],
-        "references": [
-          {
-            "label": "OSNI Open Data — NI Water Drinking Water Quality Public Registers",
-            "url": "https://admin.opendatani.gov.uk/dataset/ni-water-customer-tap-authorised-supply-point-results",
-            "note": ""
-          }
-        ],
-        "placeholder": true
-      }
-    },
-    {
-      "id": "map-source:wq-river-quality-1990-2018",
-      "slug": "map-source-wq-river-quality-1990-2018",
-      "type": "map-source",
-      "title": "River Water Quality Monitoring 1990–2018 (14 chemistry parameters) source files",
-      "subtitle": "Water Quality / DAERA, NIEA",
-      "category": "Map sources",
-      "provider": [
-        "DAERA",
-        "NIEA"
-      ],
-      "description": "Long-term chemistry time-series from NI rivers, 1990–2018, broken down by 14 individual parameters (pH, dissolved oxygen, BOD, ammonia, nitrate, nitrite, dissolved iron, suspended solids, plus extended set: alkalinity, conductivity, dissolved copper, dissolved zinc, soluble phosphorus). The \"umbrella\" package contains the spatial monitoring sites + summary; per-parameter packages contain the full time-series CSVs. No interactive map layer — use the WFD Monitoring Sites layer to see where samples are taken.",
-      "sourceMapId": "wq-river-quality-1990-2018",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "RW",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (umbrella)",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-20181"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "label",
-          "url": "Combined sites (GeoJSON)"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-20181"
-        },
-        {
-          "label": "label",
-          "url": "pH (per-parameter dataset)"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-ph1"
-        },
-        {
-          "label": "label",
-          "url": "Dissolved oxygen"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-dissolved-oxygen1"
-        },
-        {
-          "label": "label",
-          "url": "Biochemical oxygen demand (BOD)"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-biochemical-oxygen-demand1"
-        },
-        {
-          "label": "label",
-          "url": "Ammonia"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-ammonia1"
-        },
-        {
-          "label": "label",
-          "url": "Nitrate"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-nitrate1"
-        },
-        {
-          "label": "label",
-          "url": "Nitrite"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-nitrite1"
-        },
-        {
-          "label": "label",
-          "url": "Dissolved iron"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-dissolved-iron1"
-        },
-        {
-          "label": "label",
-          "url": "Dissolved copper"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-dissolved-copper1"
-        },
-        {
-          "label": "label",
-          "url": "Dissolved zinc"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-dissolved-zinc1"
-        },
-        {
-          "label": "label",
-          "url": "Suspended solids"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-suspended-solids1"
-        },
-        {
-          "label": "label",
-          "url": "Conductivity"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-conductivity1"
-        },
-        {
-          "label": "label",
-          "url": "Alkalinity"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-alkalinity1"
-        },
-        {
-          "label": "label",
-          "url": "Soluble phosphorus"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-soluble-phosphorus1"
-        }
-      ],
-      "interactiveUrl": "/#layers=wq-river-quality-1990-2018",
-      "browseUrl": "/browse/sources/map-source-wq-river-quality-1990-2018",
-      "rawMetadata": {
-        "id": "wq-river-quality-1990-2018",
-        "name": "River Water Quality Monitoring 1990–2018 (14 chemistry parameters)",
-        "slug": "wq-river-quality-1990-2018",
-        "category": "water-quality",
-        "provider": [
-          "DAERA",
-          "NIEA"
-        ],
-        "description": "Long-term chemistry time-series from NI rivers, 1990–2018, broken down by 14 individual parameters (pH, dissolved oxygen, BOD, ammonia, nitrate, nitrite, dissolved iron, suspended solids, plus extended set: alkalinity, conductivity, dissolved copper, dissolved zinc, soluble phosphorus). The \"umbrella\" package contains the spatial monitoring sites + summary; per-parameter packages contain the full time-series CSVs. No interactive map layer — use the WFD Monitoring Sites layer to see where samples are taken.",
-        "keywords": [
-          "river",
-          "water quality",
-          "monitoring",
-          "chemistry",
-          "time series",
-          "long term",
-          "1990",
-          "2018",
-          "pH",
-          "dissolved oxygen",
-          "ammonia",
-          "nitrate"
-        ],
-        "references": [
-          {
-            "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (umbrella)",
-            "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-20181",
-            "note": ""
-          }
-        ],
-        "sourceDownloads": [
-          {
-            "label": "Combined sites (GeoJSON)",
-            "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-20181"
-          },
-          {
-            "label": "pH (per-parameter dataset)",
-            "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-ph1"
-          },
-          {
-            "label": "Dissolved oxygen",
-            "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-dissolved-oxygen1"
-          },
-          {
-            "label": "Biochemical oxygen demand (BOD)",
-            "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-biochemical-oxygen-demand1"
-          },
-          {
-            "label": "Ammonia",
-            "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-ammonia1"
-          },
-          {
-            "label": "Nitrate",
-            "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-nitrate1"
-          },
-          {
-            "label": "Nitrite",
-            "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-nitrite1"
-          },
-          {
-            "label": "Dissolved iron",
-            "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-dissolved-iron1"
-          },
-          {
-            "label": "Dissolved copper",
-            "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-dissolved-copper1"
-          },
-          {
-            "label": "Dissolved zinc",
-            "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-dissolved-zinc1"
-          },
-          {
-            "label": "Suspended solids",
-            "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-suspended-solids1"
-          },
-          {
-            "label": "Conductivity",
-            "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-conductivity1"
-          },
-          {
-            "label": "Alkalinity",
-            "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-alkalinity1"
-          },
-          {
-            "label": "Soluble phosphorus",
-            "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-soluble-phosphorus1"
-          }
-        ],
-        "placeholder": true
-      }
-    },
-    {
-      "id": "map-source:wq-rwq-alkalinity",
-      "slug": "map-source-wq-rwq-alkalinity",
-      "type": "map-source",
-      "title": "River Water Quality 1990–2018 — Alkalinity source files",
-      "subtitle": "Water Quality / DAERA, NIEA",
-      "category": "Map sources",
-      "provider": [
-        "DAERA",
-        "NIEA"
-      ],
-      "description": "Per-monitoring-site mean alkalinity for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 633 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
-      "sourceMapId": "wq-rwq-alkalinity",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "RW",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Alkalinity)",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-alkalinity1"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/rwq-alkalinity.fgb"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/rwq-alkalinity.fgb"
-        }
-      ],
-      "interactiveUrl": "/#layers=wq-rwq-alkalinity",
-      "browseUrl": "/browse/sources/map-source-wq-rwq-alkalinity",
-      "rawMetadata": {
-        "id": "wq-rwq-alkalinity",
-        "name": "River Water Quality 1990–2018 — Alkalinity",
-        "slug": "wq-rwq-alkalinity",
-        "category": "water-quality",
-        "provider": [
-          "DAERA",
-          "NIEA"
-        ],
-        "description": "Per-monitoring-site mean alkalinity for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 633 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-alkalinity.fgb"
-        },
-        "style": {
-          "color": "#888888",
-          "radius": 5,
-          "weight": 0.5,
-          "fillOpacity": 0.9
-        },
-        "colorScale": {
-          "property": "mean_value",
-          "ramp": "viridis",
-          "domain": [
-            10,
-            300
-          ],
-          "logarithmic": false
-        },
-        "keywords": [
-          "water quality",
-          "river",
-          "monitoring",
-          "daera",
-          "niea",
-          "alkalinity",
-          "alkalinity"
-        ],
-        "labelProperty": "Station_Name",
-        "useLOD": false,
-        "references": [
-          {
-            "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Alkalinity)",
-            "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-alkalinity1",
-            "note": ""
-          }
-        ]
-      }
-    },
-    {
-      "id": "map-source:wq-rwq-ammonia",
-      "slug": "map-source-wq-rwq-ammonia",
-      "type": "map-source",
-      "title": "River Water Quality 1990–2018 — Total ammonia (as N) source files",
-      "subtitle": "Water Quality / DAERA, NIEA",
-      "category": "Map sources",
-      "provider": [
-        "DAERA",
-        "NIEA"
-      ],
-      "description": "Per-monitoring-site mean total ammonia (as n) for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
-      "sourceMapId": "wq-rwq-ammonia",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "RW",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Total ammonia (as N))",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-ammonia1"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/rwq-ammonia.fgb"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/rwq-ammonia.fgb"
-        }
-      ],
-      "interactiveUrl": "/#layers=wq-rwq-ammonia",
-      "browseUrl": "/browse/sources/map-source-wq-rwq-ammonia",
-      "rawMetadata": {
-        "id": "wq-rwq-ammonia",
-        "name": "River Water Quality 1990–2018 — Total ammonia (as N)",
-        "slug": "wq-rwq-ammonia",
-        "category": "water-quality",
-        "provider": [
-          "DAERA",
-          "NIEA"
-        ],
-        "description": "Per-monitoring-site mean total ammonia (as n) for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-ammonia.fgb"
-        },
-        "style": {
-          "color": "#888888",
-          "radius": 5,
-          "weight": 0.5,
-          "fillOpacity": 0.9
-        },
-        "colorScale": {
-          "property": "mean_value",
-          "ramp": "inferno",
-          "domain": [
-            0.05,
-            5
-          ],
-          "logarithmic": true
-        },
-        "keywords": [
-          "water quality",
-          "river",
-          "monitoring",
-          "daera",
-          "niea",
-          "total ammonia (as n)",
-          "ammonia"
-        ],
-        "labelProperty": "Station_Name",
-        "useLOD": false,
-        "references": [
-          {
-            "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Total ammonia (as N))",
-            "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-ammonia1",
-            "note": ""
-          }
-        ]
-      }
-    },
-    {
-      "id": "map-source:wq-rwq-biochemical-oxygen-demand",
-      "slug": "map-source-wq-rwq-biochemical-oxygen-demand",
-      "type": "map-source",
-      "title": "River Water Quality 1990–2018 — Biochemical oxygen demand (BOD) source files",
-      "subtitle": "Water Quality / DAERA, NIEA",
-      "category": "Map sources",
-      "provider": [
-        "DAERA",
-        "NIEA"
-      ],
-      "description": "Per-monitoring-site mean biochemical oxygen demand (bod) for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
-      "sourceMapId": "wq-rwq-biochemical-oxygen-demand",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "RW",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Biochemical oxygen demand (BOD))",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-biochemical-oxygen-demand1"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/rwq-biochemical-oxygen-demand.fgb"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/rwq-biochemical-oxygen-demand.fgb"
-        }
-      ],
-      "interactiveUrl": "/#layers=wq-rwq-biochemical-oxygen-demand",
-      "browseUrl": "/browse/sources/map-source-wq-rwq-biochemical-oxygen-demand",
-      "rawMetadata": {
-        "id": "wq-rwq-biochemical-oxygen-demand",
-        "name": "River Water Quality 1990–2018 — Biochemical oxygen demand (BOD)",
-        "slug": "wq-rwq-biochemical-oxygen-demand",
-        "category": "water-quality",
-        "provider": [
-          "DAERA",
-          "NIEA"
-        ],
-        "description": "Per-monitoring-site mean biochemical oxygen demand (bod) for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-biochemical-oxygen-demand.fgb"
-        },
-        "style": {
-          "color": "#888888",
-          "radius": 5,
-          "weight": 0.5,
-          "fillOpacity": 0.9
-        },
-        "colorScale": {
-          "property": "mean_value",
-          "ramp": "inferno",
-          "domain": [
-            1,
-            8
-          ],
-          "logarithmic": true
-        },
-        "keywords": [
-          "water quality",
-          "river",
-          "monitoring",
-          "daera",
-          "niea",
-          "biochemical oxygen demand (bod)",
-          "biochemical-oxygen-demand"
-        ],
-        "labelProperty": "Station_Name",
-        "useLOD": false,
-        "references": [
-          {
-            "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Biochemical oxygen demand (BOD))",
-            "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-biochemical-oxygen-demand1",
-            "note": ""
-          }
-        ]
-      }
-    },
-    {
-      "id": "map-source:wq-rwq-conductivity",
-      "slug": "map-source-wq-rwq-conductivity",
-      "type": "map-source",
-      "title": "River Water Quality 1990–2018 — Conductivity source files",
-      "subtitle": "Water Quality / DAERA, NIEA",
-      "category": "Map sources",
-      "provider": [
-        "DAERA",
-        "NIEA"
-      ],
-      "description": "Per-monitoring-site mean conductivity for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
-      "sourceMapId": "wq-rwq-conductivity",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "RW",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Conductivity)",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-conductivity1"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/rwq-conductivity.fgb"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/rwq-conductivity.fgb"
-        }
-      ],
-      "interactiveUrl": "/#layers=wq-rwq-conductivity",
-      "browseUrl": "/browse/sources/map-source-wq-rwq-conductivity",
-      "rawMetadata": {
-        "id": "wq-rwq-conductivity",
-        "name": "River Water Quality 1990–2018 — Conductivity",
-        "slug": "wq-rwq-conductivity",
-        "category": "water-quality",
-        "provider": [
-          "DAERA",
-          "NIEA"
-        ],
-        "description": "Per-monitoring-site mean conductivity for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-conductivity.fgb"
-        },
-        "style": {
-          "color": "#888888",
-          "radius": 5,
-          "weight": 0.5,
-          "fillOpacity": 0.9
-        },
-        "colorScale": {
-          "property": "mean_value",
-          "ramp": "viridis",
-          "domain": [
-            100,
-            800
-          ],
-          "logarithmic": false
-        },
-        "keywords": [
-          "water quality",
-          "river",
-          "monitoring",
-          "daera",
-          "niea",
-          "conductivity",
-          "conductivity"
-        ],
-        "labelProperty": "Station_Name",
-        "useLOD": false,
-        "references": [
-          {
-            "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Conductivity)",
-            "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-conductivity1",
-            "note": ""
-          }
-        ]
-      }
-    },
-    {
-      "id": "map-source:wq-rwq-dissolved-copper",
-      "slug": "map-source-wq-rwq-dissolved-copper",
-      "type": "map-source",
-      "title": "River Water Quality 1990–2018 — Dissolved copper source files",
-      "subtitle": "Water Quality / DAERA, NIEA",
-      "category": "Map sources",
-      "provider": [
-        "DAERA",
-        "NIEA"
-      ],
-      "description": "Per-monitoring-site mean dissolved copper for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 377 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
-      "sourceMapId": "wq-rwq-dissolved-copper",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "RW",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Dissolved copper)",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-dissolved-copper1"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/rwq-dissolved-copper.fgb"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/rwq-dissolved-copper.fgb"
-        }
-      ],
-      "interactiveUrl": "/#layers=wq-rwq-dissolved-copper",
-      "browseUrl": "/browse/sources/map-source-wq-rwq-dissolved-copper",
-      "rawMetadata": {
-        "id": "wq-rwq-dissolved-copper",
-        "name": "River Water Quality 1990–2018 — Dissolved copper",
-        "slug": "wq-rwq-dissolved-copper",
-        "category": "water-quality",
-        "provider": [
-          "DAERA",
-          "NIEA"
-        ],
-        "description": "Per-monitoring-site mean dissolved copper for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 377 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-dissolved-copper.fgb"
-        },
-        "style": {
-          "color": "#888888",
-          "radius": 5,
-          "weight": 0.5,
-          "fillOpacity": 0.9
-        },
-        "colorScale": {
-          "property": "mean_value",
-          "ramp": "inferno",
-          "domain": [
-            0.5,
-            20
-          ],
-          "logarithmic": true
-        },
-        "keywords": [
-          "water quality",
-          "river",
-          "monitoring",
-          "daera",
-          "niea",
-          "dissolved copper",
-          "dissolved-copper"
-        ],
-        "labelProperty": "Station_Name",
-        "useLOD": false,
-        "references": [
-          {
-            "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Dissolved copper)",
-            "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-dissolved-copper1",
-            "note": ""
-          }
-        ]
-      }
-    },
-    {
-      "id": "map-source:wq-rwq-dissolved-iron",
-      "slug": "map-source-wq-rwq-dissolved-iron",
-      "type": "map-source",
-      "title": "River Water Quality 1990–2018 — Dissolved iron source files",
-      "subtitle": "Water Quality / DAERA, NIEA",
-      "category": "Map sources",
-      "provider": [
-        "DAERA",
-        "NIEA"
-      ],
-      "description": "Per-monitoring-site mean dissolved iron for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 559 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
-      "sourceMapId": "wq-rwq-dissolved-iron",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "RW",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Dissolved iron)",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-dissolved-iron1"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/rwq-dissolved-iron.fgb"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/rwq-dissolved-iron.fgb"
-        }
-      ],
-      "interactiveUrl": "/#layers=wq-rwq-dissolved-iron",
-      "browseUrl": "/browse/sources/map-source-wq-rwq-dissolved-iron",
-      "rawMetadata": {
-        "id": "wq-rwq-dissolved-iron",
-        "name": "River Water Quality 1990–2018 — Dissolved iron",
-        "slug": "wq-rwq-dissolved-iron",
-        "category": "water-quality",
-        "provider": [
-          "DAERA",
-          "NIEA"
-        ],
-        "description": "Per-monitoring-site mean dissolved iron for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 559 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-dissolved-iron.fgb"
-        },
-        "style": {
-          "color": "#888888",
-          "radius": 5,
-          "weight": 0.5,
-          "fillOpacity": 0.9
-        },
-        "colorScale": {
-          "property": "mean_value",
-          "ramp": "inferno",
-          "domain": [
-            10,
-            2000
-          ],
-          "logarithmic": true
-        },
-        "keywords": [
-          "water quality",
-          "river",
-          "monitoring",
-          "daera",
-          "niea",
-          "dissolved iron",
-          "dissolved-iron"
-        ],
-        "labelProperty": "Station_Name",
-        "useLOD": false,
-        "references": [
-          {
-            "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Dissolved iron)",
-            "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-dissolved-iron1",
-            "note": ""
-          }
-        ]
-      }
-    },
-    {
-      "id": "map-source:wq-rwq-dissolved-oxygen",
-      "slug": "map-source-wq-rwq-dissolved-oxygen",
-      "type": "map-source",
-      "title": "River Water Quality 1990–2018 — Dissolved oxygen source files",
-      "subtitle": "Water Quality / DAERA, NIEA",
-      "category": "Map sources",
-      "provider": [
-        "DAERA",
-        "NIEA"
-      ],
-      "description": "Per-monitoring-site mean dissolved oxygen for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
-      "sourceMapId": "wq-rwq-dissolved-oxygen",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "RW",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Dissolved oxygen)",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-dissolved-oxygen1"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/rwq-dissolved-oxygen.fgb"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/rwq-dissolved-oxygen.fgb"
-        }
-      ],
-      "interactiveUrl": "/#layers=wq-rwq-dissolved-oxygen",
-      "browseUrl": "/browse/sources/map-source-wq-rwq-dissolved-oxygen",
-      "rawMetadata": {
-        "id": "wq-rwq-dissolved-oxygen",
-        "name": "River Water Quality 1990–2018 — Dissolved oxygen",
-        "slug": "wq-rwq-dissolved-oxygen",
-        "category": "water-quality",
-        "provider": [
-          "DAERA",
-          "NIEA"
-        ],
-        "description": "Per-monitoring-site mean dissolved oxygen for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-dissolved-oxygen.fgb"
-        },
-        "style": {
-          "color": "#888888",
-          "radius": 5,
-          "weight": 0.5,
-          "fillOpacity": 0.9
-        },
-        "colorScale": {
-          "property": "mean_value",
-          "ramp": "viridis",
-          "domain": [
-            5,
-            15
-          ],
-          "logarithmic": false
-        },
-        "keywords": [
-          "water quality",
-          "river",
-          "monitoring",
-          "daera",
-          "niea",
-          "dissolved oxygen",
-          "dissolved-oxygen"
-        ],
-        "labelProperty": "Station_Name",
-        "useLOD": false,
-        "references": [
-          {
-            "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Dissolved oxygen)",
-            "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-dissolved-oxygen1",
-            "note": ""
-          }
-        ]
-      }
-    },
-    {
-      "id": "map-source:wq-rwq-dissolved-zinc",
-      "slug": "map-source-wq-rwq-dissolved-zinc",
-      "type": "map-source",
-      "title": "River Water Quality 1990–2018 — Dissolved zinc source files",
-      "subtitle": "Water Quality / DAERA, NIEA",
-      "category": "Map sources",
-      "provider": [
-        "DAERA",
-        "NIEA"
-      ],
-      "description": "Per-monitoring-site mean dissolved zinc for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 559 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
-      "sourceMapId": "wq-rwq-dissolved-zinc",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "RW",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Dissolved zinc)",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-dissolved-zinc1"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/rwq-dissolved-zinc.fgb"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/rwq-dissolved-zinc.fgb"
-        }
-      ],
-      "interactiveUrl": "/#layers=wq-rwq-dissolved-zinc",
-      "browseUrl": "/browse/sources/map-source-wq-rwq-dissolved-zinc",
-      "rawMetadata": {
-        "id": "wq-rwq-dissolved-zinc",
-        "name": "River Water Quality 1990–2018 — Dissolved zinc",
-        "slug": "wq-rwq-dissolved-zinc",
-        "category": "water-quality",
-        "provider": [
-          "DAERA",
-          "NIEA"
-        ],
-        "description": "Per-monitoring-site mean dissolved zinc for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 559 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-dissolved-zinc.fgb"
-        },
-        "style": {
-          "color": "#888888",
-          "radius": 5,
-          "weight": 0.5,
-          "fillOpacity": 0.9
-        },
-        "colorScale": {
-          "property": "mean_value",
-          "ramp": "inferno",
-          "domain": [
-            1,
-            80
-          ],
-          "logarithmic": true
-        },
-        "keywords": [
-          "water quality",
-          "river",
-          "monitoring",
-          "daera",
-          "niea",
-          "dissolved zinc",
-          "dissolved-zinc"
-        ],
-        "labelProperty": "Station_Name",
-        "useLOD": false,
-        "references": [
-          {
-            "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Dissolved zinc)",
-            "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-dissolved-zinc1",
-            "note": ""
-          }
-        ]
-      }
-    },
-    {
-      "id": "map-source:wq-rwq-nitrate",
-      "slug": "map-source-wq-rwq-nitrate",
-      "type": "map-source",
-      "title": "River Water Quality 1990–2018 — Nitrate (as N) source files",
-      "subtitle": "Water Quality / DAERA, NIEA",
-      "category": "Map sources",
-      "provider": [
-        "DAERA",
-        "NIEA"
-      ],
-      "description": "Per-monitoring-site mean nitrate (as n) for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
-      "sourceMapId": "wq-rwq-nitrate",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "RW",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Nitrate (as N))",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-nitrate1"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/rwq-nitrate.fgb"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/rwq-nitrate.fgb"
-        }
-      ],
-      "interactiveUrl": "/#layers=wq-rwq-nitrate",
-      "browseUrl": "/browse/sources/map-source-wq-rwq-nitrate",
-      "rawMetadata": {
-        "id": "wq-rwq-nitrate",
-        "name": "River Water Quality 1990–2018 — Nitrate (as N)",
-        "slug": "wq-rwq-nitrate",
-        "category": "water-quality",
-        "provider": [
-          "DAERA",
-          "NIEA"
-        ],
-        "description": "Per-monitoring-site mean nitrate (as n) for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-nitrate.fgb"
-        },
-        "style": {
-          "color": "#888888",
-          "radius": 5,
-          "weight": 0.5,
-          "fillOpacity": 0.9
-        },
-        "colorScale": {
-          "property": "mean_value",
-          "ramp": "inferno",
-          "domain": [
-            0.5,
-            15
-          ],
-          "logarithmic": false
-        },
-        "keywords": [
-          "water quality",
-          "river",
-          "monitoring",
-          "daera",
-          "niea",
-          "nitrate (as n)",
-          "nitrate"
-        ],
-        "labelProperty": "Station_Name",
-        "useLOD": false,
-        "references": [
-          {
-            "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Nitrate (as N))",
-            "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-nitrate1",
-            "note": ""
-          }
-        ]
-      }
-    },
-    {
-      "id": "map-source:wq-rwq-nitrite",
-      "slug": "map-source-wq-rwq-nitrite",
-      "type": "map-source",
-      "title": "River Water Quality 1990–2018 — Nitrite (as N) source files",
-      "subtitle": "Water Quality / DAERA, NIEA",
-      "category": "Map sources",
-      "provider": [
-        "DAERA",
-        "NIEA"
-      ],
-      "description": "Per-monitoring-site mean nitrite (as n) for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
-      "sourceMapId": "wq-rwq-nitrite",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "RW",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Nitrite (as N))",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-nitrite1"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/rwq-nitrite.fgb"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/rwq-nitrite.fgb"
-        }
-      ],
-      "interactiveUrl": "/#layers=wq-rwq-nitrite",
-      "browseUrl": "/browse/sources/map-source-wq-rwq-nitrite",
-      "rawMetadata": {
-        "id": "wq-rwq-nitrite",
-        "name": "River Water Quality 1990–2018 — Nitrite (as N)",
-        "slug": "wq-rwq-nitrite",
-        "category": "water-quality",
-        "provider": [
-          "DAERA",
-          "NIEA"
-        ],
-        "description": "Per-monitoring-site mean nitrite (as n) for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-nitrite.fgb"
-        },
-        "style": {
-          "color": "#888888",
-          "radius": 5,
-          "weight": 0.5,
-          "fillOpacity": 0.9
-        },
-        "colorScale": {
-          "property": "mean_value",
-          "ramp": "inferno",
-          "domain": [
-            0.005,
-            0.5
-          ],
-          "logarithmic": true
-        },
-        "keywords": [
-          "water quality",
-          "river",
-          "monitoring",
-          "daera",
-          "niea",
-          "nitrite (as n)",
-          "nitrite"
-        ],
-        "labelProperty": "Station_Name",
-        "useLOD": false,
-        "references": [
-          {
-            "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Nitrite (as N))",
-            "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-nitrite1",
-            "note": ""
-          }
-        ]
-      }
-    },
-    {
-      "id": "map-source:wq-rwq-ph",
-      "slug": "map-source-wq-rwq-ph",
-      "type": "map-source",
-      "title": "River Water Quality 1990–2018 — pH source files",
-      "subtitle": "Water Quality / DAERA, NIEA",
-      "category": "Map sources",
-      "provider": [
-        "DAERA",
-        "NIEA"
-      ],
-      "description": "Per-monitoring-site mean ph for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
-      "sourceMapId": "wq-rwq-ph",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "RW",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (pH)",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-ph1"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/rwq-ph.fgb"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/rwq-ph.fgb"
-        }
-      ],
-      "interactiveUrl": "/#layers=wq-rwq-ph",
-      "browseUrl": "/browse/sources/map-source-wq-rwq-ph",
-      "rawMetadata": {
-        "id": "wq-rwq-ph",
-        "name": "River Water Quality 1990–2018 — pH",
-        "slug": "wq-rwq-ph",
-        "category": "water-quality",
-        "provider": [
-          "DAERA",
-          "NIEA"
-        ],
-        "description": "Per-monitoring-site mean ph for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-ph.fgb"
-        },
-        "style": {
-          "color": "#888888",
-          "radius": 5,
-          "weight": 0.5,
-          "fillOpacity": 0.9
-        },
-        "colorScale": {
-          "property": "mean_value",
-          "ramp": "plasma",
-          "domain": [
-            5,
-            9
-          ],
-          "logarithmic": false
-        },
-        "keywords": [
-          "water quality",
-          "river",
-          "monitoring",
-          "daera",
-          "niea",
-          "ph",
-          "ph"
-        ],
-        "labelProperty": "Station_Name",
-        "useLOD": false,
-        "references": [
-          {
-            "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (pH)",
-            "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-ph1",
-            "note": ""
-          }
-        ]
-      }
-    },
-    {
-      "id": "map-source:wq-rwq-soluble-phosphorus",
-      "slug": "map-source-wq-rwq-soluble-phosphorus",
-      "type": "map-source",
-      "title": "River Water Quality 1990–2018 — Soluble reactive phosphorus source files",
-      "subtitle": "Water Quality / DAERA, NIEA",
-      "category": "Map sources",
-      "provider": [
-        "DAERA",
-        "NIEA"
-      ],
-      "description": "Per-monitoring-site mean soluble reactive phosphorus for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
-      "sourceMapId": "wq-rwq-soluble-phosphorus",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "RW",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Soluble reactive phosphorus)",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-soluble-phosphorus1"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/rwq-soluble-phosphorus.fgb"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/rwq-soluble-phosphorus.fgb"
-        }
-      ],
-      "interactiveUrl": "/#layers=wq-rwq-soluble-phosphorus",
-      "browseUrl": "/browse/sources/map-source-wq-rwq-soluble-phosphorus",
-      "rawMetadata": {
-        "id": "wq-rwq-soluble-phosphorus",
-        "name": "River Water Quality 1990–2018 — Soluble reactive phosphorus",
-        "slug": "wq-rwq-soluble-phosphorus",
-        "category": "water-quality",
-        "provider": [
-          "DAERA",
-          "NIEA"
-        ],
-        "description": "Per-monitoring-site mean soluble reactive phosphorus for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-soluble-phosphorus.fgb"
-        },
-        "style": {
-          "color": "#888888",
-          "radius": 5,
-          "weight": 0.5,
-          "fillOpacity": 0.9
-        },
-        "colorScale": {
-          "property": "mean_value",
-          "ramp": "inferno",
-          "domain": [
-            0.01,
-            1
-          ],
-          "logarithmic": true
-        },
-        "keywords": [
-          "water quality",
-          "river",
-          "monitoring",
-          "daera",
-          "niea",
-          "soluble reactive phosphorus",
-          "soluble-phosphorus"
-        ],
-        "labelProperty": "Station_Name",
-        "useLOD": false,
-        "references": [
-          {
-            "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Soluble reactive phosphorus)",
-            "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-soluble-phosphorus1",
             "note": ""
           }
         ]
