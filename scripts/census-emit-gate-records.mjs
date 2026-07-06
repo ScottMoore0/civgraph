@@ -19,6 +19,9 @@ const out = args.includes('--out') ? args[args.indexOf('--out') + 1] : 'census-g
 
 const CSV = 'data/review-inputs/census-publish-ready/publish-tranche-cso-highconf.csv';
 const ATTR = JSON.parse(readFileSync('data/review-inputs/census-publish-ready/attribution.json', 'utf8')).variants.cso;
+// fix #3: single-CensusYear date backfill (data/review-inputs/census-publish-ready/censusyear-dates.json)
+const YEARS = JSON.parse(readFileSync('data/review-inputs/census-publish-ready/censusyear-dates.json', 'utf8')).single;
+const pilotOnly = args.includes('--pilot-dated'); // emit only records dated from their title (the 1,192-record pilot slice)
 
 // minimal CSV parse (handles quoted fields with commas)
 function parseCsv(text) {
@@ -44,8 +47,16 @@ const slugify = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|
 const yearOf = (t) => (t.match(/\b(1[89]\d\d|20\d\d)\b/) || [])[1] || '';
 
 const sources = [];
-for (const r of records.slice(0, limit === Infinity ? records.length : limit)) {
+let counted = 0;
+for (const r of records) {
+  if (counted >= limit) break;
   const id = r[ix.id], title = r[ix.title], code = r[ix.sourceSlugOrId], conf = r[ix.confidence];
+  // fix #3: date from the title year, else the cube's single CensusYear; multi-census / undated stay ''
+  const titleYear = yearOf(title);
+  const date = titleYear || YEARS[code] || '';
+  const dateSource = titleYear ? 'title' : (YEARS[code] ? 'censusyear' : '');
+  if (pilotOnly && dateSource !== 'title') continue; // pilot = the title-dated slice only
+  counted++;
   const sourceUrl = ATTR.sourceUrlPattern.replace('{sourceSlugOrId}', code);
   const apiUrl = ATTR.apiUrlPattern.replace('{sourceSlugOrId}', code);
   sources.push({
@@ -53,14 +64,19 @@ for (const r of records.slice(0, limit === Infinity ? records.length : limit)) {
     slug: `approved-publication-census-cube-${slugify(code + '-' + title)}`,
     type: 'approved-table-source',
     title,
-    subtitle: 'CSO / census-statistical / Browse/Books plus Sources',
+    subtitle: 'CSO / census-statistical / Browse/Tables plus Sources',
     category: 'Approved tables',
-    date: yearOf(title),
+    date,
+    dateSource,
     provider: ['CSO'],
-    description: `CSO PxStat statistical cube (matrix ${code}). Published as a Books/Tables/Sources source-table record under CC BY 4.0.`,
+    // fix #1: fold the CC-BY attribution string into description so build-browse-indexes surfaces it
+    description: `CSO PxStat statistical cube (matrix ${code}). Published as a Books/Tables/Sources source-table record under CC BY 4.0. ${ATTR.attributionText}`,
     keywords: ['census-statistical', 'statistical-cube', 'CSO', 'CC-BY-4.0', 'publish', 'approved-publication', code],
-    proposedBrowsePath: 'Browse/Books plus Sources',
+    // fix #2: match the dominant approved-table-source browse path
+    proposedBrowsePath: 'Browse/Tables plus Sources',
     publicationStatus: 'approved-staged',
+    // fix #1: build-browse-indexes reads `license` (US); emit it so the licence surfaces
+    license: 'CC BY 4.0',
     licence: 'CC BY 4.0',
     attribution: ATTR.attributionText,
     references: [
