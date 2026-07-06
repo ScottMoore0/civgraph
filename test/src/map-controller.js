@@ -24,6 +24,11 @@ import { absoluteTileTemplate, boundsToFlatBbox, boundsToImageCoordinates, bound
 const INTERACTION_FILL_COLOR = '#FDBA74';
 const INTERACTION_STROKE_COLOR = '#FF7A1A';
 const DEFAULT_VECTOR_FILL_OPACITY = 0;
+// Pitch (degrees) the camera tilts to when a 3D terrain layer is loaded from a
+// near-flat view. A top-down (pitch 0) view of draped terrain is visually
+// identical to the flat 2D map, so terrain must tilt itself into view on load.
+const TERRAIN_LOAD_PITCH = 60;
+const TERRAIN_AUTOTILT_THRESHOLD = 10;
 const MOBILE_GESTURE_CHROME_SELECTOR = [
   'button',
   'a',
@@ -1457,12 +1462,35 @@ export class TestMapLibreController {
   fitToLayer(layerId) {
     const record = this.layers.get(layerId);
     if (!record) return;
-    this.fitToBounds(record.config.bounds);
+    this.fitToBounds(record.config.bounds, {
+      terrain: record.config.sourceType === 'raster-dem'
+    });
   }
 
-  fitToBounds(boundsValue) {
+  fitToBounds(boundsValue, options = {}) {
     const bounds = boundsToMapLibre(boundsValue);
-    if (bounds) this.map.fitBounds(bounds, { padding: 36, duration: 400 });
+    if (!bounds) return;
+    // 3D terrain layers tilt the camera on load so the relief is actually
+    // visible — a pitch-0 view of draped terrain looks identical to the flat
+    // 2D map. Only auto-tilt from a near-flat camera so we don't override a
+    // user who has already chosen a viewing angle (e.g. loading a second
+    // terrain layer while tilted).
+    if (options.terrain && typeof this.map.cameraForBounds === 'function') {
+      const camera = this.map.cameraForBounds(bounds, { padding: 36 });
+      if (camera) {
+        const currentPitch = this.map.getPitch();
+        const pitch = currentPitch < TERRAIN_AUTOTILT_THRESHOLD ? TERRAIN_LOAD_PITCH : currentPitch;
+        this.map.easeTo({
+          center: camera.center,
+          zoom: camera.zoom,
+          bearing: camera.bearing ?? 0,
+          pitch,
+          duration: 700
+        });
+        return;
+      }
+    }
+    this.map.fitBounds(bounds, { padding: 36, duration: 400 });
   }
 
   buildSource(layer) {
