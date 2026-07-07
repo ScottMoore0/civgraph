@@ -79,12 +79,15 @@ function validateApprovedSources(validationReport, approvedSources) {
   // census tranches were subsequently approved for publication and land in their own
   // counts buckets, growing the total; cat-3 publish/variants above are asserted
   // unchanged. censusCategory1 = full CSO CC-BY cube tranche; censusNisraOgl = NISRA
-  // OGL v3.0 tranche (35 CSO-CC-BY-origin NI carveout records deferred, not included).
+  // OGL v3.0 tranche; censusCsoNiCarveout = the 35 CSO-CC-BY-origin cross-border NI
+  // cubes (rights confirmed clear 2026-07-07, now published under CC BY 4.0).
   const censusCso = approvedSources.counts?.censusCategory1?.publish || 0;
   const censusNisra = approvedSources.counts?.censusNisraOgl?.publish || 0;
+  const censusCsoNiCarveout = approvedSources.counts?.censusCsoNiCarveout?.publish || 0;
   assert(censusCso === 6560, `Expected 6,560 approved CSO census records, found ${censusCso}.`);
   assert(censusNisra === 645, `Expected 645 approved NISRA census records, found ${censusNisra}.`);
-  const expectedTotal = 6679 + censusCso + censusNisra;
+  assert(censusCsoNiCarveout === 35, `Expected 35 approved CSO NI-carveout census records, found ${censusCsoNiCarveout}.`);
+  const expectedTotal = 6679 + censusCso + censusNisra + censusCsoNiCarveout;
   assert(approvedSources.counts?.total === expectedTotal, `Expected ${expectedTotal} approved source records, found ${approvedSources.counts?.total}.`);
   assert(Array.isArray(approvedSources.sources) && approvedSources.sources.length === expectedTotal, `Expected ${expectedTotal} approved source records in sources array, found ${approvedSources.sources?.length}.`);
   assert(approvedSources.counts?.remainingApproved?.publish === 26, `Expected 26 approved remaining publish records, found ${approvedSources.counts?.remainingApproved?.publish}.`);
