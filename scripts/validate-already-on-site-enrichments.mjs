@@ -29,7 +29,7 @@ function main() {
   const reviewRows = normalizeArray(enrichments.reviewRows);
   const appliedSourceItemCount = targets.reduce((sum, target) => sum + normalizeArray(target.sourceItems).length, 0);
   assert(targets.length > 0, 'expected at least one applied enrichment target');
-  assert(appliedSourceItemCount === 317, `expected 317 applied source rows, found ${appliedSourceItemCount}`);
+  assert(appliedSourceItemCount === 318, `expected 318 applied source rows, found ${appliedSourceItemCount}`);
   assert(reviewRows.length === 794, `expected 794 public review-only rows, found ${reviewRows.length}`);
   assert(enrichments.summary?.inputRows === 1113, 'expected 1113 original review rows including withheld sensitive input');
   assert(enrichments.summary?.trackedInputRows === 1112, 'expected 1112 tracked sanitized input rows');

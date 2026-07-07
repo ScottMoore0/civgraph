@@ -1851,22 +1851,26 @@ function writeRegisterInterestIndexShards(records) {
 
 function compactSourceIndexRecord(record, assignments = null) {
   const slug = sourceDetailSlug(record);
-  // Bulk census tranches (thousands of homogeneous statistical cubes) carry a slim
-  // search-index entry — full metadata lives in the detail shard. Keeps the aggregate
-  // sources.json index under the 25 MB Pages/file limit as the census corpus grows.
-  if (typeof record.id === 'string' && record.id.startsWith('approved-publication:census-')) {
+  // Bulk homogeneous source tranches (census statistical cubes; local-authority /
+  // open-data source-download records) carry a slim search-index entry — full metadata
+  // lives in the detail shard. Keeps the aggregate sources.json index under the 25 MB
+  // Pages/file limit as these corpora grow.
+  if (typeof record.id === 'string'
+    && (record.id.startsWith('approved-publication:census-')
+      || record.id.startsWith('approved-publication:la-source-'))) {
+    // Minimal search-index entry — full metadata (subtitle, approval, publicationStatus,
+    // proposedBrowsePath, references, …) lives in the detail shard. sources.json is a
+    // build/tooling artifact (not runtime-fetched), so this only needs the fields search
+    // + validators consume; keeps the aggregate index under the 25 MB Pages/file limit.
     return compactObject({
       id: record.id,
       slug,
       type: record.type,
       title: record.title,
-      subtitle: record.subtitle,
       category: record.category,
       date: record.date,
       provider: normalizeArray(record.provider),
       license: record.license,
-      proposedBrowsePath: record.proposedBrowsePath,
-      publicationStatus: record.publicationStatus,
       approval: compactApprovalSummary(record.approval),
       keywords: normalizeArray(record.keywords).slice(0, 4),
       browseUrl: record.browseUrl,
