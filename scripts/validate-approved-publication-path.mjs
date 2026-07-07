@@ -75,13 +75,16 @@ function validateApprovedSources(validationReport, approvedSources) {
   assert(validationReport.counts?.category3VariantRows === 758, 'Approval validation report should have 758 Category 3 variant rows.');
   assert(approvedSources.counts?.publish === 5918, `Expected 5,918 approved publish records, found ${approvedSources.counts?.publish}.`);
   assert(approvedSources.counts?.variants === 761, `Expected 761 approved variant records, found ${approvedSources.counts?.variants}.`);
-  // Base June Category-3 pack = 6,679 (publish 5,918 + variants 761). A Category-1 CSO
-  // census-cube pilot (title-dated CC-BY cubes) was subsequently approved for publication
-  // and lands in counts.censusCategory1, growing the total. Cat-3 publish/variants above
-  // are asserted unchanged; total = 6,679 + census pilot.
-  const censusPilot = approvedSources.counts?.censusCategory1?.publish || 0;
-  assert(censusPilot === 1192, `Expected 1,192 approved census pilot records, found ${censusPilot}.`);
-  const expectedTotal = 6679 + censusPilot;
+  // Base June Category-3 pack = 6,679 (publish 5,918 + variants 761). Two Category-1
+  // census tranches were subsequently approved for publication and land in their own
+  // counts buckets, growing the total; cat-3 publish/variants above are asserted
+  // unchanged. censusCategory1 = full CSO CC-BY cube tranche; censusNisraOgl = NISRA
+  // OGL v3.0 tranche (35 CSO-CC-BY-origin NI carveout records deferred, not included).
+  const censusCso = approvedSources.counts?.censusCategory1?.publish || 0;
+  const censusNisra = approvedSources.counts?.censusNisraOgl?.publish || 0;
+  assert(censusCso === 6560, `Expected 6,560 approved CSO census records, found ${censusCso}.`);
+  assert(censusNisra === 645, `Expected 645 approved NISRA census records, found ${censusNisra}.`);
+  const expectedTotal = 6679 + censusCso + censusNisra;
   assert(approvedSources.counts?.total === expectedTotal, `Expected ${expectedTotal} approved source records, found ${approvedSources.counts?.total}.`);
   assert(Array.isArray(approvedSources.sources) && approvedSources.sources.length === expectedTotal, `Expected ${expectedTotal} approved source records in sources array, found ${approvedSources.sources?.length}.`);
   assert(approvedSources.counts?.remainingApproved?.publish === 26, `Expected 26 approved remaining publish records, found ${approvedSources.counts?.remainingApproved?.publish}.`);

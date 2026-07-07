@@ -152,7 +152,7 @@ function main() {
     detailShardSize: SOURCE_DETAIL_SHARD_SIZE,
     detailShardDir: `/data/browse/details/${SOURCE_DETAIL_SHARD_DIR}`,
     items: sourceIndexItems
-  });
+  }, { compact: true }); // large aggregate search index — compact to stay under the 25 MB Pages/file limit
 
   writeDetailFiles('maps', maps, (record) => ({
     rawMetadata: record.type === 'data-entry'
@@ -1851,6 +1851,28 @@ function writeRegisterInterestIndexShards(records) {
 
 function compactSourceIndexRecord(record, assignments = null) {
   const slug = sourceDetailSlug(record);
+  // Bulk census tranches (thousands of homogeneous statistical cubes) carry a slim
+  // search-index entry — full metadata lives in the detail shard. Keeps the aggregate
+  // sources.json index under the 25 MB Pages/file limit as the census corpus grows.
+  if (typeof record.id === 'string' && record.id.startsWith('approved-publication:census-')) {
+    return compactObject({
+      id: record.id,
+      slug,
+      type: record.type,
+      title: record.title,
+      subtitle: record.subtitle,
+      category: record.category,
+      date: record.date,
+      provider: normalizeArray(record.provider),
+      license: record.license,
+      proposedBrowsePath: record.proposedBrowsePath,
+      publicationStatus: record.publicationStatus,
+      approval: compactApprovalSummary(record.approval),
+      keywords: normalizeArray(record.keywords).slice(0, 4),
+      browseUrl: record.browseUrl,
+      detailUrl: `/data/browse/details/${SOURCE_DETAIL_SHARD_DIR}/${sourceShardNameForRecord(record, assignments)}`
+    });
+  }
   return compactObject({
     id: record.id,
     slug,
@@ -2045,11 +2067,11 @@ function readJson(relPath, fallback) {
   return JSON.parse(readFileSync(fullPath, 'utf8'));
 }
 
-function writeJson(relPath, value) {
+function writeJson(relPath, value, { compact = false } = {}) {
   const fullPath = path.isAbsolute(relPath) ? relPath : path.join(OUT_DIR, relPath);
   mkdirSync(path.dirname(fullPath), { recursive: true });
   const output = preserveGeneratedAtWhenPayloadMatches(fullPath, value);
-  const nextText = `${JSON.stringify(output, null, 2)}\n`;
+  const nextText = compact ? `${JSON.stringify(output)}\n` : `${JSON.stringify(output, null, 2)}\n`;
   if (existsSync(fullPath) && readFileSync(fullPath, 'utf8') === nextText) return;
   writeFileSync(fullPath, nextText);
 }
