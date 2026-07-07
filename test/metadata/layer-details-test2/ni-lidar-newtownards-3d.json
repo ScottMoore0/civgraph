@@ -1,0 +1,64 @@
+{
+  "id": "ni-lidar-newtownards-3d",
+  "sourceMapId": "ni-lidar-newtownards-3d",
+  "name": "NI LiDAR 1 m — Newtownards (2008)",
+  "category": "Physical Geography",
+  "group": "Physical Geography",
+  "date": 2008,
+  "provider": [
+    "OSNI",
+    "LPS",
+    "DAERA",
+    "Scott Moore"
+  ],
+  "description": "1 m LiDAR digital terrain model of the Newtownards river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set.",
+  "renderer": "maplibre",
+  "sourceType": "raster-dem",
+  "geometryType": "raster",
+  "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+  "demEncoding": "terrarium",
+  "exaggeration": 3,
+  "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+  "hillshadeOpacity": 0.55,
+  "hillshadeMinzoom": 8,
+  "hillshadeMaxzoom": 16,
+  "bounds": [
+    [
+      54.5286,
+      -5.8381
+    ],
+    [
+      54.6308,
+      -5.6472
+    ]
+  ],
+  "minzoom": 8,
+  "maxzoom": 16,
+  "maxNativeZoom": 16,
+  "tileSize": 256,
+  "rasterOpacity": 0.55,
+  "style": {
+    "color": "#8B5E34",
+    "fillColor": "#8B5E34",
+    "fillOpacity": 0.55,
+    "weight": 0
+  },
+  "variantOf": "ni-lidar-1m-3d",
+  "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain",
+  "license": "OGL v3.0",
+  "keywords": [
+    "lidar",
+    "DTM",
+    "elevation",
+    "terrain",
+    "3D",
+    "hillshade",
+    "height",
+    "Physical Geography",
+    "maplibre",
+    "Newtownards",
+    "Northern Ireland"
+  ],
+  "status": "converted-raster-tiles",
+  "loadable": true
+}

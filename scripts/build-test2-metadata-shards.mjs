@@ -47,6 +47,22 @@ const COMPACT_LAYER_FIELDS = [
   'metadataUrl',
   'imageUrl',
   'rasterOpacity',
+  // 3D raster-dem terrain fields
+  'demEncoding',
+  'exaggeration',
+  'hillshadeTiles',
+  'hillshadeOpacity',
+  'hillshadeMinzoom',
+  'hillshadeMaxzoom',
+  // variant linkage (per-basin terrain variants)
+  'variantOf',
+  'parentCard',
+  // deck.gl point-cloud fields
+  'tilesetUrl',
+  'pointSize',
+  'maxScreenSpaceError',
+  'maxMemoryMB',
+  'interleaved',
   'style',
   'labelProperty',
   'labelPropertyFallbacks',

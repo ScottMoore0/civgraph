@@ -1,0 +1,56 @@
+{
+  "id": "ni-lidar-a26-pointcloud",
+  "sourceMapId": "ni-lidar-a26-pointcloud",
+  "name": "A26 LiDAR Point Cloud — Glarryford (3D)",
+  "category": "Physical Geography",
+  "group": "Physical Geography",
+  "provider": [
+    "OSNI",
+    "DfI Roads"
+  ],
+  "date": 2016,
+  "description": "Airborne LiDAR point cloud of the A26 Frosses/Glarryford road-improvement corridor, streamed in 3D as an OGC 3D-Tiles octree. Rendered with deck.gl interleaved into the map: tilt and zoom in and the individual scanned points load in place; zoom out and they unload. Level-of-detail streaming keeps performance bounded regardless of dataset size. (Initial cut: 3 survey tiles; more of the corridor to follow.)",
+  "sourceType": "point-cloud",
+  "geometryType": "point-cloud",
+  "renderer": "maplibre",
+  "status": "converted-pointcloud",
+  "loadable": true,
+  "tilesetUrl": "https://data.civgraph.net/data/pointclouds/a26-glarryford/tileset.json?v=20260707a",
+  "bounds": [
+    [
+      54.95317,
+      -6.34001
+    ],
+    [
+      54.96399,
+      -6.33645
+    ]
+  ],
+  "minzoom": 5,
+  "maxzoom": 20,
+  "pointSize": 1.5,
+  "maxScreenSpaceError": 16,
+  "maxMemoryMB": 512,
+  "rasterOpacity": 1,
+  "style": {
+    "color": "#8ab4d8",
+    "fillColor": "#8ab4d8",
+    "fillOpacity": 1,
+    "weight": 0
+  },
+  "license": "OGL",
+  "keywords": [
+    "lidar",
+    "point cloud",
+    "3D",
+    "deck.gl",
+    "3d tiles",
+    "elevation",
+    "A26",
+    "Glarryford",
+    "Ballymena",
+    "Physical Geography",
+    "maplibre",
+    "DfI Roads"
+  ]
+}

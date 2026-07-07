@@ -1,0 +1,68 @@
+{
+  "id": "ireland-terrain-3d-grey",
+  "sourceMapId": "ireland-terrain-3d-grey",
+  "name": "Ireland 3D Terrain — best-available LiDAR + 30 m — grey relief",
+  "category": "Physical Geography",
+  "group": "Physical Geography",
+  "date": 2026,
+  "provider": [
+    "Copernicus",
+    "ESA",
+    "OSNI",
+    "LPS",
+    "Scott Moore"
+  ],
+  "description": "Island-wide 3D terrain using the most detailed elevation available at each location: 1 m OSNI LiDAR over the surveyed Northern Ireland river basins (zoom in for full detail), falling back to the Copernicus GLO-30 (30 m) model everywhere else. Multidirectional-hillshade relief draped with the currently selected basemap. Tilt and rotate to view in 3D. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+  "renderer": "maplibre",
+  "sourceType": "raster-dem",
+  "geometryType": "raster",
+  "tiles": "https://data.civgraph.net/data/maps/physical/ireland-terrain-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+  "demEncoding": "terrarium",
+  "exaggeration": 1.8,
+  "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ireland-terrain-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+  "hillshadeOpacity": 1,
+  "hillshadeMinzoom": 5,
+  "hillshadeMaxzoom": 16,
+  "bounds": [
+    [
+      51.2,
+      -10.9
+    ],
+    [
+      55.7,
+      -5.2
+    ]
+  ],
+  "minzoom": 5,
+  "maxzoom": 16,
+  "maxNativeZoom": 16,
+  "tileSize": 256,
+  "rasterOpacity": 1,
+  "style": {
+    "color": "#8a8a8a",
+    "fillColor": "#8a8a8a",
+    "fillOpacity": 1,
+    "weight": 0
+  },
+  "license": "Copernicus (free & open) + OGL v3.0 (NI LiDAR)",
+  "keywords": [
+    "lidar",
+    "DTM",
+    "elevation",
+    "terrain",
+    "3D",
+    "hillshade",
+    "height",
+    "Physical Geography",
+    "maplibre",
+    "Ireland",
+    "Copernicus",
+    "GLO-30",
+    "best available",
+    "DEM",
+    "grey",
+    "monochrome relief"
+  ],
+  "status": "converted-raster-tiles",
+  "loadable": true
+}

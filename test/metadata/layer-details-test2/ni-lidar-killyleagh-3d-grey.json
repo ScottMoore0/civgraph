@@ -1,0 +1,66 @@
+{
+  "id": "ni-lidar-killyleagh-3d-grey",
+  "sourceMapId": "ni-lidar-killyleagh-3d-grey",
+  "name": "NI LiDAR 1 m — Killyleagh (2010) — grey relief",
+  "category": "Physical Geography",
+  "group": "Physical Geography",
+  "date": 2010,
+  "provider": [
+    "OSNI",
+    "LPS",
+    "DAERA",
+    "Scott Moore"
+  ],
+  "description": "1 m LiDAR digital terrain model of the Killyleagh river-basin catchment, rendered as 3D terrain with multidirectional-hillshade relief draped with the selected basemap. Part of the NI River-Basin LiDAR 1 m 3D set. Rendered with an opaque monochrome-grey hillshade relief surface (basemap hidden) instead of the basemap drape.",
+  "renderer": "maplibre",
+  "sourceType": "raster-dem",
+  "geometryType": "raster",
+  "tiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/dem/{z}/{x}/{y}.png?v=20260705a",
+  "demEncoding": "terrarium",
+  "exaggeration": 3,
+  "hillshadeTiles": "https://data.civgraph.net/data/maps/physical/ni-lidar-1m-3d/hs/{z}/{x}/{y}.png?v=20260705a",
+  "hillshadeOpacity": 1,
+  "hillshadeMinzoom": 8,
+  "hillshadeMaxzoom": 16,
+  "bounds": [
+    [
+      54.3843,
+      -5.6764
+    ],
+    [
+      54.4211,
+      -5.6282
+    ]
+  ],
+  "minzoom": 8,
+  "maxzoom": 16,
+  "maxNativeZoom": 16,
+  "tileSize": 256,
+  "rasterOpacity": 1,
+  "style": {
+    "color": "#8a8a8a",
+    "fillColor": "#8a8a8a",
+    "fillOpacity": 1,
+    "weight": 0
+  },
+  "variantOf": "ni-lidar-1m-3d-grey",
+  "parentCard": "NI River-Basin LiDAR — 1 m 3D Terrain (grey relief)",
+  "license": "OGL v3.0",
+  "keywords": [
+    "lidar",
+    "DTM",
+    "elevation",
+    "terrain",
+    "3D",
+    "hillshade",
+    "height",
+    "Physical Geography",
+    "maplibre",
+    "Killyleagh",
+    "Northern Ireland",
+    "grey",
+    "monochrome relief"
+  ],
+  "status": "converted-raster-tiles",
+  "loadable": true
+}
