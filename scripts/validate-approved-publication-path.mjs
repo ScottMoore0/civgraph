@@ -89,11 +89,24 @@ function validateApprovedSources(validationReport, approvedSources) {
   // localAuthoritySources = ready (zero-blocker, non-duplicate) local-authority /
   // data.gov.ie / Open Data NI source-download records; rights confirmed clear 2026-07-07.
   const localAuthoritySources = approvedSources.counts?.localAuthoritySources?.publish || 0;
+  // localAuthoritySourcesHeld = the 755 LA rows previously held by the single
+  // conservative "duplicate-or-variant-review: no existing match candidate" flag;
+  // dedup pass 2026-07-08 confirmed no auto-match / no URL+id collision -> published
+  // as distinct. transportPublicAssets + sourceDownloadRecords = zero-blocker rows
+  // from the transport and source-download prep buckets, minus any whose provider
+  // URL already existed in the gate (skipped as already-published).
+  const localAuthoritySourcesHeld = approvedSources.counts?.localAuthoritySourcesHeld?.publish || 0;
+  const transportPublicAssets = approvedSources.counts?.transportPublicAssets?.publish || 0;
+  const sourceDownloadRecords = approvedSources.counts?.sourceDownloadRecords?.publish || 0;
   assert(censusCso === 6560, `Expected 6,560 approved CSO census records, found ${censusCso}.`);
   assert(censusNisra === 645, `Expected 645 approved NISRA census records, found ${censusNisra}.`);
   assert(censusCsoNiCarveout === 35, `Expected 35 approved CSO NI-carveout census records, found ${censusCsoNiCarveout}.`);
   assert(localAuthoritySources === 715, `Expected 715 approved local-authority source records, found ${localAuthoritySources}.`);
-  const expectedTotal = 6679 + censusCso + censusNisra + censusCsoNiCarveout + localAuthoritySources;
+  assert(localAuthoritySourcesHeld === 755, `Expected 755 approved held/dedup-cleared local-authority source records, found ${localAuthoritySourcesHeld}.`);
+  assert(transportPublicAssets === 78, `Expected 78 approved transport/public-asset source records, found ${transportPublicAssets}.`);
+  assert(sourceDownloadRecords === 16, `Expected 16 approved source-download records, found ${sourceDownloadRecords}.`);
+  const expectedTotal = 6679 + censusCso + censusNisra + censusCsoNiCarveout + localAuthoritySources
+    + localAuthoritySourcesHeld + transportPublicAssets + sourceDownloadRecords;
   assert(approvedSources.counts?.total === expectedTotal, `Expected ${expectedTotal} approved source records, found ${approvedSources.counts?.total}.`);
   assert(Array.isArray(approvedSources.sources) && approvedSources.sources.length === expectedTotal, `Expected ${expectedTotal} approved source records in sources array, found ${approvedSources.sources?.length}.`);
   assert(approvedSources.counts?.remainingApproved?.publish === 26, `Expected 26 approved remaining publish records, found ${approvedSources.counts?.remainingApproved?.publish}.`);
