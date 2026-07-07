@@ -6,7 +6,7 @@
  * cache status, and stale-cache cleanup.
  */
 
-const VERSION = 'root-maplibre-sw-d335a1af0159';
+const VERSION = 'root-maplibre-sw-fe52133586da';
 const STATIC_CACHE = `civgraph-root-maplibre-${VERSION}-static`;
 const RUNTIME_CACHE = `civgraph-root-maplibre-${VERSION}-runtime`;
 const CACHE_PREFIX = 'civgraph-root-maplibre-';
