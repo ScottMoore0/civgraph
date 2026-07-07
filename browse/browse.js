@@ -2944,7 +2944,7 @@ async function loadIndex(type) {
   if (state.indexes.has(type)) return state.indexes.get(type);
   const config = ENTITY_CONFIG[type];
   const data = await loadJson(`${DATA_ROOT}/${config.index}`);
-  if (type === 'register-interests' && data.indexLayout === 'sharded' && Array.isArray(data.shards)) {
+  if (data.indexLayout === 'sharded' && Array.isArray(data.shards)) {
     const shardData = await Promise.all(data.shards.map((shard) => loadJson(shard.url)));
     data.items = shardData.flatMap((shard) => Array.isArray(shard.items) ? shard.items : []);
   }

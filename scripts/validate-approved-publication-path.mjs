@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
+import { resolveBrowseSourceItems } from './lib/browse-source-index.mjs';
 
 const ROOT = process.cwd();
 const APPROVAL_ROOT = path.join(ROOT, 'tasks', 'absence-integration-ready-2026-06-15', 'publication-approval-pack', 'approval-refinement');
@@ -23,6 +24,7 @@ function main() {
   const dailAliases = readJson(path.join(ROOT, 'data', 'elections', 'dail-approved-candidate-aliases.json'));
   const approvedSources = readJson(path.join(ROOT, 'data', 'database', 'approved-publication-sources.json'));
   const browseSources = readJson(path.join(ROOT, 'data', 'browse', 'sources.json'));
+  browseSources.items = resolveBrowseSourceItems(browseSources, ROOT);
 
   validateDailAliases(validationReport, dailAliases);
   validateApprovedSources(validationReport, approvedSources);

@@ -23,6 +23,8 @@ const SOURCE_DETAIL_SHARD_DIR = 'source-shards';
 const SOURCE_DETAIL_SHARD_SIZE = 200;
 const REGISTER_INTEREST_INDEX_SHARD_DIR = 'register-interest-shards';
 const REGISTER_INTEREST_INDEX_SHARD_SIZE = 5000;
+const SOURCE_INDEX_SHARD_DIR = 'source-index-shards';
+const SOURCE_INDEX_SHARD_SIZE = 5000;
 const RAW_ELECTION_SOURCE_CACHE = new Map();
 
 const ENTITY_GROUPS = [
@@ -143,16 +145,25 @@ function main() {
     filterFields: ['electedBody', 'memberType', 'chamber', 'constituency', 'categories', 'sourceKinds', 'isNone'],
     shards: registerInterestIndexShards
   });
+  // The aggregate search index is split into fixed-size shards so the manifest
+  // (data/browse/sources.json) and every shard stay under the 25 MB Cloudflare
+  // Pages per-file limit as the source corpus grows. The runtime loader and the
+  // validators/graph build resolve shards via indexLayout === 'sharded'.
+  const sourceIndexShards = writeSourceIndexShards(sourceIndexItems);
   writeJson('sources.json', {
     schemaVersion: 2,
     generatedAt: GENERATED_AT,
     total: sources.length,
+    indexLayout: 'sharded',
+    indexShardStrategy: 'fixed-size',
+    indexShardSize: SOURCE_INDEX_SHARD_SIZE,
+    indexShardDir: `/data/browse/${SOURCE_INDEX_SHARD_DIR}`,
     detailLayout: 'sharded',
     detailShardStrategy: 'fixed-size',
     detailShardSize: SOURCE_DETAIL_SHARD_SIZE,
     detailShardDir: `/data/browse/details/${SOURCE_DETAIL_SHARD_DIR}`,
-    items: sourceIndexItems
-  }, { compact: true }); // large aggregate search index — compact to stay under the 25 MB Pages/file limit
+    shards: sourceIndexShards
+  });
 
   writeDetailFiles('maps', maps, (record) => ({
     rawMetadata: record.type === 'data-entry'
@@ -1843,6 +1854,32 @@ function writeRegisterInterestIndexShards(records) {
     shards.push({
       name: shardName,
       url: `/data/browse/${REGISTER_INTEREST_INDEX_SHARD_DIR}/${shardName}`,
+      count: items.length
+    });
+  }
+  return shards;
+}
+
+function writeSourceIndexShards(records) {
+  const shardDir = path.join(OUT_DIR, SOURCE_INDEX_SHARD_DIR);
+  rmSync(shardDir, { recursive: true, force: true });
+  mkdirSync(shardDir, { recursive: true });
+  const shards = [];
+  for (let index = 0; index < records.length; index += SOURCE_INDEX_SHARD_SIZE) {
+    const shardIndex = Math.floor(index / SOURCE_INDEX_SHARD_SIZE);
+    const shardName = `sources-${String(shardIndex).padStart(3, '0')}.json`;
+    const items = records.slice(index, index + SOURCE_INDEX_SHARD_SIZE);
+    writeJson(path.join(SOURCE_INDEX_SHARD_DIR, shardName), {
+      schemaVersion: 1,
+      generatedAt: GENERATED_AT,
+      kind: 'source-index',
+      shard: shardName,
+      total: items.length,
+      items
+    }, { compact: true });
+    shards.push({
+      name: shardName,
+      url: `/data/browse/${SOURCE_INDEX_SHARD_DIR}/${shardName}`,
       count: items.length
     });
   }

@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
+import { resolveBrowseSourceItems } from './lib/browse-source-index.mjs';
 
 const failures = [];
 
@@ -17,7 +18,7 @@ function readJson(filePath) {
 const external = readJson('data/database/external-sources.json') || {};
 const browseSources = readJson('data/browse/sources.json') || { items: [] };
 const sourceItems = Array.isArray(external.sources) ? external.sources : [];
-const browseItems = Array.isArray(browseSources.items) ? browseSources.items : [];
+const browseItems = resolveBrowseSourceItems(browseSources);
 const sourceById = new Map(browseItems.map((item) => [item.id, item]));
 
 const wikipedia = sourceItems.filter((item) => item.type === 'wikipedia-article');

@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
+import { resolveBrowseSourceItems } from './lib/browse-source-index.mjs';
 
 const ROOT = process.cwd();
 const SIDE_CAR = path.join(ROOT, 'data', 'database', 'raw-source-documents.json');
@@ -43,6 +44,7 @@ function main() {
   }
 
   const browse = readJson(BROWSE_SOURCES);
+  browse.items = resolveBrowseSourceItems(browse, ROOT);
   assert(Array.isArray(browse.items), 'data/browse/sources.json must contain items');
   const browseById = new Map(browse.items.map((item) => [item.id, item]));
   const shardCache = new Map();

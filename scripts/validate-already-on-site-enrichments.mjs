@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
+import { resolveBrowseSourceItems } from './lib/browse-source-index.mjs';
 
 const ROOT = process.cwd();
 const ENRICHMENTS_PATH = path.join(ROOT, 'data', 'database', 'already-on-site-enrichments.json');
@@ -102,6 +103,7 @@ function main() {
   }
 
   const sourcesIndex = readJson(BROWSE_SOURCES_PATH);
+  sourcesIndex.items = resolveBrowseSourceItems(sourcesIndex, ROOT);
   assert(Array.isArray(sourcesIndex.items), 'data/browse/sources.json must contain items');
   const indexById = new Map(sourcesIndex.items.map((item) => [item.id, item]));
   const shardCache = new Map();

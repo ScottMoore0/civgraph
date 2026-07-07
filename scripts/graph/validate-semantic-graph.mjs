@@ -248,7 +248,18 @@ async function validateBrowseMappings(mappingItems, errors) {
 
 async function loadBrowseItems(fileName) {
   const payload = await readJson(path.join(BROWSE_DIR, fileName));
+  if (payload.indexLayout === 'sharded' && Array.isArray(payload.shards)) {
+    return loadShardedItems(payload.shards, fileName);
+  }
   return requireArray(payload.items || [], fileName);
+}
+
+async function loadSourceIndexItems() {
+  const index = await readJson(path.join(BROWSE_DIR, 'sources.json'));
+  if (index.indexLayout === 'sharded' && Array.isArray(index.shards)) {
+    return loadShardedItems(index.shards, 'sources index');
+  }
+  return requireArray(index.items || [], 'sources index items');
 }
 
 function browseMappingKeys(type, item) {
@@ -378,8 +389,7 @@ async function validateFeatureCoverage(entityTypeCounts, statementPropertyCounts
 }
 
 async function loadSourceRecordsWithDetails() {
-  const index = await readJson(path.join(BROWSE_DIR, 'sources.json'));
-  const items = requireArray(index.items || [], 'sources index items');
+  const items = await loadSourceIndexItems();
   const detailCache = new Map();
   const enriched = [];
   for (const item of items) {

@@ -1587,12 +1587,32 @@ function addBrowseMappings(type, item, entityId) {
 
 async function loadBrowseItems(fileName) {
   const data = await readJson(path.join(BROWSE_DIR, fileName));
+  if (data.indexLayout === 'sharded' && Array.isArray(data.shards)) {
+    const items = [];
+    for (const shard of requireArray(data.shards, `${fileName} shards`)) {
+      const shardData = await readJson(siteUrlToPath(shard.url));
+      items.push(...requireArray(shardData.items, shard.name || shard.url));
+    }
+    return items;
+  }
   return Array.isArray(data) ? data : requireArray(data.items || [], fileName);
 }
 
-async function loadSourceRecordsWithDetails() {
+async function loadSourceIndexItems() {
   const index = await readJson(path.join(BROWSE_DIR, 'sources.json'));
-  const items = requireArray(index.items || [], 'sources index items');
+  if (index.indexLayout === 'sharded' && Array.isArray(index.shards)) {
+    const items = [];
+    for (const shard of requireArray(index.shards, 'sources index shards')) {
+      const shardData = await readJson(siteUrlToPath(shard.url));
+      items.push(...requireArray(shardData.items, shard.name || shard.url));
+    }
+    return items;
+  }
+  return requireArray(index.items || [], 'sources index items');
+}
+
+async function loadSourceRecordsWithDetails() {
+  const items = await loadSourceIndexItems();
   const detailCache = new Map();
   const enriched = [];
   for (const item of items) {
