@@ -101,6 +101,12 @@ function findGeometry(folder) {
   }
   const shp = readdirSync(folder).filter(f => /\.shp$/i.test(f));
   if (shp.length) return `${folder}/${shp[0]}`;
+  // other OGR-readable vector formats (GeoPackage / GML / KML / MapInfo)
+  const otherVec = readdirSync(folder).filter(f => /\.(gpkg|gml|kml|tab)$/i.test(f));
+  if (otherVec.length) return `${folder}/${otherVec[0]}`;
+  // Esri File Geodatabase is a *.gdb directory that ogr2ogr reads directly
+  const gdb = readdirSync(folder).filter(f => /\.gdb$/i.test(f) && isDir(`${folder}/${f}`));
+  if (gdb.length) return `${folder}/${gdb[0]}`;
   const json = readdirSync(folder).filter(f => /\.json$/i.test(f) && !/meta|schema/i.test(f));
   if (json.length) return `${folder}/${json[0]}`;
   // zip: extract ALL zips in the folder to tmp and search across them (the
@@ -122,7 +128,7 @@ function findGeometry(folder) {
       e.isDirectory() ? walk(`${d}/${e.name}`) : [`${d}/${e.name}`]);
     const files = existsSync(dest) ? walk(dest) : [];
     return files.find(f => /\.shp$/i.test(f)) || files.find(f => /\.geojson$|\.json$/i.test(f))
-        || files.find(f => /\.tab$|\.gml$/i.test(f)) || null;
+        || files.find(f => /\.(gpkg|gml|kml|tab)$/i.test(f)) || null;
   }
   return null;
 }

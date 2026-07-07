@@ -1,9 +1,170 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-07T01:02:26.502Z",
+  "generatedAt": "2026-07-07T01:47:26.082Z",
   "shard": 112,
   "totalSubjects": 250,
   "items": {
+    "cg:person:84294": [
+      {
+        "id": "cg:statement:22f6bc677a0b8a53fc86",
+        "propertyId": "cg:property:has-candidature",
+        "propertyLabel": "has candidature",
+        "valueType": "entity",
+        "valueId": "cg:candidature:cg-person-84294-cg-contest-northern-ireland-forum-for-political-dialogue-24580a0a3d45",
+        "valueLabel": "Lynn Carvill - South Down",
+        "valueText": "Lynn Carvill - South Down",
+        "valueDescription": "1996 Northern Ireland Forum election / NI Women's Coalition / Eliminated",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "1996-05-30",
+            "valueText": "1996-05-30"
+          },
+          {
+            "propertyId": "cg:property:constituency",
+            "propertyLabel": "constituency",
+            "valueType": "string",
+            "valueLabel": "South Down",
+            "valueText": "South Down"
+          },
+          {
+            "propertyId": "cg:property:candidature-status",
+            "propertyLabel": "candidature status",
+            "valueType": "string",
+            "valueLabel": "Eliminated",
+            "valueText": "Eliminated"
+          },
+          {
+            "propertyId": "cg:property:elected",
+            "propertyLabel": "elected",
+            "valueType": "boolean",
+            "valueLabel": "No",
+            "valueText": "No"
+          },
+          {
+            "propertyId": "cg:property:member-of-political-party",
+            "propertyLabel": "member of political party or label",
+            "valueType": "entity",
+            "valueId": "cg:party:ni-womens-coalition",
+            "valueLabel": "NI Women's Coalition",
+            "valueText": "NI Women's Coalition"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-person-index",
+            "sourceTitle": "Civgraph Browse person index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:32819fdfd66a4d581c6d",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:person",
+        "valueLabel": "Person",
+        "valueText": "Person",
+        "valueDescription": "A person who appears in Civgraph public data, including election candidates, MPs, and MLAs.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:e1e96ac9e61ae95fc1b6",
+        "propertyId": "cg:property:member-of-political-party",
+        "propertyLabel": "member of political party or label",
+        "valueType": "entity",
+        "valueId": "cg:party:ni-womens-coalition",
+        "valueLabel": "NI Women's Coalition",
+        "valueText": "NI Women's Coalition",
+        "valueDescription": "1997-2003 / 4 linked elections",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "Browse person party summary",
+            "valueText": "Browse person party summary"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-person-index",
+            "sourceTitle": "Civgraph Browse person index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:8ddc4ba713e8e86efbd2",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Lynn Carvill",
+        "valueText": "Lynn Carvill",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:4a6bc35332b693c05410",
+        "propertyId": "cg:property:stood-in-election",
+        "propertyLabel": "stood in election",
+        "valueType": "entity",
+        "valueId": "cg:election:northern-ireland-forum-for-political-dialogue-1996-05-30",
+        "valueLabel": "1996 Northern Ireland Forum election",
+        "valueText": "1996 Northern Ireland Forum election",
+        "valueDescription": "19 constituencies",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "1996-05-30",
+            "valueText": "1996-05-30"
+          },
+          {
+            "propertyId": "cg:property:constituency",
+            "propertyLabel": "constituency",
+            "valueType": "string",
+            "valueLabel": "South Down",
+            "valueText": "South Down"
+          },
+          {
+            "propertyId": "cg:property:candidature-status",
+            "propertyLabel": "candidature status",
+            "valueType": "string",
+            "valueLabel": "Eliminated",
+            "valueText": "Eliminated"
+          },
+          {
+            "propertyId": "cg:property:elected",
+            "propertyLabel": "elected",
+            "valueType": "boolean",
+            "valueLabel": "No",
+            "valueText": "No"
+          },
+          {
+            "propertyId": "cg:property:member-of-political-party",
+            "propertyLabel": "member of political party or label",
+            "valueType": "entity",
+            "valueId": "cg:party:ni-womens-coalition",
+            "valueLabel": "NI Women's Coalition",
+            "valueText": "NI Women's Coalition"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-person-index",
+            "sourceTitle": "Civgraph Browse person index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      }
+    ],
     "cg:person:84349": [
       {
         "id": "cg:statement:1ce35772b2fe6e26d383",
@@ -81334,119 +81495,6 @@
             "sourceKind": "current-provider-json-api",
             "sourceRecordId": "ni-register:assembly:json:a66cec8ce9a0b26c",
             "date": "2022-05-19",
-            "extractionConfidence": "high"
-          }
-        ]
-      }
-    ],
-    "cg:person:mr-peter-martin": [
-      {
-        "id": "cg:statement:7b7c9b59c30e6552e2fa",
-        "propertyId": "cg:property:elected-body",
-        "propertyLabel": "elected body",
-        "valueType": "entity",
-        "valueId": "cg:body:northern-ireland-assembly",
-        "valueLabel": "Northern Ireland Assembly",
-        "valueText": "Northern Ireland Assembly",
-        "valueDescription": "Northern Ireland Assembly",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "2026-04-22",
-            "valueText": "2026-04-22"
-          },
-          {
-            "propertyId": "cg:property:political-office",
-            "propertyLabel": "political office",
-            "valueType": "entity",
-            "valueId": "cg:office:mla",
-            "valueLabel": "Member of the Legislative Assembly",
-            "valueText": "Member of the Legislative Assembly"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:ni-register-assembly-json-d5e8bbd570ffe5e5",
-            "sourceTitle": "NI Assembly current registered interests JSON API",
-            "sourceKind": "current-provider-json-api",
-            "sourceRecordId": "ni-register:assembly:json:a66cec8ce9a0b26c",
-            "date": "2026-04-22",
-            "extractionConfidence": "high"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:d02b017afaf999d92614",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:person",
-        "valueLabel": "Person",
-        "valueText": "Person",
-        "valueDescription": "A person who appears in Civgraph public data, including election candidates, MPs, and MLAs.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:fd268a1e44744c8f5457",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Mr Peter Martin",
-        "valueText": "Mr Peter Martin",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:af780896c1b3bcec2422",
-        "propertyId": "cg:property:register-record",
-        "propertyLabel": "register of interests record",
-        "valueType": "entity",
-        "valueId": "cg:register-record:ni-register-record-b904606361c8e08d",
-        "valueLabel": "Mr Peter Martin - Assembly - 2026-04-22",
-        "valueText": "Mr Peter Martin - Assembly - 2026-04-22",
-        "valueDescription": "Unremunerated interests: Member, Ulster Rifle Association (Interest commenced 6 November 2013).",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "2026-04-22",
-            "valueText": "2026-04-22"
-          },
-          {
-            "propertyId": "cg:property:elected-body",
-            "propertyLabel": "elected body",
-            "valueType": "entity",
-            "valueId": "cg:body:northern-ireland-assembly",
-            "valueLabel": "Northern Ireland Assembly",
-            "valueText": "Northern Ireland Assembly"
-          },
-          {
-            "propertyId": "cg:property:political-office",
-            "propertyLabel": "political office",
-            "valueType": "entity",
-            "valueId": "cg:office:mla",
-            "valueLabel": "Member of the Legislative Assembly",
-            "valueText": "Member of the Legislative Assembly"
-          },
-          {
-            "propertyId": "cg:property:source-row-count",
-            "propertyLabel": "source row count",
-            "valueType": "number",
-            "valueLabel": "1",
-            "valueText": "1"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:ni-register-assembly-json-d5e8bbd570ffe5e5",
-            "sourceTitle": "NI Assembly current registered interests JSON API",
-            "sourceKind": "current-provider-json-api",
-            "sourceRecordId": "ni-register:assembly:json:a66cec8ce9a0b26c",
-            "date": "2026-04-22",
             "extractionConfidence": "high"
           }
         ]

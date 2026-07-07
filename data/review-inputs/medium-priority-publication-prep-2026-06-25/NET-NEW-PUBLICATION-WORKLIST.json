@@ -1,0 +1,57 @@
+{
+  "generatedFrom": "data/review-inputs/medium-priority-publication-prep-2026-06-25/row-staging-records.json",
+  "note": "Decision-ready worklist for the medium-priority / net-new licence-clear records (advancement of the 2,553 licence-clear pool). Match evidence + proposedAction precomputed in the staging records; these are the actionable buckets.",
+  "totalStaged": 2346,
+  "buckets": {
+    "new-interactive-map": {
+      "total": 44,
+      "zeroBlocker": 1,
+      "spatial": 44
+    },
+    "variant-child-map": {
+      "total": 67,
+      "zeroBlocker": 23,
+      "spatial": 67
+    },
+    "hold-special-format": {
+      "total": 288,
+      "zeroBlocker": 0,
+      "spatial": 263
+    },
+    "local-authority-batch-review": {
+      "total": 1470,
+      "zeroBlocker": 715,
+      "spatial": 756
+    },
+    "enrich-existing-source": {
+      "total": 95,
+      "zeroBlocker": 57,
+      "spatial": 58
+    },
+    "enrich-existing-election": {
+      "total": 96,
+      "zeroBlocker": 95,
+      "spatial": 0
+    },
+    "source-download-only": {
+      "total": 118,
+      "zeroBlocker": 72,
+      "spatial": 0
+    },
+    "transport-public-asset-batch-review": {
+      "total": 168,
+      "zeroBlocker": 158,
+      "spatial": 20
+    }
+  },
+  "nextActions": {
+    "new-interactive-map": "Convert + publish as standalone map layers via scripts/publish-clean-maps.mjs (0-blocker ones ready now).",
+    "variant-child-map": "Link as enrichment/variant of parent (per-record; parents are non-map sources so need placement review).",
+    "hold-special-format": "GDB/large/COG formats — need format-specific conversion (raster recipe / GDB via ogr2ogr / PMTiles).",
+    "local-authority-batch-review": "Bulk LA datasets — need a batch dedup/placement decision (biggest bucket).",
+    "enrich-existing-source": "Attach as sourceItem enrichment to the matched existing source record.",
+    "enrich-existing-election": "Attach to matched election record.",
+    "source-download-only": "Non-spatial/tabular/doc — publish as source/download record, not a map layer.",
+    "transport-public-asset-batch-review": "Transport asset datasets — batch review."
+  }
+}

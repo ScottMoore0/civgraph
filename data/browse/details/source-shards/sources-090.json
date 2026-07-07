@@ -1,10 +1,348 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-07T01:11:49.911Z",
+  "generatedAt": "2026-07-07T01:47:19.449Z",
   "kind": "sources",
   "shard": "sources-090.json",
-  "total": 115,
+  "total": 116,
   "items": [
+    {
+      "id": "raw-source:data-gov-ie:sheriff-and-solicitor-enforcement",
+      "slug": "raw-source-data-gov-ie-sheriff-and-solicitor-enforcement",
+      "type": "raw-source-table",
+      "title": "Sheriff and solicitor enforcement",
+      "subtitle": "Revenue Commissioners / data.gov.ie / CSV, PDF, XLS / Source-only",
+      "category": "Raw source tables",
+      "provider": [
+        "Revenue Commissioners",
+        "data.gov.ie"
+      ],
+      "description": "Sheriff and solicitor enforcement is staged as a table source record from Revenue Commissioners, data.gov.ie. The record is suitable for a Browse/Books/Tables source page with provider links now and IA-hotlinked viewport/download links once the public IA item/file URLs are attached. No map conversion or deep semantic modelling is implied by this source-only record. Formats observed in the local audit: CSV, PDF, XLS.",
+      "url": "https://data.gov.ie/dataset/sheriff-and-solicitor-enforcement",
+      "references": [
+        {
+          "label": "Sheriff and solicitor enforcement provider dataset page",
+          "url": "https://data.gov.ie/dataset/sheriff-and-solicitor-enforcement",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-dataset"
+        },
+        {
+          "label": "Sheriff and solicitor enforcement Internet Archive source mirror",
+          "url": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+          "source": "Internet Archive",
+          "role": "source-mirror"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset page",
+          "url": "https://data.gov.ie/dataset/sheriff-and-solicitor-enforcement",
+          "type": "dataset-page"
+        },
+        {
+          "label": "Internet Archive mirror - sheriff-solicitor-enforcement.csv",
+          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Revenue%20Commissioners/sheriff-and-solicitor-enforcement/sheriff-solicitor-enforcement.csv",
+          "type": "CSV"
+        },
+        {
+          "label": "Internet Archive mirror - sheriff-solicitor-enforcement.pdf",
+          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Revenue%20Commissioners/sheriff-and-solicitor-enforcement/sheriff-solicitor-enforcement.pdf",
+          "type": "PDF"
+        },
+        {
+          "label": "Internet Archive mirror - sheriff-solicitor-enforcement.xlsx",
+          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Revenue%20Commissioners/sheriff-and-solicitor-enforcement/sheriff-solicitor-enforcement.xlsx",
+          "type": "XLS"
+        }
+      ],
+      "keywords": [
+        "raw-source-document",
+        "ia-ready",
+        "source-only",
+        "table",
+        "data.gov.ie",
+        "Revenue Commissioners",
+        "CSV",
+        "PDF",
+        "XLS",
+        "source-documents-books",
+        "internet-archive-mirror",
+        "raw-source-mirrored"
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 32619,
+          "title": "Sheriff and solicitor enforcement",
+          "provider": "data.gov.ie",
+          "organisation": "Revenue Commissioners",
+          "formats": [
+            "CSV",
+            "PDF",
+            "XLS"
+          ],
+          "category": "tabular",
+          "refinedStatus": "source-only or Browse/Books candidate",
+          "recommendedAction": "Publish as IA-hotlinked source/document/table records first; no runtime bundle unless cleaned/queryable.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download.",
+          "blockerCategories": [
+            "raw-source-hosting-and-viewport-policy",
+            "source-page-and-ia-viewport-decision"
+          ],
+          "detectedFamilies": [
+            "source-documents-books"
+          ],
+          "siteFamiliesPresent": [
+            "source-documents-books"
+          ],
+          "mirrorPolicy": "Internet Archive mirror verified; local mirror paths remain excluded from public output",
+          "providerDatasetUrl": "https://data.gov.ie/dataset/sheriff-and-solicitor-enforcement",
+          "internetArchiveItem": "civgraph-data-gov-ie-raw-sources",
+          "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+          "internetArchiveFileCount": 3
+        }
+      ],
+      "status": "Source only",
+      "statusChips": [
+        "Source only",
+        "Preview available",
+        "Download available",
+        "Needs review",
+        "Mirror available"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "data.gov.ie",
+        "Revenue Commissioners",
+        "Sheriff and solicitor enforcement"
+      ],
+      "viewport": {
+        "status": "mirror-preview-ready",
+        "supportedViewportTypes": [
+          "pdf",
+          "table-or-text",
+          "spreadsheet"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/sheriff-and-solicitor-enforcement",
+        "note": "Internet Archive mirror files are verified for durable public view/download; provider dataset page remains the canonical source.",
+        "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+        "fileUrl": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Revenue%20Commissioners/sheriff-and-solicitor-enforcement/sheriff-solicitor-enforcement.csv"
+      },
+      "shortCitation": "Revenue Commissioners, data.gov.ie, Sheriff and solicitor enforcement.",
+      "fullCitation": "Revenue Commissioners, data.gov.ie. Sheriff and solicitor enforcement. Current provider dataset URL: https://data.gov.ie/dataset/sheriff-and-solicitor-enforcement. Civgraph raw source-document record.",
+      "relatedRecords": [
+        {
+          "kind": "browse-map",
+          "id": "psni-collisions-2014",
+          "title": "PSNI Road Traffic Collisions 2014",
+          "score": 0.12
+        },
+        {
+          "kind": "browse-map",
+          "id": "psni-collisions-2013",
+          "title": "PSNI Road Traffic Collisions 2013",
+          "score": 0.12
+        },
+        {
+          "kind": "browse-map",
+          "id": "data-2021-unpaid-care-ward",
+          "title": "Provides unpaid care (Census 2021, by Ward 2014)",
+          "score": 0.12
+        }
+      ],
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, and IA item metadata to confirm resource-level licence before structured reuse."
+      },
+      "approval": {
+        "recommendedAction": "publish as source/document/table record; do not create duplicate map or election parent",
+        "stagingId": "raw-source:data-gov-ie:sheriff-and-solicitor-enforcement",
+        "confidence": "approved-convention",
+        "sourceType": "raw source-document corpus",
+        "provider": "Revenue Commissioners; data.gov.ie"
+      },
+      "publicationStatus": "raw-source-staged; raw-source-mirrored-internet-archive",
+      "proposedBrowsePath": "Books / Tables / Sources > Raw source tables",
+      "browseUrl": "/browse/sources/raw-source-data-gov-ie-sheriff-and-solicitor-enforcement",
+      "rawMetadata": {
+        "id": "raw-source:data-gov-ie:sheriff-and-solicitor-enforcement",
+        "slug": "raw-source-data-gov-ie-sheriff-and-solicitor-enforcement",
+        "type": "raw-source-table",
+        "title": "Sheriff and solicitor enforcement",
+        "subtitle": "Revenue Commissioners / data.gov.ie / CSV, PDF, XLS / Source-only",
+        "category": "Raw source tables",
+        "provider": [
+          "Revenue Commissioners",
+          "data.gov.ie"
+        ],
+        "description": "Sheriff and solicitor enforcement is staged as a table source record from Revenue Commissioners, data.gov.ie. The record is suitable for a Browse/Books/Tables source page with provider links now and IA-hotlinked viewport/download links once the public IA item/file URLs are attached. No map conversion or deep semantic modelling is implied by this source-only record. Formats observed in the local audit: CSV, PDF, XLS.",
+        "url": "https://data.gov.ie/dataset/sheriff-and-solicitor-enforcement",
+        "references": [
+          {
+            "label": "Sheriff and solicitor enforcement provider dataset page",
+            "url": "https://data.gov.ie/dataset/sheriff-and-solicitor-enforcement",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-dataset",
+            "status": "inferred-from-provider-slug"
+          },
+          {
+            "label": "Sheriff and solicitor enforcement Internet Archive source mirror",
+            "url": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+            "source": "Internet Archive",
+            "role": "source-mirror",
+            "status": "verified"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset page",
+            "url": "https://data.gov.ie/dataset/sheriff-and-solicitor-enforcement",
+            "type": "dataset-page",
+            "status": "resource downloads listed by provider dataset page"
+          },
+          {
+            "label": "Internet Archive mirror - sheriff-solicitor-enforcement.csv",
+            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Revenue%20Commissioners/sheriff-and-solicitor-enforcement/sheriff-solicitor-enforcement.csv",
+            "type": "CSV",
+            "size": 7330,
+            "sha256": "4d449a1f44a5d49744bb1e554934cb5b41c45584415b776c9116487e908d68a3",
+            "status": "verified Internet Archive mirror",
+            "source": "Internet Archive"
+          },
+          {
+            "label": "Internet Archive mirror - sheriff-solicitor-enforcement.pdf",
+            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Revenue%20Commissioners/sheriff-and-solicitor-enforcement/sheriff-solicitor-enforcement.pdf",
+            "type": "PDF",
+            "size": 186078,
+            "sha256": "6c4097f0e5dd5031088a7381e061c128244baace96b421f354c28513b3bb5b70",
+            "status": "verified Internet Archive mirror",
+            "source": "Internet Archive"
+          },
+          {
+            "label": "Internet Archive mirror - sheriff-solicitor-enforcement.xlsx",
+            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Revenue%20Commissioners/sheriff-and-solicitor-enforcement/sheriff-solicitor-enforcement.xlsx",
+            "type": "XLS",
+            "size": 49248,
+            "sha256": "0eda10756e9134dd6f96dec1c825afe4dcf2bab1635d0295d06aeafe0fbf8de4",
+            "status": "verified Internet Archive mirror",
+            "source": "Internet Archive"
+          }
+        ],
+        "status": "Source only",
+        "statusChips": [
+          "Source only",
+          "Preview available",
+          "Download available",
+          "Needs review",
+          "Mirror available"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "data.gov.ie",
+          "Revenue Commissioners",
+          "Sheriff and solicitor enforcement"
+        ],
+        "viewport": {
+          "status": "mirror-preview-ready",
+          "supportedViewportTypes": [
+            "pdf",
+            "table-or-text",
+            "spreadsheet"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/sheriff-and-solicitor-enforcement",
+          "note": "Internet Archive mirror files are verified for durable public view/download; provider dataset page remains the canonical source.",
+          "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+          "fileUrl": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Revenue%20Commissioners/sheriff-and-solicitor-enforcement/sheriff-solicitor-enforcement.csv"
+        },
+        "shortCitation": "Revenue Commissioners, data.gov.ie, Sheriff and solicitor enforcement.",
+        "fullCitation": "Revenue Commissioners, data.gov.ie. Sheriff and solicitor enforcement. Current provider dataset URL: https://data.gov.ie/dataset/sheriff-and-solicitor-enforcement. Civgraph raw source-document record.",
+        "sourceItems": [
+          {
+            "auditRowNumber": 32619,
+            "title": "Sheriff and solicitor enforcement",
+            "provider": "data.gov.ie",
+            "organisation": "Revenue Commissioners",
+            "formats": [
+              "CSV",
+              "PDF",
+              "XLS"
+            ],
+            "category": "tabular",
+            "refinedStatus": "source-only or Browse/Books candidate",
+            "recommendedAction": "Publish as IA-hotlinked source/document/table records first; no runtime bundle unless cleaned/queryable.",
+            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download.",
+            "blockerCategories": [
+              "raw-source-hosting-and-viewport-policy",
+              "source-page-and-ia-viewport-decision"
+            ],
+            "detectedFamilies": [
+              "source-documents-books"
+            ],
+            "siteFamiliesPresent": [
+              "source-documents-books"
+            ],
+            "mirrorPolicy": "Internet Archive mirror verified; local mirror paths remain excluded from public output",
+            "providerDatasetUrl": "https://data.gov.ie/dataset/sheriff-and-solicitor-enforcement",
+            "internetArchiveItem": "civgraph-data-gov-ie-raw-sources",
+            "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+            "internetArchiveFileCount": 3
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, and IA item metadata to confirm resource-level licence before structured reuse."
+        },
+        "approval": {
+          "recommendedAction": "publish as source/document/table record; do not create duplicate map or election parent",
+          "stagingId": "raw-source:data-gov-ie:sheriff-and-solicitor-enforcement",
+          "confidence": "approved-convention",
+          "sourceType": "raw source-document corpus",
+          "provider": "Revenue Commissioners; data.gov.ie"
+        },
+        "publicationStatus": "raw-source-staged; raw-source-mirrored-internet-archive",
+        "proposedBrowsePath": "Books / Tables / Sources > Raw source tables",
+        "relatedRecords": [
+          {
+            "kind": "browse-map",
+            "id": "psni-collisions-2014",
+            "title": "PSNI Road Traffic Collisions 2014",
+            "score": 0.12
+          },
+          {
+            "kind": "browse-map",
+            "id": "psni-collisions-2013",
+            "title": "PSNI Road Traffic Collisions 2013",
+            "score": 0.12
+          },
+          {
+            "kind": "browse-map",
+            "id": "data-2021-unpaid-care-ward",
+            "title": "Provides unpaid care (Census 2021, by Ward 2014)",
+            "score": 0.12
+          }
+        ],
+        "keywords": [
+          "raw-source-document",
+          "ia-ready",
+          "source-only",
+          "table",
+          "data.gov.ie",
+          "Revenue Commissioners",
+          "CSV",
+          "PDF",
+          "XLS",
+          "source-documents-books",
+          "internet-archive-mirror",
+          "raw-source-mirrored"
+        ],
+        "browseUrl": "/browse/sources/raw-source-data-gov-ie-sheriff-and-solicitor-enforcement",
+        "iaMirror": {
+          "itemIdentifier": "civgraph-data-gov-ie-raw-sources",
+          "itemUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+          "mirrorStatus": "mirrored",
+          "verifiedAt": "2026-06-28T02:10:52.845Z",
+          "fileCount": 3
+        }
+      }
+    },
     {
       "id": "raw-source:data-gov-ie:sna-review-reports",
       "slug": "raw-source-data-gov-ie-sna-review-reports",

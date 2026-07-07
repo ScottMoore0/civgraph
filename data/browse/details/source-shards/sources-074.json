@@ -1,10 +1,85 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-07T01:11:49.911Z",
+  "generatedAt": "2026-07-07T01:47:19.449Z",
   "kind": "sources",
   "shard": "sources-074.json",
   "total": 200,
   "items": [
+    {
+      "id": "map-source:mep-2009",
+      "slug": "map-source-mep-2009",
+      "type": "map-source",
+      "title": "European Parliament Constituencies - 2009 source files",
+      "subtitle": "European Regions / OSI, OSNI",
+      "category": "Map sources",
+      "date": 2009,
+      "provider": [
+        "OSI",
+        "OSNI"
+      ],
+      "description": "NUTS regions and MEP constituencies",
+      "sourceMapId": "mep-2009",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "mep-2009",
+        "url": "/assets/thumbnails/mep-2009.webp",
+        "smallUrl": "/assets/thumbnails/mep-2009-60.webp",
+        "alt": "European Parliament Constituencies 2009"
+      },
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/2009MEPConstituencies.fgb"
+        },
+        {
+          "label": "Internet Archive: 2009MEPConstituencies.fgb",
+          "url": "https://archive.org/download/civgraph-osni-maps/mep-2009/2009MEPConstituencies.fgb"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/2009MEPConstituencies.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=mep-2009",
+      "browseUrl": "/browse/sources/map-source-mep-2009",
+      "rawMetadata": {
+        "id": "mep-2009",
+        "name": "European Parliament Constituencies 2009",
+        "slug": "mep-2009",
+        "category": "european",
+        "featured": true,
+        "provider": [
+          "OSI",
+          "OSNI"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/2009MEPConstituencies.fgb"
+        },
+        "style": {
+          "color": "#003399",
+          "weight": 2
+        },
+        "keywords": [
+          "MEP",
+          "european parliament",
+          "2009",
+          "EU"
+        ],
+        "labelProperty": "ENGLISH",
+        "labelCleanup": {
+          "type": "mapValues",
+          "map": {
+            "CARLOW COUNTY COUNCIL": "East",
+            "DUBLIN CITY COUNCIL": "Dublin",
+            "DONEGAL COUNTY COUNCIL": "North-West",
+            "WATERFORD CITY AND COUNTY COUNCIL": "South",
+            "NORTHERN IRELAND": "Northern Ireland"
+          }
+        },
+        "date": 2009,
+        "useLOD": true
+      }
+    },
     {
       "id": "map-source:mep-2014",
       "slug": "map-source-mep-2014",
@@ -25044,79 +25119,6 @@
         ],
         "featured": true,
         "useLOD": true
-      }
-    },
-    {
-      "id": "map-source:use-zoning-objectives1",
-      "slug": "map-source-use-zoning-objectives1",
-      "type": "map-source",
-      "title": "Use Zoning Objectives source files",
-      "subtitle": "planning / data.gov.ie",
-      "category": "Map sources",
-      "provider": [
-        "data.gov.ie"
-      ],
-      "sourceMapId": "use-zoning-objectives1",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "UZ",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "Use Zoning Objectives — data.gov.ie",
-          "url": "https://data.gov.ie/dataset/use-zoning-objectives1",
-          "note": "CC BY 4.0"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/planning/use-zoning-objectives1.fgb"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/planning/use-zoning-objectives1.fgb"
-        }
-      ],
-      "interactiveUrl": "/#layers=use-zoning-objectives1",
-      "browseUrl": "/browse/sources/map-source-use-zoning-objectives1",
-      "rawMetadata": {
-        "id": "use-zoning-objectives1",
-        "name": "Use Zoning Objectives",
-        "slug": "use-zoning-objectives1",
-        "category": "planning",
-        "provider": [
-          "data.gov.ie"
-        ],
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/planning/use-zoning-objectives1.fgb"
-        },
-        "style": {
-          "color": "#5D6D7E",
-          "weight": 2
-        },
-        "keywords": [
-          "planning",
-          "zoning",
-          "objectives"
-        ],
-        "licence": "CC BY 4.0",
-        "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
-        "bounds": [
-          -6.546885,
-          53.178214,
-          -6.269236,
-          53.368484
-        ],
-        "references": [
-          {
-            "label": "Use Zoning Objectives — data.gov.ie",
-            "url": "https://data.gov.ie/dataset/use-zoning-objectives1",
-            "note": "CC BY 4.0"
-          }
-        ],
-        "useLOD": false
       }
     }
   ]

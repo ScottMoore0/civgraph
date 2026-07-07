@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-07T01:11:49.911Z",
+  "generatedAt": "2026-07-07T01:47:19.449Z",
   "kind": "sources",
   "shard": "sources-072.json",
   "total": 200,
@@ -7707,6 +7707,82 @@
       }
     },
     {
+      "id": "map-source:cork-city-parks",
+      "slug": "map-source-cork-city-parks",
+      "type": "map-source",
+      "title": "Cork City Parks source files",
+      "subtitle": "parks / Cork City Council",
+      "category": "Map sources",
+      "provider": [
+        "Cork City Council"
+      ],
+      "sourceMapId": "cork-city-parks",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "CC",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Cork City Parks — data.gov.ie",
+          "url": "https://data.gov.ie/dataset/cork-city-parks",
+          "note": "CC BY 4.0"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/parks/cork-city-parks.fgb"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/parks/cork-city-parks.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=cork-city-parks",
+      "browseUrl": "/browse/sources/map-source-cork-city-parks",
+      "rawMetadata": {
+        "id": "cork-city-parks",
+        "name": "Cork City Parks",
+        "slug": "cork-city-parks",
+        "category": "parks",
+        "provider": [
+          "Cork City Council"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/parks/cork-city-parks.fgb"
+        },
+        "style": {
+          "color": "#229954",
+          "weight": 2,
+          "radius": 4
+        },
+        "keywords": [
+          "parks",
+          "cork",
+          "city",
+          "parks"
+        ],
+        "licence": "CC BY 4.0",
+        "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+        "labelProperty": "Name",
+        "bounds": [
+          -8.630417,
+          51.865112,
+          -8.339518,
+          51.944147
+        ],
+        "references": [
+          {
+            "label": "Cork City Parks — data.gov.ie",
+            "url": "https://data.gov.ie/dataset/cork-city-parks",
+            "note": "CC BY 4.0"
+          }
+        ],
+        "useLOD": false
+      }
+    },
+    {
       "id": "map-source:counties-county-boroughs-1915",
       "slug": "map-source-counties-county-boroughs-1915",
       "type": "map-source",
@@ -12187,7 +12263,7 @@
       "provider": [
         "Dublin City Council"
       ],
-      "description": "Development Plan 2022 2028 (DCC) — published by Dublin City Council. 1 related provider/source row is staged as provenance for this existing Civgraph record; provider: data.gov.ie; formats: CSV, GEOJSON; 1 provider dataset link preserved as references; licence: Creative Commons Attribution 4.0; relationship: related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval.",
+      "description": "Development Plan 2022 2028 (DCC) — published by Dublin City Council. 2 related provider/source rows are staged as provenance for this existing Civgraph record; provider: data.gov.ie; formats: CSV, GEOJSON, SHP, TAB, DBASE, PRJ and 4 more; 2 provider dataset links preserved as references; licence: Creative Commons Attribution 4.0; relationship: related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval.",
       "sourceMapId": "dcc-development-plan-dcc-2022-2028",
       "thumbnail": {
         "kind": "asset",
@@ -12226,6 +12302,13 @@
           "url": "https://creativecommons.org/licenses/by/4.0/",
           "source": "data.gov.ie",
           "role": "source-licence"
+        },
+        {
+          "label": "Provider dataset: Development Planning DCC",
+          "url": "https://data.gov.ie/dataset/development-plans-dublin-city",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-dataset",
+          "type": "SHP"
         }
       ],
       "downloads": [
@@ -12289,7 +12372,7 @@
             "schema/table/attribute metadata",
             "source/provenance metadata"
           ],
-          "provenanceSummary": "1 related provider/source row is staged as provenance for this existing Civgraph record; provider: data.gov.ie; formats: CSV, GEOJSON; 1 provider dataset link preserved as references; licence: Creative Commons Attribution 4.0; relationship: related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval.",
+          "provenanceSummary": "2 related provider/source rows are staged as provenance for this existing Civgraph record; provider: data.gov.ie; formats: CSV, GEOJSON, SHP, TAB, DBASE, PRJ and 4 more; 2 provider dataset links preserved as references; licence: Creative Commons Attribution 4.0; relationship: related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval.",
           "sourceItems": [
             {
               "auditRowNumber": 810,
@@ -12327,6 +12410,26 @@
                 "habitat-protected-sites"
               ],
               "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+            },
+            {
+              "auditRowNumber": 522,
+              "title": "Development Planning DCC",
+              "provider": "data.gov.ie",
+              "category": "spatial",
+              "formats": [
+                "SHP",
+                "TAB",
+                "DBASE",
+                "PRJ",
+                "SHX",
+                "XLS",
+                "PDF",
+                "ZIP"
+              ],
+              "safetyClass": "safe metadata enrichment candidate",
+              "providerDatasetUrl": "https://data.gov.ie/dataset/development-plans-dublin-city",
+              "recommendedAction": "Do not publish as new; enrich the existing Development Plan 2022 2028 (DCC) record (dedupe adjudication: publish-as-variant).",
+              "licence": "CC BY 4.0"
             }
           ],
           "evidence": [
@@ -12388,6 +12491,26 @@
             "habitat-protected-sites"
           ],
           "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+        },
+        {
+          "auditRowNumber": 522,
+          "title": "Development Planning DCC",
+          "provider": "data.gov.ie",
+          "category": "spatial",
+          "formats": [
+            "SHP",
+            "TAB",
+            "DBASE",
+            "PRJ",
+            "SHX",
+            "XLS",
+            "PDF",
+            "ZIP"
+          ],
+          "safetyClass": "safe metadata enrichment candidate",
+          "providerDatasetUrl": "https://data.gov.ie/dataset/development-plans-dublin-city",
+          "recommendedAction": "Do not publish as new; enrich the existing Development Plan 2022 2028 (DCC) record (dedupe adjudication: publish-as-variant).",
+          "licence": "CC BY 4.0"
         }
       ],
       "keywords": [
@@ -24643,101 +24766,6 @@
           }
         ],
         "date": "2020-01-01",
-        "labelProperty": "ENQUIRY_TYPE",
-        "useLOD": true
-      }
-    },
-    {
-      "id": "map-source:dfi-pothole-enquiries-2021",
-      "slug": "map-source-dfi-pothole-enquiries-2021",
-      "type": "map-source",
-      "title": "NI Pothole Enquiries 2021 source files",
-      "subtitle": "Transport / Department for Infrastructure - Roads",
-      "category": "Map sources",
-      "date": "2021-01-01",
-      "provider": [
-        "Department for Infrastructure - Roads"
-      ],
-      "description": "Pothole enquiries logged by DfI Roads in 2021 — public reports of road defects requiring repair.",
-      "sourceMapId": "dfi-pothole-enquiries-2021",
-      "thumbnail": {
-        "kind": "asset",
-        "id": "dfi-pothole-enquiries-2021",
-        "url": "/assets/thumbnails/dfi-pothole-enquiries-2021.webp",
-        "smallUrl": "/assets/thumbnails/dfi-pothole-enquiries-2021-60.webp",
-        "alt": "NI Pothole Enquiries 2021"
-      },
-      "references": [
-        {
-          "label": "Source — admin.opendatani.gov.uk",
-          "url": "https://admin.opendatani.gov.uk/"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/transport-infra/dfi-pothole-enquiries-2021.fgb"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/transport-infra/dfi-pothole-enquiries-2021.geojson"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/transport-infra/dfi-pothole-enquiries-2021.geojson"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/transport-infra/dfi-pothole-enquiries-2021.fgb"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/transport-infra/dfi-pothole-enquiries-2021.geojson"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/transport-infra/dfi-pothole-enquiries-2021.geojson"
-        }
-      ],
-      "interactiveUrl": "/#layers=dfi-pothole-enquiries-2021",
-      "browseUrl": "/browse/sources/map-source-dfi-pothole-enquiries-2021",
-      "rawMetadata": {
-        "id": "dfi-pothole-enquiries-2021",
-        "name": "NI Pothole Enquiries 2021",
-        "slug": "dfi-pothole-enquiries-2021",
-        "category": "transport",
-        "provider": [
-          "Department for Infrastructure - Roads"
-        ],
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/transport-infra/dfi-pothole-enquiries-2021.fgb",
-          "downloads": {
-            "geojson": "https://data.civgraph.net/data/maps/transport-infra/dfi-pothole-enquiries-2021.geojson"
-          },
-          "geojson": "https://data.civgraph.net/data/maps/transport-infra/dfi-pothole-enquiries-2021.geojson"
-        },
-        "style": {
-          "color": "#5D4037",
-          "weight": 1,
-          "fillOpacity": 0.4
-        },
-        "keywords": [
-          "DfI",
-          "pothole",
-          "roads",
-          "maintenance",
-          "enquiries",
-          "2021"
-        ],
-        "description": "Pothole enquiries logged by DfI Roads in 2021 — public reports of road defects requiring repair.",
-        "references": [
-          {
-            "label": "Source — admin.opendatani.gov.uk",
-            "url": "https://admin.opendatani.gov.uk/",
-            "note": ""
-          }
-        ],
-        "date": "2021-01-01",
         "labelProperty": "ENQUIRY_TYPE",
         "useLOD": true
       }

@@ -1,10 +1,83 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-07T01:11:49.911Z",
+  "generatedAt": "2026-07-07T01:47:19.449Z",
   "kind": "sources",
   "shard": "sources-075.json",
   "total": 200,
   "items": [
+    {
+      "id": "map-source:use-zoning-objectives1",
+      "slug": "map-source-use-zoning-objectives1",
+      "type": "map-source",
+      "title": "Use Zoning Objectives source files",
+      "subtitle": "planning / data.gov.ie",
+      "category": "Map sources",
+      "provider": [
+        "data.gov.ie"
+      ],
+      "sourceMapId": "use-zoning-objectives1",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "UZ",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Use Zoning Objectives — data.gov.ie",
+          "url": "https://data.gov.ie/dataset/use-zoning-objectives1",
+          "note": "CC BY 4.0"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/planning/use-zoning-objectives1.fgb"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/planning/use-zoning-objectives1.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=use-zoning-objectives1",
+      "browseUrl": "/browse/sources/map-source-use-zoning-objectives1",
+      "rawMetadata": {
+        "id": "use-zoning-objectives1",
+        "name": "Use Zoning Objectives",
+        "slug": "use-zoning-objectives1",
+        "category": "planning",
+        "provider": [
+          "data.gov.ie"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/planning/use-zoning-objectives1.fgb"
+        },
+        "style": {
+          "color": "#5D6D7E",
+          "weight": 2
+        },
+        "keywords": [
+          "planning",
+          "zoning",
+          "objectives"
+        ],
+        "licence": "CC BY 4.0",
+        "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+        "bounds": [
+          -6.546885,
+          53.178214,
+          -6.269236,
+          53.368484
+        ],
+        "references": [
+          {
+            "label": "Use Zoning Objectives — data.gov.ie",
+            "url": "https://data.gov.ie/dataset/use-zoning-objectives1",
+            "note": "CC BY 4.0"
+          }
+        ],
+        "useLOD": false
+      }
+    },
     {
       "id": "map-source:wards-1972",
       "slug": "map-source-wards-1972",
@@ -62110,345 +62183,6 @@
           "XML"
         ],
         "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-the-first-count-of-the-presidential-election-of-2011-00984"
-      }
-    },
-    {
-      "id": "medium-priority:2-irish-election-source-enrichment-data:the-fourth-count-of-the-presidential-election-of-2011:00985",
-      "slug": "medium-priority-2-irish-election-source-enrichment-data-the-fourth-count-of-the-presidential-election-of-2011-00985",
-      "type": "approved-medium-priority-source",
-      "title": "The fourth count of the presidential election of 2011",
-      "subtitle": "Irish election source/enrichment data / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV, JSON, XML / Approved source record",
-      "category": "Medium-priority: Irish election source/enrichment data",
-      "date": "2011",
-      "provider": [
-        "Department of Housing, Local Government and Heritage",
-        "data.gov.ie"
-      ],
-      "description": "The fourth count of the presidential election of 2011 is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/the-fourth-count-of-the-presidential-election-of-2011",
-      "references": [
-        {
-          "label": "The fourth count of the presidential election of 2011 provider page",
-          "url": "https://data.gov.ie/dataset/the-fourth-count-of-the-presidential-election-of-2011",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "The fourth count of the presidential election of 2011 Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/the-fourth-count-of-the-presidential-election-of-2011",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/the-fourth-count-of-the-presidential-election-of-2011",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Irish election source/enrichment data",
-        "election",
-        "features",
-        "Ireland / unspecified",
-        "enrich-existing-election",
-        "CSV",
-        "JSON",
-        "XML"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 986,
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:the-fourth-count-of-the-presidential-election-of-2011:00985",
-          "title": "The fourth count of the presidential election of 2011",
-          "cleanTitle": "The fourth count of the presidential election of 2011",
-          "provider": "data.gov.ie",
-          "organisation": "Department of Housing, Local Government and Heritage",
-          "category": "tabular",
-          "roiGroup": "2. Irish election source/enrichment data",
-          "groupTitle": "Irish election source/enrichment data",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "election",
-          "featureUnit": "features",
-          "formats": [
-            "CSV",
-            "JSON",
-            "XML"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "enrich-existing-election",
-          "proposedPlacement": "Elections/source provenance",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "JSON",
-              "XML"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/the-fourth-count-of-the-presidential-election-of-2011",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/the-fourth-count-of-the-presidential-election-of-2011",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "election-model-merge-and-provenance-review: election staging action assigned",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Download available",
-        "Provider link",
-        "Wayback link",
-        "Election provenance"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Irish election source/enrichment data",
-        "Ireland / unspecified",
-        "election",
-        "The fourth count of the presidential election of 2011"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/the-fourth-count-of-the-presidential-election-of-2011",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/the-fourth-count-of-the-presidential-election-of-2011",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, The fourth count of the presidential election of 2011.",
-      "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. The fourth count of the presidential election of 2011. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/the-fourth-count-of-the-presidential-election-of-2011. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/the-fourth-count-of-the-presidential-election-of-2011.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:2-irish-election-source-enrichment-data:the-fourth-count-of-the-presidential-election-of-2011:00985",
-        "sourceRowNumber": 986,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish election source/provenance enrichment",
-        "proposedAction": "enrich-existing-election",
-        "proposedPlacement": "Elections/source provenance",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "CSV",
-            "JSON",
-            "XML"
-          ]
-        },
-        "confidence": 60,
-        "resolvedBlockers": [
-          "election-model-merge-and-provenance-review: election staging action assigned",
-          "needs-provider-context-review: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Elections/source provenance",
-      "relationship": "election-source-enrichment",
-      "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-the-fourth-count-of-the-presidential-election-of-2011-00985",
-      "rawMetadata": {
-        "id": "medium-priority:2-irish-election-source-enrichment-data:the-fourth-count-of-the-presidential-election-of-2011:00985",
-        "slug": "medium-priority-2-irish-election-source-enrichment-data-the-fourth-count-of-the-presidential-election-of-2011-00985",
-        "type": "approved-medium-priority-source",
-        "title": "The fourth count of the presidential election of 2011",
-        "subtitle": "Irish election source/enrichment data / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV, JSON, XML / Approved source record",
-        "category": "Medium-priority: Irish election source/enrichment data",
-        "date": "2011",
-        "provider": [
-          "Department of Housing, Local Government and Heritage",
-          "data.gov.ie"
-        ],
-        "description": "The fourth count of the presidential election of 2011 is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/the-fourth-count-of-the-presidential-election-of-2011",
-        "references": [
-          {
-            "label": "The fourth count of the presidential election of 2011 provider page",
-            "url": "https://data.gov.ie/dataset/the-fourth-count-of-the-presidential-election-of-2011",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "The fourth count of the presidential election of 2011 Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/the-fourth-count-of-the-presidential-election-of-2011",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/the-fourth-count-of-the-presidential-election-of-2011",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Download available",
-          "Provider link",
-          "Wayback link",
-          "Election provenance"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Irish election source/enrichment data",
-          "Ireland / unspecified",
-          "election",
-          "The fourth count of the presidential election of 2011"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/the-fourth-count-of-the-presidential-election-of-2011",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/the-fourth-count-of-the-presidential-election-of-2011",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, The fourth count of the presidential election of 2011.",
-        "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. The fourth count of the presidential election of 2011. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/the-fourth-count-of-the-presidential-election-of-2011. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/the-fourth-count-of-the-presidential-election-of-2011.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 986,
-            "stagingId": "medium-prep:2-irish-election-source-enrichment-data:the-fourth-count-of-the-presidential-election-of-2011:00985",
-            "title": "The fourth count of the presidential election of 2011",
-            "cleanTitle": "The fourth count of the presidential election of 2011",
-            "provider": "data.gov.ie",
-            "organisation": "Department of Housing, Local Government and Heritage",
-            "category": "tabular",
-            "roiGroup": "2. Irish election source/enrichment data",
-            "groupTitle": "Irish election source/enrichment data",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "election",
-            "featureUnit": "features",
-            "formats": [
-              "CSV",
-              "JSON",
-              "XML"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "enrich-existing-election",
-            "proposedPlacement": "Elections/source provenance",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "CSV",
-                "JSON",
-                "XML"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/the-fourth-count-of-the-presidential-election-of-2011",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/the-fourth-count-of-the-presidential-election-of-2011",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "election-model-merge-and-provenance-review: election staging action assigned",
-              "needs-provider-context-review: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:the-fourth-count-of-the-presidential-election-of-2011:00985",
-          "sourceRowNumber": 986,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish election source/provenance enrichment",
-          "proposedAction": "enrich-existing-election",
-          "proposedPlacement": "Elections/source provenance",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "JSON",
-              "XML"
-            ]
-          },
-          "confidence": 60,
-          "resolvedBlockers": [
-            "election-model-merge-and-provenance-review: election staging action assigned",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Elections/source provenance",
-        "relationship": "election-source-enrichment",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Irish election source/enrichment data",
-          "election",
-          "features",
-          "Ireland / unspecified",
-          "enrich-existing-election",
-          "CSV",
-          "JSON",
-          "XML"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-the-fourth-count-of-the-presidential-election-of-2011-00985"
       }
     }
   ]

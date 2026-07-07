@@ -1,9 +1,65 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-07T01:02:26.502Z",
+  "generatedAt": "2026-07-07T01:47:26.082Z",
   "shard": 36,
   "total": 5000,
   "items": [
+    {
+      "id": "cg:source:map-source-dcc-local-authority-offices",
+      "label": "Local Authority Offices (DCC) source files",
+      "description": "Local Authority Offices (DCC) — published by Dublin City Council. 1 related provider/source row is staged as provenance for this existing Civgraph record; provider: data.gov.ie; formats: CSV, GEOJSON; 1 provider dataset link preserved as references.",
+      "kind": "entity",
+      "browseType": "sources",
+      "browseSlug": "map-source-dcc-local-authority-offices",
+      "browseUrl": "/browse/sources/map-source-dcc-local-authority-offices",
+      "attributes": {
+        "sourceCategory": "Map sources",
+        "provider": "Dublin City Council",
+        "publicationStatus": "enriched",
+        "referenceCount": 4,
+        "downloadCount": 6
+      },
+      "typeIds": [
+        "cg:entity-type:source"
+      ]
+    },
+    {
+      "id": "cg:source:map-source-dcc-moby-bikes",
+      "label": "Moby Bikes (DCC) source files",
+      "description": "Moby Bikes (DCC) — published by Dublin City Council.",
+      "kind": "entity",
+      "browseType": "sources",
+      "browseSlug": "map-source-dcc-moby-bikes",
+      "browseUrl": "/browse/sources/map-source-dcc-moby-bikes",
+      "attributes": {
+        "sourceCategory": "Map sources",
+        "provider": "Dublin City Council",
+        "referenceCount": 1,
+        "downloadCount": 6
+      },
+      "typeIds": [
+        "cg:entity-type:source"
+      ]
+    },
+    {
+      "id": "cg:source:map-source-dcc-museums-and-archives",
+      "label": "Museums And Archives (DCC) source files",
+      "description": "Museums And Archives (DCC) — published by Dublin City Council. 1 related provider/source row is staged as provenance for this existing Civgraph record; provider: data.gov.ie; formats: CSV, GEOJSON; 1 provider dataset link preserved as references.",
+      "kind": "entity",
+      "browseType": "sources",
+      "browseSlug": "map-source-dcc-museums-and-archives",
+      "browseUrl": "/browse/sources/map-source-dcc-museums-and-archives",
+      "attributes": {
+        "sourceCategory": "Map sources",
+        "provider": "Dublin City Council",
+        "publicationStatus": "enriched",
+        "referenceCount": 4,
+        "downloadCount": 6
+      },
+      "typeIds": [
+        "cg:entity-type:source"
+      ]
+    },
     {
       "id": "cg:source:map-source-dcc-noise-maps-from-traffic-sources-in-dublin-city-council",
       "label": "Noise Maps From Traffic Sources In Dublin City Council (DCC) source files",
@@ -69087,20 +69143,6 @@
       ]
     },
     {
-      "id": "cg:source:parks-provider-page-b76929d74581",
-      "label": "Parks provider page",
-      "kind": "entity",
-      "sourceUrl": "https://data.gov.ie/dataset/cork-city-parks",
-      "attributes": {
-        "sourceKind": "source-reference",
-        "role": "canonical-provider-url",
-        "createdFrom": "external-reference"
-      },
-      "typeIds": [
-        "cg:entity-type:source"
-      ]
-    },
-    {
       "id": "cg:source:parks-sdcc-provider-page-a6793ba0ea57",
       "label": "Parks SDCC provider page",
       "kind": "entity",
@@ -83350,6 +83392,20 @@
       ]
     },
     {
+      "id": "cg:source:provider-dataset-development-planning-dcc-1d78ea168f98",
+      "label": "Provider dataset: Development Planning DCC",
+      "kind": "entity",
+      "sourceUrl": "https://data.gov.ie/dataset/development-plans-dublin-city",
+      "attributes": {
+        "sourceKind": "source-reference",
+        "role": "canonical-provider-dataset",
+        "createdFrom": "external-reference"
+      },
+      "typeIds": [
+        "cg:entity-type:source"
+      ]
+    },
+    {
       "id": "cg:source:provider-dataset-display-energy-certs-dcc-22019a253bea",
       "label": "Provider dataset: Display Energy Certs DCC",
       "kind": "entity",
@@ -91143,66 +91199,6 @@
       "browseSlug": "raw-source-data-gov-ie-register-of-gaming-licences",
       "browseUrl": "/browse/sources/raw-source-data-gov-ie-register-of-gaming-licences",
       "sourceUrl": "https://data.gov.ie/dataset/register-of-gaming-licences",
-      "attributes": {
-        "sourceCategory": "Raw source tables",
-        "provider": "Revenue Commissioners, data.gov.ie",
-        "publicationStatus": "raw-source-staged; raw-source-mirrored-internet-archive",
-        "referenceCount": 2,
-        "downloadCount": 3
-      },
-      "typeIds": [
-        "cg:entity-type:source"
-      ]
-    },
-    {
-      "id": "cg:source:raw-source-data-gov-ie-register-of-licensed-bookmakers",
-      "label": "Register of licensed bookmakers",
-      "description": "Register of licensed bookmakers is staged as a table source record from Revenue Commissioners, data.gov.ie. The record is suitable for a Browse/Books/Tables source page with provider links now and IA-hotlinked viewport/download links once the public IA item/file URLs are attached. No map conversion or deep semantic modelling is implied by this source-only record. Formats observed in the local audit: CSV, PDF.",
-      "kind": "entity",
-      "browseType": "sources",
-      "browseSlug": "raw-source-data-gov-ie-register-of-licensed-bookmakers",
-      "browseUrl": "/browse/sources/raw-source-data-gov-ie-register-of-licensed-bookmakers",
-      "sourceUrl": "https://data.gov.ie/dataset/register-of-licensed-bookmakers",
-      "attributes": {
-        "sourceCategory": "Raw source tables",
-        "provider": "Revenue Commissioners, data.gov.ie",
-        "publicationStatus": "raw-source-staged; raw-source-mirrored-internet-archive",
-        "referenceCount": 2,
-        "downloadCount": 3
-      },
-      "typeIds": [
-        "cg:entity-type:source"
-      ]
-    },
-    {
-      "id": "cg:source:raw-source-data-gov-ie-register-of-licensed-marked-fuel-traders",
-      "label": "Register of licensed marked fuel traders",
-      "description": "Register of licensed marked fuel traders is staged as a table source record from Revenue Commissioners, data.gov.ie. The record is suitable for a Browse/Books/Tables source page with provider links now and IA-hotlinked viewport/download links once the public IA item/file URLs are attached. No map conversion or deep semantic modelling is implied by this source-only record. Formats observed in the local audit: CSV, PDF.",
-      "kind": "entity",
-      "browseType": "sources",
-      "browseSlug": "raw-source-data-gov-ie-register-of-licensed-marked-fuel-traders",
-      "browseUrl": "/browse/sources/raw-source-data-gov-ie-register-of-licensed-marked-fuel-traders",
-      "sourceUrl": "https://data.gov.ie/dataset/register-of-licensed-marked-fuel-traders",
-      "attributes": {
-        "sourceCategory": "Raw source tables",
-        "provider": "Revenue Commissioners, data.gov.ie",
-        "publicationStatus": "raw-source-staged; raw-source-mirrored-internet-archive",
-        "referenceCount": 2,
-        "downloadCount": 3
-      },
-      "typeIds": [
-        "cg:entity-type:source"
-      ]
-    },
-    {
-      "id": "cg:source:raw-source-data-gov-ie-register-of-licensed-remote-bookmaking-operations",
-      "label": "Register of licensed remote bookmaking operations",
-      "description": "Register of licensed remote bookmaking operations is staged as a table source record from Revenue Commissioners, data.gov.ie. The record is suitable for a Browse/Books/Tables source page with provider links now and IA-hotlinked viewport/download links once the public IA item/file URLs are attached. No map conversion or deep semantic modelling is implied by this source-only record. Formats observed in the local audit: CSV, PDF.",
-      "kind": "entity",
-      "browseType": "sources",
-      "browseSlug": "raw-source-data-gov-ie-register-of-licensed-remote-bookmaking-operations",
-      "browseUrl": "/browse/sources/raw-source-data-gov-ie-register-of-licensed-remote-bookmaking-operations",
-      "sourceUrl": "https://data.gov.ie/dataset/register-of-licensed-remote-bookmaking-operations",
       "attributes": {
         "sourceCategory": "Raw source tables",
         "provider": "Revenue Commissioners, data.gov.ie",

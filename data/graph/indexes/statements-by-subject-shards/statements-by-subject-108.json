@@ -1,9 +1,31 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-07T01:02:26.502Z",
+  "generatedAt": "2026-07-07T01:47:26.082Z",
   "shard": 108,
   "totalSubjects": 250,
   "items": {
+    "cg:party:u": [
+      {
+        "id": "cg:statement:da567fcf1a98643b6276",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:political-party",
+        "valueLabel": "Political party or label",
+        "valueText": "Political party or label",
+        "valueDescription": "A political party, electoral label, or observed candidature label.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:3f2fddd039dc52e13a17",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "U",
+        "valueText": "U",
+        "referenceCount": 0
+      }
+    ],
     "cg:party:u-c-c": [
       {
         "id": "cg:statement:92393570668ba931a9f1",
@@ -51097,167 +51119,6 @@
             "valueId": "cg:party:natural-law",
             "valueLabel": "Natural Law",
             "valueText": "Natural Law"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      }
-    ],
-    "cg:person:14048": [
-      {
-        "id": "cg:statement:aaa2a87d336c199534dc",
-        "propertyId": "cg:property:has-candidature",
-        "propertyLabel": "has candidature",
-        "valueType": "entity",
-        "valueId": "cg:candidature:cg-person-14048-cg-contest-northern-ireland-forum-for-political-dialogue-93ee356aed83",
-        "valueLabel": "Eileen Calder - Belfast North",
-        "valueText": "Eileen Calder - Belfast North",
-        "valueDescription": "1996 Northern Ireland Forum election / NI Women's Coalition / Eliminated",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "1996-05-30",
-            "valueText": "1996-05-30"
-          },
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "Belfast North",
-            "valueText": "Belfast North"
-          },
-          {
-            "propertyId": "cg:property:candidature-status",
-            "propertyLabel": "candidature status",
-            "valueType": "string",
-            "valueLabel": "Eliminated",
-            "valueText": "Eliminated"
-          },
-          {
-            "propertyId": "cg:property:elected",
-            "propertyLabel": "elected",
-            "valueType": "boolean",
-            "valueLabel": "No",
-            "valueText": "No"
-          },
-          {
-            "propertyId": "cg:property:member-of-political-party",
-            "propertyLabel": "member of political party or label",
-            "valueType": "entity",
-            "valueId": "cg:party:ni-womens-coalition",
-            "valueLabel": "NI Women's Coalition",
-            "valueText": "NI Women's Coalition"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:10528cc643446cca6852",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:person",
-        "valueLabel": "Person",
-        "valueText": "Person",
-        "valueDescription": "A person who appears in Civgraph public data, including election candidates, MPs, and MLAs.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:cc856216f0e9a55e6d36",
-        "propertyId": "cg:property:member-of-political-party",
-        "propertyLabel": "member of political party or label",
-        "valueType": "entity",
-        "valueId": "cg:party:ni-womens-coalition",
-        "valueLabel": "NI Women's Coalition",
-        "valueText": "NI Women's Coalition",
-        "valueDescription": "1997-2003 / 4 linked elections",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "Browse person party summary",
-            "valueText": "Browse person party summary"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-person-index",
-            "sourceTitle": "Civgraph Browse person index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:e97ac318a3ab8019f85b",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Eileen Calder",
-        "valueText": "Eileen Calder",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:08fd1a3d0cb69c8a45df",
-        "propertyId": "cg:property:stood-in-election",
-        "propertyLabel": "stood in election",
-        "valueType": "entity",
-        "valueId": "cg:election:northern-ireland-forum-for-political-dialogue-1996-05-30",
-        "valueLabel": "1996 Northern Ireland Forum election",
-        "valueText": "1996 Northern Ireland Forum election",
-        "valueDescription": "19 constituencies",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "1996-05-30",
-            "valueText": "1996-05-30"
-          },
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "Belfast North",
-            "valueText": "Belfast North"
-          },
-          {
-            "propertyId": "cg:property:candidature-status",
-            "propertyLabel": "candidature status",
-            "valueType": "string",
-            "valueLabel": "Eliminated",
-            "valueText": "Eliminated"
-          },
-          {
-            "propertyId": "cg:property:elected",
-            "propertyLabel": "elected",
-            "valueType": "boolean",
-            "valueLabel": "No",
-            "valueText": "No"
-          },
-          {
-            "propertyId": "cg:property:member-of-political-party",
-            "propertyLabel": "member of political party or label",
-            "valueType": "entity",
-            "valueId": "cg:party:ni-womens-coalition",
-            "valueLabel": "NI Women's Coalition",
-            "valueText": "NI Women's Coalition"
           }
         ],
         "referenceCount": 1,

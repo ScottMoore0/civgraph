@@ -1,9 +1,111 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-07T01:02:26.502Z",
+  "generatedAt": "2026-07-07T01:47:26.082Z",
   "shard": 215,
   "totalSubjects": 250,
   "items": {
+    "cg:source:approved-publication-census-cube-ura01-population-distribution": [
+      {
+        "id": "cg:statement:8d0e7975088ba1997620",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:source",
+        "valueLabel": "Source",
+        "valueText": "Source",
+        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:1cca4417d10bc3c2322f",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Population Distribution",
+        "valueText": "Population Distribution",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:be2d023159ff5f4394e8",
+        "propertyId": "cg:property:provider",
+        "propertyLabel": "provider",
+        "valueType": "entity",
+        "valueId": "cg:provider:cso",
+        "valueLabel": "CSO",
+        "valueText": "CSO",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:3bd27edbfb0df8e5b47d",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:json-stat-cube-ura01-3c432cad3e1c",
+        "valueLabel": "JSON-stat cube (URA01)",
+        "valueText": "JSON-stat cube (URA01)",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/URA01/JSON-stat/2.0/en",
+            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/URA01/JSON-stat/2.0/en"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:b4768a03e20bca8592ec",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:cso-pxstat-table-ura01-4b2ae80d8862",
+        "valueLabel": "CSO PxStat table URA01",
+        "valueText": "CSO PxStat table URA01",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://data.cso.ie/table/URA01",
+            "valueText": "https://data.cso.ie/table/URA01"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:339bf88d908ff9315232",
+        "propertyId": "cg:property:source-kind",
+        "propertyLabel": "source kind",
+        "valueType": "string",
+        "valueLabel": "Approved tables",
+        "valueText": "Approved tables",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:1a73f56de16aefe11512",
+        "propertyId": "cg:property:url",
+        "propertyLabel": "URL",
+        "valueType": "url",
+        "valueLabel": "https://data.cso.ie/table/URA01",
+        "valueText": "https://data.cso.ie/table/URA01",
+        "referenceCount": 0
+      }
+    ],
     "cg:source:approved-publication-census-cube-ura02-average-age-of-population": [
       {
         "id": "cg:statement:ca2274af9af37708be6d",
@@ -26087,93 +26189,6 @@
       },
       {
         "id": "cg:statement:2a634c7528f1bb2797dd",
-        "propertyId": "cg:property:url",
-        "propertyLabel": "URL",
-        "valueType": "url",
-        "valueLabel": "https://www.nisra.gov.uk",
-        "valueText": "https://www.nisra.gov.uk",
-        "referenceCount": 0
-      }
-    ],
-    "cg:source:approved-publication-census-nisra-census-03051-2021-census-household-questionnaire": [
-      {
-        "id": "cg:statement:f3a172a2595fe2771e7f",
-        "propertyId": "cg:property:date",
-        "propertyLabel": "date",
-        "valueType": "entity",
-        "valueId": "cg:date-year:2021",
-        "valueLabel": "2021",
-        "valueText": "2021",
-        "valueDescription": "Entities dated 2021",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:acf4cf3f15eae0ee1260",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:source",
-        "valueLabel": "Source",
-        "valueText": "Source",
-        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:eec9b05ce1379aea66c9",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "2021 census household questionnaire",
-        "valueText": "2021 census household questionnaire",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:cda1787e9af01311e088",
-        "propertyId": "cg:property:provider",
-        "propertyLabel": "provider",
-        "valueType": "entity",
-        "valueId": "cg:provider:nisra",
-        "valueLabel": "NISRA",
-        "valueText": "NISRA",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:008a3f89dc5b24812357",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:nisra-9eec84ca9584",
-        "valueLabel": "NISRA",
-        "valueText": "NISRA",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://www.nisra.gov.uk",
-            "valueText": "https://www.nisra.gov.uk"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:a209138f76cbaae89e14",
-        "propertyId": "cg:property:source-kind",
-        "propertyLabel": "source kind",
-        "valueType": "string",
-        "valueLabel": "Approved tables",
-        "valueText": "Approved tables",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:ed282c7eea10533dfa61",
         "propertyId": "cg:property:url",
         "propertyLabel": "URL",
         "valueType": "url",

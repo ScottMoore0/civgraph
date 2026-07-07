@@ -1,9 +1,35 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-07T01:02:26.502Z",
+  "generatedAt": "2026-07-07T01:47:26.082Z",
   "shard": 35,
   "total": 5000,
   "items": [
+    {
+      "id": "cg:source:json-stat-cube-e6015-0a784fd81f69",
+      "label": "JSON-stat cube (E6015)",
+      "kind": "entity",
+      "sourceUrl": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/E6015/JSON-stat/2.0/en",
+      "attributes": {
+        "sourceKind": "source-reference",
+        "createdFrom": "external-reference"
+      },
+      "typeIds": [
+        "cg:entity-type:source"
+      ]
+    },
+    {
+      "id": "cg:source:json-stat-cube-e6016-c871d694cf99",
+      "label": "JSON-stat cube (E6016)",
+      "kind": "entity",
+      "sourceUrl": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/E6016/JSON-stat/2.0/en",
+      "attributes": {
+        "sourceKind": "source-reference",
+        "createdFrom": "external-reference"
+      },
+      "typeIds": [
+        "cg:entity-type:source"
+      ]
+    },
     {
       "id": "cg:source:json-stat-cube-e6017-a37587db1c01",
       "label": "JSON-stat cube (E6017)",
@@ -65240,6 +65266,24 @@
       ]
     },
     {
+      "id": "cg:source:map-source-cork-city-parks",
+      "label": "Cork City Parks source files",
+      "description": "parks / Cork City Council",
+      "kind": "entity",
+      "browseType": "sources",
+      "browseSlug": "map-source-cork-city-parks",
+      "browseUrl": "/browse/sources/map-source-cork-city-parks",
+      "attributes": {
+        "sourceCategory": "Map sources",
+        "provider": "Cork City Council",
+        "referenceCount": 1,
+        "downloadCount": 2
+      },
+      "typeIds": [
+        "cg:entity-type:source"
+      ]
+    },
+    {
       "id": "cg:source:map-source-counties-county-boroughs-1915",
       "label": "Counties and County Boroughs 1915 source files",
       "description": "Council and district boundaries",
@@ -65886,7 +65930,7 @@
     {
       "id": "cg:source:map-source-dcc-development-plan-dcc-2022-2028",
       "label": "Development Plan 2022 2028 (DCC) source files",
-      "description": "Development Plan 2022 2028 (DCC) — published by Dublin City Council. 1 related provider/source row is staged as provenance for this existing Civgraph record; provider: data.gov.ie; formats: CSV, GEOJSON; 1 provider dataset link preserved as references; licence: Creative Commons Attribution 4.0; relationship: related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval.",
+      "description": "Development Plan 2022 2028 (DCC) — published by Dublin City Council. 2 related provider/source rows are staged as provenance for this existing Civgraph record; provider: data.gov.ie; formats: CSV, GEOJSON, SHP, TAB, DBASE, PRJ and 4 more; 2 provider dataset links preserved as references; licence: Creative Commons Attribution 4.0; relationship: related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval.",
       "kind": "entity",
       "browseType": "sources",
       "browseSlug": "map-source-dcc-development-plan-dcc-2022-2028",
@@ -65895,7 +65939,7 @@
         "sourceCategory": "Map sources",
         "provider": "Dublin City Council",
         "publicationStatus": "enriched",
-        "referenceCount": 5,
+        "referenceCount": 6,
         "downloadCount": 6
       },
       "typeIds": [
@@ -66197,62 +66241,6 @@
         "publicationStatus": "enriched",
         "referenceCount": 5,
         "downloadCount": 4
-      },
-      "typeIds": [
-        "cg:entity-type:source"
-      ]
-    },
-    {
-      "id": "cg:source:map-source-dcc-local-authority-offices",
-      "label": "Local Authority Offices (DCC) source files",
-      "description": "Local Authority Offices (DCC) — published by Dublin City Council. 1 related provider/source row is staged as provenance for this existing Civgraph record; provider: data.gov.ie; formats: CSV, GEOJSON; 1 provider dataset link preserved as references.",
-      "kind": "entity",
-      "browseType": "sources",
-      "browseSlug": "map-source-dcc-local-authority-offices",
-      "browseUrl": "/browse/sources/map-source-dcc-local-authority-offices",
-      "attributes": {
-        "sourceCategory": "Map sources",
-        "provider": "Dublin City Council",
-        "publicationStatus": "enriched",
-        "referenceCount": 4,
-        "downloadCount": 6
-      },
-      "typeIds": [
-        "cg:entity-type:source"
-      ]
-    },
-    {
-      "id": "cg:source:map-source-dcc-moby-bikes",
-      "label": "Moby Bikes (DCC) source files",
-      "description": "Moby Bikes (DCC) — published by Dublin City Council.",
-      "kind": "entity",
-      "browseType": "sources",
-      "browseSlug": "map-source-dcc-moby-bikes",
-      "browseUrl": "/browse/sources/map-source-dcc-moby-bikes",
-      "attributes": {
-        "sourceCategory": "Map sources",
-        "provider": "Dublin City Council",
-        "referenceCount": 1,
-        "downloadCount": 6
-      },
-      "typeIds": [
-        "cg:entity-type:source"
-      ]
-    },
-    {
-      "id": "cg:source:map-source-dcc-museums-and-archives",
-      "label": "Museums And Archives (DCC) source files",
-      "description": "Museums And Archives (DCC) — published by Dublin City Council. 1 related provider/source row is staged as provenance for this existing Civgraph record; provider: data.gov.ie; formats: CSV, GEOJSON; 1 provider dataset link preserved as references.",
-      "kind": "entity",
-      "browseType": "sources",
-      "browseSlug": "map-source-dcc-museums-and-archives",
-      "browseUrl": "/browse/sources/map-source-dcc-museums-and-archives",
-      "attributes": {
-        "sourceCategory": "Map sources",
-        "provider": "Dublin City Council",
-        "publicationStatus": "enriched",
-        "referenceCount": 4,
-        "downloadCount": 6
       },
       "typeIds": [
         "cg:entity-type:source"

@@ -1,10 +1,379 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-07T01:11:49.911Z",
+  "generatedAt": "2026-07-07T01:47:19.449Z",
   "kind": "sources",
   "shard": "sources-086.json",
   "total": 200,
   "items": [
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:wicklow-zoning-cdp-2016-2022:00857",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-wicklow-zoning-cdp-2016-2022-00857",
+      "type": "approved-medium-priority-source",
+      "title": "wicklow-zoning-cdp-2016-2022",
+      "subtitle": "Local authority planning/property/open-data layers / Wicklow County Council, data.gov.ie / Ireland / unspecified / CSV, ESRI REST, GEOJSON, KML, SHAPEFILES / Source record; runtime review pending",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "date": "2016",
+      "provider": [
+        "Wicklow County Council",
+        "data.gov.ie"
+      ],
+      "description": "wicklow-zoning-cdp-2016-2022 is published as a medium-priority Civgraph source/provenance record from Wicklow County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
+      "url": "https://data.gov.ie/dataset/wicklow-zoning-cdp-2016-2022",
+      "references": [
+        {
+          "label": "wicklow-zoning-cdp-2016-2022 provider page",
+          "url": "https://data.gov.ie/dataset/wicklow-zoning-cdp-2016-2022",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "wicklow-zoning-cdp-2016-2022 Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/wicklow-zoning-cdp-2016-2022",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/wicklow-zoning-cdp-2016-2022",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "source-record-with-runtime-review",
+        "Local authority planning/property/open-data layers",
+        "planning-property",
+        "features",
+        "Ireland / unspecified",
+        "local-authority-batch-review",
+        "CSV",
+        "ESRI REST",
+        "GEOJSON",
+        "KML",
+        "SHAPEFILES",
+        "review:duplicate-or-variant-review-no-existing-match-candidate"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 858,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:wicklow-zoning-cdp-2016-2022:00857",
+          "title": "wicklow-zoning-cdp-2016-2022",
+          "cleanTitle": "wicklow-zoning-cdp-2016-2022",
+          "provider": "data.gov.ie",
+          "organisation": "Wicklow County Council",
+          "category": "spatial",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "planning-property",
+          "featureUnit": "features",
+          "formats": [
+            "CSV",
+            "ESRI REST",
+            "GEOJSON",
+            "KML",
+            "SHAPEFILES"
+          ],
+          "isSpatial": true,
+          "isLargeOrSpecial": false,
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "ESRI REST",
+              "GEOJSON",
+              "KML",
+              "SHAPEFILES"
+            ]
+          },
+          "approvalState": "ready-with-residual-review",
+          "sourcePublicationState": "public source record with runtime/semantic review still pending",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/wicklow-zoning-cdp-2016-2022",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/wicklow-zoning-cdp-2016-2022",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
+        }
+      ],
+      "status": "Source only",
+      "statusChips": [
+        "Source record",
+        "Runtime review pending",
+        "Spatial source",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Ireland / unspecified",
+        "planning-property",
+        "wicklow-zoning-cdp-2016-2022"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/wicklow-zoning-cdp-2016-2022",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/wicklow-zoning-cdp-2016-2022",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Wicklow County Council, data.gov.ie, wicklow-zoning-cdp-2016-2022.",
+      "fullCitation": "Wicklow County Council, data.gov.ie. wicklow-zoning-cdp-2016-2022. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/wicklow-zoning-cdp-2016-2022. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/wicklow-zoning-cdp-2016-2022.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:wicklow-zoning-cdp-2016-2022:00857",
+        "sourceRowNumber": 858,
+        "approvalState": "ready-with-residual-review",
+        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+        "proposedAction": "local-authority-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV",
+            "ESRI REST",
+            "GEOJSON",
+            "KML",
+            "SHAPEFILES"
+          ]
+        },
+        "confidence": 60,
+        "residualBlockers": [
+          "duplicate-or-variant-review: no existing match candidate"
+        ],
+        "resolvedBlockers": [
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+        ],
+        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
+      },
+      "publicationStatus": "source-record-with-runtime-review",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-wicklow-zoning-cdp-2016-2022-00857",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:wicklow-zoning-cdp-2016-2022:00857",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-wicklow-zoning-cdp-2016-2022-00857",
+        "type": "approved-medium-priority-source",
+        "title": "wicklow-zoning-cdp-2016-2022",
+        "subtitle": "Local authority planning/property/open-data layers / Wicklow County Council, data.gov.ie / Ireland / unspecified / CSV, ESRI REST, GEOJSON, KML, SHAPEFILES / Source record; runtime review pending",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "date": "2016",
+        "provider": [
+          "Wicklow County Council",
+          "data.gov.ie"
+        ],
+        "description": "wicklow-zoning-cdp-2016-2022 is published as a medium-priority Civgraph source/provenance record from Wicklow County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
+        "url": "https://data.gov.ie/dataset/wicklow-zoning-cdp-2016-2022",
+        "references": [
+          {
+            "label": "wicklow-zoning-cdp-2016-2022 provider page",
+            "url": "https://data.gov.ie/dataset/wicklow-zoning-cdp-2016-2022",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "wicklow-zoning-cdp-2016-2022 Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/wicklow-zoning-cdp-2016-2022",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/wicklow-zoning-cdp-2016-2022",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source only",
+        "statusChips": [
+          "Source record",
+          "Runtime review pending",
+          "Spatial source",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Ireland / unspecified",
+          "planning-property",
+          "wicklow-zoning-cdp-2016-2022"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/wicklow-zoning-cdp-2016-2022",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/wicklow-zoning-cdp-2016-2022",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Wicklow County Council, data.gov.ie, wicklow-zoning-cdp-2016-2022.",
+        "fullCitation": "Wicklow County Council, data.gov.ie. wicklow-zoning-cdp-2016-2022. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/wicklow-zoning-cdp-2016-2022. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/wicklow-zoning-cdp-2016-2022.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 858,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:wicklow-zoning-cdp-2016-2022:00857",
+            "title": "wicklow-zoning-cdp-2016-2022",
+            "cleanTitle": "wicklow-zoning-cdp-2016-2022",
+            "provider": "data.gov.ie",
+            "organisation": "Wicklow County Council",
+            "category": "spatial",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "planning-property",
+            "featureUnit": "features",
+            "formats": [
+              "CSV",
+              "ESRI REST",
+              "GEOJSON",
+              "KML",
+              "SHAPEFILES"
+            ],
+            "isSpatial": true,
+            "isLargeOrSpecial": false,
+            "proposedAction": "local-authority-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV",
+                "ESRI REST",
+                "GEOJSON",
+                "KML",
+                "SHAPEFILES"
+              ]
+            },
+            "approvalState": "ready-with-residual-review",
+            "sourcePublicationState": "public source record with runtime/semantic review still pending",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/wicklow-zoning-cdp-2016-2022",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/wicklow-zoning-cdp-2016-2022",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+            ],
+            "residualBlockers": [
+              "duplicate-or-variant-review: no existing match candidate"
+            ],
+            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:wicklow-zoning-cdp-2016-2022:00857",
+          "sourceRowNumber": 858,
+          "approvalState": "ready-with-residual-review",
+          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "ESRI REST",
+              "GEOJSON",
+              "KML",
+              "SHAPEFILES"
+            ]
+          },
+          "confidence": 60,
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate"
+          ],
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
+        },
+        "publicationStatus": "source-record-with-runtime-review",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "source-record-with-runtime-review",
+          "Local authority planning/property/open-data layers",
+          "planning-property",
+          "features",
+          "Ireland / unspecified",
+          "local-authority-batch-review",
+          "CSV",
+          "ESRI REST",
+          "GEOJSON",
+          "KML",
+          "SHAPEFILES",
+          "review:duplicate-or-variant-review-no-existing-match-candidate"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-wicklow-zoning-cdp-2016-2022-00857"
+      }
+    },
     {
       "id": "medium-priority:5-local-authority-planning-property-open-data-layers:wicklow-zoning-cdp-2022-2028:00855",
       "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-wicklow-zoning-cdp-2022-2028-00855",
@@ -63930,139 +64299,6 @@
             "sha256": "ce5828e1ee0780d66302cbfcfbafcdc04f257108f7d8c3595cd0e2dfd1e7406d",
             "lastModified": "Wed, 26 Nov 2014 12:13:53 GMT",
             "providerUrl": "https://archive.niassembly.gov.uk/members/expenses/register250211.htm"
-          }
-        ]
-      }
-    },
-    {
-      "id": "ni-register:assembly:html:b56d39103caab0bc",
-      "slug": "ni-register-assembly-html-ni-assembly-register-of-members-interests-25-march-2016-e3a7fc99",
-      "type": "register-source-document",
-      "title": "NI Assembly Register of Members Interests (25 March 2016)",
-      "subtitle": "Current / html / 25 March 2016",
-      "category": "Registers of interests",
-      "date": "2016-03-25",
-      "provider": [
-        "Northern Ireland Assembly"
-      ],
-      "description": "NI Assembly register of interests html. edition dated 25 March 2016. content type text/html; charset=utf-8",
-      "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/25-march-2016/",
-      "references": [
-        {
-          "label": "Current register landing page",
-          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
-        },
-        {
-          "label": "Provider source URL",
-          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/25-march-2016/"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "html source",
-          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/25-march-2016/",
-          "type": "html"
-        }
-      ],
-      "keywords": [
-        "register of interests",
-        "MLA",
-        "Northern Ireland Assembly",
-        "html",
-        "current"
-      ],
-      "sourceItems": [
-        {
-          "sourcePageId": "current",
-          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
-          "title": "HTML",
-          "linkText": "HTML",
-          "kind": "html",
-          "contentType": "text/html; charset=utf-8",
-          "httpStatus": 200,
-          "bytes": 198889,
-          "sha256": "0eaf88f42df1e43c9a04f5282050c53b62d93a9d35816a790b51f84fd1f1f733",
-          "providerUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/25-march-2016/"
-        }
-      ],
-      "status": "Available",
-      "statusChips": [
-        "html",
-        "HTTP 200",
-        "current"
-      ],
-      "sourceHierarchy": [
-        "Browse",
-        "Registers of interests",
-        "Northern Ireland Assembly",
-        "Current"
-      ],
-      "parentId": "ni-register:assembly:collection",
-      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
-      "browseUrl": "/browse/sources/ni-register-assembly-html-ni-assembly-register-of-members-interests-25-march-2016-e3a7fc99",
-      "rawMetadata": {
-        "id": "ni-register:assembly:html:b56d39103caab0bc",
-        "slug": "ni-register-assembly-html-ni-assembly-register-of-members-interests-25-march-2016-e3a7fc99",
-        "type": "register-source-document",
-        "title": "NI Assembly Register of Members Interests (25 March 2016)",
-        "subtitle": "Current / html / 25 March 2016",
-        "category": "Registers of interests",
-        "date": "2016-03-25",
-        "provider": [
-          "Northern Ireland Assembly"
-        ],
-        "description": "NI Assembly register of interests html. edition dated 25 March 2016. content type text/html; charset=utf-8",
-        "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/25-march-2016/",
-        "references": [
-          {
-            "label": "Current register landing page",
-            "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
-          },
-          {
-            "label": "Provider source URL",
-            "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/25-march-2016/"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "html source",
-            "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/25-march-2016/",
-            "type": "html"
-          }
-        ],
-        "keywords": [
-          "register of interests",
-          "MLA",
-          "Northern Ireland Assembly",
-          "html",
-          "current"
-        ],
-        "sourceHierarchy": [
-          "Browse",
-          "Registers of interests",
-          "Northern Ireland Assembly",
-          "Current"
-        ],
-        "status": "Available",
-        "statusChips": [
-          "html",
-          "HTTP 200",
-          "current"
-        ],
-        "parentId": "ni-register:assembly:collection",
-        "parentTitle": "Northern Ireland Assembly Register of Members Interests",
-        "sourceItems": [
-          {
-            "sourcePageId": "current",
-            "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
-            "title": "HTML",
-            "linkText": "HTML",
-            "kind": "html",
-            "contentType": "text/html; charset=utf-8",
-            "httpStatus": 200,
-            "bytes": 198889,
-            "sha256": "0eaf88f42df1e43c9a04f5282050c53b62d93a9d35816a790b51f84fd1f1f733",
-            "providerUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/25-march-2016/"
           }
         ]
       }
