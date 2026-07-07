@@ -15,8 +15,9 @@ const OUTPUT_BROWSE_REGISTER_SHARD_DIR = path.join(ROOT, 'data', 'database', 'ni
 const PDF_TEXT_SCRIPT = path.join(ROOT, 'scripts', 'extract-pdf-text.py');
 const STRUCTURED_DATA_URL = '/data/database/ni-register-interests.json';
 const GENERATED_AT = new Date().toISOString();
-const INTEREST_SHARD_SIZE = 1000;
-const BROWSE_REGISTER_SHARD_TARGET_BYTES = 20 * 1024 * 1024;
+const INTEREST_SHARD_SIZE = 750;
+const BROWSE_REGISTER_SHARD_TARGET_BYTES = 24 * 1024 * 1024; // budget ceiling exposed to the validator (< 25 MB Pages limit)
+const BROWSE_REGISTER_SHARD_PACK_TARGET_BYTES = 16 * 1024 * 1024; // smaller pack target: re-shards to ~16 MB with headroom under the ceiling
 const PDF_EMPTY_INTEREST_TEXT = 'No registrable interests included under this category in the PDF text.';
 
 const START_PAGES = {
@@ -312,7 +313,7 @@ function writeBrowseRegisterShards(records) {
     const shardItems = findByteBudgetedBrowseShard(records, index, shardName);
     const payload = browseRegisterShardPayload(shardName, shardItems);
     const bytes = Buffer.byteLength(`${JSON.stringify(payload, null, 2)}\n`, 'utf8');
-    if (bytes > BROWSE_REGISTER_SHARD_TARGET_BYTES) {
+    if (bytes > BROWSE_REGISTER_SHARD_PACK_TARGET_BYTES) {
       throw new Error(`NI register Browse shard ${shardName} is ${(bytes / 1024 / 1024).toFixed(2)} MB, over target`);
     }
     writeJson(path.join(OUTPUT_BROWSE_REGISTER_SHARD_DIR, shardName), payload);
@@ -337,7 +338,7 @@ function findByteBudgetedBrowseShard(records, startIndex, shardName) {
     const mid = Math.floor((low + high) / 2);
     const shardItems = records.slice(startIndex, mid);
     const bytes = browseRegisterShardPayloadBytes(shardName, shardItems);
-    if (bytes <= BROWSE_REGISTER_SHARD_TARGET_BYTES) {
+    if (bytes <= BROWSE_REGISTER_SHARD_PACK_TARGET_BYTES) {
       best = mid;
       low = mid + 1;
     } else {
