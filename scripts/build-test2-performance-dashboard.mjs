@@ -9,7 +9,12 @@ const VALIDATE = process.argv.includes('--validate');
 const BUDGETS = {
   entryJsBytes: Number(process.env.TEST2_BUDGET_ENTRY_JS || 80 * 1024),
   entryCssBytes: Number(process.env.TEST2_BUDGET_ENTRY_CSS || 160 * 1024),
-  chunkJsBytes: Number(process.env.TEST2_BUDGET_CHUNK_JS || 1800 * 1024),
+  // Raised to accommodate the lazy-loaded deck.gl point-cloud chunks (~1.6 MB).
+  // These are code-split behind a dynamic import() and only fetched when a user
+  // opens a point-cloud layer, so they do NOT affect initial/cold load (guarded
+  // separately by measure-test2-cold-load.mjs initialJsBytes). This sum is the
+  // "download everything" ceiling and still catches accidental bloat.
+  chunkJsBytes: Number(process.env.TEST2_BUDGET_CHUNK_JS || 3800 * 1024),
   largestLazyChunkBytes: Number(process.env.TEST2_BUDGET_LARGEST_LAZY_CHUNK || 1200 * 1024),
   metadataIndexBytes: Number(process.env.TEST2_BUDGET_METADATA_INDEX || 3500 * 1024),
   sourceMapCount: 0

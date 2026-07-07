@@ -29,6 +29,11 @@ const DEFAULT_VECTOR_FILL_OPACITY = 0;
 // identical to the flat 2D map, so terrain must tilt itself into view on load.
 const TERRAIN_LOAD_PITCH = 60;
 const TERRAIN_AUTOTILT_THRESHOLD = 10;
+
+function parseHexRgb(hex) {
+  const m = /^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(String(hex || '').trim());
+  return m ? [parseInt(m[1], 16), parseInt(m[2], 16), parseInt(m[3], 16)] : [138, 180, 216];
+}
 const MOBILE_GESTURE_CHROME_SELECTOR = [
   'button',
   'a',
@@ -895,16 +900,24 @@ export class TestMapLibreController {
     await this.waitForMap();
     const duplicateFeatureIds = await this.loadDuplicateFeatureIds(layer);
 
-    const source = this.buildSource(layer);
-    this.map.addSource(sourceId, source);
     let interactionOverlayIds = { layerIds: [], sourceIds: [] };
-    if (layer.sourceType === 'raster-dem') {
-      interactionOverlayIds = this.addTerrainLayer(layer, { sourceId, rasterId });
-    } else if (layer.sourceType === 'raster' || layer.sourceType === 'image') {
-      this.addRasterLayer(layer, { sourceId, rasterId });
+    if (layer.sourceType === 'point-cloud') {
+      // deck.gl owns the point-cloud data and renders into MapLibre's own WebGL
+      // context (interleaved). There is no MapLibre source/layer to add, and the
+      // deck.gl bundle is lazy-loaded on first use so it costs zero bytes and
+      // zero runtime until a point cloud is actually opened.
+      await this.addPointCloudLayer(layer);
     } else {
-      this.addGeometryLayers(layer, { sourceId, fillId, lineId, hoverId, selectedFillId, selectedId });
-      interactionOverlayIds = this.addInteractionOverlayLayers(layer);
+      const source = this.buildSource(layer);
+      this.map.addSource(sourceId, source);
+      if (layer.sourceType === 'raster-dem') {
+        interactionOverlayIds = this.addTerrainLayer(layer, { sourceId, rasterId });
+      } else if (layer.sourceType === 'raster' || layer.sourceType === 'image') {
+        this.addRasterLayer(layer, { sourceId, rasterId });
+      } else {
+        this.addGeometryLayers(layer, { sourceId, fillId, lineId, hoverId, selectedFillId, selectedId });
+        interactionOverlayIds = this.addInteractionOverlayLayers(layer);
+      }
     }
     const labelLayerIds = this.addLabelLayers(layer, { sourceId, labelId });
 
@@ -935,7 +948,7 @@ export class TestMapLibreController {
     });
     this.applySavedLayerPreferences(layer.id);
 
-    if (layer.sourceType !== 'raster' && layer.sourceType !== 'image' && layer.sourceType !== 'raster-dem') {
+    if (layer.sourceType !== 'raster' && layer.sourceType !== 'image' && layer.sourceType !== 'raster-dem' && layer.sourceType !== 'point-cloud') {
       this.interactionCleanups.set(layer.id, this.bindLayerInteractions(layer, fillId, labelId, sourceId));
       this.scheduleDomLabelRefresh(layer.id);
     }
@@ -1013,6 +1026,87 @@ export class TestMapLibreController {
     const exaggeration = clamp(value, 0, 12);
     this.terrainExaggeration = exaggeration;
     this.map.setTerrain({ source: this.terrainSourceId, exaggeration });
+  }
+
+  // ---- 3D LiDAR point clouds (deck.gl Tile3DLayer interleaved into MapLibre) ----
+  // A single deck.gl MapboxOverlay is created lazily on first use and kept
+  // attached; each point-cloud layer is a Tile3DLayer whose 3D-Tiles octree LOD
+  // bounds the on-screen point count regardless of dataset size. deck.gl modules
+  // are dynamically imported so they are code-split out of the initial bundle —
+  // zero bytes / zero runtime until a user opens a point cloud.
+  async ensurePointCloudDeck() {
+    if (this._deck) return this._deck;
+    const [{ MapboxOverlay }, { Tile3DLayer }, { Tiles3DLoader }] = await Promise.all([
+      import('@deck.gl/mapbox'),
+      import('@deck.gl/geo-layers'),
+      import('@loaders.gl/3d-tiles')
+    ]);
+    this._deck = { MapboxOverlay, Tile3DLayer, Tiles3DLoader };
+    return this._deck;
+  }
+
+  async addPointCloudLayer(layer) {
+    await this.ensurePointCloudDeck();
+    if (!this.pointCloudConfigs) this.pointCloudConfigs = new Map();
+    this.pointCloudConfigs.set(layer.id, layer);
+    // Create the shared overlay once and keep it attached; toggling the layer
+    // list (rather than add/removeControl per load) avoids deck.gl's teardown
+    // observer leak and keeps an inactive overlay at zero draw cost.
+    if (!this.pointCloudOverlay) {
+      this.pointCloudOverlay = new this._deck.MapboxOverlay({
+        interleaved: layer.interleaved !== false,
+        layers: []
+      });
+      this.map.addControl(this.pointCloudOverlay);
+      if (typeof this.map.setMaxPitch === 'function' && this.map.getMaxPitch() < 80) {
+        this.map.setMaxPitch(85);
+      }
+    }
+    this.syncPointCloudOverlay();
+    return { layerIds: [], sourceIds: [] };
+  }
+
+  syncPointCloudOverlay() {
+    if (!this.pointCloudOverlay || !this._deck) return;
+    const { Tile3DLayer, Tiles3DLoader } = this._deck;
+    const layers = [...(this.pointCloudConfigs?.values() || [])].map((cfg) => {
+      const record = this.layers.get(cfg.id);
+      const opacity = clamp(record?.opacity ?? resolveLayerOpacity(cfg), 0, 1);
+      const rgb = parseHexRgb(cfg.style?.color || '#8ab4d8');
+      return new Tile3DLayer({
+        id: `pointcloud-${cfg.id}`,
+        data: cfg.tilesetUrl || cfg.tiles,
+        loader: Tiles3DLoader,
+        pointSize: cfg.pointSize ?? 1.4,
+        opacity,
+        pickable: false,
+        getPointColor: rgb,
+        loadOptions: {
+          tileset: {
+            // Performance guardrails: octree LOD + memory cap bound the on-screen
+            // point count and shed detail near the limit rather than crashing.
+            maximumScreenSpaceError: cfg.maxScreenSpaceError ?? 16,
+            maximumMemoryUsage: cfg.maxMemoryMB ?? 512,
+            memoryAdjustedScreenSpaceError: true,
+            maxRequests: 32
+          }
+        }
+      });
+    });
+    this.pointCloudOverlay.setProps({ layers });
+  }
+
+  removePointCloudLayer(layerId) {
+    if (!this.pointCloudConfigs?.has(layerId)) return;
+    this.pointCloudConfigs.delete(layerId);
+    this.syncPointCloudOverlay();
+  }
+
+  setPointSize(layerId, size) {
+    const cfg = this.pointCloudConfigs?.get(layerId);
+    if (!cfg) return;
+    cfg.pointSize = clamp(Number(size) || 1.4, 0.5, 8);
+    this.syncPointCloudOverlay();
   }
 
   addGeometryLayers(layer, ids) {
@@ -1244,6 +1338,11 @@ export class TestMapLibreController {
       this.terrainSourceId = null;
       this.terrainExaggeration = null;
     }
+    // Remove the deck.gl point-cloud layer (overlay stays attached with an empty
+    // layer list = no draw cost, avoiding repeated teardown/observer leaks).
+    if (this.pointCloudConfigs?.has(layerId)) {
+      this.removePointCloudLayer(layerId);
+    }
     this.clearFeatureState(this.hovered, 'hover');
     this.clearFeatureState(this.selected, 'selected');
     this.interactionCleanups.get(layerId)?.();
@@ -1270,6 +1369,11 @@ export class TestMapLibreController {
     const record = this.layers.get(layerId);
     if (!record) return;
     record.opacity = clamp(opacity, 0, 1);
+    if (this.pointCloudConfigs?.has(layerId)) {
+      this.syncPointCloudOverlay();
+      this.notifyChange();
+      return;
+    }
     const fillId = `${layerId}-fill`;
     const lineId = `${layerId}-line`;
     const rasterId = `${layerId}-raster`;
@@ -1463,7 +1567,7 @@ export class TestMapLibreController {
     const record = this.layers.get(layerId);
     if (!record) return;
     this.fitToBounds(record.config.bounds, {
-      terrain: record.config.sourceType === 'raster-dem'
+      terrain: record.config.sourceType === 'raster-dem' || record.config.sourceType === 'point-cloud'
     });
   }
 

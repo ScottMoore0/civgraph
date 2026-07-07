@@ -61,6 +61,7 @@ function ctOf(name) {
     if (name.endsWith('.webp')) return 'image/webp';
     if (name.endsWith('.jpg') || name.endsWith('.jpeg')) return 'image/jpeg';
     if (name.endsWith('.pdf')) return 'application/pdf';
+    if (name.endsWith('.json')) return 'application/json';
     return 'application/octet-stream';
 }
 

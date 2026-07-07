@@ -41,6 +41,12 @@ export function renderActiveLayers(els, controller, options = {}) {
           <input data-control="terrain-exaggeration" type="range" min="1" max="8" step="0.5" value="${record.config.exaggeration ?? 1.5}">
         </label>
       ` : ''}
+      ${record.config.sourceType === 'point-cloud' ? `
+        <label>
+          Point size
+          <input data-control="point-size" type="range" min="0.5" max="6" step="0.5" value="${record.config.pointSize ?? 1.4}">
+        </label>
+      ` : ''}
       ${!isRasterLike(record.config) ? `
         <label>
           Line
@@ -97,6 +103,10 @@ export function renderActiveLayers(els, controller, options = {}) {
     });
     row.querySelector('[data-control="terrain-exaggeration"]')?.addEventListener('input', (event) => {
       controller.setTerrainExaggeration(Number(event.target.value));
+      options.onRendered?.();
+    });
+    row.querySelector('[data-control="point-size"]')?.addEventListener('input', (event) => {
+      controller.setPointSize(id, Number(event.target.value));
       options.onRendered?.();
     });
     row.querySelector('[data-control="line-color"]')?.addEventListener('input', (event) => {
@@ -353,7 +363,8 @@ function renderLegend(layer, styleState, record) {
 }
 
 function isRasterLike(layer) {
-  return layer.sourceType === 'raster' || layer.sourceType === 'image' || layer.sourceType === 'raster-dem';
+  return layer.sourceType === 'raster' || layer.sourceType === 'image'
+    || layer.sourceType === 'raster-dem' || layer.sourceType === 'point-cloud';
 }
 
 function saveLayerPreset(id, record) {
