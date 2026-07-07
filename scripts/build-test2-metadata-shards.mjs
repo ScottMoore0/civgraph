@@ -63,6 +63,7 @@ const COMPACT_LAYER_FIELDS = [
   'maxScreenSpaceError',
   'maxMemoryMB',
   'interleaved',
+  'vertexColors',
   'style',
   'labelProperty',
   'labelPropertyFallbacks',

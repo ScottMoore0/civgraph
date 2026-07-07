@@ -1080,7 +1080,9 @@ export class TestMapLibreController {
         pointSize: cfg.pointSize ?? 1.4,
         opacity,
         pickable: false,
-        getPointColor: rgb,
+        // Uniform tint for intensity-only clouds; RGB clouds (vertexColors)
+        // keep their per-point photogrammetry colour (omit the override).
+        ...(cfg.vertexColors ? {} : { getPointColor: rgb }),
         loadOptions: {
           tileset: {
             // Performance guardrails: octree LOD + memory cap bound the on-screen

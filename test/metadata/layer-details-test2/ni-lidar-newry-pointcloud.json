@@ -1,0 +1,57 @@
+{
+  "id": "ni-lidar-newry-pointcloud",
+  "sourceMapId": "ni-lidar-newry-pointcloud",
+  "name": "Newry City Core Photogrammetry Point Cloud (3D)",
+  "category": "Physical Geography",
+  "group": "Physical Geography",
+  "provider": [
+    "Newry, Mourne and Down District Council"
+  ],
+  "date": 2018,
+  "description": "RGB-coloured point cloud of the Newry city core, derived by photogrammetry (Agisoft PhotoScan) and streamed in 3D as an OGC 3D-Tiles octree. Rendered with deck.gl interleaved into the map in its true survey colour: tilt and zoom in and the individual scanned points load in place; zoom out and they unload. Level-of-detail streaming keeps performance bounded regardless of dataset size.",
+  "sourceType": "point-cloud",
+  "geometryType": "point-cloud",
+  "renderer": "maplibre",
+  "status": "converted-pointcloud",
+  "loadable": true,
+  "tilesetUrl": "https://data.civgraph.net/data/pointclouds/newry-citycore/tileset.json?v=20260707a",
+  "bounds": [
+    [
+      54.16932959531601,
+      -6.345347421472797
+    ],
+    [
+      54.18115911088332,
+      -6.33142395810165
+    ]
+  ],
+  "minzoom": 5,
+  "maxzoom": 20,
+  "pointSize": 1.2,
+  "maxScreenSpaceError": 16,
+  "maxMemoryMB": 512,
+  "vertexColors": true,
+  "rasterOpacity": 1,
+  "style": {
+    "color": "#8ab4d8",
+    "fillColor": "#8ab4d8",
+    "fillOpacity": 1,
+    "weight": 0
+  },
+  "license": "OGL",
+  "keywords": [
+    "lidar",
+    "point cloud",
+    "photogrammetry",
+    "3D",
+    "deck.gl",
+    "3d tiles",
+    "elevation",
+    "Newry",
+    "city core",
+    "RGB",
+    "Physical Geography",
+    "maplibre",
+    "Newry Mourne and Down"
+  ]
+}
