@@ -98,6 +98,11 @@ function validateApprovedSources(validationReport, approvedSources) {
   const localAuthoritySourcesHeld = approvedSources.counts?.localAuthoritySourcesHeld?.publish || 0;
   const transportPublicAssets = approvedSources.counts?.transportPublicAssets?.publish || 0;
   const sourceDownloadRecords = approvedSources.counts?.sourceDownloadRecords?.publish || 0;
+  // openDataSourceRecords = 93 net-new open-data source records reframed from the
+  // mislabelled enrich-existing-source bucket (its matcher was polluted by staging
+  // rows in the browse corpus; the rows had no real on-site target). Licence
+  // CKAN-verified per dataset (57 CC BY 4.0 + 35 CC BY-SA 4.0 + 1 OGL); 2 stale excluded.
+  const openDataSourceRecords = approvedSources.counts?.openDataSourceRecords?.publish || 0;
   assert(censusCso === 6560, `Expected 6,560 approved CSO census records, found ${censusCso}.`);
   assert(censusNisra === 645, `Expected 645 approved NISRA census records, found ${censusNisra}.`);
   assert(censusCsoNiCarveout === 35, `Expected 35 approved CSO NI-carveout census records, found ${censusCsoNiCarveout}.`);
@@ -105,8 +110,9 @@ function validateApprovedSources(validationReport, approvedSources) {
   assert(localAuthoritySourcesHeld === 755, `Expected 755 approved held/dedup-cleared local-authority source records, found ${localAuthoritySourcesHeld}.`);
   assert(transportPublicAssets === 78, `Expected 78 approved transport/public-asset source records, found ${transportPublicAssets}.`);
   assert(sourceDownloadRecords === 16, `Expected 16 approved source-download records, found ${sourceDownloadRecords}.`);
+  assert(openDataSourceRecords === 93, `Expected 93 approved net-new open-data source records, found ${openDataSourceRecords}.`);
   const expectedTotal = 6679 + censusCso + censusNisra + censusCsoNiCarveout + localAuthoritySources
-    + localAuthoritySourcesHeld + transportPublicAssets + sourceDownloadRecords;
+    + localAuthoritySourcesHeld + transportPublicAssets + sourceDownloadRecords + openDataSourceRecords;
   assert(approvedSources.counts?.total === expectedTotal, `Expected ${expectedTotal} approved source records, found ${approvedSources.counts?.total}.`);
   assert(Array.isArray(approvedSources.sources) && approvedSources.sources.length === expectedTotal, `Expected ${expectedTotal} approved source records in sources array, found ${approvedSources.sources?.length}.`);
   assert(approvedSources.counts?.remainingApproved?.publish === 26, `Expected 26 approved remaining publish records, found ${approvedSources.counts?.remainingApproved?.publish}.`);
