@@ -29,6 +29,10 @@ const DEFAULT_VECTOR_FILL_OPACITY = 0;
 // identical to the flat 2D map, so terrain must tilt itself into view on load.
 const TERRAIN_LOAD_PITCH = 60;
 const TERRAIN_AUTOTILT_THRESHOLD = 10;
+// Tiled vector sources clip each feature at tile boundaries, so a single
+// queried feature only carries the fragment inside one tile. Used to decide
+// when a selected polygon must be reassembled from all of its fragments.
+const TILED_VECTOR_SOURCE_TYPES = new Set(['pmtiles', 'vector', 'mvt']);
 
 function parseHexRgb(hex) {
   const m = /^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(String(hex || '').trim());
@@ -1911,11 +1915,21 @@ export class TestMapLibreController {
     if (!record) return false;
     this.setDomLabelSelected(this.selected?.layerId, this.selected?.id, false);
     this.clearFeatureState(this.selected, 'selected');
+    // A clicked polygon from a tiled vector source arrives clipped to a single
+    // tile, so any area/metrics derived from its geometry describe only that
+    // fragment. Reassemble the whole feature from every rendered fragment that
+    // shares this id so downstream stats cover the entire polygon, not a slice.
+    let selectedGeometry = feature.geometry || null;
+    if (!generated && layer.geometryType === 'polygon'
+        && TILED_VECTOR_SOURCE_TYPES.has(layer.sourceType)) {
+      const merged = this.mergePolygonFragments(layer, id);
+      if (merged) selectedGeometry = merged;
+    }
     const normalizedFeature = {
       ...feature,
       id,
       properties: repairFeatureProperties(layer, feature.properties || {}),
-      geometry: feature.geometry || null
+      geometry: selectedGeometry
     };
     this.selected = {
       layerId: layer.id,
@@ -1939,6 +1953,36 @@ export class TestMapLibreController {
     this.options.onSelection?.({ layer, feature: normalizedFeature });
     this.notifyChange();
     return true;
+  }
+
+  // Collect every currently-rendered fragment of a polygon feature (all share
+  // the same promoted id) and union them into one MultiPolygon, so the whole
+  // feature's area is computed instead of a single tile-clipped slice. Returns
+  // null when the feature isn't split (nothing to merge) so callers keep the
+  // original geometry. Bounded to fragments in loaded tiles.
+  mergePolygonFragments(layer, id) {
+    const fillId = `${layer.id}-fill`;
+    if (!this.map.getLayer(fillId)) return null;
+    let fragments;
+    try {
+      fragments = this.map.queryRenderedFeatures({ layers: [fillId] });
+    } catch {
+      return null;
+    }
+    const target = String(id);
+    const coordinates = [];
+    for (const fragment of fragments) {
+      if (String(this.readFeatureIdentity(layer, fragment).id) !== target) continue;
+      const geometry = fragment.geometry;
+      if (!geometry) continue;
+      if (geometry.type === 'Polygon') {
+        coordinates.push(geometry.coordinates);
+      } else if (geometry.type === 'MultiPolygon') {
+        for (const polygon of geometry.coordinates) coordinates.push(polygon);
+      }
+    }
+    if (coordinates.length <= 1) return null;
+    return { type: 'MultiPolygon', coordinates };
   }
 
   setInteractionOverlay(layerId, state, feature) {
