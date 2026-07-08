@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-08T09:28:43.763Z",
+  "generatedAt": "2026-07-08T11:33:02.113Z",
   "shard": 102,
   "totalSubjects": 250,
   "items": {
@@ -551,6 +551,28 @@
         "valueType": "string",
         "valueLabel": "planning",
         "valueText": "planning",
+        "referenceCount": 0
+      }
+    ],
+    "cg:map-category:points-of-interest": [
+      {
+        "id": "cg:statement:2ca2432787efea02e60f",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:map-category",
+        "valueLabel": "Map category",
+        "valueText": "Map category",
+        "valueDescription": "A catalogue category that groups map layers, e.g. Devolved Constituencies.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:0bc02615425a78aac10f",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Points of Interest",
+        "valueText": "Points of Interest",
         "referenceCount": 0
       }
     ],
@@ -25511,101 +25533,6 @@
             "valueType": "url",
             "valueLabel": "data/census/derived/ms-a01-ward.csv",
             "valueText": "data/census/derived/ms-a01-ward.csv"
-          }
-        ],
-        "referenceCount": 0
-      }
-    ],
-    "cg:map-layer:data-2021-private-rented-lgd": [
-      {
-        "id": "cg:statement:3a7f9d940a641f1f08a5",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:map-layer",
-        "valueLabel": "Map layer",
-        "valueText": "Map layer",
-        "valueDescription": "A Civgraph map layer or map dataset exposed through Browse.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:f4583d0e59dcbefd75f0",
-        "propertyId": "cg:property:interactive-url",
-        "propertyLabel": "interactive URL",
-        "valueType": "url",
-        "valueLabel": "/#layers=data-2021-private-rented-lgd",
-        "valueText": "/#layers=data-2021-private-rented-lgd",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:8cc3d08ebb97f52b8b05",
-        "propertyId": "cg:property:map-category",
-        "propertyLabel": "map category",
-        "valueType": "entity",
-        "valueId": "cg:map-category:data-population",
-        "valueLabel": "data-population",
-        "valueText": "data-population",
-        "valueDescription": "Map category: data-population",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:791b28c2324b5fcc3494",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Private-rented households (Census 2021, by LGD)",
-        "valueText": "Private-rented households (Census 2021, by LGD)",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:5bd844d5b0149abeecbe",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:nisra-census-2021-main-statistics-phase-1-ms-e02-household-size-4f46c8f0e21c",
-        "valueLabel": "NISRA Census 2021, Main Statistics Phase 1, MS-E02 (Household size)",
-        "valueText": "NISRA Census 2021, Main Statistics Phase 1, MS-E02 (Household size)",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1",
-            "valueText": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "map-reference",
-            "valueText": "map-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:6942e449c5eb7fac405e",
-        "propertyId": "cg:property:source-file",
-        "propertyLabel": "source file",
-        "valueType": "entity",
-        "valueId": "cg:source-file:ms-e15-private-rented-lgd-csv-0e09b2a7ebec",
-        "valueLabel": "ms-e15-private-rented-lgd.csv",
-        "valueText": "ms-e15-private-rented-lgd.csv",
-        "valueDescription": "ms-e15-private-rented-lgd.csv for Private-rented households (Census 2021, by LGD)",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:file-format",
-            "propertyLabel": "file format",
-            "valueType": "string",
-            "valueLabel": "ms-e15-private-rented-lgd.csv",
-            "valueText": "ms-e15-private-rented-lgd.csv"
-          },
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "data/census/derived/ms-e15-private-rented-lgd.csv",
-            "valueText": "data/census/derived/ms-e15-private-rented-lgd.csv"
           }
         ],
         "referenceCount": 0

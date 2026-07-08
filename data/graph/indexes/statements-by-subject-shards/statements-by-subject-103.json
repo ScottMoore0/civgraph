@@ -1,9 +1,104 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-08T09:28:43.763Z",
+  "generatedAt": "2026-07-08T11:33:02.113Z",
   "shard": 103,
   "totalSubjects": 250,
   "items": {
+    "cg:map-layer:data-2021-private-rented-lgd": [
+      {
+        "id": "cg:statement:3a7f9d940a641f1f08a5",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:map-layer",
+        "valueLabel": "Map layer",
+        "valueText": "Map layer",
+        "valueDescription": "A Civgraph map layer or map dataset exposed through Browse.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:f4583d0e59dcbefd75f0",
+        "propertyId": "cg:property:interactive-url",
+        "propertyLabel": "interactive URL",
+        "valueType": "url",
+        "valueLabel": "/#layers=data-2021-private-rented-lgd",
+        "valueText": "/#layers=data-2021-private-rented-lgd",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:8cc3d08ebb97f52b8b05",
+        "propertyId": "cg:property:map-category",
+        "propertyLabel": "map category",
+        "valueType": "entity",
+        "valueId": "cg:map-category:data-population",
+        "valueLabel": "data-population",
+        "valueText": "data-population",
+        "valueDescription": "Map category: data-population",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:791b28c2324b5fcc3494",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Private-rented households (Census 2021, by LGD)",
+        "valueText": "Private-rented households (Census 2021, by LGD)",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:5bd844d5b0149abeecbe",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:nisra-census-2021-main-statistics-phase-1-ms-e02-household-size-4f46c8f0e21c",
+        "valueLabel": "NISRA Census 2021, Main Statistics Phase 1, MS-E02 (Household size)",
+        "valueText": "NISRA Census 2021, Main Statistics Phase 1, MS-E02 (Household size)",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1",
+            "valueText": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "map-reference",
+            "valueText": "map-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:6942e449c5eb7fac405e",
+        "propertyId": "cg:property:source-file",
+        "propertyLabel": "source file",
+        "valueType": "entity",
+        "valueId": "cg:source-file:ms-e15-private-rented-lgd-csv-0e09b2a7ebec",
+        "valueLabel": "ms-e15-private-rented-lgd.csv",
+        "valueText": "ms-e15-private-rented-lgd.csv",
+        "valueDescription": "ms-e15-private-rented-lgd.csv for Private-rented households (Census 2021, by LGD)",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:file-format",
+            "propertyLabel": "file format",
+            "valueType": "string",
+            "valueLabel": "ms-e15-private-rented-lgd.csv",
+            "valueText": "ms-e15-private-rented-lgd.csv"
+          },
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "data/census/derived/ms-e15-private-rented-lgd.csv",
+            "valueText": "data/census/derived/ms-e15-private-rented-lgd.csv"
+          }
+        ],
+        "referenceCount": 0
+      }
+    ],
     "cg:map-layer:data-2021-private-rented-settlement": [
       {
         "id": "cg:statement:1399cc089a995a624de8",
@@ -46361,176 +46456,6 @@
         "valueLabel": "1985",
         "valueText": "1985",
         "valueDescription": "Entities dated 1985",
-        "referenceCount": 0
-      }
-    ],
-    "cg:map-layer:dz-2021": [
-      {
-        "id": "cg:statement:9602ae432d795444208e",
-        "propertyId": "cg:property:date",
-        "propertyLabel": "date",
-        "valueType": "entity",
-        "valueId": "cg:date-year:2021",
-        "valueLabel": "2021",
-        "valueText": "2021",
-        "valueDescription": "Entities dated 2021",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:45bf99c8672cc170dc84",
-        "propertyId": "cg:property:download",
-        "propertyLabel": "download",
-        "valueType": "entity",
-        "valueId": "cg:source-file:fgb-6ce9a4c59fe2",
-        "valueLabel": "fgb",
-        "valueText": "fgb",
-        "valueDescription": "fgb for Data Zone 2021 source files",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:file-format",
-            "propertyLabel": "file format",
-            "valueType": "string",
-            "valueLabel": "FGB",
-            "valueText": "FGB"
-          },
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://data.civgraph.net/data/maps/census-areas/DZ2021.fgb",
-            "valueText": "https://data.civgraph.net/data/maps/census-areas/DZ2021.fgb"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:83d4edc25de743a49197",
-        "propertyId": "cg:property:download",
-        "propertyLabel": "download",
-        "valueType": "entity",
-        "valueId": "cg:source-file:internet-archive-dz2021-fgb-b8eaa83ef355",
-        "valueLabel": "Internet Archive: DZ2021.fgb",
-        "valueText": "Internet Archive: DZ2021.fgb",
-        "valueDescription": "Internet Archive: DZ2021.fgb for Data Zone 2021 source files",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:file-format",
-            "propertyLabel": "file format",
-            "valueType": "string",
-            "valueLabel": "FGB",
-            "valueText": "FGB"
-          },
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://archive.org/download/civgraph-nisra-maps/dz-2021/DZ2021.fgb",
-            "valueText": "https://archive.org/download/civgraph-nisra-maps/dz-2021/DZ2021.fgb"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:13d966b7ed39640c0561",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:map-layer",
-        "valueLabel": "Map layer",
-        "valueText": "Map layer",
-        "valueDescription": "A Civgraph map layer or map dataset exposed through Browse.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:86cb661b35d8ec1296d9",
-        "propertyId": "cg:property:interactive-url",
-        "propertyLabel": "interactive URL",
-        "valueType": "url",
-        "valueLabel": "/#layers=dz-2021",
-        "valueText": "/#layers=dz-2021",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:5510ac3eb3e8ea7d8fb8",
-        "propertyId": "cg:property:map-category",
-        "propertyLabel": "map category",
-        "valueType": "entity",
-        "valueId": "cg:map-category:census-statistical-areas",
-        "valueLabel": "Census Statistical Areas",
-        "valueText": "Census Statistical Areas",
-        "valueDescription": "Map category: Census Statistical Areas",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:99c5d6663c1e84b2da5c",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Data Zone 2021",
-        "valueText": "Data Zone 2021",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:998b169af44442b6d79f",
-        "propertyId": "cg:property:provider",
-        "propertyLabel": "provider",
-        "valueType": "entity",
-        "valueId": "cg:provider:nisra",
-        "valueLabel": "NISRA",
-        "valueText": "NISRA",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:5094a2e4cb3ca18e24be",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:data-zones-census-2021-northern-ireland-statistics-and-research-agency-w-4d005306d295",
-        "valueLabel": "Data Zones (Census 2021) | Northern Ireland Statistics and Research Agency (www.nisra.gov.uk)",
-        "valueText": "Data Zones (Census 2021) | Northern Ireland Statistics and Research Agency (www.nisra.gov.uk)",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://www.nisra.gov.uk/support/geography/data-zones-census-2021#toc-1",
-            "valueText": "https://www.nisra.gov.uk/support/geography/data-zones-census-2021#toc-1"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "map-reference",
-            "valueText": "map-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:a53c97b62b50049b959a",
-        "propertyId": "cg:property:source-file",
-        "propertyLabel": "source file",
-        "valueType": "entity",
-        "valueId": "cg:source-file:fgb-6ce9a4c59fe2",
-        "valueLabel": "fgb",
-        "valueText": "fgb",
-        "valueDescription": "fgb for Data Zone 2021 source files",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:file-format",
-            "propertyLabel": "file format",
-            "valueType": "string",
-            "valueLabel": "fgb",
-            "valueText": "fgb"
-          },
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://data.civgraph.net/data/maps/census-areas/DZ2021.fgb",
-            "valueText": "https://data.civgraph.net/data/maps/census-areas/DZ2021.fgb"
-          }
-        ],
         "referenceCount": 0
       }
     ]

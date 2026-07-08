@@ -36,12 +36,17 @@ const limit = Number(arg('--limit') || 0);
 
 for (const d of [INTAKE, PMTILES_DIR, TMP]) mkdirSync(d, { recursive: true });
 
+const slugify = (s) => String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 70);
 const worklist = JSON.parse(readFileSync(WORKLIST, 'utf8')).items;
 let convertible = worklist.filter((o) => o.decision === 'convert' && o.convertClass === 'vector-direct' && o.downloadUrl);
 if (wantIds.length) convertible = convertible.filter((o) => wantIds.includes(o.rowId));
+// --from-cache: process only rows whose FGB is already on disk (skip all downloads);
+// used to author the already-converted set fast, without re-fetching known-bad URLs.
+if (process.argv.includes('--from-cache')) {
+  convertible = convertible.filter((o) => existsSync(resolve(INTAKE, ('oda-map-' + slugify(o.rowId.split(':').pop() + '-' + o.title)) + '.fgb')));
+}
 if (limit) convertible = convertible.slice(0, limit);
 
-const slugify = (s) => String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 70);
 const LICENCE_KW = { 'CC BY 4.0': 'CC-BY-4.0', 'CC BY-SA 4.0': 'CC-BY-SA-4.0', 'CC0 1.0': 'CC0-1.0', 'OGL v3.0': 'OGL-v3.0' };
 const ATTR = {
   'CC BY 4.0': 'Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.',
@@ -122,12 +127,25 @@ if (!NO_UPLOAD) {
   const { S3Client, PutObjectCommand } = await import('@aws-sdk/client-s3');
   const s3 = new S3Client({ region: 'auto', endpoint: process.env.R2_S3_ENDPOINT, credentials: { accessKeyId: process.env.R2_ACCESS_KEY_ID, secretAccessKey: process.env.R2_SECRET_ACCESS_KEY } });
   const BUCKET = process.env.R2_BUCKET || 'boundaries-data';
+  const sleep = (ms) => new Promise((res) => setTimeout(res, ms));
   for (const r of ok) {
     r.r2Key = `data/maps/test/pmtiles/generated/${r.layerId}.pmtiles`;
-    await s3.send(new PutObjectCommand({ Bucket: BUCKET, Key: r.r2Key, Body: readFileSync(r.pmtiles), ContentType: 'application/octet-stream' }));
-    console.log(`R2 up: ${r.r2Key}`);
+    const body = readFileSync(r.pmtiles);
+    let uploaded = false;
+    for (let attempt = 1; attempt <= 4 && !uploaded; attempt++) {
+      try {
+        await s3.send(new PutObjectCommand({ Bucket: BUCKET, Key: r.r2Key, Body: body, ContentType: 'application/octet-stream' }));
+        uploaded = true;
+      } catch (e) {
+        if (attempt === 4) { r.uploadError = String(e.message || e).slice(0, 100); console.log(`R2 FAIL (skip): ${r.r2Key} — ${r.uploadError}`); }
+        else await sleep(1500 * attempt);
+      }
+    }
+    if (uploaded) console.log(`R2 up: ${r.r2Key}`);
   }
 }
+// Drop any layer whose PMTiles failed to upload — don't author a broken CDN entry.
+const authorable = ok.filter((r) => !r.uploadError);
 
 // ---- author entries ----
 const maps = JSON.parse(readFileSync(MAPS_PATH, 'utf8'));
@@ -135,7 +153,7 @@ const test = JSON.parse(readFileSync(TEST_PATH, 'utf8'));
 const mapIds = new Set((maps.maps || []).map((m) => m.id));
 const layerIds = new Set((test.layers || []).map((l) => l.id));
 let added = 0;
-for (const [i, r] of ok.entries()) {
+for (const [i, r] of (typeof authorable !== 'undefined' ? authorable : ok).entries()) {
   const lic = r.row.license; const colour = PALETTE[i % PALETTE.length];
   const localUrl = `/test/pmtiles/generated/${r.layerId}.pmtiles`;
   const r2Key = r.r2Key || `data/maps/test/pmtiles/generated/${r.layerId}.pmtiles`;

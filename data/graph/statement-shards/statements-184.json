@@ -1,9 +1,62 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-08T09:28:43.763Z",
+  "generatedAt": "2026-07-08T11:33:02.113Z",
   "shard": 184,
   "total": 2500,
   "items": [
+    {
+      "id": "cg:statement:1478de66a3b11c20dfab",
+      "subjectId": "cg:map-layer:dlr-playgrounds",
+      "propertyId": "cg:property:source-file",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:geojson-8fec730c31da"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "geojson"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/roi-dlr/dlr-playgrounds.geojson"
+          }
+        }
+      ],
+      "rank": "normal",
+      "references": []
+    },
+    {
+      "id": "cg:statement:9c960b28ebc87435cd90",
+      "subjectId": "cg:map-layer:dlr-playgrounds",
+      "propertyId": "cg:property:source-file",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:fgb-835d8dc7902e"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "fgb"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/roi-dlr/dlr-playgrounds.fgb"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
     {
       "id": "cg:statement:1e65617e154103c1951c",
       "subjectId": "cg:map-layer:dlr-proposed-education-sites",
@@ -41104,6 +41157,127 @@
       "rank": "normal"
     },
     {
+      "id": "cg:statement:f6efe2b7a93d6064b6cc",
+      "subjectId": "cg:map-layer:oda-map-00093-boundaries",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:provider-dataset-download-page-0c8d473e97fd"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.gov.ie/dataset/boundaries6"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:5cad05034e42fdb34f62",
+      "subjectId": "cg:map-layer:oda-map-00093-boundaries",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:map-layer"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:8772c2e6997a2c58be15",
+      "subjectId": "cg:map-layer:oda-map-00093-boundaries",
+      "propertyId": "cg:property:interactive-url",
+      "value": {
+        "type": "url",
+        "value": "/#layers=oda-map-00093-boundaries"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:be6bc7fcd0ba74d85326",
+      "subjectId": "cg:map-layer:oda-map-00093-boundaries",
+      "propertyId": "cg:property:map-category",
+      "value": {
+        "type": "entity",
+        "id": "cg:map-category:boundaries"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:05c689ad511da9cdb352",
+      "subjectId": "cg:map-layer:oda-map-00093-boundaries",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Boundaries"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:00fe23e56cbdf6afbdc7",
+      "subjectId": "cg:map-layer:oda-map-00093-boundaries",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:data-gov-ie"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:4911ab1423d325e6713b",
+      "subjectId": "cg:map-layer:oda-map-00093-boundaries",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:boundaries-provider-page-0c8d473e97fd"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.gov.ie/dataset/boundaries6"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "map-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:6389cb2c1a0d10a1cb50",
+      "subjectId": "cg:map-layer:oda-map-00093-boundaries",
+      "propertyId": "cg:property:source-file",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:provider-dataset-download-page-0c8d473e97fd"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "source"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.gov.ie/dataset/boundaries6"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
       "id": "cg:statement:98b96f593dca2f16f55d",
       "subjectId": "cg:map-layer:oda-map-00101-dail-constituencies-2013-sdcc",
       "propertyId": "cg:property:download",
@@ -41225,34 +41399,27 @@
       "rank": "normal"
     },
     {
-      "id": "cg:statement:98892585b3f1b6781992",
-      "subjectId": "cg:map-layer:opw-coastal-flood-extents-2021-current",
+      "id": "cg:statement:ad31f76c0927ec062aec",
+      "subjectId": "cg:map-layer:oda-map-00115-planning-application-boundaries-roscommon",
       "propertyId": "cg:property:download",
       "value": {
         "type": "entity",
-        "id": "cg:source-file:fgb-652982628de1"
+        "id": "cg:source-file:provider-dataset-download-page-2c7a2c53d162"
       },
       "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "FGB"
-          }
-        },
         {
           "propertyId": "cg:property:url",
           "value": {
             "type": "url",
-            "value": "https://data.civgraph.net/data/maps/environment/opw-coastal-flood-extents-2021-current.fgb"
+            "value": "https://data.gov.ie/dataset/planning-application-boundaries-roscommon6"
           }
         }
       ],
       "rank": "normal"
     },
     {
-      "id": "cg:statement:438a8d4e449904c68a39",
-      "subjectId": "cg:map-layer:opw-coastal-flood-extents-2021-current",
+      "id": "cg:statement:2adeb79a847db603d610",
+      "subjectId": "cg:map-layer:oda-map-00115-planning-application-boundaries-roscommon",
       "propertyId": "cg:property:instance-of",
       "value": {
         "type": "entity",
@@ -41261,391 +41428,59 @@
       "rank": "normal"
     },
     {
-      "id": "cg:statement:f236980ff3f17354d57b",
-      "subjectId": "cg:map-layer:opw-coastal-flood-extents-2021-current",
+      "id": "cg:statement:9a7aed700695d0199f52",
+      "subjectId": "cg:map-layer:oda-map-00115-planning-application-boundaries-roscommon",
       "propertyId": "cg:property:interactive-url",
       "value": {
         "type": "url",
-        "value": "/#layers=opw-coastal-flood-extents-2021-current"
+        "value": "/#layers=oda-map-00115-planning-application-boundaries-roscommon"
       },
       "rank": "normal"
     },
     {
-      "id": "cg:statement:d029a3134e70e7357ab1",
-      "subjectId": "cg:map-layer:opw-coastal-flood-extents-2021-current",
+      "id": "cg:statement:381506e95aecacdb1d58",
+      "subjectId": "cg:map-layer:oda-map-00115-planning-application-boundaries-roscommon",
       "propertyId": "cg:property:map-category",
       "value": {
         "type": "entity",
-        "id": "cg:map-category:physical-geography"
+        "id": "cg:map-category:boundaries"
       },
       "rank": "normal"
     },
     {
-      "id": "cg:statement:81ed28db61b6bab1133a",
-      "subjectId": "cg:map-layer:opw-coastal-flood-extents-2021-current",
+      "id": "cg:statement:19760c92f2cb1de53cc3",
+      "subjectId": "cg:map-layer:oda-map-00115-planning-application-boundaries-roscommon",
       "propertyId": "cg:property:name",
       "value": {
         "type": "string",
-        "value": "National Coastal Flood Extents 2021 — Current Scenario"
+        "value": "Planning Application Boundaries - Roscommon"
       },
       "rank": "normal"
     },
     {
-      "id": "cg:statement:a968ba18bc295c392685",
-      "subjectId": "cg:map-layer:opw-coastal-flood-extents-2021-current",
+      "id": "cg:statement:0672f9d5af6f4b9e4626",
+      "subjectId": "cg:map-layer:oda-map-00115-planning-application-boundaries-roscommon",
       "propertyId": "cg:property:provider",
       "value": {
         "type": "entity",
-        "id": "cg:provider:office-of-public-works"
+        "id": "cg:provider:data-gov-ie"
       },
       "rank": "normal"
     },
     {
-      "id": "cg:statement:f328d69656661e594102",
-      "subjectId": "cg:map-layer:opw-coastal-flood-extents-2021-current",
-      "propertyId": "cg:property:source-file",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:fgb-652982628de1"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "fgb"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.civgraph.net/data/maps/environment/opw-coastal-flood-extents-2021-current.fgb"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:166532db5027ec4808a4",
-      "subjectId": "cg:map-layer:opw-fsu-catchments-gauged",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:fgb-605dd636a1f2"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "FGB"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.civgraph.net/data/maps/environment/opw-fsu-catchments-gauged.fgb"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:e6c1a692275e512ef349",
-      "subjectId": "cg:map-layer:opw-fsu-catchments-gauged",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:map-layer"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:b15fe6228e56834c7172",
-      "subjectId": "cg:map-layer:opw-fsu-catchments-gauged",
-      "propertyId": "cg:property:interactive-url",
-      "value": {
-        "type": "url",
-        "value": "/#layers=opw-fsu-catchments-gauged"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:c0801eee5da3636c4323",
-      "subjectId": "cg:map-layer:opw-fsu-catchments-gauged",
-      "propertyId": "cg:property:map-category",
-      "value": {
-        "type": "entity",
-        "id": "cg:map-category:physical-geography"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:cb107accce60aaae0fbd",
-      "subjectId": "cg:map-layer:opw-fsu-catchments-gauged",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "FSU Catchment Boundaries — Gauged 2025"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:92b75d4610d9a865cdef",
-      "subjectId": "cg:map-layer:opw-fsu-catchments-gauged",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:office-of-public-works"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:1b8b0374538f8e4486cf",
-      "subjectId": "cg:map-layer:opw-fsu-catchments-gauged",
-      "propertyId": "cg:property:source-file",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:fgb-605dd636a1f2"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "fgb"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.civgraph.net/data/maps/environment/opw-fsu-catchments-gauged.fgb"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:c99a468cfe2ae4b7efe5",
-      "subjectId": "cg:map-layer:opw-nifm-river-flood-extents-current",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:fgb-c359cf620567"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "FGB"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.civgraph.net/data/maps/environment/opw-nifm-river-flood-extents-current.fgb"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:6da4923896482d48651f",
-      "subjectId": "cg:map-layer:opw-nifm-river-flood-extents-current",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:map-layer"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:4b82828360d4b1e21836",
-      "subjectId": "cg:map-layer:opw-nifm-river-flood-extents-current",
-      "propertyId": "cg:property:interactive-url",
-      "value": {
-        "type": "url",
-        "value": "/#layers=opw-nifm-river-flood-extents-current"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:b2ac556b05d03cc1338a",
-      "subjectId": "cg:map-layer:opw-nifm-river-flood-extents-current",
-      "propertyId": "cg:property:map-category",
-      "value": {
-        "type": "entity",
-        "id": "cg:map-category:physical-geography"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:1ed961eb24cf588c72ee",
-      "subjectId": "cg:map-layer:opw-nifm-river-flood-extents-current",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "NIFM River Flood Extents — Current Scenario"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:2b56426310cf9b8b91f6",
-      "subjectId": "cg:map-layer:opw-nifm-river-flood-extents-current",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:office-of-public-works"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:0c96b34193d6fce21f2e",
-      "subjectId": "cg:map-layer:opw-nifm-river-flood-extents-current",
-      "propertyId": "cg:property:source-file",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:fgb-c359cf620567"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "fgb"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.civgraph.net/data/maps/environment/opw-nifm-river-flood-extents-current.fgb"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:358b2c3832760f2635f4",
-      "subjectId": "cg:map-layer:osni-1m-county-boundaries",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:internet-archive-osniopendata-1million-countyboundaries-zip-e5ba913d590b"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "ZIP"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://archive.org/download/civgraph-osni-maps/osni-1m-county-boundaries/osniopendata_1million_countyboundaries.zip"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:6b5d862bde43038e537a",
-      "subjectId": "cg:map-layer:osni-1m-county-boundaries",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:georeferenced-jpeg-zip-42eb4ebc041c"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "ZIP"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://admin.opendatani.gov.uk/dataset/702a7cbc-c90e-4f1c-b777-e7557fb66572/resource/ffa0548e-91d4-4a48-8add-4833482a57a2/download/osniopendata_1million_countyboundaries.zip"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:308301808f33ac9b477d",
-      "subjectId": "cg:map-layer:osni-1m-county-boundaries",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:map-layer"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:8f65bb20fffe02126d94",
-      "subjectId": "cg:map-layer:osni-1m-county-boundaries",
-      "propertyId": "cg:property:interactive-url",
-      "value": {
-        "type": "url",
-        "value": "/#layers=osni-1m-county-boundaries"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:92578b1f08666749653b",
-      "subjectId": "cg:map-layer:osni-1m-county-boundaries",
-      "propertyId": "cg:property:map-category",
-      "value": {
-        "type": "entity",
-        "id": "cg:map-category:osni-raster-maps"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:2c1fa4f5f66f7fc0f836",
-      "subjectId": "cg:map-layer:osni-1m-county-boundaries",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "OSNI 1:1M Thematic — County Boundaries"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:d32994beeb0c5e8aa6f4",
-      "subjectId": "cg:map-layer:osni-1m-county-boundaries",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:osni"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:c8079e29523ea66cf9aa",
-      "subjectId": "cg:map-layer:osni-1m-county-boundaries",
+      "id": "cg:statement:27d3e4a1433a68eb291a",
+      "subjectId": "cg:map-layer:oda-map-00115-planning-application-boundaries-roscommon",
       "propertyId": "cg:property:source",
       "value": {
         "type": "entity",
-        "id": "cg:source:osni-open-data-1-1m-county-boundaries-30ca6d141dec"
+        "id": "cg:source:planning-application-boundaries-roscommon-provider-page-2c7a2c53d162"
       },
       "qualifiers": [
         {
           "propertyId": "cg:property:url",
           "value": {
             "type": "url",
-            "value": "https://admin.opendatani.gov.uk/dataset/osni-open-data-1-1million-raster-parliamentary-boundaries"
+            "value": "https://data.gov.ie/dataset/planning-application-boundaries-roscommon6"
           }
         },
         {
@@ -41659,86 +41494,53 @@
       "rank": "normal"
     },
     {
-      "id": "cg:statement:f84106b63b4ccd3bbc70",
-      "subjectId": "cg:map-layer:osni-1m-county-boundaries",
+      "id": "cg:statement:9ca40850cab6476cb40c",
+      "subjectId": "cg:map-layer:oda-map-00115-planning-application-boundaries-roscommon",
       "propertyId": "cg:property:source-file",
       "value": {
         "type": "entity",
-        "id": "cg:source-file:xyz-fff6b8498e5e"
+        "id": "cg:source-file:provider-dataset-download-page-2c7a2c53d162"
       },
       "qualifiers": [
         {
           "propertyId": "cg:property:file-format",
           "value": {
             "type": "string",
-            "value": "xyz"
+            "value": "source"
           }
         },
         {
           "propertyId": "cg:property:url",
           "value": {
             "type": "url",
-            "value": "https://data.civgraph.net/data/maps/osni-raster/1m-county-boundaries/{z}/{x}/{y}.png"
+            "value": "https://data.gov.ie/dataset/planning-application-boundaries-roscommon6"
           }
         }
       ],
       "rank": "normal"
     },
     {
-      "id": "cg:statement:37989fb7f1517cee88ce",
-      "subjectId": "cg:map-layer:osni-1m-infrastructure",
+      "id": "cg:statement:e23605977bbf0bcd8b94",
+      "subjectId": "cg:map-layer:oda-map-00118-planning-exemptions-local-authorities",
       "propertyId": "cg:property:download",
       "value": {
         "type": "entity",
-        "id": "cg:source-file:georeferenced-jpeg-zip-7d4738bcc5ee"
+        "id": "cg:source-file:provider-dataset-download-page-269f18ae6184"
       },
       "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "ZIP"
-          }
-        },
         {
           "propertyId": "cg:property:url",
           "value": {
             "type": "url",
-            "value": "https://admin.opendatani.gov.uk/dataset/90ba805a-e9c8-417d-b360-7a4fb87c348c/resource/59cc270a-18bb-4808-bd6a-ce2d8d1525be/download/osniopendata_1million_infrastructure.zip"
+            "value": "https://data.gov.ie/dataset/planning-exemptions-local-authorities"
           }
         }
       ],
       "rank": "normal"
     },
     {
-      "id": "cg:statement:bbaab8933d05a8d59301",
-      "subjectId": "cg:map-layer:osni-1m-infrastructure",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:internet-archive-osniopendata-1million-infrastructure-zip-1e6bed4fd89a"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "ZIP"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://archive.org/download/civgraph-osni-maps/osni-1m-infrastructure/osniopendata_1million_infrastructure.zip"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:382b44b57714239c936c",
-      "subjectId": "cg:map-layer:osni-1m-infrastructure",
+      "id": "cg:statement:4c9709e543f3883880fc",
+      "subjectId": "cg:map-layer:oda-map-00118-planning-exemptions-local-authorities",
       "propertyId": "cg:property:instance-of",
       "value": {
         "type": "entity",
@@ -41747,59 +41549,59 @@
       "rank": "normal"
     },
     {
-      "id": "cg:statement:8a7cfa21b09215ae464a",
-      "subjectId": "cg:map-layer:osni-1m-infrastructure",
+      "id": "cg:statement:5a4b7a92b25cd46eecb0",
+      "subjectId": "cg:map-layer:oda-map-00118-planning-exemptions-local-authorities",
       "propertyId": "cg:property:interactive-url",
       "value": {
         "type": "url",
-        "value": "/#layers=osni-1m-infrastructure"
+        "value": "/#layers=oda-map-00118-planning-exemptions-local-authorities"
       },
       "rank": "normal"
     },
     {
-      "id": "cg:statement:270c92b3d2784f0240d0",
-      "subjectId": "cg:map-layer:osni-1m-infrastructure",
+      "id": "cg:statement:1f947a254c91e17cdf9b",
+      "subjectId": "cg:map-layer:oda-map-00118-planning-exemptions-local-authorities",
       "propertyId": "cg:property:map-category",
       "value": {
         "type": "entity",
-        "id": "cg:map-category:osni-raster-maps"
+        "id": "cg:map-category:boundaries"
       },
       "rank": "normal"
     },
     {
-      "id": "cg:statement:50e49f1c2869a171325c",
-      "subjectId": "cg:map-layer:osni-1m-infrastructure",
+      "id": "cg:statement:259bd57997f9ed9d3940",
+      "subjectId": "cg:map-layer:oda-map-00118-planning-exemptions-local-authorities",
       "propertyId": "cg:property:name",
       "value": {
         "type": "string",
-        "value": "OSNI 1:1M Thematic — Infrastructure"
+        "value": "Planning Exemptions - Local Authorities"
       },
       "rank": "normal"
     },
     {
-      "id": "cg:statement:b237222a9aefbbfdebc8",
-      "subjectId": "cg:map-layer:osni-1m-infrastructure",
+      "id": "cg:statement:bcb81ac3ee19ad025a9e",
+      "subjectId": "cg:map-layer:oda-map-00118-planning-exemptions-local-authorities",
       "propertyId": "cg:property:provider",
       "value": {
         "type": "entity",
-        "id": "cg:provider:osni"
+        "id": "cg:provider:data-gov-ie"
       },
       "rank": "normal"
     },
     {
-      "id": "cg:statement:b42b6cb176d163e4c85a",
-      "subjectId": "cg:map-layer:osni-1m-infrastructure",
+      "id": "cg:statement:ca8f395a6044add9b400",
+      "subjectId": "cg:map-layer:oda-map-00118-planning-exemptions-local-authorities",
       "propertyId": "cg:property:source",
       "value": {
         "type": "entity",
-        "id": "cg:source:osni-open-data-1-1m-infrastructure-bfc24e7b4860"
+        "id": "cg:source:planning-exemptions-local-authorities-provider-page-269f18ae6184"
       },
       "qualifiers": [
         {
           "propertyId": "cg:property:url",
           "value": {
             "type": "url",
-            "value": "https://admin.opendatani.gov.uk/dataset/osni-open-data-1-1million-raster-infrastructure"
+            "value": "https://data.gov.ie/dataset/planning-exemptions-local-authorities"
           }
         },
         {
@@ -41813,86 +41615,53 @@
       "rank": "normal"
     },
     {
-      "id": "cg:statement:1dfd339efb1aa4fbd33a",
-      "subjectId": "cg:map-layer:osni-1m-infrastructure",
+      "id": "cg:statement:43c1e354d8d13c982a1e",
+      "subjectId": "cg:map-layer:oda-map-00118-planning-exemptions-local-authorities",
       "propertyId": "cg:property:source-file",
       "value": {
         "type": "entity",
-        "id": "cg:source-file:xyz-6026fd128c3b"
+        "id": "cg:source-file:provider-dataset-download-page-269f18ae6184"
       },
       "qualifiers": [
         {
           "propertyId": "cg:property:file-format",
           "value": {
             "type": "string",
-            "value": "xyz"
+            "value": "source"
           }
         },
         {
           "propertyId": "cg:property:url",
           "value": {
             "type": "url",
-            "value": "https://data.civgraph.net/data/maps/osni-raster/1m-infrastructure/{z}/{x}/{y}.png"
+            "value": "https://data.gov.ie/dataset/planning-exemptions-local-authorities"
           }
         }
       ],
       "rank": "normal"
     },
     {
-      "id": "cg:statement:65decbace461c2543fbd",
-      "subjectId": "cg:map-layer:osni-1m-locations",
+      "id": "cg:statement:6c46ea1193b08ba4c613",
+      "subjectId": "cg:map-layer:oda-map-00119-planning-exemptions-settlements",
       "propertyId": "cg:property:download",
       "value": {
         "type": "entity",
-        "id": "cg:source-file:internet-archive-osniopendata-1million-locations-zip-45d0ed25b1d5"
+        "id": "cg:source-file:provider-dataset-download-page-8104be114086"
       },
       "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "ZIP"
-          }
-        },
         {
           "propertyId": "cg:property:url",
           "value": {
             "type": "url",
-            "value": "https://archive.org/download/civgraph-osni-maps/osni-1m-locations/osniopendata_1million_locations.zip"
+            "value": "https://data.gov.ie/dataset/planning-exemptions-settlements"
           }
         }
       ],
       "rank": "normal"
     },
     {
-      "id": "cg:statement:f3278635adfbaf95022c",
-      "subjectId": "cg:map-layer:osni-1m-locations",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:georeferenced-jpeg-zip-46ec775ab1c7"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "ZIP"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://admin.opendatani.gov.uk/dataset/8a435c6c-fb4c-465b-aba1-4f71438d9eeb/resource/cc266db3-dcc9-4b6d-8458-ff954ce0f5b9/download/osniopendata_1million_locations.zip"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:960b0c3d2ba4936ef80f",
-      "subjectId": "cg:map-layer:osni-1m-locations",
+      "id": "cg:statement:0b4b1992cc6352f954d8",
+      "subjectId": "cg:map-layer:oda-map-00119-planning-exemptions-settlements",
       "propertyId": "cg:property:instance-of",
       "value": {
         "type": "entity",
@@ -41901,59 +41670,59 @@
       "rank": "normal"
     },
     {
-      "id": "cg:statement:4760df21ee0f0a4c56e6",
-      "subjectId": "cg:map-layer:osni-1m-locations",
+      "id": "cg:statement:cb159328a1f7d89b05cc",
+      "subjectId": "cg:map-layer:oda-map-00119-planning-exemptions-settlements",
       "propertyId": "cg:property:interactive-url",
       "value": {
         "type": "url",
-        "value": "/#layers=osni-1m-locations"
+        "value": "/#layers=oda-map-00119-planning-exemptions-settlements"
       },
       "rank": "normal"
     },
     {
-      "id": "cg:statement:0e4c5af9d60732445cb0",
-      "subjectId": "cg:map-layer:osni-1m-locations",
+      "id": "cg:statement:b791ab37cf13e4040ad6",
+      "subjectId": "cg:map-layer:oda-map-00119-planning-exemptions-settlements",
       "propertyId": "cg:property:map-category",
       "value": {
         "type": "entity",
-        "id": "cg:map-category:osni-raster-maps"
+        "id": "cg:map-category:boundaries"
       },
       "rank": "normal"
     },
     {
-      "id": "cg:statement:916b4131e8ee9fbde532",
-      "subjectId": "cg:map-layer:osni-1m-locations",
+      "id": "cg:statement:c3470731da555fee544f",
+      "subjectId": "cg:map-layer:oda-map-00119-planning-exemptions-settlements",
       "propertyId": "cg:property:name",
       "value": {
         "type": "string",
-        "value": "OSNI 1:1M Thematic — Locations"
+        "value": "Planning Exemptions - Settlements"
       },
       "rank": "normal"
     },
     {
-      "id": "cg:statement:77cc46d052957eb59906",
-      "subjectId": "cg:map-layer:osni-1m-locations",
+      "id": "cg:statement:97b7b94e31920af84f52",
+      "subjectId": "cg:map-layer:oda-map-00119-planning-exemptions-settlements",
       "propertyId": "cg:property:provider",
       "value": {
         "type": "entity",
-        "id": "cg:provider:osni"
+        "id": "cg:provider:data-gov-ie"
       },
       "rank": "normal"
     },
     {
-      "id": "cg:statement:e57ff893c80934a6c903",
-      "subjectId": "cg:map-layer:osni-1m-locations",
+      "id": "cg:statement:a00cd09068651f3cc3f4",
+      "subjectId": "cg:map-layer:oda-map-00119-planning-exemptions-settlements",
       "propertyId": "cg:property:source",
       "value": {
         "type": "entity",
-        "id": "cg:source:osni-open-data-1-1m-locations-c16c6d096a8c"
+        "id": "cg:source:planning-exemptions-settlements-provider-page-8104be114086"
       },
       "qualifiers": [
         {
           "propertyId": "cg:property:url",
           "value": {
             "type": "url",
-            "value": "https://admin.opendatani.gov.uk/dataset/osni-open-data-1-1million-raster-location"
+            "value": "https://data.gov.ie/dataset/planning-exemptions-settlements"
           }
         },
         {
@@ -41967,86 +41736,53 @@
       "rank": "normal"
     },
     {
-      "id": "cg:statement:112270576a4601b53958",
-      "subjectId": "cg:map-layer:osni-1m-locations",
+      "id": "cg:statement:062abba8a4616105e16e",
+      "subjectId": "cg:map-layer:oda-map-00119-planning-exemptions-settlements",
       "propertyId": "cg:property:source-file",
       "value": {
         "type": "entity",
-        "id": "cg:source-file:xyz-0e66f453b9e6"
+        "id": "cg:source-file:provider-dataset-download-page-8104be114086"
       },
       "qualifiers": [
         {
           "propertyId": "cg:property:file-format",
           "value": {
             "type": "string",
-            "value": "xyz"
+            "value": "source"
           }
         },
         {
           "propertyId": "cg:property:url",
           "value": {
             "type": "url",
-            "value": "https://data.civgraph.net/data/maps/osni-raster/1m-locations/{z}/{x}/{y}.png"
+            "value": "https://data.gov.ie/dataset/planning-exemptions-settlements"
           }
         }
       ],
       "rank": "normal"
     },
     {
-      "id": "cg:statement:8a842dcf7b5e663e1be3",
-      "subjectId": "cg:map-layer:osni-1m-natural-environment",
+      "id": "cg:statement:891e6c79a75a7893355d",
+      "subjectId": "cg:map-layer:oda-map-00120-polling-stations-for-general-election-2024-fcc",
       "propertyId": "cg:property:download",
       "value": {
         "type": "entity",
-        "id": "cg:source-file:georeferenced-jpeg-71ddc2aa2644"
+        "id": "cg:source-file:provider-dataset-download-page-3aa1162cc9a4"
       },
       "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "JPEG"
-          }
-        },
         {
           "propertyId": "cg:property:url",
           "value": {
             "type": "url",
-            "value": "https://admin.opendatani.gov.uk/dataset/c7aacf24-b53d-47bf-b394-7a1adabb4bdc/resource/d9b365af-506c-46c4-b2eb-72e8955fae63/download/osniopendata_1million_naturalenvironment.zip"
+            "value": "https://data.gov.ie/dataset/polling-stations-for-general-election-2024-fcc3"
           }
         }
       ],
       "rank": "normal"
     },
     {
-      "id": "cg:statement:c9e61997c285fc2c8096",
-      "subjectId": "cg:map-layer:osni-1m-natural-environment",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:internet-archive-osniopendata-1million-naturalenvironment-zip-8d9946a23f9e"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "ZIP"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://archive.org/download/civgraph-osni-maps/osni-1m-natural-environment/osniopendata_1million_naturalenvironment.zip"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:d8b742061ffbc79280e8",
-      "subjectId": "cg:map-layer:osni-1m-natural-environment",
+      "id": "cg:statement:0fb0a0be81823a1188b5",
+      "subjectId": "cg:map-layer:oda-map-00120-polling-stations-for-general-election-2024-fcc",
       "propertyId": "cg:property:instance-of",
       "value": {
         "type": "entity",
@@ -42055,59 +41791,59 @@
       "rank": "normal"
     },
     {
-      "id": "cg:statement:2a7fcc0e1228efc7cf14",
-      "subjectId": "cg:map-layer:osni-1m-natural-environment",
+      "id": "cg:statement:530e6fdf2d2069bbc919",
+      "subjectId": "cg:map-layer:oda-map-00120-polling-stations-for-general-election-2024-fcc",
       "propertyId": "cg:property:interactive-url",
       "value": {
         "type": "url",
-        "value": "/#layers=osni-1m-natural-environment"
+        "value": "/#layers=oda-map-00120-polling-stations-for-general-election-2024-fcc"
       },
       "rank": "normal"
     },
     {
-      "id": "cg:statement:667642c0ab08f8b0135d",
-      "subjectId": "cg:map-layer:osni-1m-natural-environment",
+      "id": "cg:statement:69f5591150505ee81ee0",
+      "subjectId": "cg:map-layer:oda-map-00120-polling-stations-for-general-election-2024-fcc",
       "propertyId": "cg:property:map-category",
       "value": {
         "type": "entity",
-        "id": "cg:map-category:osni-raster-maps"
+        "id": "cg:map-category:points-of-interest"
       },
       "rank": "normal"
     },
     {
-      "id": "cg:statement:f5b2b36276c169986e60",
-      "subjectId": "cg:map-layer:osni-1m-natural-environment",
+      "id": "cg:statement:cf5798e16a8ce4294b29",
+      "subjectId": "cg:map-layer:oda-map-00120-polling-stations-for-general-election-2024-fcc",
       "propertyId": "cg:property:name",
       "value": {
         "type": "string",
-        "value": "OSNI 1:1M Thematic — Natural Environment"
+        "value": "Polling Stations for General Election 2024 FCC"
       },
       "rank": "normal"
     },
     {
-      "id": "cg:statement:8f5e5ad3cce73411aa5a",
-      "subjectId": "cg:map-layer:osni-1m-natural-environment",
+      "id": "cg:statement:385c49e20ea930ffb433",
+      "subjectId": "cg:map-layer:oda-map-00120-polling-stations-for-general-election-2024-fcc",
       "propertyId": "cg:property:provider",
       "value": {
         "type": "entity",
-        "id": "cg:provider:osni"
+        "id": "cg:provider:data-gov-ie"
       },
       "rank": "normal"
     },
     {
-      "id": "cg:statement:a43b7bcc8b1d8bc1ff1d",
-      "subjectId": "cg:map-layer:osni-1m-natural-environment",
+      "id": "cg:statement:8bd1f2df4ed345477679",
+      "subjectId": "cg:map-layer:oda-map-00120-polling-stations-for-general-election-2024-fcc",
       "propertyId": "cg:property:source",
       "value": {
         "type": "entity",
-        "id": "cg:source:osni-open-data-1-1m-natural-environment-a05344243515"
+        "id": "cg:source:polling-stations-for-general-election-2024-fcc-provider-page-3aa1162cc9a4"
       },
       "qualifiers": [
         {
           "propertyId": "cg:property:url",
           "value": {
             "type": "url",
-            "value": "https://admin.opendatani.gov.uk/dataset/osni-open-data-1-1million-raster-natural-environment"
+            "value": "https://data.gov.ie/dataset/polling-stations-for-general-election-2024-fcc3"
           }
         },
         {
@@ -42121,86 +41857,53 @@
       "rank": "normal"
     },
     {
-      "id": "cg:statement:317589abdd473df495a6",
-      "subjectId": "cg:map-layer:osni-1m-natural-environment",
+      "id": "cg:statement:64fd1e26f4df7d9b1b22",
+      "subjectId": "cg:map-layer:oda-map-00120-polling-stations-for-general-election-2024-fcc",
       "propertyId": "cg:property:source-file",
       "value": {
         "type": "entity",
-        "id": "cg:source-file:xyz-2b922378cb5e"
+        "id": "cg:source-file:provider-dataset-download-page-3aa1162cc9a4"
       },
       "qualifiers": [
         {
           "propertyId": "cg:property:file-format",
           "value": {
             "type": "string",
-            "value": "xyz"
+            "value": "source"
           }
         },
         {
           "propertyId": "cg:property:url",
           "value": {
             "type": "url",
-            "value": "https://data.civgraph.net/data/maps/osni-raster/1m-natural-environment/{z}/{x}/{y}.png"
+            "value": "https://data.gov.ie/dataset/polling-stations-for-general-election-2024-fcc3"
           }
         }
       ],
       "rank": "normal"
     },
     {
-      "id": "cg:statement:0df47c7a01dfcf34596e",
-      "subjectId": "cg:map-layer:osni-1m-parliamentary",
+      "id": "cg:statement:d5cb1e5a044193305ef1",
+      "subjectId": "cg:map-layer:oda-map-00121-polling-stations-presidential-election-2025-fcc",
       "propertyId": "cg:property:download",
       "value": {
         "type": "entity",
-        "id": "cg:source-file:georeferenced-jpeg-zip-dd467350e5f0"
+        "id": "cg:source-file:provider-dataset-download-page-12e6ee4be2ab"
       },
       "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "ZIP"
-          }
-        },
         {
           "propertyId": "cg:property:url",
           "value": {
             "type": "url",
-            "value": "https://admin.opendatani.gov.uk/dataset/064c9b69-16d0-47d0-b418-ef065289f669/resource/ee78bcca-cd51-4a3e-ad73-9ebbc86c66bc/download/osniopendata_1million_parliamentary.zip"
+            "value": "https://data.gov.ie/dataset/polling-stations-presidential-election-2025-fcc"
           }
         }
       ],
       "rank": "normal"
     },
     {
-      "id": "cg:statement:fc9365278bb91643964d",
-      "subjectId": "cg:map-layer:osni-1m-parliamentary",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:internet-archive-osniopendata-1million-parliamentary-zip-477c92f39c24"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "ZIP"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://archive.org/download/civgraph-osni-maps/osni-1m-parliamentary/osniopendata_1million_parliamentary.zip"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:e0c7e0ff3ce68d96b552",
-      "subjectId": "cg:map-layer:osni-1m-parliamentary",
+      "id": "cg:statement:10f9914a976a884040b7",
+      "subjectId": "cg:map-layer:oda-map-00121-polling-stations-presidential-election-2025-fcc",
       "propertyId": "cg:property:instance-of",
       "value": {
         "type": "entity",
@@ -42209,59 +41912,59 @@
       "rank": "normal"
     },
     {
-      "id": "cg:statement:c0865e2709be647d26ae",
-      "subjectId": "cg:map-layer:osni-1m-parliamentary",
+      "id": "cg:statement:314297f1658027231f58",
+      "subjectId": "cg:map-layer:oda-map-00121-polling-stations-presidential-election-2025-fcc",
       "propertyId": "cg:property:interactive-url",
       "value": {
         "type": "url",
-        "value": "/#layers=osni-1m-parliamentary"
+        "value": "/#layers=oda-map-00121-polling-stations-presidential-election-2025-fcc"
       },
       "rank": "normal"
     },
     {
-      "id": "cg:statement:729737af70f284d88277",
-      "subjectId": "cg:map-layer:osni-1m-parliamentary",
+      "id": "cg:statement:b69c35a4c828bae48a70",
+      "subjectId": "cg:map-layer:oda-map-00121-polling-stations-presidential-election-2025-fcc",
       "propertyId": "cg:property:map-category",
       "value": {
         "type": "entity",
-        "id": "cg:map-category:osni-raster-maps"
+        "id": "cg:map-category:points-of-interest"
       },
       "rank": "normal"
     },
     {
-      "id": "cg:statement:996ac8a3860e036d2d51",
-      "subjectId": "cg:map-layer:osni-1m-parliamentary",
+      "id": "cg:statement:31ac400d53ab9cac2e87",
+      "subjectId": "cg:map-layer:oda-map-00121-polling-stations-presidential-election-2025-fcc",
       "propertyId": "cg:property:name",
       "value": {
         "type": "string",
-        "value": "OSNI 1:1M Thematic — Parliamentary Boundaries"
+        "value": "Polling Stations Presidential Election 2025 FCC"
       },
       "rank": "normal"
     },
     {
-      "id": "cg:statement:4f8a1959256ea5c73a26",
-      "subjectId": "cg:map-layer:osni-1m-parliamentary",
+      "id": "cg:statement:06d80fc24d06872c9da4",
+      "subjectId": "cg:map-layer:oda-map-00121-polling-stations-presidential-election-2025-fcc",
       "propertyId": "cg:property:provider",
       "value": {
         "type": "entity",
-        "id": "cg:provider:osni"
+        "id": "cg:provider:data-gov-ie"
       },
       "rank": "normal"
     },
     {
-      "id": "cg:statement:1ba47f6b5740215e7637",
-      "subjectId": "cg:map-layer:osni-1m-parliamentary",
+      "id": "cg:statement:4f382746492b1a0e8262",
+      "subjectId": "cg:map-layer:oda-map-00121-polling-stations-presidential-election-2025-fcc",
       "propertyId": "cg:property:source",
       "value": {
         "type": "entity",
-        "id": "cg:source:osni-open-data-1-1m-county-boundaries-30ca6d141dec"
+        "id": "cg:source:polling-stations-presidential-election-2025-fcc-provider-page-12e6ee4be2ab"
       },
       "qualifiers": [
         {
           "propertyId": "cg:property:url",
           "value": {
             "type": "url",
-            "value": "https://admin.opendatani.gov.uk/dataset/osni-open-data-1-1million-raster-parliamentary-boundaries"
+            "value": "https://data.gov.ie/dataset/polling-stations-presidential-election-2025-fcc"
           }
         },
         {
@@ -42275,268 +41978,53 @@
       "rank": "normal"
     },
     {
-      "id": "cg:statement:55c950c2df44cff78c15",
-      "subjectId": "cg:map-layer:osni-1m-parliamentary",
+      "id": "cg:statement:9e0d3bc87cd466e4f0cd",
+      "subjectId": "cg:map-layer:oda-map-00121-polling-stations-presidential-election-2025-fcc",
       "propertyId": "cg:property:source-file",
       "value": {
         "type": "entity",
-        "id": "cg:source-file:xyz-4e342fe7bd4d"
+        "id": "cg:source-file:provider-dataset-download-page-12e6ee4be2ab"
       },
       "qualifiers": [
         {
           "propertyId": "cg:property:file-format",
           "value": {
             "type": "string",
-            "value": "xyz"
+            "value": "source"
           }
         },
         {
           "propertyId": "cg:property:url",
           "value": {
             "type": "url",
-            "value": "https://data.civgraph.net/data/maps/osni-raster/1m-parliamentary/{z}/{x}/{y}.png"
+            "value": "https://data.gov.ie/dataset/polling-stations-presidential-election-2025-fcc"
           }
         }
       ],
       "rank": "normal"
     },
     {
-      "id": "cg:statement:0dea1ec30836a186e777",
-      "subjectId": "cg:map-layer:osni-benchmarks",
+      "id": "cg:statement:2972d508a61d17d5384f",
+      "subjectId": "cg:map-layer:oda-map-00125-settlement-boundaries-roscommon-cdp-2022-2028",
       "propertyId": "cg:property:download",
       "value": {
         "type": "entity",
-        "id": "cg:source-file:internet-archive-benchmarks-fgb-80a9595f5b17"
+        "id": "cg:source-file:provider-dataset-download-page-799ea6d51c54"
       },
       "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "FGB"
-          }
-        },
         {
           "propertyId": "cg:property:url",
           "value": {
             "type": "url",
-            "value": "https://archive.org/download/civgraph-osni-maps/osni-benchmarks/benchmarks.fgb"
+            "value": "https://data.gov.ie/dataset/settlement-boundaries-roscommon-cdp-2022-2028"
           }
         }
       ],
       "rank": "normal"
     },
     {
-      "id": "cg:statement:0f77a0884af8de756105",
-      "subjectId": "cg:map-layer:osni-benchmarks",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:kml-bd9f03557a5d"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "KML"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://admin.opendatani.gov.uk/dataset/d2353369-da97-473d-9a10-9ecb7b598f40/resource/1f593808-f938-43dc-8f82-f6391905a79f/download/osni_open_data_benchmarks_height.kml"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:15f3b42e362960252dff",
-      "subjectId": "cg:map-layer:osni-benchmarks",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:esri-shapefile-zip-1ac92801dea5"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "ZIP"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://admin.opendatani.gov.uk/dataset/d2353369-da97-473d-9a10-9ecb7b598f40/resource/4214da40-17a5-4af7-8f22-3d84706f774a/download/osni_open_data_benchmarks_height.zip"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:1a8ce811e4fe469d6ffa",
-      "subjectId": "cg:map-layer:osni-benchmarks",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:geojson-cea4032b4c44"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "GeoJSON"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://admin.opendatani.gov.uk/dataset/d2353369-da97-473d-9a10-9ecb7b598f40/resource/3c5df17a-e28d-439b-9164-c2e6e0830b31/download/osni_open_data_benchmarks_height.geojson"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:41fcb33a935e269da111",
-      "subjectId": "cg:map-layer:osni-benchmarks",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:csv-738df1ec3f88"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "CSV"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://admin.opendatani.gov.uk/dataset/d2353369-da97-473d-9a10-9ecb7b598f40/resource/5f6a8d59-cef0-4d48-9f5a-79c8dfc000f5/download/osni_open_data_benchmarks_height.csv"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:49e01ac2ffaaf9dd0435",
-      "subjectId": "cg:map-layer:osni-benchmarks",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:internet-archive-osni-open-data-benchmarks-height-geojson-95719b6d9953"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "GEOJSON"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://archive.org/download/civgraph-osni-maps/osni-benchmarks/osni_open_data_benchmarks_height.geojson"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:65de286b0980940a6ded",
-      "subjectId": "cg:map-layer:osni-benchmarks",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:internet-archive-osni-open-data-benchmarks-height-csv-b181a909e6e3"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "CSV"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://archive.org/download/civgraph-osni-maps/osni-benchmarks/osni_open_data_benchmarks_height.csv"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:aba2ddad91b53dcd8efb",
-      "subjectId": "cg:map-layer:osni-benchmarks",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:internet-archive-osni-open-data-benchmarks-height-zip-ef511e4e92b4"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "ZIP"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://archive.org/download/civgraph-osni-maps/osni-benchmarks/osni_open_data_benchmarks_height.zip"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:f5013b6862c6e46bcc04",
-      "subjectId": "cg:map-layer:osni-benchmarks",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:internet-archive-osni-open-data-benchmarks-height-kml-77dc3ad7c7d7"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "KML"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://archive.org/download/civgraph-osni-maps/osni-benchmarks/osni_open_data_benchmarks_height.kml"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:dea1e05ac30f91235b12",
-      "subjectId": "cg:map-layer:osni-benchmarks",
+      "id": "cg:statement:0bfad308c8d2f788405a",
+      "subjectId": "cg:map-layer:oda-map-00125-settlement-boundaries-roscommon-cdp-2022-2028",
       "propertyId": "cg:property:instance-of",
       "value": {
         "type": "entity",
@@ -42545,59 +42033,59 @@
       "rank": "normal"
     },
     {
-      "id": "cg:statement:7f336d6e20354c3ff32b",
-      "subjectId": "cg:map-layer:osni-benchmarks",
+      "id": "cg:statement:31acb0a9db7157253345",
+      "subjectId": "cg:map-layer:oda-map-00125-settlement-boundaries-roscommon-cdp-2022-2028",
       "propertyId": "cg:property:interactive-url",
       "value": {
         "type": "url",
-        "value": "/#layers=osni-benchmarks"
+        "value": "/#layers=oda-map-00125-settlement-boundaries-roscommon-cdp-2022-2028"
       },
       "rank": "normal"
     },
     {
-      "id": "cg:statement:1898fc57b156a4574fbe",
-      "subjectId": "cg:map-layer:osni-benchmarks",
+      "id": "cg:statement:b56b9211ecf798deb5ac",
+      "subjectId": "cg:map-layer:oda-map-00125-settlement-boundaries-roscommon-cdp-2022-2028",
       "propertyId": "cg:property:map-category",
       "value": {
         "type": "entity",
-        "id": "cg:map-category:osni-reference-layers"
+        "id": "cg:map-category:boundaries"
       },
       "rank": "normal"
     },
     {
-      "id": "cg:statement:78e030db58bacd0c85c5",
-      "subjectId": "cg:map-layer:osni-benchmarks",
+      "id": "cg:statement:ed57fc0299bc0736c1ca",
+      "subjectId": "cg:map-layer:oda-map-00125-settlement-boundaries-roscommon-cdp-2022-2028",
       "propertyId": "cg:property:name",
       "value": {
         "type": "string",
-        "value": "OSNI Benchmarks (Height Reference Points)"
+        "value": "Settlement Boundaries - Roscommon CDP 2022-2028"
       },
       "rank": "normal"
     },
     {
-      "id": "cg:statement:9d2da26da00630ebf960",
-      "subjectId": "cg:map-layer:osni-benchmarks",
+      "id": "cg:statement:9a1fdb6edeac4d0e503c",
+      "subjectId": "cg:map-layer:oda-map-00125-settlement-boundaries-roscommon-cdp-2022-2028",
       "propertyId": "cg:property:provider",
       "value": {
         "type": "entity",
-        "id": "cg:provider:osni"
+        "id": "cg:provider:data-gov-ie"
       },
       "rank": "normal"
     },
     {
-      "id": "cg:statement:a2a6acf5e5675925b1b9",
-      "subjectId": "cg:map-layer:osni-benchmarks",
+      "id": "cg:statement:d08b6a372d75d40fd57a",
+      "subjectId": "cg:map-layer:oda-map-00125-settlement-boundaries-roscommon-cdp-2022-2028",
       "propertyId": "cg:property:source",
       "value": {
         "type": "entity",
-        "id": "cg:source:osni-open-data-benchmarks-height-d261e1657491"
+        "id": "cg:source:settlement-boundaries-roscommon-cdp-2022-2028-provider-page-799ea6d51c54"
       },
       "qualifiers": [
         {
           "propertyId": "cg:property:url",
           "value": {
             "type": "url",
-            "value": "https://admin.opendatani.gov.uk/dataset/osni-open-data-benchmarks-height"
+            "value": "https://data.gov.ie/dataset/settlement-boundaries-roscommon-cdp-2022-2028"
           }
         },
         {
@@ -42611,268 +42099,53 @@
       "rank": "normal"
     },
     {
-      "id": "cg:statement:0f7573b1c5c5ca6e5696",
-      "subjectId": "cg:map-layer:osni-benchmarks",
+      "id": "cg:statement:21ef702c26634ce0ecc2",
+      "subjectId": "cg:map-layer:oda-map-00125-settlement-boundaries-roscommon-cdp-2022-2028",
       "propertyId": "cg:property:source-file",
       "value": {
         "type": "entity",
-        "id": "cg:source-file:fgb-7e680883946f"
+        "id": "cg:source-file:provider-dataset-download-page-799ea6d51c54"
       },
       "qualifiers": [
         {
           "propertyId": "cg:property:file-format",
           "value": {
             "type": "string",
-            "value": "fgb"
+            "value": "source"
           }
         },
         {
           "propertyId": "cg:property:url",
           "value": {
             "type": "url",
-            "value": "https://data.civgraph.net/data/maps/osni-reference/benchmarks.fgb"
+            "value": "https://data.gov.ie/dataset/settlement-boundaries-roscommon-cdp-2022-2028"
           }
         }
       ],
       "rank": "normal"
     },
     {
-      "id": "cg:statement:088a520505d961c147cb",
-      "subjectId": "cg:map-layer:osni-coverage-grid-10k",
+      "id": "cg:statement:7a858996b94e1af64c2b",
+      "subjectId": "cg:map-layer:oda-map-00140-electoral-areas-roscommon",
       "propertyId": "cg:property:download",
       "value": {
         "type": "entity",
-        "id": "cg:source-file:internet-archive-coverage-grid-10k-fgb-9127b0480772"
+        "id": "cg:source-file:provider-dataset-download-page-5e350727f012"
       },
       "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "FGB"
-          }
-        },
         {
           "propertyId": "cg:property:url",
           "value": {
             "type": "url",
-            "value": "https://archive.org/download/civgraph-osni-maps/osni-coverage-grid-10k/coverage-grid-10k.fgb"
+            "value": "https://data.gov.ie/dataset/electoral-areas-roscommon5"
           }
         }
       ],
       "rank": "normal"
     },
     {
-      "id": "cg:statement:2f923f55557af2f52661",
-      "subjectId": "cg:map-layer:osni-coverage-grid-10k",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:internet-archive-osni-open-data-coverage-grid-10k-csv-268304e31537"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "CSV"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://archive.org/download/civgraph-osni-maps/osni-coverage-grid-10k/osni_open_data_coverage_grid_10k.csv"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:54e733da1897a0c3ff3a",
-      "subjectId": "cg:map-layer:osni-coverage-grid-10k",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:kml-824996583772"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "KML"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://admin.opendatani.gov.uk/dataset/18a0c1f3-0e2a-406f-9d5f-ce190a166895/resource/19fa57b5-5f62-4e0a-a40b-5f6fc3485f6f/download/osni_open_data_coverage_grid_10k.kml"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:54f75624cf84e2e71b84",
-      "subjectId": "cg:map-layer:osni-coverage-grid-10k",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:geojson-b7c55cae3486"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "GeoJSON"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://admin.opendatani.gov.uk/dataset/18a0c1f3-0e2a-406f-9d5f-ce190a166895/resource/3400824a-ae20-483d-b633-a936d8f45f8b/download/osni_open_data_coverage_grid_10k.geojson"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:90d52034aca5bf40e9a9",
-      "subjectId": "cg:map-layer:osni-coverage-grid-10k",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:csv-bdcd161888e9"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "CSV"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://admin.opendatani.gov.uk/dataset/18a0c1f3-0e2a-406f-9d5f-ce190a166895/resource/cdfe704d-8281-400c-a06d-d50f9fe43fc3/download/osni_open_data_coverage_grid_10k.csv"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:b8618b126376998bdcbe",
-      "subjectId": "cg:map-layer:osni-coverage-grid-10k",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:esri-shapefile-zip-1f4079139a0e"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "ZIP"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://admin.opendatani.gov.uk/dataset/18a0c1f3-0e2a-406f-9d5f-ce190a166895/resource/6fdf1a41-1f4a-4905-88f5-57c06a7cd5fb/download/osni_open_data_coverage_grid_10k.zip"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:c8cbf072c7404270df15",
-      "subjectId": "cg:map-layer:osni-coverage-grid-10k",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:internet-archive-osni-open-data-coverage-grid-10k-zip-aca532e4a1c8"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "ZIP"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://archive.org/download/civgraph-osni-maps/osni-coverage-grid-10k/osni_open_data_coverage_grid_10k.zip"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:cb197e174afead6a1eb6",
-      "subjectId": "cg:map-layer:osni-coverage-grid-10k",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:internet-archive-osni-open-data-coverage-grid-10k-geojson-e82aacd05b2c"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "GEOJSON"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://archive.org/download/civgraph-osni-maps/osni-coverage-grid-10k/osni_open_data_coverage_grid_10k.geojson"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:e6146e4a055dbf20a66e",
-      "subjectId": "cg:map-layer:osni-coverage-grid-10k",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:internet-archive-osni-open-data-coverage-grid-10k-kml-8514e01f7496"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "KML"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://archive.org/download/civgraph-osni-maps/osni-coverage-grid-10k/osni_open_data_coverage_grid_10k.kml"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:9fa3f190e521b8e89324",
-      "subjectId": "cg:map-layer:osni-coverage-grid-10k",
+      "id": "cg:statement:d3432675da8a27170e11",
+      "subjectId": "cg:map-layer:oda-map-00140-electoral-areas-roscommon",
       "propertyId": "cg:property:instance-of",
       "value": {
         "type": "entity",
@@ -42881,59 +42154,59 @@
       "rank": "normal"
     },
     {
-      "id": "cg:statement:b7fe430756ae076b311d",
-      "subjectId": "cg:map-layer:osni-coverage-grid-10k",
+      "id": "cg:statement:6c28e8c9ebbe1b0e8e44",
+      "subjectId": "cg:map-layer:oda-map-00140-electoral-areas-roscommon",
       "propertyId": "cg:property:interactive-url",
       "value": {
         "type": "url",
-        "value": "/#layers=osni-coverage-grid-10k"
+        "value": "/#layers=oda-map-00140-electoral-areas-roscommon"
       },
       "rank": "normal"
     },
     {
-      "id": "cg:statement:6150b5031644c3a4d7ad",
-      "subjectId": "cg:map-layer:osni-coverage-grid-10k",
+      "id": "cg:statement:14191699c9f1ecc12bb1",
+      "subjectId": "cg:map-layer:oda-map-00140-electoral-areas-roscommon",
       "propertyId": "cg:property:map-category",
       "value": {
         "type": "entity",
-        "id": "cg:map-category:osni-reference-layers"
+        "id": "cg:map-category:boundaries"
       },
       "rank": "normal"
     },
     {
-      "id": "cg:statement:1b3f93e624a559828da0",
-      "subjectId": "cg:map-layer:osni-coverage-grid-10k",
+      "id": "cg:statement:aae022e8c8f3470eef4a",
+      "subjectId": "cg:map-layer:oda-map-00140-electoral-areas-roscommon",
       "propertyId": "cg:property:name",
       "value": {
         "type": "string",
-        "value": "OSNI Map Sheet Coverage Grid — 1:10,000"
+        "value": "Electoral Areas - Roscommon"
       },
       "rank": "normal"
     },
     {
-      "id": "cg:statement:b59cbfe131e6537639da",
-      "subjectId": "cg:map-layer:osni-coverage-grid-10k",
+      "id": "cg:statement:19886e6e7c0149874f88",
+      "subjectId": "cg:map-layer:oda-map-00140-electoral-areas-roscommon",
       "propertyId": "cg:property:provider",
       "value": {
         "type": "entity",
-        "id": "cg:provider:osni"
+        "id": "cg:provider:data-gov-ie"
       },
       "rank": "normal"
     },
     {
-      "id": "cg:statement:ef48df5635c7832d3492",
-      "subjectId": "cg:map-layer:osni-coverage-grid-10k",
+      "id": "cg:statement:7db853d0770d40a5f1de",
+      "subjectId": "cg:map-layer:oda-map-00140-electoral-areas-roscommon",
       "propertyId": "cg:property:source",
       "value": {
         "type": "entity",
-        "id": "cg:source:osni-open-data-coverage-grid-10k-4ee1575a6d66"
+        "id": "cg:source:electoral-areas-roscommon-provider-page-5e350727f012"
       },
       "qualifiers": [
         {
           "propertyId": "cg:property:url",
           "value": {
             "type": "url",
-            "value": "https://admin.opendatani.gov.uk/dataset/osni-open-data-coverage-grid-10k"
+            "value": "https://data.gov.ie/dataset/electoral-areas-roscommon5"
           }
         },
         {
@@ -42947,133 +42220,562 @@
       "rank": "normal"
     },
     {
-      "id": "cg:statement:8249a7393a2e606dc02d",
-      "subjectId": "cg:map-layer:osni-coverage-grid-10k",
+      "id": "cg:statement:d450fc2fe4a5ea2098f2",
+      "subjectId": "cg:map-layer:oda-map-00140-electoral-areas-roscommon",
       "propertyId": "cg:property:source-file",
       "value": {
         "type": "entity",
-        "id": "cg:source-file:fgb-8b6bf893b254"
+        "id": "cg:source-file:provider-dataset-download-page-5e350727f012"
       },
       "qualifiers": [
         {
           "propertyId": "cg:property:file-format",
           "value": {
             "type": "string",
-            "value": "fgb"
+            "value": "source"
           }
         },
         {
           "propertyId": "cg:property:url",
           "value": {
             "type": "url",
-            "value": "https://data.civgraph.net/data/maps/osni-reference/coverage-grid-10k.fgb"
+            "value": "https://data.gov.ie/dataset/electoral-areas-roscommon5"
           }
         }
       ],
       "rank": "normal"
     },
     {
-      "id": "cg:statement:0ec6a71e149e5671567a",
-      "subjectId": "cg:map-layer:osni-coverage-grid-50k",
+      "id": "cg:statement:2ac1d9496be3945037f1",
+      "subjectId": "cg:map-layer:oda-map-00150-co-wicklow-polling-districts",
       "propertyId": "cg:property:download",
       "value": {
         "type": "entity",
-        "id": "cg:source-file:internet-archive-osni-open-data-coverage-grid-50k-zip-4b544850b2f1"
+        "id": "cg:source-file:provider-dataset-download-page-06bafd6c8407"
       },
       "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "ZIP"
-          }
-        },
         {
           "propertyId": "cg:property:url",
           "value": {
             "type": "url",
-            "value": "https://archive.org/download/civgraph-osni-maps/osni-coverage-grid-50k/osni_open_data_coverage_grid_50k.zip"
+            "value": "https://data.gov.ie/dataset/co-wicklow-polling-districts"
           }
         }
       ],
       "rank": "normal"
     },
     {
-      "id": "cg:statement:1d59afb61739f22a0ac2",
-      "subjectId": "cg:map-layer:osni-coverage-grid-50k",
-      "propertyId": "cg:property:download",
+      "id": "cg:statement:0f9337182462cfd9da0f",
+      "subjectId": "cg:map-layer:oda-map-00150-co-wicklow-polling-districts",
+      "propertyId": "cg:property:instance-of",
       "value": {
         "type": "entity",
-        "id": "cg:source-file:esri-shapefile-zip-ffe37bd91c84"
+        "id": "cg:entity-type:map-layer"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:962457216bccce18b808",
+      "subjectId": "cg:map-layer:oda-map-00150-co-wicklow-polling-districts",
+      "propertyId": "cg:property:interactive-url",
+      "value": {
+        "type": "url",
+        "value": "/#layers=oda-map-00150-co-wicklow-polling-districts"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:1e7fe60434a9a5db9046",
+      "subjectId": "cg:map-layer:oda-map-00150-co-wicklow-polling-districts",
+      "propertyId": "cg:property:map-category",
+      "value": {
+        "type": "entity",
+        "id": "cg:map-category:boundaries"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:fa8f5831e4503169953b",
+      "subjectId": "cg:map-layer:oda-map-00150-co-wicklow-polling-districts",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Co. Wicklow Polling Districts"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:d429671843bced8bcee3",
+      "subjectId": "cg:map-layer:oda-map-00150-co-wicklow-polling-districts",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:data-gov-ie"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:9f250ca9232fae2e7957",
+      "subjectId": "cg:map-layer:oda-map-00150-co-wicklow-polling-districts",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:co-wicklow-polling-districts-provider-page-06bafd6c8407"
       },
       "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "ZIP"
-          }
-        },
         {
           "propertyId": "cg:property:url",
           "value": {
             "type": "url",
-            "value": "https://admin.opendatani.gov.uk/dataset/672cefe4-1c1b-4789-822d-6a5bcb875f45/resource/c9ed17bd-02cb-4b48-954e-1196908bced0/download/osni_open_data_coverage_grid_50k.zip"
+            "value": "https://data.gov.ie/dataset/co-wicklow-polling-districts"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "map-reference"
           }
         }
       ],
       "rank": "normal"
     },
     {
-      "id": "cg:statement:7206ec054ff22853e43b",
-      "subjectId": "cg:map-layer:osni-coverage-grid-50k",
-      "propertyId": "cg:property:download",
+      "id": "cg:statement:300c3fc61d67d55b036c",
+      "subjectId": "cg:map-layer:oda-map-00150-co-wicklow-polling-districts",
+      "propertyId": "cg:property:source-file",
       "value": {
         "type": "entity",
-        "id": "cg:source-file:internet-archive-osni-open-data-coverage-grid-50k-csv-6c90d8a2065c"
+        "id": "cg:source-file:provider-dataset-download-page-06bafd6c8407"
       },
       "qualifiers": [
         {
           "propertyId": "cg:property:file-format",
           "value": {
             "type": "string",
-            "value": "CSV"
+            "value": "source"
           }
         },
         {
           "propertyId": "cg:property:url",
           "value": {
             "type": "url",
-            "value": "https://archive.org/download/civgraph-osni-maps/osni-coverage-grid-50k/osni_open_data_coverage_grid_50k.csv"
+            "value": "https://data.gov.ie/dataset/co-wicklow-polling-districts"
           }
         }
       ],
       "rank": "normal"
     },
     {
-      "id": "cg:statement:834cb9325db953270781",
-      "subjectId": "cg:map-layer:osni-coverage-grid-50k",
+      "id": "cg:statement:ef71099acb8837915994",
+      "subjectId": "cg:map-layer:oda-map-00152-galway-county-council-polling-stations",
       "propertyId": "cg:property:download",
       "value": {
         "type": "entity",
-        "id": "cg:source-file:csv-37e6df22bf35"
+        "id": "cg:source-file:provider-dataset-download-page-80dcef6c21cc"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.gov.ie/dataset/galway-county-council-polling-stations"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:338cce7a875421e0011d",
+      "subjectId": "cg:map-layer:oda-map-00152-galway-county-council-polling-stations",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:map-layer"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:05bd0141b8d7e7268215",
+      "subjectId": "cg:map-layer:oda-map-00152-galway-county-council-polling-stations",
+      "propertyId": "cg:property:interactive-url",
+      "value": {
+        "type": "url",
+        "value": "/#layers=oda-map-00152-galway-county-council-polling-stations"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:93ef03960ba3fd1898d1",
+      "subjectId": "cg:map-layer:oda-map-00152-galway-county-council-polling-stations",
+      "propertyId": "cg:property:map-category",
+      "value": {
+        "type": "entity",
+        "id": "cg:map-category:points-of-interest"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:cbd9433ea51b9215faa3",
+      "subjectId": "cg:map-layer:oda-map-00152-galway-county-council-polling-stations",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Galway County Council Polling Stations"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:47ba4275a4b02643291f",
+      "subjectId": "cg:map-layer:oda-map-00152-galway-county-council-polling-stations",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:data-gov-ie"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:4d86954859db9813b751",
+      "subjectId": "cg:map-layer:oda-map-00152-galway-county-council-polling-stations",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:galway-county-council-polling-stations-provider-page-80dcef6c21cc"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.gov.ie/dataset/galway-county-council-polling-stations"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "map-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:e9c017ea50e9d4ccfdcf",
+      "subjectId": "cg:map-layer:oda-map-00152-galway-county-council-polling-stations",
+      "propertyId": "cg:property:source-file",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:provider-dataset-download-page-80dcef6c21cc"
       },
       "qualifiers": [
         {
           "propertyId": "cg:property:file-format",
           "value": {
             "type": "string",
-            "value": "CSV"
+            "value": "source"
           }
         },
         {
           "propertyId": "cg:property:url",
           "value": {
             "type": "url",
-            "value": "https://admin.opendatani.gov.uk/dataset/672cefe4-1c1b-4789-822d-6a5bcb875f45/resource/dec2d495-4119-460a-9795-dd02ee6a3b2a/download/osni_open_data_coverage_grid_50k.csv"
+            "value": "https://data.gov.ie/dataset/galway-county-council-polling-stations"
           }
         }
       ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:7b6dc001868e7c773f52",
+      "subjectId": "cg:map-layer:oda-map-00153-local-election-areas",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:provider-dataset-download-page-ff42990e9350"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.gov.ie/dataset/local-election-areas"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:38eb345673ff4e670b0f",
+      "subjectId": "cg:map-layer:oda-map-00153-local-election-areas",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:map-layer"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:b91a3d133712f4965763",
+      "subjectId": "cg:map-layer:oda-map-00153-local-election-areas",
+      "propertyId": "cg:property:interactive-url",
+      "value": {
+        "type": "url",
+        "value": "/#layers=oda-map-00153-local-election-areas"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:fa64db4607afd6e4a9ee",
+      "subjectId": "cg:map-layer:oda-map-00153-local-election-areas",
+      "propertyId": "cg:property:map-category",
+      "value": {
+        "type": "entity",
+        "id": "cg:map-category:boundaries"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:3ddb97ac133870250ccb",
+      "subjectId": "cg:map-layer:oda-map-00153-local-election-areas",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Local Election Areas"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:9dbb3bc4a22052f9288d",
+      "subjectId": "cg:map-layer:oda-map-00153-local-election-areas",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:data-gov-ie"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:460f75c9453be70ad621",
+      "subjectId": "cg:map-layer:oda-map-00153-local-election-areas",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:local-election-areas-provider-page-ff42990e9350"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.gov.ie/dataset/local-election-areas"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "map-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:c603ea6f4f83e3f60e62",
+      "subjectId": "cg:map-layer:oda-map-00153-local-election-areas",
+      "propertyId": "cg:property:source-file",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:provider-dataset-download-page-ff42990e9350"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "source"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.gov.ie/dataset/local-election-areas"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:7307e869a988f3c1f9f5",
+      "subjectId": "cg:map-layer:oda-map-00154-local-election-results-2014-roscommon",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:provider-dataset-download-page-49d309c539c1"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.gov.ie/dataset/local-election-results-2014-roscommon5"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:8a3b03d141f1eb48f3c1",
+      "subjectId": "cg:map-layer:oda-map-00154-local-election-results-2014-roscommon",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:map-layer"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:fdfb1627c1035d9b5ed6",
+      "subjectId": "cg:map-layer:oda-map-00154-local-election-results-2014-roscommon",
+      "propertyId": "cg:property:interactive-url",
+      "value": {
+        "type": "url",
+        "value": "/#layers=oda-map-00154-local-election-results-2014-roscommon"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:65d680ca3a6d77e6bae8",
+      "subjectId": "cg:map-layer:oda-map-00154-local-election-results-2014-roscommon",
+      "propertyId": "cg:property:map-category",
+      "value": {
+        "type": "entity",
+        "id": "cg:map-category:boundaries"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:ffb30683d9fe6c00facc",
+      "subjectId": "cg:map-layer:oda-map-00154-local-election-results-2014-roscommon",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Local Election Results 2014 - Roscommon"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:8a195156fc775358f343",
+      "subjectId": "cg:map-layer:oda-map-00154-local-election-results-2014-roscommon",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:data-gov-ie"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:960a095d28b0ab5a6c74",
+      "subjectId": "cg:map-layer:oda-map-00154-local-election-results-2014-roscommon",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:local-election-results-2014-roscommon-provider-page-49d309c539c1"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.gov.ie/dataset/local-election-results-2014-roscommon5"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "map-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:2a0e34f223fe3ab57819",
+      "subjectId": "cg:map-layer:oda-map-00154-local-election-results-2014-roscommon",
+      "propertyId": "cg:property:source-file",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:provider-dataset-download-page-49d309c539c1"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "source"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.gov.ie/dataset/local-election-results-2014-roscommon5"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:8fac4139f8859347601c",
+      "subjectId": "cg:map-layer:oda-map-00155-local-election-results-2019-roscommon",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:provider-dataset-download-page-e9e2d55d2e72"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.gov.ie/dataset/local-election-results-2019-roscommon5"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:4f3c6ab4198bb4222b63",
+      "subjectId": "cg:map-layer:oda-map-00155-local-election-results-2019-roscommon",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:map-layer"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:5a60665e33edf087dd8b",
+      "subjectId": "cg:map-layer:oda-map-00155-local-election-results-2019-roscommon",
+      "propertyId": "cg:property:interactive-url",
+      "value": {
+        "type": "url",
+        "value": "/#layers=oda-map-00155-local-election-results-2019-roscommon"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:24cc20e0ae285ed0df58",
+      "subjectId": "cg:map-layer:oda-map-00155-local-election-results-2019-roscommon",
+      "propertyId": "cg:property:map-category",
+      "value": {
+        "type": "entity",
+        "id": "cg:map-category:boundaries"
+      },
       "rank": "normal"
     }
   ]
