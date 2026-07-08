@@ -23,8 +23,10 @@ function main() {
   const enrichments = Array.isArray(doc.enrichments) ? doc.enrichments : [];
   const datasetCount = enrichments.reduce((s, e) => s + (Array.isArray(e.datasets) ? e.datasets.length : 0), 0);
   // Count pins — bump deliberately when the tranche grows.
-  assert(enrichments.length === 11, `Expected 11 enriched elections, found ${enrichments.length}.`);
-  assert(datasetCount === 27, `Expected 27 election source datasets, found ${datasetCount}.`);
+  // 2026-07-08: 11 Dail general elections / 27 datasets + 6 presidential elections /
+  // 10 datasets (correctly matched to ireland-president entities) = 17 / 37.
+  assert(enrichments.length === 17, `Expected 17 enriched elections, found ${enrichments.length}.`);
+  assert(datasetCount === 37, `Expected 37 election source datasets, found ${datasetCount}.`);
   assert(doc.counts?.elections === enrichments.length && doc.counts?.datasets === datasetCount, 'sidecar counts must match contents');
   assert(!LOCAL.test(JSON.stringify(doc)), 'sidecar must not expose local filesystem paths');
 

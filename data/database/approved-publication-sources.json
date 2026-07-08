@@ -12,7 +12,7 @@
   "counts": {
     "publish": 5918,
     "variants": 761,
-    "total": 15576,
+    "total": 15641,
     "excluded": {},
     "initiallyExcludedBeforeRemainingApproval": {
       "hold": 20,
@@ -63,6 +63,11 @@
     "openDataSourceRecords": {
       "publish": 93,
       "tranche": "open-data-source-records-net-new",
+      "note": "Category-1 census tranche. Distinct provenance from the June Category-3 pack; cat-3 publish/variants counts unchanged."
+    },
+    "variantSourceRecords": {
+      "publish": 65,
+      "tranche": "variant-child-source-records",
       "note": "Category-1 census tranche. Distinct provenance from the June Category-3 pack; cat-3 publish/variants counts unchanged."
     }
   },
@@ -1079473,6 +1079478,3416 @@
         "sourceResolutionConfidence": "high",
         "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
         "rightsNote": "Net-new open-data source (reframed from mislabelled enrich-existing-source; had no real on-site target). Licence CKAN-verified per dataset 2026-07-08 (OGL v3.0). Rights confirmed clear 2026-07-08."
+      }
+    },
+    {
+      "id": "approved-publication:variant-source-00002-boundary-commission-for-northern-ireland-provisional-proposals-for-p",
+      "slug": "approved-publication-variant-source-00002-boundary-commission-for-northern-ireland-provisional-proposals-for-p",
+      "type": "approved-table-source",
+      "title": "Boundary Commission for Northern Ireland - Provisional Proposals for Parliamentary Constituencies",
+      "subtitle": "Open Data NI / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "The Boundary Commission for Northern Ireland"
+      ],
+      "description": "Boundary/geography variant dataset from Open Data NI — The Boundary Commission for Northern Ireland. Published as a Books/Tables/Sources source record under OGL v3.0. Variant/child of the on-site map \"Parliamentary Constituencies — Provisional Proposals (BCNI 2018)\". Contains public sector information licensed under the Open Government Licence v3.0.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "open-data-ni",
+        "boundary",
+        "OGL-v3.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "OGL v3.0",
+      "licence": "OGL v3.0",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "references": [
+        {
+          "label": "Open Data NI — Boundary Commission for Northern Ireland - Provisional Proposals for Parliamentary Constituencies",
+          "url": "https://admin.opendatani.gov.uk/dataset/bcni2018",
+          "note": "OGL v3.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/bcni2018",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:4-open-data-ni-boundary-and-statistical-geography-files:bcni2018:00002",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (OGL v3.0). Rights confirmed clear 2026-07-08."
+      },
+      "variantOf": "bcni2018",
+      "parentId": "bcni2018",
+      "parentTitle": "Parliamentary Constituencies — Provisional Proposals (BCNI 2018)",
+      "relationship": "variant-child-of-map (medium-confidence match)"
+    },
+    {
+      "id": "approved-publication:variant-source-00003-coastal-flood-boundary-extreme-sea-levels-2018-ni-extract",
+      "slug": "approved-publication-variant-source-00003-coastal-flood-boundary-extreme-sea-levels-2018-ni-extract",
+      "type": "approved-table-source",
+      "title": "Coastal Flood Boundary Extreme Sea Levels (2018) - NI Extract",
+      "subtitle": "Open Data NI / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "2018",
+      "dateSource": "title",
+      "provider": [
+        "Department for Infrastructure - Rivers"
+      ],
+      "description": "Boundary/geography variant dataset from Open Data NI — Department for Infrastructure - Rivers. Published as a Books/Tables/Sources source record under OGL v3.0. Variant/child of the on-site map \"Coastal Flood Boundary — Extreme Sea Levels (2018)\". Contains public sector information licensed under the Open Government Licence v3.0.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "open-data-ni",
+        "boundary",
+        "OGL-v3.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "OGL v3.0",
+      "licence": "OGL v3.0",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "references": [
+        {
+          "label": "Open Data NI — Coastal Flood Boundary Extreme Sea Levels (2018) - NI Extract",
+          "url": "https://admin.opendatani.gov.uk/dataset/coastal-flood-boundary-extreme-sea-levels-2018-ni-extract-irish-grid-projection",
+          "note": "OGL v3.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/coastal-flood-boundary-extreme-sea-levels-2018-ni-extract-irish-grid-projection",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:4-open-data-ni-boundary-and-statistical-geography-files:coastal-flood-boundary-extreme-sea-levels-2018-ni-extract-irish-grid-projection:00003",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (OGL v3.0). Rights confirmed clear 2026-07-08."
+      },
+      "variantOf": "rivers-coastal-flood-2018",
+      "parentId": "rivers-coastal-flood-2018",
+      "parentTitle": "Coastal Flood Boundary — Extreme Sea Levels (2018)",
+      "relationship": "variant-child-of-map (high-confidence match)"
+    },
+    {
+      "id": "approved-publication:variant-source-00004-department-of-health-trust-boundaries",
+      "slug": "approved-publication-variant-source-00004-department-of-health-trust-boundaries",
+      "type": "approved-table-source",
+      "title": "Department of Health trust boundaries",
+      "subtitle": "Open Data NI / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "Department of Health"
+      ],
+      "description": "Boundary/geography variant dataset from Open Data NI — Department of Health. Published as a Books/Tables/Sources source record under OGL v3.0. Variant/child of the on-site map \"Health & Social Care Trust Boundaries (NI)\". Contains public sector information licensed under the Open Government Licence v3.0.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "open-data-ni",
+        "boundary",
+        "OGL-v3.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "OGL v3.0",
+      "licence": "OGL v3.0",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "references": [
+        {
+          "label": "Open Data NI — Department of Health trust boundaries",
+          "url": "https://admin.opendatani.gov.uk/dataset/department-of-health-trust-boundaries",
+          "note": "OGL v3.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/department-of-health-trust-boundaries",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:4-open-data-ni-boundary-and-statistical-geography-files:department-of-health-trust-boundaries:00004",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (OGL v3.0). Rights confirmed clear 2026-07-08."
+      },
+      "variantOf": "ni-health-trust-boundaries",
+      "parentId": "ni-health-trust-boundaries",
+      "parentTitle": "Health & Social Care Trust Boundaries (NI)",
+      "relationship": "variant-child-of-map (medium-confidence match)"
+    },
+    {
+      "id": "approved-publication:variant-source-00005-mid-ulster-council-district-electoral-areas",
+      "slug": "approved-publication-variant-source-00005-mid-ulster-council-district-electoral-areas",
+      "type": "approved-table-source",
+      "title": "Mid Ulster Council District Electoral Areas",
+      "subtitle": "Open Data NI / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "Mid Ulster District Council"
+      ],
+      "description": "Boundary/geography variant dataset from Open Data NI — Mid Ulster District Council. Published as a Books/Tables/Sources source record under OGL v3.0. Variant/child of the on-site map \"Mid Ulster District Electoral Areas\". Contains public sector information licensed under the Open Government Licence v3.0.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "open-data-ni",
+        "boundary",
+        "OGL-v3.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "OGL v3.0",
+      "licence": "OGL v3.0",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "references": [
+        {
+          "label": "Open Data NI — Mid Ulster Council District Electoral Areas",
+          "url": "https://admin.opendatani.gov.uk/dataset/mid-ulster-council-district-electoral-areas2",
+          "note": "OGL v3.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/mid-ulster-council-district-electoral-areas2",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:4-open-data-ni-boundary-and-statistical-geography-files:mid-ulster-council-district-electoral-areas2:00005",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (OGL v3.0). Rights confirmed clear 2026-07-08."
+      },
+      "variantOf": "mid-ulster-council-district-electoral-areas2",
+      "parentId": "mid-ulster-council-district-electoral-areas2",
+      "parentTitle": "Mid Ulster District Electoral Areas",
+      "relationship": "variant-child-of-map (high-confidence match)"
+    },
+    {
+      "id": "approved-publication:variant-source-00006-osni-open-data-50k-boundaries-district-electoral-areas-1993",
+      "slug": "approved-publication-variant-source-00006-osni-open-data-50k-boundaries-district-electoral-areas-1993",
+      "type": "approved-table-source",
+      "title": "OSNI Open Data - 50K Boundaries - District Electoral Areas (1993)",
+      "subtitle": "Open Data NI / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "1993",
+      "dateSource": "title",
+      "provider": [
+        "Land & Property Services – Ordnance Survey of Northern Ireland"
+      ],
+      "description": "Boundary/geography variant dataset from Open Data NI — Land & Property Services – Ordnance Survey of Northern Ireland. Published as a Books/Tables/Sources source record under OGL v3.0. Variant/child of the on-site map \"District Electoral Areas (1993) — OSNI 50k\". Contains public sector information licensed under the Open Government Licence v3.0.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "open-data-ni",
+        "boundary",
+        "OGL-v3.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "OGL v3.0",
+      "licence": "OGL v3.0",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "references": [
+        {
+          "label": "Open Data NI — OSNI Open Data - 50K Boundaries - District Electoral Areas (1993)",
+          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-boundaries-district-electoral-areas-1993",
+          "note": "OGL v3.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-boundaries-district-electoral-areas-1993",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:4-open-data-ni-boundary-and-statistical-geography-files:osni-open-data-50k-boundaries-district-electoral-areas-1993:00006",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (OGL v3.0). Rights confirmed clear 2026-07-08."
+      },
+      "variantOf": "osni-open-data-50k-boundaries-district-electoral-areas-1993",
+      "parentId": "osni-open-data-50k-boundaries-district-electoral-areas-1993",
+      "parentTitle": "District Electoral Areas (1993) — OSNI 50k",
+      "relationship": "variant-child-of-map (high-confidence match)"
+    },
+    {
+      "id": "approved-publication:variant-source-00007-osni-open-data-50k-boundaries-local-government-districts-1993",
+      "slug": "approved-publication-variant-source-00007-osni-open-data-50k-boundaries-local-government-districts-1993",
+      "type": "approved-table-source",
+      "title": "OSNI Open Data - 50K Boundaries - Local Government Districts (1993)",
+      "subtitle": "Open Data NI / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "1993",
+      "dateSource": "title",
+      "provider": [
+        "Land & Property Services – Ordnance Survey of Northern Ireland"
+      ],
+      "description": "Boundary/geography variant dataset from Open Data NI — Land & Property Services – Ordnance Survey of Northern Ireland. Published as a Books/Tables/Sources source record under OGL v3.0. Variant/child of the on-site map \"Local Government Districts (1993) — OSNI 50k\". Contains public sector information licensed under the Open Government Licence v3.0.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "open-data-ni",
+        "boundary",
+        "OGL-v3.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "OGL v3.0",
+      "licence": "OGL v3.0",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "references": [
+        {
+          "label": "Open Data NI — OSNI Open Data - 50K Boundaries - Local Government Districts (1993)",
+          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-boundaries-local-government-districts-1993",
+          "note": "OGL v3.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-boundaries-local-government-districts-1993",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:4-open-data-ni-boundary-and-statistical-geography-files:osni-open-data-50k-boundaries-local-government-districts-1993:00007",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (OGL v3.0). Rights confirmed clear 2026-07-08."
+      },
+      "variantOf": "osni-open-data-50k-boundaries-local-government-districts-1993",
+      "parentId": "osni-open-data-50k-boundaries-local-government-districts-1993",
+      "parentTitle": "Local Government Districts (1993) — OSNI 50k",
+      "relationship": "variant-child-of-map (high-confidence match)"
+    },
+    {
+      "id": "approved-publication:variant-source-00008-osni-open-data-50k-boundaries-parliamentary-constituencies",
+      "slug": "approved-publication-variant-source-00008-osni-open-data-50k-boundaries-parliamentary-constituencies",
+      "type": "approved-table-source",
+      "title": "OSNI Open Data - 50K Boundaries - Parliamentary Constituencies",
+      "subtitle": "Open Data NI / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "Land & Property Services – Ordnance Survey of Northern Ireland"
+      ],
+      "description": "Boundary/geography variant dataset from Open Data NI — Land & Property Services – Ordnance Survey of Northern Ireland. Published as a Books/Tables/Sources source record under OGL v3.0. Variant/child of the on-site map \"Parliamentary Constituencies — OSNI 50k\". Contains public sector information licensed under the Open Government Licence v3.0.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "open-data-ni",
+        "boundary",
+        "OGL-v3.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "OGL v3.0",
+      "licence": "OGL v3.0",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "references": [
+        {
+          "label": "Open Data NI — OSNI Open Data - 50K Boundaries - Parliamentary Constituencies",
+          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-boundaries-parliamentary-constituencies",
+          "note": "OGL v3.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-boundaries-parliamentary-constituencies",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:4-open-data-ni-boundary-and-statistical-geography-files:osni-open-data-50k-boundaries-parliamentary-constituencies:00008",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (OGL v3.0). Rights confirmed clear 2026-07-08."
+      },
+      "variantOf": "osni-open-data-50k-boundaries-parliamentary-constituencies",
+      "parentId": "osni-open-data-50k-boundaries-parliamentary-constituencies",
+      "parentTitle": "Parliamentary Constituencies — OSNI 50k",
+      "relationship": "variant-child-of-map (high-confidence match)"
+    },
+    {
+      "id": "approved-publication:variant-source-00009-osni-open-data-50k-boundaries-townlands-2013",
+      "slug": "approved-publication-variant-source-00009-osni-open-data-50k-boundaries-townlands-2013",
+      "type": "approved-table-source",
+      "title": "OSNI Open Data - 50K Boundaries - Townlands (2013)",
+      "subtitle": "Open Data NI / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "2013",
+      "dateSource": "title",
+      "provider": [
+        "Land & Property Services – Ordnance Survey of Northern Ireland"
+      ],
+      "description": "Boundary/geography variant dataset from Open Data NI — Land & Property Services – Ordnance Survey of Northern Ireland. Published as a Books/Tables/Sources source record under OGL v3.0. Variant/child of the on-site map \"Townlands — OSNI 50k\". Contains public sector information licensed under the Open Government Licence v3.0.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "open-data-ni",
+        "boundary",
+        "OGL-v3.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "OGL v3.0",
+      "licence": "OGL v3.0",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "references": [
+        {
+          "label": "Open Data NI — OSNI Open Data - 50K Boundaries - Townlands (2013)",
+          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-boundaries-townlands",
+          "note": "OGL v3.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-boundaries-townlands",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:osni-open-data-50k-boundaries-townlands:00009",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (OGL v3.0). Rights confirmed clear 2026-07-08."
+      },
+      "variantOf": "osni-open-data-50k-boundaries-townlands",
+      "parentId": "osni-open-data-50k-boundaries-townlands",
+      "parentTitle": "Townlands — OSNI 50k",
+      "relationship": "variant-child-of-map (medium-confidence match)"
+    },
+    {
+      "id": "approved-publication:variant-source-00010-osni-open-data-50k-boundaries-wards-1993",
+      "slug": "approved-publication-variant-source-00010-osni-open-data-50k-boundaries-wards-1993",
+      "type": "approved-table-source",
+      "title": "OSNI Open Data - 50K Boundaries - Wards (1993)",
+      "subtitle": "Open Data NI / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "1993",
+      "dateSource": "title",
+      "provider": [
+        "Land & Property Services – Ordnance Survey of Northern Ireland"
+      ],
+      "description": "Boundary/geography variant dataset from Open Data NI — Land & Property Services – Ordnance Survey of Northern Ireland. Published as a Books/Tables/Sources source record under OGL v3.0. Variant/child of the on-site map \"Wards (1993) — OSNI 50k\". Contains public sector information licensed under the Open Government Licence v3.0.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "open-data-ni",
+        "boundary",
+        "OGL-v3.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "OGL v3.0",
+      "licence": "OGL v3.0",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "references": [
+        {
+          "label": "Open Data NI — OSNI Open Data - 50K Boundaries - Wards (1993)",
+          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-boundaries-wards-1993",
+          "note": "OGL v3.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-boundaries-wards-1993",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:4-open-data-ni-boundary-and-statistical-geography-files:osni-open-data-50k-boundaries-wards-1993:00010",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (OGL v3.0). Rights confirmed clear 2026-07-08."
+      },
+      "variantOf": "osni-open-data-50k-boundaries-wards-1993",
+      "parentId": "osni-open-data-50k-boundaries-wards-1993",
+      "parentTitle": "Wards (1993) — OSNI 50k",
+      "relationship": "variant-child-of-map (high-confidence match)"
+    },
+    {
+      "id": "approved-publication:variant-source-00011-osni-open-data-largescale-boundaries-local-government-districts-1993",
+      "slug": "approved-publication-variant-source-00011-osni-open-data-largescale-boundaries-local-government-districts-1993",
+      "type": "approved-table-source",
+      "title": "OSNI Open Data - Largescale Boundaries - Local Government Districts (1993)",
+      "subtitle": "Open Data NI / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "1993",
+      "dateSource": "title",
+      "provider": [
+        "Land & Property Services – Ordnance Survey of Northern Ireland"
+      ],
+      "description": "Boundary/geography variant dataset from Open Data NI — Land & Property Services – Ordnance Survey of Northern Ireland. Published as a Books/Tables/Sources source record under OGL v3.0. Variant/child of the on-site map \"Local Government Districts (1993) — OSNI Largescale\". Contains public sector information licensed under the Open Government Licence v3.0.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "open-data-ni",
+        "boundary",
+        "OGL-v3.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "OGL v3.0",
+      "licence": "OGL v3.0",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "references": [
+        {
+          "label": "Open Data NI — OSNI Open Data - Largescale Boundaries - Local Government Districts (1993)",
+          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-largescale-boundaries-local-government-districts-1993",
+          "note": "OGL v3.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/osni-open-data-largescale-boundaries-local-government-districts-1993",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:4-open-data-ni-boundary-and-statistical-geography-files:osni-open-data-largescale-boundaries-local-government-districts-1993:00011",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (OGL v3.0). Rights confirmed clear 2026-07-08."
+      },
+      "variantOf": "osni-open-data-largescale-boundaries-local-government-districts-1993",
+      "parentId": "osni-open-data-largescale-boundaries-local-government-districts-1993",
+      "parentTitle": "Local Government Districts (1993) — OSNI Largescale",
+      "relationship": "variant-child-of-map (high-confidence match)"
+    },
+    {
+      "id": "approved-publication:variant-source-00090-administrative-areas",
+      "slug": "approved-publication-variant-source-00090-administrative-areas",
+      "type": "approved-table-source",
+      "title": "Administrative Areas",
+      "subtitle": "data.gov.ie / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "Department of Housing, Local Government and Heritage"
+      ],
+      "description": "Boundary/geography variant dataset from data.gov.ie — Department of Housing, Local Government and Heritage. Published as a Books/Tables/Sources source record under CC BY 4.0. Variant/child of the on-site map \"Administrative Areas 4 July 1966\". Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "data-gov-ie",
+        "source-data",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "CC BY 4.0",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "data.gov.ie — Administrative Areas",
+          "url": "https://data.gov.ie/dataset/administrative-areas1",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/administrative-areas1",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:administrative-areas1:00090",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (CC BY 4.0). Rights confirmed clear 2026-07-08."
+      },
+      "variantOf": "admin-areas-1966-07-04",
+      "parentId": "admin-areas-1966-07-04",
+      "parentTitle": "Administrative Areas 4 July 1966",
+      "relationship": "variant-child-of-map (medium-confidence match)"
+    },
+    {
+      "id": "approved-publication:variant-source-00103-district-electoral-divisions-boundaries",
+      "slug": "approved-publication-variant-source-00103-district-electoral-divisions-boundaries",
+      "type": "approved-table-source",
+      "title": "District Electoral Divisions Boundaries",
+      "subtitle": "data.gov.ie / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "Monaghan County Council"
+      ],
+      "description": "Boundary/geography variant dataset from data.gov.ie — Monaghan County Council. Published as a Books/Tables/Sources source record under CC BY 4.0. Variant/child of the on-site map \"District Electoral Divisions 1911\". Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "data-gov-ie",
+        "boundary",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "CC BY 4.0",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "data.gov.ie — District Electoral Divisions Boundaries",
+          "url": "https://data.gov.ie/dataset/district-electoral-divisions-boundaries",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/district-electoral-divisions-boundaries",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:district-electoral-divisions-boundaries:00103",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (CC BY 4.0). Rights confirmed clear 2026-07-08."
+      },
+      "variantOf": "eds-1911",
+      "parentId": "eds-1911",
+      "parentTitle": "District Electoral Divisions 1911",
+      "relationship": "variant-child-of-map (high-confidence match)"
+    },
+    {
+      "id": "approved-publication:variant-source-00104-electoral-divisions-dlr",
+      "slug": "approved-publication-variant-source-00104-electoral-divisions-dlr",
+      "type": "approved-table-source",
+      "title": "Electoral Divisions DLR",
+      "subtitle": "data.gov.ie / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "Dún Laoghaire-Rathdown County Council"
+      ],
+      "description": "Boundary/geography variant dataset from data.gov.ie — Dún Laoghaire-Rathdown County Council. Published as a Books/Tables/Sources source record under CC BY 4.0. Variant/child of the on-site map \"Electoral Divisions 2023\". Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "data-gov-ie",
+        "boundary",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "CC BY 4.0",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "data.gov.ie — Electoral Divisions DLR",
+          "url": "https://data.gov.ie/dataset/ed-boundaries-dlr",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ed-boundaries-dlr",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:ed-boundaries-dlr:00104",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (CC BY 4.0). Rights confirmed clear 2026-07-08."
+      },
+      "variantOf": "eds-2022",
+      "parentId": "eds-2022",
+      "parentTitle": "Electoral Divisions 2023",
+      "relationship": "variant-child-of-map (medium-confidence match)"
+    },
+    {
+      "id": "approved-publication:variant-source-00129-townland-boundaries",
+      "slug": "approved-publication-variant-source-00129-townland-boundaries",
+      "type": "approved-table-source",
+      "title": "Townland Boundaries",
+      "subtitle": "data.gov.ie / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "Monaghan County Council"
+      ],
+      "description": "Boundary/geography variant dataset from data.gov.ie — Monaghan County Council. Published as a Books/Tables/Sources source record under CC BY 4.0. Variant/child of the on-site map \"Townland Boundaries (DLR)\". Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "data-gov-ie",
+        "boundary",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "CC BY 4.0",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "data.gov.ie — Townland Boundaries",
+          "url": "https://data.gov.ie/dataset/townland-boundaries",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/townland-boundaries",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:townland-boundaries:00129",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (CC BY 4.0). Rights confirmed clear 2026-07-08."
+      },
+      "variantOf": "dlr-townland-boundaries",
+      "parentId": "dlr-townland-boundaries",
+      "parentTitle": "Townland Boundaries (DLR)",
+      "relationship": "variant-child-of-map (high-confidence match)"
+    },
+    {
+      "id": "approved-publication:variant-source-00131-townlands-2015-sdcc",
+      "slug": "approved-publication-variant-source-00131-townlands-2015-sdcc",
+      "type": "approved-table-source",
+      "title": "Townlands 2015 SDCC",
+      "subtitle": "data.gov.ie / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "2015",
+      "dateSource": "title",
+      "provider": [
+        "South Dublin County Council"
+      ],
+      "description": "Boundary/geography variant dataset from data.gov.ie — South Dublin County Council. Published as a Books/Tables/Sources source record under CC0 1.0. Variant/child of the on-site map \"Townlands (2015) — South Dublin\". Released under a Creative Commons CC0 1.0 Public Domain Dedication.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "data-gov-ie",
+        "boundary",
+        "CC0-1.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "CC0 1.0",
+      "licence": "CC0 1.0",
+      "attribution": "Released under a Creative Commons CC0 1.0 Public Domain Dedication.",
+      "references": [
+        {
+          "label": "data.gov.ie — Townlands 2015 SDCC",
+          "url": "https://data.gov.ie/dataset/townlands-2015-sdcc1",
+          "note": "CC0 1.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/townlands-2015-sdcc1",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:townlands-2015-sdcc1:00131",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (CC0 1.0). Rights confirmed clear 2026-07-08."
+      },
+      "variantOf": "townlands-2015-sdcc1",
+      "parentId": "townlands-2015-sdcc1",
+      "parentTitle": "Townlands (2015) — South Dublin",
+      "relationship": "variant-child-of-map (medium-confidence match)"
+    },
+    {
+      "id": "approved-publication:variant-source-00132-townlands-in-fcc",
+      "slug": "approved-publication-variant-source-00132-townlands-in-fcc",
+      "type": "approved-table-source",
+      "title": "Townlands in FCC",
+      "subtitle": "data.gov.ie / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "Fingal County Council"
+      ],
+      "description": "Boundary/geography variant dataset from data.gov.ie — Fingal County Council. Published as a Books/Tables/Sources source record under CC BY 4.0. Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "data-gov-ie",
+        "boundary",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "CC BY 4.0",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "data.gov.ie — Townlands in FCC",
+          "url": "https://data.gov.ie/dataset/townlands-in-fcc3",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/townlands-in-fcc3",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:townlands-in-fcc3:00132",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (CC BY 4.0). Rights confirmed clear 2026-07-08."
+      }
+    },
+    {
+      "id": "approved-publication:variant-source-00133-townlandsfcc",
+      "slug": "approved-publication-variant-source-00133-townlandsfcc",
+      "type": "approved-table-source",
+      "title": "TownlandsFCC",
+      "subtitle": "data.gov.ie / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "Fingal County Council"
+      ],
+      "description": "Boundary/geography variant dataset from data.gov.ie — Fingal County Council. Published as a Books/Tables/Sources source record under CC BY 4.0. Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "data-gov-ie",
+        "boundary",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "CC BY 4.0",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "data.gov.ie — TownlandsFCC",
+          "url": "https://data.gov.ie/dataset/townlandsfcc2",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/townlandsfcc2",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:townlandsfcc2:00133",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (CC BY 4.0). Rights confirmed clear 2026-07-08."
+      }
+    },
+    {
+      "id": "approved-publication:variant-source-00139-co-wicklow-local-electoral-areas",
+      "slug": "approved-publication-variant-source-00139-co-wicklow-local-electoral-areas",
+      "type": "approved-table-source",
+      "title": "Co. Wicklow Local Electoral Areas",
+      "subtitle": "data.gov.ie / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "Wicklow County Council"
+      ],
+      "description": "Boundary/geography variant dataset from data.gov.ie — Wicklow County Council. Published as a Books/Tables/Sources source record under CC BY 4.0. Variant/child of the on-site map \"Local Electoral Areas 2008\". Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "data-gov-ie",
+        "source-data",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "CC BY 4.0",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "data.gov.ie — Co. Wicklow Local Electoral Areas",
+          "url": "https://data.gov.ie/dataset/co-wicklow-local-electoral-areas",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/co-wicklow-local-electoral-areas",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:co-wicklow-local-electoral-areas:00139",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (CC BY 4.0). Rights confirmed clear 2026-07-08."
+      },
+      "variantOf": "roi-lea-2008",
+      "parentId": "roi-lea-2008",
+      "parentTitle": "Local Electoral Areas 2008",
+      "relationship": "variant-child-of-map (high-confidence match)"
+    },
+    {
+      "id": "approved-publication:variant-source-00141-electoral-divisions-fcc",
+      "slug": "approved-publication-variant-source-00141-electoral-divisions-fcc",
+      "type": "approved-table-source",
+      "title": "Electoral Divisions FCC",
+      "subtitle": "data.gov.ie / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "Fingal County Council"
+      ],
+      "description": "Boundary/geography variant dataset from data.gov.ie — Fingal County Council. Published as a Books/Tables/Sources source record under CC BY 4.0. Variant/child of the on-site map \"Electoral Divisions 2023\". Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "data-gov-ie",
+        "boundary",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "CC BY 4.0",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "data.gov.ie — Electoral Divisions FCC",
+          "url": "https://data.gov.ie/dataset/electoral-divisions-fcc2",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/electoral-divisions-fcc2",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:electoral-divisions-fcc2:00141",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (CC BY 4.0). Rights confirmed clear 2026-07-08."
+      },
+      "variantOf": "eds-2022",
+      "parentId": "eds-2022",
+      "parentTitle": "Electoral Divisions 2023",
+      "relationship": "variant-child-of-map (medium-confidence match)"
+    },
+    {
+      "id": "approved-publication:variant-source-00142-electoral-divisionsfcc",
+      "slug": "approved-publication-variant-source-00142-electoral-divisionsfcc",
+      "type": "approved-table-source",
+      "title": "Electoral DivisionsFCC",
+      "subtitle": "data.gov.ie / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "Fingal County Council"
+      ],
+      "description": "Boundary/geography variant dataset from data.gov.ie — Fingal County Council. Published as a Books/Tables/Sources source record under CC BY 4.0. Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "data-gov-ie",
+        "boundary",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "CC BY 4.0",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "data.gov.ie — Electoral DivisionsFCC",
+          "url": "https://data.gov.ie/dataset/electoral-divisionsfcc2",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/electoral-divisionsfcc2",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:electoral-divisionsfcc2:00142",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (CC BY 4.0). Rights confirmed clear 2026-07-08."
+      }
+    },
+    {
+      "id": "approved-publication:variant-source-00145-local-electoral-areas-fcc",
+      "slug": "approved-publication-variant-source-00145-local-electoral-areas-fcc",
+      "type": "approved-table-source",
+      "title": "Local Electoral Areas FCC",
+      "subtitle": "data.gov.ie / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "Fingal County Council"
+      ],
+      "description": "Boundary/geography variant dataset from data.gov.ie — Fingal County Council. Published as a Books/Tables/Sources source record under CC BY 4.0. Variant/child of the on-site map \"Local Electoral Areas 2008\". Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "data-gov-ie",
+        "source-data",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "CC BY 4.0",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "data.gov.ie — Local Electoral Areas FCC",
+          "url": "https://data.gov.ie/dataset/local-electoral-areas-fcc2",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/local-electoral-areas-fcc2",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:local-electoral-areas-fcc2:00145",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (CC BY 4.0). Rights confirmed clear 2026-07-08."
+      },
+      "variantOf": "roi-lea-2008",
+      "parentId": "roi-lea-2008",
+      "parentTitle": "Local Electoral Areas 2008",
+      "relationship": "variant-child-of-map (high-confidence match)"
+    },
+    {
+      "id": "approved-publication:variant-source-00161-bedrock-boundary",
+      "slug": "approved-publication-variant-source-00161-bedrock-boundary",
+      "type": "approved-table-source",
+      "title": "Bedrock boundary",
+      "subtitle": "Open Data NI / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "Department of Agriculture, Environment and Rural Affairs"
+      ],
+      "description": "Boundary/geography variant dataset from Open Data NI — Department of Agriculture, Environment and Rural Affairs. Published as a Books/Tables/Sources source record under OGL v3.0. Contains public sector information licensed under the Open Government Licence v3.0.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "open-data-ni",
+        "boundary",
+        "OGL-v3.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "OGL v3.0",
+      "licence": "OGL v3.0",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "references": [
+        {
+          "label": "Open Data NI — Bedrock boundary",
+          "url": "https://admin.opendatani.gov.uk/dataset/bedrock-boundary4",
+          "note": "OGL v3.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/bedrock-boundary4",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:4-open-data-ni-boundary-and-statistical-geography-files:bedrock-boundary4:00161",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (OGL v3.0). Rights confirmed clear 2026-07-08."
+      }
+    },
+    {
+      "id": "approved-publication:variant-source-00162-bedrock-boundary",
+      "slug": "approved-publication-variant-source-00162-bedrock-boundary",
+      "type": "approved-table-source",
+      "title": "Bedrock boundary",
+      "subtitle": "Open Data NI / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "Department of Agriculture, Environment and Rural Affairs"
+      ],
+      "description": "Boundary/geography variant dataset from Open Data NI — Department of Agriculture, Environment and Rural Affairs. Published as a Books/Tables/Sources source record under OGL v3.0. Contains public sector information licensed under the Open Government Licence v3.0.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "open-data-ni",
+        "boundary",
+        "OGL-v3.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "OGL v3.0",
+      "licence": "OGL v3.0",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "references": [
+        {
+          "label": "Open Data NI — Bedrock boundary",
+          "url": "https://admin.opendatani.gov.uk/dataset/bedrock-boundary5",
+          "note": "OGL v3.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/bedrock-boundary5",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:4-open-data-ni-boundary-and-statistical-geography-files:bedrock-boundary5:00162",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (OGL v3.0). Rights confirmed clear 2026-07-08."
+      }
+    },
+    {
+      "id": "approved-publication:variant-source-00163-boundary-commission-for-northern-ireland-final-recommendations",
+      "slug": "approved-publication-variant-source-00163-boundary-commission-for-northern-ireland-final-recommendations",
+      "type": "approved-table-source",
+      "title": "Boundary Commission for Northern Ireland - Final Recommendations",
+      "subtitle": "Open Data NI / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "The Boundary Commission for Northern Ireland"
+      ],
+      "description": "Boundary/geography variant dataset from Open Data NI — The Boundary Commission for Northern Ireland. Published as a Books/Tables/Sources source record under OGL v3.0. Contains public sector information licensed under the Open Government Licence v3.0.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "open-data-ni",
+        "boundary",
+        "OGL-v3.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "OGL v3.0",
+      "licence": "OGL v3.0",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "references": [
+        {
+          "label": "Open Data NI — Boundary Commission for Northern Ireland - Final Recommendations",
+          "url": "https://admin.opendatani.gov.uk/dataset/boundary-commision-for-northern-ireland-final-recommendations",
+          "note": "OGL v3.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/boundary-commision-for-northern-ireland-final-recommendations",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:4-open-data-ni-boundary-and-statistical-geography-files:boundary-commision-for-northern-ireland-final-recommendations:00163",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (OGL v3.0). Rights confirmed clear 2026-07-08."
+      }
+    },
+    {
+      "id": "approved-publication:variant-source-00164-boundary-commission-for-northern-ireland-revised-proposals",
+      "slug": "approved-publication-variant-source-00164-boundary-commission-for-northern-ireland-revised-proposals",
+      "type": "approved-table-source",
+      "title": "Boundary Commission for Northern Ireland - Revised Proposals",
+      "subtitle": "Open Data NI / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "The Boundary Commission for Northern Ireland"
+      ],
+      "description": "Boundary/geography variant dataset from Open Data NI — The Boundary Commission for Northern Ireland. Published as a Books/Tables/Sources source record under OGL v3.0. Contains public sector information licensed under the Open Government Licence v3.0.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "open-data-ni",
+        "boundary",
+        "OGL-v3.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "OGL v3.0",
+      "licence": "OGL v3.0",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "references": [
+        {
+          "label": "Open Data NI — Boundary Commission for Northern Ireland - Revised Proposals",
+          "url": "https://admin.opendatani.gov.uk/dataset/boundary-commission-for-northern-ireland-revised-proposals",
+          "note": "OGL v3.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/boundary-commission-for-northern-ireland-revised-proposals",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:4-open-data-ni-boundary-and-statistical-geography-files:boundary-commission-for-northern-ireland-revised-proposals:00164",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (OGL v3.0). Rights confirmed clear 2026-07-08."
+      }
+    },
+    {
+      "id": "approved-publication:variant-source-00165-boundary-line",
+      "slug": "approved-publication-variant-source-00165-boundary-line",
+      "type": "approved-table-source",
+      "title": "Boundary Line",
+      "subtitle": "Open Data NI / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "Department of Agriculture, Environment and Rural Affairs"
+      ],
+      "description": "Boundary/geography variant dataset from Open Data NI — Department of Agriculture, Environment and Rural Affairs. Published as a Books/Tables/Sources source record under OGL v3.0. Contains public sector information licensed under the Open Government Licence v3.0.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "open-data-ni",
+        "boundary",
+        "OGL-v3.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "OGL v3.0",
+      "licence": "OGL v3.0",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "references": [
+        {
+          "label": "Open Data NI — Boundary Line",
+          "url": "https://admin.opendatani.gov.uk/dataset/boundary-line4",
+          "note": "OGL v3.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/boundary-line4",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:4-open-data-ni-boundary-and-statistical-geography-files:boundary-line4:00165",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (OGL v3.0). Rights confirmed clear 2026-07-08."
+      }
+    },
+    {
+      "id": "approved-publication:variant-source-00166-boundary-line",
+      "slug": "approved-publication-variant-source-00166-boundary-line",
+      "type": "approved-table-source",
+      "title": "Boundary Line",
+      "subtitle": "Open Data NI / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "Department of Agriculture, Environment and Rural Affairs"
+      ],
+      "description": "Boundary/geography variant dataset from Open Data NI — Department of Agriculture, Environment and Rural Affairs. Published as a Books/Tables/Sources source record under OGL v3.0. Contains public sector information licensed under the Open Government Licence v3.0.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "open-data-ni",
+        "boundary",
+        "OGL-v3.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "OGL v3.0",
+      "licence": "OGL v3.0",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "references": [
+        {
+          "label": "Open Data NI — Boundary Line",
+          "url": "https://admin.opendatani.gov.uk/dataset/boundary-line5",
+          "note": "OGL v3.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/boundary-line5",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:4-open-data-ni-boundary-and-statistical-geography-files:boundary-line5:00166",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (OGL v3.0). Rights confirmed clear 2026-07-08."
+      }
+    },
+    {
+      "id": "approved-publication:variant-source-00167-causeway-coast-and-glens-borough-council-boundary",
+      "slug": "approved-publication-variant-source-00167-causeway-coast-and-glens-borough-council-boundary",
+      "type": "approved-table-source",
+      "title": "Causeway Coast and Glens Borough Council Boundary",
+      "subtitle": "Open Data NI / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "Causeway Coast and Glens Borough Council"
+      ],
+      "description": "Boundary/geography variant dataset from Open Data NI — Causeway Coast and Glens Borough Council. Published as a Books/Tables/Sources source record under OGL v3.0. Contains public sector information licensed under the Open Government Licence v3.0.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "open-data-ni",
+        "boundary",
+        "OGL-v3.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "OGL v3.0",
+      "licence": "OGL v3.0",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "references": [
+        {
+          "label": "Open Data NI — Causeway Coast and Glens Borough Council Boundary",
+          "url": "https://admin.opendatani.gov.uk/dataset/causeway-coast-and-glens-borough-council-boundary1",
+          "note": "OGL v3.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/causeway-coast-and-glens-borough-council-boundary1",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:4-open-data-ni-boundary-and-statistical-geography-files:causeway-coast-and-glens-borough-council-boundary1:00167",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (OGL v3.0). Rights confirmed clear 2026-07-08."
+      }
+    },
+    {
+      "id": "approved-publication:variant-source-00168-causeway-coast-and-glens-district-council-boundary",
+      "slug": "approved-publication-variant-source-00168-causeway-coast-and-glens-district-council-boundary",
+      "type": "approved-table-source",
+      "title": "Causeway Coast and Glens District Council Boundary",
+      "subtitle": "Open Data NI / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "Causeway Coast and Glens Borough Council"
+      ],
+      "description": "Boundary/geography variant dataset from Open Data NI — Causeway Coast and Glens Borough Council. Published as a Books/Tables/Sources source record under OGL v3.0. Contains public sector information licensed under the Open Government Licence v3.0.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "open-data-ni",
+        "boundary",
+        "OGL-v3.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "OGL v3.0",
+      "licence": "OGL v3.0",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "references": [
+        {
+          "label": "Open Data NI — Causeway Coast and Glens District Council Boundary",
+          "url": "https://admin.opendatani.gov.uk/dataset/causeway-coast-and-glens-district-council-boundary1",
+          "note": "OGL v3.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/causeway-coast-and-glens-district-council-boundary1",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:4-open-data-ni-boundary-and-statistical-geography-files:causeway-coast-and-glens-district-council-boundary1:00168",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (OGL v3.0). Rights confirmed clear 2026-07-08."
+      }
+    },
+    {
+      "id": "approved-publication:variant-source-00169-davagh-dark-skies-boundary",
+      "slug": "approved-publication-variant-source-00169-davagh-dark-skies-boundary",
+      "type": "approved-table-source",
+      "title": "Davagh Dark Skies Boundary",
+      "subtitle": "Open Data NI / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "Mid Ulster District Council"
+      ],
+      "description": "Boundary/geography variant dataset from Open Data NI — Mid Ulster District Council. Published as a Books/Tables/Sources source record under OGL v3.0. Contains public sector information licensed under the Open Government Licence v3.0.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "open-data-ni",
+        "boundary",
+        "OGL-v3.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "OGL v3.0",
+      "licence": "OGL v3.0",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "references": [
+        {
+          "label": "Open Data NI — Davagh Dark Skies Boundary",
+          "url": "https://admin.opendatani.gov.uk/dataset/davagh-dark-skies-boundary1",
+          "note": "OGL v3.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/davagh-dark-skies-boundary1",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:4-open-data-ni-boundary-and-statistical-geography-files:davagh-dark-skies-boundary1:00169",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (OGL v3.0). Rights confirmed clear 2026-07-08."
+      }
+    },
+    {
+      "id": "approved-publication:variant-source-00170-mid-ulster-council-townlands",
+      "slug": "approved-publication-variant-source-00170-mid-ulster-council-townlands",
+      "type": "approved-table-source",
+      "title": "Mid Ulster Council Townlands",
+      "subtitle": "Open Data NI / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "Mid Ulster District Council"
+      ],
+      "description": "Boundary/geography variant dataset from Open Data NI — Mid Ulster District Council. Published as a Books/Tables/Sources source record under OGL v3.0. Variant/child of the on-site map \"Townlands — Mid Ulster\". Contains public sector information licensed under the Open Government Licence v3.0.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "open-data-ni",
+        "boundary",
+        "OGL-v3.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "OGL v3.0",
+      "licence": "OGL v3.0",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "references": [
+        {
+          "label": "Open Data NI — Mid Ulster Council Townlands",
+          "url": "https://admin.opendatani.gov.uk/dataset/mid-ulster-council-townlands2",
+          "note": "OGL v3.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/mid-ulster-council-townlands2",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:mid-ulster-council-townlands2:00170",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (OGL v3.0). Rights confirmed clear 2026-07-08."
+      },
+      "variantOf": "mid-ulster-council-townlands2",
+      "parentId": "mid-ulster-council-townlands2",
+      "parentTitle": "Townlands — Mid Ulster",
+      "relationship": "variant-child-of-map (high-confidence match)"
+    },
+    {
+      "id": "approved-publication:variant-source-00171-osni-open-data-50k-boundaries-ni-counties",
+      "slug": "approved-publication-variant-source-00171-osni-open-data-50k-boundaries-ni-counties",
+      "type": "approved-table-source",
+      "title": "OSNI Open Data - 50K Boundaries - NI Counties",
+      "subtitle": "Open Data NI / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "Land & Property Services – Ordnance Survey of Northern Ireland"
+      ],
+      "description": "Boundary/geography variant dataset from Open Data NI — Land & Property Services – Ordnance Survey of Northern Ireland. Published as a Books/Tables/Sources source record under OGL v3.0. Contains public sector information licensed under the Open Government Licence v3.0.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "open-data-ni",
+        "boundary",
+        "OGL-v3.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "OGL v3.0",
+      "licence": "OGL v3.0",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "references": [
+        {
+          "label": "Open Data NI — OSNI Open Data - 50K Boundaries - NI Counties",
+          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-boundaries-ni-counties",
+          "note": "OGL v3.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-boundaries-ni-counties",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:4-open-data-ni-boundary-and-statistical-geography-files:osni-open-data-50k-boundaries-ni-counties:00171",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (OGL v3.0). Rights confirmed clear 2026-07-08."
+      }
+    },
+    {
+      "id": "approved-publication:variant-source-00172-osni-open-data-50k-boundaries-ni-outline",
+      "slug": "approved-publication-variant-source-00172-osni-open-data-50k-boundaries-ni-outline",
+      "type": "approved-table-source",
+      "title": "OSNI Open Data - 50K Boundaries - NI Outline",
+      "subtitle": "Open Data NI / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "Land & Property Services – Ordnance Survey of Northern Ireland"
+      ],
+      "description": "Boundary/geography variant dataset from Open Data NI — Land & Property Services – Ordnance Survey of Northern Ireland. Published as a Books/Tables/Sources source record under OGL v3.0. Variant/child of the on-site map \"Northern Ireland Outline (OSNI 50K)\". Contains public sector information licensed under the Open Government Licence v3.0.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "open-data-ni",
+        "boundary",
+        "OGL-v3.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "OGL v3.0",
+      "licence": "OGL v3.0",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "references": [
+        {
+          "label": "Open Data NI — OSNI Open Data - 50K Boundaries - NI Outline",
+          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-boundaries-ni-outline",
+          "note": "OGL v3.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-boundaries-ni-outline",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:4-open-data-ni-boundary-and-statistical-geography-files:osni-open-data-50k-boundaries-ni-outline:00172",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (OGL v3.0). Rights confirmed clear 2026-07-08."
+      },
+      "variantOf": "osni-ni-outline",
+      "parentId": "osni-ni-outline",
+      "parentTitle": "Northern Ireland Outline (OSNI 50K)",
+      "relationship": "variant-child-of-map (medium-confidence match)"
+    },
+    {
+      "id": "approved-publication:variant-source-00173-osni-open-data-largescale-boundaries-ni-outline",
+      "slug": "approved-publication-variant-source-00173-osni-open-data-largescale-boundaries-ni-outline",
+      "type": "approved-table-source",
+      "title": "OSNI Open Data - Largescale Boundaries - NI Outline",
+      "subtitle": "Open Data NI / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "Land & Property Services – Ordnance Survey of Northern Ireland"
+      ],
+      "description": "Boundary/geography variant dataset from Open Data NI — Land & Property Services – Ordnance Survey of Northern Ireland. Published as a Books/Tables/Sources source record under OGL v3.0. Contains public sector information licensed under the Open Government Licence v3.0.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "open-data-ni",
+        "boundary",
+        "OGL-v3.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "OGL v3.0",
+      "licence": "OGL v3.0",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "references": [
+        {
+          "label": "Open Data NI — OSNI Open Data - Largescale Boundaries - NI Outline",
+          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-largescale-boundaries-ni-outline",
+          "note": "OGL v3.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/osni-open-data-largescale-boundaries-ni-outline",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:4-open-data-ni-boundary-and-statistical-geography-files:osni-open-data-largescale-boundaries-ni-outline:00173",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (OGL v3.0). Rights confirmed clear 2026-07-08."
+      }
+    },
+    {
+      "id": "approved-publication:variant-source-00285-covid-19-hpsc-hiu-latest-local-electoral-area-mapped",
+      "slug": "approved-publication-variant-source-00285-covid-19-hpsc-hiu-latest-local-electoral-area-mapped",
+      "type": "approved-table-source",
+      "title": "COVID-19 HPSC HIU Latest Local Electoral Area Mapped",
+      "subtitle": "Tailte/OSI/data.gov.ie / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "Tailte Éireann"
+      ],
+      "description": "Boundary/geography variant dataset from Tailte/OSI/data.gov.ie — Tailte Éireann. Published as a Books/Tables/Sources source record under CC BY 4.0. Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "tailte-osi-data-gov-ie",
+        "source-data",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "CC BY 4.0",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "Tailte/OSI/data.gov.ie — COVID-19 HPSC HIU Latest Local Electoral Area Mapped",
+          "url": "https://data.gov.ie/dataset/covid-19-hpsc-hiu-latest-local-electoral-area-mapped",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/covid-19-hpsc-hiu-latest-local-electoral-area-mapped",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:covid-19-hpsc-hiu-latest-local-electoral-area-mapped:00285",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (CC BY 4.0). Rights confirmed clear 2026-07-08."
+      }
+    },
+    {
+      "id": "approved-publication:variant-source-00286-covid-19-hpsc-hiu-timeseries-local-electoral-area-mapped",
+      "slug": "approved-publication-variant-source-00286-covid-19-hpsc-hiu-timeseries-local-electoral-area-mapped",
+      "type": "approved-table-source",
+      "title": "COVID-19 HPSC HIU Timeseries Local Electoral Area Mapped",
+      "subtitle": "Tailte/OSI/data.gov.ie / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "Tailte Éireann"
+      ],
+      "description": "Boundary/geography variant dataset from Tailte/OSI/data.gov.ie — Tailte Éireann. Published as a Books/Tables/Sources source record under CC BY 4.0. Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "tailte-osi-data-gov-ie",
+        "source-data",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "CC BY 4.0",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "Tailte/OSI/data.gov.ie — COVID-19 HPSC HIU Timeseries Local Electoral Area Mapped",
+          "url": "https://data.gov.ie/dataset/covid-19-hpsc-hiu-timeseries-local-electoral-area-mapped",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/covid-19-hpsc-hiu-timeseries-local-electoral-area-mapped",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:covid-19-hpsc-hiu-timeseries-local-electoral-area-mapped:00286",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (CC BY 4.0). Rights confirmed clear 2026-07-08."
+      }
+    },
+    {
+      "id": "approved-publication:variant-source-00306-mid-ulster-council-wards",
+      "slug": "approved-publication-variant-source-00306-mid-ulster-council-wards",
+      "type": "approved-table-source",
+      "title": "Mid Ulster Council Wards",
+      "subtitle": "Open Data NI / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "Mid Ulster District Council"
+      ],
+      "description": "Boundary/geography variant dataset from Open Data NI — Mid Ulster District Council. Published as a Books/Tables/Sources source record under OGL v3.0. Variant/child of the on-site map \"Wards — Mid Ulster\". Contains public sector information licensed under the Open Government Licence v3.0.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "open-data-ni",
+        "boundary",
+        "OGL-v3.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "OGL v3.0",
+      "licence": "OGL v3.0",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "references": [
+        {
+          "label": "Open Data NI — Mid Ulster Council Wards",
+          "url": "https://admin.opendatani.gov.uk/dataset/mid-ulster-council-wards2",
+          "note": "OGL v3.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/mid-ulster-council-wards2",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:4-open-data-ni-boundary-and-statistical-geography-files:mid-ulster-council-wards2:00306",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (OGL v3.0). Rights confirmed clear 2026-07-08."
+      },
+      "variantOf": "mid-ulster-council-wards2",
+      "parentId": "mid-ulster-council-wards2",
+      "parentTitle": "Wards — Mid Ulster",
+      "relationship": "variant-child-of-map (high-confidence match)"
+    },
+    {
+      "id": "approved-publication:variant-source-00311-osni-opendata-gazetteer-streetnames",
+      "slug": "approved-publication-variant-source-00311-osni-opendata-gazetteer-streetnames",
+      "type": "approved-table-source",
+      "title": "OSNI OpenData - Gazetteer - Streetnames",
+      "subtitle": "Open Data NI / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "Land & Property Services – Ordnance Survey of Northern Ireland"
+      ],
+      "description": "Boundary/geography variant dataset from Open Data NI — Land & Property Services – Ordnance Survey of Northern Ireland. Published as a Books/Tables/Sources source record under OGL v3.0. Contains public sector information licensed under the Open Government Licence v3.0.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "open-data-ni",
+        "source-data",
+        "OGL-v3.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "OGL v3.0",
+      "licence": "OGL v3.0",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "references": [
+        {
+          "label": "Open Data NI — OSNI OpenData - Gazetteer - Streetnames",
+          "url": "https://admin.opendatani.gov.uk/dataset/osni-opendata-gazetteer-streetnames",
+          "note": "OGL v3.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/osni-opendata-gazetteer-streetnames",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:4-open-data-ni-boundary-and-statistical-geography-files:osni-opendata-gazetteer-streetnames:00311",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (OGL v3.0). Rights confirmed clear 2026-07-08."
+      }
+    },
+    {
+      "id": "approved-publication:variant-source-00341-cork-city-local-electoral-areas",
+      "slug": "approved-publication-variant-source-00341-cork-city-local-electoral-areas",
+      "type": "approved-table-source",
+      "title": "Cork City Local Electoral Areas",
+      "subtitle": "data.gov.ie / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "Cork City Council"
+      ],
+      "description": "Boundary/geography variant dataset from data.gov.ie — Cork City Council. Published as a Books/Tables/Sources source record under CC BY 4.0. Variant/child of the on-site map \"Local Electoral Areas 2008\". Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "data-gov-ie",
+        "source-data",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "CC BY 4.0",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "data.gov.ie — Cork City Local Electoral Areas",
+          "url": "https://data.gov.ie/dataset/cork-city-local-electoral-areas",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/cork-city-local-electoral-areas",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:cork-city-local-electoral-areas:00341",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (CC BY 4.0). Rights confirmed clear 2026-07-08."
+      },
+      "variantOf": "roi-lea-2008",
+      "parentId": "roi-lea-2008",
+      "parentTitle": "Local Electoral Areas 2008",
+      "relationship": "variant-child-of-map (medium-confidence match)"
+    },
+    {
+      "id": "approved-publication:variant-source-00344-osni-open-data-50k-transport-text-labelling",
+      "slug": "approved-publication-variant-source-00344-osni-open-data-50k-transport-text-labelling",
+      "type": "approved-table-source",
+      "title": "OSNI Open Data - 50K Transport - Text labelling",
+      "subtitle": "Open Data NI / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "Land & Property Services – Ordnance Survey of Northern Ireland"
+      ],
+      "description": "Boundary/geography variant dataset from Open Data NI — Land & Property Services – Ordnance Survey of Northern Ireland. Published as a Books/Tables/Sources source record under OGL v3.0. Variant/child of the on-site map \"OSNI 50K Transport — Text Labelling\". Contains public sector information licensed under the Open Government Licence v3.0.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "open-data-ni",
+        "transport-public-asset",
+        "OGL-v3.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "OGL v3.0",
+      "licence": "OGL v3.0",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "references": [
+        {
+          "label": "Open Data NI — OSNI Open Data - 50K Transport - Text labelling",
+          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-transport-text-labelling",
+          "note": "OGL v3.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-transport-text-labelling",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:4-open-data-ni-boundary-and-statistical-geography-files:osni-open-data-50k-transport-text-labelling:00344",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (OGL v3.0). Rights confirmed clear 2026-07-08."
+      },
+      "variantOf": "osni-transport-text-labels",
+      "parentId": "osni-transport-text-labels",
+      "parentTitle": "OSNI 50K Transport — Text Labelling",
+      "relationship": "variant-child-of-map (high-confidence match)"
+    },
+    {
+      "id": "approved-publication:variant-source-00345-osni-open-data-50k-transport-transport-points",
+      "slug": "approved-publication-variant-source-00345-osni-open-data-50k-transport-transport-points",
+      "type": "approved-table-source",
+      "title": "OSNI Open Data - 50K Transport - Transport Points",
+      "subtitle": "Open Data NI / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "Land & Property Services – Ordnance Survey of Northern Ireland"
+      ],
+      "description": "Boundary/geography variant dataset from Open Data NI — Land & Property Services – Ordnance Survey of Northern Ireland. Published as a Books/Tables/Sources source record under OGL v3.0. Variant/child of the on-site map \"OSNI 50K Transport — Transport Points\". Contains public sector information licensed under the Open Government Licence v3.0.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "open-data-ni",
+        "transport-public-asset",
+        "OGL-v3.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "OGL v3.0",
+      "licence": "OGL v3.0",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "references": [
+        {
+          "label": "Open Data NI — OSNI Open Data - 50K Transport - Transport Points",
+          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-transport-transport-points",
+          "note": "OGL v3.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-transport-transport-points",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:4-open-data-ni-boundary-and-statistical-geography-files:osni-open-data-50k-transport-transport-points:00345",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "high",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (OGL v3.0). Rights confirmed clear 2026-07-08."
+      },
+      "variantOf": "osni-transport-points",
+      "parentId": "osni-transport-points",
+      "parentTitle": "OSNI 50K Transport — Transport Points",
+      "relationship": "variant-child-of-map (high-confidence match)"
+    },
+    {
+      "id": "approved-publication:variant-source-00352-administrative-areas-dcc",
+      "slug": "approved-publication-variant-source-00352-administrative-areas-dcc",
+      "type": "approved-table-source",
+      "title": "Administrative Areas DCC",
+      "subtitle": "data.gov.ie / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "Dublin City Council"
+      ],
+      "description": "Boundary/geography variant dataset from data.gov.ie — Dublin City Council. Published as a Books/Tables/Sources source record under CC BY 4.0. Variant/child of the on-site map \"Administrative Areas 4 July 1966\". Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "data-gov-ie",
+        "source-data",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "CC BY 4.0",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "data.gov.ie — Administrative Areas DCC",
+          "url": "https://data.gov.ie/dataset/administrative-areas-dcc",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/administrative-areas-dcc",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:administrative-areas-dcc:00352",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (CC BY 4.0). Rights confirmed clear 2026-07-08."
+      },
+      "variantOf": "admin-areas-1966-07-04",
+      "parentId": "admin-areas-1966-07-04",
+      "parentTitle": "Administrative Areas 4 July 1966",
+      "relationship": "variant-child-of-map (medium-confidence match)"
+    },
+    {
+      "id": "approved-publication:variant-source-00456-co-donegal-municipal-districts",
+      "slug": "approved-publication-variant-source-00456-co-donegal-municipal-districts",
+      "type": "approved-table-source",
+      "title": "Co. Donegal Municipal Districts",
+      "subtitle": "data.gov.ie / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "Donegal County Council"
+      ],
+      "description": "Boundary/geography variant dataset from data.gov.ie — Donegal County Council. Published as a Books/Tables/Sources source record under CC BY 4.0. Variant/child of the on-site map \"Municipal Districts 2019\". Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "data-gov-ie",
+        "source-data",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "CC BY 4.0",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "data.gov.ie — Co. Donegal Municipal Districts",
+          "url": "https://data.gov.ie/dataset/co-donegal-municipal-districts",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/co-donegal-municipal-districts",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:co-donegal-municipal-districts:00456",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (CC BY 4.0). Rights confirmed clear 2026-07-08."
+      },
+      "variantOf": "roi-municipal-districts-2019",
+      "parentId": "roi-municipal-districts-2019",
+      "parentTitle": "Municipal Districts 2019",
+      "relationship": "variant-child-of-map (medium-confidence match)"
+    },
+    {
+      "id": "approved-publication:variant-source-00457-co-wicklow-municipal-districts",
+      "slug": "approved-publication-variant-source-00457-co-wicklow-municipal-districts",
+      "type": "approved-table-source",
+      "title": "Co. Wicklow Municipal Districts",
+      "subtitle": "data.gov.ie / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "Wicklow County Council"
+      ],
+      "description": "Boundary/geography variant dataset from data.gov.ie — Wicklow County Council. Published as a Books/Tables/Sources source record under CC BY 4.0. Variant/child of the on-site map \"Municipal Districts 2019\". Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "data-gov-ie",
+        "source-data",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "CC BY 4.0",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "data.gov.ie — Co. Wicklow Municipal Districts",
+          "url": "https://data.gov.ie/dataset/co-wicklow-municipal-districts",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/co-wicklow-municipal-districts",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:co-wicklow-municipal-districts:00457",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (CC BY 4.0). Rights confirmed clear 2026-07-08."
+      },
+      "variantOf": "roi-municipal-districts-2019",
+      "parentId": "roi-municipal-districts-2019",
+      "parentTitle": "Municipal Districts 2019",
+      "relationship": "variant-child-of-map (medium-confidence match)"
+    },
+    {
+      "id": "approved-publication:variant-source-00891-2003-ortho-osni",
+      "slug": "approved-publication-variant-source-00891-2003-ortho-osni",
+      "type": "approved-table-source",
+      "title": "2003 Ortho OSNI",
+      "subtitle": "Open Data NI / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "2003",
+      "dateSource": "title",
+      "provider": [
+        "Department of Agriculture, Environment and Rural Affairs"
+      ],
+      "description": "Boundary/geography variant dataset from Open Data NI — Department of Agriculture, Environment and Rural Affairs. Published as a Books/Tables/Sources source record under OGL v3.0. Variant/child of the on-site map \"OSNI Orthophoto Coverage 2003\". Contains public sector information licensed under the Open Government Licence v3.0.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "open-data-ni",
+        "source-data",
+        "OGL-v3.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "OGL v3.0",
+      "licence": "OGL v3.0",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "references": [
+        {
+          "label": "Open Data NI — 2003 Ortho OSNI",
+          "url": "https://admin.opendatani.gov.uk/dataset/2003-ortho-osni2",
+          "note": "OGL v3.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/2003-ortho-osni2",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:4-open-data-ni-boundary-and-statistical-geography-files:2003-ortho-osni2:00891",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (OGL v3.0). Rights confirmed clear 2026-07-08."
+      },
+      "variantOf": "osni-ortho-coverage-2003",
+      "parentId": "osni-ortho-coverage-2003",
+      "parentTitle": "OSNI Orthophoto Coverage 2003",
+      "relationship": "variant-child-of-map (medium-confidence match)"
+    },
+    {
+      "id": "approved-publication:variant-source-00892-2004-ortho-osni",
+      "slug": "approved-publication-variant-source-00892-2004-ortho-osni",
+      "type": "approved-table-source",
+      "title": "2004 Ortho OSNI",
+      "subtitle": "Open Data NI / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "2004",
+      "dateSource": "title",
+      "provider": [
+        "Department of Agriculture, Environment and Rural Affairs"
+      ],
+      "description": "Boundary/geography variant dataset from Open Data NI — Department of Agriculture, Environment and Rural Affairs. Published as a Books/Tables/Sources source record under OGL v3.0. Variant/child of the on-site map \"OSNI Orthophoto Coverage 2004\". Contains public sector information licensed under the Open Government Licence v3.0.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "open-data-ni",
+        "source-data",
+        "OGL-v3.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "OGL v3.0",
+      "licence": "OGL v3.0",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "references": [
+        {
+          "label": "Open Data NI — 2004 Ortho OSNI",
+          "url": "https://admin.opendatani.gov.uk/dataset/2004-ortho-osni2",
+          "note": "OGL v3.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/2004-ortho-osni2",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:4-open-data-ni-boundary-and-statistical-geography-files:2004-ortho-osni2:00892",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (OGL v3.0). Rights confirmed clear 2026-07-08."
+      },
+      "variantOf": "osni-ortho-coverage-2004",
+      "parentId": "osni-ortho-coverage-2004",
+      "parentTitle": "OSNI Orthophoto Coverage 2004",
+      "relationship": "variant-child-of-map (medium-confidence match)"
+    },
+    {
+      "id": "approved-publication:variant-source-00893-2005-ortho-osni",
+      "slug": "approved-publication-variant-source-00893-2005-ortho-osni",
+      "type": "approved-table-source",
+      "title": "2005 Ortho OSNI",
+      "subtitle": "Open Data NI / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "2005",
+      "dateSource": "title",
+      "provider": [
+        "Department of Agriculture, Environment and Rural Affairs"
+      ],
+      "description": "Boundary/geography variant dataset from Open Data NI — Department of Agriculture, Environment and Rural Affairs. Published as a Books/Tables/Sources source record under OGL v3.0. Variant/child of the on-site map \"OSNI Orthophoto Coverage 2005\". Contains public sector information licensed under the Open Government Licence v3.0.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "open-data-ni",
+        "source-data",
+        "OGL-v3.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "OGL v3.0",
+      "licence": "OGL v3.0",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "references": [
+        {
+          "label": "Open Data NI — 2005 Ortho OSNI",
+          "url": "https://admin.opendatani.gov.uk/dataset/2005-ortho-osni2",
+          "note": "OGL v3.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/2005-ortho-osni2",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:4-open-data-ni-boundary-and-statistical-geography-files:2005-ortho-osni2:00893",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (OGL v3.0). Rights confirmed clear 2026-07-08."
+      },
+      "variantOf": "osni-ortho-coverage-2005",
+      "parentId": "osni-ortho-coverage-2005",
+      "parentTitle": "OSNI Orthophoto Coverage 2005",
+      "relationship": "variant-child-of-map (medium-confidence match)"
+    },
+    {
+      "id": "approved-publication:variant-source-00894-2006-ortho-osni",
+      "slug": "approved-publication-variant-source-00894-2006-ortho-osni",
+      "type": "approved-table-source",
+      "title": "2006 Ortho OSNI",
+      "subtitle": "Open Data NI / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "2006",
+      "dateSource": "title",
+      "provider": [
+        "Department of Agriculture, Environment and Rural Affairs"
+      ],
+      "description": "Boundary/geography variant dataset from Open Data NI — Department of Agriculture, Environment and Rural Affairs. Published as a Books/Tables/Sources source record under OGL v3.0. Variant/child of the on-site map \"OSNI Orthophoto Coverage 2006\". Contains public sector information licensed under the Open Government Licence v3.0.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "open-data-ni",
+        "source-data",
+        "OGL-v3.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "OGL v3.0",
+      "licence": "OGL v3.0",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "references": [
+        {
+          "label": "Open Data NI — 2006 Ortho OSNI",
+          "url": "https://admin.opendatani.gov.uk/dataset/2006-ortho-osni2",
+          "note": "OGL v3.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/2006-ortho-osni2",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:4-open-data-ni-boundary-and-statistical-geography-files:2006-ortho-osni2:00894",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (OGL v3.0). Rights confirmed clear 2026-07-08."
+      },
+      "variantOf": "osni-ortho-coverage-2006",
+      "parentId": "osni-ortho-coverage-2006",
+      "parentTitle": "OSNI Orthophoto Coverage 2006",
+      "relationship": "variant-child-of-map (medium-confidence match)"
+    },
+    {
+      "id": "approved-publication:variant-source-00895-2007-ortho-osni",
+      "slug": "approved-publication-variant-source-00895-2007-ortho-osni",
+      "type": "approved-table-source",
+      "title": "2007 Ortho OSNI",
+      "subtitle": "Open Data NI / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "2007",
+      "dateSource": "title",
+      "provider": [
+        "Department of Agriculture, Environment and Rural Affairs"
+      ],
+      "description": "Boundary/geography variant dataset from Open Data NI — Department of Agriculture, Environment and Rural Affairs. Published as a Books/Tables/Sources source record under OGL v3.0. Variant/child of the on-site map \"OSNI Orthophoto Coverage 2007\". Contains public sector information licensed under the Open Government Licence v3.0.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "open-data-ni",
+        "source-data",
+        "OGL-v3.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "OGL v3.0",
+      "licence": "OGL v3.0",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "references": [
+        {
+          "label": "Open Data NI — 2007 Ortho OSNI",
+          "url": "https://admin.opendatani.gov.uk/dataset/2007-ortho-osni2",
+          "note": "OGL v3.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/2007-ortho-osni2",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:4-open-data-ni-boundary-and-statistical-geography-files:2007-ortho-osni2:00895",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (OGL v3.0). Rights confirmed clear 2026-07-08."
+      },
+      "variantOf": "osni-ortho-coverage-2007",
+      "parentId": "osni-ortho-coverage-2007",
+      "parentTitle": "OSNI Orthophoto Coverage 2007",
+      "relationship": "variant-child-of-map (medium-confidence match)"
+    },
+    {
+      "id": "approved-publication:variant-source-00896-2008-ortho-osni",
+      "slug": "approved-publication-variant-source-00896-2008-ortho-osni",
+      "type": "approved-table-source",
+      "title": "2008 Ortho OSNI",
+      "subtitle": "Open Data NI / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "2008",
+      "dateSource": "title",
+      "provider": [
+        "Department of Agriculture, Environment and Rural Affairs"
+      ],
+      "description": "Boundary/geography variant dataset from Open Data NI — Department of Agriculture, Environment and Rural Affairs. Published as a Books/Tables/Sources source record under OGL v3.0. Variant/child of the on-site map \"OSNI Orthophoto Coverage 2008\". Contains public sector information licensed under the Open Government Licence v3.0.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "open-data-ni",
+        "source-data",
+        "OGL-v3.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "OGL v3.0",
+      "licence": "OGL v3.0",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "references": [
+        {
+          "label": "Open Data NI — 2008 Ortho OSNI",
+          "url": "https://admin.opendatani.gov.uk/dataset/2008-ortho-osni2",
+          "note": "OGL v3.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/2008-ortho-osni2",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:4-open-data-ni-boundary-and-statistical-geography-files:2008-ortho-osni2:00896",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (OGL v3.0). Rights confirmed clear 2026-07-08."
+      },
+      "variantOf": "osni-ortho-coverage-2008",
+      "parentId": "osni-ortho-coverage-2008",
+      "parentTitle": "OSNI Orthophoto Coverage 2008",
+      "relationship": "variant-child-of-map (medium-confidence match)"
+    },
+    {
+      "id": "approved-publication:variant-source-00897-2009-ortho-osni",
+      "slug": "approved-publication-variant-source-00897-2009-ortho-osni",
+      "type": "approved-table-source",
+      "title": "2009 Ortho OSNI",
+      "subtitle": "Open Data NI / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "2009",
+      "dateSource": "title",
+      "provider": [
+        "Department of Agriculture, Environment and Rural Affairs"
+      ],
+      "description": "Boundary/geography variant dataset from Open Data NI — Department of Agriculture, Environment and Rural Affairs. Published as a Books/Tables/Sources source record under OGL v3.0. Variant/child of the on-site map \"OSNI Orthophoto Coverage 2009\". Contains public sector information licensed under the Open Government Licence v3.0.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "open-data-ni",
+        "source-data",
+        "OGL-v3.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "OGL v3.0",
+      "licence": "OGL v3.0",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "references": [
+        {
+          "label": "Open Data NI — 2009 Ortho OSNI",
+          "url": "https://admin.opendatani.gov.uk/dataset/2009-ortho-osni2",
+          "note": "OGL v3.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/2009-ortho-osni2",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:4-open-data-ni-boundary-and-statistical-geography-files:2009-ortho-osni2:00897",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (OGL v3.0). Rights confirmed clear 2026-07-08."
+      },
+      "variantOf": "osni-ortho-coverage-2009",
+      "parentId": "osni-ortho-coverage-2009",
+      "parentTitle": "OSNI Orthophoto Coverage 2009",
+      "relationship": "variant-child-of-map (medium-confidence match)"
+    },
+    {
+      "id": "approved-publication:variant-source-00898-2012-ortho-osni",
+      "slug": "approved-publication-variant-source-00898-2012-ortho-osni",
+      "type": "approved-table-source",
+      "title": "2012 Ortho OSNI",
+      "subtitle": "Open Data NI / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "2012",
+      "dateSource": "title",
+      "provider": [
+        "Department of Agriculture, Environment and Rural Affairs"
+      ],
+      "description": "Boundary/geography variant dataset from Open Data NI — Department of Agriculture, Environment and Rural Affairs. Published as a Books/Tables/Sources source record under OGL v3.0. Variant/child of the on-site map \"OSNI Orthophoto Coverage 2012\". Contains public sector information licensed under the Open Government Licence v3.0.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "open-data-ni",
+        "source-data",
+        "OGL-v3.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "OGL v3.0",
+      "licence": "OGL v3.0",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "references": [
+        {
+          "label": "Open Data NI — 2012 Ortho OSNI",
+          "url": "https://admin.opendatani.gov.uk/dataset/2012-ortho-osni2",
+          "note": "OGL v3.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/2012-ortho-osni2",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:4-open-data-ni-boundary-and-statistical-geography-files:2012-ortho-osni2:00898",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (OGL v3.0). Rights confirmed clear 2026-07-08."
+      },
+      "variantOf": "osni-ortho-coverage-2012",
+      "parentId": "osni-ortho-coverage-2012",
+      "parentTitle": "OSNI Orthophoto Coverage 2012",
+      "relationship": "variant-child-of-map (medium-confidence match)"
+    },
+    {
+      "id": "approved-publication:variant-source-00899-2014-ortho-osni",
+      "slug": "approved-publication-variant-source-00899-2014-ortho-osni",
+      "type": "approved-table-source",
+      "title": "2014 Ortho OSNI",
+      "subtitle": "Open Data NI / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "2014",
+      "dateSource": "title",
+      "provider": [
+        "Department of Agriculture, Environment and Rural Affairs"
+      ],
+      "description": "Boundary/geography variant dataset from Open Data NI — Department of Agriculture, Environment and Rural Affairs. Published as a Books/Tables/Sources source record under OGL v3.0. Variant/child of the on-site map \"OSNI Orthophoto Coverage 2014\". Contains public sector information licensed under the Open Government Licence v3.0.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "open-data-ni",
+        "source-data",
+        "OGL-v3.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "OGL v3.0",
+      "licence": "OGL v3.0",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "references": [
+        {
+          "label": "Open Data NI — 2014 Ortho OSNI",
+          "url": "https://admin.opendatani.gov.uk/dataset/2014-ortho-osni2",
+          "note": "OGL v3.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/2014-ortho-osni2",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:4-open-data-ni-boundary-and-statistical-geography-files:2014-ortho-osni2:00899",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (OGL v3.0). Rights confirmed clear 2026-07-08."
+      },
+      "variantOf": "osni-ortho-coverage-2014",
+      "parentId": "osni-ortho-coverage-2014",
+      "parentTitle": "OSNI Orthophoto Coverage 2014",
+      "relationship": "variant-child-of-map (medium-confidence match)"
+    },
+    {
+      "id": "approved-publication:variant-source-00900-2016-ortho-osni",
+      "slug": "approved-publication-variant-source-00900-2016-ortho-osni",
+      "type": "approved-table-source",
+      "title": "2016 Ortho OSNI",
+      "subtitle": "Open Data NI / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "2016",
+      "dateSource": "title",
+      "provider": [
+        "Department of Agriculture, Environment and Rural Affairs"
+      ],
+      "description": "Boundary/geography variant dataset from Open Data NI — Department of Agriculture, Environment and Rural Affairs. Published as a Books/Tables/Sources source record under OGL v3.0. Variant/child of the on-site map \"OSNI Orthophoto Coverage 2016\". Contains public sector information licensed under the Open Government Licence v3.0.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "open-data-ni",
+        "source-data",
+        "OGL-v3.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "OGL v3.0",
+      "licence": "OGL v3.0",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "references": [
+        {
+          "label": "Open Data NI — 2016 Ortho OSNI",
+          "url": "https://admin.opendatani.gov.uk/dataset/2016-ortho-osni2",
+          "note": "OGL v3.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/2016-ortho-osni2",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:4-open-data-ni-boundary-and-statistical-geography-files:2016-ortho-osni2:00900",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (OGL v3.0). Rights confirmed clear 2026-07-08."
+      },
+      "variantOf": "osni-ortho-coverage-2016",
+      "parentId": "osni-ortho-coverage-2016",
+      "parentTitle": "OSNI Orthophoto Coverage 2016",
+      "relationship": "variant-child-of-map (medium-confidence match)"
+    },
+    {
+      "id": "approved-publication:variant-source-00901-2017-ortho-osni",
+      "slug": "approved-publication-variant-source-00901-2017-ortho-osni",
+      "type": "approved-table-source",
+      "title": "2017 Ortho OSNI",
+      "subtitle": "Open Data NI / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "2017",
+      "dateSource": "title",
+      "provider": [
+        "Department of Agriculture, Environment and Rural Affairs"
+      ],
+      "description": "Boundary/geography variant dataset from Open Data NI — Department of Agriculture, Environment and Rural Affairs. Published as a Books/Tables/Sources source record under OGL v3.0. Variant/child of the on-site map \"OSNI Orthophoto Coverage 2017\". Contains public sector information licensed under the Open Government Licence v3.0.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "open-data-ni",
+        "source-data",
+        "OGL-v3.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "OGL v3.0",
+      "licence": "OGL v3.0",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "references": [
+        {
+          "label": "Open Data NI — 2017 Ortho OSNI",
+          "url": "https://admin.opendatani.gov.uk/dataset/2017-ortho-osni2",
+          "note": "OGL v3.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/2017-ortho-osni2",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:4-open-data-ni-boundary-and-statistical-geography-files:2017-ortho-osni2:00901",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (OGL v3.0). Rights confirmed clear 2026-07-08."
+      },
+      "variantOf": "osni-ortho-coverage-2017",
+      "parentId": "osni-ortho-coverage-2017",
+      "parentTitle": "OSNI Orthophoto Coverage 2017",
+      "relationship": "variant-child-of-map (medium-confidence match)"
+    },
+    {
+      "id": "approved-publication:variant-source-00902-2019-ortho-osni",
+      "slug": "approved-publication-variant-source-00902-2019-ortho-osni",
+      "type": "approved-table-source",
+      "title": "2019 Ortho OSNI",
+      "subtitle": "Open Data NI / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "2019",
+      "dateSource": "title",
+      "provider": [
+        "Department of Agriculture, Environment and Rural Affairs"
+      ],
+      "description": "Boundary/geography variant dataset from Open Data NI — Department of Agriculture, Environment and Rural Affairs. Published as a Books/Tables/Sources source record under OGL v3.0. Variant/child of the on-site map \"OSNI Orthophoto Coverage 2019\". Contains public sector information licensed under the Open Government Licence v3.0.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "open-data-ni",
+        "source-data",
+        "OGL-v3.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "OGL v3.0",
+      "licence": "OGL v3.0",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "references": [
+        {
+          "label": "Open Data NI — 2019 Ortho OSNI",
+          "url": "https://admin.opendatani.gov.uk/dataset/2019-ortho-osni2",
+          "note": "OGL v3.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/2019-ortho-osni2",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:4-open-data-ni-boundary-and-statistical-geography-files:2019-ortho-osni2:00902",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (OGL v3.0). Rights confirmed clear 2026-07-08."
+      },
+      "variantOf": "osni-ortho-coverage-2019",
+      "parentId": "osni-ortho-coverage-2019",
+      "parentTitle": "OSNI Orthophoto Coverage 2019",
+      "relationship": "variant-child-of-map (medium-confidence match)"
+    },
+    {
+      "id": "approved-publication:variant-source-00903-2020-ortho-osni",
+      "slug": "approved-publication-variant-source-00903-2020-ortho-osni",
+      "type": "approved-table-source",
+      "title": "2020 Ortho OSNI",
+      "subtitle": "Open Data NI / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "2020",
+      "dateSource": "title",
+      "provider": [
+        "Department of Agriculture, Environment and Rural Affairs"
+      ],
+      "description": "Boundary/geography variant dataset from Open Data NI — Department of Agriculture, Environment and Rural Affairs. Published as a Books/Tables/Sources source record under OGL v3.0. Variant/child of the on-site map \"OSNI Orthophoto Coverage 2020\". Contains public sector information licensed under the Open Government Licence v3.0.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "open-data-ni",
+        "source-data",
+        "OGL-v3.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "OGL v3.0",
+      "licence": "OGL v3.0",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "references": [
+        {
+          "label": "Open Data NI — 2020 Ortho OSNI",
+          "url": "https://admin.opendatani.gov.uk/dataset/2020-ortho-osni2",
+          "note": "OGL v3.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/2020-ortho-osni2",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:4-open-data-ni-boundary-and-statistical-geography-files:2020-ortho-osni2:00903",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (OGL v3.0). Rights confirmed clear 2026-07-08."
+      },
+      "variantOf": "osni-ortho-coverage-2020",
+      "parentId": "osni-ortho-coverage-2020",
+      "parentTitle": "OSNI Orthophoto Coverage 2020",
+      "relationship": "variant-child-of-map (medium-confidence match)"
+    },
+    {
+      "id": "approved-publication:variant-source-00915-covid-19-hse-weekly-booster-vaccination-figures",
+      "slug": "approved-publication-variant-source-00915-covid-19-hse-weekly-booster-vaccination-figures",
+      "type": "approved-table-source",
+      "title": "COVID-19 HSE Weekly Booster Vaccination Figures",
+      "subtitle": "Tailte/OSI/data.gov.ie / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "Tailte Éireann"
+      ],
+      "description": "Boundary/geography variant dataset from Tailte/OSI/data.gov.ie — Tailte Éireann. Published as a Books/Tables/Sources source record under CC BY 4.0. Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "tailte-osi-data-gov-ie",
+        "source-data",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "CC BY 4.0",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "Tailte/OSI/data.gov.ie — COVID-19 HSE Weekly Booster Vaccination Figures",
+          "url": "https://data.gov.ie/dataset/covid-19-hse-weekly-booster-vaccination-figures",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/covid-19-hse-weekly-booster-vaccination-figures",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:covid-19-hse-weekly-booster-vaccination-figures:00915",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (CC BY 4.0). Rights confirmed clear 2026-07-08."
+      }
+    },
+    {
+      "id": "approved-publication:variant-source-00916-covid-19-hse-weekly-vaccination-figures",
+      "slug": "approved-publication-variant-source-00916-covid-19-hse-weekly-vaccination-figures",
+      "type": "approved-table-source",
+      "title": "COVID-19 HSE Weekly Vaccination Figures",
+      "subtitle": "Tailte/OSI/data.gov.ie / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "Tailte Éireann"
+      ],
+      "description": "Boundary/geography variant dataset from Tailte/OSI/data.gov.ie — Tailte Éireann. Published as a Books/Tables/Sources source record under CC BY 4.0. Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "tailte-osi-data-gov-ie",
+        "source-data",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "CC BY 4.0",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "Tailte/OSI/data.gov.ie — COVID-19 HSE Weekly Vaccination Figures",
+          "url": "https://data.gov.ie/dataset/covid-19-hse-weekly-vaccination-figures",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/covid-19-hse-weekly-vaccination-figures",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:covid-19-hse-weekly-vaccination-figures:00916",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (CC BY 4.0). Rights confirmed clear 2026-07-08."
+      }
+    },
+    {
+      "id": "approved-publication:variant-source-01002-courtown-riverchapel-local-area-plan-2015-extended-to-2026",
+      "slug": "approved-publication-variant-source-01002-courtown-riverchapel-local-area-plan-2015-extended-to-2026",
+      "type": "approved-table-source",
+      "title": "Courtown & Riverchapel Local Area Plan 2015 (Extended to 2026)",
+      "subtitle": "data.gov.ie / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "2015",
+      "dateSource": "title",
+      "provider": [
+        "Wexford County Council"
+      ],
+      "description": "Boundary/geography variant dataset from data.gov.ie — Wexford County Council. Published as a Books/Tables/Sources source record under CC BY 4.0. Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "data-gov-ie",
+        "boundary",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "CC BY 4.0",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "data.gov.ie — Courtown & Riverchapel Local Area Plan 2015 (Extended to 2026)",
+          "url": "https://data.gov.ie/dataset/courtown-riverchapel-lap-zoning",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/courtown-riverchapel-lap-zoning",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:courtown-riverchapel-lap-zoning:01002",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (CC BY 4.0). Rights confirmed clear 2026-07-08."
+      }
+    },
+    {
+      "id": "approved-publication:variant-source-01047-bailte-seirbh-se-gaeltachta",
+      "slug": "approved-publication-variant-source-01047-bailte-seirbh-se-gaeltachta",
+      "type": "approved-table-source",
+      "title": "Bailte Seirbhíse Gaeltachta",
+      "subtitle": "data.gov.ie / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "Marine Institute"
+      ],
+      "description": "Boundary/geography variant dataset from data.gov.ie — Marine Institute. Published as a Books/Tables/Sources source record under CC BY 4.0. Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "data-gov-ie",
+        "source-data",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "CC BY 4.0",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "data.gov.ie — Bailte Seirbhíse Gaeltachta",
+          "url": "https://data.gov.ie/dataset/bailte-seirbhise-gaeltachta",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/bailte-seirbhise-gaeltachta",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:bailte-seirbhise-gaeltachta:01047",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (CC BY 4.0). Rights confirmed clear 2026-07-08."
+      }
+    },
+    {
+      "id": "approved-publication:variant-source-01128-ship-wrecks-in-irish-waters-recorded-year-of-loss",
+      "slug": "approved-publication-variant-source-01128-ship-wrecks-in-irish-waters-recorded-year-of-loss",
+      "type": "approved-table-source",
+      "title": "Ship Wrecks in Irish Waters - Recorded Year of Loss",
+      "subtitle": "data.gov.ie / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "Department of Climate, Energy and the Environment"
+      ],
+      "description": "Boundary/geography variant dataset from data.gov.ie — Department of Climate, Energy and the Environment. Published as a Books/Tables/Sources source record under CC BY 4.0. Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "data-gov-ie",
+        "boundary",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "CC BY 4.0",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "data.gov.ie — Ship Wrecks in Irish Waters - Recorded Year of Loss",
+          "url": "https://data.gov.ie/dataset/ship-wrecks-in-irish-waters-recorded-year-of-loss1",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ship-wrecks-in-irish-waters-recorded-year-of-loss1",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:ship-wrecks-in-irish-waters-recorded-year-of-loss1:01128",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (CC BY 4.0). Rights confirmed clear 2026-07-08."
+      }
+    },
+    {
+      "id": "approved-publication:variant-source-01250-gorey-town-environs-local-area-plan-2017-2023-extended-to-2026",
+      "slug": "approved-publication-variant-source-01250-gorey-town-environs-local-area-plan-2017-2023-extended-to-2026",
+      "type": "approved-table-source",
+      "title": "Gorey Town Environs Local Area Plan 2017-2023 (Extended to 2026)",
+      "subtitle": "data.gov.ie / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "2017",
+      "dateSource": "title",
+      "provider": [
+        "Wexford County Council"
+      ],
+      "description": "Boundary/geography variant dataset from data.gov.ie — Wexford County Council. Published as a Books/Tables/Sources source record under CC BY 4.0. Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "data-gov-ie",
+        "boundary",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "CC BY 4.0",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "data.gov.ie — Gorey Town Environs Local Area Plan 2017-2023 (Extended to 2026)",
+          "url": "https://data.gov.ie/dataset/gorey-town-environs-lap-zoning",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/gorey-town-environs-lap-zoning",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:gorey-town-environs-lap-zoning:01250",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (CC BY 4.0). Rights confirmed clear 2026-07-08."
+      }
+    },
+    {
+      "id": "approved-publication:variant-source-01295-covid-19-laboratory-testing-time-series",
+      "slug": "approved-publication-variant-source-01295-covid-19-laboratory-testing-time-series",
+      "type": "approved-table-source",
+      "title": "COVID-19 Laboratory Testing Time Series",
+      "subtitle": "Tailte/OSI/data.gov.ie / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "Tailte Éireann"
+      ],
+      "description": "Boundary/geography variant dataset from Tailte/OSI/data.gov.ie — Tailte Éireann. Published as a Books/Tables/Sources source record under CC BY 4.0. Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "tailte-osi-data-gov-ie",
+        "source-data",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "CC BY 4.0",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "Tailte/OSI/data.gov.ie — COVID-19 Laboratory Testing Time Series",
+          "url": "https://data.gov.ie/dataset/covid-19-laboratory-testing-time-series",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/covid-19-laboratory-testing-time-series",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:covid-19-laboratory-testing-time-series:01295",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (CC BY 4.0). Rights confirmed clear 2026-07-08."
+      }
+    },
+    {
+      "id": "approved-publication:variant-source-01296-covid-19-noca-icubis-historic-time-series",
+      "slug": "approved-publication-variant-source-01296-covid-19-noca-icubis-historic-time-series",
+      "type": "approved-table-source",
+      "title": "COVID-19 NOCA ICUBIS Historic Time Series",
+      "subtitle": "Tailte/OSI/data.gov.ie / boundary-variant / Browse/Tables plus Sources",
+      "category": "Approved tables",
+      "date": "",
+      "dateSource": "none",
+      "provider": [
+        "Tailte Éireann"
+      ],
+      "description": "Boundary/geography variant dataset from Tailte/OSI/data.gov.ie — Tailte Éireann. Published as a Books/Tables/Sources source record under CC BY 4.0. Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "keywords": [
+        "boundary-variant",
+        "open-data",
+        "tailte-osi-data-gov-ie",
+        "source-data",
+        "CC-BY-4.0",
+        "publish",
+        "approved-publication"
+      ],
+      "proposedBrowsePath": "Browse/Tables plus Sources",
+      "publicationStatus": "approved-staged",
+      "license": "CC BY 4.0",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "Tailte/OSI/data.gov.ie — COVID-19 NOCA ICUBIS Historic Time Series",
+          "url": "https://data.gov.ie/dataset/covid-19-noca-icubis-historic-time-series",
+          "note": "CC BY 4.0"
+        },
+        {
+          "label": "Wayback Machine (provider URL history)",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/covid-19-noca-icubis-historic-time-series",
+          "note": "archived copy"
+        }
+      ],
+      "approval": {
+        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:covid-19-noca-icubis-historic-time-series:01296",
+        "recommendedAction": "publish",
+        "batchId": "variant-child-source-records",
+        "reviewState": "approval-ready",
+        "sourceResolutionStatus": "resolved-provider-url-ckan-verified",
+        "sourceResolutionConfidence": "medium",
+        "defaultAction": "publish-as-books-tables-sources-entry-after-approval",
+        "rightsNote": "Boundary-variant open-data source. Licence CKAN-verified per dataset 2026-07-08 (CC BY 4.0). Rights confirmed clear 2026-07-08."
       }
     }
   ]
