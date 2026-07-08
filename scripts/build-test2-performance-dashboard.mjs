@@ -16,7 +16,11 @@ const BUDGETS = {
   // "download everything" ceiling and still catches accidental bloat.
   chunkJsBytes: Number(process.env.TEST2_BUDGET_CHUNK_JS || 3800 * 1024),
   largestLazyChunkBytes: Number(process.env.TEST2_BUDGET_LARGEST_LAZY_CHUNK || 1200 * 1024),
-  metadataIndexBytes: Number(process.env.TEST2_BUDGET_METADATA_INDEX || 3500 * 1024),
+  // Raised from 3500 KB: Track B published ~97 additional vector layers, which
+  // legitimately grew the startup index past the old ceiling. The durable
+  // optimisation is to trim per-layer fields out of the compact index into the
+  // lazy detail sidecars; tracked as follow-up.
+  metadataIndexBytes: Number(process.env.TEST2_BUDGET_METADATA_INDEX || 4000 * 1024),
   sourceMapCount: 0
 };
 
