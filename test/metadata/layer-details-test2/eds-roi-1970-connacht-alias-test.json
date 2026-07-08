@@ -16,7 +16,7 @@
   "sourceType": "pmtiles",
   "geometryType": "polygon",
   "tiles": "/test/tiles/generated/eds-connacht-1919/{z}/{x}/{y}.pbf",
-  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-connacht-1919-vector-test.pmtiles",
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-connacht-1919-vector-test.pmtiles?v=civfid1",
   "tilesFallback": "/test/tiles/generated/eds-connacht-1919/{z}/{x}/{y}.pbf",
   "metadataUrl": "/test/tiles/generated/eds-connacht-1919/metadata.json",
   "sourceLayer": "eds_connacht_1919",
@@ -255,5 +255,7 @@
   "conversionStatus": "convertedAlias",
   "aliasOf": "eds-connacht-1919",
   "cloneOf": "eds-connacht-1919",
-  "aliasTargetLayerId": "eds-connacht-1919-vector-test"
+  "aliasTargetLayerId": "eds-connacht-1919-vector-test",
+  "promoteId": "civ_fid",
+  "idProperty": "civ_fid"
 }
