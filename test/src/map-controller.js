@@ -1057,16 +1057,20 @@ export class TestMapLibreController {
     // list (rather than add/removeControl per load) avoids deck.gl's teardown
     // observer leak and keeps an inactive overlay at zero draw cost.
     if (!this.pointCloudOverlay) {
-      this.pointCloudOverlay = new this._deck.MapboxOverlay({
-        interleaved: layer.interleaved !== false,
-        layers: []
-      });
+      // Overlaid mode (deck on its own canvas + own animation loop) renders point
+      // clouds reliably over a raster basemap. Interleaved mode ties deck's render
+      // to the map's pass, which left the 3D-Tiles octree un-traversed (tileset.json
+      // loaded but zero content tiles ever requested) — default to overlaid.
+      const interleaved = layer.interleaved === true;
+      this.pointCloudOverlay = new this._deck.MapboxOverlay({ interleaved, layers: [] });
       this.map.addControl(this.pointCloudOverlay);
       if (typeof this.map.setMaxPitch === 'function' && this.map.getMaxPitch() < 80) {
         this.map.setMaxPitch(85);
       }
+      console.log('[pc-debug] overlay created, interleaved=', interleaved);
     }
     this.syncPointCloudOverlay();
+    console.log('[pc-debug] addPointCloudLayer done', layer.id, 'tilesetUrl=', layer.tilesetUrl);
     return { layerIds: [], sourceIds: [] };
   }
 
@@ -1087,6 +1091,13 @@ export class TestMapLibreController {
         // Uniform tint for intensity-only clouds; RGB clouds (vertexColors)
         // keep their per-point photogrammetry colour (omit the override).
         ...(cfg.vertexColors ? {} : { getPointColor: rgb }),
+        onTilesetLoad: (tileset) => {
+          console.log('[pc-debug] tilesetLoad', cfg.id, 'tiles=', tileset?.tiles?.length,
+            'root=', !!tileset?.root, 'center=', tileset?.cartographicCenter, 'zoom=', tileset?.zoom);
+          this.map?.triggerRepaint?.();
+        },
+        onTileLoad: (tile) => { console.log('[pc-debug] tileLoad', cfg.id, tile?.id); this.map?.triggerRepaint?.(); },
+        onTileError: (tile, message, url) => console.error('[pc-debug] tileError', cfg.id, message, url),
         loadOptions: {
           tileset: {
             // Performance guardrails: octree LOD + memory cap bound the on-screen
