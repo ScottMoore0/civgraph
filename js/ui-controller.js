@@ -7328,7 +7328,7 @@ class UIController {
             // full-feature area attribute (e.g. Shape_Area) — it is duplicated
             // onto every tile fragment, so it is correct even when the polygon
             // is split across tiles, unlike area derived from clipped geometry.
-            let area = props.Area || props.area || props.AREA || props.Shape_Area || props.SHAPE_AREA;
+            let area = props.Area || props.area || props.AREA || props.Shape_Area || props.SHAPE_AREA || props.Shape__Area || props.SHAPE__AREA;
             let perimeter = props.Perimeter || props.perimeter || props.PERIMETER;
 
             // Calculate geodesic metrics if not provided

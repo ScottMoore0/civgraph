@@ -1961,24 +1961,41 @@ export class TestMapLibreController {
   // null when the feature isn't split (nothing to merge) so callers keep the
   // original geometry. Bounded to fragments in loaded tiles.
   mergePolygonFragments(layer, id) {
-    const fillId = `${layer.id}-fill`;
-    if (!this.map.getLayer(fillId)) return null;
-    let fragments;
-    try {
-      fragments = this.map.queryRenderedFeatures({ layers: [fillId] });
-    } catch {
-      return null;
-    }
+    const record = this.layers.get(layer.id);
+    const sourceId = record?.sourceId;
     const target = String(id);
     const coordinates = [];
-    for (const fragment of fragments) {
-      if (String(this.readFeatureIdentity(layer, fragment).id) !== target) continue;
-      const geometry = fragment.geometry;
-      if (!geometry) continue;
-      if (geometry.type === 'Polygon') {
-        coordinates.push(geometry.coordinates);
-      } else if (geometry.type === 'MultiPolygon') {
-        for (const polygon of geometry.coordinates) coordinates.push(polygon);
+    const collect = (features) => {
+      for (const fragment of features || []) {
+        if (String(this.readFeatureIdentity(layer, fragment).id) !== target) continue;
+        const geometry = fragment.geometry;
+        if (!geometry) continue;
+        if (geometry.type === 'Polygon') {
+          coordinates.push(geometry.coordinates);
+        } else if (geometry.type === 'MultiPolygon') {
+          for (const polygon of geometry.coordinates) coordinates.push(polygon);
+        }
+      }
+    };
+    // Prefer querySourceFeatures: it returns every fragment in the currently
+    // LOADED tiles (not just those rendered in the viewport), so a zoomed-in
+    // click still reassembles the whole feature. Filter by the promoted id.
+    if (sourceId) {
+      try {
+        collect(this.map.querySourceFeatures(sourceId, {
+          sourceLayer: layer.sourceLayer,
+          filter: ['==', ['get', layer.promoteId || 'id'], id]
+        }));
+      } catch { /* fall through to rendered-feature query */ }
+    }
+    // Fallback: rendered features (viewport-limited) if the source query is
+    // unavailable or matched nothing.
+    if (coordinates.length === 0) {
+      const fillId = `${layer.id}-fill`;
+      if (this.map.getLayer(fillId)) {
+        try {
+          collect(this.map.queryRenderedFeatures({ layers: [fillId] }));
+        } catch { /* ignore */ }
       }
     }
     if (coordinates.length <= 1) return null;

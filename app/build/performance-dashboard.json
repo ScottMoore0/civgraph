@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-08T11:08:22.686Z",
-  "summary": "Performance budgets pass",
+  "generatedAt": "2026-07-08T11:46:04.676Z",
+  "summary": "Performance budget failures present",
   "budgets": {
     "entryJsBytes": 81920,
     "entryCssBytes": 163840,
@@ -12,9 +12,9 @@
   },
   "totals": {
     "checks": 9,
-    "failed": 0,
+    "failed": 1,
     "warnings": 0,
-    "passed": 9
+    "passed": 8
   },
   "assets": {
     "entry": {
@@ -34,7 +34,7 @@
     "lazy": {
       "jsCount": 13,
       "cssCount": 0,
-      "jsBytes": 3441186,
+      "jsBytes": 3441372,
       "cssBytes": 0
     },
     "largestOutputs": [
@@ -51,10 +51,10 @@
         "label": "640.0 KB"
       },
       {
-        "name": "app-JL3UG265.js",
-        "path": "app/build/chunks/app-JL3UG265.js",
-        "bytes": 538855,
-        "label": "526.2 KB"
+        "name": "app-GQPOTQKK.js",
+        "path": "app/build/chunks/app-GQPOTQKK.js",
+        "bytes": 539041,
+        "label": "526.4 KB"
       },
       {
         "name": "chunk-AOWFJ2W4.js",
@@ -132,7 +132,7 @@
     {
       "name": "Split JS chunks",
       "status": "pass",
-      "value": 3441186,
+      "value": 3441372,
       "maxBytes": 3891200,
       "valueLabel": "3.3 MB / 3.7 MB",
       "path": "app/build/chunks"
@@ -156,10 +156,10 @@
     },
     {
       "name": "Startup metadata index",
-      "status": "pass",
-      "value": 3391561,
+      "status": "fail",
+      "value": 3709170,
       "maxBytes": 3584000,
-      "valueLabel": "3.2 MB / 3.4 MB",
+      "valueLabel": "3.5 MB / 3.4 MB",
       "path": "test/metadata/maps-test-index.json"
     },
     {
@@ -180,9 +180,9 @@
     {
       "name": "PMTiles metadata coverage",
       "status": "pass",
-      "value": 698,
-      "total": 698,
-      "valueLabel": "698/698 PMTiles layers use CDN URLs"
+      "value": 795,
+      "total": 795,
+      "valueLabel": "795/795 PMTiles layers use CDN URLs"
     }
   ]
 }
