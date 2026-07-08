@@ -187,7 +187,7 @@ class Test2App {
     dataService.fuse = null;
     await this.loadTimelineTransitionManifest();
 
-    this.metadataService = new TestMetadataService('/test/metadata/maps-test-index.json?v=test-038', undefined, {
+    this.metadataService = new TestMetadataService('/test/metadata/maps-test-index.json?v=test-039', undefined, {
       cache: 'force-cache',
       portPlanCache: 'force-cache'
     });
