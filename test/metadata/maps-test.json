@@ -191135,6 +191135,67 @@
         "DfI Roads",
         "Fugro-BKS"
       ]
+    },
+    {
+      "id": "ni-lidar-sept2022-northcoast-pointcloud",
+      "sourceMapId": "ni-lidar-sept2022-northcoast-pointcloud",
+      "name": "North Coast Post-Storm Recovery LiDAR — Sept 2022 (3D)",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "provider": [
+        "DAERA"
+      ],
+      "date": 2022,
+      "description": "RGB airborne LiDAR point cloud of the Causeway Coast (Portrush–Castlerock), flown September 2022 as the post-storm recovery survey in the DAERA NI 3D Coastal Survey programme. Recovered from the published ArcGIS i3s scene layer and streamed in 3D as an OGC 3D-Tiles octree, rendered with deck.gl in true survey colour: tilt and zoom in and the individual scanned points load in place; zoom out and they unload.",
+      "sourceType": "point-cloud",
+      "geometryType": "point-cloud",
+      "renderer": "maplibre",
+      "status": "converted-pointcloud",
+      "loadable": true,
+      "tilesetUrl": "https://data.civgraph.net/data/pointclouds/sept2022-northcoast/tileset.json?v=20260708a",
+      "bounds": [
+        [
+          55.164186236692224,
+          -6.966879155423357
+        ],
+        [
+          55.209930109289076,
+          -6.601517530876135
+        ]
+      ],
+      "minzoom": 5,
+      "maxzoom": 20,
+      "pointSize": 1.0,
+      "maxScreenSpaceError": 16,
+      "maxMemoryMB": 512,
+      "vertexColors": true,
+      "rasterOpacity": 1.0,
+      "style": {
+        "color": "#8ab4d8",
+        "fillColor": "#8ab4d8",
+        "fillOpacity": 1.0,
+        "weight": 0
+      },
+      "license": "OGL",
+      "keywords": [
+        "lidar",
+        "point cloud",
+        "3D",
+        "deck.gl",
+        "3d tiles",
+        "coastal",
+        "north coast",
+        "Causeway Coast",
+        "Portrush",
+        "Portstewart",
+        "Castlerock",
+        "post-storm",
+        "RGB",
+        "DAERA",
+        "Physical Geography",
+        "maplibre",
+        "2022"
+      ]
     }
   ]
 }
