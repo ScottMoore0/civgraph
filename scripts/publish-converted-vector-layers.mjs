@@ -78,14 +78,27 @@ for (const row of convertible) {
   const geojson = resolve(TMP, base + '.geojson');
   const fgb = resolve(INTAKE, base + '.fgb');
   const pmtiles = resolve(PMTILES_DIR, layerId + '.pmtiles');
+  const srcLayer = base.replace(/-/g, '_'); // deterministic MVT layer name == entry.sourceLayer
   try {
-    sh('curl', ['-sL', '--max-time', '120', row.downloadUrl, '-o', geojson]);
-    const gj = JSON.parse(readFileSync(geojson, 'utf8'));
-    const featureCount = (gj.features || []).length;
-    if (!featureCount) throw new Error('no features');
-    sh('ogr2ogr', ['-f', 'FlatGeobuf', fgb, geojson, '-t_srs', 'EPSG:4326']);
-    sh('ogr2ogr', ['-f', 'PMTiles', pmtiles, fgb, '-t_srs', 'EPSG:4326']);
+    let featureCount = null;
+    if (existsSync(fgb) && statSync(fgb).size > 0) {
+      // Reuse the fetched geometry; skip re-download. (FGB is source-only, unaffected by tiling.)
+      featureCount = Number(sh('ogrinfo', ['-so', '-al', fgb]).match(/Feature Count:\s*(\d+)/)?.[1] || 0);
+    } else {
+      sh('curl', ['-sL', '--fail', '--retry', '3', '--retry-delay', '2', '--retry-all-errors', '--max-time', '300', row.downloadUrl, '-o', geojson]);
+      const gj = JSON.parse(readFileSync(geojson, 'utf8'));
+      featureCount = (gj.features || []).length;
+      if (!featureCount) throw new Error('no features');
+      sh('ogr2ogr', ['-f', 'FlatGeobuf', fgb, geojson, '-t_srs', 'EPSG:4326']);
+    }
+    // Always (re)generate PMTiles with an explicit zoom range + named MVT layer so the
+    // archive max_zoom matches the entry maxzoom (MapLibre overzooms correctly) and
+    // source-layer resolves. GDAL otherwise auto-picks a low max_zoom -> blank on zoom-in.
+    rmSync(pmtiles, { force: true });
+    sh('ogr2ogr', ['-f', 'PMTiles', pmtiles, fgb, '-t_srs', 'EPSG:4326',
+      '-dsco', 'MINZOOM=0', '-dsco', 'MAXZOOM=12', '-lco', `NAME=${srcLayer}`, '-nln', srcLayer]);
     const meta = ogrInspect(fgb);
+    meta.sourceLayer = srcLayer;
     const bytes = statSync(pmtiles).size;
     results.push({ row, base, layerId, fgb, pmtiles, bytes, featureCount, meta });
     console.log(`[${idx}/${convertible.length}] ${base}: ${meta.geometryType} ${featureCount}f ${(bytes / 1024).toFixed(0)}KB label=${meta.labelField}`);
@@ -123,7 +136,6 @@ const mapIds = new Set((maps.maps || []).map((m) => m.id));
 const layerIds = new Set((test.layers || []).map((l) => l.id));
 let added = 0;
 for (const [i, r] of ok.entries()) {
-  if (layerIds.has(r.layerId)) continue;
   const lic = r.row.license; const colour = PALETTE[i % PALETTE.length];
   const localUrl = `/test/pmtiles/generated/${r.layerId}.pmtiles`;
   const r2Key = r.r2Key || `data/maps/test/pmtiles/generated/${r.layerId}.pmtiles`;
@@ -138,7 +150,7 @@ for (const [i, r] of ok.entries()) {
   const paint = r.meta.geometryType === 'point'
     ? { color: colour, fillColor: colour, fillOpacity: 0.7, weight: 1 }
     : { color: colour, fillColor: colour, fillOpacity: 0.18, weight: 2 };
-  test.layers.push({
+  const layerEntry = {
     id: r.layerId, sourceMapId: r.base, name: r.row.title, category: cat, group: cat === 'Points of Interest' ? 'Built Environment' : 'Built Environment',
     date: null, dateAdded: null, dateEffective: null, provider: [r.row.provider],
     description: `${r.row.title} — open-data layer from ${r.row.provider} (${lic}). ${ATTR[lic]}`,
@@ -155,7 +167,9 @@ for (const [i, r] of ok.entries()) {
       maxGithubBytes: 99614720, generatedAt: '2026-07-08T00:00:00.000Z', serving: NO_UPLOAD ? 'local' : 'cdn',
       cdnUrl, r2Key, localUrl },
     popupProperties: r.meta.stringFields.slice(0, 6), numericProperties: r.meta.numericFields.slice(0, 6), categoricalProperties: []
-  });
+  };
+  const existingIdx = test.layers.findIndex((l) => l.id === r.layerId);
+  if (existingIdx >= 0) test.layers[existingIdx] = layerEntry; else test.layers.push(layerEntry);
   added++;
 }
 writeFileSync(MAPS_PATH, JSON.stringify(maps, null, 2) + '\n');
