@@ -551,7 +551,12 @@ function chooseIdProperty(fields, parsed, map, labelProperty) {
     'SOA_CODE',
     'SA2011',
     'OA_CODE',
-    'SMALL_AREA'
+    'SMALL_AREA',
+    // Last resort: build-test-pmtiles.mjs injects civ_fid (= source FID) into
+    // every polygon/line vector tile, so it is always present and unique per
+    // feature. Ranked last so a natural id wins, but guarantees no tiled
+    // polygon/line layer is left without a promoteId (the split-feature bug).
+    'civ_fid'
   ].filter(Boolean);
   const explicit = chooseProperty(explicitCandidates, fields);
   if (explicit) return explicit;
