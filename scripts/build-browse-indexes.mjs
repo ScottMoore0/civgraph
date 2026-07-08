@@ -11,6 +11,16 @@ const AGENCY_IA_MIRRORS = (() => {
   try { return JSON.parse(readFileSync(path.join(ROOT, 'data/database/agency-ia-mirrors.json'), 'utf8')).items || {}; }
   catch { return {}; }
 })();
+// Open-data election datasets (data.gov.ie) attached as source-provenance references
+// to election browse records. Keyed by election key. Additive only.
+const ELECTION_SOURCE_ENRICHMENTS = (() => {
+  const map = new Map();
+  try {
+    const data = JSON.parse(readFileSync(path.join(ROOT, 'data/database/election-source-enrichments.json'), 'utf8'));
+    for (const e of (data.enrichments || [])) map.set(e.electionKey, e.datasets || []);
+  } catch { /* sidecar optional */ }
+  return map;
+})();
 const OUT_DIR = path.join(ROOT, 'data', 'browse');
 const DETAILS_DIR = path.join(OUT_DIR, 'details');
 
@@ -621,10 +631,25 @@ function isNorthernIrelandForumRegionalList(detail, resultName) {
     && normalizeName(resultName) === 'northern ireland';
 }
 
+function addElectionEnrichmentReferences(refs, election, detail) {
+  const key = election?.key || detail?.key || election?.id;
+  for (const d of (ELECTION_SOURCE_ENRICHMENTS.get(key) || [])) {
+    addReference(refs, {
+      label: `${d.title} — ${d.provider || 'data.gov.ie'} (${d.license})`,
+      url: d.providerUrl,
+      source: d.provider || 'data.gov.ie',
+      role: 'external-dataset-source',
+      scope: 'election-open-data',
+      note: `Open-data election dataset (${d.license}). ${d.attribution || ''}`.trim()
+    });
+  }
+}
+
 function buildElectionReferences(election, detail) {
   const refs = [];
   addElectionOverviewReferences(refs, election, detail);
   addElectionCorpusReferences(refs, election, detail);
+  addElectionEnrichmentReferences(refs, election, detail);
 
   const resultSourceUrls = new Set();
   for (const result of normalizeArray(detail?.results)) {

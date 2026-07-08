@@ -1,9 +1,81 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-07T23:31:43.171Z",
+  "generatedAt": "2026-07-08T01:02:54.781Z",
   "shard": 416,
   "total": 2500,
   "items": [
+    {
+      "id": "cg:statement:4207f766cc08ab6d7dba",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t1t2sa-population",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:cso"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:4acdf40a0f1c0a7d79e4",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t1t2sa-population",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:json-stat-cube-sap2022t1t2sa-9855180b8356"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/SAP2022T1T2SA/JSON-stat/2.0/en"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:edb9829d9f0f6749c636",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t1t2sa-population",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:cso-pxstat-table-sap2022t1t2sa-9dfd14e35ee1"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.cso.ie/table/SAP2022T1T2SA"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:83e683edb0ac908fdfa7",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t1t2sa-population",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Approved tables"
+      },
+      "rank": "normal"
+    },
     {
       "id": "cg:statement:a8411c16cefcff9c7fc5",
       "subjectId": "cg:source:approved-publication-census-cube-sap2022t1t2sa-population",
@@ -35607,62 +35679,6 @@
         "type": "url",
         "value": "https://data.cso.ie/table/SOL13"
       },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:5ff7d6ed5fc82b59d2cd",
-      "subjectId": "cg:source:approved-publication-census-cube-sol15-enrolments-learners",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:e94a4404438c5d5071ef",
-      "subjectId": "cg:source:approved-publication-census-cube-sol15-enrolments-learners",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Enrolments Learners"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:661b1a48ab0fdebfa425",
-      "subjectId": "cg:source:approved-publication-census-cube-sol15-enrolments-learners",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:aef5f42b12aa685a04e6",
-      "subjectId": "cg:source:approved-publication-census-cube-sol15-enrolments-learners",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:cso-pxstat-table-sol15-ee14232a5d52"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.cso.ie/table/SOL15"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
       "rank": "normal"
     }
   ]

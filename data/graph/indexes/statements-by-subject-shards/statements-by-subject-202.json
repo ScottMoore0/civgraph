@@ -1,9 +1,111 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-07T23:31:43.171Z",
+  "generatedAt": "2026-07-08T01:02:54.781Z",
   "shard": 202,
   "totalSubjects": 250,
   "items": {
+    "cg:source:approved-publication-census-cube-fy011b-private-households": [
+      {
+        "id": "cg:statement:22c2c21e0681e8789e33",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:source",
+        "valueLabel": "Source",
+        "valueText": "Source",
+        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:cc0f0d77dc75c7b5d379",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Private Households",
+        "valueText": "Private Households",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:b2195c9c7a227e8c1126",
+        "propertyId": "cg:property:provider",
+        "propertyLabel": "provider",
+        "valueType": "entity",
+        "valueId": "cg:provider:cso",
+        "valueLabel": "CSO",
+        "valueText": "CSO",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:9cb863d1a1bccc727987",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:cso-pxstat-table-fy011b-312f2d7e4798",
+        "valueLabel": "CSO PxStat table FY011B",
+        "valueText": "CSO PxStat table FY011B",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://data.cso.ie/table/FY011B",
+            "valueText": "https://data.cso.ie/table/FY011B"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:dabae04d9c2b3f868ede",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:json-stat-cube-fy011b-1dd33359fa23",
+        "valueLabel": "JSON-stat cube (FY011B)",
+        "valueText": "JSON-stat cube (FY011B)",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/FY011B/JSON-stat/2.0/en",
+            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/FY011B/JSON-stat/2.0/en"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:1a5507b2a2d0972c0531",
+        "propertyId": "cg:property:source-kind",
+        "propertyLabel": "source kind",
+        "valueType": "string",
+        "valueLabel": "Approved tables",
+        "valueText": "Approved tables",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:2509f101ec720195f3ac",
+        "propertyId": "cg:property:url",
+        "propertyLabel": "URL",
+        "valueType": "url",
+        "valueLabel": "https://data.cso.ie/table/FY011B",
+        "valueText": "https://data.cso.ie/table/FY011B",
+        "referenceCount": 0
+      }
+    ],
     "cg:source:approved-publication-census-cube-fy012a-persons-in-private-households": [
       {
         "id": "cg:statement:7129150a336b166395dd",
@@ -26961,108 +27063,6 @@
         "valueType": "url",
         "valueLabel": "https://data.cso.ie/table/GWA03",
         "valueText": "https://data.cso.ie/table/GWA03",
-        "referenceCount": 0
-      }
-    ],
-    "cg:source:approved-publication-census-cube-hap02-percentage-working-and-median-inc-c3a0dcebb12d": [
-      {
-        "id": "cg:statement:14cee2c56e94ed588ba5",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:source",
-        "valueLabel": "Source",
-        "valueText": "Source",
-        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:9272513b0e5ad2a7b9ef",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Percentage Working and Median Income and P25 and P75 of HAP Households",
-        "valueText": "Percentage Working and Median Income and P25 and P75 of HAP Households",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:6972ed476a37effe08b5",
-        "propertyId": "cg:property:provider",
-        "propertyLabel": "provider",
-        "valueType": "entity",
-        "valueId": "cg:provider:cso",
-        "valueLabel": "CSO",
-        "valueText": "CSO",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:0abd42421f9658bfed70",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:json-stat-cube-hap02-15001139283a",
-        "valueLabel": "JSON-stat cube (HAP02)",
-        "valueText": "JSON-stat cube (HAP02)",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/HAP02/JSON-stat/2.0/en",
-            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/HAP02/JSON-stat/2.0/en"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:9d451431759cc48728b0",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:cso-pxstat-table-hap02-552d8fe50223",
-        "valueLabel": "CSO PxStat table HAP02",
-        "valueText": "CSO PxStat table HAP02",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://data.cso.ie/table/HAP02",
-            "valueText": "https://data.cso.ie/table/HAP02"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:b10e4bfe0eb8701b18ed",
-        "propertyId": "cg:property:source-kind",
-        "propertyLabel": "source kind",
-        "valueType": "string",
-        "valueLabel": "Approved tables",
-        "valueText": "Approved tables",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:fc0c7c38254a8611eccc",
-        "propertyId": "cg:property:url",
-        "propertyLabel": "URL",
-        "valueType": "url",
-        "valueLabel": "https://data.cso.ie/table/HAP02",
-        "valueText": "https://data.cso.ie/table/HAP02",
         "referenceCount": 0
       }
     ]
