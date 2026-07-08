@@ -67,6 +67,37 @@ from the provider URLs. Two blockers for autonomous fetch:
 3. **Conversion buckets last** — they carry the stale-URL + per-dataset-licence + dedup work;
    need a fetch→resolve(CKAN/Wayback)→licence-check→dedup harness before any convert/upload.
 
+## Conversion Step-1 resolution (Track B, added 2026-07-08)
+
+`conversion-resolution-worklist.json` — for each of the 328 new-map + hold-special-format
+rows: live download URL (CKAN `package_show`, then `package_search` title-fallback for stale
+slugs), licence, convertibility class, and dedup vs. existing maps. User decision 2026-07-08:
+**host CC-BY-SA-derived tiles** (all *declared-open* licences eligible). Outcome:
+
+- **136 READY TO CONVERT** — declared-open licence (135 CC BY 4.0 + 1 CC0 1.0), a live spatial
+  download resource (124 GeoJSON/vector, 12 raster), not a map duplicate. All carry a working
+  ArcGIS-OpenData download URL. This is the net-new interactive-map candidate set.
+- **12 Open Data NI** — OGL, convertible; download URL to be resolved via the ODNI portal at
+  convert time (`odni-defer`).
+- **86 Tailte statutory-boundary family** (`skip-tailte-boundary-undeclared`) — Admin Areas /
+  Baronies / NUTS3 / Rural Areas etc. in multiple generalisations, **undeclared CKAN licence**
+  and almost certainly **already on-site** as boundary maps/variants. Held for a dedicated
+  dedup + Tailte-licence-confirmation pass — bulk-converting would create ~86 near-duplicate
+  boundary maps under an unconfirmed licence.
+- **86 other undeclared-licence** (`skip-nonopen`) — no declared open licence; held pending
+  per-dataset licence confirmation (can't host derived tiles without a confirmed open licence,
+  even given the share-alike decision).
+- 5 map dups, 2 truly stale (not found even via title-search), 1 non-spatial.
+
+**Note on stale URLs:** the CKAN title-search recovered 169 of 171 "stale" rows — they were
+renamed, not deleted — but 169 came back with an EMPTY package licence (the Tailte + other
+undeclared sets above), so recovery mostly surfaced the licence-confirmation problem rather
+than new convertibles. The real net-new convert set is 136 (+12 ODNI).
+
+**Track-B next step:** build the fetch→`ogr2ogr`/tippecanoe→R2→`maps-test.json`→gate harness,
+prove on ONE of the 136 end-to-end, then batch. The 172 undeclared-licence rows need a
+licence-confirmation pass (Tailte's actual terms) before they can join.
+
 ## Files
 - `summary.json` — machine-readable rollup (counts above).
 - `enrich-existing-election-worklist.json` — per-row target + classification (election vs misclassified).
