@@ -1,10 +1,355 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-08T07:53:51.414Z",
+  "generatedAt": "2026-07-08T09:28:37.331Z",
   "kind": "sources",
   "shard": "sources-095.json",
   "total": 200,
   "items": [
+    {
+      "id": "medium-priority:7-transport-roads-infrastructure-public-assets:dota05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment:02019",
+      "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-dota05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment-02019",
+      "type": "approved-medium-priority-source",
+      "title": "DOTA05 - Number of Private Cars Licensed (NEDC CO2 emissions motor tax assessment)",
+      "subtitle": "Transport, roads, infrastructure, public assets / Department of Transport, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
+      "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+      "provider": [
+        "Department of Transport",
+        "data.gov.ie"
+      ],
+      "description": "DOTA05 - Number of Private Cars Licensed (NEDC CO2 emissions motor tax assessment) is published as a medium-priority Civgraph source/provenance record from Department of Transport, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/dota05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment",
+      "references": [
+        {
+          "label": "DOTA05 - Number of Private Cars Licensed (NEDC CO2 emissions motor tax assessment) provider page",
+          "url": "https://data.gov.ie/dataset/dota05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "DOTA05 - Number of Private Cars Licensed (NEDC CO2 emissions motor tax assessment) Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dota05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/dota05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Transport, roads, infrastructure, public assets",
+        "transport-public-asset",
+        "road features",
+        "Ireland / unspecified",
+        "transport-public-asset-batch-review",
+        "CSV",
+        "JSON-STAT",
+        "PX",
+        "XLSX"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 2020,
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dota05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment:02019",
+          "title": "DOTA05 - Number of Private Cars Licensed (NEDC CO2 emissions motor tax assessment)",
+          "cleanTitle": "DOTA05 - Number of Private Cars Licensed (NEDC CO2 emissions motor tax assessment)",
+          "provider": "data.gov.ie",
+          "organisation": "Department of Transport",
+          "category": "tabular",
+          "roiGroup": "7. Transport, roads, infrastructure, public assets",
+          "groupTitle": "Transport, roads, infrastructure, public assets",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "transport-public-asset",
+          "featureUnit": "road features",
+          "formats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/dota05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dota05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "public-asset-batch-placement: publication policy assigned",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Transport, roads, infrastructure, public assets",
+        "Ireland / unspecified",
+        "transport-public-asset",
+        "DOTA05 - Number of Private Cars Licensed (NEDC CO2 emissions motor tax assessment)"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "spreadsheet"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/dota05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dota05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Department of Transport, data.gov.ie, DOTA05 - Number of Private Cars Licensed (NEDC CO2 emissions motor tax assessment).",
+      "fullCitation": "Department of Transport, data.gov.ie. DOTA05 - Number of Private Cars Licensed (NEDC CO2 emissions motor tax assessment). Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dota05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dota05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dota05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment:02019",
+        "sourceRowNumber": 2020,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+        "proposedAction": "transport-public-asset-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ]
+        },
+        "confidence": 60,
+        "resolvedBlockers": [
+          "public-asset-batch-placement: publication policy assigned",
+          "source-page-and-ia-viewport-decision: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-dota05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment-02019",
+      "rawMetadata": {
+        "id": "medium-priority:7-transport-roads-infrastructure-public-assets:dota05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment:02019",
+        "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-dota05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment-02019",
+        "type": "approved-medium-priority-source",
+        "title": "DOTA05 - Number of Private Cars Licensed (NEDC CO2 emissions motor tax assessment)",
+        "subtitle": "Transport, roads, infrastructure, public assets / Department of Transport, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
+        "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+        "provider": [
+          "Department of Transport",
+          "data.gov.ie"
+        ],
+        "description": "DOTA05 - Number of Private Cars Licensed (NEDC CO2 emissions motor tax assessment) is published as a medium-priority Civgraph source/provenance record from Department of Transport, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/dota05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment",
+        "references": [
+          {
+            "label": "DOTA05 - Number of Private Cars Licensed (NEDC CO2 emissions motor tax assessment) provider page",
+            "url": "https://data.gov.ie/dataset/dota05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "DOTA05 - Number of Private Cars Licensed (NEDC CO2 emissions motor tax assessment) Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dota05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/dota05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Transport, roads, infrastructure, public assets",
+          "Ireland / unspecified",
+          "transport-public-asset",
+          "DOTA05 - Number of Private Cars Licensed (NEDC CO2 emissions motor tax assessment)"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "spreadsheet"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/dota05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dota05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Department of Transport, data.gov.ie, DOTA05 - Number of Private Cars Licensed (NEDC CO2 emissions motor tax assessment).",
+        "fullCitation": "Department of Transport, data.gov.ie. DOTA05 - Number of Private Cars Licensed (NEDC CO2 emissions motor tax assessment). Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dota05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dota05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 2020,
+            "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dota05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment:02019",
+            "title": "DOTA05 - Number of Private Cars Licensed (NEDC CO2 emissions motor tax assessment)",
+            "cleanTitle": "DOTA05 - Number of Private Cars Licensed (NEDC CO2 emissions motor tax assessment)",
+            "provider": "data.gov.ie",
+            "organisation": "Department of Transport",
+            "category": "tabular",
+            "roiGroup": "7. Transport, roads, infrastructure, public assets",
+            "groupTitle": "Transport, roads, infrastructure, public assets",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "transport-public-asset",
+            "featureUnit": "road features",
+            "formats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "transport-public-asset-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV",
+                "JSON-STAT",
+                "PX",
+                "XLSX"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/dota05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dota05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "public-asset-batch-placement: publication policy assigned",
+              "source-page-and-ia-viewport-decision: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:dota05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment:02019",
+          "sourceRowNumber": 2020,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ]
+          },
+          "confidence": 60,
+          "resolvedBlockers": [
+            "public-asset-batch-placement: publication policy assigned",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Transport, roads, infrastructure, public assets",
+          "transport-public-asset",
+          "road features",
+          "Ireland / unspecified",
+          "transport-public-asset-batch-review",
+          "CSV",
+          "JSON-STAT",
+          "PX",
+          "XLSX"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-dota05-number-of-private-cars-licensed-nedc-co2-emissions-motor-tax-assessment-02019"
+      }
+    },
     {
       "id": "medium-priority:7-transport-roads-infrastructure-public-assets:dota06-number-of-private-cars-licenced:02020",
       "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-dota06-number-of-private-cars-licenced-02020",
@@ -55122,141 +55467,6 @@
             "sha256": "f616f9344b8a4f5f6504e2ee7ed2028a7516c79fba825f441cb29feb1c0173a3",
             "lastModified": "Wed, 03 Jul 2024 13:40:45 GMT",
             "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-03-july-2024.pdf"
-          }
-        ]
-      }
-    },
-    {
-      "id": "ni-register:assembly:pdf:1974539eee0c694d",
-      "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-30-march-2012-a8578d0f",
-      "type": "register-source-document",
-      "title": "NI Assembly Register of Members Interests (30 March 2012)",
-      "subtitle": "Current / pdf / 30 March 2012",
-      "category": "Registers of interests",
-      "date": "2012-03-30",
-      "provider": [
-        "Northern Ireland Assembly"
-      ],
-      "description": "NI Assembly register of interests pdf. edition dated 30 March 2012. content type application/pdf",
-      "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_300312.pdf",
-      "references": [
-        {
-          "label": "Current register landing page",
-          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
-        },
-        {
-          "label": "Provider source URL",
-          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_300312.pdf"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "pdf source",
-          "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_300312.pdf",
-          "type": "pdf"
-        }
-      ],
-      "keywords": [
-        "register of interests",
-        "MLA",
-        "Northern Ireland Assembly",
-        "pdf",
-        "current"
-      ],
-      "sourceItems": [
-        {
-          "sourcePageId": "current",
-          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
-          "title": "PDF",
-          "linkText": "PDF",
-          "kind": "pdf",
-          "contentType": "application/pdf",
-          "httpStatus": 200,
-          "bytes": 206992,
-          "sha256": "8619a5903ad10e356f556ed7a01a1ebacf9e1a2084d8544e13b419171dbcc3db",
-          "lastModified": "Fri, 12 Dec 2014 22:45:28 GMT",
-          "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_300312.pdf"
-        }
-      ],
-      "status": "Available",
-      "statusChips": [
-        "pdf",
-        "HTTP 200",
-        "current"
-      ],
-      "sourceHierarchy": [
-        "Browse",
-        "Registers of interests",
-        "Northern Ireland Assembly",
-        "Current"
-      ],
-      "parentId": "ni-register:assembly:collection",
-      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
-      "browseUrl": "/browse/sources/ni-register-assembly-pdf-ni-assembly-register-of-members-interests-30-march-2012-a8578d0f",
-      "rawMetadata": {
-        "id": "ni-register:assembly:pdf:1974539eee0c694d",
-        "slug": "ni-register-assembly-pdf-ni-assembly-register-of-members-interests-30-march-2012-a8578d0f",
-        "type": "register-source-document",
-        "title": "NI Assembly Register of Members Interests (30 March 2012)",
-        "subtitle": "Current / pdf / 30 March 2012",
-        "category": "Registers of interests",
-        "date": "2012-03-30",
-        "provider": [
-          "Northern Ireland Assembly"
-        ],
-        "description": "NI Assembly register of interests pdf. edition dated 30 March 2012. content type application/pdf",
-        "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_300312.pdf",
-        "references": [
-          {
-            "label": "Current register landing page",
-            "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
-          },
-          {
-            "label": "Provider source URL",
-            "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_300312.pdf"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "pdf source",
-            "url": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_300312.pdf",
-            "type": "pdf"
-          }
-        ],
-        "keywords": [
-          "register of interests",
-          "MLA",
-          "Northern Ireland Assembly",
-          "pdf",
-          "current"
-        ],
-        "sourceHierarchy": [
-          "Browse",
-          "Registers of interests",
-          "Northern Ireland Assembly",
-          "Current"
-        ],
-        "status": "Available",
-        "statusChips": [
-          "pdf",
-          "HTTP 200",
-          "current"
-        ],
-        "parentId": "ni-register:assembly:collection",
-        "parentTitle": "Northern Ireland Assembly Register of Members Interests",
-        "sourceItems": [
-          {
-            "sourcePageId": "current",
-            "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
-            "title": "PDF",
-            "linkText": "PDF",
-            "kind": "pdf",
-            "contentType": "application/pdf",
-            "httpStatus": 200,
-            "bytes": 206992,
-            "sha256": "8619a5903ad10e356f556ed7a01a1ebacf9e1a2084d8544e13b419171dbcc3db",
-            "lastModified": "Fri, 12 Dec 2014 22:45:28 GMT",
-            "providerUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_300312.pdf"
           }
         ]
       }

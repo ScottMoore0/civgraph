@@ -1,9 +1,104 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-08T07:53:57.915Z",
+  "generatedAt": "2026-07-08T09:28:43.763Z",
   "shard": 103,
   "totalSubjects": 250,
   "items": {
+    "cg:map-layer:data-2021-private-rented-settlement": [
+      {
+        "id": "cg:statement:1399cc089a995a624de8",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:map-layer",
+        "valueLabel": "Map layer",
+        "valueText": "Map layer",
+        "valueDescription": "A Civgraph map layer or map dataset exposed through Browse.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:b04ca3707973457cf41a",
+        "propertyId": "cg:property:interactive-url",
+        "propertyLabel": "interactive URL",
+        "valueType": "url",
+        "valueLabel": "/#layers=data-2021-private-rented-settlement",
+        "valueText": "/#layers=data-2021-private-rented-settlement",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:273a17a01f146684345c",
+        "propertyId": "cg:property:map-category",
+        "propertyLabel": "map category",
+        "valueType": "entity",
+        "valueId": "cg:map-category:data-population",
+        "valueLabel": "data-population",
+        "valueText": "data-population",
+        "valueDescription": "Map category: data-population",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:d253cfb3c9e28621656d",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Private-rented households (Census 2021, by Settlement)",
+        "valueText": "Private-rented households (Census 2021, by Settlement)",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:7f5ea4ac53fbfddb1ad1",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:nisra-census-2021-main-statistics-phase-1-ms-e02-household-size-4f46c8f0e21c",
+        "valueLabel": "NISRA Census 2021, Main Statistics Phase 1, MS-E02 (Household size)",
+        "valueText": "NISRA Census 2021, Main Statistics Phase 1, MS-E02 (Household size)",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1",
+            "valueText": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "map-reference",
+            "valueText": "map-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:947fffeea1dc0d115db0",
+        "propertyId": "cg:property:source-file",
+        "propertyLabel": "source file",
+        "valueType": "entity",
+        "valueId": "cg:source-file:ms-e15-private-rented-settlement-csv-1a8e7fee7354",
+        "valueLabel": "ms-e15-private-rented-settlement.csv",
+        "valueText": "ms-e15-private-rented-settlement.csv",
+        "valueDescription": "ms-e15-private-rented-settlement.csv for Private-rented households (Census 2021, by Settlement)",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:file-format",
+            "propertyLabel": "file format",
+            "valueType": "string",
+            "valueLabel": "ms-e15-private-rented-settlement.csv",
+            "valueText": "ms-e15-private-rented-settlement.csv"
+          },
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "data/census/derived/ms-e15-private-rented-settlement.csv",
+            "valueText": "data/census/derived/ms-e15-private-rented-settlement.csv"
+          }
+        ],
+        "referenceCount": 0
+      }
+    ],
     "cg:map-layer:data-2021-private-rented-ward": [
       {
         "id": "cg:statement:8dfcb7de1a2a2f225963",
@@ -46436,171 +46531,6 @@
             "valueText": "https://data.civgraph.net/data/maps/census-areas/DZ2021.fgb"
           }
         ],
-        "referenceCount": 0
-      }
-    ],
-    "cg:map-layer:east-west-bann": [
-      {
-        "id": "cg:statement:ea868a19be41ac711e97",
-        "propertyId": "cg:property:date",
-        "propertyLabel": "date",
-        "valueType": "entity",
-        "valueId": "cg:date-month:2025-12",
-        "valueLabel": "2025-12-15",
-        "valueText": "2025-12-15",
-        "valueDescription": "Entities dated December 2025",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:90e6234ec9610b06062b",
-        "propertyId": "cg:property:download",
-        "propertyLabel": "download",
-        "valueType": "entity",
-        "valueId": "cg:source-file:fgb-1e6ad6bfd711",
-        "valueLabel": "fgb",
-        "valueText": "fgb",
-        "valueDescription": "fgb for East and West of the Bann source files",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:file-format",
-            "propertyLabel": "file format",
-            "valueType": "string",
-            "valueLabel": "FGB",
-            "valueText": "FGB"
-          },
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://data.civgraph.net/data/maps/physical/East and West of the Bann.fgb",
-            "valueText": "https://data.civgraph.net/data/maps/physical/East and West of the Bann.fgb"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:d2c9b4da526c54be93c3",
-        "propertyId": "cg:property:download",
-        "propertyLabel": "download",
-        "valueType": "entity",
-        "valueId": "cg:source-file:internet-archive-east-and-west-of-the-bann-fgb-b3eaebab3fdd",
-        "valueLabel": "Internet Archive: East and West of the Bann.fgb",
-        "valueText": "Internet Archive: East and West of the Bann.fgb",
-        "valueDescription": "Internet Archive: East and West of the Bann.fgb for East and West of the Bann source files",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:file-format",
-            "propertyLabel": "file format",
-            "valueType": "string",
-            "valueLabel": "FGB",
-            "valueText": "FGB"
-          },
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://archive.org/download/civgraph-osni-maps/east-west-bann/East%20and%20West%20of%20the%20Bann.fgb",
-            "valueText": "https://archive.org/download/civgraph-osni-maps/east-west-bann/East%20and%20West%20of%20the%20Bann.fgb"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:f0e79c896254edb0973d",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:map-layer",
-        "valueLabel": "Map layer",
-        "valueText": "Map layer",
-        "valueDescription": "A Civgraph map layer or map dataset exposed through Browse.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:ff42620cb345aba585bb",
-        "propertyId": "cg:property:interactive-url",
-        "propertyLabel": "interactive URL",
-        "valueType": "url",
-        "valueLabel": "/#layers=east-west-bann",
-        "valueText": "/#layers=east-west-bann",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:434e4a9eddd9cf480480",
-        "propertyId": "cg:property:map-category",
-        "propertyLabel": "map category",
-        "valueType": "entity",
-        "valueId": "cg:map-category:regional-divides",
-        "valueLabel": "Regional Divides",
-        "valueText": "Regional Divides",
-        "valueDescription": "Map category: Regional Divides",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:7e2cec39564238bece77",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "East and West of the Bann",
-        "valueText": "East and West of the Bann",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:bdad502159c889165881",
-        "propertyId": "cg:property:provider",
-        "propertyLabel": "provider",
-        "valueType": "entity",
-        "valueId": "cg:provider:scott-moore",
-        "valueLabel": "Scott Moore",
-        "valueText": "Scott Moore",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:c918e52b8d53fa8c6378",
-        "propertyId": "cg:property:provider",
-        "propertyLabel": "provider",
-        "valueType": "entity",
-        "valueId": "cg:provider:osni",
-        "valueLabel": "OSNI",
-        "valueText": "OSNI",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:339fdc48d4ab0ebb30a0",
-        "propertyId": "cg:property:source-file",
-        "propertyLabel": "source file",
-        "valueType": "entity",
-        "valueId": "cg:source-file:fgb-1e6ad6bfd711",
-        "valueLabel": "fgb",
-        "valueText": "fgb",
-        "valueDescription": "fgb for East and West of the Bann source files",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:file-format",
-            "propertyLabel": "file format",
-            "valueType": "string",
-            "valueLabel": "fgb",
-            "valueText": "fgb"
-          },
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://data.civgraph.net/data/maps/physical/East and West of the Bann.fgb",
-            "valueText": "https://data.civgraph.net/data/maps/physical/East and West of the Bann.fgb"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:793141b8e6c9e6a46f0f",
-        "propertyId": "cg:property:year",
-        "propertyLabel": "year",
-        "valueType": "entity",
-        "valueId": "cg:date-year:2025",
-        "valueLabel": "2025",
-        "valueText": "2025",
-        "valueDescription": "Entities dated 2025",
         "referenceCount": 0
       }
     ]

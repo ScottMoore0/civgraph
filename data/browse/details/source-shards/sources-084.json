@@ -1,10 +1,339 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-08T07:53:51.414Z",
+  "generatedAt": "2026-07-08T09:28:37.331Z",
   "kind": "sources",
   "shard": "sources-084.json",
   "total": 200,
   "items": [
+    {
+      "id": "medium-priority:2-irish-election-source-enrichment-data:birr-daily-data:02133",
+      "slug": "medium-priority-2-irish-election-source-enrichment-data-birr-daily-data-02133",
+      "type": "approved-medium-priority-source",
+      "title": "Birr Daily Data",
+      "subtitle": "Irish election source/enrichment data / Met Éireann, data.gov.ie / Republic of Ireland / CSV, TXT / Approved source record",
+      "category": "Medium-priority: Irish election source/enrichment data",
+      "provider": [
+        "Met Éireann",
+        "data.gov.ie"
+      ],
+      "description": "Birr Daily Data is published as a medium-priority Civgraph source/provenance record from Met Éireann, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/birr-daily-data",
+      "references": [
+        {
+          "label": "Birr Daily Data provider page",
+          "url": "https://data.gov.ie/dataset/birr-daily-data",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "Birr Daily Data Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/birr-daily-data",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/birr-daily-data",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Irish election source/enrichment data",
+        "election",
+        "features",
+        "Republic of Ireland",
+        "enrich-existing-election",
+        "CSV",
+        "TXT"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 2134,
+          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:birr-daily-data:02133",
+          "title": "Birr Daily Data",
+          "cleanTitle": "Birr Daily Data",
+          "provider": "data.gov.ie",
+          "organisation": "Met Éireann",
+          "category": "tabular",
+          "roiGroup": "2. Irish election source/enrichment data",
+          "groupTitle": "Irish election source/enrichment data",
+          "jurisdiction": "Republic of Ireland",
+          "topic": "election",
+          "featureUnit": "features",
+          "formats": [
+            "CSV",
+            "TXT"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "enrich-existing-election",
+          "proposedPlacement": "Elections/source provenance",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "TXT"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/birr-daily-data",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/birr-daily-data",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "election-model-merge-and-provenance-review: election staging action assigned",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link",
+        "Election provenance"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Irish election source/enrichment data",
+        "Republic of Ireland",
+        "election",
+        "Birr Daily Data"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/birr-daily-data",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/birr-daily-data",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Met Éireann, data.gov.ie, Birr Daily Data.",
+      "fullCitation": "Met Éireann, data.gov.ie. Birr Daily Data. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/birr-daily-data. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/birr-daily-data.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:2-irish-election-source-enrichment-data:birr-daily-data:02133",
+        "sourceRowNumber": 2134,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish election source/provenance enrichment",
+        "proposedAction": "enrich-existing-election",
+        "proposedPlacement": "Elections/source provenance",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV",
+            "TXT"
+          ]
+        },
+        "confidence": 60,
+        "resolvedBlockers": [
+          "election-model-merge-and-provenance-review: election staging action assigned",
+          "needs-provider-context-review: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Elections/source provenance",
+      "relationship": "election-source-enrichment",
+      "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-birr-daily-data-02133",
+      "rawMetadata": {
+        "id": "medium-priority:2-irish-election-source-enrichment-data:birr-daily-data:02133",
+        "slug": "medium-priority-2-irish-election-source-enrichment-data-birr-daily-data-02133",
+        "type": "approved-medium-priority-source",
+        "title": "Birr Daily Data",
+        "subtitle": "Irish election source/enrichment data / Met Éireann, data.gov.ie / Republic of Ireland / CSV, TXT / Approved source record",
+        "category": "Medium-priority: Irish election source/enrichment data",
+        "provider": [
+          "Met Éireann",
+          "data.gov.ie"
+        ],
+        "description": "Birr Daily Data is published as a medium-priority Civgraph source/provenance record from Met Éireann, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/birr-daily-data",
+        "references": [
+          {
+            "label": "Birr Daily Data provider page",
+            "url": "https://data.gov.ie/dataset/birr-daily-data",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "Birr Daily Data Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/birr-daily-data",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/birr-daily-data",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link",
+          "Election provenance"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Irish election source/enrichment data",
+          "Republic of Ireland",
+          "election",
+          "Birr Daily Data"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/birr-daily-data",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/birr-daily-data",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Met Éireann, data.gov.ie, Birr Daily Data.",
+        "fullCitation": "Met Éireann, data.gov.ie. Birr Daily Data. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/birr-daily-data. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/birr-daily-data.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 2134,
+            "stagingId": "medium-prep:2-irish-election-source-enrichment-data:birr-daily-data:02133",
+            "title": "Birr Daily Data",
+            "cleanTitle": "Birr Daily Data",
+            "provider": "data.gov.ie",
+            "organisation": "Met Éireann",
+            "category": "tabular",
+            "roiGroup": "2. Irish election source/enrichment data",
+            "groupTitle": "Irish election source/enrichment data",
+            "jurisdiction": "Republic of Ireland",
+            "topic": "election",
+            "featureUnit": "features",
+            "formats": [
+              "CSV",
+              "TXT"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "enrich-existing-election",
+            "proposedPlacement": "Elections/source provenance",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV",
+                "TXT"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/birr-daily-data",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/birr-daily-data",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "election-model-merge-and-provenance-review: election staging action assigned",
+              "needs-provider-context-review: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:birr-daily-data:02133",
+          "sourceRowNumber": 2134,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish election source/provenance enrichment",
+          "proposedAction": "enrich-existing-election",
+          "proposedPlacement": "Elections/source provenance",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "TXT"
+            ]
+          },
+          "confidence": 60,
+          "resolvedBlockers": [
+            "election-model-merge-and-provenance-review: election staging action assigned",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Elections/source provenance",
+        "relationship": "election-source-enrichment",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Irish election source/enrichment data",
+          "election",
+          "features",
+          "Republic of Ireland",
+          "enrich-existing-election",
+          "CSV",
+          "TXT"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-birr-daily-data-02133"
+      }
+    },
     {
       "id": "medium-priority:2-irish-election-source-enrichment-data:candidate-details-for-general-election-2016:00968",
       "slug": "medium-priority-2-irish-election-source-enrichment-data-candidate-details-for-general-election-2016-00968",
@@ -71644,339 +71973,6 @@
           "CSV"
         ],
         "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-causes-of-fires-attended-by-fire-brigades-in-2016-01320"
-      }
-    },
-    {
-      "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:ce15007-transatlantic-added-value-2015-survey:02143",
-      "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-ce15007-transatlantic-added-value-2015-survey-02143",
-      "type": "approved-medium-priority-source",
-      "title": "CE15007 Transatlantic Added Value 2015 Survey",
-      "subtitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA / Marine Institute, data.gov.ie / Ireland / unspecified / CSV, HTML / Approved source record",
-      "category": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-      "date": "2015",
-      "provider": [
-        "Marine Institute",
-        "data.gov.ie"
-      ],
-      "description": "CE15007 Transatlantic Added Value 2015 Survey is published as a medium-priority Civgraph source/provenance record from Marine Institute, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/ce15007-transatlantic-added-value-2015-survey",
-      "references": [
-        {
-          "label": "CE15007 Transatlantic Added Value 2015 Survey provider page",
-          "url": "https://data.gov.ie/dataset/ce15007-transatlantic-added-value-2015-survey",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "CE15007 Transatlantic Added Value 2015 Survey Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ce15007-transatlantic-added-value-2015-survey",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/ce15007-transatlantic-added-value-2015-survey",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "boundary",
-        "Electoral Divisions",
-        "Ireland / unspecified",
-        "source-download-only",
-        "CSV",
-        "HTML"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 2144,
-          "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:ce15007-transatlantic-added-value-2015-survey:02143",
-          "title": "CE15007 Transatlantic Added Value 2015 Survey",
-          "cleanTitle": "CE15007 Transatlantic Added Value 2015 Survey",
-          "provider": "data.gov.ie",
-          "organisation": "Marine Institute",
-          "category": "tabular",
-          "roiGroup": "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "groupTitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "boundary",
-          "featureUnit": "Electoral Divisions",
-          "formats": [
-            "CSV",
-            "HTML"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "source-download-only",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "HTML"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/ce15007-transatlantic-added-value-2015-survey",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ce15007-transatlantic-added-value-2015-survey",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "geography-crosswalk-and-versioning: geography family inferred",
-            "geography-matching: geography family inferred",
-            "source-page-and-ia-viewport-decision: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Prepare boundary variant review; prefer child/variant records over duplicate parent maps.",
-          "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "Ireland / unspecified",
-        "boundary",
-        "CE15007 Transatlantic Added Value 2015 Survey"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/ce15007-transatlantic-added-value-2015-survey",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ce15007-transatlantic-added-value-2015-survey",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Marine Institute, data.gov.ie, CE15007 Transatlantic Added Value 2015 Survey.",
-      "fullCitation": "Marine Institute, data.gov.ie. CE15007 Transatlantic Added Value 2015 Survey. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/ce15007-transatlantic-added-value-2015-survey. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/ce15007-transatlantic-added-value-2015-survey.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:ce15007-transatlantic-added-value-2015-survey:02143",
-        "sourceRowNumber": 2144,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish as source/download record",
-        "proposedAction": "source-download-only",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "CSV",
-            "HTML"
-          ]
-        },
-        "confidence": 60,
-        "resolvedBlockers": [
-          "geography-crosswalk-and-versioning: geography family inferred",
-          "geography-matching: geography family inferred",
-          "source-page-and-ia-viewport-decision: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Prepare boundary variant review; prefer child/variant records over duplicate parent maps.",
-        "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
-        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-ce15007-transatlantic-added-value-2015-survey-02143",
-      "rawMetadata": {
-        "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:ce15007-transatlantic-added-value-2015-survey:02143",
-        "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-ce15007-transatlantic-added-value-2015-survey-02143",
-        "type": "approved-medium-priority-source",
-        "title": "CE15007 Transatlantic Added Value 2015 Survey",
-        "subtitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA / Marine Institute, data.gov.ie / Ireland / unspecified / CSV, HTML / Approved source record",
-        "category": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "date": "2015",
-        "provider": [
-          "Marine Institute",
-          "data.gov.ie"
-        ],
-        "description": "CE15007 Transatlantic Added Value 2015 Survey is published as a medium-priority Civgraph source/provenance record from Marine Institute, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/ce15007-transatlantic-added-value-2015-survey",
-        "references": [
-          {
-            "label": "CE15007 Transatlantic Added Value 2015 Survey provider page",
-            "url": "https://data.gov.ie/dataset/ce15007-transatlantic-added-value-2015-survey",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "CE15007 Transatlantic Added Value 2015 Survey Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ce15007-transatlantic-added-value-2015-survey",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/ce15007-transatlantic-added-value-2015-survey",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "Ireland / unspecified",
-          "boundary",
-          "CE15007 Transatlantic Added Value 2015 Survey"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/ce15007-transatlantic-added-value-2015-survey",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ce15007-transatlantic-added-value-2015-survey",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Marine Institute, data.gov.ie, CE15007 Transatlantic Added Value 2015 Survey.",
-        "fullCitation": "Marine Institute, data.gov.ie. CE15007 Transatlantic Added Value 2015 Survey. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/ce15007-transatlantic-added-value-2015-survey. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/ce15007-transatlantic-added-value-2015-survey.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 2144,
-            "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:ce15007-transatlantic-added-value-2015-survey:02143",
-            "title": "CE15007 Transatlantic Added Value 2015 Survey",
-            "cleanTitle": "CE15007 Transatlantic Added Value 2015 Survey",
-            "provider": "data.gov.ie",
-            "organisation": "Marine Institute",
-            "category": "tabular",
-            "roiGroup": "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-            "groupTitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "boundary",
-            "featureUnit": "Electoral Divisions",
-            "formats": [
-              "CSV",
-              "HTML"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "source-download-only",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "CSV",
-                "HTML"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/ce15007-transatlantic-added-value-2015-survey",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/ce15007-transatlantic-added-value-2015-survey",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "geography-crosswalk-and-versioning: geography family inferred",
-              "geography-matching: geography family inferred",
-              "source-page-and-ia-viewport-decision: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Prepare boundary variant review; prefer child/variant records over duplicate parent maps.",
-            "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
-            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:ce15007-transatlantic-added-value-2015-survey:02143",
-          "sourceRowNumber": 2144,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish as source/download record",
-          "proposedAction": "source-download-only",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "HTML"
-            ]
-          },
-          "confidence": 60,
-          "resolvedBlockers": [
-            "geography-crosswalk-and-versioning: geography family inferred",
-            "geography-matching: geography family inferred",
-            "source-page-and-ia-viewport-decision: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Prepare boundary variant review; prefer child/variant records over duplicate parent maps.",
-          "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "boundary",
-          "Electoral Divisions",
-          "Ireland / unspecified",
-          "source-download-only",
-          "CSV",
-          "HTML"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-ce15007-transatlantic-added-value-2015-survey-02143"
       }
     }
   ]

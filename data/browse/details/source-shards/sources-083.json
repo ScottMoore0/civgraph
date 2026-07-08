@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-08T07:53:51.414Z",
+  "generatedAt": "2026-07-08T09:28:37.331Z",
   "kind": "sources",
   "shard": "sources-083.json",
   "total": 200,
@@ -279,6 +279,70 @@
             55.312965,
             -5.432789
           ]
+        ]
+      }
+    },
+    {
+      "id": "map-source:oda-map-00101-dail-constituencies-2013-sdcc",
+      "slug": "map-source-oda-map-00101-dail-constituencies-2013-sdcc",
+      "type": "map-source",
+      "title": "Dail Constituencies 2013 SDCC source files",
+      "subtitle": "Boundaries / data.gov.ie",
+      "category": "Map sources",
+      "provider": [
+        "data.gov.ie"
+      ],
+      "sourceMapId": "oda-map-00101-dail-constituencies-2013-sdcc",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "DC",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "data.gov.ie — Dail Constituencies 2013 SDCC",
+          "url": "https://data.gov.ie/dataset/dail-constituencies-2013-sdcc1",
+          "note": "CC0 1.0"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "source",
+          "url": "https://data.gov.ie/dataset/dail-constituencies-2013-sdcc1"
+        },
+        {
+          "label": "source",
+          "url": "https://data.gov.ie/dataset/dail-constituencies-2013-sdcc1"
+        }
+      ],
+      "interactiveUrl": "/#layers=oda-map-00101-dail-constituencies-2013-sdcc",
+      "browseUrl": "/browse/sources/map-source-oda-map-00101-dail-constituencies-2013-sdcc",
+      "rawMetadata": {
+        "id": "oda-map-00101-dail-constituencies-2013-sdcc",
+        "name": "Dail Constituencies 2013 SDCC",
+        "slug": "oda-map-00101-dail-constituencies-2013-sdcc",
+        "category": "Boundaries",
+        "provider": [
+          "data.gov.ie"
+        ],
+        "dateAdded": null,
+        "license": "CC0 1.0",
+        "licence": "CC0 1.0",
+        "attribution": "Released under a Creative Commons CC0 1.0 Public Domain Dedication.",
+        "files": {
+          "source": "https://data.gov.ie/dataset/dail-constituencies-2013-sdcc1"
+        },
+        "keywords": [
+          "open-data",
+          "CC0-1.0",
+          "data-gov-ie"
+        ],
+        "references": [
+          {
+            "label": "data.gov.ie — Dail Constituencies 2013 SDCC",
+            "url": "https://data.gov.ie/dataset/dail-constituencies-2013-sdcc1",
+            "note": "CC0 1.0"
+          }
         ]
       }
     },
@@ -27654,335 +27718,6 @@
           "TXT"
         ],
         "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-belmullet-daily-data-02131"
-      }
-    },
-    {
-      "id": "medium-priority:2-irish-election-source-enrichment-data:birr-daily-data:02133",
-      "slug": "medium-priority-2-irish-election-source-enrichment-data-birr-daily-data-02133",
-      "type": "approved-medium-priority-source",
-      "title": "Birr Daily Data",
-      "subtitle": "Irish election source/enrichment data / Met Éireann, data.gov.ie / Republic of Ireland / CSV, TXT / Approved source record",
-      "category": "Medium-priority: Irish election source/enrichment data",
-      "provider": [
-        "Met Éireann",
-        "data.gov.ie"
-      ],
-      "description": "Birr Daily Data is published as a medium-priority Civgraph source/provenance record from Met Éireann, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/birr-daily-data",
-      "references": [
-        {
-          "label": "Birr Daily Data provider page",
-          "url": "https://data.gov.ie/dataset/birr-daily-data",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Birr Daily Data Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/birr-daily-data",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/birr-daily-data",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Irish election source/enrichment data",
-        "election",
-        "features",
-        "Republic of Ireland",
-        "enrich-existing-election",
-        "CSV",
-        "TXT"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 2134,
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:birr-daily-data:02133",
-          "title": "Birr Daily Data",
-          "cleanTitle": "Birr Daily Data",
-          "provider": "data.gov.ie",
-          "organisation": "Met Éireann",
-          "category": "tabular",
-          "roiGroup": "2. Irish election source/enrichment data",
-          "groupTitle": "Irish election source/enrichment data",
-          "jurisdiction": "Republic of Ireland",
-          "topic": "election",
-          "featureUnit": "features",
-          "formats": [
-            "CSV",
-            "TXT"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "enrich-existing-election",
-          "proposedPlacement": "Elections/source provenance",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "TXT"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/birr-daily-data",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/birr-daily-data",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "election-model-merge-and-provenance-review: election staging action assigned",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Download available",
-        "Provider link",
-        "Wayback link",
-        "Election provenance"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Irish election source/enrichment data",
-        "Republic of Ireland",
-        "election",
-        "Birr Daily Data"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/birr-daily-data",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/birr-daily-data",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Met Éireann, data.gov.ie, Birr Daily Data.",
-      "fullCitation": "Met Éireann, data.gov.ie. Birr Daily Data. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/birr-daily-data. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/birr-daily-data.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:2-irish-election-source-enrichment-data:birr-daily-data:02133",
-        "sourceRowNumber": 2134,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish election source/provenance enrichment",
-        "proposedAction": "enrich-existing-election",
-        "proposedPlacement": "Elections/source provenance",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "CSV",
-            "TXT"
-          ]
-        },
-        "confidence": 60,
-        "resolvedBlockers": [
-          "election-model-merge-and-provenance-review: election staging action assigned",
-          "needs-provider-context-review: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Elections/source provenance",
-      "relationship": "election-source-enrichment",
-      "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-birr-daily-data-02133",
-      "rawMetadata": {
-        "id": "medium-priority:2-irish-election-source-enrichment-data:birr-daily-data:02133",
-        "slug": "medium-priority-2-irish-election-source-enrichment-data-birr-daily-data-02133",
-        "type": "approved-medium-priority-source",
-        "title": "Birr Daily Data",
-        "subtitle": "Irish election source/enrichment data / Met Éireann, data.gov.ie / Republic of Ireland / CSV, TXT / Approved source record",
-        "category": "Medium-priority: Irish election source/enrichment data",
-        "provider": [
-          "Met Éireann",
-          "data.gov.ie"
-        ],
-        "description": "Birr Daily Data is published as a medium-priority Civgraph source/provenance record from Met Éireann, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/birr-daily-data",
-        "references": [
-          {
-            "label": "Birr Daily Data provider page",
-            "url": "https://data.gov.ie/dataset/birr-daily-data",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Birr Daily Data Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/birr-daily-data",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/birr-daily-data",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Download available",
-          "Provider link",
-          "Wayback link",
-          "Election provenance"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Irish election source/enrichment data",
-          "Republic of Ireland",
-          "election",
-          "Birr Daily Data"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/birr-daily-data",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/birr-daily-data",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Met Éireann, data.gov.ie, Birr Daily Data.",
-        "fullCitation": "Met Éireann, data.gov.ie. Birr Daily Data. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/birr-daily-data. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/birr-daily-data.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 2134,
-            "stagingId": "medium-prep:2-irish-election-source-enrichment-data:birr-daily-data:02133",
-            "title": "Birr Daily Data",
-            "cleanTitle": "Birr Daily Data",
-            "provider": "data.gov.ie",
-            "organisation": "Met Éireann",
-            "category": "tabular",
-            "roiGroup": "2. Irish election source/enrichment data",
-            "groupTitle": "Irish election source/enrichment data",
-            "jurisdiction": "Republic of Ireland",
-            "topic": "election",
-            "featureUnit": "features",
-            "formats": [
-              "CSV",
-              "TXT"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "enrich-existing-election",
-            "proposedPlacement": "Elections/source provenance",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "CSV",
-                "TXT"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/birr-daily-data",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/birr-daily-data",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "election-model-merge-and-provenance-review: election staging action assigned",
-              "needs-provider-context-review: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:birr-daily-data:02133",
-          "sourceRowNumber": 2134,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish election source/provenance enrichment",
-          "proposedAction": "enrich-existing-election",
-          "proposedPlacement": "Elections/source provenance",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "TXT"
-            ]
-          },
-          "confidence": 60,
-          "resolvedBlockers": [
-            "election-model-merge-and-provenance-review: election staging action assigned",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Elections/source provenance",
-        "relationship": "election-source-enrichment",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Irish election source/enrichment data",
-          "election",
-          "features",
-          "Republic of Ireland",
-          "enrich-existing-election",
-          "CSV",
-          "TXT"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-birr-daily-data-02133"
       }
     }
   ]

@@ -1,9 +1,31 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-08T07:53:57.915Z",
+  "generatedAt": "2026-07-08T09:28:43.763Z",
   "shard": 102,
   "totalSubjects": 250,
   "items": {
+    "cg:map-category:district-electoral-areas": [
+      {
+        "id": "cg:statement:c772d01e98322a15ce2b",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:map-category",
+        "valueLabel": "Map category",
+        "valueText": "Map category",
+        "valueDescription": "A catalogue category that groups map layers, e.g. Devolved Constituencies.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:b512d083bc266eaac446",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "District Electoral Areas",
+        "valueText": "District Electoral Areas",
+        "referenceCount": 0
+      }
+    ],
     "cg:map-category:education-and-library-boards": [
       {
         "id": "cg:statement:c85a0bab22d0b0fb591d",
@@ -25584,101 +25606,6 @@
             "valueType": "url",
             "valueLabel": "data/census/derived/ms-e15-private-rented-lgd.csv",
             "valueText": "data/census/derived/ms-e15-private-rented-lgd.csv"
-          }
-        ],
-        "referenceCount": 0
-      }
-    ],
-    "cg:map-layer:data-2021-private-rented-settlement": [
-      {
-        "id": "cg:statement:1399cc089a995a624de8",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:map-layer",
-        "valueLabel": "Map layer",
-        "valueText": "Map layer",
-        "valueDescription": "A Civgraph map layer or map dataset exposed through Browse.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:b04ca3707973457cf41a",
-        "propertyId": "cg:property:interactive-url",
-        "propertyLabel": "interactive URL",
-        "valueType": "url",
-        "valueLabel": "/#layers=data-2021-private-rented-settlement",
-        "valueText": "/#layers=data-2021-private-rented-settlement",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:273a17a01f146684345c",
-        "propertyId": "cg:property:map-category",
-        "propertyLabel": "map category",
-        "valueType": "entity",
-        "valueId": "cg:map-category:data-population",
-        "valueLabel": "data-population",
-        "valueText": "data-population",
-        "valueDescription": "Map category: data-population",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:d253cfb3c9e28621656d",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Private-rented households (Census 2021, by Settlement)",
-        "valueText": "Private-rented households (Census 2021, by Settlement)",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:7f5ea4ac53fbfddb1ad1",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:nisra-census-2021-main-statistics-phase-1-ms-e02-household-size-4f46c8f0e21c",
-        "valueLabel": "NISRA Census 2021, Main Statistics Phase 1, MS-E02 (Household size)",
-        "valueText": "NISRA Census 2021, Main Statistics Phase 1, MS-E02 (Household size)",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1",
-            "valueText": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "map-reference",
-            "valueText": "map-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:947fffeea1dc0d115db0",
-        "propertyId": "cg:property:source-file",
-        "propertyLabel": "source file",
-        "valueType": "entity",
-        "valueId": "cg:source-file:ms-e15-private-rented-settlement-csv-1a8e7fee7354",
-        "valueLabel": "ms-e15-private-rented-settlement.csv",
-        "valueText": "ms-e15-private-rented-settlement.csv",
-        "valueDescription": "ms-e15-private-rented-settlement.csv for Private-rented households (Census 2021, by Settlement)",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:file-format",
-            "propertyLabel": "file format",
-            "valueType": "string",
-            "valueLabel": "ms-e15-private-rented-settlement.csv",
-            "valueText": "ms-e15-private-rented-settlement.csv"
-          },
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "data/census/derived/ms-e15-private-rented-settlement.csv",
-            "valueText": "data/census/derived/ms-e15-private-rented-settlement.csv"
           }
         ],
         "referenceCount": 0

@@ -1,9 +1,221 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-08T07:53:57.915Z",
+  "generatedAt": "2026-07-08T09:28:43.763Z",
   "shard": 338,
   "total": 2500,
   "items": [
+    {
+      "id": "cg:statement:58e96c70a2c57047a247",
+      "subjectId": "cg:register-interest:ni-register-record-interest-fe48366e33f9851f",
+      "propertyId": "cg:property:nil-return",
+      "value": {
+        "type": "boolean",
+        "value": false
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-d2fe10447f879fa2",
+          "sourceTitle": "NI Assembly Register of Members Interests (7 October 2011)",
+          "sourceKind": "historical-html-register",
+          "sourceRecordId": "ni-register:assembly:html:6de7e17d132ed819",
+          "sourceRowId": "ni-register-interest:mla-html:4f10f913dd9a4b92",
+          "sourceUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/07-october-2011/",
+          "date": "2011-10-07",
+          "extractionMethod": "html-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:a674e0e024d3c8eff02d",
+      "subjectId": "cg:register-interest:ni-register-record-interest-fe4b19a624524c21",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:register-interest"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:24d11b40ee5f4ec72eda",
+      "subjectId": "cg:register-interest:ni-register-record-interest-fe4b19a624524c21",
+      "propertyId": "cg:property:interest-category",
+      "value": {
+        "type": "string",
+        "value": "Remunerated employment, office, profession etc"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-mp-full-csv",
+          "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
+          "sourceKind": "filtered-westminster-csv",
+          "sourceRecordId": "ni-register:mp:full-csv",
+          "sourceRowId": "ni-register-interest:mp:1ed372ffacedce68",
+          "date": "2013-02-25",
+          "earliestDeclaration": "2012-03-05",
+          "latestDeclaration": "2013-02-25",
+          "extractionMethod": "ni-mp-csv-name-match",
+          "extractionConfidence": "high",
+          "sourceExtractIds": [
+            "full-csv"
+          ]
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:485950bac2f21b2b90b3",
+      "subjectId": "cg:register-interest:ni-register-record-interest-fe4b19a624524c21",
+      "propertyId": "cg:property:interest-text",
+      "value": {
+        "type": "string",
+        "value": "21 December 2011, gross monthly salary of £4,536 (Registered 14 February 2012)"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-mp-full-csv",
+          "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
+          "sourceKind": "filtered-westminster-csv",
+          "sourceRecordId": "ni-register:mp:full-csv",
+          "sourceRowId": "ni-register-interest:mp:1ed372ffacedce68",
+          "date": "2013-02-25",
+          "earliestDeclaration": "2012-03-05",
+          "latestDeclaration": "2013-02-25",
+          "extractionMethod": "ni-mp-csv-name-match",
+          "extractionConfidence": "high",
+          "sourceExtractIds": [
+            "full-csv"
+          ]
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:822de50779498226c4ca",
+      "subjectId": "cg:register-interest:ni-register-record-interest-fe4b19a624524c21",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Remunerated employment, office, profession etc"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:72b7e34337dcee54f2be",
+      "subjectId": "cg:register-interest:ni-register-record-interest-fe4b19a624524c21",
+      "propertyId": "cg:property:nil-return",
+      "value": {
+        "type": "boolean",
+        "value": false
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-mp-full-csv",
+          "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
+          "sourceKind": "filtered-westminster-csv",
+          "sourceRecordId": "ni-register:mp:full-csv",
+          "sourceRowId": "ni-register-interest:mp:1ed372ffacedce68",
+          "date": "2013-02-25",
+          "earliestDeclaration": "2012-03-05",
+          "latestDeclaration": "2013-02-25",
+          "extractionMethod": "ni-mp-csv-name-match",
+          "extractionConfidence": "high",
+          "sourceExtractIds": [
+            "full-csv"
+          ]
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:ad42fa4d517e91e0fab6",
+      "subjectId": "cg:register-interest:ni-register-record-interest-fe4dd70b37d49425",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:register-interest"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:16cc829dffd1f0d5552f",
+      "subjectId": "cg:register-interest:ni-register-record-interest-fe4dd70b37d49425",
+      "propertyId": "cg:property:interest-category",
+      "value": {
+        "type": "string",
+        "value": "Remunerated Employment, Office, Profession, etc"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-49916b3d1c7108b2",
+          "sourceTitle": "NI Assembly Register of Members Interests (25 February 2011)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:49916b3d1c7108b2",
+          "sourceRowId": "ni-register-interest:mla-pdf:57ac00cc746de1fb",
+          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register_250211.pdf",
+          "date": "2011-02-25",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        },
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-49916b3d1c7108b2",
+          "sourceTitle": "NI Assembly Register of Members Interests (25 February 2011)",
+          "sourceKind": "historical-html-register",
+          "sourceRecordId": "ni-register:assembly:html:f54e2a4d3e007ed7",
+          "sourceRowId": "ni-register-interest:mla-html:88371486c0b61f15",
+          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register250211.htm",
+          "date": "2011-02-25",
+          "extractionMethod": "html-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:8b08e15f220130bab5f6",
+      "subjectId": "cg:register-interest:ni-register-record-interest-fe4dd70b37d49425",
+      "propertyId": "cg:property:interest-text",
+      "value": {
+        "type": "string",
+        "value": "Postman, Royal Mail. Note: Currently on career break and therefore no remuneration."
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-49916b3d1c7108b2",
+          "sourceTitle": "NI Assembly Register of Members Interests (25 February 2011)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:49916b3d1c7108b2",
+          "sourceRowId": "ni-register-interest:mla-pdf:57ac00cc746de1fb",
+          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register_250211.pdf",
+          "date": "2011-02-25",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        },
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-49916b3d1c7108b2",
+          "sourceTitle": "NI Assembly Register of Members Interests (25 February 2011)",
+          "sourceKind": "historical-html-register",
+          "sourceRecordId": "ni-register:assembly:html:f54e2a4d3e007ed7",
+          "sourceRowId": "ni-register-interest:mla-html:88371486c0b61f15",
+          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register250211.htm",
+          "date": "2011-02-25",
+          "extractionMethod": "html-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:a46b157fe4207409e631",
+      "subjectId": "cg:register-interest:ni-register-record-interest-fe4dd70b37d49425",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Remunerated Employment, Office, Profession, etc"
+      },
+      "rank": "normal"
+    },
     {
       "id": "cg:statement:0615ea61f1a47c532a49",
       "subjectId": "cg:register-interest:ni-register-record-interest-fe4dd70b37d49425",
@@ -73967,265 +74179,6 @@
           "date": "2007-11-25",
           "extractionMethod": "pdf-text-heading-parser",
           "extractionConfidence": "medium"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:6ab1f5c32116ef91f1e4",
-      "subjectId": "cg:register-record:ni-register-record-01bf953360b9cc46",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Gerry Adams - Assembly - 2007-11-25"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:749d515e0c204d5d1fb0",
-      "subjectId": "cg:register-record:ni-register-record-01bf953360b9cc46",
-      "propertyId": "cg:property:political-office",
-      "value": {
-        "type": "entity",
-        "id": "cg:office:mla"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:ni-register-assembly-pdf-c5996640c13687a7",
-          "sourceTitle": "NI Assembly Register of Members Interests (25 November 2007)",
-          "sourceKind": "historical-pdf-register",
-          "sourceRecordId": "ni-register:assembly:pdf:c5996640c13687a7",
-          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register_251107.pdf",
-          "date": "2007-11-25",
-          "extractionMethod": "pdf-text-heading-parser",
-          "extractionConfidence": "medium"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:bab422b55b7a1d175a07",
-      "subjectId": "cg:register-record:ni-register-record-01bf953360b9cc46",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:ni-register-assembly-pdf-c5996640c13687a7"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "historical-pdf-register"
-          }
-        },
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "2007-11-25"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:ni-register-assembly-pdf-c5996640c13687a7",
-          "sourceTitle": "NI Assembly Register of Members Interests (25 November 2007)",
-          "sourceKind": "historical-pdf-register",
-          "sourceRecordId": "ni-register:assembly:pdf:c5996640c13687a7",
-          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register_251107.pdf",
-          "date": "2007-11-25",
-          "extractionMethod": "pdf-text-heading-parser",
-          "extractionConfidence": "medium"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:315662823acdda1c9f46",
-      "subjectId": "cg:register-record:ni-register-record-01bf953360b9cc46",
-      "propertyId": "cg:property:year",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:2007"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:ni-register-assembly-pdf-c5996640c13687a7",
-          "sourceTitle": "NI Assembly Register of Members Interests (25 November 2007)",
-          "sourceKind": "historical-pdf-register",
-          "sourceRecordId": "ni-register:assembly:pdf:c5996640c13687a7",
-          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register_251107.pdf",
-          "date": "2007-11-25",
-          "extractionMethod": "pdf-text-heading-parser",
-          "extractionConfidence": "medium"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:8409d4a8ecbd5e38199d",
-      "subjectId": "cg:register-record:ni-register-record-01c8f559c7db1d38",
-      "propertyId": "cg:property:constituency",
-      "value": {
-        "type": "string",
-        "value": "Mid Ulster"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:ni-register-mp-full-csv",
-          "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
-          "sourceKind": "filtered-westminster-csv",
-          "sourceRecordId": "ni-register:mp:full-csv",
-          "date": "2006-02-14",
-          "earliestDeclaration": "2006-02-13",
-          "latestDeclaration": "2006-02-14",
-          "extractionMethod": "ni-mp-csv-name-match",
-          "extractionConfidence": "high"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:dceac679eb0923cb00a9",
-      "subjectId": "cg:register-record:ni-register-record-01c8f559c7db1d38",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-month:2006-02",
-        "label": "2006-02-14"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:ni-register-mp-full-csv",
-          "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
-          "sourceKind": "filtered-westminster-csv",
-          "sourceRecordId": "ni-register:mp:full-csv",
-          "date": "2006-02-14",
-          "earliestDeclaration": "2006-02-13",
-          "latestDeclaration": "2006-02-14",
-          "extractionMethod": "ni-mp-csv-name-match",
-          "extractionConfidence": "high"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:51e278a5c15b7b403918",
-      "subjectId": "cg:register-record:ni-register-record-01c8f559c7db1d38",
-      "propertyId": "cg:property:declared-interest",
-      "value": {
-        "type": "entity",
-        "id": "cg:register-interest:ni-register-record-interest-93fbb2a2d99c307b"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:interest-category",
-          "value": {
-            "type": "string",
-            "value": "Remunerated employment, office, profession etc"
-          }
-        },
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "2006-02-14"
-          }
-        },
-        {
-          "propertyId": "cg:property:nil-return",
-          "value": {
-            "type": "boolean",
-            "value": false
-          }
-        },
-        {
-          "propertyId": "cg:property:extraction-confidence",
-          "value": {
-            "type": "string",
-            "value": "high"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-row-count",
-          "value": {
-            "type": "number",
-            "value": 1
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:ni-register-mp-full-csv",
-          "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
-          "sourceKind": "filtered-westminster-csv",
-          "sourceRecordId": "ni-register:mp:full-csv",
-          "sourceRowId": "ni-register-interest:mp:32441f430d226c7d",
-          "date": "2006-02-14",
-          "earliestDeclaration": "2006-02-13",
-          "latestDeclaration": "2006-02-14",
-          "extractionMethod": "ni-mp-csv-name-match",
-          "extractionConfidence": "high",
-          "sourceExtractIds": [
-            "full-csv"
-          ]
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:a249a1f6ab9a05e61da9",
-      "subjectId": "cg:register-record:ni-register-record-01c8f559c7db1d38",
-      "propertyId": "cg:property:elected-body",
-      "value": {
-        "type": "entity",
-        "id": "cg:body:house-of-commons"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:ni-register-mp-full-csv",
-          "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
-          "sourceKind": "filtered-westminster-csv",
-          "sourceRecordId": "ni-register:mp:full-csv",
-          "date": "2006-02-14",
-          "earliestDeclaration": "2006-02-13",
-          "latestDeclaration": "2006-02-14",
-          "extractionMethod": "ni-mp-csv-name-match",
-          "extractionConfidence": "high"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:ea43dbc07116a1c283f3",
-      "subjectId": "cg:register-record:ni-register-record-01c8f559c7db1d38",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:register-record"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:e5a8c46569c9efb25a5b",
-      "subjectId": "cg:register-record:ni-register-record-01c8f559c7db1d38",
-      "propertyId": "cg:property:jurisdiction",
-      "value": {
-        "type": "string",
-        "value": "Northern Ireland"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:ni-register-mp-full-csv",
-          "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
-          "sourceKind": "filtered-westminster-csv",
-          "sourceRecordId": "ni-register:mp:full-csv",
-          "date": "2006-02-14",
-          "earliestDeclaration": "2006-02-13",
-          "latestDeclaration": "2006-02-14",
-          "extractionMethod": "ni-mp-csv-name-match",
-          "extractionConfidence": "high"
         }
       ],
       "rank": "normal"

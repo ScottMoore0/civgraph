@@ -1,9 +1,35 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-08T07:53:57.915Z",
+  "generatedAt": "2026-07-08T09:28:43.763Z",
   "shard": 36,
   "total": 5000,
   "items": [
+    {
+      "id": "cg:source:json-stat-cube-sap2022t15t1prov-de023e3e826a",
+      "label": "JSON-stat cube (SAP2022T15T1PROV)",
+      "kind": "entity",
+      "sourceUrl": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/SAP2022T15T1PROV/JSON-stat/2.0/en",
+      "attributes": {
+        "sourceKind": "source-reference",
+        "createdFrom": "external-reference"
+      },
+      "typeIds": [
+        "cg:entity-type:source"
+      ]
+    },
+    {
+      "id": "cg:source:json-stat-cube-sap2022t15t1sa-d280bda64968",
+      "label": "JSON-stat cube (SAP2022T15T1SA)",
+      "kind": "entity",
+      "sourceUrl": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/SAP2022T15T1SA/JSON-stat/2.0/en",
+      "attributes": {
+        "sourceKind": "source-reference",
+        "createdFrom": "external-reference"
+      },
+      "typeIds": [
+        "cg:entity-type:source"
+      ]
+    },
     {
       "id": "cg:source:json-stat-cube-sap2022t15t1town22-f828a4cce81a",
       "label": "JSON-stat cube (SAP2022T15T1TOWN22)",
@@ -23370,6 +23396,24 @@
         "date": 2001,
         "referenceCount": 5,
         "downloadCount": 3
+      },
+      "typeIds": [
+        "cg:entity-type:source"
+      ]
+    },
+    {
+      "id": "cg:source:map-source-oda-map-00101-dail-constituencies-2013-sdcc",
+      "label": "Dail Constituencies 2013 SDCC source files",
+      "description": "Boundaries / data.gov.ie",
+      "kind": "entity",
+      "browseType": "sources",
+      "browseSlug": "map-source-oda-map-00101-dail-constituencies-2013-sdcc",
+      "browseUrl": "/browse/sources/map-source-oda-map-00101-dail-constituencies-2013-sdcc",
+      "attributes": {
+        "sourceCategory": "Map sources",
+        "provider": "data.gov.ie",
+        "referenceCount": 1,
+        "downloadCount": 2
       },
       "typeIds": [
         "cg:entity-type:source"
@@ -87274,48 +87318,6 @@
       "label": "PDF from data.gov.ie local mirror",
       "kind": "entity",
       "sourceUrl": "https://data.gov.ie/dataset/national-training-fund",
-      "attributes": {
-        "sourceKind": "source-reference",
-        "role": "source-download",
-        "createdFrom": "external-reference"
-      },
-      "typeIds": [
-        "cg:entity-type:source"
-      ]
-    },
-    {
-      "id": "cg:source:pdf-from-data-gov-ie-local-mirror-e3b1f06faf99",
-      "label": "PDF from data.gov.ie local mirror",
-      "kind": "entity",
-      "sourceUrl": "https://data.gov.ie/dataset/met-eireann-1981-2010-climate-averages",
-      "attributes": {
-        "sourceKind": "source-reference",
-        "role": "source-download",
-        "createdFrom": "external-reference"
-      },
-      "typeIds": [
-        "cg:entity-type:source"
-      ]
-    },
-    {
-      "id": "cg:source:pdf-from-data-gov-ie-local-mirror-e4858ebe2608",
-      "label": "PDF from data.gov.ie local mirror",
-      "kind": "entity",
-      "sourceUrl": "https://data.gov.ie/dataset/vote-accounting-and-budget-management",
-      "attributes": {
-        "sourceKind": "source-reference",
-        "role": "source-download",
-        "createdFrom": "external-reference"
-      },
-      "typeIds": [
-        "cg:entity-type:source"
-      ]
-    },
-    {
-      "id": "cg:source:pdf-from-data-gov-ie-local-mirror-e51d93190e53",
-      "label": "PDF from data.gov.ie local mirror",
-      "kind": "entity",
-      "sourceUrl": "https://data.gov.ie/dataset/national-public-transport-gazetteer-nptg",
       "attributes": {
         "sourceKind": "source-reference",
         "role": "source-download",
