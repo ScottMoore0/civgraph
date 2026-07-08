@@ -225,7 +225,7 @@ function buildArchive(layer, sourcePath, outputPath, profile, srsOptions) {
       sourcePath,
       ...getFailureOptions(layer.sourceMapId || layer.id),
       ...srsOptions,
-      ...getSourceQueryOptions(layer.sourceMapId || layer.id),
+      ...sourceQueryOptions(layer, sourcePath),
       '-dsco', `MINZOOM=${Number(layer.minzoom ?? 0)}`,
       '-dsco', `MAXZOOM=${Number(layer.maxzoom ?? 12)}`,
       '-dsco', `MAX_SIZE=${profile.maxSize}`,
@@ -262,7 +262,7 @@ function buildArchive(layer, sourcePath, outputPath, profile, srsOptions) {
     sourcePath,
     ...getFailureOptions(layer.sourceMapId || layer.id),
     ...srsOptions,
-    ...getSourceQueryOptions(layer.sourceMapId || layer.id),
+    ...sourceQueryOptions(layer, sourcePath),
     '-dsco', `MINZOOM=${Number(layer.minzoom ?? 0)}`,
     '-dsco', `MAXZOOM=${Number(layer.maxzoom ?? 12)}`,
     '-dsco', `MAX_SIZE=${profile.maxSize}`,
@@ -443,6 +443,32 @@ function getSourceQueryOptions(sourceMapId) {
     ];
   }
   return [];
+}
+
+// Resolve the first (usually only) layer name inside a vector source datasource.
+function resolveSourceLayerName(sourcePath) {
+  try {
+    const r = spawnSync(tools.ogrinfo, ['-q', sourcePath], { cwd: ROOT, encoding: 'utf8' });
+    const m = /^\s*\d+:\s*(\S+)/m.exec(r.stdout || '');
+    return m ? m[1] : null;
+  } catch {
+    return null;
+  }
+}
+
+// GDAL's MVT/PMTiles writer does not emit a usable per-feature id, so a polygon
+// or line feature clipped across tiles renders as separate features with
+// per-fragment stats. Inject the stable source FID as a `civ_fid` attribute
+// (unique per feature) so the layer can set promoteId=civ_fid and MapLibre
+// unifies every fragment. Layers with a bespoke source query keep it as-is.
+function sourceQueryOptions(layer, sourcePath) {
+  const custom = getSourceQueryOptions(layer.sourceMapId || layer.id);
+  if (custom.length) return custom;
+  const geom = String(layer.geometryType || '').toLowerCase();
+  if (!['polygon', 'line', 'multipolygon', 'multilinestring'].includes(geom)) return [];
+  const srcLayer = resolveSourceLayerName(sourcePath);
+  if (!srcLayer) return [];
+  return ['-sql', `SELECT FID AS civ_fid, * FROM "${srcLayer.replace(/"/g, '""')}"`];
 }
 
 function getFailureOptions(sourceMapId) {
