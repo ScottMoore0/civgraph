@@ -80,8 +80,13 @@ export function createPointCloudLayer(id, headerUrl, opts = {}) {
     async _load(gl) {
       const hdr = await fetch(headerUrl).then((r) => r.json());
       const buf = await fetch(binUrl).then((r) => r.arrayBuffer());
-      const n = hdr.count;
       const stride = hdr.stride || (hdr.hasColor ? 16 : 12);
+      // Clamp to the bytes actually present. A stale-cached binary (e.g. a header
+      // updated to a higher point count while the CDN/browser still serves the old
+      // shorter .bin under the same URL) would otherwise overrun the DataView and
+      // throw RangeError, rendering nothing. Render whatever points we really have.
+      const n = Math.min(hdr.count, Math.floor(buf.byteLength / stride));
+      if (n < hdr.count) console.warn('[pointcloud] binary shorter than header', id, hdr.count, '->', n);
       const dv = new DataView(buf);
       const [clng, clat, calt] = hdr.center;
       const cm = maplibregl.MercatorCoordinate.fromLngLat([clng, clat], calt);

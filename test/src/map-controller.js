@@ -1046,7 +1046,7 @@ export class TestMapLibreController {
     // Data = a pre-flattened point file (pc.json header + pc.bin body), served next
     // to the 3D-Tiles tileset. Derive its URL from the layer's tilesetUrl.
     const base = String(layer.tilesetUrl || '').split('?')[0].replace(/tileset\.json$/, 'pc.json');
-    const headerUrl = base + '?v=' + (layer.pcVersion || 'pc1');
+    const headerUrl = base + '?v=' + (layer.pcVersion || 'pc2');
     const record = this.layers.get(layer.id);
     const custom = createPointCloudLayer(`pointcloud-${layer.id}`, headerUrl, {
       pointSize: layer.pointSize ?? 2.5,
