@@ -1058,19 +1058,17 @@ export class TestMapLibreController {
     // observer leak and keeps an inactive overlay at zero draw cost.
     if (!this.pointCloudOverlay) {
       // Overlaid mode (deck on its own canvas + own animation loop) renders point
-      // clouds reliably over a raster basemap. Interleaved mode ties deck's render
-      // to the map's pass, which left the 3D-Tiles octree un-traversed (tileset.json
-      // loaded but zero content tiles ever requested) — default to overlaid.
-      const interleaved = layer.interleaved === true;
-      this.pointCloudOverlay = new this._deck.MapboxOverlay({ interleaved, layers: [] });
+      // clouds over a raster basemap without tying deck's render to the map pass.
+      this.pointCloudOverlay = new this._deck.MapboxOverlay({
+        interleaved: layer.interleaved === true,
+        layers: []
+      });
       this.map.addControl(this.pointCloudOverlay);
       if (typeof this.map.setMaxPitch === 'function' && this.map.getMaxPitch() < 80) {
         this.map.setMaxPitch(85);
       }
-      console.log('[pc-debug] overlay created, interleaved=', interleaved);
     }
     this.syncPointCloudOverlay();
-    console.log('[pc-debug] addPointCloudLayer done', layer.id, 'tilesetUrl=', layer.tilesetUrl);
     return { layerIds: [], sourceIds: [] };
   }
 
@@ -1091,22 +1089,8 @@ export class TestMapLibreController {
         // Uniform tint for intensity-only clouds; RGB clouds (vertexColors)
         // keep their per-point photogrammetry colour (omit the override).
         ...(cfg.vertexColors ? {} : { getPointColor: rgb }),
-        onTilesetLoad: (tileset) => {
-          const c = tileset?.cartographicCenter;
-          const mc = this.map?.getCenter?.();
-          console.log('[pc-debug] tilesetLoad', cfg.id,
-            'cartoCenter=', c && (c.toArray ? c.toArray() : c),
-            'mapCenter=', mc && [Number(mc.lng.toFixed(5)), Number(mc.lat.toFixed(5))],
-            'mapZoom=', this.map?.getZoom?.().toFixed?.(2), 'tilesetZoom=', tileset?.zoom, 'root=', !!tileset?.root);
-          this.map?.triggerRepaint?.();
-          setTimeout(() => {
-            console.log('[pc-debug] post4s', cfg.id, 'selected=', tileset?.selectedTiles?.length,
-              'tiles=', tileset?.tiles?.length, 'isLoaded=', tileset?.isLoaded, 'root.contentUrl=', tileset?.root?.contentUrl);
-            this.map?.triggerRepaint?.();
-          }, 4000);
-        },
-        onTileLoad: (tile) => { console.log('[pc-debug] tileLoad', cfg.id, tile?.id); this.map?.triggerRepaint?.(); },
-        onTileError: (tile, message, url) => console.error('[pc-debug] tileError', cfg.id, message, url),
+        onTilesetLoad: () => this.map?.triggerRepaint?.(),
+        onTileLoad: () => this.map?.triggerRepaint?.(),
         loadOptions: {
           tileset: {
             maximumScreenSpaceError: cfg.maxScreenSpaceError ?? 16,
