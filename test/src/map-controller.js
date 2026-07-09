@@ -1061,12 +1061,21 @@ export class TestMapLibreController {
       // clouds over a raster basemap without tying deck's render to the map pass.
       this.pointCloudOverlay = new this._deck.MapboxOverlay({
         interleaved: layer.interleaved === true,
-        layers: []
+        layers: [],
+        onError: (error, l) => console.error('[pc-dev] deck.onError', l?.id, error?.message || String(error)),
+        onLoad: () => {
+          try {
+            const dk = this.pointCloudOverlay?._deck;
+            console.log('[pc-dev] deck.onLoad deck?', !!dk, 'device?', !!dk?.device,
+              'deviceType', dk?.device?.constructor?.name, 'gpu', dk?.device?.info?.vendor, dk?.device?.info?.renderer);
+          } catch (e) { console.log('[pc-dev] onLoad inspect err', e?.message); }
+        }
       });
       this.map.addControl(this.pointCloudOverlay);
       if (typeof this.map.setMaxPitch === 'function' && this.map.getMaxPitch() < 80) {
         this.map.setMaxPitch(85);
       }
+      console.log('[pc-dev] overlay added; interleaved=', layer.interleaved === true);
     }
     this.syncPointCloudOverlay();
     return { layerIds: [], sourceIds: [] };
@@ -1089,8 +1098,9 @@ export class TestMapLibreController {
         // Uniform tint for intensity-only clouds; RGB clouds (vertexColors)
         // keep their per-point photogrammetry colour (omit the override).
         ...(cfg.vertexColors ? {} : { getPointColor: rgb }),
-        onTilesetLoad: () => this.map?.triggerRepaint?.(),
-        onTileLoad: () => this.map?.triggerRepaint?.(),
+        onTilesetLoad: (ts) => { console.log('[pc-dev] tilesetLoad', cfg.id, 'center', ts?.cartographicCenter); this.map?.triggerRepaint?.(); },
+        onTileLoad: (t) => { console.log('[pc-dev] tileLoad', cfg.id, t?.id); this.map?.triggerRepaint?.(); },
+        onTileError: (t, m, u) => console.error('[pc-dev] tileError', cfg.id, m, u),
         loadOptions: {
           tileset: {
             maximumScreenSpaceError: cfg.maxScreenSpaceError ?? 16,
