@@ -1,5 +1,6 @@
 import maplibregl from 'maplibre-gl';
 import { PMTiles, Protocol } from 'pmtiles';
+import { createPointCloudLayer } from './point-cloud-layer.js';
 import {
   CLICK_TOLERANCE_PX,
   DEFAULT_TEXT_SCALE,
@@ -1032,121 +1033,39 @@ export class TestMapLibreController {
     this.map.setTerrain({ source: this.terrainSourceId, exaggeration });
   }
 
-  // ---- 3D LiDAR point clouds (deck.gl Tile3DLayer interleaved into MapLibre) ----
-  // A single deck.gl MapboxOverlay is created lazily on first use and kept
-  // attached; each point-cloud layer is a Tile3DLayer whose 3D-Tiles octree LOD
-  // bounds the on-screen point count regardless of dataset size. deck.gl modules
-  // are dynamically imported so they are code-split out of the initial bundle —
-  // zero bytes / zero runtime until a user opens a point cloud.
-  async ensurePointCloudDeck() {
-    if (this._deck) return this._deck;
-    const [{ MapboxOverlay }, { Tile3DLayer }, { Tiles3DLoader }] = await Promise.all([
-      import('@deck.gl/mapbox'),
-      import('@deck.gl/geo-layers'),
-      import('@loaders.gl/3d-tiles')
-    ]);
-    this._deck = { MapboxOverlay, Tile3DLayer, Tiles3DLoader };
-    return this._deck;
-  }
-
-  async addPointCloudLayer(layer) {
-    await this.ensurePointCloudDeck();
-    if (!this.pointCloudConfigs) this.pointCloudConfigs = new Map();
-    this.pointCloudConfigs.set(layer.id, layer);
-    // Create the shared overlay once and keep it attached; toggling the layer
-    // list (rather than add/removeControl per load) avoids deck.gl's teardown
-    // observer leak and keeps an inactive overlay at zero draw cost.
-    if (!this.pointCloudOverlay) {
-      // Overlaid mode (deck on its own canvas + own animation loop) renders point
-      // clouds over a raster basemap without tying deck's render to the map pass.
-      this.pointCloudOverlay = new this._deck.MapboxOverlay({
-        interleaved: layer.interleaved === true,
-        layers: []
-      });
-      this.map.addControl(this.pointCloudOverlay);
-      if (typeof this.map.setMaxPitch === 'function' && this.map.getMaxPitch() < 80) {
-        this.map.setMaxPitch(85);
-      }
-      // deck.gl 9's overlaid MapboxOverlay appends its render canvas into an empty
-      // MapLibre control corner (.maplibregl-ctrl-top-left), which MapLibre v5 lays
-      // out at display:none / 0x0. deck then reads a 0-size canvas, builds no
-      // viewport, and never traverses the tileset -> zero tiles / no points.
-      // Relocate deck's widget/canvas container into the map's correctly-sized
-      // canvas container so deck picks up the real dimensions.
-      this._relocatePointCloudCanvas();
+  // ---- 3D point clouds (maplibre-native custom WebGL layer) ----
+  // Each point cloud is a MapLibre CustomLayerInterface (see point-cloud-layer.js)
+  // rendering a pre-flattened point file with MapLibre's own projection. deck.gl
+  // 9.3.6 does not paint point geometry over maplibre-gl 5.24, so we render natively.
+  addPointCloudLayer(layer) {
+    if (!this.pointCloudLayers) this.pointCloudLayers = new Map();
+    if (this.pointCloudLayers.has(layer.id)) return { layerIds: [`pointcloud-${layer.id}`], sourceIds: [] };
+    if (typeof this.map.setMaxPitch === 'function' && this.map.getMaxPitch() < 80) {
+      this.map.setMaxPitch(85);
     }
-    this.syncPointCloudOverlay();
-    return { layerIds: [], sourceIds: [] };
-  }
-
-  // See addPointCloudLayer: move deck.gl's overlay canvas out of the 0x0 hidden
-  // MapLibre control corner into the map's sized canvas container. deck creates
-  // the container asynchronously after addControl, so poll a few frames for it.
-  _relocatePointCloudCanvas(attempt = 0) {
-    let wc = null;
-    try { wc = this.map?.getContainer?.().querySelector('.deck-widget-container'); } catch (e) { return; }
-    if (!wc) {
-      if (attempt < 30) requestAnimationFrame(() => this._relocatePointCloudCanvas(attempt + 1));
-      return;
-    }
-    try {
-      const cc = this.map.getCanvasContainer();
-      if (cc && wc.parentElement !== cc) cc.appendChild(wc);
-      wc.style.position = 'absolute';
-      wc.style.top = '0';
-      wc.style.left = '0';
-      wc.style.width = '100%';
-      wc.style.height = '100%';
-      wc.style.pointerEvents = 'none';
-      window.dispatchEvent(new Event('resize'));
-      this.map.triggerRepaint();
-    } catch (e) { /* non-fatal: relocation is best-effort */ }
-  }
-
-  syncPointCloudOverlay() {
-    if (!this.pointCloudOverlay || !this._deck) return;
-    const { Tile3DLayer, Tiles3DLoader } = this._deck;
-    const layers = [...(this.pointCloudConfigs?.values() || [])].map((cfg) => {
-      const record = this.layers.get(cfg.id);
-      const opacity = clamp(record?.opacity ?? resolveLayerOpacity(cfg), 0, 1);
-      const rgb = parseHexRgb(cfg.style?.color || '#8ab4d8');
-      return new Tile3DLayer({
-        id: `pointcloud-${cfg.id}`,
-        data: cfg.tilesetUrl || cfg.tiles,
-        loader: Tiles3DLoader,
-        pointSize: cfg.pointSize ?? 1.4,
-        opacity,
-        pickable: false,
-        // Uniform tint for intensity-only clouds; RGB clouds (vertexColors)
-        // keep their per-point photogrammetry colour (omit the override).
-        ...(cfg.vertexColors ? {} : { getPointColor: rgb }),
-        onTilesetLoad: () => this.map?.triggerRepaint?.(),
-        onTileLoad: () => this.map?.triggerRepaint?.(),
-        onTileError: (tile, message, url) => console.error('[pointcloud] tile error', cfg.id, message, url),
-        loadOptions: {
-          tileset: {
-            maximumScreenSpaceError: cfg.maxScreenSpaceError ?? 16,
-            maximumMemoryUsage: cfg.maxMemoryMB ?? 512,
-            memoryAdjustedScreenSpaceError: true,
-            maxRequests: 32
-          }
-        }
-      });
+    // Data = a pre-flattened point file (pc.json header + pc.bin body), served next
+    // to the 3D-Tiles tileset. Derive its URL from the layer's tilesetUrl.
+    const base = String(layer.tilesetUrl || '').split('?')[0].replace(/tileset\.json$/, 'pc.json');
+    const headerUrl = base + '?v=' + (layer.pcVersion || 'pc1');
+    const record = this.layers.get(layer.id);
+    const custom = createPointCloudLayer(`pointcloud-${layer.id}`, headerUrl, {
+      pointSize: layer.pointSize ?? 2.5,
+      opacity: clamp(record?.opacity ?? resolveLayerOpacity(layer), 0, 1)
     });
-    this.pointCloudOverlay.setProps({ layers });
+    this.map.addLayer(custom);
+    this.pointCloudLayers.set(layer.id, custom);
+    return { layerIds: [`pointcloud-${layer.id}`], sourceIds: [] };
   }
 
   removePointCloudLayer(layerId) {
-    if (!this.pointCloudConfigs?.has(layerId)) return;
-    this.pointCloudConfigs.delete(layerId);
-    this.syncPointCloudOverlay();
+    const custom = this.pointCloudLayers?.get(layerId);
+    if (!custom) return;
+    try { if (this.map.getLayer(custom.id)) this.map.removeLayer(custom.id); } catch (e) { /* ignore */ }
+    this.pointCloudLayers.delete(layerId);
   }
 
   setPointSize(layerId, size) {
-    const cfg = this.pointCloudConfigs?.get(layerId);
-    if (!cfg) return;
-    cfg.pointSize = clamp(Number(size) || 1.4, 0.5, 8);
-    this.syncPointCloudOverlay();
+    this.pointCloudLayers?.get(layerId)?.setPointSize(clamp(Number(size) || 2.5, 0.5, 10));
   }
 
   addGeometryLayers(layer, ids) {
@@ -1378,9 +1297,7 @@ export class TestMapLibreController {
       this.terrainSourceId = null;
       this.terrainExaggeration = null;
     }
-    // Remove the deck.gl point-cloud layer (overlay stays attached with an empty
-    // layer list = no draw cost, avoiding repeated teardown/observer leaks).
-    if (this.pointCloudConfigs?.has(layerId)) {
+    if (this.pointCloudLayers?.has(layerId)) {
       this.removePointCloudLayer(layerId);
     }
     this.clearFeatureState(this.hovered, 'hover');
@@ -1409,8 +1326,8 @@ export class TestMapLibreController {
     const record = this.layers.get(layerId);
     if (!record) return;
     record.opacity = clamp(opacity, 0, 1);
-    if (this.pointCloudConfigs?.has(layerId)) {
-      this.syncPointCloudOverlay();
+    if (this.pointCloudLayers?.has(layerId)) {
+      this.pointCloudLayers.get(layerId)?.setOpacity(record.opacity);
       this.notifyChange();
       return;
     }
