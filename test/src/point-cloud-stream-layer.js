@@ -189,6 +189,10 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
     _inflight: 0,
     _queue: [],
     _loadedNodes: new Set(),
+    _visitBudget: 0,          // per-frame traversal cap (set in render)
+    _resolving: 0,            // in-flight external-tileset fetches
+    _maxResolving: 12,
+    _maxVisitsPerFrame: 6000,
 
     onAdd(map, gl) {
       this._map = map;
@@ -216,7 +220,10 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
     // resolve a node's children (declared children + any external tileset root)
     _resolveChildren(node) {
       if (node.children || node.resolving) return;
+      // throttle external fetches so a fast zoom doesn't launch a request storm
+      if (node.externalUri && this._resolving >= this._maxResolving) return;
       node.resolving = true;
+      if (node.externalUri) this._resolving++;
       const build = (extRoot) => {
         const kids = [];
         if (extRoot) kids.push(makeNode(extRoot, node.world, node._extBase || node.baseUrl, node.refine));
@@ -229,7 +236,8 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
         fetch(node.externalUri).then((r) => r.json()).then((sub) => {
           node._extBase = node.externalUri.split('?')[0];
           build(sub.root);
-        }).catch((e) => { node.children = []; node.resolving = false; });
+        }).catch((e) => { node.children = []; node.resolving = false; })
+          .finally(() => { this._resolving--; });
       } else {
         build(null);
       }
@@ -319,6 +327,10 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
     },
 
     _selectVisit(gl, node, mainMatrix, budget, out) {
+      if (this._visitBudget-- <= 0) {           // per-frame traversal safety cap
+        if (node.contentUri && node.state === 'loaded') out.push(node);
+        return;
+      }
       node.lastFrame = this._frame;
       const wantRefine = node.geometricError > budget;
       if (!wantRefine) {
@@ -359,7 +371,7 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
       const budget = mpp * this._errK;
 
       const out = [];
-      // top-level select (root handled here so REPLACE/ADD fallback is uniform)
+      this._visitBudget = this._maxVisitsPerFrame;
       if (!this._culled(this._root, m)) this._selectVisit(gl, this._root, m, budget, out);
       this._pump(gl);
       this._evict(gl);
