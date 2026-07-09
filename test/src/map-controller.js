@@ -1092,20 +1092,24 @@ export class TestMapLibreController {
         // keep their per-point photogrammetry colour (omit the override).
         ...(cfg.vertexColors ? {} : { getPointColor: rgb }),
         onTilesetLoad: (tileset) => {
-          console.log('[pc-debug] tilesetLoad', cfg.id, 'tiles=', tileset?.tiles?.length,
-            'root=', !!tileset?.root, 'center=', tileset?.cartographicCenter, 'zoom=', tileset?.zoom);
+          const c = tileset?.cartographicCenter;
+          const mc = this.map?.getCenter?.();
+          console.log('[pc-debug] tilesetLoad', cfg.id,
+            'cartoCenter=', c && (c.toArray ? c.toArray() : c),
+            'mapCenter=', mc && [Number(mc.lng.toFixed(5)), Number(mc.lat.toFixed(5))],
+            'mapZoom=', this.map?.getZoom?.().toFixed?.(2), 'tilesetZoom=', tileset?.zoom, 'root=', !!tileset?.root);
           this.map?.triggerRepaint?.();
+          setTimeout(() => {
+            console.log('[pc-debug] post4s', cfg.id, 'selected=', tileset?.selectedTiles?.length,
+              'tiles=', tileset?.tiles?.length, 'isLoaded=', tileset?.isLoaded, 'root.contentUrl=', tileset?.root?.contentUrl);
+            this.map?.triggerRepaint?.();
+          }, 4000);
         },
         onTileLoad: (tile) => { console.log('[pc-debug] tileLoad', cfg.id, tile?.id); this.map?.triggerRepaint?.(); },
         onTileError: (tile, message, url) => console.error('[pc-debug] tileError', cfg.id, message, url),
         loadOptions: {
           tileset: {
-            // DIAGNOSTIC: a huge SSE makes deck render only the tileset ROOT
-            // (preview.pnts, identity transform) and never descend into
-            // py3dtiles' scaled-transform octree children. If the coarse preview
-            // appears now, the scaled child transforms are what deck's traversal
-            // can't handle (tiles=0 / no tileLoad otherwise).
-            maximumScreenSpaceError: cfg.maxScreenSpaceError ?? 1e9,
+            maximumScreenSpaceError: cfg.maxScreenSpaceError ?? 16,
             maximumMemoryUsage: cfg.maxMemoryMB ?? 512,
             memoryAdjustedScreenSpaceError: true,
             maxRequests: 32
