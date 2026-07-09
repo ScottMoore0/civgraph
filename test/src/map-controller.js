@@ -1,6 +1,7 @@
 import maplibregl from 'maplibre-gl';
 import { PMTiles, Protocol } from 'pmtiles';
 import { createPointCloudLayer } from './point-cloud-layer.js';
+import { createStreamingPointCloudLayer } from './point-cloud-stream-layer.js';
 import {
   CLICK_TOLERANCE_PX,
   DEFAULT_TEXT_SCALE,
@@ -1043,15 +1044,24 @@ export class TestMapLibreController {
     if (typeof this.map.setMaxPitch === 'function' && this.map.getMaxPitch() < 80) {
       this.map.setMaxPitch(85);
     }
-    // Data = a pre-flattened point file (pc.json header + pc.bin body), served next
-    // to the 3D-Tiles tileset. Derive its URL from the layer's tilesetUrl.
-    const base = String(layer.tilesetUrl || '').split('?')[0].replace(/tileset\.json$/, 'pc.json');
-    const headerUrl = base + '?v=' + (layer.pcVersion || 'pc2');
+    const layerId = `pointcloud-${layer.id}`;
+    const tilesetUrl = String(layer.tilesetUrl || '');
     const record = this.layers.get(layer.id);
-    const custom = createPointCloudLayer(`pointcloud-${layer.id}`, headerUrl, {
-      pointSize: layer.pointSize ?? 2.5,
-      opacity: clamp(record?.opacity ?? resolveLayerOpacity(layer), 0, 1)
-    });
+    const opacity = clamp(record?.opacity ?? resolveLayerOpacity(layer), 0, 1);
+    let custom;
+    if (layer.pcFlat) {
+      // Legacy flat single-file path: a pre-flattened point file (pc.json header +
+      // pc.bin body) served next to the tileset. Opt-in via metadata pcFlat:true.
+      const base = tilesetUrl.split('?')[0].replace(/tileset\.json$/, 'pc.json');
+      custom = createPointCloudLayer(layerId, base + '?v=' + (layer.pcVersion || 'pc2'), {
+        pointSize: layer.pointSize ?? 2.5, opacity
+      });
+    } else {
+      // Default: stream the full 3D-Tiles octree with level-of-detail.
+      custom = createStreamingPointCloudLayer(layerId, tilesetUrl, {
+        pointSize: layer.pointSize ?? 1.6, opacity
+      });
+    }
     this.map.addLayer(custom);
     this.pointCloudLayers.set(layer.id, custom);
     return { layerIds: [`pointcloud-${layer.id}`], sourceIds: [] };
