@@ -1100,9 +1100,12 @@ export class TestMapLibreController {
         onTileError: (tile, message, url) => console.error('[pc-debug] tileError', cfg.id, message, url),
         loadOptions: {
           tileset: {
-            // Performance guardrails: octree LOD + memory cap bound the on-screen
-            // point count and shed detail near the limit rather than crashing.
-            maximumScreenSpaceError: cfg.maxScreenSpaceError ?? 16,
+            // DIAGNOSTIC: a huge SSE makes deck render only the tileset ROOT
+            // (preview.pnts, identity transform) and never descend into
+            // py3dtiles' scaled-transform octree children. If the coarse preview
+            // appears now, the scaled child transforms are what deck's traversal
+            // can't handle (tiles=0 / no tileLoad otherwise).
+            maximumScreenSpaceError: cfg.maxScreenSpaceError ?? 1e9,
             maximumMemoryUsage: cfg.maxMemoryMB ?? 512,
             memoryAdjustedScreenSpaceError: true,
             maxRequests: 32
