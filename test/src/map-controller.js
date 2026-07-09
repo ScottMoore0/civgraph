@@ -1061,24 +1061,46 @@ export class TestMapLibreController {
       // clouds over a raster basemap without tying deck's render to the map pass.
       this.pointCloudOverlay = new this._deck.MapboxOverlay({
         interleaved: layer.interleaved === true,
-        layers: [],
-        onError: (error, l) => console.error('[pc-dev] deck.onError', l?.id, error?.message || String(error)),
-        onLoad: () => {
-          try {
-            const dk = this.pointCloudOverlay?._deck;
-            console.log('[pc-dev] deck.onLoad deck?', !!dk, 'device?', !!dk?.device,
-              'deviceType', dk?.device?.constructor?.name, 'gpu', dk?.device?.info?.vendor, dk?.device?.info?.renderer);
-          } catch (e) { console.log('[pc-dev] onLoad inspect err', e?.message); }
-        }
+        layers: []
       });
       this.map.addControl(this.pointCloudOverlay);
       if (typeof this.map.setMaxPitch === 'function' && this.map.getMaxPitch() < 80) {
         this.map.setMaxPitch(85);
       }
-      console.log('[pc-dev] overlay added; interleaved=', layer.interleaved === true);
+      // deck.gl 9's overlaid MapboxOverlay appends its render canvas into an empty
+      // MapLibre control corner (.maplibregl-ctrl-top-left), which MapLibre v5 lays
+      // out at display:none / 0x0. deck then reads a 0-size canvas, builds no
+      // viewport, and never traverses the tileset -> zero tiles / no points.
+      // Relocate deck's widget/canvas container into the map's correctly-sized
+      // canvas container so deck picks up the real dimensions.
+      this._relocatePointCloudCanvas();
     }
     this.syncPointCloudOverlay();
     return { layerIds: [], sourceIds: [] };
+  }
+
+  // See addPointCloudLayer: move deck.gl's overlay canvas out of the 0x0 hidden
+  // MapLibre control corner into the map's sized canvas container. deck creates
+  // the container asynchronously after addControl, so poll a few frames for it.
+  _relocatePointCloudCanvas(attempt = 0) {
+    let wc = null;
+    try { wc = this.map?.getContainer?.().querySelector('.deck-widget-container'); } catch (e) { return; }
+    if (!wc) {
+      if (attempt < 30) requestAnimationFrame(() => this._relocatePointCloudCanvas(attempt + 1));
+      return;
+    }
+    try {
+      const cc = this.map.getCanvasContainer();
+      if (cc && wc.parentElement !== cc) cc.appendChild(wc);
+      wc.style.position = 'absolute';
+      wc.style.top = '0';
+      wc.style.left = '0';
+      wc.style.width = '100%';
+      wc.style.height = '100%';
+      wc.style.pointerEvents = 'none';
+      window.dispatchEvent(new Event('resize'));
+      this.map.triggerRepaint();
+    } catch (e) { /* non-fatal: relocation is best-effort */ }
   }
 
   syncPointCloudOverlay() {
@@ -1098,9 +1120,9 @@ export class TestMapLibreController {
         // Uniform tint for intensity-only clouds; RGB clouds (vertexColors)
         // keep their per-point photogrammetry colour (omit the override).
         ...(cfg.vertexColors ? {} : { getPointColor: rgb }),
-        onTilesetLoad: (ts) => { console.log('[pc-dev] tilesetLoad', cfg.id, 'center', ts?.cartographicCenter); this.map?.triggerRepaint?.(); },
-        onTileLoad: (t) => { console.log('[pc-dev] tileLoad', cfg.id, t?.id); this.map?.triggerRepaint?.(); },
-        onTileError: (t, m, u) => console.error('[pc-dev] tileError', cfg.id, m, u),
+        onTilesetLoad: () => this.map?.triggerRepaint?.(),
+        onTileLoad: () => this.map?.triggerRepaint?.(),
+        onTileError: (tile, message, url) => console.error('[pointcloud] tile error', cfg.id, message, url),
         loadOptions: {
           tileset: {
             maximumScreenSpaceError: cfg.maxScreenSpaceError ?? 16,
