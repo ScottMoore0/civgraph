@@ -187,11 +187,26 @@ class Test2App {
     dataService.fuse = null;
     await this.loadTimelineTransitionManifest();
 
-    this.metadataService = new TestMetadataService('/test/metadata/maps-test-index.json?v=test-061', undefined, {
+    this.metadataService = new TestMetadataService('/test/metadata/maps-test-index.json?v=test-062', undefined, {
       cache: 'force-cache',
       portPlanCache: 'force-cache'
     });
     await this.metadataService.load();
+
+    // The catalogue (ui-controller) reads from dataService (data/database/maps.json),
+    // which doesn't include the test-only 3D/LiDAR layers — so their catalogue cards
+    // (LiDAR Point Clouds / NI LiDAR Elevation Models) render empty. Inject those
+    // layers into dataService so getMapById resolves them and the cards populate.
+    try {
+      if (dataService.maps && Array.isArray(dataService.maps.maps)) {
+        const existingIds = new Set(dataService.maps.maps.map((m) => m.id));
+        for (const layer of this.metadataService.layers || []) {
+          if ((layer.sourceType === 'point-cloud' || layer.sourceType === 'raster-dem') && !existingIds.has(layer.id)) {
+            dataService.maps.maps.push(layer);
+          }
+        }
+      }
+    } catch (e) { console.warn('[app] 3D layer catalogue injection failed', e); }
 
     this.mapController = new Test2MapLibreMainAdapter('map', this.metadataService, {
       onFeatureClick: (features) => {
