@@ -394,11 +394,21 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
       const posOff = ftbin + (ft.POSITION?.byteOffset ?? 0);
       const pos = new Float32Array(buf.slice(posOff, posOff + n * 12));
       const cols = new Float32Array(n * 3);
+      let useRgb = false;
       if (ft.RGB) {
         const rgbOff = ftbin + ft.RGB.byteOffset;
         const rgb = new Uint8Array(buf, rgbOff, n * 3);
-        for (let i = 0; i < n * 3; i++) cols[i] = rgb[i] / 255;
-      } else {
+        // Some clouds are flagged hasColor but ship all-black RGB (absent/failed
+        // source colour, e.g. sept2022-northcoast). Detect that and fall back to
+        // the elevation ramp so the surface is visible instead of rendering black.
+        let mx = 0;
+        for (let i = 0; i < n * 3; i++) { if (rgb[i] > mx) { mx = rgb[i]; if (mx >= 8) break; } }
+        if (mx >= 8) {
+          useRgb = true;
+          for (let i = 0; i < n * 3; i++) cols[i] = rgb[i] / 255;
+        }
+      }
+      if (!useRgb) {
         // Coherent elevation ramp: each point's absolute mercator-z (via the
         // node's local->mercator affine + ref), normalised over the whole
         // cloud's vertical range so colour tracks true height everywhere.
