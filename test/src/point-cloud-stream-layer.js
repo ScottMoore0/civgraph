@@ -262,6 +262,10 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
     _maxPoints: opts.maxPoints ?? 22_000_000,
     _maxConcurrent: 24,
     _evictGrace: 300,                        // frames a tile must be unseen before it can be evicted
+    _sizeK: opts.sizeK ?? 1.1,               // adaptive point size: px = clamp(ge/mpp * sizeK)
+    _minSizePx: opts.minSizePx ?? 1.5,
+    _maxSizePx: opts.maxSizePx ?? 7.0,
+    _mpp: 1,                                 // current ground metres-per-pixel (set each frame)
     _mzMin: 0,                               // cloud vertical range (mercator z)
     _mzMax: 1,                               // for coherent elevation colouring
     _root: null,
@@ -476,6 +480,7 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
       const lat = this._map.getCenter().lat;
       const zoom = this._map.getZoom();
       const mpp = (EARTH_CIRC * Math.cos(lat * D2R)) / (512 * Math.pow(2, zoom));
+      this._mpp = mpp;
       const budget = mpp * this._errK;
 
       const out = [];
@@ -494,6 +499,15 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
       if (this._queue.length || this._inflight) this._map?.triggerRepaint();
     },
 
+    // Adaptive screen point size: a tile's geometric error (≈ its point spacing)
+    // in pixels, so points grow as you zoom past the data's native resolution and
+    // the surface stays solid instead of turning into sparse dots.
+    _pointSizePx(node) {
+      const dpr = window.devicePixelRatio || 1;
+      const px = (node.geometricError / this._mpp) * this._sizeK;
+      return Math.min(Math.max(px, this._minSizePx), this._maxSizePx) * dpr;
+    },
+
     // per-node local->clip matrix: mainMatrix . translate(ref) . affine
     _nodeMatrix(m, node) {
       const rx = node.ref[0], ry = node.ref[1], rz = node.ref[2];
@@ -508,13 +522,13 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
     // straight point draw into maplibre's framebuffer (no EDL)
     _renderDirect(gl, m, out) {
       gl.useProgram(this._prog);
-      gl.uniform1f(this._loc.u_size, this._pointSize * (window.devicePixelRatio || 1));
       // Point clouds render opaque; the app's fade leaves custom-layer opacity at
       // 0 (it only animates paint properties), so treat 0 as full.
       gl.uniform1f(this._loc.u_opacity, this._opacity || 1);
       gl.enable(gl.DEPTH_TEST);
       gl.depthFunc(gl.LEQUAL);
       for (const node of out) {
+        gl.uniform1f(this._loc.u_size, this._pointSizePx(node));
         gl.uniformMatrix4fv(this._loc.u_matrix, false, this._nodeMatrix(m, node));
         gl.bindBuffer(gl.ARRAY_BUFFER, node.buf);
         gl.enableVertexAttribArray(this._loc.a_pos);
@@ -609,10 +623,10 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
       gl.clearColor(0, 0, 0, 0);
       gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
       gl.useProgram(e.ptProg);
-      gl.uniform1f(e.ptLoc.u_size, this._pointSize * (window.devicePixelRatio || 1));
       gl.uniform1f(e.ptLoc.u_k, this._edlK);
       gl.bindVertexArray(e.vao);
       for (const node of out) {
+        gl.uniform1f(e.ptLoc.u_size, this._pointSizePx(node));
         gl.uniformMatrix4fv(e.ptLoc.u_matrix, false, this._nodeMatrix(m, node));
         gl.bindBuffer(gl.ARRAY_BUFFER, node.buf);
         gl.enableVertexAttribArray(e.ptLoc.a_pos);
