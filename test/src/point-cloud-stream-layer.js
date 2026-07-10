@@ -290,7 +290,7 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
     _edlRadius: opts.edlRadius ?? 3.0,        // neighbour sample radius (px)
     _edlK: opts.edlK ?? 1e-3,                 // depth-curve scale (tuned: keeps depth ~0.55, unsaturated)
     // screen-space gap-fill (surface look up close), zoom-gated
-    _fillIters: opts.fillIters ?? 4,          // dilation iterations (fills ~iters*radius px gaps)
+    _fillIters: opts.fillIters ?? 8,          // MAX dilation iterations (scaled by zoom below)
     _fillRadius: opts.fillRadius ?? 1.5,      // neighbour radius per fill iteration (px)
     _fillDepthThresh: opts.fillDepthThresh ?? 0.03,   // don't bridge across depth jumps bigger than this
     _fillMinZoom: opts.fillMinZoom ?? 16.5,   // only fill when zoomed in past here
@@ -636,7 +636,11 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
       }
       // -- pass 2: iterative gap-fill (zoom-gated), ping-pong pp0/pp1 --
       gl.disable(gl.DEPTH_TEST); gl.depthMask(false); gl.disable(gl.BLEND);
-      const iters = (this._map.getZoom() >= this._fillMinZoom) ? this._fillIters : 0;
+      // more fill the closer you are (gaps widen with zoom); off when zoomed out
+      const zoomNow = this._map.getZoom();
+      const iters = zoomNow >= this._fillMinZoom
+        ? Math.max(2, Math.min(this._fillIters, Math.round(2 + (zoomNow - this._fillMinZoom) * 1.5)))
+        : 0;
       let srcCol = e.gbuf.col, srcDep = e.gbuf.dep;
       for (let i = 0; i < iters; i++) {
         const dst = (i % 2 === 0) ? e.pp0 : e.pp1;
