@@ -405,7 +405,10 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
       if (this._loadedPoints <= this._maxPoints) return;
       // Only evict tiles unseen for a grace window, so a tile briefly off the
       // frustum edge during a pan is NOT deleted + re-downloaded when you pan back.
-      const cutoff = this._frame - this._evictGrace;
+      // But past a hard ceiling (2x budget) drop the grace and evict oldest to
+      // avoid runaway GPU memory — never evicting tiles drawn this very frame.
+      const overHard = this._loadedPoints > this._maxPoints * 2;
+      const cutoff = overHard ? this._frame : this._frame - this._evictGrace;
       const cand = [...this._loadedNodes].filter((n) => n.lastFrame < cutoff).sort((a, b) => a.lastFrame - b.lastFrame);
       for (const node of cand) {
         if (this._loadedPoints <= this._maxPoints * 0.85) break;
