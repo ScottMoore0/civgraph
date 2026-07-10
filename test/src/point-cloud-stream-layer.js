@@ -182,7 +182,9 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
     _opacity: opts.opacity ?? 1,
     _errK: opts.errorFactor ?? 1.0,          // lower = more detail
     _maxPoints: opts.maxPoints ?? 14_000_000,
-    _maxConcurrent: 8,
+    _maxConcurrent: 12,
+    _mzMin: 0,                               // cloud vertical range (mercator z)
+    _mzMax: 1,                               // for coherent elevation colouring
     _root: null,
     _frame: 0,
     _loadedPoints: 0,
@@ -213,6 +215,11 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
       fetch(tilesetUrl).then((r) => r.json()).then((ts) => {
         const baseUrl = tilesetUrl.split('?')[0];
         this._root = makeNode(ts.root, IDENT, baseUrl, 'REPLACE');
+        // Global vertical range (mercator z) from the root box corners, so the
+        // elevation ramp is coherent across all tiles (not normalised per node).
+        let lo = Infinity, hi = -Infinity;
+        for (const c of this._root.corners) { if (c[2] < lo) lo = c[2]; if (c[2] > hi) hi = c[2]; }
+        if (hi > lo) { this._mzMin = lo; this._mzMax = hi; }
         this._map?.triggerRepaint();
       }).catch((e) => console.error('[pc-stream] tileset load failed', id, e));
     },
@@ -281,11 +288,17 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
         const rgb = new Uint8Array(buf, rgbOff, n * 3);
         for (let i = 0; i < n * 3; i++) cols[i] = rgb[i] / 255;
       } else {
-        // height ramp on local z (cheap, per-node relative)
-        let zmin = Infinity, zmax = -Infinity;
-        for (let i = 0; i < n; i++) { const z = pos[i * 3 + 2]; if (z < zmin) zmin = z; if (z > zmax) zmax = z; }
-        const span = (zmax - zmin) || 1;
-        for (let i = 0; i < n; i++) { const c = ramp((pos[i * 3 + 2] - zmin) / span); cols[i * 3] = c[0]; cols[i * 3 + 1] = c[1]; cols[i * 3 + 2] = c[2]; }
+        // Coherent elevation ramp: each point's absolute mercator-z (via the
+        // node's local->mercator affine + ref), normalised over the whole
+        // cloud's vertical range so colour tracks true height everywhere.
+        const A = node.affine, rz = node.ref[2];
+        const lo = this._mzMin, span = (this._mzMax - this._mzMin) || 1;
+        for (let i = 0; i < n; i++) {
+          const x = pos[i * 3], y = pos[i * 3 + 1], z = pos[i * 3 + 2];
+          const mz = rz + A[2] * x + A[6] * y + A[10] * z + A[14];
+          const c = ramp((mz - lo) / span);
+          cols[i * 3] = c[0]; cols[i * 3 + 1] = c[1]; cols[i * 3 + 2] = c[2];
+        }
       }
       node.buf = gl.createBuffer();
       gl.bindBuffer(gl.ARRAY_BUFFER, node.buf);
