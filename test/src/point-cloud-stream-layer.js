@@ -258,9 +258,10 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
     renderingMode: '3d',
     _pointSize: opts.pointSize ?? 1.6,
     _opacity: opts.opacity ?? 1,
-    _errK: opts.errorFactor ?? 1.0,          // lower = more detail
-    _maxPoints: opts.maxPoints ?? 14_000_000,
-    _maxConcurrent: 12,
+    _errK: opts.errorFactor ?? 1.5,          // lower = more detail (higher = fewer tiles, smoother)
+    _maxPoints: opts.maxPoints ?? 22_000_000,
+    _maxConcurrent: 24,
+    _evictGrace: 300,                        // frames a tile must be unseen before it can be evicted
     _mzMin: 0,                               // cloud vertical range (mercator z)
     _mzMax: 1,                               // for coherent elevation colouring
     _root: null,
@@ -271,8 +272,8 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
     _loadedNodes: new Set(),
     _visitBudget: 0,          // per-frame traversal cap (set in render)
     _resolving: 0,            // in-flight external-tileset fetches
-    _maxResolving: 12,
-    _maxVisitsPerFrame: 6000,
+    _maxResolving: 24,
+    _maxVisitsPerFrame: 40000,
     _edlEnabled: opts.edl ?? true,
     _edlStrength: opts.edlStrength ?? 2000,   // edge-shading strength (tuned live)
     _edlRadius: opts.edlRadius ?? 3.0,        // neighbour sample radius (px)
@@ -341,11 +342,15 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
     },
 
     _pump(gl) {
+      if (!this._queue.length) return;
+      // prefer most-recently-wanted nodes, and within those the coarser tiles first
+      // so the view fills fast then refines (instead of random fine tiles)
+      this._queue.sort((a, b) => (b.lastFrame - a.lastFrame) || (b.geometricError - a.geometricError));
+      const staleCut = this._frame - 120;   // queued for a view we've moved past
       while (this._inflight < this._maxConcurrent && this._queue.length) {
-        // prefer most-recently-wanted nodes
-        this._queue.sort((a, b) => b.lastFrame - a.lastFrame);
         const node = this._queue.shift();
         if (node.state !== 'queued') continue;
+        if (node.lastFrame < staleCut) { node.state = 'unloaded'; continue; }
         node.state = 'loading';
         this._inflight++;
         fetch(node.contentUri).then((r) => r.arrayBuffer()).then((buf) => {
@@ -398,7 +403,10 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
 
     _evict(gl) {
       if (this._loadedPoints <= this._maxPoints) return;
-      const cand = [...this._loadedNodes].filter((n) => n.lastFrame < this._frame).sort((a, b) => a.lastFrame - b.lastFrame);
+      // Only evict tiles unseen for a grace window, so a tile briefly off the
+      // frustum edge during a pan is NOT deleted + re-downloaded when you pan back.
+      const cutoff = this._frame - this._evictGrace;
+      const cand = [...this._loadedNodes].filter((n) => n.lastFrame < cutoff).sort((a, b) => a.lastFrame - b.lastFrame);
       for (const node of cand) {
         if (this._loadedPoints <= this._maxPoints * 0.85) break;
         gl.deleteBuffer(node.buf); gl.deleteBuffer(node.colBuf);
