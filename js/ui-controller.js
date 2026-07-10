@@ -4089,7 +4089,12 @@ class UIController {
             { id: 'flat-sdcc', name: 'South Dublin County Council — Open Data', years: '', extent: 'Republic of Ireland',
               mapIds: ['sdcc-bicycle-parking-stands', 'sdcc-monthly-river-quality-data-sdcc1'] },
             { id: 'flat-fingal', name: 'Fingal — Open Data', years: '', extent: 'Republic of Ireland',
-              mapIds: ['fingal-polling-station-data', 'fingal-trees'] }
+              mapIds: ['fingal-polling-station-data', 'fingal-trees'] },
+            // ── LiDAR & 3D ──
+            { id: 'flat-lidar-pointclouds', name: 'LiDAR Point Clouds (3D)', years: '2019-2022', extent: 'Northern Ireland',
+              mapIds: ['ni-lidar-york-street-pointcloud', 'ni-lidar-a26-pointcloud', 'ni-lidar-newry-pointcloud', 'ni-lidar-sept2022-northcoast-pointcloud', 'ni-lidar-march2022-northcoast-pointcloud'] },
+            { id: 'flat-ni-lidar-dem', name: 'NI LiDAR Elevation Models (3D)', years: '2008-2021', extent: 'Ireland',
+              mapIds: ['ireland-terrain-3d','ni-lidar-1m-3d','ni-lidar-armagh-dungannon-coalisland-3d','ni-lidar-ballycastle-3d','ni-lidar-ballyclare-3d','ni-lidar-ballygalley-3d','ni-lidar-ballygowan-3d','ni-lidar-ballymena-3d','ni-lidar-ballynahinch-3d','ni-lidar-ballynavally-3d','ni-lidar-banbridge-3d','ni-lidar-bangor-3d','ni-lidar-blackwater-3d','ni-lidar-bushmills-3d','ni-lidar-camowen-3d','ni-lidar-carrickfergus-3d','ni-lidar-carryduff-3d','ni-lidar-castlederg-3d','ni-lidar-castlereagh-3d','ni-lidar-clady-3d','ni-lidar-cloghmills-3d','ni-lidar-coleraine-portstewart-portrush-3d','ni-lidar-cookstown-3d','ni-lidar-cullybackey-3d','ni-lidar-cushendall-3d','ni-lidar-downpatrick-3d','ni-lidar-dunmurry-3d','ni-lidar-east-belfast-3d','ni-lidar-foyle-3d','ni-lidar-killyleagh-3d','ni-lidar-larne-3d','ni-lidar-limavady-3d','ni-lidar-lisburn-3d','ni-lidar-lowerbann-3d','ni-lidar-maghera-3d','ni-lidar-magherafelt-3d','ni-lidar-newcastle-3d','ni-lidar-newry-3d','ni-lidar-newtownabbey-3d','ni-lidar-newtownards-3d','ni-lidar-newtownstewart-3d','ni-lidar-omagh-3d','ni-lidar-portadown-3d','ni-lidar-randalstown-3d','ni-lidar-stonyford-3d','ni-lidar-strabane-3d','ni-lidar-tandragee-3d','ireland-terrain-3d-grey','ni-lidar-1m-3d-grey','ni-lidar-armagh-dungannon-coalisland-3d-grey','ni-lidar-ballycastle-3d-grey','ni-lidar-ballyclare-3d-grey','ni-lidar-ballygalley-3d-grey','ni-lidar-ballygowan-3d-grey','ni-lidar-ballymena-3d-grey','ni-lidar-ballynahinch-3d-grey','ni-lidar-ballynavally-3d-grey','ni-lidar-banbridge-3d-grey','ni-lidar-bangor-3d-grey','ni-lidar-blackwater-3d-grey','ni-lidar-bushmills-3d-grey','ni-lidar-camowen-3d-grey','ni-lidar-carrickfergus-3d-grey','ni-lidar-carryduff-3d-grey','ni-lidar-castlederg-3d-grey','ni-lidar-castlereagh-3d-grey','ni-lidar-clady-3d-grey','ni-lidar-cloghmills-3d-grey','ni-lidar-coleraine-portstewart-portrush-3d-grey','ni-lidar-cookstown-3d-grey','ni-lidar-cullybackey-3d-grey','ni-lidar-cushendall-3d-grey','ni-lidar-downpatrick-3d-grey','ni-lidar-dunmurry-3d-grey','ni-lidar-east-belfast-3d-grey','ni-lidar-foyle-3d-grey','ni-lidar-killyleagh-3d-grey','ni-lidar-larne-3d-grey','ni-lidar-limavady-3d-grey','ni-lidar-lisburn-3d-grey','ni-lidar-lowerbann-3d-grey','ni-lidar-maghera-3d-grey','ni-lidar-magherafelt-3d-grey','ni-lidar-newcastle-3d-grey','ni-lidar-newry-3d-grey','ni-lidar-newtownabbey-3d-grey','ni-lidar-newtownards-3d-grey','ni-lidar-newtownstewart-3d-grey','ni-lidar-omagh-3d-grey','ni-lidar-portadown-3d-grey','ni-lidar-randalstown-3d-grey','ni-lidar-stonyford-3d-grey','ni-lidar-strabane-3d-grey','ni-lidar-tandragee-3d-grey'] }
         ];
 
         const censusDataCards = c1Cards.filter(card => String(card.id || '').startsWith('flat-data-2021-'));
@@ -4516,6 +4521,13 @@ class UIController {
                     'OSNI Map Sheet Coverage Grids and Benchmarks',
                     'OSNI Printed Raster Maps',
                     'OSNI Historical Six-Inch Maps'
+                ]
+            },
+            {
+                heading: 'LiDAR & 3D',
+                members: [
+                    'LiDAR Point Clouds',
+                    'NI LiDAR Elevation Models'
                 ]
             },
             {
