@@ -274,9 +274,9 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
     _maxResolving: 12,
     _maxVisitsPerFrame: 6000,
     _edlEnabled: opts.edl ?? true,
-    _edlStrength: opts.edlStrength ?? 40,     // edge-shading strength (tune)
-    _edlRadius: opts.edlRadius ?? 1.4,        // neighbour sample radius (px)
-    _edlK: opts.edlK ?? 300,                  // depth-curve scale (tune)
+    _edlStrength: opts.edlStrength ?? 2000,   // edge-shading strength (tuned live)
+    _edlRadius: opts.edlRadius ?? 3.0,        // neighbour sample radius (px)
+    _edlK: opts.edlK ?? 1e-3,                 // depth-curve scale (tuned: keeps depth ~0.55, unsaturated)
     _edl: null,               // {ptProg, postProg, fbo, colTex, depTex, rbo, w, h, ...} or null
 
     onAdd(map, gl) {
@@ -498,7 +498,9 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
     _renderDirect(gl, m, out) {
       gl.useProgram(this._prog);
       gl.uniform1f(this._loc.u_size, this._pointSize * (window.devicePixelRatio || 1));
-      gl.uniform1f(this._loc.u_opacity, this._opacity);
+      // Point clouds render opaque; the app's fade leaves custom-layer opacity at
+      // 0 (it only animates paint properties), so treat 0 as full.
+      gl.uniform1f(this._loc.u_opacity, this._opacity || 1);
       gl.enable(gl.DEPTH_TEST);
       gl.depthFunc(gl.LEQUAL);
       for (const node of out) {
@@ -622,7 +624,7 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
       gl.uniform2f(e.postLoc.u_texel, 1 / w, 1 / h);
       gl.uniform1f(e.postLoc.u_strength, this._edlStrength);
       gl.uniform1f(e.postLoc.u_radius, this._edlRadius);
-      gl.uniform1f(e.postLoc.u_opacity, this._opacity);
+      gl.uniform1f(e.postLoc.u_opacity, this._opacity || 1);   // treat app's opacity-0 as full (see direct path)
       gl.drawArrays(gl.TRIANGLES, 0, 3);
       // -- restore maplibre's state --
       gl.bindTexture(gl.TEXTURE_2D, null);
