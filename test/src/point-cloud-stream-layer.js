@@ -101,6 +101,84 @@ function ramp(t) {
   if (t < 0.5) { const u = t * 2; return [0.15 + 0.1 * u, 0.35 + 0.55 * u, 0.9 - 0.5 * u]; }
   const u = (t - 0.5) * 2; return [0.25 + 0.7 * u, 0.9 - 0.55 * u, 0.4 - 0.3 * u];
 }
+function linkProgram(gl, vsSrc, fsSrc) {
+  const p = gl.createProgram();
+  gl.attachShader(p, compile(gl, gl.VERTEX_SHADER, vsSrc));
+  gl.attachShader(p, compile(gl, gl.FRAGMENT_SHADER, fsSrc));
+  gl.linkProgram(p);
+  if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error('pc link: ' + gl.getProgramInfoLog(p));
+  return p;
+}
+
+// ---- Eye-Dome Lighting (WebGL2) ----
+// Pass 1: render points into an offscreen FBO with MRT — attachment 0 = colour
+// (+ coverage in alpha), attachment 1 = packed view-depth. Pass 2: a fullscreen
+// shader compares each pixel's depth to its neighbours and darkens depth
+// discontinuities (edges), so shape reads even on colourless clouds. Composited
+// over the map with the point opacity. Depth is packed into RGBA8 so no float-
+// render extension is needed.
+const EDL_PT_VERT = `#version 300 es
+precision highp float;
+in vec3 a_pos; in vec3 a_color;
+uniform mat4 u_matrix; uniform float u_size;
+out vec3 v_color; out float v_w;
+void main() {
+  gl_Position = u_matrix * vec4(a_pos, 1.0);
+  gl_PointSize = u_size;
+  v_color = a_color;
+  v_w = gl_Position.w;
+}`;
+const EDL_PT_FRAG = `#version 300 es
+precision highp float;
+in vec3 v_color; in float v_w;
+uniform float u_k;
+layout(location = 0) out vec4 o_color;
+layout(location = 1) out vec4 o_depth;
+vec4 packF(float v) {
+  v = clamp(v, 0.0, 1.0);
+  vec4 e = fract(v * vec4(1.0, 255.0, 65025.0, 16581375.0));
+  e -= e.yzww * vec4(1.0 / 255.0, 1.0 / 255.0, 1.0 / 255.0, 0.0);
+  return e;
+}
+void main() {
+  vec2 c = gl_PointCoord * 2.0 - 1.0;
+  if (dot(c, c) > 1.0) discard;
+  o_color = vec4(v_color, 1.0);
+  o_depth = packF(1.0 - 1.0 / (1.0 + v_w * u_k));   // monotonic depth in [0,1)
+}`;
+const EDL_POST_VERT = `#version 300 es
+precision highp float;
+out vec2 v_uv;
+void main() {
+  vec2 p = vec2(float((gl_VertexID << 1) & 2), float(gl_VertexID & 2));
+  v_uv = p;
+  gl_Position = vec4(p * 2.0 - 1.0, 0.0, 1.0);
+}`;
+const EDL_POST_FRAG = `#version 300 es
+precision highp float;
+in vec2 v_uv;
+uniform sampler2D u_color; uniform sampler2D u_depth;
+uniform vec2 u_texel; uniform float u_strength; uniform float u_radius; uniform float u_opacity;
+out vec4 frag;
+float unpackF(vec4 c) { return dot(c, vec4(1.0, 1.0 / 255.0, 1.0 / 65025.0, 1.0 / 16581375.0)); }
+void main() {
+  vec4 col = texture(u_color, v_uv);
+  if (col.a < 0.5) discard;                          // no point here -> keep map
+  float zc = unpackF(texture(u_depth, v_uv));
+  float sum = 0.0, cnt = 0.0;
+  for (int i = 0; i < 8; i++) {
+    float a = float(i) * 0.7853981634;
+    vec2 off = vec2(cos(a), sin(a)) * u_texel * u_radius;
+    if (texture(u_color, v_uv + off).a > 0.5) {
+      float zn = unpackF(texture(u_depth, v_uv + off));
+      sum += max(0.0, zc - zn);                       // center behind neighbour -> shade
+      cnt += 1.0;
+    }
+  }
+  float resp = cnt > 0.0 ? sum / cnt : 0.0;
+  float shade = exp(-u_strength * resp);
+  frag = vec4(col.rgb * shade, u_opacity);
+}`;
 
 // ---------- tileset helpers ----------------------------------------------
 function joinUrl(base, rel) {
@@ -195,6 +273,11 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
     _resolving: 0,            // in-flight external-tileset fetches
     _maxResolving: 12,
     _maxVisitsPerFrame: 6000,
+    _edlEnabled: opts.edl ?? true,
+    _edlStrength: opts.edlStrength ?? 40,     // edge-shading strength (tune)
+    _edlRadius: opts.edlRadius ?? 1.4,        // neighbour sample radius (px)
+    _edlK: opts.edlK ?? 300,                  // depth-curve scale (tune)
+    _edl: null,               // {ptProg, postProg, fbo, colTex, depTex, rbo, w, h, ...} or null
 
     onAdd(map, gl) {
       this._map = map;
@@ -212,6 +295,7 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
         u_opacity: gl.getUniformLocation(prog, 'u_opacity')
       };
       if (typeof map.setMaxPitch === 'function' && map.getMaxPitch() < 80) map.setMaxPitch(85);
+      if (this._edlEnabled) { try { this._initEDL(gl); } catch (e) { this._edl = null; console.warn('[pc-stream] EDL unavailable, using direct render', e); } }
       fetch(tilesetUrl).then((r) => r.json()).then((ts) => {
         const baseUrl = tilesetUrl.split('?')[0];
         this._root = makeNode(ts.root, IDENT, baseUrl, 'REPLACE');
@@ -389,22 +473,36 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
       this._pump(gl);
       this._evict(gl);
 
+      if (this._edl && out.length) {
+        try { this._renderEDL(gl, m, out); }
+        catch (e) { console.warn('[pc-stream] EDL render failed, falling back to direct', e); this._edl = null; this._renderDirect(gl, m, out); }
+      } else {
+        this._renderDirect(gl, m, out);
+      }
+      // keep animating while tiles are still loading
+      if (this._queue.length || this._inflight) this._map?.triggerRepaint();
+    },
+
+    // per-node local->clip matrix: mainMatrix . translate(ref) . affine
+    _nodeMatrix(m, node) {
+      const rx = node.ref[0], ry = node.ref[1], rz = node.ref[2];
+      const rtc = m.slice();
+      rtc[12] = m[0] * rx + m[4] * ry + m[8] * rz + m[12];
+      rtc[13] = m[1] * rx + m[5] * ry + m[9] * rz + m[13];
+      rtc[14] = m[2] * rx + m[6] * ry + m[10] * rz + m[14];
+      rtc[15] = m[3] * rx + m[7] * ry + m[11] * rz + m[15];
+      return new Float32Array(mul4(rtc, node.affine));
+    },
+
+    // straight point draw into maplibre's framebuffer (no EDL)
+    _renderDirect(gl, m, out) {
       gl.useProgram(this._prog);
       gl.uniform1f(this._loc.u_size, this._pointSize * (window.devicePixelRatio || 1));
       gl.uniform1f(this._loc.u_opacity, this._opacity);
       gl.enable(gl.DEPTH_TEST);
       gl.depthFunc(gl.LEQUAL);
-
       for (const node of out) {
-        // rtc = mainMatrix . translate(ref)
-        const rx = node.ref[0], ry = node.ref[1], rz = node.ref[2];
-        const rtc = m.slice();
-        rtc[12] = m[0] * rx + m[4] * ry + m[8] * rz + m[12];
-        rtc[13] = m[1] * rx + m[5] * ry + m[9] * rz + m[13];
-        rtc[14] = m[2] * rx + m[6] * ry + m[10] * rz + m[14];
-        rtc[15] = m[3] * rx + m[7] * ry + m[11] * rz + m[15];
-        const M = mul4(rtc, node.affine); // local -> clip
-        gl.uniformMatrix4fv(this._loc.u_matrix, false, new Float32Array(M));
+        gl.uniformMatrix4fv(this._loc.u_matrix, false, this._nodeMatrix(m, node));
         gl.bindBuffer(gl.ARRAY_BUFFER, node.buf);
         gl.enableVertexAttribArray(this._loc.a_pos);
         gl.vertexAttribPointer(this._loc.a_pos, 3, gl.FLOAT, false, 0, 0);
@@ -413,17 +511,147 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
         gl.vertexAttribPointer(this._loc.a_color, 3, gl.FLOAT, false, 0, 0);
         gl.drawArrays(gl.POINTS, 0, node.count);
       }
-      // keep animating while tiles are still loading
-      if (this._queue.length || this._inflight) this._map?.triggerRepaint();
+    },
+
+    _initEDL(gl) {
+      const isGL2 = (typeof WebGL2RenderingContext !== 'undefined') && (gl instanceof WebGL2RenderingContext);
+      if (!isGL2) { this._edl = null; return; }
+      const ptProg = linkProgram(gl, EDL_PT_VERT, EDL_PT_FRAG);
+      const postProg = linkProgram(gl, EDL_POST_VERT, EDL_POST_FRAG);
+      this._edl = {
+        ptProg, postProg,
+        ptLoc: {
+          a_pos: gl.getAttribLocation(ptProg, 'a_pos'),
+          a_color: gl.getAttribLocation(ptProg, 'a_color'),
+          u_matrix: gl.getUniformLocation(ptProg, 'u_matrix'),
+          u_size: gl.getUniformLocation(ptProg, 'u_size'),
+          u_k: gl.getUniformLocation(ptProg, 'u_k')
+        },
+        postLoc: {
+          u_color: gl.getUniformLocation(postProg, 'u_color'),
+          u_depth: gl.getUniformLocation(postProg, 'u_depth'),
+          u_texel: gl.getUniformLocation(postProg, 'u_texel'),
+          u_strength: gl.getUniformLocation(postProg, 'u_strength'),
+          u_radius: gl.getUniformLocation(postProg, 'u_radius'),
+          u_opacity: gl.getUniformLocation(postProg, 'u_opacity')
+        },
+        fbo: gl.createFramebuffer(),
+        colTex: gl.createTexture(),
+        depTex: gl.createTexture(),
+        rbo: gl.createRenderbuffer(),
+        vao: gl.createVertexArray(),
+        w: 0, h: 0
+      };
+    },
+
+    _ensureEdlSize(gl, w, h) {
+      const e = this._edl;
+      if (e.w === w && e.h === h) return;
+      e.w = w; e.h = h;
+      for (const tex of [e.colTex, e.depTex]) {
+        gl.bindTexture(gl.TEXTURE_2D, tex);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, w, h, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      }
+      gl.bindRenderbuffer(gl.RENDERBUFFER, e.rbo);
+      gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, w, h);
+      gl.bindFramebuffer(gl.FRAMEBUFFER, e.fbo);
+      gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, e.colTex, 0);
+      gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT1, gl.TEXTURE_2D, e.depTex, 0);
+      gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, e.rbo);
+      gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+      gl.bindTexture(gl.TEXTURE_2D, null);
+      gl.bindRenderbuffer(gl.RENDERBUFFER, null);
+    },
+
+    _renderEDL(gl, m, out) {
+      const e = this._edl;
+      const w = gl.drawingBufferWidth, h = gl.drawingBufferHeight;
+      this._ensureEdlSize(gl, w, h);
+      // -- save maplibre's GL state (it caches state; restore exactly on exit) --
+      const s = {
+        fbo: gl.getParameter(gl.FRAMEBUFFER_BINDING),
+        vp: gl.getParameter(gl.VIEWPORT),
+        vao: gl.getParameter(gl.VERTEX_ARRAY_BINDING),
+        prog: gl.getParameter(gl.CURRENT_PROGRAM),
+        arr: gl.getParameter(gl.ARRAY_BUFFER_BINDING),
+        actTex: gl.getParameter(gl.ACTIVE_TEXTURE),
+        blend: gl.isEnabled(gl.BLEND),
+        bsrc: gl.getParameter(gl.BLEND_SRC_RGB), bdst: gl.getParameter(gl.BLEND_DST_RGB),
+        dtest: gl.isEnabled(gl.DEPTH_TEST),
+        dmask: gl.getParameter(gl.DEPTH_WRITEMASK),
+        dfunc: gl.getParameter(gl.DEPTH_FUNC)
+      };
+      // -- pass 1: points -> offscreen FBO (colour + packed depth via MRT) --
+      gl.bindFramebuffer(gl.FRAMEBUFFER, e.fbo);
+      gl.drawBuffers([gl.COLOR_ATTACHMENT0, gl.COLOR_ATTACHMENT1]);
+      gl.viewport(0, 0, w, h);
+      gl.disable(gl.BLEND);
+      gl.enable(gl.DEPTH_TEST);
+      gl.depthMask(true);
+      gl.depthFunc(gl.LEQUAL);
+      gl.clearColor(0, 0, 0, 0);
+      gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+      gl.useProgram(e.ptProg);
+      gl.uniform1f(e.ptLoc.u_size, this._pointSize * (window.devicePixelRatio || 1));
+      gl.uniform1f(e.ptLoc.u_k, this._edlK);
+      gl.bindVertexArray(e.vao);
+      for (const node of out) {
+        gl.uniformMatrix4fv(e.ptLoc.u_matrix, false, this._nodeMatrix(m, node));
+        gl.bindBuffer(gl.ARRAY_BUFFER, node.buf);
+        gl.enableVertexAttribArray(e.ptLoc.a_pos);
+        gl.vertexAttribPointer(e.ptLoc.a_pos, 3, gl.FLOAT, false, 0, 0);
+        gl.bindBuffer(gl.ARRAY_BUFFER, node.colBuf);
+        gl.enableVertexAttribArray(e.ptLoc.a_color);
+        gl.vertexAttribPointer(e.ptLoc.a_color, 3, gl.FLOAT, false, 0, 0);
+        gl.drawArrays(gl.POINTS, 0, node.count);
+      }
+      // -- pass 2: EDL edge-shade + composite over the map --
+      gl.bindFramebuffer(gl.FRAMEBUFFER, s.fbo);
+      gl.viewport(s.vp[0], s.vp[1], s.vp[2], s.vp[3]);
+      gl.useProgram(e.postProg);
+      gl.disable(gl.DEPTH_TEST);
+      gl.depthMask(false);
+      gl.enable(gl.BLEND);
+      gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+      gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, e.colTex); gl.uniform1i(e.postLoc.u_color, 0);
+      gl.activeTexture(gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D, e.depTex); gl.uniform1i(e.postLoc.u_depth, 1);
+      gl.uniform2f(e.postLoc.u_texel, 1 / w, 1 / h);
+      gl.uniform1f(e.postLoc.u_strength, this._edlStrength);
+      gl.uniform1f(e.postLoc.u_radius, this._edlRadius);
+      gl.uniform1f(e.postLoc.u_opacity, this._opacity);
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
+      // -- restore maplibre's state --
+      gl.bindTexture(gl.TEXTURE_2D, null);
+      gl.activeTexture(gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D, null);
+      gl.activeTexture(s.actTex);
+      gl.bindVertexArray(s.vao);
+      gl.bindBuffer(gl.ARRAY_BUFFER, s.arr);
+      gl.useProgram(s.prog);
+      s.blend ? gl.enable(gl.BLEND) : gl.disable(gl.BLEND);
+      gl.blendFunc(s.bsrc, s.bdst);
+      s.dtest ? gl.enable(gl.DEPTH_TEST) : gl.disable(gl.DEPTH_TEST);
+      gl.depthMask(s.dmask);
+      gl.depthFunc(s.dfunc);
     },
 
     setOpacity(o) { this._opacity = o; this._map?.triggerRepaint(); },
     setPointSize(s) { this._pointSize = s; this._map?.triggerRepaint(); },
+    setEdlStrength(v) { this._edlStrength = v; this._map?.triggerRepaint(); },
 
     onRemove(map, gl) {
       try {
         for (const n of this._loadedNodes) { gl.deleteBuffer(n.buf); gl.deleteBuffer(n.colBuf); }
         gl.deleteProgram(this._prog);
+        if (this._edl) {
+          gl.deleteProgram(this._edl.ptProg); gl.deleteProgram(this._edl.postProg);
+          gl.deleteFramebuffer(this._edl.fbo); gl.deleteTexture(this._edl.colTex);
+          gl.deleteTexture(this._edl.depTex); gl.deleteRenderbuffer(this._edl.rbo);
+          gl.deleteVertexArray(this._edl.vao);
+        }
       } catch (e) { /* ignore */ }
       this._loadedNodes.clear();
     }
