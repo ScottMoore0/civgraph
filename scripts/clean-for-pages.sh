@@ -42,10 +42,15 @@ remove_path "scripts"
 remove_path "tasks"
 remove_path "tests"
 
-# Census CSV/reference dumps are local/source material. Runtime catalogue and
-# map data currently do not reference these files, so they should not be
-# deployed as individual Pages assets.
-remove_path "data/census"
+# Census CSV/reference dumps are local/source material and should not deploy as
+# individual Pages assets. The one exception is data/census/explorer-bundle.json,
+# which the Census Explorer frontend (pages/census-explorer.html) fetches at
+# runtime — keep that single file and drop the rest of the tree.
+if [ -d "data/census" ]; then
+  find data/census -mindepth 1 -name explorer-bundle.json -prune -o -print0 \
+    | xargs -0 --no-run-if-empty rm -rf
+  echo "Trimmed data/census (kept explorer-bundle.json) from Pages asset output"
+fi
 
 # Provider mirror audits are local review/source-intake records. They are useful
 # in Git when curated, but not part of the static runtime.

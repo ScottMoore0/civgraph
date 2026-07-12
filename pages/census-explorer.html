@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Census Explorer — Civgraph</title>
+  <meta name="description" content="Interactive explorer over the Northern Ireland census: concept availability across 2001/2011/2021 and historical reports (1841–1991), plus a finder over 644 logical NISRA source tables." />
+  <style>
+    :root {
+      --navy: #1a365d;
+      --navy-light: #2c5282;
+      --accent: #38a169;
+      --accent-dark: #276749;
+      --bg: #f7fafc;
+      --surface: #ffffff;
+      --surface-alt: #edf2f7;
+      --text: #1a202c;
+      --text-muted: #4a5568;
+      --border: #e2e8f0;
+      --chip: #ebf4ff;
+      --chip-text: #2c5282;
+      --unavail-bg: #f1f3f5;
+      --unavail-text: #a0aec0;
+      --shadow: 0 1px 3px rgba(0,0,0,.1), 0 1px 2px rgba(0,0,0,.06);
+      --radius: 10px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --navy: #90cdf4;
+        --navy-light: #63b3ed;
+        --accent: #68d391;
+        --accent-dark: #9ae6b4;
+        --bg: #12161c;
+        --surface: #1a202c;
+        --surface-alt: #232b38;
+        --text: #e2e8f0;
+        --text-muted: #a0aec0;
+        --border: #2d3748;
+        --chip: #223a5e;
+        --chip-text: #bee3f8;
+        --unavail-bg: #20262f;
+        --unavail-text: #5a6472;
+        --shadow: 0 1px 3px rgba(0,0,0,.5);
+      }
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--navy-light); }
+    header.site {
+      background: linear-gradient(135deg, #1a365d 0%, #0f2744 100%);
+      color: #fff;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    header.site .brand { font-weight: 700; font-size: 1.1rem; color: #fff; text-decoration: none; letter-spacing: .3px; }
+    header.site nav { margin-left: auto; display: flex; gap: 6px; flex-wrap: wrap; }
+    header.site nav a { color: #cbd5e0; text-decoration: none; padding: 6px 12px; border-radius: 6px; font-size: .9rem; }
+    header.site nav a:hover { background: rgba(255,255,255,.12); color: #fff; }
+    header.site nav a.active { background: rgba(56,161,105,.35); color: #fff; }
+    main { max-width: 1180px; margin: 0 auto; padding: 28px 20px 60px; }
+    .intro h1 { font-size: 1.9rem; margin: 0 0 6px; color: var(--navy); }
+    .intro p { color: var(--text-muted); max-width: 70ch; margin: 4px 0; }
+    .stat-row { display: flex; gap: 14px; flex-wrap: wrap; margin: 18px 0 8px; }
+    .stat { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 16px; box-shadow: var(--shadow); min-width: 120px; }
+    .stat .n { font-size: 1.5rem; font-weight: 700; color: var(--accent-dark); }
+    .stat .l { font-size: .78rem; text-transform: uppercase; letter-spacing: .5px; color: var(--text-muted); }
+    .tabs { display: flex; gap: 4px; margin: 28px 0 0; border-bottom: 2px solid var(--border); }
+    .tabs button {
+      background: none; border: none; padding: 12px 18px; font-size: .98rem; font-weight: 600;
+      color: var(--text-muted); cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px;
+    }
+    .tabs button[aria-selected="true"] { color: var(--navy); border-bottom-color: var(--accent); }
+    section.panel { display: none; padding-top: 24px; }
+    section.panel.active { display: block; }
+    .table-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); }
+    table.matrix { border-collapse: collapse; width: 100%; min-width: 720px; background: var(--surface); }
+    table.matrix th, table.matrix td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); font-size: .9rem; vertical-align: top; }
+    table.matrix thead th { background: var(--surface-alt); color: var(--navy); font-size: .78rem; text-transform: uppercase; letter-spacing: .5px; position: sticky; top: 0; }
+    table.matrix tbody tr.concept-row { cursor: pointer; }
+    table.matrix tbody tr.concept-row:hover { background: var(--surface-alt); }
+    .concept-label { font-weight: 600; color: var(--text); }
+    .concept-sub { color: var(--text-muted); font-size: .8rem; font-weight: 400; }
+    .code-badge { display: inline-block; background: var(--chip); color: var(--chip-text); border-radius: 6px; padding: 2px 8px; font-family: "JetBrains Mono", monospace; font-size: .82rem; font-weight: 600; }
+    .avail-yes { color: var(--accent-dark); }
+    .cell-unavail { color: var(--unavail-text); font-style: italic; font-size: .82rem; }
+    .hist-badge { display: inline-block; background: var(--surface-alt); color: var(--text-muted); border-radius: 6px; padding: 2px 8px; font-size: .8rem; }
+    tr.detail-row td { background: var(--surface-alt); padding: 0; }
+    tr.detail-row .detail-inner { padding: 14px 18px; display: none; }
+    tr.detail-row.open .detail-inner { display: block; }
+    .detail-inner h4 { margin: 0 0 8px; color: var(--navy); font-size: .9rem; }
+    .src-links { display: flex; flex-direction: column; gap: 6px; }
+    .src-links a { font-size: .88rem; }
+    .src-year { font-family: "JetBrains Mono", monospace; font-weight: 700; color: var(--accent-dark); margin-right: 6px; }
+    .notes { font-size: .84rem; color: var(--text-muted); margin-top: 10px; }
+    .controls { display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end; margin-bottom: 18px; }
+    .controls .field { display: flex; flex-direction: column; gap: 4px; }
+    .controls label { font-size: .74rem; text-transform: uppercase; letter-spacing: .5px; color: var(--text-muted); font-weight: 600; }
+    .controls input, .controls select {
+      padding: 8px 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--text); font-size: .9rem; min-width: 150px;
+    }
+    .controls input:focus, .controls select:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+    #finderCount { font-size: .86rem; color: var(--text-muted); margin: 4px 0 14px; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; box-shadow: var(--shadow); }
+    .card .card-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 6px; }
+    .card .year-tag { font-size: .74rem; font-weight: 700; color: #fff; background: var(--accent); border-radius: 5px; padding: 2px 7px; }
+    .card h3 { margin: 6px 0 8px; font-size: .98rem; color: var(--text); line-height: 1.3; }
+    .card .topic { font-size: .78rem; color: var(--text-muted); text-transform: capitalize; }
+    .chips { display: flex; gap: 5px; flex-wrap: wrap; margin: 8px 0; }
+    .geo-chip { font-size: .72rem; background: var(--surface-alt); color: var(--text-muted); border-radius: 5px; padding: 2px 7px; text-transform: capitalize; }
+    .card .src { font-size: .82rem; margin-top: 8px; }
+    .empty { padding: 40px; text-align: center; color: var(--text-muted); }
+    .loading { padding: 60px; text-align: center; color: var(--text-muted); }
+    footer.credit { max-width: 1180px; margin: 0 auto; padding: 20px; font-size: .8rem; color: var(--text-muted); border-top: 1px solid var(--border); }
+  </style>
+</head>
+<body>
+  <header class="site">
+    <a class="brand" href="/">civgraph</a>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/browse/">Browse</a>
+      <a href="/apps/">Apps</a>
+      <a href="/pages/census-explorer.html" class="active" aria-current="page">Census</a>
+      <a href="/pages/about.html">About</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="intro">
+      <h1>Census Explorer</h1>
+      <p>An interactive view over the cleaned Northern Ireland census query model: which
+      concepts are available across the 2001, 2011 and 2021 digital censuses and in the
+      historical reports (1841–1991), and a finder over the logical NISRA source tables.
+      Only concepts and tables that resolve to a real public source are shown; gaps are
+      marked <em>unavailable</em>.</p>
+    </div>
+
+    <div class="stat-row" id="statRow" aria-hidden="true"></div>
+
+    <div class="tabs" role="tablist">
+      <button id="tab-matrix" role="tab" aria-controls="panel-matrix" aria-selected="true">Concept availability</button>
+      <button id="tab-finder" role="tab" aria-controls="panel-finder" aria-selected="false">Table finder</button>
+    </div>
+
+    <section id="panel-matrix" class="panel active" role="tabpanel" aria-labelledby="tab-matrix">
+      <div id="matrixMount" class="loading">Loading census model…</div>
+    </section>
+
+    <section id="panel-finder" class="panel" role="tabpanel" aria-labelledby="tab-finder">
+      <div class="controls" id="finderControls" hidden>
+        <div class="field">
+          <label for="q">Search</label>
+          <input type="search" id="q" placeholder="code, title, topic…" autocomplete="off" />
+        </div>
+        <div class="field">
+          <label for="fYear">Census year</label>
+          <select id="fYear"><option value="">All years</option></select>
+        </div>
+        <div class="field">
+          <label for="fTopic">Topic</label>
+          <select id="fTopic"><option value="">All topics</option></select>
+        </div>
+        <div class="field">
+          <label for="fGeo">Geography</label>
+          <select id="fGeo"><option value="">All geographies</option></select>
+        </div>
+      </div>
+      <div id="finderCount"></div>
+      <div id="cards" class="cards"></div>
+    </section>
+  </main>
+
+  <footer class="credit">
+    Source: NISRA Census (2001/2011/2021) and the CSO historical census &amp; statistical
+    reports mirrored to the Internet Archive under a Creative Commons Attribution 4.0
+    International (CC BY 4.0) licence. Contains Irish and Northern Irish public sector data.
+  </footer>
+
+  <script>
+    (function () {
+      'use strict';
+      var BUNDLE_URL = '/data/census/explorer-bundle.json';
+      var state = { bundle: null, tables: [] };
+
+      function el(tag, attrs, children) {
+        var node = document.createElement(tag);
+        if (attrs) Object.keys(attrs).forEach(function (k) {
+          if (k === 'text') node.textContent = attrs[k];
+          else if (k === 'html') node.innerHTML = attrs[k];
+          else if (k === 'class') node.className = attrs[k];
+          else node.setAttribute(k, attrs[k]);
+        });
+        (children || []).forEach(function (c) { if (c) node.appendChild(c); });
+        return node;
+      }
+      function titleCase(s) { return String(s || '').replace(/_/g, ' '); }
+
+      function renderStats(b) {
+        var row = document.getElementById('statRow');
+        row.removeAttribute('aria-hidden');
+        var stats = [
+          { n: b.counts.concepts, l: 'Concepts' },
+          { n: b.counts.tables, l: 'Logical tables' },
+          { n: b.facets.years.join(' · '), l: 'Digital censuses' },
+          { n: b.facets.topics.length, l: 'Topics' }
+        ];
+        stats.forEach(function (s) {
+          row.appendChild(el('div', { class: 'stat' }, [
+            el('div', { class: 'n', text: String(s.n) }),
+            el('div', { class: 'l', text: s.l })
+          ]));
+        });
+      }
+
+      function sourceLink(src) {
+        if (!src || !src.url) return null;
+        return el('a', { href: src.url, target: '_blank', rel: 'noopener', text: src.label || src.url });
+      }
+
+      function renderMatrix(b) {
+        var mount = document.getElementById('matrixMount');
+        mount.className = 'table-scroll';
+        mount.innerHTML = '';
+        var years = b.facets.years;
+        var thead = el('thead', {}, [
+          (function () {
+            var tr = el('tr');
+            tr.appendChild(el('th', { text: 'Concept' }));
+            years.forEach(function (y) { tr.appendChild(el('th', { text: String(y) })); });
+            tr.appendChild(el('th', { text: 'Historical' }));
+            return tr;
+          })()
+        ]);
+        var tbody = el('tbody');
+        b.concepts.forEach(function (c, i) {
+          var cellsByYear = {};
+          (c.digitalYearCells || []).forEach(function (cell) { cellsByYear[cell.year] = cell; });
+
+          var tr = el('tr', { class: 'concept-row', 'data-idx': String(i), tabindex: '0', role: 'button', 'aria-expanded': 'false' });
+          tr.appendChild(el('td', {}, [
+            el('div', { class: 'concept-label', text: c.label }),
+            el('div', { class: 'concept-sub', text: (c.difficulty ? c.difficulty + ' comparability' : '') })
+          ]));
+          years.forEach(function (y) {
+            var cell = cellsByYear[y];
+            var td = el('td');
+            if (cell && cell.available && cell.code) {
+              td.appendChild(el('span', { class: 'code-badge avail-yes', text: cell.code }));
+            } else {
+              td.appendChild(el('span', { class: 'cell-unavail', text: 'unavailable' }));
+            }
+            tr.appendChild(td);
+          });
+          var histTd = el('td');
+          var histYears = (c.yearsHistorical || []);
+          if (histYears.length) {
+            histTd.appendChild(el('span', { class: 'hist-badge', text: histYears.length + ' yr' + (histYears.length > 1 ? 's' : '') + ' · ' + histYears[0] + '–' + histYears[histYears.length - 1] }));
+          } else {
+            histTd.appendChild(el('span', { class: 'cell-unavail', text: '—' }));
+          }
+          tr.appendChild(histTd);
+          tbody.appendChild(tr);
+
+          // Detail row (source links per available year + historical mirror)
+          var inner = el('div', { class: 'detail-inner' });
+          inner.appendChild(el('h4', { text: 'Source tables & references' }));
+          var links = el('div', { class: 'src-links' });
+          (c.digitalYearCells || []).forEach(function (cell) {
+            if (cell.available && cell.source) {
+              var wrap = el('div');
+              wrap.appendChild(el('span', { class: 'src-year', text: String(cell.year) }));
+              var a = sourceLink(cell.source);
+              if (a) wrap.appendChild(a);
+              links.appendChild(wrap);
+            }
+          });
+          if (histYears.length && b.sources && b.sources.historical) {
+            var hwrap = el('div');
+            hwrap.appendChild(el('span', { class: 'src-year', text: 'Hist.' }));
+            var ha = sourceLink(b.sources.historical);
+            if (ha) hwrap.appendChild(ha);
+            links.appendChild(hwrap);
+          }
+          inner.appendChild(links);
+          if (c.comparabilityNotes) inner.appendChild(el('div', { class: 'notes', text: c.comparabilityNotes }));
+          var detailTr = el('tr', { class: 'detail-row' });
+          var detailTd = el('td', { colspan: String(years.length + 2) });
+          detailTd.appendChild(inner);
+          detailTr.appendChild(detailTd);
+          tbody.appendChild(detailTr);
+
+          function toggle() {
+            var open = detailTr.classList.toggle('open');
+            tr.setAttribute('aria-expanded', open ? 'true' : 'false');
+          }
+          tr.addEventListener('click', toggle);
+          tr.addEventListener('keydown', function (ev) {
+            if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); toggle(); }
+          });
+        });
+        var table = el('table', { class: 'matrix' }, [thead, tbody]);
+        mount.appendChild(table);
+      }
+
+      function populateSelect(sel, values, formatter) {
+        values.forEach(function (v) {
+          sel.appendChild(el('option', { value: String(v), text: formatter ? formatter(v) : String(v) }));
+        });
+      }
+
+      function renderFinder(b) {
+        document.getElementById('finderControls').removeAttribute('hidden');
+        populateSelect(document.getElementById('fYear'), b.facets.years);
+        populateSelect(document.getElementById('fTopic'), b.facets.topics, titleCase);
+        populateSelect(document.getElementById('fGeo'), b.facets.geographyLevels, titleCase);
+        ['q', 'fYear', 'fTopic', 'fGeo'].forEach(function (id) {
+          document.getElementById(id).addEventListener('input', applyFilters);
+        });
+        applyFilters();
+      }
+
+      function applyFilters() {
+        var q = document.getElementById('q').value.trim().toLowerCase();
+        var year = document.getElementById('fYear').value;
+        var topic = document.getElementById('fTopic').value;
+        var geo = document.getElementById('fGeo').value;
+        var filtered = state.tables.filter(function (t) {
+          if (year && String(t.year) !== year) return false;
+          if (topic && t.topic !== topic) return false;
+          if (geo && (t.geographyLevels || []).indexOf(geo) === -1) return false;
+          if (q) {
+            var hay = (t.code + ' ' + t.title + ' ' + (t.topic || '')).toLowerCase();
+            if (hay.indexOf(q) === -1) return false;
+          }
+          return true;
+        });
+        renderCards(filtered);
+      }
+
+      function renderCards(list) {
+        var mount = document.getElementById('cards');
+        mount.innerHTML = '';
+        document.getElementById('finderCount').textContent =
+          list.length + ' of ' + state.tables.length + ' logical tables';
+        if (!list.length) {
+          mount.appendChild(el('div', { class: 'empty', text: 'No tables match these filters.' }));
+          return;
+        }
+        list.slice(0, 600).forEach(function (t) {
+          var card = el('div', { class: 'card' });
+          var top = el('div', { class: 'card-top' }, [
+            el('span', { class: 'code-badge', text: t.code }),
+            el('span', { class: 'year-tag', text: String(t.year) })
+          ]);
+          card.appendChild(top);
+          card.appendChild(el('h3', { text: t.title }));
+          if (t.topic) card.appendChild(el('div', { class: 'topic', text: titleCase(t.topic) }));
+          var chips = el('div', { class: 'chips' });
+          (t.geographyLevels || []).forEach(function (g) {
+            chips.appendChild(el('span', { class: 'geo-chip', text: titleCase(g) }));
+          });
+          card.appendChild(chips);
+          if (t.source) {
+            var src = el('div', { class: 'src' }, [sourceLink(t.source)]);
+            card.appendChild(src);
+          }
+          mount.appendChild(card);
+        });
+        if (list.length > 600) {
+          mount.appendChild(el('div', { class: 'empty', text: 'Showing first 600 — refine filters to narrow further.' }));
+        }
+      }
+
+      function switchTab(which) {
+        var isMatrix = which === 'matrix';
+        document.getElementById('tab-matrix').setAttribute('aria-selected', isMatrix ? 'true' : 'false');
+        document.getElementById('tab-finder').setAttribute('aria-selected', isMatrix ? 'false' : 'true');
+        document.getElementById('panel-matrix').classList.toggle('active', isMatrix);
+        document.getElementById('panel-finder').classList.toggle('active', !isMatrix);
+      }
+      document.getElementById('tab-matrix').addEventListener('click', function () { switchTab('matrix'); });
+      document.getElementById('tab-finder').addEventListener('click', function () { switchTab('finder'); });
+
+      fetch(BUNDLE_URL)
+        .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+        .then(function (b) {
+          state.bundle = b;
+          state.tables = b.tables || [];
+          renderStats(b);
+          renderMatrix(b);
+          renderFinder(b);
+        })
+        .catch(function (err) {
+          document.getElementById('matrixMount').className = 'empty';
+          document.getElementById('matrixMount').textContent = 'Could not load the census model: ' + err.message;
+        });
+    })();
+  </script>
+</body>
+</html>
