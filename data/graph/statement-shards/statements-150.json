@@ -1,9 +1,63 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-08T11:33:02.113Z",
+  "generatedAt": "2026-07-11T23:52:47.336Z",
   "shard": 150,
   "total": 2500,
   "items": [
+    {
+      "id": "cg:statement:55ee79b2530282db9486",
+      "subjectId": "cg:election:local-government-local-government-districts-2011-05-05-crossmore",
+      "propertyId": "cg:property:elected-body",
+      "value": {
+        "type": "entity",
+        "id": "cg:body:local-government-districts"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-election-index",
+          "sourceTitle": "Civgraph Browse election index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:25dc642c0e0a89e08d5e",
+      "subjectId": "cg:election:local-government-local-government-districts-2011-05-05-crossmore",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:election"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:4f7036636e8d8c9353b9",
+      "subjectId": "cg:election:local-government-local-government-districts-2011-05-05-crossmore",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Crossmore - 2011 Northern Ireland local elections"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:b0cb583ed9cc492b9a7f",
+      "subjectId": "cg:election:local-government-local-government-districts-2011-05-05-crossmore",
+      "propertyId": "cg:property:year",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-year:2011"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-election-index",
+          "sourceTitle": "Civgraph Browse election index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
     {
       "id": "cg:statement:3890695bc3b03b8dc785",
       "subjectId": "cg:election:local-government-local-government-districts-2011-05-05-cusher",
@@ -42533,61 +42587,6 @@
       "value": {
         "type": "entity",
         "id": "cg:body:northern-ireland-assembly"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-election-index",
-          "sourceTitle": "Civgraph Browse election index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:db4ce6978d3e0ce3f14d",
-      "subjectId": "cg:election:northern-ireland-assembly-2011-05-05-strangford",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:election"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:43ada2bee0b3febc5f9c",
-      "subjectId": "cg:election:northern-ireland-assembly-2011-05-05-strangford",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Strangford - 2011 Northern Ireland Assembly election"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:c50f2f2878d666cbe9b5",
-      "subjectId": "cg:election:northern-ireland-assembly-2011-05-05-strangford",
-      "propertyId": "cg:property:year",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:2011"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-election-index",
-          "sourceTitle": "Civgraph Browse election index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:ec74b55e061a8875271b",
-      "subjectId": "cg:election:northern-ireland-assembly-2011-05-05-upper-bann",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-month:2011-05",
-        "label": "2011-05-05"
       },
       "references": [
         {

@@ -1,9 +1,147 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-08T11:33:02.113Z",
+  "generatedAt": "2026-07-11T23:52:47.336Z",
   "shard": 190,
   "total": 2500,
   "items": [
+    {
+      "id": "cg:statement:11ac84a43aae01c32c9b",
+      "subjectId": "cg:person:dr-alasdair-mcdonnell",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:person"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:59251f36806148c319e5",
+      "subjectId": "cg:person:dr-alasdair-mcdonnell",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Dr Alasdair McDonnell"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:7ed56783258d9adc8027",
+      "subjectId": "cg:person:dr-alasdair-mcdonnell",
+      "propertyId": "cg:property:register-record",
+      "value": {
+        "type": "entity",
+        "id": "cg:register-record:ni-register-record-357c669a56a3bb00"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "2001-10-15"
+          }
+        },
+        {
+          "propertyId": "cg:property:elected-body",
+          "value": {
+            "type": "entity",
+            "id": "cg:body:northern-ireland-assembly"
+          }
+        },
+        {
+          "propertyId": "cg:property:political-office",
+          "value": {
+            "type": "entity",
+            "id": "cg:office:mla"
+          }
+        },
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "South Belfast"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-row-count",
+          "value": {
+            "type": "number",
+            "value": 2
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:provider-source-url-d1be54bada8b",
+          "sourceTitle": "NI Assembly Register of Members Interests (15 October 2001)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:d1be54bada8bdb14",
+          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register_07.pdf",
+          "date": "2001-10-15",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:a44c3db5b839bb56896a",
+      "subjectId": "cg:person:dr-alasdair-mcdonnell",
+      "propertyId": "cg:property:register-record",
+      "value": {
+        "type": "entity",
+        "id": "cg:register-record:ni-register-record-2cfdf7a73066f7aa"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "2010-01-12"
+          }
+        },
+        {
+          "propertyId": "cg:property:elected-body",
+          "value": {
+            "type": "entity",
+            "id": "cg:body:northern-ireland-assembly"
+          }
+        },
+        {
+          "propertyId": "cg:property:political-office",
+          "value": {
+            "type": "entity",
+            "id": "cg:office:mla"
+          }
+        },
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "South Belfast"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-row-count",
+          "value": {
+            "type": "number",
+            "value": 11
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-assembly-html-d8612ac2fc1dfd6f",
+          "sourceTitle": "NI Assembly Register of Members Interests (12 January 2010)",
+          "sourceKind": "historical-html-register",
+          "sourceRecordId": "ni-register:assembly:html:d8612ac2fc1dfd6f",
+          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register120110.htm",
+          "date": "2010-01-12",
+          "extractionMethod": "html-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
     {
       "id": "cg:statement:ad6b70f1fc8d018b8b87",
       "subjectId": "cg:person:dr-alasdair-mcdonnell",
@@ -102414,164 +102552,6 @@
           "value": {
             "type": "entity",
             "id": "cg:party:independent"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:578b99dd6d88e9f1b951",
-      "subjectId": "cg:person:name-alan-shatter",
-      "propertyId": "cg:property:has-candidature",
-      "value": {
-        "type": "entity",
-        "id": "cg:candidature:cg-person-name-alan-shatter-cg-contest-dail-eireann-2002-05-17-dail-eire-b7b445966493"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "2002-05-17"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "Dublin South"
-          }
-        },
-        {
-          "propertyId": "cg:property:candidature-status",
-          "value": {
-            "type": "string",
-            "value": "Excluded"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected",
-          "value": {
-            "type": "boolean",
-            "value": false
-          }
-        },
-        {
-          "propertyId": "cg:property:first-preference-votes",
-          "value": {
-            "type": "number",
-            "value": 5363
-          }
-        },
-        {
-          "propertyId": "cg:property:member-of-political-party",
-          "value": {
-            "type": "entity",
-            "id": "cg:party:fine-gael"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:7f2f4de2f8e7557e36f4",
-      "subjectId": "cg:person:name-alan-shatter",
-      "propertyId": "cg:property:has-candidature",
-      "value": {
-        "type": "entity",
-        "id": "cg:candidature:cg-person-name-alan-shatter-cg-contest-dail-eireann-2007-05-24-dail-eire-e00ac0639d55"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "2007-05-24"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "Dublin South"
-          }
-        },
-        {
-          "propertyId": "cg:property:candidature-status",
-          "value": {
-            "type": "string",
-            "value": "Made Quota"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected",
-          "value": {
-            "type": "boolean",
-            "value": true
-          }
-        },
-        {
-          "propertyId": "cg:property:first-preference-votes",
-          "value": {
-            "type": "number",
-            "value": 5752
-          }
-        },
-        {
-          "propertyId": "cg:property:member-of-political-party",
-          "value": {
-            "type": "entity",
-            "id": "cg:party:fine-gael"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:48176da4e5b62e286189",
-      "subjectId": "cg:person:name-alan-shatter",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:person"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:8c9536c41f2fcd94437b",
-      "subjectId": "cg:person:name-alan-shatter",
-      "propertyId": "cg:property:member-of-political-party",
-      "value": {
-        "type": "entity",
-        "id": "cg:party:independent"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "Browse person party summary"
           }
         }
       ],

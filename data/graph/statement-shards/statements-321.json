@@ -1,9 +1,75 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-08T11:33:02.113Z",
+  "generatedAt": "2026-07-11T23:52:47.336Z",
   "shard": 321,
   "total": 2500,
   "items": [
+    {
+      "id": "cg:statement:be48cbb3481ef46c2a4a",
+      "subjectId": "cg:register-interest:ni-register-record-interest-d3198ca2dadc8f9a",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:register-interest"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:c08d90dda2d0f4593725",
+      "subjectId": "cg:register-interest:ni-register-record-interest-d3198ca2dadc8f9a",
+      "propertyId": "cg:property:interest-category",
+      "value": {
+        "type": "string",
+        "value": "Unremunerated Interests"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:provider-source-url-d1be54bada8b",
+          "sourceTitle": "NI Assembly Register of Members Interests (15 October 2001)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:d1be54bada8bdb14",
+          "sourceRowId": "ni-register-interest:mla-pdf:82fd33822fb742e8",
+          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register_07.pdf",
+          "date": "2001-10-15",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:fa8304a6be86707ffc51",
+      "subjectId": "cg:register-interest:ni-register-record-interest-d3198ca2dadc8f9a",
+      "propertyId": "cg:property:interest-text",
+      "value": {
+        "type": "string",
+        "value": "Director, Maine Credit Union. Member, Orange Order."
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:provider-source-url-d1be54bada8b",
+          "sourceTitle": "NI Assembly Register of Members Interests (15 October 2001)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:d1be54bada8bdb14",
+          "sourceRowId": "ni-register-interest:mla-pdf:82fd33822fb742e8",
+          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register_07.pdf",
+          "date": "2001-10-15",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:49d5df13b5a2413296e6",
+      "subjectId": "cg:register-interest:ni-register-record-interest-d3198ca2dadc8f9a",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Unremunerated Interests"
+      },
+      "rank": "normal"
+    },
     {
       "id": "cg:statement:edfa4ba5046a2b102af2",
       "subjectId": "cg:register-interest:ni-register-record-interest-d3198ca2dadc8f9a",
@@ -52113,94 +52179,6 @@
           "extractionConfidence": "medium"
         }
       ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:6353a931b9deae7df9aa",
-      "subjectId": "cg:register-interest:ni-register-record-interest-d559be86a0c19270",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:register-interest"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:971ad140ae10bc886e80",
-      "subjectId": "cg:register-interest:ni-register-record-interest-d559be86a0c19270",
-      "propertyId": "cg:property:interest-category",
-      "value": {
-        "type": "string",
-        "value": "Shareholdings"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:ni-register-assembly-html-2298382502f72c7d",
-          "sourceTitle": "NI Assembly Register of Members Interests (15 January 2014)",
-          "sourceKind": "historical-pdf-register",
-          "sourceRecordId": "ni-register:assembly:pdf:6d0ca375efb2f904",
-          "sourceRowId": "ni-register-interest:mla-pdf:0705d6f7dd14d268",
-          "sourceUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_15-jan-14.pdf",
-          "date": "2014-01-15",
-          "extractionMethod": "pdf-text-heading-parser",
-          "extractionConfidence": "medium"
-        },
-        {
-          "sourceId": "cg:source:ni-register-assembly-html-2298382502f72c7d",
-          "sourceTitle": "NI Assembly Register of Members Interests (15 January 2014)",
-          "sourceKind": "historical-html-register",
-          "sourceRecordId": "ni-register:assembly:html:2298382502f72c7d",
-          "sourceRowId": "ni-register-interest:mla-html:27f75f45f26470de",
-          "sourceUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/15-january-2014/",
-          "date": "2014-01-15",
-          "extractionMethod": "html-heading-parser",
-          "extractionConfidence": "medium"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:2126d416ae788a1acd4c",
-      "subjectId": "cg:register-interest:ni-register-record-interest-d559be86a0c19270",
-      "propertyId": "cg:property:interest-text",
-      "value": {
-        "type": "string",
-        "value": "None."
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:ni-register-assembly-html-2298382502f72c7d",
-          "sourceTitle": "NI Assembly Register of Members Interests (15 January 2014)",
-          "sourceKind": "historical-pdf-register",
-          "sourceRecordId": "ni-register:assembly:pdf:6d0ca375efb2f904",
-          "sourceRowId": "ni-register-interest:mla-pdf:0705d6f7dd14d268",
-          "sourceUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_15-jan-14.pdf",
-          "date": "2014-01-15",
-          "extractionMethod": "pdf-text-heading-parser",
-          "extractionConfidence": "medium"
-        },
-        {
-          "sourceId": "cg:source:ni-register-assembly-html-2298382502f72c7d",
-          "sourceTitle": "NI Assembly Register of Members Interests (15 January 2014)",
-          "sourceKind": "historical-html-register",
-          "sourceRecordId": "ni-register:assembly:html:2298382502f72c7d",
-          "sourceRowId": "ni-register-interest:mla-html:27f75f45f26470de",
-          "sourceUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/15-january-2014/",
-          "date": "2014-01-15",
-          "extractionMethod": "html-heading-parser",
-          "extractionConfidence": "medium"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:b84541085695841b96c2",
-      "subjectId": "cg:register-interest:ni-register-record-interest-d559be86a0c19270",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Shareholdings"
-      },
       "rank": "normal"
     }
   ]

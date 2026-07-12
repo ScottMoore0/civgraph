@@ -1,9 +1,75 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-08T11:33:02.113Z",
+  "generatedAt": "2026-07-11T23:52:47.336Z",
   "shard": 370,
   "total": 2500,
   "items": [
+    {
+      "id": "cg:statement:abec87f9e2ba0678061e",
+      "subjectId": "cg:register-record:ni-register-record-c875537bbe74b3d0",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:register-record"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:2c66df6815b8055ba8be",
+      "subjectId": "cg:register-record:ni-register-record-c875537bbe74b3d0",
+      "propertyId": "cg:property:jurisdiction",
+      "value": {
+        "type": "string",
+        "value": "Northern Ireland"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-mp-full-csv",
+          "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
+          "sourceKind": "filtered-westminster-csv",
+          "sourceRecordId": "ni-register:mp:full-csv",
+          "date": "2010-01-06",
+          "earliestDeclaration": "2002-05-14",
+          "latestDeclaration": "2010-01-06",
+          "extractionMethod": "ni-mp-csv-name-match",
+          "extractionConfidence": "high"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:108769ca17a9ef21eb39",
+      "subjectId": "cg:register-record:ni-register-record-c875537bbe74b3d0",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Michelle Gildernew - House of Commons - 2010-01-06"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:89d5d29a56ba151bf82b",
+      "subjectId": "cg:register-record:ni-register-record-c875537bbe74b3d0",
+      "propertyId": "cg:property:political-office",
+      "value": {
+        "type": "entity",
+        "id": "cg:office:mp"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-mp-full-csv",
+          "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
+          "sourceKind": "filtered-westminster-csv",
+          "sourceRecordId": "ni-register:mp:full-csv",
+          "date": "2010-01-06",
+          "earliestDeclaration": "2002-05-14",
+          "latestDeclaration": "2010-01-06",
+          "extractionMethod": "ni-mp-csv-name-match",
+          "extractionConfidence": "high"
+        }
+      ],
+      "rank": "normal"
+    },
     {
       "id": "cg:statement:f7a23a1dd96db655ff80",
       "subjectId": "cg:register-record:ni-register-record-c875537bbe74b3d0",
@@ -114602,70 +114668,6 @@
       "value": {
         "type": "entity",
         "id": "cg:body:northern-ireland-assembly"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:ni-register-assembly-pdf-dd8828bad415dc13",
-          "sourceTitle": "NI Assembly Register of Members Interests (3 December 2019)",
-          "sourceKind": "historical-pdf-register",
-          "sourceRecordId": "ni-register:assembly:pdf:dd8828bad415dc13",
-          "sourceUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/registerofinterests-03dec2019.pdf",
-          "date": "2019-12-03",
-          "extractionMethod": "pdf-text-heading-parser",
-          "extractionConfidence": "medium"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:64c73f5b3f643077edbb",
-      "subjectId": "cg:register-record:ni-register-record-ce8f13389e8e5071",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:register-record"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:78c7dd16839e69cffa5f",
-      "subjectId": "cg:register-record:ni-register-record-ce8f13389e8e5071",
-      "propertyId": "cg:property:jurisdiction",
-      "value": {
-        "type": "string",
-        "value": "Northern Ireland"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:ni-register-assembly-pdf-dd8828bad415dc13",
-          "sourceTitle": "NI Assembly Register of Members Interests (3 December 2019)",
-          "sourceKind": "historical-pdf-register",
-          "sourceRecordId": "ni-register:assembly:pdf:dd8828bad415dc13",
-          "sourceUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/registerofinterests-03dec2019.pdf",
-          "date": "2019-12-03",
-          "extractionMethod": "pdf-text-heading-parser",
-          "extractionConfidence": "medium"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:78c6e873e45012c737ba",
-      "subjectId": "cg:register-record:ni-register-record-ce8f13389e8e5071",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Joanne Bunting - Assembly - 2019-12-03"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:86c50e2eec17771e9c8d",
-      "subjectId": "cg:register-record:ni-register-record-ce8f13389e8e5071",
-      "propertyId": "cg:property:political-office",
-      "value": {
-        "type": "entity",
-        "id": "cg:office:mla"
       },
       "references": [
         {

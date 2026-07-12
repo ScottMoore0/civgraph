@@ -1,9 +1,75 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-08T11:33:02.113Z",
+  "generatedAt": "2026-07-11T23:52:47.336Z",
   "shard": 273,
   "total": 2500,
   "items": [
+    {
+      "id": "cg:statement:69c29fa299cc3e68c729",
+      "subjectId": "cg:register-interest:ni-register-record-interest-5c5dfc4b88b299df",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:register-interest"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:1221e8d12fbf250d5ed5",
+      "subjectId": "cg:register-interest:ni-register-record-interest-5c5dfc4b88b299df",
+      "propertyId": "cg:property:interest-category",
+      "value": {
+        "type": "string",
+        "value": "Miscellaneous"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-a82dafc397ebc2b0",
+          "sourceTitle": "NI Assembly Register of Members Interests (5 July 2022)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:a82dafc397ebc2b0",
+          "sourceRowId": "ni-register-interest:mla-pdf:ae2d71ae78d19da4",
+          "sourceUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-05-july-2022.pdf",
+          "date": "2022-07-05",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:1c35d77c12ae8e843f6e",
+      "subjectId": "cg:register-interest:ni-register-record-interest-5c5dfc4b88b299df",
+      "propertyId": "cg:property:interest-text",
+      "value": {
+        "type": "string",
+        "value": "No registrable interests included under this category in the PDF text."
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-a82dafc397ebc2b0",
+          "sourceTitle": "NI Assembly Register of Members Interests (5 July 2022)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:a82dafc397ebc2b0",
+          "sourceRowId": "ni-register-interest:mla-pdf:ae2d71ae78d19da4",
+          "sourceUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-05-july-2022.pdf",
+          "date": "2022-07-05",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:bcd14513fa34bfb1587a",
+      "subjectId": "cg:register-interest:ni-register-record-interest-5c5dfc4b88b299df",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Miscellaneous"
+      },
+      "rank": "normal"
+    },
     {
       "id": "cg:statement:008f930724366d54d7b5",
       "subjectId": "cg:register-interest:ni-register-record-interest-5c5dfc4b88b299df",
@@ -52179,72 +52245,6 @@
           "extractionConfidence": "medium"
         }
       ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:cdb1a7c5073c8a78dd5a",
-      "subjectId": "cg:register-interest:ni-register-record-interest-5f0538fdcc588e8b",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:register-interest"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:3d891159a134ae9aaad8",
-      "subjectId": "cg:register-interest:ni-register-record-interest-5f0538fdcc588e8b",
-      "propertyId": "cg:property:interest-category",
-      "value": {
-        "type": "string",
-        "value": "Gifts, benefits and hospitality (UK)"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:ni-register-assembly-pdf-c5996640c13687a7",
-          "sourceTitle": "NI Assembly Register of Members Interests (25 November 2007)",
-          "sourceKind": "historical-pdf-register",
-          "sourceRecordId": "ni-register:assembly:pdf:c5996640c13687a7",
-          "sourceRowId": "ni-register-interest:mla-pdf:271e57b51e92e89b",
-          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register_251107.pdf",
-          "date": "2007-11-25",
-          "extractionMethod": "pdf-text-heading-parser",
-          "extractionConfidence": "medium"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:4f66e92306389c8fa554",
-      "subjectId": "cg:register-interest:ni-register-record-interest-5f0538fdcc588e8b",
-      "propertyId": "cg:property:interest-text",
-      "value": {
-        "type": "string",
-        "value": "None."
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:ni-register-assembly-pdf-c5996640c13687a7",
-          "sourceTitle": "NI Assembly Register of Members Interests (25 November 2007)",
-          "sourceKind": "historical-pdf-register",
-          "sourceRecordId": "ni-register:assembly:pdf:c5996640c13687a7",
-          "sourceRowId": "ni-register-interest:mla-pdf:271e57b51e92e89b",
-          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register_251107.pdf",
-          "date": "2007-11-25",
-          "extractionMethod": "pdf-text-heading-parser",
-          "extractionConfidence": "medium"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:6d0a5f5ea6a8b67b0979",
-      "subjectId": "cg:register-interest:ni-register-record-interest-5f0538fdcc588e8b",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Gifts, benefits and hospitality (UK)"
-      },
       "rank": "normal"
     }
   ]

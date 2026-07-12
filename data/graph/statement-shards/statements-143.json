@@ -1,9 +1,64 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-08T11:33:02.113Z",
+  "generatedAt": "2026-07-11T23:52:47.336Z",
   "shard": 143,
   "total": 2500,
   "items": [
+    {
+      "id": "cg:statement:1f6246a55fb56db8c23a",
+      "subjectId": "cg:election:dail-eireann-2024-11-29-dublin-bay-north",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:election"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:9acbd884f06a36fe6e8d",
+      "subjectId": "cg:election:dail-eireann-2024-11-29-dublin-bay-north",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Dublin Bay North - 2024 Irish general election"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:a04880efd3742ae6066d",
+      "subjectId": "cg:election:dail-eireann-2024-11-29-dublin-bay-north",
+      "propertyId": "cg:property:year",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-year:2024"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-election-index",
+          "sourceTitle": "Civgraph Browse election index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:89796db75dab10f5e285",
+      "subjectId": "cg:election:dail-eireann-2024-11-29-dublin-bay-south",
+      "propertyId": "cg:property:date",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-month:2024-11",
+        "label": "2024-11-29"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-election-index",
+          "sourceTitle": "Civgraph Browse election index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
     {
       "id": "cg:statement:c82e808b3a1e9d61a069",
       "subjectId": "cg:election:dail-eireann-2024-11-29-dublin-bay-south",
@@ -42411,61 +42466,6 @@
       "value": {
         "type": "entity",
         "id": "cg:body:house-of-commons"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-election-index",
-          "sourceTitle": "Civgraph Browse election index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:a99375dabd25c72c6633",
-      "subjectId": "cg:election:house-of-commons-of-the-united-kingdom-1992-04-09-south-antrim",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:election"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:46a85b34151d64d84cac",
-      "subjectId": "cg:election:house-of-commons-of-the-united-kingdom-1992-04-09-south-antrim",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "South Antrim - 1992 UK general election in Northern Ireland"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:752622bba97f63fce3d2",
-      "subjectId": "cg:election:house-of-commons-of-the-united-kingdom-1992-04-09-south-antrim",
-      "propertyId": "cg:property:year",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:1992"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-election-index",
-          "sourceTitle": "Civgraph Browse election index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:2d7fb5bf905db4cf956a",
-      "subjectId": "cg:election:house-of-commons-of-the-united-kingdom-1992-04-09-south-down",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-month:1992-04",
-        "label": "1992-04-09"
       },
       "references": [
         {

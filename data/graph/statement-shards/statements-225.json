@@ -1,9 +1,81 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-08T11:33:02.113Z",
+  "generatedAt": "2026-07-11T23:52:47.336Z",
   "shard": 225,
   "total": 2500,
   "items": [
+    {
+      "id": "cg:statement:a1f04225e7696d923492",
+      "subjectId": "cg:person:name-robert-halliday",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:person"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:cf0441f624d3c75b0dcc",
+      "subjectId": "cg:person:name-robert-halliday",
+      "propertyId": "cg:property:member-of-political-party",
+      "value": {
+        "type": "entity",
+        "id": "cg:party:dup"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "Browse person party summary"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:dc61ab1d91bbe1b3f8b9",
+      "subjectId": "cg:person:name-robert-halliday",
+      "propertyId": "cg:property:member-of-political-party",
+      "value": {
+        "type": "entity",
+        "id": "cg:party:farmer-dup"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "Browse person party summary"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:bb81c1dd1f73de4b047b",
+      "subjectId": "cg:person:name-robert-halliday",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Robert Halliday"
+      },
+      "rank": "normal"
+    },
     {
       "id": "cg:statement:1e9ef266e77164764c68",
       "subjectId": "cg:person:name-robert-halliday",
@@ -101779,113 +101851,6 @@
           "sourceKind": "generated-browse-index"
         }
       ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:1a7acc8f8b46c8dbea73",
-      "subjectId": "cg:person:name-rosemary-bell-mccracken",
-      "propertyId": "cg:property:has-candidature",
-      "value": {
-        "type": "entity",
-        "id": "cg:candidature:cg-person-name-rosemary-bell-mccracken-cg-contest-local-government-local-26ec4fde7813"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "2023-05-18"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "Macedon"
-          }
-        },
-        {
-          "propertyId": "cg:property:candidature-status",
-          "value": {
-            "type": "string",
-            "value": "Excluded"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected",
-          "value": {
-            "type": "boolean",
-            "value": false
-          }
-        },
-        {
-          "propertyId": "cg:property:first-preference-votes",
-          "value": {
-            "type": "number",
-            "value": 244
-          }
-        },
-        {
-          "propertyId": "cg:property:member-of-political-party",
-          "value": {
-            "type": "entity",
-            "id": "cg:party:pup"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:3efa7f80cda912455579",
-      "subjectId": "cg:person:name-rosemary-bell-mccracken",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:person"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:911ab88715442cddf097",
-      "subjectId": "cg:person:name-rosemary-bell-mccracken",
-      "propertyId": "cg:property:member-of-political-party",
-      "value": {
-        "type": "entity",
-        "id": "cg:party:pup"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "Browse person party summary"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:9aa90b42bed623fe0c98",
-      "subjectId": "cg:person:name-rosemary-bell-mccracken",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Rosemary Bell-McCracken"
-      },
       "rank": "normal"
     }
   ]

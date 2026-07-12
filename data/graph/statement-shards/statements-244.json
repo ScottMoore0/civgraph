@@ -1,9 +1,97 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-08T11:33:02.113Z",
+  "generatedAt": "2026-07-11T23:52:47.336Z",
   "shard": 244,
   "total": 2500,
   "items": [
+    {
+      "id": "cg:statement:f3464ef0dbc90ca14b9a",
+      "subjectId": "cg:register-interest:ni-register-record-interest-15e253adda04ad17",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:register-interest"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:1eed3f28c31e2d6487aa",
+      "subjectId": "cg:register-interest:ni-register-record-interest-15e253adda04ad17",
+      "propertyId": "cg:property:interest-category",
+      "value": {
+        "type": "string",
+        "value": "Land and Property"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-36a652ac4f596c5b",
+          "sourceTitle": "NI Assembly Register of Members Interests (16 October 2013)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:36a652ac4f596c5b",
+          "sourceRowId": "ni-register-interest:mla-pdf:a8237959603901b8",
+          "sourceUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_161013.pdf",
+          "date": "2013-10-16",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        },
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-36a652ac4f596c5b",
+          "sourceTitle": "NI Assembly Register of Members Interests (16 October 2013)",
+          "sourceKind": "historical-html-register",
+          "sourceRecordId": "ni-register:assembly:html:384947e018148578",
+          "sourceRowId": "ni-register-interest:mla-html:6a5b8ef551b738df",
+          "sourceUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/16-october-2013/",
+          "date": "2013-10-16",
+          "extractionMethod": "html-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:49b77609cedf1d7cf69a",
+      "subjectId": "cg:register-interest:ni-register-record-interest-15e253adda04ad17",
+      "propertyId": "cg:property:interest-text",
+      "value": {
+        "type": "string",
+        "value": "Half share, residential house, Belfast from which rental income is received. (Registered 3 July 2012)"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-36a652ac4f596c5b",
+          "sourceTitle": "NI Assembly Register of Members Interests (16 October 2013)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:36a652ac4f596c5b",
+          "sourceRowId": "ni-register-interest:mla-pdf:a8237959603901b8",
+          "sourceUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_161013.pdf",
+          "date": "2013-10-16",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        },
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-36a652ac4f596c5b",
+          "sourceTitle": "NI Assembly Register of Members Interests (16 October 2013)",
+          "sourceKind": "historical-html-register",
+          "sourceRecordId": "ni-register:assembly:html:384947e018148578",
+          "sourceRowId": "ni-register-interest:mla-html:6a5b8ef551b738df",
+          "sourceUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/16-october-2013/",
+          "date": "2013-10-16",
+          "extractionMethod": "html-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:68e821aa12f3c0b52422",
+      "subjectId": "cg:register-interest:ni-register-record-interest-15e253adda04ad17",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Land and Property"
+      },
+      "rank": "normal"
+    },
     {
       "id": "cg:statement:274b4b6e5ad68063821b",
       "subjectId": "cg:register-interest:ni-register-record-interest-15e253adda04ad17",
@@ -51785,80 +51873,6 @@
           "extractionConfidence": "medium"
         }
       ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:98d15e03aa65b1f41580",
-      "subjectId": "cg:register-interest:ni-register-record-interest-18465d9cee57ff6b",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:register-interest"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:21b61f25961bcb03fedd",
-      "subjectId": "cg:register-interest:ni-register-record-interest-18465d9cee57ff6b",
-      "propertyId": "cg:property:interest-category",
-      "value": {
-        "type": "string",
-        "value": "Visits outside the UK"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:ni-register-mp-full-csv",
-          "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
-          "sourceKind": "filtered-westminster-csv",
-          "sourceRecordId": "ni-register:mp:full-csv",
-          "sourceRowId": "ni-register-interest:mp:d8a5ec2a3bdd1ae0",
-          "date": "2019-07-01",
-          "earliestDeclaration": "2019-05-20",
-          "latestDeclaration": "2019-07-01",
-          "extractionMethod": "ni-mp-csv-name-match",
-          "extractionConfidence": "high",
-          "sourceExtractIds": [
-            "full-csv"
-          ]
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:067600533eec3242025a",
-      "subjectId": "cg:register-interest:ni-register-record-interest-18465d9cee57ff6b",
-      "propertyId": "cg:property:interest-text",
-      "value": {
-        "type": "string",
-        "value": "Name of donor: CNE ( National Electoral Council of Venezuela) Address of donor: CNE National Headquarters, Caracas Plaza, Caracas, Venezuela Estimate of the probable value (or amount of any donation): flights with an estimated cost of £613; hotel accommodation with an estimated cost of £365.56; food with an estimated cost of £100; estimated total value of £1,078.56 Destination of visit: Venezuela Dates of visit: 27 to 31 July 2017 Purpose of visit: to act as International observer for the 30 July 2017 Constitutional Assembly elections. (Registered 09 May 2019)"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:ni-register-mp-full-csv",
-          "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
-          "sourceKind": "filtered-westminster-csv",
-          "sourceRecordId": "ni-register:mp:full-csv",
-          "sourceRowId": "ni-register-interest:mp:d8a5ec2a3bdd1ae0",
-          "date": "2019-07-01",
-          "earliestDeclaration": "2019-05-20",
-          "latestDeclaration": "2019-07-01",
-          "extractionMethod": "ni-mp-csv-name-match",
-          "extractionConfidence": "high",
-          "sourceExtractIds": [
-            "full-csv"
-          ]
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:7bc28054d79d65cd04de",
-      "subjectId": "cg:register-interest:ni-register-record-interest-18465d9cee57ff6b",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Visits outside the UK"
-      },
       "rank": "normal"
     }
   ]

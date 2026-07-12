@@ -1,9 +1,153 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-08T11:33:02.113Z",
+  "generatedAt": "2026-07-11T23:52:47.336Z",
   "shard": 189,
   "total": 2500,
   "items": [
+    {
+      "id": "cg:statement:49a45d5bc12aa87c5557",
+      "subjectId": "cg:person:6267",
+      "propertyId": "cg:property:member-of-political-party",
+      "value": {
+        "type": "entity",
+        "id": "cg:party:labour-coalition"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "Browse person party summary"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:e921b9a1e97bc45c5341",
+      "subjectId": "cg:person:6267",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Anne Gribbon"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:2c40be5cbc079aefd699",
+      "subjectId": "cg:person:6267",
+      "propertyId": "cg:property:stood-in-election",
+      "value": {
+        "type": "entity",
+        "id": "cg:election:northern-ireland-forum-for-political-dialogue-1996-05-30"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "1996-05-30"
+          }
+        },
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "Mid Ulster"
+          }
+        },
+        {
+          "propertyId": "cg:property:candidature-status",
+          "value": {
+            "type": "string",
+            "value": "Eliminated"
+          }
+        },
+        {
+          "propertyId": "cg:property:elected",
+          "value": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "propertyId": "cg:property:member-of-political-party",
+          "value": {
+            "type": "entity",
+            "id": "cg:party:labour-coalition"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:d0c72792c2a6d6ca2d58",
+      "subjectId": "cg:person:62761",
+      "propertyId": "cg:property:has-candidature",
+      "value": {
+        "type": "entity",
+        "id": "cg:candidature:cg-person-62761-cg-contest-northern-ireland-forum-for-political-dialogue-432663856d26"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "1996-05-30"
+          }
+        },
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "West Tyrone"
+          }
+        },
+        {
+          "propertyId": "cg:property:candidature-status",
+          "value": {
+            "type": "string",
+            "value": "Eliminated"
+          }
+        },
+        {
+          "propertyId": "cg:property:elected",
+          "value": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "propertyId": "cg:property:member-of-political-party",
+          "value": {
+            "type": "entity",
+            "id": "cg:party:sdlp"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
     {
       "id": "cg:statement:c34ec05056f89273779e",
       "subjectId": "cg:person:62761",
@@ -85688,144 +85832,6 @@
           "value": {
             "type": "string",
             "value": "South Belfast"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:ni-register-assembly-html-d8612ac2fc1dfd6f",
-          "sourceTitle": "NI Assembly Register of Members Interests (12 January 2010)",
-          "sourceKind": "historical-html-register",
-          "sourceRecordId": "ni-register:assembly:html:d8612ac2fc1dfd6f",
-          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register120110.htm",
-          "date": "2010-01-12",
-          "extractionMethod": "html-heading-parser",
-          "extractionConfidence": "medium"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:11ac84a43aae01c32c9b",
-      "subjectId": "cg:person:dr-alasdair-mcdonnell",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:person"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:59251f36806148c319e5",
-      "subjectId": "cg:person:dr-alasdair-mcdonnell",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Dr Alasdair McDonnell"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:7ed56783258d9adc8027",
-      "subjectId": "cg:person:dr-alasdair-mcdonnell",
-      "propertyId": "cg:property:register-record",
-      "value": {
-        "type": "entity",
-        "id": "cg:register-record:ni-register-record-357c669a56a3bb00"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "2001-10-15"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected-body",
-          "value": {
-            "type": "entity",
-            "id": "cg:body:northern-ireland-assembly"
-          }
-        },
-        {
-          "propertyId": "cg:property:political-office",
-          "value": {
-            "type": "entity",
-            "id": "cg:office:mla"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "South Belfast"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-row-count",
-          "value": {
-            "type": "number",
-            "value": 2
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:provider-source-url-d1be54bada8b",
-          "sourceTitle": "NI Assembly Register of Members Interests (15 October 2001)",
-          "sourceKind": "historical-pdf-register",
-          "sourceRecordId": "ni-register:assembly:pdf:d1be54bada8bdb14",
-          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register_07.pdf",
-          "date": "2001-10-15",
-          "extractionMethod": "pdf-text-heading-parser",
-          "extractionConfidence": "medium"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:a44c3db5b839bb56896a",
-      "subjectId": "cg:person:dr-alasdair-mcdonnell",
-      "propertyId": "cg:property:register-record",
-      "value": {
-        "type": "entity",
-        "id": "cg:register-record:ni-register-record-2cfdf7a73066f7aa"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "2010-01-12"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected-body",
-          "value": {
-            "type": "entity",
-            "id": "cg:body:northern-ireland-assembly"
-          }
-        },
-        {
-          "propertyId": "cg:property:political-office",
-          "value": {
-            "type": "entity",
-            "id": "cg:office:mla"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "South Belfast"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-row-count",
-          "value": {
-            "type": "number",
-            "value": 11
           }
         }
       ],

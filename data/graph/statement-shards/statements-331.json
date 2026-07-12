@@ -1,9 +1,85 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-08T11:33:02.113Z",
+  "generatedAt": "2026-07-11T23:52:47.336Z",
   "shard": 331,
   "total": 2500,
   "items": [
+    {
+      "id": "cg:statement:ca36b0a56549aecc2e2e",
+      "subjectId": "cg:register-interest:ni-register-record-interest-ec00772471c50cd3",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:register-interest"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:87b8296985c5beb469f1",
+      "subjectId": "cg:register-interest:ni-register-record-interest-ec00772471c50cd3",
+      "propertyId": "cg:property:interest-category",
+      "value": {
+        "type": "string",
+        "value": "Gifts, benefits and hospitality from UK sources"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-mp-full-csv",
+          "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
+          "sourceKind": "filtered-westminster-csv",
+          "sourceRecordId": "ni-register:mp:full-csv",
+          "sourceRowId": "ni-register-interest:mp:1d59f748ff85dffa",
+          "date": "2023-07-10",
+          "earliestDeclaration": "2022-08-08",
+          "latestDeclaration": "2023-07-10",
+          "extractionMethod": "ni-mp-csv-name-match",
+          "extractionConfidence": "high",
+          "sourceExtractIds": [
+            "full-csv",
+            "recent-csv-2"
+          ]
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:795dc689cf4e6ba8440c",
+      "subjectId": "cg:register-interest:ni-register-record-interest-ec00772471c50cd3",
+      "propertyId": "cg:property:interest-text",
+      "value": {
+        "type": "string",
+        "value": "Name of donor: Motorsport UK Address of donor: Bicester Motion OX27 8FY Amount of donation or nature and value if donation in kind: Received in my capacity as Chair of the F1 APPG and Independent Chairman of Northern Ireland’s Motorsport Taskforce, two tickets with hospitality for the British Grand Prix, total value £1,260. I was unable to attend but the second ticket was used by my guest. Date received: 3 July 2022 Date accepted: 3 July 2022 Donor status: company, registration 1344829 (Registered 25 July 2022)"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-mp-full-csv",
+          "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
+          "sourceKind": "filtered-westminster-csv",
+          "sourceRecordId": "ni-register:mp:full-csv",
+          "sourceRowId": "ni-register-interest:mp:1d59f748ff85dffa",
+          "date": "2023-07-10",
+          "earliestDeclaration": "2022-08-08",
+          "latestDeclaration": "2023-07-10",
+          "extractionMethod": "ni-mp-csv-name-match",
+          "extractionConfidence": "high",
+          "sourceExtractIds": [
+            "full-csv",
+            "recent-csv-2"
+          ]
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:c2faccfa46a54b41fb09",
+      "subjectId": "cg:register-interest:ni-register-record-interest-ec00772471c50cd3",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Gifts, benefits and hospitality from UK sources"
+      },
+      "rank": "normal"
+    },
     {
       "id": "cg:statement:c435decf49ebbb313dd0",
       "subjectId": "cg:register-interest:ni-register-record-interest-ec00772471c50cd3",
@@ -51788,72 +51864,6 @@
           "extractionConfidence": "medium"
         }
       ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:4d8c74a10f66d13a50f4",
-      "subjectId": "cg:register-interest:ni-register-record-interest-ee9aede95754e286",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:register-interest"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:c8a929775ea5be5b3c7e",
-      "subjectId": "cg:register-interest:ni-register-record-interest-ee9aede95754e286",
-      "propertyId": "cg:property:interest-category",
-      "value": {
-        "type": "string",
-        "value": "Family members who benefit from Assembly Members' Allowances"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:ni-register-assembly-pdf-0aefb2ebf33c15aa",
-          "sourceTitle": "NI Assembly Register of Members Interests (9 March 2010)",
-          "sourceKind": "historical-pdf-register",
-          "sourceRecordId": "ni-register:assembly:pdf:0aefb2ebf33c15aa",
-          "sourceRowId": "ni-register-interest:mla-pdf:62ca7416b103f740",
-          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register_090310.pdf",
-          "date": "2010-03-09",
-          "extractionMethod": "pdf-text-heading-parser",
-          "extractionConfidence": "medium"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:4aa5ec8751de4ae043ff",
-      "subjectId": "cg:register-interest:ni-register-record-interest-ee9aede95754e286",
-      "propertyId": "cg:property:interest-text",
-      "value": {
-        "type": "string",
-        "value": "I employ my son as a researcher/constituency worker. I employ my wife as a secretary/office manager. N� CHUIL�N Car�l (North Belfast)"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:ni-register-assembly-pdf-0aefb2ebf33c15aa",
-          "sourceTitle": "NI Assembly Register of Members Interests (9 March 2010)",
-          "sourceKind": "historical-pdf-register",
-          "sourceRecordId": "ni-register:assembly:pdf:0aefb2ebf33c15aa",
-          "sourceRowId": "ni-register-interest:mla-pdf:62ca7416b103f740",
-          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register_090310.pdf",
-          "date": "2010-03-09",
-          "extractionMethod": "pdf-text-heading-parser",
-          "extractionConfidence": "medium"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:6b49ae659450996a1f57",
-      "subjectId": "cg:register-interest:ni-register-record-interest-ee9aede95754e286",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Family members who benefit from Assembly Members' Allowances"
-      },
       "rank": "normal"
     }
   ]

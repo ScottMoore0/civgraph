@@ -1,9 +1,136 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-08T11:33:02.113Z",
+  "generatedAt": "2026-07-11T23:52:47.336Z",
   "shard": 374,
   "total": 2500,
   "items": [
+    {
+      "id": "cg:statement:4a5e07d838897af83645",
+      "subjectId": "cg:register-record:ni-register-record-e16df256dfc6801b",
+      "propertyId": "cg:property:year",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-year:2017"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-1269ff170209f78e",
+          "sourceTitle": "NI Assembly Register of Members Interests (25 January 2017)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:1269ff170209f78e",
+          "sourceUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/25-january-2017.pdf",
+          "date": "2017-01-25",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:3cdd2547bc5f493a0a92",
+      "subjectId": "cg:register-record:ni-register-record-e174b9b0f115f13e",
+      "propertyId": "cg:property:constituency",
+      "value": {
+        "type": "string",
+        "value": "Lagan Valley"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:provider-source-url-d1be54bada8b",
+          "sourceTitle": "NI Assembly Register of Members Interests (15 October 2001)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:d1be54bada8bdb14",
+          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register_07.pdf",
+          "date": "2001-10-15",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:d7390b77d13dcf1721ac",
+      "subjectId": "cg:register-record:ni-register-record-e174b9b0f115f13e",
+      "propertyId": "cg:property:date",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-month:2001-10",
+        "label": "2001-10-15"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:provider-source-url-d1be54bada8b",
+          "sourceTitle": "NI Assembly Register of Members Interests (15 October 2001)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:d1be54bada8bdb14",
+          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register_07.pdf",
+          "date": "2001-10-15",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:229b209aab9acae6e04c",
+      "subjectId": "cg:register-record:ni-register-record-e174b9b0f115f13e",
+      "propertyId": "cg:property:declared-interest",
+      "value": {
+        "type": "entity",
+        "id": "cg:register-interest:ni-register-record-interest-89bd189dae401221"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:interest-category",
+          "value": {
+            "type": "string",
+            "value": "Unremunerated Interests"
+          }
+        },
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "2001-10-15"
+          }
+        },
+        {
+          "propertyId": "cg:property:nil-return",
+          "value": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "propertyId": "cg:property:extraction-confidence",
+          "value": {
+            "type": "string",
+            "value": "medium"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-row-count",
+          "value": {
+            "type": "number",
+            "value": 1
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:provider-source-url-d1be54bada8b",
+          "sourceTitle": "NI Assembly Register of Members Interests (15 October 2001)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:d1be54bada8bdb14",
+          "sourceRowId": "ni-register-interest:mla-pdf:f0e2ac0d0964e1f3",
+          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register_07.pdf",
+          "date": "2001-10-15",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
     {
       "id": "cg:statement:59db81252190b55a07f6",
       "subjectId": "cg:register-record:ni-register-record-e174b9b0f115f13e",
@@ -113846,124 +113973,6 @@
           "extractionMethod": "html-heading-parser",
           "extractionConfidence": "medium"
         },
-        {
-          "sourceId": "cg:source:ni-register-assembly-pdf-c84d8acc0f5a3798",
-          "sourceTitle": "NI Assembly Register of Members Interests (6 February 2012)",
-          "sourceKind": "historical-pdf-register",
-          "sourceRecordId": "ni-register:assembly:pdf:c84d8acc0f5a3798",
-          "sourceUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_060212.pdf",
-          "date": "2012-02-06",
-          "extractionMethod": "pdf-text-heading-parser",
-          "extractionConfidence": "medium"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:784f62d54ae3f6ab7abf",
-      "subjectId": "cg:register-record:ni-register-record-e84b910a4c25831d",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Danny Kennedy - Assembly - 2012-02-06"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:cb595d01a31a613b30ca",
-      "subjectId": "cg:register-record:ni-register-record-e84b910a4c25831d",
-      "propertyId": "cg:property:political-office",
-      "value": {
-        "type": "entity",
-        "id": "cg:office:mla"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:ni-register-assembly-pdf-c84d8acc0f5a3798",
-          "sourceTitle": "NI Assembly Register of Members Interests (6 February 2012)",
-          "sourceKind": "historical-html-register",
-          "sourceRecordId": "ni-register:assembly:html:b3333879f93f937d",
-          "sourceUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/6-february-2012/",
-          "date": "2012-02-06",
-          "extractionMethod": "html-heading-parser",
-          "extractionConfidence": "medium"
-        },
-        {
-          "sourceId": "cg:source:ni-register-assembly-pdf-c84d8acc0f5a3798",
-          "sourceTitle": "NI Assembly Register of Members Interests (6 February 2012)",
-          "sourceKind": "historical-pdf-register",
-          "sourceRecordId": "ni-register:assembly:pdf:c84d8acc0f5a3798",
-          "sourceUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_060212.pdf",
-          "date": "2012-02-06",
-          "extractionMethod": "pdf-text-heading-parser",
-          "extractionConfidence": "medium"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:4ae8620a5ef5fde91136",
-      "subjectId": "cg:register-record:ni-register-record-e84b910a4c25831d",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:ni-register-assembly-pdf-c84d8acc0f5a3798"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "historical-html-register"
-          }
-        },
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "2012-02-06"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:ni-register-assembly-pdf-c84d8acc0f5a3798",
-          "sourceTitle": "NI Assembly Register of Members Interests (6 February 2012)",
-          "sourceKind": "historical-html-register",
-          "sourceRecordId": "ni-register:assembly:html:b3333879f93f937d",
-          "sourceUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/6-february-2012/",
-          "date": "2012-02-06",
-          "extractionMethod": "html-heading-parser",
-          "extractionConfidence": "medium"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:ca3c8350f7ecf5430303",
-      "subjectId": "cg:register-record:ni-register-record-e84b910a4c25831d",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:ni-register-assembly-pdf-c84d8acc0f5a3798"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "historical-pdf-register"
-          }
-        },
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "2012-02-06"
-          }
-        }
-      ],
-      "references": [
         {
           "sourceId": "cg:source:ni-register-assembly-pdf-c84d8acc0f5a3798",
           "sourceTitle": "NI Assembly Register of Members Interests (6 February 2012)",

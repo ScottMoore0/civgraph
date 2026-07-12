@@ -1779,7 +1779,10 @@ async function writeEntitySearchIndex(entitySummaryById) {
   const items = Object.values(entitySummaryById)
     .map((summary) => compactObject({
       entityId: summary.entityId,
-      slug: summary.slug,
+      // Omit slug when it is identical to browseSlug (the common case): consumers
+      // fall back to browseSlug, and dropping the redundant field keeps this index
+      // under the 25 MiB Cloudflare Pages per-file cap as the corpus grows.
+      slug: summary.slug === summary.browseSlug ? undefined : summary.slug,
       label: summary.label,
       types: summary.typeLabels,
       browseType: summary.browseType,

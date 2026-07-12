@@ -1,9 +1,64 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-08T11:33:02.113Z",
+  "generatedAt": "2026-07-11T23:52:47.336Z",
   "shard": 151,
   "total": 2500,
   "items": [
+    {
+      "id": "cg:statement:db4ce6978d3e0ce3f14d",
+      "subjectId": "cg:election:northern-ireland-assembly-2011-05-05-strangford",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:election"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:43ada2bee0b3febc5f9c",
+      "subjectId": "cg:election:northern-ireland-assembly-2011-05-05-strangford",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Strangford - 2011 Northern Ireland Assembly election"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:c50f2f2878d666cbe9b5",
+      "subjectId": "cg:election:northern-ireland-assembly-2011-05-05-strangford",
+      "propertyId": "cg:property:year",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-year:2011"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-election-index",
+          "sourceTitle": "Civgraph Browse election index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:ec74b55e061a8875271b",
+      "subjectId": "cg:election:northern-ireland-assembly-2011-05-05-upper-bann",
+      "propertyId": "cg:property:date",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-month:2011-05",
+        "label": "2011-05-05"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-election-index",
+          "sourceTitle": "Civgraph Browse election index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
     {
       "id": "cg:statement:0c8f46588d4a93428fc1",
       "subjectId": "cg:election:northern-ireland-assembly-2011-05-05-upper-bann",
@@ -42997,68 +43052,6 @@
         "type": "entity",
         "id": "cg:entity-type:election"
       },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:88fb906898ea2aa9ad74",
-      "subjectId": "cg:election:parliament-of-northern-ireland-1948-08-16-mid-tyrone",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Mid Tyrone - 1948 Mid Tyrone by-election"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:3f1582573267d4bf9a98",
-      "subjectId": "cg:election:parliament-of-northern-ireland-1948-08-16-mid-tyrone",
-      "propertyId": "cg:property:year",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:1948"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-election-index",
-          "sourceTitle": "Civgraph Browse election index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:7907ed23e7636b311d16",
-      "subjectId": "cg:election:parliament-of-northern-ireland-1948-08-16-overall",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-month:1948-08",
-        "label": "1948-08-16"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-election-index",
-          "sourceTitle": "Civgraph Browse election index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:63fc873fdf3c8be89e25",
-      "subjectId": "cg:election:parliament-of-northern-ireland-1948-08-16-overall",
-      "propertyId": "cg:property:elected-body",
-      "value": {
-        "type": "entity",
-        "id": "cg:body:parliament-of-northern-ireland"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-election-index",
-          "sourceTitle": "Civgraph Browse election index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
       "rank": "normal"
     }
   ]

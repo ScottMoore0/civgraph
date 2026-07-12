@@ -1,9 +1,64 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-08T11:33:02.113Z",
+  "generatedAt": "2026-07-11T23:52:47.336Z",
   "shard": 144,
   "total": 2500,
   "items": [
+    {
+      "id": "cg:statement:a99375dabd25c72c6633",
+      "subjectId": "cg:election:house-of-commons-of-the-united-kingdom-1992-04-09-south-antrim",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:election"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:46a85b34151d64d84cac",
+      "subjectId": "cg:election:house-of-commons-of-the-united-kingdom-1992-04-09-south-antrim",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "South Antrim - 1992 UK general election in Northern Ireland"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:752622bba97f63fce3d2",
+      "subjectId": "cg:election:house-of-commons-of-the-united-kingdom-1992-04-09-south-antrim",
+      "propertyId": "cg:property:year",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-year:1992"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-election-index",
+          "sourceTitle": "Civgraph Browse election index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:2d7fb5bf905db4cf956a",
+      "subjectId": "cg:election:house-of-commons-of-the-united-kingdom-1992-04-09-south-down",
+      "propertyId": "cg:property:date",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-month:1992-04",
+        "label": "1992-04-09"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-election-index",
+          "sourceTitle": "Civgraph Browse election index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
     {
       "id": "cg:statement:b823070d734720b5bf0d",
       "subjectId": "cg:election:house-of-commons-of-the-united-kingdom-1992-04-09-south-down",
@@ -42974,122 +43029,6 @@
         "id": "cg:date-month:1979-07",
         "label": "1979-07-05-adoption"
       },
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-election-index",
-          "sourceTitle": "Civgraph Browse election index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:9f47c00da9169cfdcf45",
-      "subjectId": "cg:election:ireland-referendum-1979-07-05-adoption",
-      "propertyId": "cg:property:elected-body",
-      "value": {
-        "type": "entity",
-        "id": "cg:body:referendum-ireland"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-election-index",
-          "sourceTitle": "Civgraph Browse election index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:0784002fc9a8a77134b1",
-      "subjectId": "cg:election:ireland-referendum-1979-07-05-adoption",
-      "propertyId": "cg:property:has-contest",
-      "value": {
-        "type": "entity",
-        "id": "cg:contest:ireland-referendum-1979-07-05-adoption-ireland-referendum-1979-07-05-adoption-south-tipperary"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "South Tipperary"
-          }
-        },
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "1979-07-05-adoption"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-election-index",
-          "sourceTitle": "Civgraph Browse election index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:10a14187045daaa99e00",
-      "subjectId": "cg:election:ireland-referendum-1979-07-05-adoption",
-      "propertyId": "cg:property:has-contest",
-      "value": {
-        "type": "entity",
-        "id": "cg:contest:ireland-referendum-1979-07-05-adoption-ireland-referendum-1979-07-05-adoption-overall"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "Overall results"
-          }
-        },
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "1979-07-05-adoption"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-election-index",
-          "sourceTitle": "Civgraph Browse election index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:1721d89de2671f187041",
-      "subjectId": "cg:election:ireland-referendum-1979-07-05-adoption",
-      "propertyId": "cg:property:has-contest",
-      "value": {
-        "type": "entity",
-        "id": "cg:contest:ireland-referendum-1979-07-05-adoption-ireland-referendum-1979-07-05-adoption-county-offaly"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "County Offaly"
-          }
-        },
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "1979-07-05-adoption"
-          }
-        }
-      ],
       "references": [
         {
           "sourceId": "cg:source:civgraph-browse-election-index",

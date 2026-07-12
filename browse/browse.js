@@ -1875,7 +1875,7 @@ function renderEntitySearchCard(item) {
   return `
     <article class="browse-card">
       <div class="browse-card__main">
-        <h2 class="browse-card__title"><a href="#/entities/${encodeURIComponent(item.slug)}" data-browse-link>${escapeHtml(item.label || item.entityId)}</a></h2>
+        <h2 class="browse-card__title"><a href="#/entities/${encodeURIComponent(item.slug || item.browseSlug)}" data-browse-link>${escapeHtml(item.label || item.entityId)}</a></h2>
         <div class="browse-card__meta">${renderMeta([joinList(typeLabels), item.browseType])}</div>
         ${item.description ? `<p class="browse-card__summary">${escapeHtml(item.description)}</p>` : ''}
       </div>
