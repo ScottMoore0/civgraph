@@ -1,9 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-11T23:52:47.336Z",
+  "generatedAt": "2026-07-12T22:19:04.604Z",
   "shard": 11,
   "total": 5000,
   "items": [
+    {
+      "id": "cg:geographic-feature:wards-1984-eden-5-822438787169474-54-71974533019198-5-735249424593044-54-780504123635055",
+      "label": "EDEN",
+      "description": "Wards 1984",
+      "kind": "entity",
+      "attributes": {
+        "featureGroupId": "cg:feature-group:wards-1984",
+        "sourceMapId": "wards-1984",
+        "bbox": [
+          -5.822438787169474,
+          54.71974533019198,
+          -5.735249424593044,
+          54.780504123635055
+        ],
+        "createdFrom": "feature-group-sample"
+      },
+      "typeIds": [
+        "cg:entity-type:geographic-feature"
+      ]
+    },
+    {
+      "id": "cg:geographic-feature:wards-1984-edenderry-6-306482780945477-54-34778114500378-6-270848964297461-54-358467490891194",
+      "label": "EDENDERRY",
+      "description": "Wards 1984",
+      "kind": "entity",
+      "attributes": {
+        "featureGroupId": "cg:feature-group:wards-1984",
+        "sourceMapId": "wards-1984",
+        "bbox": [
+          -6.306482780945477,
+          54.34778114500378,
+          -6.270848964297461,
+          54.358467490891194
+        ],
+        "createdFrom": "feature-group-sample"
+      },
+      "typeIds": [
+        "cg:entity-type:geographic-feature"
+      ]
+    },
     {
       "id": "cg:geographic-feature:wards-1984-ederney-and-lack-7-707665925784573-54-48091910429535-7-528144-af03fd3038ec",
       "label": "EDERNEY and LACK",
@@ -40592,27 +40632,95 @@
       ]
     },
     {
+      "id": "cg:map-layer:eds-roi-1946",
+      "label": "District Electoral Divisions/Wards 1946",
+      "description": "Republic of Ireland District Electoral Divisions/Wards as at 1946, assembled from Connacht 1919, Leinster 1946, Munster 1944, and the unchanged Ulster ROI DED component. The Dublin ward detail is transcribed from the Minutes of Dublin City Council of 15 July 1946; the full source-note sidecar is pending in a later batch.",
+      "kind": "entity",
+      "browseType": "maps",
+      "browseSlug": "eds-roi-1946",
+      "browseUrl": "/browse/maps/eds-roi-1946",
+      "attributes": {
+        "category": "Electoral Areas",
+        "categoryId": "wards",
+        "group": "Elections and Government",
+        "date": "1946-07-15",
+        "years": [
+          1946
+        ],
+        "provider": "Phelim Birch, Paddy Matthews",
+        "status": "available",
+        "loadable": true,
+        "labelProperty": "ENGLISH",
+        "searchHints": [
+          "Electoral Areas",
+          "wards",
+          "Elections and Government",
+          "Phelim Birch",
+          "Paddy Matthews"
+        ]
+      },
+      "typeIds": [
+        "cg:entity-type:map-layer"
+      ]
+    },
+    {
       "id": "cg:map-layer:eds-roi-1950",
-      "label": "District Electoral Divisions - 1950",
-      "description": "Historic electoral division boundaries",
+      "label": "District Electoral Divisions/Wards 1950",
+      "description": "Republic of Ireland District Electoral Divisions/Wards as at 5 January 1950, assembled from Connacht 1919, Leinster 1946, Munster 1950, and the unchanged Ulster ROI DED component. In 1950 the new DED of Limerick Rural was formed out of parts of Limerick North Rural and Limerick South Rural ahead of the expansion of Limerick county borough.",
       "kind": "entity",
       "browseType": "maps",
       "browseSlug": "eds-roi-1950",
       "browseUrl": "/browse/maps/eds-roi-1950",
       "attributes": {
-        "category": "Electoral Divisions",
-        "categoryId": "electoral-divisions",
-        "group": "Built Environment",
-        "date": 1950,
+        "category": "Electoral Areas",
+        "categoryId": "wards",
+        "group": "Elections and Government",
+        "date": "1950-01-05",
         "years": [
           1950
         ],
-        "status": "not yet converted",
-        "loadable": false,
+        "provider": "Phelim Birch, Paddy Matthews",
+        "status": "available",
+        "loadable": true,
+        "labelProperty": "ENGLISH",
         "searchHints": [
-          "Electoral Divisions",
-          "electoral-divisions",
-          "Built Environment"
+          "Electoral Areas",
+          "wards",
+          "Elections and Government",
+          "Phelim Birch",
+          "Paddy Matthews"
+        ]
+      },
+      "typeIds": [
+        "cg:entity-type:map-layer"
+      ]
+    },
+    {
+      "id": "cg:map-layer:eds-roi-1953",
+      "label": "District Electoral Divisions/Wards 1953",
+      "description": "Republic of Ireland District Electoral Divisions/Wards as at 1 April 1953, assembled from Connacht 1919, Leinster 1953, Munster 1950, and the unchanged Ulster ROI DED component. In 1953 Dublin county borough's boundary was expanded into the DEDs of Castleknock, Clondalkin, Coolock, Drumcondra Rural, Finglas, Howth Rural, Palmerstown, Rathfarnham and Terenure.",
+      "kind": "entity",
+      "browseType": "maps",
+      "browseSlug": "eds-roi-1953",
+      "browseUrl": "/browse/maps/eds-roi-1953",
+      "attributes": {
+        "category": "Electoral Areas",
+        "categoryId": "wards",
+        "group": "Elections and Government",
+        "date": "1953-04-01",
+        "years": [
+          1953
+        ],
+        "provider": "Phelim Birch, Paddy Matthews",
+        "status": "available",
+        "loadable": true,
+        "labelProperty": "ENGLISH",
+        "searchHints": [
+          "Electoral Areas",
+          "wards",
+          "Elections and Government",
+          "Phelim Birch",
+          "Paddy Matthews"
         ]
       },
       "typeIds": [
@@ -40621,28 +40729,62 @@
     },
     {
       "id": "cg:map-layer:eds-roi-1954",
-      "label": "Dublin ward definitions 1954",
-      "description": "Transcription/source material for the Dublin ward definitions recorded in Minutes of Dublin City Council 1954 Item 144. This is retained as source documentation for the later DED/ward boundary snapshots rather than a standalone digitised boundary layer.",
+      "label": "District Electoral Divisions/Wards 1954",
+      "description": "Republic of Ireland District Electoral Divisions/Wards as at 14 June 1954, assembled from Connacht 1919, Leinster 1954, Munster 1950, and the unchanged Ulster ROI DED component. Following the 1953 expansion of Dublin county borough, 9 new wards replaced the portions of 9 DEDs absorbed by the borough, with minor changes to some of the 33 existing wards (42 in total).",
       "kind": "entity",
       "browseType": "maps",
       "browseSlug": "eds-roi-1954",
       "browseUrl": "/browse/maps/eds-roi-1954",
       "attributes": {
-        "category": "Electoral Divisions",
-        "categoryId": "electoral-divisions",
-        "group": "Built Environment",
-        "date": 1954,
+        "category": "Electoral Areas",
+        "categoryId": "wards",
+        "group": "Elections and Government",
+        "date": "1954-06-14",
         "years": [
           1954
         ],
-        "provider": "Dublin City Council",
-        "status": "not yet converted",
-        "loadable": false,
+        "provider": "Phelim Birch, Paddy Matthews",
+        "status": "available",
+        "loadable": true,
+        "labelProperty": "ENGLISH",
         "searchHints": [
-          "Electoral Divisions",
-          "electoral-divisions",
-          "Built Environment",
-          "Dublin City Council"
+          "Electoral Areas",
+          "wards",
+          "Elections and Government",
+          "Phelim Birch",
+          "Paddy Matthews"
+        ]
+      },
+      "typeIds": [
+        "cg:entity-type:map-layer"
+      ]
+    },
+    {
+      "id": "cg:map-layer:eds-roi-1955",
+      "label": "District Electoral Divisions/Wards 1955",
+      "description": "Republic of Ireland District Electoral Divisions/Wards as at 1 April 1955, assembled from Connacht 1919, Leinster 1954, Munster 1955, and the unchanged Ulster ROI DED component. In 1955 Cork county borough expanded into the DEDs of Bishopstown, St. Mary's and Blackrock, and Waterford county borough expanded into Ballynakill, Waterford Rural and the DED of Kilculliheen in County Kilkenny.",
+      "kind": "entity",
+      "browseType": "maps",
+      "browseSlug": "eds-roi-1955",
+      "browseUrl": "/browse/maps/eds-roi-1955",
+      "attributes": {
+        "category": "Electoral Areas",
+        "categoryId": "wards",
+        "group": "Elections and Government",
+        "date": "1955-04-01",
+        "years": [
+          1955
+        ],
+        "provider": "Phelim Birch, Paddy Matthews",
+        "status": "available",
+        "loadable": true,
+        "labelProperty": "ENGLISH",
+        "searchHints": [
+          "Electoral Areas",
+          "wards",
+          "Elections and Government",
+          "Phelim Birch",
+          "Paddy Matthews"
         ]
       },
       "typeIds": [
@@ -113598,131 +113740,6 @@
           "DUP",
           "University",
           "2011 Northern Ireland local elections"
-        ]
-      },
-      "typeIds": [
-        "cg:entity-type:person"
-      ]
-    },
-    {
-      "id": "cg:person:name-bamford",
-      "label": "Bamford",
-      "description": "Independent / 1973 / 1 contests",
-      "kind": "entity",
-      "browseType": "persons",
-      "browseSlug": "name-bamford",
-      "browseUrl": "/browse/persons/name-bamford",
-      "attributes": {
-        "firstYear": 1973,
-        "lastYear": 1973,
-        "relatedElectionCount": 1,
-        "contestsStood": 1,
-        "contestsElected": 1,
-        "firstPreferenceVotes": 453,
-        "searchHints": [
-          "Independent",
-          "Ballymoney Area A",
-          "1973 Northern Ireland local elections"
-        ]
-      },
-      "typeIds": [
-        "cg:entity-type:person"
-      ]
-    },
-    {
-      "id": "cg:person:name-bannister",
-      "label": "Bannister",
-      "description": "Unionist / 1973 / 1 contests",
-      "kind": "entity",
-      "browseType": "persons",
-      "browseSlug": "name-bannister",
-      "browseUrl": "/browse/persons/name-bannister",
-      "attributes": {
-        "firstYear": 1973,
-        "lastYear": 1973,
-        "relatedElectionCount": 1,
-        "contestsStood": 1,
-        "contestsElected": 1,
-        "firstPreferenceVotes": 6328,
-        "searchHints": [
-          "Unionist",
-          "Belfast Area A",
-          "1973 Northern Ireland local elections"
-        ]
-      },
-      "typeIds": [
-        "cg:entity-type:person"
-      ]
-    },
-    {
-      "id": "cg:person:name-baptist-w-gamble",
-      "label": "Baptist W. Gamble",
-      "description": "NI Labour / 1964 / 1 contests",
-      "kind": "entity",
-      "browseType": "persons",
-      "browseSlug": "name-baptist-w-gamble",
-      "browseUrl": "/browse/persons/name-baptist-w-gamble",
-      "attributes": {
-        "firstYear": 1964,
-        "lastYear": 1964,
-        "relatedElectionCount": 1,
-        "contestsStood": 1,
-        "contestsElected": 0,
-        "firstPreferenceVotes": 2339,
-        "searchHints": [
-          "NI Labour",
-          "Fermanagh and South Tyrone",
-          "1964 UK general election in Northern Ireland"
-        ]
-      },
-      "typeIds": [
-        "cg:entity-type:person"
-      ]
-    },
-    {
-      "id": "cg:person:name-barbara-ahern",
-      "label": "Barbara Ahern",
-      "description": "Fianna Fáil / 2016 / 1 contests",
-      "kind": "entity",
-      "browseType": "persons",
-      "browseSlug": "name-barbara-ahern",
-      "browseUrl": "/browse/persons/name-barbara-ahern",
-      "attributes": {
-        "firstYear": 2016,
-        "lastYear": 2016,
-        "relatedElectionCount": 1,
-        "contestsStood": 1,
-        "contestsElected": 0,
-        "firstPreferenceVotes": 4594,
-        "searchHints": [
-          "Fianna Fáil",
-          "Cork East",
-          "2016 Irish general election"
-        ]
-      },
-      "typeIds": [
-        "cg:entity-type:person"
-      ]
-    },
-    {
-      "id": "cg:person:name-barbara-ann-pinney",
-      "label": "Barbara Ann Pinney",
-      "description": "The Conservative Party / 1993 / 1 contests",
-      "kind": "entity",
-      "browseType": "persons",
-      "browseSlug": "name-barbara-ann-pinney",
-      "browseUrl": "/browse/persons/name-barbara-ann-pinney",
-      "attributes": {
-        "firstYear": 1993,
-        "lastYear": 1993,
-        "relatedElectionCount": 1,
-        "contestsStood": 1,
-        "contestsElected": 0,
-        "firstPreferenceVotes": 210,
-        "searchHints": [
-          "The Conservative Party",
-          "Castlereagh East",
-          "1993 Northern Ireland local elections"
         ]
       },
       "typeIds": [

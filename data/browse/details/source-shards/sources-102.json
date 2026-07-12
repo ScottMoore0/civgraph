@@ -1,10 +1,1338 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-11T23:52:09.025Z",
+  "generatedAt": "2026-07-12T22:18:23.317Z",
   "kind": "sources",
   "shard": "sources-102.json",
   "total": 200,
   "items": [
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:hsq11-esb-connections:01469",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-hsq11-esb-connections-01469",
+      "type": "approved-medium-priority-source",
+      "title": "HSQ11 - ESB Connections",
+      "subtitle": "Local authority planning/property/open-data layers / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "provider": [
+        "Department of Housing, Local Government and Heritage",
+        "data.gov.ie"
+      ],
+      "description": "HSQ11 - ESB Connections is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/hsq11-esb-connections",
+      "references": [
+        {
+          "label": "HSQ11 - ESB Connections provider page",
+          "url": "https://data.gov.ie/dataset/hsq11-esb-connections",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "HSQ11 - ESB Connections Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/hsq11-esb-connections",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/hsq11-esb-connections",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Local authority planning/property/open-data layers",
+        "source-data",
+        "features",
+        "Ireland / unspecified",
+        "local-authority-batch-review",
+        "CSV",
+        "JSON-STAT",
+        "PX",
+        "XLSX"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 1470,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:hsq11-esb-connections:01469",
+          "title": "HSQ11 - ESB Connections",
+          "cleanTitle": "HSQ11 - ESB Connections",
+          "provider": "data.gov.ie",
+          "organisation": "Department of Housing, Local Government and Heritage",
+          "category": "tabular",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "source-data",
+          "featureUnit": "features",
+          "formats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 55,
+          "currentProviderUrl": "https://data.gov.ie/dataset/hsq11-esb-connections",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/hsq11-esb-connections",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Ireland / unspecified",
+        "source-data",
+        "HSQ11 - ESB Connections"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "spreadsheet"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/hsq11-esb-connections",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/hsq11-esb-connections",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, HSQ11 - ESB Connections.",
+      "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. HSQ11 - ESB Connections. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/hsq11-esb-connections. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/hsq11-esb-connections.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:hsq11-esb-connections:01469",
+        "sourceRowNumber": 1470,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+        "proposedAction": "local-authority-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ]
+        },
+        "confidence": 55,
+        "resolvedBlockers": [
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+          "needs-provider-context-review: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-hsq11-esb-connections-01469",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:hsq11-esb-connections:01469",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-hsq11-esb-connections-01469",
+        "type": "approved-medium-priority-source",
+        "title": "HSQ11 - ESB Connections",
+        "subtitle": "Local authority planning/property/open-data layers / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "provider": [
+          "Department of Housing, Local Government and Heritage",
+          "data.gov.ie"
+        ],
+        "description": "HSQ11 - ESB Connections is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/hsq11-esb-connections",
+        "references": [
+          {
+            "label": "HSQ11 - ESB Connections provider page",
+            "url": "https://data.gov.ie/dataset/hsq11-esb-connections",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "HSQ11 - ESB Connections Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/hsq11-esb-connections",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/hsq11-esb-connections",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Ireland / unspecified",
+          "source-data",
+          "HSQ11 - ESB Connections"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "spreadsheet"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/hsq11-esb-connections",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/hsq11-esb-connections",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, HSQ11 - ESB Connections.",
+        "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. HSQ11 - ESB Connections. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/hsq11-esb-connections. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/hsq11-esb-connections.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 1470,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:hsq11-esb-connections:01469",
+            "title": "HSQ11 - ESB Connections",
+            "cleanTitle": "HSQ11 - ESB Connections",
+            "provider": "data.gov.ie",
+            "organisation": "Department of Housing, Local Government and Heritage",
+            "category": "tabular",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "source-data",
+            "featureUnit": "features",
+            "formats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "local-authority-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV",
+                "JSON-STAT",
+                "PX",
+                "XLSX"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 55,
+            "currentProviderUrl": "https://data.gov.ie/dataset/hsq11-esb-connections",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/hsq11-esb-connections",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+              "needs-provider-context-review: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:hsq11-esb-connections:01469",
+          "sourceRowNumber": 1470,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ]
+          },
+          "confidence": 55,
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Local authority planning/property/open-data layers",
+          "source-data",
+          "features",
+          "Ireland / unspecified",
+          "local-authority-batch-review",
+          "CSV",
+          "JSON-STAT",
+          "PX",
+          "XLSX"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-hsq11-esb-connections-01469"
+      }
+    },
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:hsq13-local-authority-loan-arrears:01470",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-hsq13-local-authority-loan-arrears-01470",
+      "type": "approved-medium-priority-source",
+      "title": "HSQ13 - Local Authority Loan Arrears",
+      "subtitle": "Local authority planning/property/open-data layers / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "provider": [
+        "Department of Housing, Local Government and Heritage",
+        "data.gov.ie"
+      ],
+      "description": "HSQ13 - Local Authority Loan Arrears is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/hsq13-local-authority-loan-arrears",
+      "references": [
+        {
+          "label": "HSQ13 - Local Authority Loan Arrears provider page",
+          "url": "https://data.gov.ie/dataset/hsq13-local-authority-loan-arrears",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "HSQ13 - Local Authority Loan Arrears Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/hsq13-local-authority-loan-arrears",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/hsq13-local-authority-loan-arrears",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Local authority planning/property/open-data layers",
+        "source-data",
+        "features",
+        "Ireland / unspecified",
+        "local-authority-batch-review",
+        "CSV",
+        "JSON-STAT",
+        "PX",
+        "XLSX"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 1471,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:hsq13-local-authority-loan-arrears:01470",
+          "title": "HSQ13 - Local Authority Loan Arrears",
+          "cleanTitle": "HSQ13 - Local Authority Loan Arrears",
+          "provider": "data.gov.ie",
+          "organisation": "Department of Housing, Local Government and Heritage",
+          "category": "tabular",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "source-data",
+          "featureUnit": "features",
+          "formats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 55,
+          "currentProviderUrl": "https://data.gov.ie/dataset/hsq13-local-authority-loan-arrears",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/hsq13-local-authority-loan-arrears",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Ireland / unspecified",
+        "source-data",
+        "HSQ13 - Local Authority Loan Arrears"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "spreadsheet"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/hsq13-local-authority-loan-arrears",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/hsq13-local-authority-loan-arrears",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, HSQ13 - Local Authority Loan Arrears.",
+      "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. HSQ13 - Local Authority Loan Arrears. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/hsq13-local-authority-loan-arrears. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/hsq13-local-authority-loan-arrears.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:hsq13-local-authority-loan-arrears:01470",
+        "sourceRowNumber": 1471,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+        "proposedAction": "local-authority-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ]
+        },
+        "confidence": 55,
+        "resolvedBlockers": [
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+          "needs-provider-context-review: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-hsq13-local-authority-loan-arrears-01470",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:hsq13-local-authority-loan-arrears:01470",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-hsq13-local-authority-loan-arrears-01470",
+        "type": "approved-medium-priority-source",
+        "title": "HSQ13 - Local Authority Loan Arrears",
+        "subtitle": "Local authority planning/property/open-data layers / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "provider": [
+          "Department of Housing, Local Government and Heritage",
+          "data.gov.ie"
+        ],
+        "description": "HSQ13 - Local Authority Loan Arrears is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/hsq13-local-authority-loan-arrears",
+        "references": [
+          {
+            "label": "HSQ13 - Local Authority Loan Arrears provider page",
+            "url": "https://data.gov.ie/dataset/hsq13-local-authority-loan-arrears",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "HSQ13 - Local Authority Loan Arrears Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/hsq13-local-authority-loan-arrears",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/hsq13-local-authority-loan-arrears",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Ireland / unspecified",
+          "source-data",
+          "HSQ13 - Local Authority Loan Arrears"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "spreadsheet"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/hsq13-local-authority-loan-arrears",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/hsq13-local-authority-loan-arrears",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, HSQ13 - Local Authority Loan Arrears.",
+        "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. HSQ13 - Local Authority Loan Arrears. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/hsq13-local-authority-loan-arrears. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/hsq13-local-authority-loan-arrears.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 1471,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:hsq13-local-authority-loan-arrears:01470",
+            "title": "HSQ13 - Local Authority Loan Arrears",
+            "cleanTitle": "HSQ13 - Local Authority Loan Arrears",
+            "provider": "data.gov.ie",
+            "organisation": "Department of Housing, Local Government and Heritage",
+            "category": "tabular",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "source-data",
+            "featureUnit": "features",
+            "formats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "local-authority-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV",
+                "JSON-STAT",
+                "PX",
+                "XLSX"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 55,
+            "currentProviderUrl": "https://data.gov.ie/dataset/hsq13-local-authority-loan-arrears",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/hsq13-local-authority-loan-arrears",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+              "needs-provider-context-review: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:hsq13-local-authority-loan-arrears:01470",
+          "sourceRowNumber": 1471,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ]
+          },
+          "confidence": 55,
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Local authority planning/property/open-data layers",
+          "source-data",
+          "features",
+          "Ireland / unspecified",
+          "local-authority-batch-review",
+          "CSV",
+          "JSON-STAT",
+          "PX",
+          "XLSX"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-hsq13-local-authority-loan-arrears-01470"
+      }
+    },
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf:01697",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf-01697",
+      "type": "approved-medium-priority-source",
+      "title": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC.pdf",
+      "subtitle": "Local authority planning/property/open-data layers / Kildare County Council, data.gov.ie / Ireland / unspecified / PDF / Approved source record",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "provider": [
+        "Kildare County Council",
+        "data.gov.ie"
+      ],
+      "description": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC.pdf is published as a medium-priority Civgraph source/provenance record from Kildare County Council, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf",
+      "references": [
+        {
+          "label": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC.pdf provider page",
+          "url": "https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC.pdf Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Local authority planning/property/open-data layers",
+        "transport-public-asset",
+        "road features",
+        "Ireland / unspecified",
+        "local-authority-batch-review",
+        "PDF"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 1698,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf:01697",
+          "title": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC.pdf",
+          "cleanTitle": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC.pdf",
+          "provider": "data.gov.ie",
+          "organisation": "Kildare County Council",
+          "category": "tabular",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "transport-public-asset",
+          "featureUnit": "road features",
+          "formats": [
+            "PDF"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "PDF"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Ireland / unspecified",
+        "transport-public-asset",
+        "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC.pdf"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "pdf"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Kildare County Council, data.gov.ie, https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC.pdf.",
+      "fullCitation": "Kildare County Council, data.gov.ie. https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC.pdf. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf:01697",
+        "sourceRowNumber": 1698,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+        "proposedAction": "local-authority-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "PDF"
+          ]
+        },
+        "confidence": 60,
+        "resolvedBlockers": [
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+          "source-page-and-ia-viewport-decision: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf-01697",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf:01697",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf-01697",
+        "type": "approved-medium-priority-source",
+        "title": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC.pdf",
+        "subtitle": "Local authority planning/property/open-data layers / Kildare County Council, data.gov.ie / Ireland / unspecified / PDF / Approved source record",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "provider": [
+          "Kildare County Council",
+          "data.gov.ie"
+        ],
+        "description": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC.pdf is published as a medium-priority Civgraph source/provenance record from Kildare County Council, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf",
+        "references": [
+          {
+            "label": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC.pdf provider page",
+            "url": "https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC.pdf Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Ireland / unspecified",
+          "transport-public-asset",
+          "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC.pdf"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "pdf"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Kildare County Council, data.gov.ie, https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC.pdf.",
+        "fullCitation": "Kildare County Council, data.gov.ie. https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC.pdf. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 1698,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf:01697",
+            "title": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC.pdf",
+            "cleanTitle": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC.pdf",
+            "provider": "data.gov.ie",
+            "organisation": "Kildare County Council",
+            "category": "tabular",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "transport-public-asset",
+            "featureUnit": "road features",
+            "formats": [
+              "PDF"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "local-authority-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "PDF"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+              "source-page-and-ia-viewport-decision: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf:01697",
+          "sourceRowNumber": 1698,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "PDF"
+            ]
+          },
+          "confidence": 60,
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Local authority planning/property/open-data layers",
+          "transport-public-asset",
+          "road features",
+          "Ireland / unspecified",
+          "local-authority-batch-review",
+          "PDF"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf-01697"
+      }
+    },
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf:01698",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf-01698",
+      "type": "approved-medium-priority-source",
+      "title": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC000.pdf",
+      "subtitle": "Local authority planning/property/open-data layers / Kildare County Council, data.gov.ie / Ireland / unspecified / PDF / Approved source record",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "provider": [
+        "Kildare County Council",
+        "data.gov.ie"
+      ],
+      "description": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC000.pdf is published as a medium-priority Civgraph source/provenance record from Kildare County Council, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf",
+      "references": [
+        {
+          "label": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC000.pdf provider page",
+          "url": "https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC000.pdf Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Local authority planning/property/open-data layers",
+        "transport-public-asset",
+        "road features",
+        "Ireland / unspecified",
+        "local-authority-batch-review",
+        "PDF"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 1699,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf:01698",
+          "title": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC000.pdf",
+          "cleanTitle": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC000.pdf",
+          "provider": "data.gov.ie",
+          "organisation": "Kildare County Council",
+          "category": "tabular",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "transport-public-asset",
+          "featureUnit": "road features",
+          "formats": [
+            "PDF"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "PDF"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Ireland / unspecified",
+        "transport-public-asset",
+        "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC000.pdf"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "pdf"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Kildare County Council, data.gov.ie, https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC000.pdf.",
+      "fullCitation": "Kildare County Council, data.gov.ie. https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC000.pdf. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf:01698",
+        "sourceRowNumber": 1699,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+        "proposedAction": "local-authority-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "PDF"
+          ]
+        },
+        "confidence": 60,
+        "resolvedBlockers": [
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+          "source-page-and-ia-viewport-decision: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf-01698",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf:01698",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf-01698",
+        "type": "approved-medium-priority-source",
+        "title": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC000.pdf",
+        "subtitle": "Local authority planning/property/open-data layers / Kildare County Council, data.gov.ie / Ireland / unspecified / PDF / Approved source record",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "provider": [
+          "Kildare County Council",
+          "data.gov.ie"
+        ],
+        "description": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC000.pdf is published as a medium-priority Civgraph source/provenance record from Kildare County Council, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf",
+        "references": [
+          {
+            "label": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC000.pdf provider page",
+            "url": "https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC000.pdf Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Ireland / unspecified",
+          "transport-public-asset",
+          "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC000.pdf"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "pdf"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Kildare County Council, data.gov.ie, https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC000.pdf.",
+        "fullCitation": "Kildare County Council, data.gov.ie. https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC000.pdf. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 1699,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf:01698",
+            "title": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC000.pdf",
+            "cleanTitle": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC000.pdf",
+            "provider": "data.gov.ie",
+            "organisation": "Kildare County Council",
+            "category": "tabular",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "transport-public-asset",
+            "featureUnit": "road features",
+            "formats": [
+              "PDF"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "local-authority-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "PDF"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+              "source-page-and-ia-viewport-decision: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf:01698",
+          "sourceRowNumber": 1699,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "PDF"
+            ]
+          },
+          "confidence": 60,
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Local authority planning/property/open-data layers",
+          "transport-public-asset",
+          "road features",
+          "Ireland / unspecified",
+          "local-authority-batch-review",
+          "PDF"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf-01698"
+      }
+    },
     {
       "id": "medium-priority:5-local-authority-planning-property-open-data-layers:iaip-ad-2-aerodromes-csv1:01471",
       "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-iaip-ad-2-aerodromes-csv1-01471",
@@ -67077,1290 +68405,6 @@
           "CSV"
         ],
         "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-national-housing-development-survey-2012-01524"
-      }
-    },
-    {
-      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:national-housing-development-survey-2012-by-county:00995",
-      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-national-housing-development-survey-2012-by-county-00995",
-      "type": "approved-medium-priority-source",
-      "title": "National Housing Development Survey 2012 by county",
-      "subtitle": "Local authority planning/property/open-data layers / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV / Approved source record",
-      "category": "Medium-priority: Local authority planning/property/open-data layers",
-      "date": "2012",
-      "provider": [
-        "Department of Housing, Local Government and Heritage",
-        "data.gov.ie"
-      ],
-      "description": "National Housing Development Survey 2012 by county is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/national-housing-development-survey-2012-by-county",
-      "references": [
-        {
-          "label": "National Housing Development Survey 2012 by county provider page",
-          "url": "https://data.gov.ie/dataset/national-housing-development-survey-2012-by-county",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "National Housing Development Survey 2012 by county Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-housing-development-survey-2012-by-county",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/national-housing-development-survey-2012-by-county",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Local authority planning/property/open-data layers",
-        "planning-property",
-        "features",
-        "Ireland / unspecified",
-        "local-authority-batch-review",
-        "CSV"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 996,
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:national-housing-development-survey-2012-by-county:00995",
-          "title": "National Housing Development Survey 2012 by county",
-          "cleanTitle": "National Housing Development Survey 2012 by county",
-          "provider": "data.gov.ie",
-          "organisation": "Department of Housing, Local Government and Heritage",
-          "category": "tabular",
-          "roiGroup": "5. Local authority planning/property/open-data layers",
-          "groupTitle": "Local authority planning/property/open-data layers",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "planning-property",
-          "featureUnit": "features",
-          "formats": [
-            "CSV"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/national-housing-development-survey-2012-by-county",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-housing-development-survey-2012-by-county",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "source-page-and-ia-viewport-decision: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Local authority planning/property/open-data layers",
-        "Ireland / unspecified",
-        "planning-property",
-        "National Housing Development Survey 2012 by county"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/national-housing-development-survey-2012-by-county",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-housing-development-survey-2012-by-county",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, National Housing Development Survey 2012 by county.",
-      "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. National Housing Development Survey 2012 by county. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/national-housing-development-survey-2012-by-county. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/national-housing-development-survey-2012-by-county.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:national-housing-development-survey-2012-by-county:00995",
-        "sourceRowNumber": 996,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-        "proposedAction": "local-authority-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "CSV"
-          ]
-        },
-        "confidence": 60,
-        "resolvedBlockers": [
-          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-          "source-page-and-ia-viewport-decision: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-national-housing-development-survey-2012-by-county-00995",
-      "rawMetadata": {
-        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:national-housing-development-survey-2012-by-county:00995",
-        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-national-housing-development-survey-2012-by-county-00995",
-        "type": "approved-medium-priority-source",
-        "title": "National Housing Development Survey 2012 by county",
-        "subtitle": "Local authority planning/property/open-data layers / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV / Approved source record",
-        "category": "Medium-priority: Local authority planning/property/open-data layers",
-        "date": "2012",
-        "provider": [
-          "Department of Housing, Local Government and Heritage",
-          "data.gov.ie"
-        ],
-        "description": "National Housing Development Survey 2012 by county is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/national-housing-development-survey-2012-by-county",
-        "references": [
-          {
-            "label": "National Housing Development Survey 2012 by county provider page",
-            "url": "https://data.gov.ie/dataset/national-housing-development-survey-2012-by-county",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "National Housing Development Survey 2012 by county Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-housing-development-survey-2012-by-county",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/national-housing-development-survey-2012-by-county",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Local authority planning/property/open-data layers",
-          "Ireland / unspecified",
-          "planning-property",
-          "National Housing Development Survey 2012 by county"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/national-housing-development-survey-2012-by-county",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-housing-development-survey-2012-by-county",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, National Housing Development Survey 2012 by county.",
-        "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. National Housing Development Survey 2012 by county. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/national-housing-development-survey-2012-by-county. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/national-housing-development-survey-2012-by-county.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 996,
-            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:national-housing-development-survey-2012-by-county:00995",
-            "title": "National Housing Development Survey 2012 by county",
-            "cleanTitle": "National Housing Development Survey 2012 by county",
-            "provider": "data.gov.ie",
-            "organisation": "Department of Housing, Local Government and Heritage",
-            "category": "tabular",
-            "roiGroup": "5. Local authority planning/property/open-data layers",
-            "groupTitle": "Local authority planning/property/open-data layers",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "planning-property",
-            "featureUnit": "features",
-            "formats": [
-              "CSV"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "local-authority-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "CSV"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/national-housing-development-survey-2012-by-county",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-housing-development-survey-2012-by-county",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-              "source-page-and-ia-viewport-decision: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:national-housing-development-survey-2012-by-county:00995",
-          "sourceRowNumber": 996,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV"
-            ]
-          },
-          "confidence": 60,
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "source-page-and-ia-viewport-decision: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Local authority planning/property/open-data layers",
-          "planning-property",
-          "features",
-          "Ireland / unspecified",
-          "local-authority-batch-review",
-          "CSV"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-national-housing-development-survey-2012-by-county-00995"
-      }
-    },
-    {
-      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:national-housing-development-survey-2013:01525",
-      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-national-housing-development-survey-2013-01525",
-      "type": "approved-medium-priority-source",
-      "title": "National Housing Development Survey 2013",
-      "subtitle": "Local authority planning/property/open-data layers / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV / Approved source record",
-      "category": "Medium-priority: Local authority planning/property/open-data layers",
-      "date": "2013",
-      "provider": [
-        "Department of Housing, Local Government and Heritage",
-        "data.gov.ie"
-      ],
-      "description": "National Housing Development Survey 2013 is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/national-housing-development-survey-2013",
-      "references": [
-        {
-          "label": "National Housing Development Survey 2013 provider page",
-          "url": "https://data.gov.ie/dataset/national-housing-development-survey-2013",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "National Housing Development Survey 2013 Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-housing-development-survey-2013",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/national-housing-development-survey-2013",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Local authority planning/property/open-data layers",
-        "planning-property",
-        "features",
-        "Ireland / unspecified",
-        "local-authority-batch-review",
-        "CSV"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 1526,
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:national-housing-development-survey-2013:01525",
-          "title": "National Housing Development Survey 2013",
-          "cleanTitle": "National Housing Development Survey 2013",
-          "provider": "data.gov.ie",
-          "organisation": "Department of Housing, Local Government and Heritage",
-          "category": "tabular",
-          "roiGroup": "5. Local authority planning/property/open-data layers",
-          "groupTitle": "Local authority planning/property/open-data layers",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "planning-property",
-          "featureUnit": "features",
-          "formats": [
-            "CSV"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/national-housing-development-survey-2013",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-housing-development-survey-2013",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "source-page-and-ia-viewport-decision: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Local authority planning/property/open-data layers",
-        "Ireland / unspecified",
-        "planning-property",
-        "National Housing Development Survey 2013"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/national-housing-development-survey-2013",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-housing-development-survey-2013",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, National Housing Development Survey 2013.",
-      "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. National Housing Development Survey 2013. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/national-housing-development-survey-2013. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/national-housing-development-survey-2013.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:national-housing-development-survey-2013:01525",
-        "sourceRowNumber": 1526,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-        "proposedAction": "local-authority-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "CSV"
-          ]
-        },
-        "confidence": 60,
-        "resolvedBlockers": [
-          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-          "source-page-and-ia-viewport-decision: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-national-housing-development-survey-2013-01525",
-      "rawMetadata": {
-        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:national-housing-development-survey-2013:01525",
-        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-national-housing-development-survey-2013-01525",
-        "type": "approved-medium-priority-source",
-        "title": "National Housing Development Survey 2013",
-        "subtitle": "Local authority planning/property/open-data layers / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV / Approved source record",
-        "category": "Medium-priority: Local authority planning/property/open-data layers",
-        "date": "2013",
-        "provider": [
-          "Department of Housing, Local Government and Heritage",
-          "data.gov.ie"
-        ],
-        "description": "National Housing Development Survey 2013 is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/national-housing-development-survey-2013",
-        "references": [
-          {
-            "label": "National Housing Development Survey 2013 provider page",
-            "url": "https://data.gov.ie/dataset/national-housing-development-survey-2013",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "National Housing Development Survey 2013 Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-housing-development-survey-2013",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/national-housing-development-survey-2013",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Local authority planning/property/open-data layers",
-          "Ireland / unspecified",
-          "planning-property",
-          "National Housing Development Survey 2013"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/national-housing-development-survey-2013",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-housing-development-survey-2013",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, National Housing Development Survey 2013.",
-        "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. National Housing Development Survey 2013. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/national-housing-development-survey-2013. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/national-housing-development-survey-2013.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 1526,
-            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:national-housing-development-survey-2013:01525",
-            "title": "National Housing Development Survey 2013",
-            "cleanTitle": "National Housing Development Survey 2013",
-            "provider": "data.gov.ie",
-            "organisation": "Department of Housing, Local Government and Heritage",
-            "category": "tabular",
-            "roiGroup": "5. Local authority planning/property/open-data layers",
-            "groupTitle": "Local authority planning/property/open-data layers",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "planning-property",
-            "featureUnit": "features",
-            "formats": [
-              "CSV"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "local-authority-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "CSV"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/national-housing-development-survey-2013",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-housing-development-survey-2013",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-              "source-page-and-ia-viewport-decision: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:national-housing-development-survey-2013:01525",
-          "sourceRowNumber": 1526,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV"
-            ]
-          },
-          "confidence": 60,
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "source-page-and-ia-viewport-decision: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Local authority planning/property/open-data layers",
-          "planning-property",
-          "features",
-          "Ireland / unspecified",
-          "local-authority-batch-review",
-          "CSV"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-national-housing-development-survey-2013-01525"
-      }
-    },
-    {
-      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:national-housing-development-survey-2013-by-county:00996",
-      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-national-housing-development-survey-2013-by-county-00996",
-      "type": "approved-medium-priority-source",
-      "title": "National Housing Development Survey 2013 by county",
-      "subtitle": "Local authority planning/property/open-data layers / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV / Approved source record",
-      "category": "Medium-priority: Local authority planning/property/open-data layers",
-      "date": "2013",
-      "provider": [
-        "Department of Housing, Local Government and Heritage",
-        "data.gov.ie"
-      ],
-      "description": "National Housing Development Survey 2013 by county is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/national-housing-development-survey-2013-by-county",
-      "references": [
-        {
-          "label": "National Housing Development Survey 2013 by county provider page",
-          "url": "https://data.gov.ie/dataset/national-housing-development-survey-2013-by-county",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "National Housing Development Survey 2013 by county Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-housing-development-survey-2013-by-county",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/national-housing-development-survey-2013-by-county",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Local authority planning/property/open-data layers",
-        "planning-property",
-        "features",
-        "Ireland / unspecified",
-        "local-authority-batch-review",
-        "CSV"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 997,
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:national-housing-development-survey-2013-by-county:00996",
-          "title": "National Housing Development Survey 2013 by county",
-          "cleanTitle": "National Housing Development Survey 2013 by county",
-          "provider": "data.gov.ie",
-          "organisation": "Department of Housing, Local Government and Heritage",
-          "category": "tabular",
-          "roiGroup": "5. Local authority planning/property/open-data layers",
-          "groupTitle": "Local authority planning/property/open-data layers",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "planning-property",
-          "featureUnit": "features",
-          "formats": [
-            "CSV"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/national-housing-development-survey-2013-by-county",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-housing-development-survey-2013-by-county",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "source-page-and-ia-viewport-decision: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Local authority planning/property/open-data layers",
-        "Ireland / unspecified",
-        "planning-property",
-        "National Housing Development Survey 2013 by county"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/national-housing-development-survey-2013-by-county",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-housing-development-survey-2013-by-county",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, National Housing Development Survey 2013 by county.",
-      "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. National Housing Development Survey 2013 by county. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/national-housing-development-survey-2013-by-county. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/national-housing-development-survey-2013-by-county.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:national-housing-development-survey-2013-by-county:00996",
-        "sourceRowNumber": 997,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-        "proposedAction": "local-authority-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "CSV"
-          ]
-        },
-        "confidence": 60,
-        "resolvedBlockers": [
-          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-          "source-page-and-ia-viewport-decision: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-national-housing-development-survey-2013-by-county-00996",
-      "rawMetadata": {
-        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:national-housing-development-survey-2013-by-county:00996",
-        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-national-housing-development-survey-2013-by-county-00996",
-        "type": "approved-medium-priority-source",
-        "title": "National Housing Development Survey 2013 by county",
-        "subtitle": "Local authority planning/property/open-data layers / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV / Approved source record",
-        "category": "Medium-priority: Local authority planning/property/open-data layers",
-        "date": "2013",
-        "provider": [
-          "Department of Housing, Local Government and Heritage",
-          "data.gov.ie"
-        ],
-        "description": "National Housing Development Survey 2013 by county is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/national-housing-development-survey-2013-by-county",
-        "references": [
-          {
-            "label": "National Housing Development Survey 2013 by county provider page",
-            "url": "https://data.gov.ie/dataset/national-housing-development-survey-2013-by-county",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "National Housing Development Survey 2013 by county Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-housing-development-survey-2013-by-county",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/national-housing-development-survey-2013-by-county",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Local authority planning/property/open-data layers",
-          "Ireland / unspecified",
-          "planning-property",
-          "National Housing Development Survey 2013 by county"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/national-housing-development-survey-2013-by-county",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-housing-development-survey-2013-by-county",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, National Housing Development Survey 2013 by county.",
-        "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. National Housing Development Survey 2013 by county. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/national-housing-development-survey-2013-by-county. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/national-housing-development-survey-2013-by-county.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 997,
-            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:national-housing-development-survey-2013-by-county:00996",
-            "title": "National Housing Development Survey 2013 by county",
-            "cleanTitle": "National Housing Development Survey 2013 by county",
-            "provider": "data.gov.ie",
-            "organisation": "Department of Housing, Local Government and Heritage",
-            "category": "tabular",
-            "roiGroup": "5. Local authority planning/property/open-data layers",
-            "groupTitle": "Local authority planning/property/open-data layers",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "planning-property",
-            "featureUnit": "features",
-            "formats": [
-              "CSV"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "local-authority-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "CSV"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/national-housing-development-survey-2013-by-county",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-housing-development-survey-2013-by-county",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-              "source-page-and-ia-viewport-decision: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:national-housing-development-survey-2013-by-county:00996",
-          "sourceRowNumber": 997,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV"
-            ]
-          },
-          "confidence": 60,
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "source-page-and-ia-viewport-decision: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Local authority planning/property/open-data layers",
-          "planning-property",
-          "features",
-          "Ireland / unspecified",
-          "local-authority-batch-review",
-          "CSV"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-national-housing-development-survey-2013-by-county-00996"
-      }
-    },
-    {
-      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:national-housing-development-survey-2014:01526",
-      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-national-housing-development-survey-2014-01526",
-      "type": "approved-medium-priority-source",
-      "title": "National Housing Development Survey 2014",
-      "subtitle": "Local authority planning/property/open-data layers / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV / Approved source record",
-      "category": "Medium-priority: Local authority planning/property/open-data layers",
-      "date": "2014",
-      "provider": [
-        "Department of Housing, Local Government and Heritage",
-        "data.gov.ie"
-      ],
-      "description": "National Housing Development Survey 2014 is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/national-housing-development-survey-2014",
-      "references": [
-        {
-          "label": "National Housing Development Survey 2014 provider page",
-          "url": "https://data.gov.ie/dataset/national-housing-development-survey-2014",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "National Housing Development Survey 2014 Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-housing-development-survey-2014",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/national-housing-development-survey-2014",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Local authority planning/property/open-data layers",
-        "planning-property",
-        "features",
-        "Ireland / unspecified",
-        "local-authority-batch-review",
-        "CSV"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 1527,
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:national-housing-development-survey-2014:01526",
-          "title": "National Housing Development Survey 2014",
-          "cleanTitle": "National Housing Development Survey 2014",
-          "provider": "data.gov.ie",
-          "organisation": "Department of Housing, Local Government and Heritage",
-          "category": "tabular",
-          "roiGroup": "5. Local authority planning/property/open-data layers",
-          "groupTitle": "Local authority planning/property/open-data layers",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "planning-property",
-          "featureUnit": "features",
-          "formats": [
-            "CSV"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/national-housing-development-survey-2014",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-housing-development-survey-2014",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "source-page-and-ia-viewport-decision: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Local authority planning/property/open-data layers",
-        "Ireland / unspecified",
-        "planning-property",
-        "National Housing Development Survey 2014"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/national-housing-development-survey-2014",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-housing-development-survey-2014",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, National Housing Development Survey 2014.",
-      "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. National Housing Development Survey 2014. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/national-housing-development-survey-2014. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/national-housing-development-survey-2014.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:national-housing-development-survey-2014:01526",
-        "sourceRowNumber": 1527,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-        "proposedAction": "local-authority-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "CSV"
-          ]
-        },
-        "confidence": 60,
-        "resolvedBlockers": [
-          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-          "source-page-and-ia-viewport-decision: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-national-housing-development-survey-2014-01526",
-      "rawMetadata": {
-        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:national-housing-development-survey-2014:01526",
-        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-national-housing-development-survey-2014-01526",
-        "type": "approved-medium-priority-source",
-        "title": "National Housing Development Survey 2014",
-        "subtitle": "Local authority planning/property/open-data layers / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV / Approved source record",
-        "category": "Medium-priority: Local authority planning/property/open-data layers",
-        "date": "2014",
-        "provider": [
-          "Department of Housing, Local Government and Heritage",
-          "data.gov.ie"
-        ],
-        "description": "National Housing Development Survey 2014 is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/national-housing-development-survey-2014",
-        "references": [
-          {
-            "label": "National Housing Development Survey 2014 provider page",
-            "url": "https://data.gov.ie/dataset/national-housing-development-survey-2014",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "National Housing Development Survey 2014 Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-housing-development-survey-2014",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/national-housing-development-survey-2014",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Local authority planning/property/open-data layers",
-          "Ireland / unspecified",
-          "planning-property",
-          "National Housing Development Survey 2014"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/national-housing-development-survey-2014",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-housing-development-survey-2014",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, National Housing Development Survey 2014.",
-        "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. National Housing Development Survey 2014. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/national-housing-development-survey-2014. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/national-housing-development-survey-2014.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 1527,
-            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:national-housing-development-survey-2014:01526",
-            "title": "National Housing Development Survey 2014",
-            "cleanTitle": "National Housing Development Survey 2014",
-            "provider": "data.gov.ie",
-            "organisation": "Department of Housing, Local Government and Heritage",
-            "category": "tabular",
-            "roiGroup": "5. Local authority planning/property/open-data layers",
-            "groupTitle": "Local authority planning/property/open-data layers",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "planning-property",
-            "featureUnit": "features",
-            "formats": [
-              "CSV"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "local-authority-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "CSV"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/national-housing-development-survey-2014",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-housing-development-survey-2014",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-              "source-page-and-ia-viewport-decision: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:national-housing-development-survey-2014:01526",
-          "sourceRowNumber": 1527,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV"
-            ]
-          },
-          "confidence": 60,
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "source-page-and-ia-viewport-decision: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Local authority planning/property/open-data layers",
-          "planning-property",
-          "features",
-          "Ireland / unspecified",
-          "local-authority-batch-review",
-          "CSV"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-national-housing-development-survey-2014-01526"
       }
     }
   ]

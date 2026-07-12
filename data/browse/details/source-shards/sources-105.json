@@ -1,10 +1,1422 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-11T23:52:09.025Z",
+  "generatedAt": "2026-07-12T22:18:23.317Z",
   "kind": "sources",
   "shard": "sources-105.json",
   "total": 200,
   "items": [
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:solvents-volatile-organic-compounds-licenced-premises-sdcc:00749",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-solvents-volatile-organic-compounds-licenced-premises-sdcc-00749",
+      "type": "approved-medium-priority-source",
+      "title": "Solvents Volatile Organic Compounds Licenced Premises SDCC",
+      "subtitle": "Local authority planning/property/open-data layers / South Dublin County Council, data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, GEOJSON, HTML, KML, ZIP / Source record; runtime review pending",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "provider": [
+        "South Dublin County Council",
+        "data.gov.ie"
+      ],
+      "description": "Solvents Volatile Organic Compounds Licenced Premises SDCC is published as a medium-priority Civgraph source/provenance record from South Dublin County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
+      "url": "https://data.gov.ie/dataset/solvents-volatile-organic-compounds-licenced-premises-sdcc",
+      "references": [
+        {
+          "label": "Solvents Volatile Organic Compounds Licenced Premises SDCC provider page",
+          "url": "https://data.gov.ie/dataset/solvents-volatile-organic-compounds-licenced-premises-sdcc",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "Solvents Volatile Organic Compounds Licenced Premises SDCC Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/solvents-volatile-organic-compounds-licenced-premises-sdcc",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/solvents-volatile-organic-compounds-licenced-premises-sdcc",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "source-record-with-runtime-review",
+        "Local authority planning/property/open-data layers",
+        "source-data",
+        "features",
+        "Republic of Ireland",
+        "local-authority-batch-review",
+        "ARCGIS GEOSERVICES REST API",
+        "CSV",
+        "GEOJSON",
+        "HTML",
+        "KML",
+        "ZIP",
+        "review:duplicate-or-variant-review-no-existing-match-candidate"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 750,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:solvents-volatile-organic-compounds-licenced-premises-sdcc:00749",
+          "title": "Solvents Volatile Organic Compounds Licenced Premises SDCC",
+          "cleanTitle": "Solvents Volatile Organic Compounds Licenced Premises SDCC",
+          "provider": "data.gov.ie",
+          "organisation": "South Dublin County Council",
+          "category": "spatial",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Republic of Ireland",
+          "topic": "source-data",
+          "featureUnit": "features",
+          "formats": [
+            "ARCGIS GEOSERVICES REST API",
+            "CSV",
+            "GEOJSON",
+            "HTML",
+            "KML",
+            "ZIP"
+          ],
+          "isSpatial": true,
+          "isLargeOrSpecial": false,
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GEOJSON",
+              "HTML",
+              "KML",
+              "ZIP"
+            ]
+          },
+          "approvalState": "ready-with-residual-review",
+          "sourcePublicationState": "public source record with runtime/semantic review still pending",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/solvents-volatile-organic-compounds-licenced-premises-sdcc",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/solvents-volatile-organic-compounds-licenced-premises-sdcc",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "large-or-special-format-review: normal source package; no special-format hold",
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        }
+      ],
+      "status": "Source only",
+      "statusChips": [
+        "Source record",
+        "Runtime review pending",
+        "Spatial source",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Republic of Ireland",
+        "source-data",
+        "Solvents Volatile Organic Compounds Licenced Premises SDCC"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "download-only"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/solvents-volatile-organic-compounds-licenced-premises-sdcc",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/solvents-volatile-organic-compounds-licenced-premises-sdcc",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "South Dublin County Council, data.gov.ie, Solvents Volatile Organic Compounds Licenced Premises SDCC.",
+      "fullCitation": "South Dublin County Council, data.gov.ie. Solvents Volatile Organic Compounds Licenced Premises SDCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/solvents-volatile-organic-compounds-licenced-premises-sdcc. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/solvents-volatile-organic-compounds-licenced-premises-sdcc.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:solvents-volatile-organic-compounds-licenced-premises-sdcc:00749",
+        "sourceRowNumber": 750,
+        "approvalState": "ready-with-residual-review",
+        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+        "proposedAction": "local-authority-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "ARCGIS GEOSERVICES REST API",
+            "CSV",
+            "GEOJSON",
+            "HTML",
+            "KML",
+            "ZIP"
+          ]
+        },
+        "confidence": 60,
+        "residualBlockers": [
+          "duplicate-or-variant-review: no existing match candidate"
+        ],
+        "resolvedBlockers": [
+          "large-or-special-format-review: normal source package; no special-format hold",
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+        ],
+        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+      },
+      "publicationStatus": "source-record-with-runtime-review",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-solvents-volatile-organic-compounds-licenced-premises-sdcc-00749",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:solvents-volatile-organic-compounds-licenced-premises-sdcc:00749",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-solvents-volatile-organic-compounds-licenced-premises-sdcc-00749",
+        "type": "approved-medium-priority-source",
+        "title": "Solvents Volatile Organic Compounds Licenced Premises SDCC",
+        "subtitle": "Local authority planning/property/open-data layers / South Dublin County Council, data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, GEOJSON, HTML, KML, ZIP / Source record; runtime review pending",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "provider": [
+          "South Dublin County Council",
+          "data.gov.ie"
+        ],
+        "description": "Solvents Volatile Organic Compounds Licenced Premises SDCC is published as a medium-priority Civgraph source/provenance record from South Dublin County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
+        "url": "https://data.gov.ie/dataset/solvents-volatile-organic-compounds-licenced-premises-sdcc",
+        "references": [
+          {
+            "label": "Solvents Volatile Organic Compounds Licenced Premises SDCC provider page",
+            "url": "https://data.gov.ie/dataset/solvents-volatile-organic-compounds-licenced-premises-sdcc",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "Solvents Volatile Organic Compounds Licenced Premises SDCC Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/solvents-volatile-organic-compounds-licenced-premises-sdcc",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/solvents-volatile-organic-compounds-licenced-premises-sdcc",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source only",
+        "statusChips": [
+          "Source record",
+          "Runtime review pending",
+          "Spatial source",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Republic of Ireland",
+          "source-data",
+          "Solvents Volatile Organic Compounds Licenced Premises SDCC"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "download-only"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/solvents-volatile-organic-compounds-licenced-premises-sdcc",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/solvents-volatile-organic-compounds-licenced-premises-sdcc",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "South Dublin County Council, data.gov.ie, Solvents Volatile Organic Compounds Licenced Premises SDCC.",
+        "fullCitation": "South Dublin County Council, data.gov.ie. Solvents Volatile Organic Compounds Licenced Premises SDCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/solvents-volatile-organic-compounds-licenced-premises-sdcc. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/solvents-volatile-organic-compounds-licenced-premises-sdcc.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 750,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:solvents-volatile-organic-compounds-licenced-premises-sdcc:00749",
+            "title": "Solvents Volatile Organic Compounds Licenced Premises SDCC",
+            "cleanTitle": "Solvents Volatile Organic Compounds Licenced Premises SDCC",
+            "provider": "data.gov.ie",
+            "organisation": "South Dublin County Council",
+            "category": "spatial",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Republic of Ireland",
+            "topic": "source-data",
+            "featureUnit": "features",
+            "formats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GEOJSON",
+              "HTML",
+              "KML",
+              "ZIP"
+            ],
+            "isSpatial": true,
+            "isLargeOrSpecial": false,
+            "proposedAction": "local-authority-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "ARCGIS GEOSERVICES REST API",
+                "CSV",
+                "GEOJSON",
+                "HTML",
+                "KML",
+                "ZIP"
+              ]
+            },
+            "approvalState": "ready-with-residual-review",
+            "sourcePublicationState": "public source record with runtime/semantic review still pending",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/solvents-volatile-organic-compounds-licenced-premises-sdcc",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/solvents-volatile-organic-compounds-licenced-premises-sdcc",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "large-or-special-format-review: normal source package; no special-format hold",
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+            ],
+            "residualBlockers": [
+              "duplicate-or-variant-review: no existing match candidate"
+            ],
+            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:solvents-volatile-organic-compounds-licenced-premises-sdcc:00749",
+          "sourceRowNumber": 750,
+          "approvalState": "ready-with-residual-review",
+          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GEOJSON",
+              "HTML",
+              "KML",
+              "ZIP"
+            ]
+          },
+          "confidence": 60,
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate"
+          ],
+          "resolvedBlockers": [
+            "large-or-special-format-review: normal source package; no special-format hold",
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        },
+        "publicationStatus": "source-record-with-runtime-review",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "source-record-with-runtime-review",
+          "Local authority planning/property/open-data layers",
+          "source-data",
+          "features",
+          "Republic of Ireland",
+          "local-authority-batch-review",
+          "ARCGIS GEOSERVICES REST API",
+          "CSV",
+          "GEOJSON",
+          "HTML",
+          "KML",
+          "ZIP",
+          "review:duplicate-or-variant-review-no-existing-match-candidate"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-solvents-volatile-organic-compounds-licenced-premises-sdcc-00749"
+      }
+    },
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:sonitus:02276",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-sonitus-02276",
+      "type": "approved-medium-priority-source",
+      "title": "Noise and Air Quality Monitoring API DCC",
+      "subtitle": "Local authority planning/property/open-data layers / Dublin City Council, data.gov.ie / Republic of Ireland / .TXT, API / Approved source record",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "provider": [
+        "Dublin City Council",
+        "data.gov.ie"
+      ],
+      "description": "Noise and Air Quality Monitoring API DCC is published as a medium-priority Civgraph source/provenance record from Dublin City Council, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/sonitus",
+      "references": [
+        {
+          "label": "Noise and Air Quality Monitoring API DCC provider page",
+          "url": "https://data.gov.ie/dataset/sonitus",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "Noise and Air Quality Monitoring API DCC Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/sonitus",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/sonitus",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Local authority planning/property/open-data layers",
+        "source-data",
+        "features",
+        "Republic of Ireland",
+        "local-authority-batch-review",
+        ".TXT",
+        "API"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 2277,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:sonitus:02276",
+          "title": "Noise and Air Quality Monitoring API DCC",
+          "cleanTitle": "Noise and Air Quality Monitoring API DCC",
+          "provider": "data.gov.ie",
+          "organisation": "Dublin City Council",
+          "category": "tabular",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Republic of Ireland",
+          "topic": "source-data",
+          "featureUnit": "features",
+          "formats": [
+            ".TXT",
+            "API"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              ".TXT",
+              "API"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/sonitus",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/sonitus",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval"
+          ],
+          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Republic of Ireland",
+        "source-data",
+        "Noise and Air Quality Monitoring API DCC"
+      ],
+      "viewport": {
+        "status": "source-page-only",
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/sonitus",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/sonitus",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Dublin City Council, data.gov.ie, Noise and Air Quality Monitoring API DCC.",
+      "fullCitation": "Dublin City Council, data.gov.ie. Noise and Air Quality Monitoring API DCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/sonitus. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/sonitus.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:sonitus:02276",
+        "sourceRowNumber": 2277,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+        "proposedAction": "local-authority-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            ".TXT",
+            "API"
+          ]
+        },
+        "confidence": 60,
+        "resolvedBlockers": [
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval"
+        ],
+        "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-sonitus-02276",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:sonitus:02276",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-sonitus-02276",
+        "type": "approved-medium-priority-source",
+        "title": "Noise and Air Quality Monitoring API DCC",
+        "subtitle": "Local authority planning/property/open-data layers / Dublin City Council, data.gov.ie / Republic of Ireland / .TXT, API / Approved source record",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "provider": [
+          "Dublin City Council",
+          "data.gov.ie"
+        ],
+        "description": "Noise and Air Quality Monitoring API DCC is published as a medium-priority Civgraph source/provenance record from Dublin City Council, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/sonitus",
+        "references": [
+          {
+            "label": "Noise and Air Quality Monitoring API DCC provider page",
+            "url": "https://data.gov.ie/dataset/sonitus",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "Noise and Air Quality Monitoring API DCC Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/sonitus",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/sonitus",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Republic of Ireland",
+          "source-data",
+          "Noise and Air Quality Monitoring API DCC"
+        ],
+        "viewport": {
+          "status": "source-page-only",
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/sonitus",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/sonitus",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Dublin City Council, data.gov.ie, Noise and Air Quality Monitoring API DCC.",
+        "fullCitation": "Dublin City Council, data.gov.ie. Noise and Air Quality Monitoring API DCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/sonitus. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/sonitus.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 2277,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:sonitus:02276",
+            "title": "Noise and Air Quality Monitoring API DCC",
+            "cleanTitle": "Noise and Air Quality Monitoring API DCC",
+            "provider": "data.gov.ie",
+            "organisation": "Dublin City Council",
+            "category": "tabular",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Republic of Ireland",
+            "topic": "source-data",
+            "featureUnit": "features",
+            "formats": [
+              ".TXT",
+              "API"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "local-authority-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                ".TXT",
+                "API"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/sonitus",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/sonitus",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval"
+            ],
+            "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:sonitus:02276",
+          "sourceRowNumber": 2277,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              ".TXT",
+              "API"
+            ]
+          },
+          "confidence": 60,
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval"
+          ],
+          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Local authority planning/property/open-data layers",
+          "source-data",
+          "features",
+          "Republic of Ireland",
+          "local-authority-batch-review",
+          ".TXT",
+          "API"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-sonitus-02276"
+      }
+    },
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:south-dublin-council-buildings-2017-sdcc1:01875",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-south-dublin-council-buildings-2017-sdcc1-01875",
+      "type": "approved-medium-priority-source",
+      "title": "South Dublin Council Buildings 2017 SDCC",
+      "subtitle": "Local authority planning/property/open-data layers / South Dublin County Council, data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, HTML / Approved source record",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "date": "2017",
+      "provider": [
+        "South Dublin County Council",
+        "data.gov.ie"
+      ],
+      "description": "South Dublin Council Buildings 2017 SDCC is published as a medium-priority Civgraph source/provenance record from South Dublin County Council, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/south-dublin-council-buildings-2017-sdcc1",
+      "references": [
+        {
+          "label": "South Dublin Council Buildings 2017 SDCC provider page",
+          "url": "https://data.gov.ie/dataset/south-dublin-council-buildings-2017-sdcc1",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "South Dublin Council Buildings 2017 SDCC Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/south-dublin-council-buildings-2017-sdcc1",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/south-dublin-council-buildings-2017-sdcc1",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Local authority planning/property/open-data layers",
+        "source-data",
+        "features",
+        "Republic of Ireland",
+        "local-authority-batch-review",
+        "ARCGIS GEOSERVICES REST API",
+        "CSV",
+        "HTML"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 1876,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:south-dublin-council-buildings-2017-sdcc1:01875",
+          "title": "South Dublin Council Buildings 2017 SDCC",
+          "cleanTitle": "South Dublin Council Buildings 2017 SDCC",
+          "provider": "data.gov.ie",
+          "organisation": "South Dublin County Council",
+          "category": "tabular",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Republic of Ireland",
+          "topic": "source-data",
+          "featureUnit": "features",
+          "formats": [
+            "ARCGIS GEOSERVICES REST API",
+            "CSV",
+            "HTML"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "HTML"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/south-dublin-council-buildings-2017-sdcc1",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/south-dublin-council-buildings-2017-sdcc1",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval"
+          ],
+          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Republic of Ireland",
+        "source-data",
+        "South Dublin Council Buildings 2017 SDCC"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/south-dublin-council-buildings-2017-sdcc1",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/south-dublin-council-buildings-2017-sdcc1",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "South Dublin County Council, data.gov.ie, South Dublin Council Buildings 2017 SDCC.",
+      "fullCitation": "South Dublin County Council, data.gov.ie. South Dublin Council Buildings 2017 SDCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/south-dublin-council-buildings-2017-sdcc1. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/south-dublin-council-buildings-2017-sdcc1.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:south-dublin-council-buildings-2017-sdcc1:01875",
+        "sourceRowNumber": 1876,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+        "proposedAction": "local-authority-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "ARCGIS GEOSERVICES REST API",
+            "CSV",
+            "HTML"
+          ]
+        },
+        "confidence": 60,
+        "resolvedBlockers": [
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval"
+        ],
+        "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-south-dublin-council-buildings-2017-sdcc1-01875",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:south-dublin-council-buildings-2017-sdcc1:01875",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-south-dublin-council-buildings-2017-sdcc1-01875",
+        "type": "approved-medium-priority-source",
+        "title": "South Dublin Council Buildings 2017 SDCC",
+        "subtitle": "Local authority planning/property/open-data layers / South Dublin County Council, data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, HTML / Approved source record",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "date": "2017",
+        "provider": [
+          "South Dublin County Council",
+          "data.gov.ie"
+        ],
+        "description": "South Dublin Council Buildings 2017 SDCC is published as a medium-priority Civgraph source/provenance record from South Dublin County Council, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/south-dublin-council-buildings-2017-sdcc1",
+        "references": [
+          {
+            "label": "South Dublin Council Buildings 2017 SDCC provider page",
+            "url": "https://data.gov.ie/dataset/south-dublin-council-buildings-2017-sdcc1",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "South Dublin Council Buildings 2017 SDCC Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/south-dublin-council-buildings-2017-sdcc1",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/south-dublin-council-buildings-2017-sdcc1",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Republic of Ireland",
+          "source-data",
+          "South Dublin Council Buildings 2017 SDCC"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/south-dublin-council-buildings-2017-sdcc1",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/south-dublin-council-buildings-2017-sdcc1",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "South Dublin County Council, data.gov.ie, South Dublin Council Buildings 2017 SDCC.",
+        "fullCitation": "South Dublin County Council, data.gov.ie. South Dublin Council Buildings 2017 SDCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/south-dublin-council-buildings-2017-sdcc1. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/south-dublin-council-buildings-2017-sdcc1.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 1876,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:south-dublin-council-buildings-2017-sdcc1:01875",
+            "title": "South Dublin Council Buildings 2017 SDCC",
+            "cleanTitle": "South Dublin Council Buildings 2017 SDCC",
+            "provider": "data.gov.ie",
+            "organisation": "South Dublin County Council",
+            "category": "tabular",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Republic of Ireland",
+            "topic": "source-data",
+            "featureUnit": "features",
+            "formats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "HTML"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "local-authority-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "ARCGIS GEOSERVICES REST API",
+                "CSV",
+                "HTML"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/south-dublin-council-buildings-2017-sdcc1",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/south-dublin-council-buildings-2017-sdcc1",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval"
+            ],
+            "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:south-dublin-council-buildings-2017-sdcc1:01875",
+          "sourceRowNumber": 1876,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "HTML"
+            ]
+          },
+          "confidence": 60,
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval"
+          ],
+          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Local authority planning/property/open-data layers",
+          "source-data",
+          "features",
+          "Republic of Ireland",
+          "local-authority-batch-review",
+          "ARCGIS GEOSERVICES REST API",
+          "CSV",
+          "HTML"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-south-dublin-council-buildings-2017-sdcc1-01875"
+      }
+    },
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:south-dublin-county-boundary-sdcc1:00126",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-south-dublin-county-boundary-sdcc1-00126",
+      "type": "approved-medium-priority-source",
+      "title": "South Dublin County Boundary SDCC",
+      "subtitle": "Local authority planning/property/open-data layers / South Dublin County Council, data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, GEOJSON, HTML, KML, ZIP / Source record; runtime review pending",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "provider": [
+        "South Dublin County Council",
+        "data.gov.ie"
+      ],
+      "description": "South Dublin County Boundary SDCC is published as a medium-priority Civgraph source/provenance record from South Dublin County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
+      "url": "https://data.gov.ie/dataset/south-dublin-county-boundary-sdcc1",
+      "references": [
+        {
+          "label": "South Dublin County Boundary SDCC provider page",
+          "url": "https://data.gov.ie/dataset/south-dublin-county-boundary-sdcc1",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "South Dublin County Boundary SDCC Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/south-dublin-county-boundary-sdcc1",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/south-dublin-county-boundary-sdcc1",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "source-record-with-runtime-review",
+        "Local authority planning/property/open-data layers",
+        "boundary",
+        "features",
+        "Republic of Ireland",
+        "local-authority-batch-review",
+        "ARCGIS GEOSERVICES REST API",
+        "CSV",
+        "GEOJSON",
+        "HTML",
+        "KML",
+        "ZIP",
+        "review:duplicate-or-variant-review-no-existing-match-candidate"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 127,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:south-dublin-county-boundary-sdcc1:00126",
+          "title": "South Dublin County Boundary SDCC",
+          "cleanTitle": "South Dublin County Boundary SDCC",
+          "provider": "data.gov.ie",
+          "organisation": "South Dublin County Council",
+          "category": "spatial",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Republic of Ireland",
+          "topic": "boundary",
+          "featureUnit": "features",
+          "formats": [
+            "ARCGIS GEOSERVICES REST API",
+            "CSV",
+            "GEOJSON",
+            "HTML",
+            "KML",
+            "ZIP"
+          ],
+          "isSpatial": true,
+          "isLargeOrSpecial": false,
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GEOJSON",
+              "HTML",
+              "KML",
+              "ZIP"
+            ]
+          },
+          "approvalState": "ready-with-residual-review",
+          "sourcePublicationState": "public source record with runtime/semantic review still pending",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/south-dublin-county-boundary-sdcc1",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/south-dublin-county-boundary-sdcc1",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "large-or-special-format-review: normal source package; no special-format hold",
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        }
+      ],
+      "status": "Source only",
+      "statusChips": [
+        "Source record",
+        "Runtime review pending",
+        "Spatial source",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Republic of Ireland",
+        "boundary",
+        "South Dublin County Boundary SDCC"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "download-only"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/south-dublin-county-boundary-sdcc1",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/south-dublin-county-boundary-sdcc1",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "South Dublin County Council, data.gov.ie, South Dublin County Boundary SDCC.",
+      "fullCitation": "South Dublin County Council, data.gov.ie. South Dublin County Boundary SDCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/south-dublin-county-boundary-sdcc1. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/south-dublin-county-boundary-sdcc1.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:south-dublin-county-boundary-sdcc1:00126",
+        "sourceRowNumber": 127,
+        "approvalState": "ready-with-residual-review",
+        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+        "proposedAction": "local-authority-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "ARCGIS GEOSERVICES REST API",
+            "CSV",
+            "GEOJSON",
+            "HTML",
+            "KML",
+            "ZIP"
+          ]
+        },
+        "confidence": 60,
+        "residualBlockers": [
+          "duplicate-or-variant-review: no existing match candidate"
+        ],
+        "resolvedBlockers": [
+          "large-or-special-format-review: normal source package; no special-format hold",
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+        ],
+        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+      },
+      "publicationStatus": "source-record-with-runtime-review",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-south-dublin-county-boundary-sdcc1-00126",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:south-dublin-county-boundary-sdcc1:00126",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-south-dublin-county-boundary-sdcc1-00126",
+        "type": "approved-medium-priority-source",
+        "title": "South Dublin County Boundary SDCC",
+        "subtitle": "Local authority planning/property/open-data layers / South Dublin County Council, data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, GEOJSON, HTML, KML, ZIP / Source record; runtime review pending",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "provider": [
+          "South Dublin County Council",
+          "data.gov.ie"
+        ],
+        "description": "South Dublin County Boundary SDCC is published as a medium-priority Civgraph source/provenance record from South Dublin County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
+        "url": "https://data.gov.ie/dataset/south-dublin-county-boundary-sdcc1",
+        "references": [
+          {
+            "label": "South Dublin County Boundary SDCC provider page",
+            "url": "https://data.gov.ie/dataset/south-dublin-county-boundary-sdcc1",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "South Dublin County Boundary SDCC Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/south-dublin-county-boundary-sdcc1",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/south-dublin-county-boundary-sdcc1",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source only",
+        "statusChips": [
+          "Source record",
+          "Runtime review pending",
+          "Spatial source",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Republic of Ireland",
+          "boundary",
+          "South Dublin County Boundary SDCC"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "download-only"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/south-dublin-county-boundary-sdcc1",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/south-dublin-county-boundary-sdcc1",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "South Dublin County Council, data.gov.ie, South Dublin County Boundary SDCC.",
+        "fullCitation": "South Dublin County Council, data.gov.ie. South Dublin County Boundary SDCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/south-dublin-county-boundary-sdcc1. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/south-dublin-county-boundary-sdcc1.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 127,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:south-dublin-county-boundary-sdcc1:00126",
+            "title": "South Dublin County Boundary SDCC",
+            "cleanTitle": "South Dublin County Boundary SDCC",
+            "provider": "data.gov.ie",
+            "organisation": "South Dublin County Council",
+            "category": "spatial",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Republic of Ireland",
+            "topic": "boundary",
+            "featureUnit": "features",
+            "formats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GEOJSON",
+              "HTML",
+              "KML",
+              "ZIP"
+            ],
+            "isSpatial": true,
+            "isLargeOrSpecial": false,
+            "proposedAction": "local-authority-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "ARCGIS GEOSERVICES REST API",
+                "CSV",
+                "GEOJSON",
+                "HTML",
+                "KML",
+                "ZIP"
+              ]
+            },
+            "approvalState": "ready-with-residual-review",
+            "sourcePublicationState": "public source record with runtime/semantic review still pending",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/south-dublin-county-boundary-sdcc1",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/south-dublin-county-boundary-sdcc1",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "large-or-special-format-review: normal source package; no special-format hold",
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+            ],
+            "residualBlockers": [
+              "duplicate-or-variant-review: no existing match candidate"
+            ],
+            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:south-dublin-county-boundary-sdcc1:00126",
+          "sourceRowNumber": 127,
+          "approvalState": "ready-with-residual-review",
+          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GEOJSON",
+              "HTML",
+              "KML",
+              "ZIP"
+            ]
+          },
+          "confidence": 60,
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate"
+          ],
+          "resolvedBlockers": [
+            "large-or-special-format-review: normal source package; no special-format hold",
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        },
+        "publicationStatus": "source-record-with-runtime-review",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "source-record-with-runtime-review",
+          "Local authority planning/property/open-data layers",
+          "boundary",
+          "features",
+          "Republic of Ireland",
+          "local-authority-batch-review",
+          "ARCGIS GEOSERVICES REST API",
+          "CSV",
+          "GEOJSON",
+          "HTML",
+          "KML",
+          "ZIP",
+          "review:duplicate-or-variant-review-no-existing-match-candidate"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-south-dublin-county-boundary-sdcc1-00126"
+      }
+    },
     {
       "id": "medium-priority:5-local-authority-planning-property-open-data-layers:southern-regional-assembly-prompt-payment-return-q2-2017:01665",
       "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-southern-regional-assembly-prompt-payment-return-q2-2017-01665",
@@ -70147,1412 +71559,6 @@
           "review:duplicate-or-variant-review-no-existing-match-candidate"
         ],
         "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-westmeath-playground-00832"
-      }
-    },
-    {
-      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:westmeath-recycle-bring-banks:00833",
-      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-westmeath-recycle-bring-banks-00833",
-      "type": "approved-medium-priority-source",
-      "title": "Westmeath Recycle Bring Banks",
-      "subtitle": "Local authority planning/property/open-data layers / Westmeath County Council, data.gov.ie / Ireland / unspecified / ARCGIS GEOSERVICES REST API, CSV, GEOJSON, HTML, KML, ZIP / Source record; runtime review pending",
-      "category": "Medium-priority: Local authority planning/property/open-data layers",
-      "provider": [
-        "Westmeath County Council",
-        "data.gov.ie"
-      ],
-      "description": "Westmeath Recycle Bring Banks is published as a medium-priority Civgraph source/provenance record from Westmeath County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-      "url": "https://data.gov.ie/dataset/westmeath-recycle-bring-banks",
-      "references": [
-        {
-          "label": "Westmeath Recycle Bring Banks provider page",
-          "url": "https://data.gov.ie/dataset/westmeath-recycle-bring-banks",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Westmeath Recycle Bring Banks Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/westmeath-recycle-bring-banks",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/westmeath-recycle-bring-banks",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "source-record-with-runtime-review",
-        "Local authority planning/property/open-data layers",
-        "transport-public-asset",
-        "features",
-        "Ireland / unspecified",
-        "local-authority-batch-review",
-        "ARCGIS GEOSERVICES REST API",
-        "CSV",
-        "GEOJSON",
-        "HTML",
-        "KML",
-        "ZIP",
-        "review:duplicate-or-variant-review-no-existing-match-candidate"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 834,
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:westmeath-recycle-bring-banks:00833",
-          "title": "Westmeath Recycle Bring Banks",
-          "cleanTitle": "Westmeath Recycle Bring Banks",
-          "provider": "data.gov.ie",
-          "organisation": "Westmeath County Council",
-          "category": "spatial",
-          "roiGroup": "5. Local authority planning/property/open-data layers",
-          "groupTitle": "Local authority planning/property/open-data layers",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "transport-public-asset",
-          "featureUnit": "features",
-          "formats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "GEOJSON",
-            "HTML",
-            "KML",
-            "ZIP"
-          ],
-          "isSpatial": true,
-          "isLargeOrSpecial": false,
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GEOJSON",
-              "HTML",
-              "KML",
-              "ZIP"
-            ]
-          },
-          "approvalState": "ready-with-residual-review",
-          "sourcePublicationState": "public source record with runtime/semantic review still pending",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/westmeath-recycle-bring-banks",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/westmeath-recycle-bring-banks",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source record",
-        "Runtime review pending",
-        "Spatial source",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Local authority planning/property/open-data layers",
-        "Ireland / unspecified",
-        "transport-public-asset",
-        "Westmeath Recycle Bring Banks"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text",
-          "download-only"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/westmeath-recycle-bring-banks",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/westmeath-recycle-bring-banks",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Westmeath County Council, data.gov.ie, Westmeath Recycle Bring Banks.",
-      "fullCitation": "Westmeath County Council, data.gov.ie. Westmeath Recycle Bring Banks. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/westmeath-recycle-bring-banks. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/westmeath-recycle-bring-banks.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:westmeath-recycle-bring-banks:00833",
-        "sourceRowNumber": 834,
-        "approvalState": "ready-with-residual-review",
-        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-        "proposedAction": "local-authority-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "GEOJSON",
-            "HTML",
-            "KML",
-            "ZIP"
-          ]
-        },
-        "confidence": 60,
-        "residualBlockers": [
-          "duplicate-or-variant-review: no existing match candidate"
-        ],
-        "resolvedBlockers": [
-          "large-or-special-format-review: normal source package; no special-format hold",
-          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-        ],
-        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-      },
-      "publicationStatus": "source-record-with-runtime-review",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-westmeath-recycle-bring-banks-00833",
-      "rawMetadata": {
-        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:westmeath-recycle-bring-banks:00833",
-        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-westmeath-recycle-bring-banks-00833",
-        "type": "approved-medium-priority-source",
-        "title": "Westmeath Recycle Bring Banks",
-        "subtitle": "Local authority planning/property/open-data layers / Westmeath County Council, data.gov.ie / Ireland / unspecified / ARCGIS GEOSERVICES REST API, CSV, GEOJSON, HTML, KML, ZIP / Source record; runtime review pending",
-        "category": "Medium-priority: Local authority planning/property/open-data layers",
-        "provider": [
-          "Westmeath County Council",
-          "data.gov.ie"
-        ],
-        "description": "Westmeath Recycle Bring Banks is published as a medium-priority Civgraph source/provenance record from Westmeath County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-        "url": "https://data.gov.ie/dataset/westmeath-recycle-bring-banks",
-        "references": [
-          {
-            "label": "Westmeath Recycle Bring Banks provider page",
-            "url": "https://data.gov.ie/dataset/westmeath-recycle-bring-banks",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Westmeath Recycle Bring Banks Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/westmeath-recycle-bring-banks",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/westmeath-recycle-bring-banks",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source record",
-          "Runtime review pending",
-          "Spatial source",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Local authority planning/property/open-data layers",
-          "Ireland / unspecified",
-          "transport-public-asset",
-          "Westmeath Recycle Bring Banks"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text",
-            "download-only"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/westmeath-recycle-bring-banks",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/westmeath-recycle-bring-banks",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Westmeath County Council, data.gov.ie, Westmeath Recycle Bring Banks.",
-        "fullCitation": "Westmeath County Council, data.gov.ie. Westmeath Recycle Bring Banks. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/westmeath-recycle-bring-banks. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/westmeath-recycle-bring-banks.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 834,
-            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:westmeath-recycle-bring-banks:00833",
-            "title": "Westmeath Recycle Bring Banks",
-            "cleanTitle": "Westmeath Recycle Bring Banks",
-            "provider": "data.gov.ie",
-            "organisation": "Westmeath County Council",
-            "category": "spatial",
-            "roiGroup": "5. Local authority planning/property/open-data layers",
-            "groupTitle": "Local authority planning/property/open-data layers",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "transport-public-asset",
-            "featureUnit": "features",
-            "formats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GEOJSON",
-              "HTML",
-              "KML",
-              "ZIP"
-            ],
-            "isSpatial": true,
-            "isLargeOrSpecial": false,
-            "proposedAction": "local-authority-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "ARCGIS GEOSERVICES REST API",
-                "CSV",
-                "GEOJSON",
-                "HTML",
-                "KML",
-                "ZIP"
-              ]
-            },
-            "approvalState": "ready-with-residual-review",
-            "sourcePublicationState": "public source record with runtime/semantic review still pending",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/westmeath-recycle-bring-banks",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/westmeath-recycle-bring-banks",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "large-or-special-format-review: normal source package; no special-format hold",
-              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-            ],
-            "residualBlockers": [
-              "duplicate-or-variant-review: no existing match candidate"
-            ],
-            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:westmeath-recycle-bring-banks:00833",
-          "sourceRowNumber": 834,
-          "approvalState": "ready-with-residual-review",
-          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GEOJSON",
-              "HTML",
-              "KML",
-              "ZIP"
-            ]
-          },
-          "confidence": 60,
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate"
-          ],
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        },
-        "publicationStatus": "source-record-with-runtime-review",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "source-record-with-runtime-review",
-          "Local authority planning/property/open-data layers",
-          "transport-public-asset",
-          "features",
-          "Ireland / unspecified",
-          "local-authority-batch-review",
-          "ARCGIS GEOSERVICES REST API",
-          "CSV",
-          "GEOJSON",
-          "HTML",
-          "KML",
-          "ZIP",
-          "review:duplicate-or-variant-review-no-existing-match-candidate"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-westmeath-recycle-bring-banks-00833"
-      }
-    },
-    {
-      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:wexford-fire-stations:00834",
-      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-wexford-fire-stations-00834",
-      "type": "approved-medium-priority-source",
-      "title": "Wexford Fire Stations",
-      "subtitle": "Local authority planning/property/open-data layers / Wexford County Council, data.gov.ie / Ireland / unspecified / API, CSV, KML, SHP.ZIP / Source record; runtime review pending",
-      "category": "Medium-priority: Local authority planning/property/open-data layers",
-      "provider": [
-        "Wexford County Council",
-        "data.gov.ie"
-      ],
-      "description": "Wexford Fire Stations is published as a medium-priority Civgraph source/provenance record from Wexford County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-      "url": "https://data.gov.ie/dataset/wexford-fire-stations",
-      "references": [
-        {
-          "label": "Wexford Fire Stations provider page",
-          "url": "https://data.gov.ie/dataset/wexford-fire-stations",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Wexford Fire Stations Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/wexford-fire-stations",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/wexford-fire-stations",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "source-record-with-runtime-review",
-        "Local authority planning/property/open-data layers",
-        "source-data",
-        "features",
-        "Ireland / unspecified",
-        "local-authority-batch-review",
-        "API",
-        "CSV",
-        "KML",
-        "SHP.ZIP",
-        "review:duplicate-or-variant-review-no-existing-match-candidate"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 835,
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:wexford-fire-stations:00834",
-          "title": "Wexford Fire Stations",
-          "cleanTitle": "Wexford Fire Stations",
-          "provider": "data.gov.ie",
-          "organisation": "Wexford County Council",
-          "category": "spatial",
-          "roiGroup": "5. Local authority planning/property/open-data layers",
-          "groupTitle": "Local authority planning/property/open-data layers",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "source-data",
-          "featureUnit": "features",
-          "formats": [
-            "API",
-            "CSV",
-            "KML",
-            "SHP.ZIP"
-          ],
-          "isSpatial": true,
-          "isLargeOrSpecial": false,
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "API",
-              "CSV",
-              "KML",
-              "SHP.ZIP"
-            ]
-          },
-          "approvalState": "ready-with-residual-review",
-          "sourcePublicationState": "public source record with runtime/semantic review still pending",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/wexford-fire-stations",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/wexford-fire-stations",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source record",
-        "Runtime review pending",
-        "Spatial source",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Local authority planning/property/open-data layers",
-        "Ireland / unspecified",
-        "source-data",
-        "Wexford Fire Stations"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/wexford-fire-stations",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/wexford-fire-stations",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Wexford County Council, data.gov.ie, Wexford Fire Stations.",
-      "fullCitation": "Wexford County Council, data.gov.ie. Wexford Fire Stations. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/wexford-fire-stations. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/wexford-fire-stations.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:wexford-fire-stations:00834",
-        "sourceRowNumber": 835,
-        "approvalState": "ready-with-residual-review",
-        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-        "proposedAction": "local-authority-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "API",
-            "CSV",
-            "KML",
-            "SHP.ZIP"
-          ]
-        },
-        "confidence": 60,
-        "residualBlockers": [
-          "duplicate-or-variant-review: no existing match candidate"
-        ],
-        "resolvedBlockers": [
-          "large-or-special-format-review: normal source package; no special-format hold",
-          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-        ],
-        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-      },
-      "publicationStatus": "source-record-with-runtime-review",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-wexford-fire-stations-00834",
-      "rawMetadata": {
-        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:wexford-fire-stations:00834",
-        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-wexford-fire-stations-00834",
-        "type": "approved-medium-priority-source",
-        "title": "Wexford Fire Stations",
-        "subtitle": "Local authority planning/property/open-data layers / Wexford County Council, data.gov.ie / Ireland / unspecified / API, CSV, KML, SHP.ZIP / Source record; runtime review pending",
-        "category": "Medium-priority: Local authority planning/property/open-data layers",
-        "provider": [
-          "Wexford County Council",
-          "data.gov.ie"
-        ],
-        "description": "Wexford Fire Stations is published as a medium-priority Civgraph source/provenance record from Wexford County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-        "url": "https://data.gov.ie/dataset/wexford-fire-stations",
-        "references": [
-          {
-            "label": "Wexford Fire Stations provider page",
-            "url": "https://data.gov.ie/dataset/wexford-fire-stations",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Wexford Fire Stations Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/wexford-fire-stations",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/wexford-fire-stations",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source record",
-          "Runtime review pending",
-          "Spatial source",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Local authority planning/property/open-data layers",
-          "Ireland / unspecified",
-          "source-data",
-          "Wexford Fire Stations"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/wexford-fire-stations",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/wexford-fire-stations",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Wexford County Council, data.gov.ie, Wexford Fire Stations.",
-        "fullCitation": "Wexford County Council, data.gov.ie. Wexford Fire Stations. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/wexford-fire-stations. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/wexford-fire-stations.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 835,
-            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:wexford-fire-stations:00834",
-            "title": "Wexford Fire Stations",
-            "cleanTitle": "Wexford Fire Stations",
-            "provider": "data.gov.ie",
-            "organisation": "Wexford County Council",
-            "category": "spatial",
-            "roiGroup": "5. Local authority planning/property/open-data layers",
-            "groupTitle": "Local authority planning/property/open-data layers",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "source-data",
-            "featureUnit": "features",
-            "formats": [
-              "API",
-              "CSV",
-              "KML",
-              "SHP.ZIP"
-            ],
-            "isSpatial": true,
-            "isLargeOrSpecial": false,
-            "proposedAction": "local-authority-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "API",
-                "CSV",
-                "KML",
-                "SHP.ZIP"
-              ]
-            },
-            "approvalState": "ready-with-residual-review",
-            "sourcePublicationState": "public source record with runtime/semantic review still pending",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/wexford-fire-stations",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/wexford-fire-stations",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "large-or-special-format-review: normal source package; no special-format hold",
-              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-            ],
-            "residualBlockers": [
-              "duplicate-or-variant-review: no existing match candidate"
-            ],
-            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:wexford-fire-stations:00834",
-          "sourceRowNumber": 835,
-          "approvalState": "ready-with-residual-review",
-          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "API",
-              "CSV",
-              "KML",
-              "SHP.ZIP"
-            ]
-          },
-          "confidence": 60,
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate"
-          ],
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        },
-        "publicationStatus": "source-record-with-runtime-review",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "source-record-with-runtime-review",
-          "Local authority planning/property/open-data layers",
-          "source-data",
-          "features",
-          "Ireland / unspecified",
-          "local-authority-batch-review",
-          "API",
-          "CSV",
-          "KML",
-          "SHP.ZIP",
-          "review:duplicate-or-variant-review-no-existing-match-candidate"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-wexford-fire-stations-00834"
-      }
-    },
-    {
-      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:wexford-rural-area-types:01251",
-      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-wexford-rural-area-types-01251",
-      "type": "approved-medium-priority-source",
-      "title": "Wexford County Development Plan 2022 - 2028",
-      "subtitle": "Local authority planning/property/open-data layers / Wexford County Council, data.gov.ie / Ireland / unspecified / .SHP, ESRI REST SERVICE / Source record; runtime review pending",
-      "category": "Medium-priority: Local authority planning/property/open-data layers",
-      "date": "2022",
-      "provider": [
-        "Wexford County Council",
-        "data.gov.ie"
-      ],
-      "description": "Wexford County Development Plan 2022 - 2028 is published as a medium-priority Civgraph source/provenance record from Wexford County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-      "url": "https://data.gov.ie/dataset/wexford-rural-area-types",
-      "references": [
-        {
-          "label": "Wexford County Development Plan 2022 - 2028 provider page",
-          "url": "https://data.gov.ie/dataset/wexford-rural-area-types",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Wexford County Development Plan 2022 - 2028 Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/wexford-rural-area-types",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/wexford-rural-area-types",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "source-record-with-runtime-review",
-        "Local authority planning/property/open-data layers",
-        "planning-property",
-        "features",
-        "Ireland / unspecified",
-        "local-authority-batch-review",
-        ".SHP",
-        "ESRI REST SERVICE",
-        "review:duplicate-or-variant-review-no-existing-match-candidate"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 1252,
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:wexford-rural-area-types:01251",
-          "title": "Wexford County Development Plan 2022 - 2028",
-          "cleanTitle": "Wexford County Development Plan 2022 - 2028",
-          "provider": "data.gov.ie",
-          "organisation": "Wexford County Council",
-          "category": "tabular",
-          "roiGroup": "5. Local authority planning/property/open-data layers",
-          "groupTitle": "Local authority planning/property/open-data layers",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "planning-property",
-          "featureUnit": "features",
-          "formats": [
-            ".SHP",
-            "ESRI REST SERVICE"
-          ],
-          "isSpatial": true,
-          "isLargeOrSpecial": false,
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              ".SHP",
-              "ESRI REST SERVICE"
-            ]
-          },
-          "approvalState": "ready-with-residual-review",
-          "sourcePublicationState": "public source record with runtime/semantic review still pending",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/wexford-rural-area-types",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/wexford-rural-area-types",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source record",
-        "Runtime review pending",
-        "Spatial source",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Local authority planning/property/open-data layers",
-        "Ireland / unspecified",
-        "planning-property",
-        "Wexford County Development Plan 2022 - 2028"
-      ],
-      "viewport": {
-        "status": "source-page-only",
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/wexford-rural-area-types",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/wexford-rural-area-types",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Wexford County Council, data.gov.ie, Wexford County Development Plan 2022 - 2028.",
-      "fullCitation": "Wexford County Council, data.gov.ie. Wexford County Development Plan 2022 - 2028. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/wexford-rural-area-types. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/wexford-rural-area-types.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:wexford-rural-area-types:01251",
-        "sourceRowNumber": 1252,
-        "approvalState": "ready-with-residual-review",
-        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-        "proposedAction": "local-authority-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            ".SHP",
-            "ESRI REST SERVICE"
-          ]
-        },
-        "confidence": 60,
-        "residualBlockers": [
-          "duplicate-or-variant-review: no existing match candidate"
-        ],
-        "resolvedBlockers": [
-          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-        ],
-        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
-      },
-      "publicationStatus": "source-record-with-runtime-review",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-wexford-rural-area-types-01251",
-      "rawMetadata": {
-        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:wexford-rural-area-types:01251",
-        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-wexford-rural-area-types-01251",
-        "type": "approved-medium-priority-source",
-        "title": "Wexford County Development Plan 2022 - 2028",
-        "subtitle": "Local authority planning/property/open-data layers / Wexford County Council, data.gov.ie / Ireland / unspecified / .SHP, ESRI REST SERVICE / Source record; runtime review pending",
-        "category": "Medium-priority: Local authority planning/property/open-data layers",
-        "date": "2022",
-        "provider": [
-          "Wexford County Council",
-          "data.gov.ie"
-        ],
-        "description": "Wexford County Development Plan 2022 - 2028 is published as a medium-priority Civgraph source/provenance record from Wexford County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-        "url": "https://data.gov.ie/dataset/wexford-rural-area-types",
-        "references": [
-          {
-            "label": "Wexford County Development Plan 2022 - 2028 provider page",
-            "url": "https://data.gov.ie/dataset/wexford-rural-area-types",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Wexford County Development Plan 2022 - 2028 Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/wexford-rural-area-types",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/wexford-rural-area-types",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source record",
-          "Runtime review pending",
-          "Spatial source",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Local authority planning/property/open-data layers",
-          "Ireland / unspecified",
-          "planning-property",
-          "Wexford County Development Plan 2022 - 2028"
-        ],
-        "viewport": {
-          "status": "source-page-only",
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/wexford-rural-area-types",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/wexford-rural-area-types",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Wexford County Council, data.gov.ie, Wexford County Development Plan 2022 - 2028.",
-        "fullCitation": "Wexford County Council, data.gov.ie. Wexford County Development Plan 2022 - 2028. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/wexford-rural-area-types. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/wexford-rural-area-types.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 1252,
-            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:wexford-rural-area-types:01251",
-            "title": "Wexford County Development Plan 2022 - 2028",
-            "cleanTitle": "Wexford County Development Plan 2022 - 2028",
-            "provider": "data.gov.ie",
-            "organisation": "Wexford County Council",
-            "category": "tabular",
-            "roiGroup": "5. Local authority planning/property/open-data layers",
-            "groupTitle": "Local authority planning/property/open-data layers",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "planning-property",
-            "featureUnit": "features",
-            "formats": [
-              ".SHP",
-              "ESRI REST SERVICE"
-            ],
-            "isSpatial": true,
-            "isLargeOrSpecial": false,
-            "proposedAction": "local-authority-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                ".SHP",
-                "ESRI REST SERVICE"
-              ]
-            },
-            "approvalState": "ready-with-residual-review",
-            "sourcePublicationState": "public source record with runtime/semantic review still pending",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/wexford-rural-area-types",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/wexford-rural-area-types",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-            ],
-            "residualBlockers": [
-              "duplicate-or-variant-review: no existing match candidate"
-            ],
-            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:wexford-rural-area-types:01251",
-          "sourceRowNumber": 1252,
-          "approvalState": "ready-with-residual-review",
-          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              ".SHP",
-              "ESRI REST SERVICE"
-            ]
-          },
-          "confidence": 60,
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate"
-          ],
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
-        },
-        "publicationStatus": "source-record-with-runtime-review",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "source-record-with-runtime-review",
-          "Local authority planning/property/open-data layers",
-          "planning-property",
-          "features",
-          "Ireland / unspecified",
-          "local-authority-batch-review",
-          ".SHP",
-          "ESRI REST SERVICE",
-          "review:duplicate-or-variant-review-no-existing-match-candidate"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-wexford-rural-area-types-01251"
-      }
-    },
-    {
-      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:wexford-walking-trails:01252",
-      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-wexford-walking-trails-01252",
-      "type": "approved-medium-priority-source",
-      "title": "Wexford Walking Trails",
-      "subtitle": "Local authority planning/property/open-data layers / Wexford County Council, data.gov.ie / Ireland / unspecified / .SHP, ESRI REST SERVICE / Approved source record",
-      "category": "Medium-priority: Local authority planning/property/open-data layers",
-      "provider": [
-        "Wexford County Council",
-        "data.gov.ie"
-      ],
-      "description": "Wexford Walking Trails is published as a medium-priority Civgraph source/provenance record from Wexford County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/wexford-walking-trails",
-      "references": [
-        {
-          "label": "Wexford Walking Trails provider page",
-          "url": "https://data.gov.ie/dataset/wexford-walking-trails",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Wexford Walking Trails Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/wexford-walking-trails",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/wexford-walking-trails",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Local authority planning/property/open-data layers",
-        "transport-public-asset",
-        "features",
-        "Ireland / unspecified",
-        "local-authority-batch-review",
-        ".SHP",
-        "ESRI REST SERVICE"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 1253,
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:wexford-walking-trails:01252",
-          "title": "Wexford Walking Trails",
-          "cleanTitle": "Wexford Walking Trails",
-          "provider": "data.gov.ie",
-          "organisation": "Wexford County Council",
-          "category": "tabular",
-          "roiGroup": "5. Local authority planning/property/open-data layers",
-          "groupTitle": "Local authority planning/property/open-data layers",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "transport-public-asset",
-          "featureUnit": "features",
-          "formats": [
-            ".SHP",
-            "ESRI REST SERVICE"
-          ],
-          "isSpatial": true,
-          "isLargeOrSpecial": false,
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              ".SHP",
-              "ESRI REST SERVICE"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/wexford-walking-trails",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/wexford-walking-trails",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Spatial source",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Local authority planning/property/open-data layers",
-        "Ireland / unspecified",
-        "transport-public-asset",
-        "Wexford Walking Trails"
-      ],
-      "viewport": {
-        "status": "source-page-only",
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/wexford-walking-trails",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/wexford-walking-trails",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Wexford County Council, data.gov.ie, Wexford Walking Trails.",
-      "fullCitation": "Wexford County Council, data.gov.ie. Wexford Walking Trails. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/wexford-walking-trails. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/wexford-walking-trails.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:wexford-walking-trails:01252",
-        "sourceRowNumber": 1253,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-        "proposedAction": "local-authority-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            ".SHP",
-            "ESRI REST SERVICE"
-          ]
-        },
-        "confidence": 60,
-        "resolvedBlockers": [
-          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-        ],
-        "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-wexford-walking-trails-01252",
-      "rawMetadata": {
-        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:wexford-walking-trails:01252",
-        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-wexford-walking-trails-01252",
-        "type": "approved-medium-priority-source",
-        "title": "Wexford Walking Trails",
-        "subtitle": "Local authority planning/property/open-data layers / Wexford County Council, data.gov.ie / Ireland / unspecified / .SHP, ESRI REST SERVICE / Approved source record",
-        "category": "Medium-priority: Local authority planning/property/open-data layers",
-        "provider": [
-          "Wexford County Council",
-          "data.gov.ie"
-        ],
-        "description": "Wexford Walking Trails is published as a medium-priority Civgraph source/provenance record from Wexford County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/wexford-walking-trails",
-        "references": [
-          {
-            "label": "Wexford Walking Trails provider page",
-            "url": "https://data.gov.ie/dataset/wexford-walking-trails",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Wexford Walking Trails Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/wexford-walking-trails",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/wexford-walking-trails",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Spatial source",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Local authority planning/property/open-data layers",
-          "Ireland / unspecified",
-          "transport-public-asset",
-          "Wexford Walking Trails"
-        ],
-        "viewport": {
-          "status": "source-page-only",
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/wexford-walking-trails",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/wexford-walking-trails",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Wexford County Council, data.gov.ie, Wexford Walking Trails.",
-        "fullCitation": "Wexford County Council, data.gov.ie. Wexford Walking Trails. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/wexford-walking-trails. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/wexford-walking-trails.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 1253,
-            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:wexford-walking-trails:01252",
-            "title": "Wexford Walking Trails",
-            "cleanTitle": "Wexford Walking Trails",
-            "provider": "data.gov.ie",
-            "organisation": "Wexford County Council",
-            "category": "tabular",
-            "roiGroup": "5. Local authority planning/property/open-data layers",
-            "groupTitle": "Local authority planning/property/open-data layers",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "transport-public-asset",
-            "featureUnit": "features",
-            "formats": [
-              ".SHP",
-              "ESRI REST SERVICE"
-            ],
-            "isSpatial": true,
-            "isLargeOrSpecial": false,
-            "proposedAction": "local-authority-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                ".SHP",
-                "ESRI REST SERVICE"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/wexford-walking-trails",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/wexford-walking-trails",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-            ],
-            "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:wexford-walking-trails:01252",
-          "sourceRowNumber": 1253,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              ".SHP",
-              "ESRI REST SERVICE"
-            ]
-          },
-          "confidence": 60,
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Local authority planning/property/open-data layers",
-          "transport-public-asset",
-          "features",
-          "Ireland / unspecified",
-          "local-authority-batch-review",
-          ".SHP",
-          "ESRI REST SERVICE"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-wexford-walking-trails-01252"
       }
     }
   ]

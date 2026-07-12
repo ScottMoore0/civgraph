@@ -1,9 +1,1385 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-11T23:52:47.336Z",
+  "generatedAt": "2026-07-12T22:19:04.604Z",
   "shard": 407,
   "total": 2500,
   "items": [
+    {
+      "id": "cg:statement:37d1c4a517c2f691a494",
+      "subjectId": "cg:source:approved-publication-census-cube-cd764-population",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://data.cso.ie/table/CD764"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:b1b8c2318e02335127c8",
+      "subjectId": "cg:source:approved-publication-census-cube-cd765-population",
+      "propertyId": "cg:property:date",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-year:2011",
+        "label": "2011"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:f27b386174405afc8fb9",
+      "subjectId": "cg:source:approved-publication-census-cube-cd765-population",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:5583dce6de973454a0fe",
+      "subjectId": "cg:source:approved-publication-census-cube-cd765-population",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Population"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:80dd8eea3b9ea88be305",
+      "subjectId": "cg:source:approved-publication-census-cube-cd765-population",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:cso"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:6341de4a2854850e7952",
+      "subjectId": "cg:source:approved-publication-census-cube-cd765-population",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:cso-pxstat-table-cd765-3900e4be2dd3"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.cso.ie/table/CD765"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:ce5ab559b2ea3e5f4c3d",
+      "subjectId": "cg:source:approved-publication-census-cube-cd765-population",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:json-stat-cube-cd765-8a1c82d81964"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/CD765/JSON-stat/2.0/en"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:f8e1b0e81e12d05b99d5",
+      "subjectId": "cg:source:approved-publication-census-cube-cd765-population",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Approved tables"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:d8202abb61b82ae2f939",
+      "subjectId": "cg:source:approved-publication-census-cube-cd765-population",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://data.cso.ie/table/CD765"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:f36483a470c6352fec54",
+      "subjectId": "cg:source:approved-publication-census-cube-cd766-population-aged-15-years-and-over",
+      "propertyId": "cg:property:date",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-year:2011",
+        "label": "2011"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:065bdd43ffc310d2389b",
+      "subjectId": "cg:source:approved-publication-census-cube-cd766-population-aged-15-years-and-over",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:c00ca420816fd13b6cea",
+      "subjectId": "cg:source:approved-publication-census-cube-cd766-population-aged-15-years-and-over",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Population Aged 15 Years and Over"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:3ea7d0455d40b643a43e",
+      "subjectId": "cg:source:approved-publication-census-cube-cd766-population-aged-15-years-and-over",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:cso"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:b5984c0fc6b2403e9d1b",
+      "subjectId": "cg:source:approved-publication-census-cube-cd766-population-aged-15-years-and-over",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:json-stat-cube-cd766-e22b23b0946c"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/CD766/JSON-stat/2.0/en"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:baf8d6cce6e72910d569",
+      "subjectId": "cg:source:approved-publication-census-cube-cd766-population-aged-15-years-and-over",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:cso-pxstat-table-cd766-97a0a13f7f06"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.cso.ie/table/CD766"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:cc9d5ad428b3330d510d",
+      "subjectId": "cg:source:approved-publication-census-cube-cd766-population-aged-15-years-and-over",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Approved tables"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:8cb04e2599d6ae2583b0",
+      "subjectId": "cg:source:approved-publication-census-cube-cd766-population-aged-15-years-and-over",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://data.cso.ie/table/CD766"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:ceb66a8749996601ea23",
+      "subjectId": "cg:source:approved-publication-census-cube-cd767-population-aged-15-years-and-over",
+      "propertyId": "cg:property:date",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-year:2011",
+        "label": "2011"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:591ad1f7ac8972716be3",
+      "subjectId": "cg:source:approved-publication-census-cube-cd767-population-aged-15-years-and-over",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:9564eda9b656dc5882bd",
+      "subjectId": "cg:source:approved-publication-census-cube-cd767-population-aged-15-years-and-over",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Population Aged 15 years and Over"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:48b496181f914a05c638",
+      "subjectId": "cg:source:approved-publication-census-cube-cd767-population-aged-15-years-and-over",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:cso"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:11a41fd2d0d4bd8791bc",
+      "subjectId": "cg:source:approved-publication-census-cube-cd767-population-aged-15-years-and-over",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:cso-pxstat-table-cd767-14d66dad3780"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.cso.ie/table/CD767"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:40bcd7e7bb088d5edc12",
+      "subjectId": "cg:source:approved-publication-census-cube-cd767-population-aged-15-years-and-over",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:json-stat-cube-cd767-28213710f723"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/CD767/JSON-stat/2.0/en"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:a58b1d0758c5de0121dd",
+      "subjectId": "cg:source:approved-publication-census-cube-cd767-population-aged-15-years-and-over",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Approved tables"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:67c68511e1295c4125d4",
+      "subjectId": "cg:source:approved-publication-census-cube-cd767-population-aged-15-years-and-over",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://data.cso.ie/table/CD767"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:1e0b5733ebd29b8d1118",
+      "subjectId": "cg:source:approved-publication-census-cube-cd768-population",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:70ca442cdf4c0fad6443",
+      "subjectId": "cg:source:approved-publication-census-cube-cd768-population",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Population"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:0d50ccb116a455d08160",
+      "subjectId": "cg:source:approved-publication-census-cube-cd768-population",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:cso"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:72f0055301900ee2b223",
+      "subjectId": "cg:source:approved-publication-census-cube-cd768-population",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:cso-pxstat-table-cd768-773bcfd28733"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.cso.ie/table/CD768"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:9bba3d71b822caa555f8",
+      "subjectId": "cg:source:approved-publication-census-cube-cd768-population",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:json-stat-cube-cd768-20f4191e16e2"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/CD768/JSON-stat/2.0/en"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:89be178ecb4e17fd128e",
+      "subjectId": "cg:source:approved-publication-census-cube-cd768-population",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Approved tables"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:6ec04be3cf4f4618abf0",
+      "subjectId": "cg:source:approved-publication-census-cube-cd768-population",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://data.cso.ie/table/CD768"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:0c4877e9d28cbbba618f",
+      "subjectId": "cg:source:approved-publication-census-cube-cd769-population",
+      "propertyId": "cg:property:date",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-year:2011",
+        "label": "2011"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:7fb83b2588a4245bc864",
+      "subjectId": "cg:source:approved-publication-census-cube-cd769-population",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:19ed9ed0559eb769b3b1",
+      "subjectId": "cg:source:approved-publication-census-cube-cd769-population",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Population"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:f70e3718788f268bc613",
+      "subjectId": "cg:source:approved-publication-census-cube-cd769-population",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:cso"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:445bcba14a374effb6a0",
+      "subjectId": "cg:source:approved-publication-census-cube-cd769-population",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:cso-pxstat-table-cd769-58d360ab7e7e"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.cso.ie/table/CD769"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:ea2c638b87764478518a",
+      "subjectId": "cg:source:approved-publication-census-cube-cd769-population",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:json-stat-cube-cd769-35aa26f38f3c"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/CD769/JSON-stat/2.0/en"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:ad2d7dadf89370af6d34",
+      "subjectId": "cg:source:approved-publication-census-cube-cd769-population",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Approved tables"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:0c9c208342b5394998a7",
+      "subjectId": "cg:source:approved-publication-census-cube-cd769-population",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://data.cso.ie/table/CD769"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:884fbac113ca64d86422",
+      "subjectId": "cg:source:approved-publication-census-cube-cd770-population-aged-15-years-and-over",
+      "propertyId": "cg:property:date",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-year:2011",
+        "label": "2011"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:c4920b48bdb286c2cf8d",
+      "subjectId": "cg:source:approved-publication-census-cube-cd770-population-aged-15-years-and-over",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:58306287a0eb3fc7e5a8",
+      "subjectId": "cg:source:approved-publication-census-cube-cd770-population-aged-15-years-and-over",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Population Aged 15 Years and Over"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:f84f14153efaad9ba2d9",
+      "subjectId": "cg:source:approved-publication-census-cube-cd770-population-aged-15-years-and-over",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:cso"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:f44d918f549454e13d18",
+      "subjectId": "cg:source:approved-publication-census-cube-cd770-population-aged-15-years-and-over",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:json-stat-cube-cd770-cdf5c37e37c3"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/CD770/JSON-stat/2.0/en"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:fb33c3940faf3de84ba1",
+      "subjectId": "cg:source:approved-publication-census-cube-cd770-population-aged-15-years-and-over",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:cso-pxstat-table-cd770-90bedd469c98"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.cso.ie/table/CD770"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:d6b70c1fbc4de90a8e74",
+      "subjectId": "cg:source:approved-publication-census-cube-cd770-population-aged-15-years-and-over",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Approved tables"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:08661f4139b6360adbd4",
+      "subjectId": "cg:source:approved-publication-census-cube-cd770-population-aged-15-years-and-over",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://data.cso.ie/table/CD770"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:a2ff66dd649ad0f123f7",
+      "subjectId": "cg:source:approved-publication-census-cube-cd771-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:date",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-year:2011",
+        "label": "2011"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:4f845adcd43fd6a89286",
+      "subjectId": "cg:source:approved-publication-census-cube-cd771-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:3289ce0ce7f9b424bd6d",
+      "subjectId": "cg:source:approved-publication-census-cube-cd771-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Private households in permanent housing units"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:ed5e97fd5f63e99a94cd",
+      "subjectId": "cg:source:approved-publication-census-cube-cd771-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:cso"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:15dd56477c00704df516",
+      "subjectId": "cg:source:approved-publication-census-cube-cd771-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:json-stat-cube-cd771-1a5a7732ecc7"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/CD771/JSON-stat/2.0/en"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:17f9ca8ae18ba5d88da8",
+      "subjectId": "cg:source:approved-publication-census-cube-cd771-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:cso-pxstat-table-cd771-2a136648971e"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.cso.ie/table/CD771"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:694d84b684d131b8c81d",
+      "subjectId": "cg:source:approved-publication-census-cube-cd771-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Approved tables"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:c458fffe2d429530f20a",
+      "subjectId": "cg:source:approved-publication-census-cube-cd771-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://data.cso.ie/table/CD771"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:2a94902381797d001160",
+      "subjectId": "cg:source:approved-publication-census-cube-cd772-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:date",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-year:2011",
+        "label": "2011"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:fbdb5ae9a2bc7eebe770",
+      "subjectId": "cg:source:approved-publication-census-cube-cd772-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:da7dc87285b0a1afa718",
+      "subjectId": "cg:source:approved-publication-census-cube-cd772-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Private households in permanent housing units"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:d9c5a6b90a29713cc9e2",
+      "subjectId": "cg:source:approved-publication-census-cube-cd772-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:cso"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:345b87b4b21bfdf9e300",
+      "subjectId": "cg:source:approved-publication-census-cube-cd772-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:cso-pxstat-table-cd772-d78fce903b82"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.cso.ie/table/CD772"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:e7599f5474ac122cca3d",
+      "subjectId": "cg:source:approved-publication-census-cube-cd772-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:json-stat-cube-cd772-aa5b0399641c"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/CD772/JSON-stat/2.0/en"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:ab78979874bc895011be",
+      "subjectId": "cg:source:approved-publication-census-cube-cd772-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Approved tables"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:9bf7d4cff9ddae10d21c",
+      "subjectId": "cg:source:approved-publication-census-cube-cd772-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://data.cso.ie/table/CD772"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:ef1ebbbcd16df5cdb865",
+      "subjectId": "cg:source:approved-publication-census-cube-cd773-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:date",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-year:2011",
+        "label": "2011"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:b7745005bc5b055f3a81",
+      "subjectId": "cg:source:approved-publication-census-cube-cd773-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:ee250fd8188e6a580104",
+      "subjectId": "cg:source:approved-publication-census-cube-cd773-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Private households in permanent housing units"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:0e1ffbc0370006e3389b",
+      "subjectId": "cg:source:approved-publication-census-cube-cd773-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:cso"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:9801aed2803fbc65ef3d",
+      "subjectId": "cg:source:approved-publication-census-cube-cd773-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:json-stat-cube-cd773-a03358f567eb"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/CD773/JSON-stat/2.0/en"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:ded29292b891006102fc",
+      "subjectId": "cg:source:approved-publication-census-cube-cd773-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:cso-pxstat-table-cd773-ec237df057ac"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.cso.ie/table/CD773"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:ad8380d6c3f09b162138",
+      "subjectId": "cg:source:approved-publication-census-cube-cd773-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Approved tables"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:cc8af65a56b6874ca2ab",
+      "subjectId": "cg:source:approved-publication-census-cube-cd773-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://data.cso.ie/table/CD773"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:fb2bc418795d18140a67",
+      "subjectId": "cg:source:approved-publication-census-cube-cd774-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:date",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-year:2011",
+        "label": "2011"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:c47591acedcb67f6b4d1",
+      "subjectId": "cg:source:approved-publication-census-cube-cd774-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:14ce4b11a6ab46050c49",
+      "subjectId": "cg:source:approved-publication-census-cube-cd774-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Private households in permanent housing units"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:41d1cda590bf1ffdf982",
+      "subjectId": "cg:source:approved-publication-census-cube-cd774-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:cso"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:0f35bfa906b0aee04d0c",
+      "subjectId": "cg:source:approved-publication-census-cube-cd774-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:json-stat-cube-cd774-e191a9e13101"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/CD774/JSON-stat/2.0/en"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:2ba897310e2e1bae43f9",
+      "subjectId": "cg:source:approved-publication-census-cube-cd774-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:cso-pxstat-table-cd774-a2e397b1d56a"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.cso.ie/table/CD774"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:445a605462f14f1e57f5",
+      "subjectId": "cg:source:approved-publication-census-cube-cd774-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Approved tables"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:78403a03ffbacb96afb0",
+      "subjectId": "cg:source:approved-publication-census-cube-cd774-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://data.cso.ie/table/CD774"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:f9445fec1c3bbb1ba9db",
+      "subjectId": "cg:source:approved-publication-census-cube-cd775-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:date",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-year:2011",
+        "label": "2011"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:4c1a14a761eb75e49c81",
+      "subjectId": "cg:source:approved-publication-census-cube-cd775-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:b450194c4a8354362540",
+      "subjectId": "cg:source:approved-publication-census-cube-cd775-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Private households in permanent housing units"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:e99773431d27674a8da3",
+      "subjectId": "cg:source:approved-publication-census-cube-cd775-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:cso"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:6b5144b14ab43e473c5e",
+      "subjectId": "cg:source:approved-publication-census-cube-cd775-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:json-stat-cube-cd775-812804bb0662"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/CD775/JSON-stat/2.0/en"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:6f6f97a1d8cad32457f1",
+      "subjectId": "cg:source:approved-publication-census-cube-cd775-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:cso-pxstat-table-cd775-304f142d5ea7"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.cso.ie/table/CD775"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:36b2035a75d911012334",
+      "subjectId": "cg:source:approved-publication-census-cube-cd775-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Approved tables"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:326f647e6887d2165f13",
+      "subjectId": "cg:source:approved-publication-census-cube-cd775-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://data.cso.ie/table/CD775"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:88e893500bf9205ea526",
+      "subjectId": "cg:source:approved-publication-census-cube-cd776-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:date",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-year:2011",
+        "label": "2011"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:c07a1371f39bafabab5e",
+      "subjectId": "cg:source:approved-publication-census-cube-cd776-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:92da09780800e2abea1f",
+      "subjectId": "cg:source:approved-publication-census-cube-cd776-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Private households in permanent housing units"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:dc828fbfb1c13f39bd17",
+      "subjectId": "cg:source:approved-publication-census-cube-cd776-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:cso"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:5dfc4a162b1e0684a4d3",
+      "subjectId": "cg:source:approved-publication-census-cube-cd776-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:cso-pxstat-table-cd776-6b2f79e2b890"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.cso.ie/table/CD776"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:f42352eb8b8dd5c4a23e",
+      "subjectId": "cg:source:approved-publication-census-cube-cd776-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:json-stat-cube-cd776-f6174c9bc837"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/CD776/JSON-stat/2.0/en"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:48f62e24eac641840c7b",
+      "subjectId": "cg:source:approved-publication-census-cube-cd776-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Approved tables"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:c84a2efdfed43275e295",
+      "subjectId": "cg:source:approved-publication-census-cube-cd776-private-households-in-permanent-housing-units",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://data.cso.ie/table/CD776"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:f4592cf0ec84553445e9",
+      "subjectId": "cg:source:approved-publication-census-cube-cd780-private-households-containing-iri-7b42ccb231fd",
+      "propertyId": "cg:property:date",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-year:2011",
+        "label": "2011"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:6f88103f0d0512c89181",
+      "subjectId": "cg:source:approved-publication-census-cube-cd780-private-households-containing-iri-7b42ccb231fd",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
     {
       "id": "cg:statement:577155ad831ece38f220",
       "subjectId": "cg:source:approved-publication-census-cube-cd780-private-households-containing-iri-7b42ccb231fd",
@@ -34296,1412 +35672,6 @@
       "value": {
         "type": "entity",
         "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:7615c4a74bd45d36d185",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni17-population-usually-resident",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:cso-pxstat-table-cpni17-564b4c9bf3e3"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.cso.ie/table/CPNI17"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:cbdaef59cd18d76bf825",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni17-population-usually-resident",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:json-stat-cube-cpni17-6d5fc8fae8fb"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/CPNI17/JSON-stat/2.0/en"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:59206baf2f77c7b421d5",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni17-population-usually-resident",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Approved tables"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:e2d4f885eacf59a3837d",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni17-population-usually-resident",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.cso.ie/table/CPNI17"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:d2f5051af5fd7f012f99",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni18-population-aged-3-years-and-over-c050e0f0069c",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:39d778621002dfb0a2cc",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni18-population-aged-3-years-and-over-c050e0f0069c",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Population aged 3 years and over usually resident by other main language - Ireland and Northern Ireland"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:8682696c67511c43eefe",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni18-population-aged-3-years-and-over-c050e0f0069c",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:1a8e01f4ffb94ec4f94f",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni18-population-aged-3-years-and-over-c050e0f0069c",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:json-stat-cube-cpni18-95ff494e3a13"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/CPNI18/JSON-stat/2.0/en"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:3428fe42ba86e81ed510",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni18-population-aged-3-years-and-over-c050e0f0069c",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:cso-pxstat-table-cpni18-693d54ca3f27"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.cso.ie/table/CPNI18"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:2f35dac320900d02ba36",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni18-population-aged-3-years-and-over-c050e0f0069c",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Approved tables"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:a47d7e07a5fe2b300b05",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni18-population-aged-3-years-and-over-c050e0f0069c",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.cso.ie/table/CPNI18"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:3706ac07a6284d28081f",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni19-population-aged-3-years-and-over-b9740e50c474",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:2bddd68a4c7433c4b961",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni19-population-aged-3-years-and-over-b9740e50c474",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Population aged 3 years and over usually resident by other main language - Ireland and Northern Ireland"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:6879e989c63bf84a799f",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni19-population-aged-3-years-and-over-b9740e50c474",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:57a3a67b14aa76adaf3f",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni19-population-aged-3-years-and-over-b9740e50c474",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:json-stat-cube-cpni19-6938defb627a"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/CPNI19/JSON-stat/2.0/en"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:e894f49e613c85e4f0b3",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni19-population-aged-3-years-and-over-b9740e50c474",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:cso-pxstat-table-cpni19-2ba931b386e2"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.cso.ie/table/CPNI19"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:824c52fb8a553d6bc203",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni19-population-aged-3-years-and-over-b9740e50c474",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Approved tables"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:90c388a52916b77f515a",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni19-population-aged-3-years-and-over-b9740e50c474",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.cso.ie/table/CPNI19"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:7d1af1afe11dd57c49d3",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni20-population-usually-resident",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:2021",
-        "label": "2021"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:849b7eb08c21c314d688",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni20-population-usually-resident",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:b5593c5e6085254bca16",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni20-population-usually-resident",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Population Usually Resident"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:39b6eec148316142b919",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni20-population-usually-resident",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:11ad5cfe938bb62b4020",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni20-population-usually-resident",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:cso-pxstat-table-cpni20-9f48f0bf4945"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.cso.ie/table/CPNI20"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:6e3aa7166875082dc110",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni20-population-usually-resident",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:json-stat-cube-cpni20-46a69d4de866"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/CPNI20/JSON-stat/2.0/en"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:0a976714d3f268e946dc",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni20-population-usually-resident",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Approved tables"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:41ac922c67e9662153f3",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni20-population-usually-resident",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.cso.ie/table/CPNI20"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:c03003045b8bcddca629",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni21-population-usually-resident",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:2021",
-        "label": "2021"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:159b1c7501ab6fd309a9",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni21-population-usually-resident",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:d43238291a738a3e4137",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni21-population-usually-resident",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Population Usually Resident"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:91b6482a086189677752",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni21-population-usually-resident",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:1e3ec9c1107f5653b5cf",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni21-population-usually-resident",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:cso-pxstat-table-cpni21-b6d70efb0d28"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.cso.ie/table/CPNI21"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:bc6031813df404d36da3",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni21-population-usually-resident",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:json-stat-cube-cpni21-dcf348fcf26c"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/CPNI21/JSON-stat/2.0/en"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:0439b1bee695e8bfb636",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni21-population-usually-resident",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Approved tables"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:d7f8b0c748caa040b2f7",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni21-population-usually-resident",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.cso.ie/table/CPNI21"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:868bbc1eb492e12eff25",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni22-population-usually-resident-with-no-religion",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:85e968984fade2d27c0e",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni22-population-usually-resident-with-no-religion",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Population Usually Resident with No Religion"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:b215c2c525544f3f80fa",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni22-population-usually-resident-with-no-religion",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:0b87ce0a3136e73982c0",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni22-population-usually-resident-with-no-religion",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:json-stat-cube-cpni22-dc3d12e529d1"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/CPNI22/JSON-stat/2.0/en"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:dfe203f18e74e08148ae",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni22-population-usually-resident-with-no-religion",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:cso-pxstat-table-cpni22-66699e4c9294"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.cso.ie/table/CPNI22"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:26e0c3f6efb72e8fe022",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni22-population-usually-resident-with-no-religion",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Approved tables"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:09fa262f49fd387a46ac",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni22-population-usually-resident-with-no-religion",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.cso.ie/table/CPNI22"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:223f9d8b2417fc3f5f51",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni23-population-usually-resident-with-no-religion",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:2021",
-        "label": "2021"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:a7a768b98982a920b150",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni23-population-usually-resident-with-no-religion",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:35f6d64886b0baa5f98e",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni23-population-usually-resident-with-no-religion",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Population Usually Resident with No Religion"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:75912136b1054258fa3c",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni23-population-usually-resident-with-no-religion",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:206e8a86feb7a8b9fe64",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni23-population-usually-resident-with-no-religion",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:json-stat-cube-cpni23-d9e592da6d97"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/CPNI23/JSON-stat/2.0/en"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:6df9ac155fb4fec15b25",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni23-population-usually-resident-with-no-religion",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:cso-pxstat-table-cpni23-92bcea04aa44"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.cso.ie/table/CPNI23"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:2f8a3917ebc19c38b343",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni23-population-usually-resident-with-no-religion",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Approved tables"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:1a89e024a968e4bfcd33",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni23-population-usually-resident-with-no-religion",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.cso.ie/table/CPNI23"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:b704c5fe0b31a3c304c8",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni24-general-health-of-population-usually-resident",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:2021",
-        "label": "2021"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:f3cd609b583f4b038799",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni24-general-health-of-population-usually-resident",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:95456672c3fb9deac420",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni24-general-health-of-population-usually-resident",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "General Health of Population Usually Resident"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:751231a3849978167d11",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni24-general-health-of-population-usually-resident",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:8b18e0a46160cb302029",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni24-general-health-of-population-usually-resident",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:cso-pxstat-table-cpni24-f623807222c6"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.cso.ie/table/CPNI24"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:c821bdf47e7347768762",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni24-general-health-of-population-usually-resident",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:json-stat-cube-cpni24-9d98b604db88"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/CPNI24/JSON-stat/2.0/en"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:d22f6e02b75eb5201bad",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni24-general-health-of-population-usually-resident",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Approved tables"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:bf1131780d32da372519",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni24-general-health-of-population-usually-resident",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.cso.ie/table/CPNI24"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:7ca7bf7cc7246e42c40b",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni25-general-health-of-population-usually-resident",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:2021",
-        "label": "2021"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:9a3c752b4a52ab057263",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni25-general-health-of-population-usually-resident",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:9c1633be30b07b0bfd03",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni25-general-health-of-population-usually-resident",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "General Health of Population Usually Resident"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:7bb5e0c0676af345302d",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni25-general-health-of-population-usually-resident",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:a97290f80bdf2e5da789",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni25-general-health-of-population-usually-resident",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:cso-pxstat-table-cpni25-c7fd909b6043"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.cso.ie/table/CPNI25"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:b31ed19f0b67c2e7d506",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni25-general-health-of-population-usually-resident",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:json-stat-cube-cpni25-c922737b428d"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/CPNI25/JSON-stat/2.0/en"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:a16a3d8a15a2589db2a5",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni25-general-health-of-population-usually-resident",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Approved tables"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:d56e681c5f185373dd5d",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni25-general-health-of-population-usually-resident",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.cso.ie/table/CPNI25"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:83d9696419193a576d6e",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni26-general-health-of-population-usually-resident",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:2021",
-        "label": "2021"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:e97072ac264abcddfc58",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni26-general-health-of-population-usually-resident",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:af77e29ee19b4b8da2eb",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni26-general-health-of-population-usually-resident",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "General Health of Population Usually Resident"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:a4c99dca5f10f489ca15",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni26-general-health-of-population-usually-resident",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:4d22067d1a21fdb589fa",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni26-general-health-of-population-usually-resident",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:json-stat-cube-cpni26-28f79e35ec5a"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/CPNI26/JSON-stat/2.0/en"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:d3c66b5c417dd2cf0565",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni26-general-health-of-population-usually-resident",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:cso-pxstat-table-cpni26-0c731026d7b7"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.cso.ie/table/CPNI26"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:36211022336808abe0d2",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni26-general-health-of-population-usually-resident",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Approved tables"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:9988dce844b9cf832f1e",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni26-general-health-of-population-usually-resident",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.cso.ie/table/CPNI26"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:d7b9ba468cd3235eb42d",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni27-unpaid-carers-usual-residents-aged-5-years-and-over",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:2021",
-        "label": "2021"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:d06ca90ad85222b2d702",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni27-unpaid-carers-usual-residents-aged-5-years-and-over",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:011cba20ed0735a6660a",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni27-unpaid-carers-usual-residents-aged-5-years-and-over",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Unpaid Carers Usual Residents aged 5 Years and Over"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:ed5ade812b2df50f1d79",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni27-unpaid-carers-usual-residents-aged-5-years-and-over",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:5d72fe0122a237d075da",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni27-unpaid-carers-usual-residents-aged-5-years-and-over",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:json-stat-cube-cpni27-e6c64fbb4d37"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/CPNI27/JSON-stat/2.0/en"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:aabd793a0b7bab194d63",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni27-unpaid-carers-usual-residents-aged-5-years-and-over",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:cso-pxstat-table-cpni27-5abbd530d87a"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.cso.ie/table/CPNI27"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:da14348b677be82ca6df",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni27-unpaid-carers-usual-residents-aged-5-years-and-over",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Approved tables"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:6cbd85293a999633e98b",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni27-unpaid-carers-usual-residents-aged-5-years-and-over",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.cso.ie/table/CPNI27"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:81f0d0c9a9584896d8a7",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni28-unpaid-carers-usual-residents-aged-5-years-and-over",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:2021",
-        "label": "2021"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:8fad911d386335a6488e",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni28-unpaid-carers-usual-residents-aged-5-years-and-over",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:33bc645bdcdb75da837c",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni28-unpaid-carers-usual-residents-aged-5-years-and-over",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Unpaid Carers Usual Residents aged 5 Years and Over"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:7454d6958025fb383ddb",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni28-unpaid-carers-usual-residents-aged-5-years-and-over",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:08ee9ed6665a6c08b5c9",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni28-unpaid-carers-usual-residents-aged-5-years-and-over",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:json-stat-cube-cpni28-ea3ec436b9b2"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/CPNI28/JSON-stat/2.0/en"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:72330629a4ea211ef760",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni28-unpaid-carers-usual-residents-aged-5-years-and-over",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:cso-pxstat-table-cpni28-8ab554ba280c"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.cso.ie/table/CPNI28"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:930641c9e2a292d68632",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni28-unpaid-carers-usual-residents-aged-5-years-and-over",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Approved tables"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:8d49872a96257ba4bec0",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni28-unpaid-carers-usual-residents-aged-5-years-and-over",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.cso.ie/table/CPNI28"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:44f1f1a08b59362f5f53",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni29-unpaid-carers-usual-residents-aged-5-years-and-over",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:2021",
-        "label": "2021"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:046c52864175f0c9c402",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni29-unpaid-carers-usual-residents-aged-5-years-and-over",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:29b4fc5860dd6f336caf",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni29-unpaid-carers-usual-residents-aged-5-years-and-over",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Unpaid Carers Usual Residents aged 5 Years and Over"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:cc6ac9170f7e32a99ed3",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni29-unpaid-carers-usual-residents-aged-5-years-and-over",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:4a105f15908ef2adf747",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni29-unpaid-carers-usual-residents-aged-5-years-and-over",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:cso-pxstat-table-cpni29-80d4c31e1642"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.cso.ie/table/CPNI29"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:c091de1404990987ff1a",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni29-unpaid-carers-usual-residents-aged-5-years-and-over",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:json-stat-cube-cpni29-36392bc2550b"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/CPNI29/JSON-stat/2.0/en"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:369cef617ebfc6bb5f5c",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni29-unpaid-carers-usual-residents-aged-5-years-and-over",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Approved tables"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:8c4205623a2fab4e43cf",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni29-unpaid-carers-usual-residents-aged-5-years-and-over",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.cso.ie/table/CPNI29"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:d16a85139cd99dbcef41",
-      "subjectId": "cg:source:approved-publication-census-cube-cpni30-private-households",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:2021",
-        "label": "2021"
       },
       "rank": "normal"
     }

@@ -1,9 +1,71 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-11T23:52:47.336Z",
+  "generatedAt": "2026-07-12T22:19:04.604Z",
   "shard": 151,
   "total": 2500,
   "items": [
+    {
+      "id": "cg:statement:3e2a97bc43f9b53e16ce",
+      "subjectId": "cg:election:northern-ireland-assembly-2011-05-05-south-down",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "South Down - 2011 Northern Ireland Assembly election"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:8e491fbe5901a5b10c0c",
+      "subjectId": "cg:election:northern-ireland-assembly-2011-05-05-south-down",
+      "propertyId": "cg:property:year",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-year:2011"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-election-index",
+          "sourceTitle": "Civgraph Browse election index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:aa92241d5c2b851243ee",
+      "subjectId": "cg:election:northern-ireland-assembly-2011-05-05-strangford",
+      "propertyId": "cg:property:date",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-month:2011-05",
+        "label": "2011-05-05"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-election-index",
+          "sourceTitle": "Civgraph Browse election index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:eb2bc004df1fd084f022",
+      "subjectId": "cg:election:northern-ireland-assembly-2011-05-05-strangford",
+      "propertyId": "cg:property:elected-body",
+      "value": {
+        "type": "entity",
+        "id": "cg:body:northern-ireland-assembly"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-election-index",
+          "sourceTitle": "Civgraph Browse election index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
     {
       "id": "cg:statement:db4ce6978d3e0ce3f14d",
       "subjectId": "cg:election:northern-ireland-assembly-2011-05-05-strangford",
@@ -42989,68 +43051,6 @@
       "value": {
         "type": "string",
         "value": "1948 Mid Tyrone by-election"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:79591d772c773b99edf9",
-      "subjectId": "cg:election:parliament-of-northern-ireland-1948-08-16",
-      "propertyId": "cg:property:year",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:1948"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-election-index",
-          "sourceTitle": "Civgraph Browse election index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:b6cd8cf63d197b3e5816",
-      "subjectId": "cg:election:parliament-of-northern-ireland-1948-08-16-mid-tyrone",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-month:1948-08",
-        "label": "1948-08-16"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-election-index",
-          "sourceTitle": "Civgraph Browse election index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:2ea355d5801e91339911",
-      "subjectId": "cg:election:parliament-of-northern-ireland-1948-08-16-mid-tyrone",
-      "propertyId": "cg:property:elected-body",
-      "value": {
-        "type": "entity",
-        "id": "cg:body:parliament-of-northern-ireland"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-election-index",
-          "sourceTitle": "Civgraph Browse election index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:ebaf69941a54adacac9c",
-      "subjectId": "cg:election:parliament-of-northern-ireland-1948-08-16-mid-tyrone",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:election"
       },
       "rank": "normal"
     }

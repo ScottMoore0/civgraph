@@ -1,10 +1,1358 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-11T23:52:09.025Z",
+  "generatedAt": "2026-07-12T22:18:23.317Z",
   "kind": "sources",
   "shard": "sources-107.json",
   "total": 200,
   "items": [
+    {
+      "id": "medium-priority:7-transport-roads-infrastructure-public-assets:toa21-rail-infrastructure:02318",
+      "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-toa21-rail-infrastructure-02318",
+      "type": "approved-medium-priority-source",
+      "title": "TOA21 - Rail infrastructure",
+      "subtitle": "Transport, roads, infrastructure, public assets / Iarnród Éireann, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
+      "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+      "provider": [
+        "Iarnród Éireann",
+        "data.gov.ie"
+      ],
+      "description": "TOA21 - Rail infrastructure is published as a medium-priority Civgraph source/provenance record from Iarnród Éireann, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/toa21-rail-infrastructure",
+      "references": [
+        {
+          "label": "TOA21 - Rail infrastructure provider page",
+          "url": "https://data.gov.ie/dataset/toa21-rail-infrastructure",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "TOA21 - Rail infrastructure Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/toa21-rail-infrastructure",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/toa21-rail-infrastructure",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Transport, roads, infrastructure, public assets",
+        "transport-public-asset",
+        "features",
+        "Ireland / unspecified",
+        "transport-public-asset-batch-review",
+        "CSV",
+        "JSON-STAT",
+        "PX",
+        "XLSX"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 2319,
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:toa21-rail-infrastructure:02318",
+          "title": "TOA21 - Rail infrastructure",
+          "cleanTitle": "TOA21 - Rail infrastructure",
+          "provider": "data.gov.ie",
+          "organisation": "Iarnród Éireann",
+          "category": "tabular",
+          "roiGroup": "7. Transport, roads, infrastructure, public assets",
+          "groupTitle": "Transport, roads, infrastructure, public assets",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "transport-public-asset",
+          "featureUnit": "features",
+          "formats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 55,
+          "currentProviderUrl": "https://data.gov.ie/dataset/toa21-rail-infrastructure",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/toa21-rail-infrastructure",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "needs-provider-context-review: publication policy assigned",
+            "public-asset-batch-placement: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Transport, roads, infrastructure, public assets",
+        "Ireland / unspecified",
+        "transport-public-asset",
+        "TOA21 - Rail infrastructure"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "spreadsheet"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/toa21-rail-infrastructure",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/toa21-rail-infrastructure",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Iarnród Éireann, data.gov.ie, TOA21 - Rail infrastructure.",
+      "fullCitation": "Iarnród Éireann, data.gov.ie. TOA21 - Rail infrastructure. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/toa21-rail-infrastructure. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/toa21-rail-infrastructure.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:toa21-rail-infrastructure:02318",
+        "sourceRowNumber": 2319,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+        "proposedAction": "transport-public-asset-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ]
+        },
+        "confidence": 55,
+        "resolvedBlockers": [
+          "needs-provider-context-review: publication policy assigned",
+          "public-asset-batch-placement: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-toa21-rail-infrastructure-02318",
+      "rawMetadata": {
+        "id": "medium-priority:7-transport-roads-infrastructure-public-assets:toa21-rail-infrastructure:02318",
+        "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-toa21-rail-infrastructure-02318",
+        "type": "approved-medium-priority-source",
+        "title": "TOA21 - Rail infrastructure",
+        "subtitle": "Transport, roads, infrastructure, public assets / Iarnród Éireann, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
+        "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+        "provider": [
+          "Iarnród Éireann",
+          "data.gov.ie"
+        ],
+        "description": "TOA21 - Rail infrastructure is published as a medium-priority Civgraph source/provenance record from Iarnród Éireann, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/toa21-rail-infrastructure",
+        "references": [
+          {
+            "label": "TOA21 - Rail infrastructure provider page",
+            "url": "https://data.gov.ie/dataset/toa21-rail-infrastructure",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "TOA21 - Rail infrastructure Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/toa21-rail-infrastructure",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/toa21-rail-infrastructure",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Transport, roads, infrastructure, public assets",
+          "Ireland / unspecified",
+          "transport-public-asset",
+          "TOA21 - Rail infrastructure"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "spreadsheet"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/toa21-rail-infrastructure",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/toa21-rail-infrastructure",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Iarnród Éireann, data.gov.ie, TOA21 - Rail infrastructure.",
+        "fullCitation": "Iarnród Éireann, data.gov.ie. TOA21 - Rail infrastructure. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/toa21-rail-infrastructure. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/toa21-rail-infrastructure.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 2319,
+            "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:toa21-rail-infrastructure:02318",
+            "title": "TOA21 - Rail infrastructure",
+            "cleanTitle": "TOA21 - Rail infrastructure",
+            "provider": "data.gov.ie",
+            "organisation": "Iarnród Éireann",
+            "category": "tabular",
+            "roiGroup": "7. Transport, roads, infrastructure, public assets",
+            "groupTitle": "Transport, roads, infrastructure, public assets",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "transport-public-asset",
+            "featureUnit": "features",
+            "formats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "transport-public-asset-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV",
+                "JSON-STAT",
+                "PX",
+                "XLSX"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 55,
+            "currentProviderUrl": "https://data.gov.ie/dataset/toa21-rail-infrastructure",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/toa21-rail-infrastructure",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "needs-provider-context-review: publication policy assigned",
+              "public-asset-batch-placement: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:toa21-rail-infrastructure:02318",
+          "sourceRowNumber": 2319,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ]
+          },
+          "confidence": 55,
+          "resolvedBlockers": [
+            "needs-provider-context-review: publication policy assigned",
+            "public-asset-batch-placement: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Transport, roads, infrastructure, public assets",
+          "transport-public-asset",
+          "features",
+          "Ireland / unspecified",
+          "transport-public-asset-batch-review",
+          "CSV",
+          "JSON-STAT",
+          "PX",
+          "XLSX"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-toa21-rail-infrastructure-02318"
+      }
+    },
+    {
+      "id": "medium-priority:7-transport-roads-infrastructure-public-assets:toa22-bicycle-sharing-scheme-data:02090",
+      "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-toa22-bicycle-sharing-scheme-data-02090",
+      "type": "approved-medium-priority-source",
+      "title": "TOA22 - Bicycle sharing scheme data",
+      "subtitle": "Transport, roads, infrastructure, public assets / National Transport Authority, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
+      "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+      "provider": [
+        "National Transport Authority",
+        "data.gov.ie"
+      ],
+      "description": "TOA22 - Bicycle sharing scheme data is published as a medium-priority Civgraph source/provenance record from National Transport Authority, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/toa22-bicycle-sharing-scheme-data",
+      "references": [
+        {
+          "label": "TOA22 - Bicycle sharing scheme data provider page",
+          "url": "https://data.gov.ie/dataset/toa22-bicycle-sharing-scheme-data",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "TOA22 - Bicycle sharing scheme data Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/toa22-bicycle-sharing-scheme-data",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/toa22-bicycle-sharing-scheme-data",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Transport, roads, infrastructure, public assets",
+        "transport-public-asset",
+        "road features",
+        "Ireland / unspecified",
+        "transport-public-asset-batch-review",
+        "CSV",
+        "JSON-STAT",
+        "PX",
+        "XLSX"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 2091,
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:toa22-bicycle-sharing-scheme-data:02090",
+          "title": "TOA22 - Bicycle sharing scheme data",
+          "cleanTitle": "TOA22 - Bicycle sharing scheme data",
+          "provider": "data.gov.ie",
+          "organisation": "National Transport Authority",
+          "category": "tabular",
+          "roiGroup": "7. Transport, roads, infrastructure, public assets",
+          "groupTitle": "Transport, roads, infrastructure, public assets",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "transport-public-asset",
+          "featureUnit": "road features",
+          "formats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/toa22-bicycle-sharing-scheme-data",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/toa22-bicycle-sharing-scheme-data",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "public-asset-batch-placement: publication policy assigned",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Transport, roads, infrastructure, public assets",
+        "Ireland / unspecified",
+        "transport-public-asset",
+        "TOA22 - Bicycle sharing scheme data"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "spreadsheet"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/toa22-bicycle-sharing-scheme-data",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/toa22-bicycle-sharing-scheme-data",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "National Transport Authority, data.gov.ie, TOA22 - Bicycle sharing scheme data.",
+      "fullCitation": "National Transport Authority, data.gov.ie. TOA22 - Bicycle sharing scheme data. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/toa22-bicycle-sharing-scheme-data. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/toa22-bicycle-sharing-scheme-data.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:toa22-bicycle-sharing-scheme-data:02090",
+        "sourceRowNumber": 2091,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+        "proposedAction": "transport-public-asset-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV",
+            "JSON-STAT",
+            "PX",
+            "XLSX"
+          ]
+        },
+        "confidence": 60,
+        "resolvedBlockers": [
+          "public-asset-batch-placement: publication policy assigned",
+          "source-page-and-ia-viewport-decision: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-toa22-bicycle-sharing-scheme-data-02090",
+      "rawMetadata": {
+        "id": "medium-priority:7-transport-roads-infrastructure-public-assets:toa22-bicycle-sharing-scheme-data:02090",
+        "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-toa22-bicycle-sharing-scheme-data-02090",
+        "type": "approved-medium-priority-source",
+        "title": "TOA22 - Bicycle sharing scheme data",
+        "subtitle": "Transport, roads, infrastructure, public assets / National Transport Authority, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
+        "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+        "provider": [
+          "National Transport Authority",
+          "data.gov.ie"
+        ],
+        "description": "TOA22 - Bicycle sharing scheme data is published as a medium-priority Civgraph source/provenance record from National Transport Authority, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/toa22-bicycle-sharing-scheme-data",
+        "references": [
+          {
+            "label": "TOA22 - Bicycle sharing scheme data provider page",
+            "url": "https://data.gov.ie/dataset/toa22-bicycle-sharing-scheme-data",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "TOA22 - Bicycle sharing scheme data Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/toa22-bicycle-sharing-scheme-data",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/toa22-bicycle-sharing-scheme-data",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Transport, roads, infrastructure, public assets",
+          "Ireland / unspecified",
+          "transport-public-asset",
+          "TOA22 - Bicycle sharing scheme data"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "spreadsheet"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/toa22-bicycle-sharing-scheme-data",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/toa22-bicycle-sharing-scheme-data",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "National Transport Authority, data.gov.ie, TOA22 - Bicycle sharing scheme data.",
+        "fullCitation": "National Transport Authority, data.gov.ie. TOA22 - Bicycle sharing scheme data. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/toa22-bicycle-sharing-scheme-data. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/toa22-bicycle-sharing-scheme-data.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 2091,
+            "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:toa22-bicycle-sharing-scheme-data:02090",
+            "title": "TOA22 - Bicycle sharing scheme data",
+            "cleanTitle": "TOA22 - Bicycle sharing scheme data",
+            "provider": "data.gov.ie",
+            "organisation": "National Transport Authority",
+            "category": "tabular",
+            "roiGroup": "7. Transport, roads, infrastructure, public assets",
+            "groupTitle": "Transport, roads, infrastructure, public assets",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "transport-public-asset",
+            "featureUnit": "road features",
+            "formats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "transport-public-asset-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV",
+                "JSON-STAT",
+                "PX",
+                "XLSX"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/toa22-bicycle-sharing-scheme-data",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/toa22-bicycle-sharing-scheme-data",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "public-asset-batch-placement: publication policy assigned",
+              "source-page-and-ia-viewport-decision: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:toa22-bicycle-sharing-scheme-data:02090",
+          "sourceRowNumber": 2091,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "JSON-STAT",
+              "PX",
+              "XLSX"
+            ]
+          },
+          "confidence": 60,
+          "resolvedBlockers": [
+            "public-asset-batch-placement: publication policy assigned",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Transport, roads, infrastructure, public assets",
+          "transport-public-asset",
+          "road features",
+          "Ireland / unspecified",
+          "transport-public-asset-batch-review",
+          "CSV",
+          "JSON-STAT",
+          "PX",
+          "XLSX"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-toa22-bicycle-sharing-scheme-data-02090"
+      }
+    },
+    {
+      "id": "medium-priority:7-transport-roads-infrastructure-public-assets:traffic-counter-data:02091",
+      "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-traffic-counter-data-02091",
+      "type": "approved-medium-priority-source",
+      "title": "traffic-counter-data",
+      "subtitle": "Transport, roads, infrastructure, public assets / Transport Infrastructure Ireland, data.gov.ie / Republic of Ireland / ASP, XLS, XLSX / Approved source record",
+      "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+      "provider": [
+        "Transport Infrastructure Ireland",
+        "data.gov.ie"
+      ],
+      "description": "traffic-counter-data is published as a medium-priority Civgraph source/provenance record from Transport Infrastructure Ireland, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/traffic-counter-data",
+      "references": [
+        {
+          "label": "traffic-counter-data provider page",
+          "url": "https://data.gov.ie/dataset/traffic-counter-data",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "traffic-counter-data Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/traffic-counter-data",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/traffic-counter-data",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Transport, roads, infrastructure, public assets",
+        "transport-public-asset",
+        "road features",
+        "Republic of Ireland",
+        "transport-public-asset-batch-review",
+        "ASP",
+        "XLS",
+        "XLSX"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 2092,
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:traffic-counter-data:02091",
+          "title": "traffic-counter-data",
+          "cleanTitle": "traffic-counter-data",
+          "provider": "data.gov.ie",
+          "organisation": "Transport Infrastructure Ireland",
+          "category": "tabular",
+          "roiGroup": "7. Transport, roads, infrastructure, public assets",
+          "groupTitle": "Transport, roads, infrastructure, public assets",
+          "jurisdiction": "Republic of Ireland",
+          "topic": "transport-public-asset",
+          "featureUnit": "road features",
+          "formats": [
+            "ASP",
+            "XLS",
+            "XLSX"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "ASP",
+              "XLS",
+              "XLSX"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/traffic-counter-data",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/traffic-counter-data",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "public-asset-batch-placement: publication policy assigned",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Transport, roads, infrastructure, public assets",
+        "Republic of Ireland",
+        "transport-public-asset",
+        "traffic-counter-data"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "spreadsheet"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/traffic-counter-data",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/traffic-counter-data",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Transport Infrastructure Ireland, data.gov.ie, traffic-counter-data.",
+      "fullCitation": "Transport Infrastructure Ireland, data.gov.ie. traffic-counter-data. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/traffic-counter-data. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/traffic-counter-data.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:traffic-counter-data:02091",
+        "sourceRowNumber": 2092,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+        "proposedAction": "transport-public-asset-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "ASP",
+            "XLS",
+            "XLSX"
+          ]
+        },
+        "confidence": 60,
+        "resolvedBlockers": [
+          "public-asset-batch-placement: publication policy assigned",
+          "source-page-and-ia-viewport-decision: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-traffic-counter-data-02091",
+      "rawMetadata": {
+        "id": "medium-priority:7-transport-roads-infrastructure-public-assets:traffic-counter-data:02091",
+        "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-traffic-counter-data-02091",
+        "type": "approved-medium-priority-source",
+        "title": "traffic-counter-data",
+        "subtitle": "Transport, roads, infrastructure, public assets / Transport Infrastructure Ireland, data.gov.ie / Republic of Ireland / ASP, XLS, XLSX / Approved source record",
+        "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+        "provider": [
+          "Transport Infrastructure Ireland",
+          "data.gov.ie"
+        ],
+        "description": "traffic-counter-data is published as a medium-priority Civgraph source/provenance record from Transport Infrastructure Ireland, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/traffic-counter-data",
+        "references": [
+          {
+            "label": "traffic-counter-data provider page",
+            "url": "https://data.gov.ie/dataset/traffic-counter-data",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "traffic-counter-data Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/traffic-counter-data",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/traffic-counter-data",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Transport, roads, infrastructure, public assets",
+          "Republic of Ireland",
+          "transport-public-asset",
+          "traffic-counter-data"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "spreadsheet"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/traffic-counter-data",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/traffic-counter-data",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Transport Infrastructure Ireland, data.gov.ie, traffic-counter-data.",
+        "fullCitation": "Transport Infrastructure Ireland, data.gov.ie. traffic-counter-data. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/traffic-counter-data. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/traffic-counter-data.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 2092,
+            "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:traffic-counter-data:02091",
+            "title": "traffic-counter-data",
+            "cleanTitle": "traffic-counter-data",
+            "provider": "data.gov.ie",
+            "organisation": "Transport Infrastructure Ireland",
+            "category": "tabular",
+            "roiGroup": "7. Transport, roads, infrastructure, public assets",
+            "groupTitle": "Transport, roads, infrastructure, public assets",
+            "jurisdiction": "Republic of Ireland",
+            "topic": "transport-public-asset",
+            "featureUnit": "road features",
+            "formats": [
+              "ASP",
+              "XLS",
+              "XLSX"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "transport-public-asset-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "ASP",
+                "XLS",
+                "XLSX"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/traffic-counter-data",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/traffic-counter-data",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "public-asset-batch-placement: publication policy assigned",
+              "source-page-and-ia-viewport-decision: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:traffic-counter-data:02091",
+          "sourceRowNumber": 2092,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "ASP",
+              "XLS",
+              "XLSX"
+            ]
+          },
+          "confidence": 60,
+          "resolvedBlockers": [
+            "public-asset-batch-placement: publication policy assigned",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Transport, roads, infrastructure, public assets",
+          "transport-public-asset",
+          "road features",
+          "Republic of Ireland",
+          "transport-public-asset-batch-review",
+          "ASP",
+          "XLS",
+          "XLSX"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-traffic-counter-data-02091"
+      }
+    },
+    {
+      "id": "medium-priority:7-transport-roads-infrastructure-public-assets:transport-operator-vdv-452-data:02092",
+      "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-transport-operator-vdv-452-data-02092",
+      "type": "approved-medium-priority-source",
+      "title": "Transport Operator VDV 452 Data",
+      "subtitle": "Transport, roads, infrastructure, public assets / National Transport Authority, data.gov.ie / Ireland / unspecified / X10 / Source record; runtime review pending",
+      "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+      "provider": [
+        "National Transport Authority",
+        "data.gov.ie"
+      ],
+      "description": "Transport Operator VDV 452 Data is published as a medium-priority Civgraph source/provenance record from National Transport Authority, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
+      "url": "https://data.gov.ie/dataset/transport-operator-vdv-452-data",
+      "references": [
+        {
+          "label": "Transport Operator VDV 452 Data provider page",
+          "url": "https://data.gov.ie/dataset/transport-operator-vdv-452-data",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "Transport Operator VDV 452 Data Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/transport-operator-vdv-452-data",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/transport-operator-vdv-452-data",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "source-record-with-runtime-review",
+        "Transport, roads, infrastructure, public assets",
+        "transport-public-asset",
+        "road features",
+        "Ireland / unspecified",
+        "transport-public-asset-batch-review",
+        "X10",
+        "review:duplicate-or-variant-review-no-existing-match-candidate"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 2093,
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:transport-operator-vdv-452-data:02092",
+          "title": "Transport Operator VDV 452 Data",
+          "cleanTitle": "Transport Operator VDV 452 Data",
+          "provider": "data.gov.ie",
+          "organisation": "National Transport Authority",
+          "category": "tabular",
+          "roiGroup": "7. Transport, roads, infrastructure, public assets",
+          "groupTitle": "Transport, roads, infrastructure, public assets",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "transport-public-asset",
+          "featureUnit": "road features",
+          "formats": [
+            "X10"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "X10"
+            ]
+          },
+          "approvalState": "ready-with-residual-review",
+          "sourcePublicationState": "public source record with runtime/semantic review still pending",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/transport-operator-vdv-452-data",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/transport-operator-vdv-452-data",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "public-asset-batch-placement: publication policy assigned"
+          ],
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        }
+      ],
+      "status": "Source only",
+      "statusChips": [
+        "Source record",
+        "Runtime review pending",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Transport, roads, infrastructure, public assets",
+        "Ireland / unspecified",
+        "transport-public-asset",
+        "Transport Operator VDV 452 Data"
+      ],
+      "viewport": {
+        "status": "source-page-only",
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/transport-operator-vdv-452-data",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/transport-operator-vdv-452-data",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "National Transport Authority, data.gov.ie, Transport Operator VDV 452 Data.",
+      "fullCitation": "National Transport Authority, data.gov.ie. Transport Operator VDV 452 Data. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/transport-operator-vdv-452-data. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/transport-operator-vdv-452-data.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:transport-operator-vdv-452-data:02092",
+        "sourceRowNumber": 2093,
+        "approvalState": "ready-with-residual-review",
+        "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+        "proposedAction": "transport-public-asset-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "X10"
+          ]
+        },
+        "confidence": 60,
+        "residualBlockers": [
+          "duplicate-or-variant-review: no existing match candidate"
+        ],
+        "resolvedBlockers": [
+          "public-asset-batch-placement: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+      },
+      "publicationStatus": "source-record-with-runtime-review",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-transport-operator-vdv-452-data-02092",
+      "rawMetadata": {
+        "id": "medium-priority:7-transport-roads-infrastructure-public-assets:transport-operator-vdv-452-data:02092",
+        "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-transport-operator-vdv-452-data-02092",
+        "type": "approved-medium-priority-source",
+        "title": "Transport Operator VDV 452 Data",
+        "subtitle": "Transport, roads, infrastructure, public assets / National Transport Authority, data.gov.ie / Ireland / unspecified / X10 / Source record; runtime review pending",
+        "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+        "provider": [
+          "National Transport Authority",
+          "data.gov.ie"
+        ],
+        "description": "Transport Operator VDV 452 Data is published as a medium-priority Civgraph source/provenance record from National Transport Authority, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
+        "url": "https://data.gov.ie/dataset/transport-operator-vdv-452-data",
+        "references": [
+          {
+            "label": "Transport Operator VDV 452 Data provider page",
+            "url": "https://data.gov.ie/dataset/transport-operator-vdv-452-data",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "Transport Operator VDV 452 Data Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/transport-operator-vdv-452-data",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/transport-operator-vdv-452-data",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source only",
+        "statusChips": [
+          "Source record",
+          "Runtime review pending",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Transport, roads, infrastructure, public assets",
+          "Ireland / unspecified",
+          "transport-public-asset",
+          "Transport Operator VDV 452 Data"
+        ],
+        "viewport": {
+          "status": "source-page-only",
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/transport-operator-vdv-452-data",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/transport-operator-vdv-452-data",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "National Transport Authority, data.gov.ie, Transport Operator VDV 452 Data.",
+        "fullCitation": "National Transport Authority, data.gov.ie. Transport Operator VDV 452 Data. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/transport-operator-vdv-452-data. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/transport-operator-vdv-452-data.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 2093,
+            "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:transport-operator-vdv-452-data:02092",
+            "title": "Transport Operator VDV 452 Data",
+            "cleanTitle": "Transport Operator VDV 452 Data",
+            "provider": "data.gov.ie",
+            "organisation": "National Transport Authority",
+            "category": "tabular",
+            "roiGroup": "7. Transport, roads, infrastructure, public assets",
+            "groupTitle": "Transport, roads, infrastructure, public assets",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "transport-public-asset",
+            "featureUnit": "road features",
+            "formats": [
+              "X10"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "transport-public-asset-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "X10"
+              ]
+            },
+            "approvalState": "ready-with-residual-review",
+            "sourcePublicationState": "public source record with runtime/semantic review still pending",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/transport-operator-vdv-452-data",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/transport-operator-vdv-452-data",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "public-asset-batch-placement: publication policy assigned"
+            ],
+            "residualBlockers": [
+              "duplicate-or-variant-review: no existing match candidate"
+            ],
+            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:transport-operator-vdv-452-data:02092",
+          "sourceRowNumber": 2093,
+          "approvalState": "ready-with-residual-review",
+          "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "X10"
+            ]
+          },
+          "confidence": 60,
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate"
+          ],
+          "resolvedBlockers": [
+            "public-asset-batch-placement: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        },
+        "publicationStatus": "source-record-with-runtime-review",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "source-record-with-runtime-review",
+          "Transport, roads, infrastructure, public assets",
+          "transport-public-asset",
+          "road features",
+          "Ireland / unspecified",
+          "transport-public-asset-batch-review",
+          "X10",
+          "review:duplicate-or-variant-review-no-existing-match-candidate"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-transport-operator-vdv-452-data-02092"
+      }
+    },
     {
       "id": "medium-priority:7-transport-roads-infrastructure-public-assets:tta01-mechanically-propelled-vehicles-under-licence:02093",
       "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-tta01-mechanically-propelled-vehicles-under-licence-02093",
@@ -26225,463 +27573,6 @@
       "publicationStatus": "context-source-published",
       "proposedBrowsePath": "Books / Tables / Sources > Peatland Geoportal context",
       "browseUrl": "/browse/sources/peatland-geoportal-context-peatland-project-database-6db72d1f9fb04390bfc8340d6783821a"
-    },
-    {
-      "id": "peatland-geoportal:context:peatlandsparkhabitatmap:fe40357528df4b6e9ee8b2ab369898c3",
-      "slug": "peatland-geoportal-context-peatlandsparkhabitatmap-fe40357528df4b6e9ee8b2ab369898c3",
-      "type": "peatland-geoportal-context-source",
-      "title": "PeatlandsParkHabitatMap",
-      "subtitle": "Web Map / Megan.Ryan_DAERANI / Web Map",
-      "category": "Peatland Geoportal context",
-      "date": "2024-03-27",
-      "provider": [
-        "Megan.Ryan_DAERANI",
-        "DAERA / Open Data NI"
-      ],
-      "description": "PeatlandsParkHabitatMap is a Web Map item from the Peatland Geoportal, owned by Megan.Ryan_DAERANI. not preferred for direct conversion; use as context/citation unless it points to an approved Feature Service/WFS dedupe by ArcGIS item ID and title ArcGIS item ID: fe40357528df4b6e9ee8b2ab369898c3. Modified: 2024-03-27. The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion.",
-      "url": "https://www.arcgis.com/home/item.html?id=fe40357528df4b6e9ee8b2ab369898c3",
-      "references": [
-        {
-          "label": "PeatlandsParkHabitatMap ArcGIS item page",
-          "url": "https://www.arcgis.com/home/item.html?id=fe40357528df4b6e9ee8b2ab369898c3",
-          "source": "ArcGIS Online / Peatland Geoportal",
-          "role": "arcgis-item-page"
-        },
-        {
-          "label": "Peatland Geoportal",
-          "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/",
-          "source": "Queen's University Belfast / ArcGIS Hub",
-          "role": "source-portal"
-        },
-        {
-          "label": "Peatland Geoportal ArcGIS group search",
-          "url": "https://www.arcgis.com/sharing/rest/search?f=json&q=group:b5fdfbe3f6264c14a90afd43f8f51956&num=100&sortField=title",
-          "source": "ArcGIS Online",
-          "role": "source-group"
-        }
-      ],
-      "keywords": [
-        "peatland-geoportal",
-        "peatland-direct",
-        "source-context-record-not-map-layer",
-        "Web Map",
-        "Megan.Ryan_DAERANI",
-        "SAC",
-        "CMP",
-        "Management plan",
-        "Phase 1",
-        "Annex 1",
-        "EUNIS",
-        "Northern Ireland",
-        "United Kingdom",
-        "NI",
-        "UK",
-        "Habitat Map",
-        "Peatlands Park"
-      ],
-      "sourceItems": [
-        {
-          "auditRowNumber": 316,
-          "title": "PeatlandsParkHabitatMap",
-          "provider": "Megan.Ryan_DAERANI",
-          "category": "peatland-direct",
-          "formats": [
-            "Web Map"
-          ],
-          "arcgisItemId": "fe40357528df4b6e9ee8b2ab369898c3",
-          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=fe40357528df4b6e9ee8b2ab369898c3",
-          "modified": "2024-03-27T16:53:09.000Z",
-          "access": "public",
-          "tags": [
-            "SAC",
-            "CMP",
-            "Management plan",
-            "Phase 1",
-            "Annex 1",
-            "EUNIS",
-            "Northern Ireland",
-            "United Kingdom",
-            "NI",
-            "UK",
-            "Habitat Map",
-            "Peatlands Park"
-          ],
-          "recommendedAction": "source-context-record-not-map-layer",
-          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
-        }
-      ],
-      "status": "Source context",
-      "statusChips": [
-        "Source context",
-        "Web Map"
-      ],
-      "sourceHierarchy": [
-        "Peatland Geoportal",
-        "Web maps, StoryMaps, apps, and context",
-        "peatland-direct"
-      ],
-      "viewport": {
-        "type": "web-context",
-        "status": "external-context-link",
-        "url": "https://www.arcgis.com/home/item.html?id=fe40357528df4b6e9ee8b2ab369898c3"
-      },
-      "shortCitation": "Megan.Ryan_DAERANI: PeatlandsParkHabitatMap",
-      "fullCitation": "PeatlandsParkHabitatMap. Megan.Ryan_DAERANI via Peatland Geoportal / ArcGIS item fe40357528df4b6e9ee8b2ab369898c3, modified 2024-03-27.",
-      "license": {
-        "status": "licence-review-required",
-        "note": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
-      },
-      "approval": {
-        "recommendedAction": "publish as source/context page",
-        "conversionRecommendation": "not preferred for direct conversion; use as context/citation unless it points to an approved Feature Service/WFS",
-        "dedupeRecommendation": "dedupe by ArcGIS item ID and title",
-        "arcgisItemId": "fe40357528df4b6e9ee8b2ab369898c3",
-        "sourceType": "Web Map",
-        "confidence": "high"
-      },
-      "publicationStatus": "context-source-published",
-      "proposedBrowsePath": "Books / Tables / Sources > Peatland Geoportal context",
-      "browseUrl": "/browse/sources/peatland-geoportal-context-peatlandsparkhabitatmap-fe40357528df4b6e9ee8b2ab369898c3"
-    },
-    {
-      "id": "peatland-geoportal:context:pettigoeplateauhabitatmap:b735cac6cf0e4ccb8490a807fd44434f",
-      "slug": "peatland-geoportal-context-pettigoeplateauhabitatmap-b735cac6cf0e4ccb8490a807fd44434f",
-      "type": "peatland-geoportal-context-source",
-      "title": "PettigoePlateauHabitatMap",
-      "subtitle": "Web Map / Megan.Ryan_DAERANI / Web Map",
-      "category": "Peatland Geoportal context",
-      "date": "2025-08-27",
-      "provider": [
-        "Megan.Ryan_DAERANI",
-        "DAERA / Open Data NI"
-      ],
-      "description": "PettigoePlateauHabitatMap is a Web Map item from the Peatland Geoportal, owned by Megan.Ryan_DAERANI. not preferred for direct conversion; use as context/citation unless it points to an approved Feature Service/WFS dedupe by ArcGIS item ID and title ArcGIS item ID: b735cac6cf0e4ccb8490a807fd44434f. Modified: 2025-08-27. The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion.",
-      "url": "https://www.arcgis.com/home/item.html?id=b735cac6cf0e4ccb8490a807fd44434f",
-      "references": [
-        {
-          "label": "PettigoePlateauHabitatMap ArcGIS item page",
-          "url": "https://www.arcgis.com/home/item.html?id=b735cac6cf0e4ccb8490a807fd44434f",
-          "source": "ArcGIS Online / Peatland Geoportal",
-          "role": "arcgis-item-page"
-        },
-        {
-          "label": "Peatland Geoportal",
-          "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/",
-          "source": "Queen's University Belfast / ArcGIS Hub",
-          "role": "source-portal"
-        },
-        {
-          "label": "Peatland Geoportal ArcGIS group search",
-          "url": "https://www.arcgis.com/sharing/rest/search?f=json&q=group:b5fdfbe3f6264c14a90afd43f8f51956&num=100&sortField=title",
-          "source": "ArcGIS Online",
-          "role": "source-group"
-        }
-      ],
-      "keywords": [
-        "peatland-geoportal",
-        "peatland-direct",
-        "source-context-record-not-map-layer",
-        "Web Map",
-        "Megan.Ryan_DAERANI",
-        "SAC",
-        "CMP",
-        "Management plan",
-        "Phase 1",
-        "Annex 1",
-        "EUNIS",
-        "Northern Ireland",
-        "United Kingdom",
-        "NI",
-        "UK",
-        "Habitat Map",
-        "Pettigoe Plateau"
-      ],
-      "sourceItems": [
-        {
-          "auditRowNumber": 317,
-          "title": "PettigoePlateauHabitatMap",
-          "provider": "Megan.Ryan_DAERANI",
-          "category": "peatland-direct",
-          "formats": [
-            "Web Map"
-          ],
-          "arcgisItemId": "b735cac6cf0e4ccb8490a807fd44434f",
-          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=b735cac6cf0e4ccb8490a807fd44434f",
-          "modified": "2025-08-27T09:44:51.000Z",
-          "access": "public",
-          "tags": [
-            "SAC",
-            "CMP",
-            "Management plan",
-            "Phase 1",
-            "Annex 1",
-            "EUNIS",
-            "Northern Ireland",
-            "United Kingdom",
-            "NI",
-            "UK",
-            "Habitat Map",
-            "Pettigoe Plateau"
-          ],
-          "recommendedAction": "source-context-record-not-map-layer",
-          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
-        }
-      ],
-      "status": "Source context",
-      "statusChips": [
-        "Source context",
-        "Web Map"
-      ],
-      "sourceHierarchy": [
-        "Peatland Geoportal",
-        "Web maps, StoryMaps, apps, and context",
-        "peatland-direct"
-      ],
-      "viewport": {
-        "type": "web-context",
-        "status": "external-context-link",
-        "url": "https://www.arcgis.com/home/item.html?id=b735cac6cf0e4ccb8490a807fd44434f"
-      },
-      "shortCitation": "Megan.Ryan_DAERANI: PettigoePlateauHabitatMap",
-      "fullCitation": "PettigoePlateauHabitatMap. Megan.Ryan_DAERANI via Peatland Geoportal / ArcGIS item b735cac6cf0e4ccb8490a807fd44434f, modified 2025-08-27.",
-      "license": {
-        "status": "licence-review-required",
-        "note": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
-      },
-      "approval": {
-        "recommendedAction": "publish as source/context page",
-        "conversionRecommendation": "not preferred for direct conversion; use as context/citation unless it points to an approved Feature Service/WFS",
-        "dedupeRecommendation": "dedupe by ArcGIS item ID and title",
-        "arcgisItemId": "b735cac6cf0e4ccb8490a807fd44434f",
-        "sourceType": "Web Map",
-        "confidence": "high"
-      },
-      "publicationStatus": "context-source-published",
-      "proposedBrowsePath": "Books / Tables / Sources > Peatland Geoportal context",
-      "browseUrl": "/browse/sources/peatland-geoportal-context-pettigoeplateauhabitatmap-b735cac6cf0e4ccb8490a807fd44434f"
-    },
-    {
-      "id": "peatland-geoportal:context:pettigoeplateaulocationmap:82e7e48fbff5444f8a9e873374a4f87a",
-      "slug": "peatland-geoportal-context-pettigoeplateaulocationmap-82e7e48fbff5444f8a9e873374a4f87a",
-      "type": "peatland-geoportal-context-source",
-      "title": "PettigoePlateauLocationMap",
-      "subtitle": "Web Map / Megan.Ryan_DAERANI / Web Map",
-      "category": "Peatland Geoportal context",
-      "date": "2024-03-14",
-      "provider": [
-        "Megan.Ryan_DAERANI",
-        "DAERA / Open Data NI"
-      ],
-      "description": "PettigoePlateauLocationMap is a Web Map item from the Peatland Geoportal, owned by Megan.Ryan_DAERANI. not preferred for direct conversion; use as context/citation unless it points to an approved Feature Service/WFS dedupe by ArcGIS item ID and title ArcGIS item ID: 82e7e48fbff5444f8a9e873374a4f87a. Modified: 2024-03-14. The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion.",
-      "url": "https://www.arcgis.com/home/item.html?id=82e7e48fbff5444f8a9e873374a4f87a",
-      "references": [
-        {
-          "label": "PettigoePlateauLocationMap ArcGIS item page",
-          "url": "https://www.arcgis.com/home/item.html?id=82e7e48fbff5444f8a9e873374a4f87a",
-          "source": "ArcGIS Online / Peatland Geoportal",
-          "role": "arcgis-item-page"
-        },
-        {
-          "label": "Peatland Geoportal",
-          "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/",
-          "source": "Queen's University Belfast / ArcGIS Hub",
-          "role": "source-portal"
-        },
-        {
-          "label": "Peatland Geoportal ArcGIS group search",
-          "url": "https://www.arcgis.com/sharing/rest/search?f=json&q=group:b5fdfbe3f6264c14a90afd43f8f51956&num=100&sortField=title",
-          "source": "ArcGIS Online",
-          "role": "source-group"
-        }
-      ],
-      "keywords": [
-        "peatland-geoportal",
-        "peatland-direct",
-        "source-context-record-not-map-layer",
-        "Web Map",
-        "Megan.Ryan_DAERANI",
-        "SAC",
-        "Northern Ireland",
-        "NI",
-        "UK",
-        "United Kingdom",
-        "Pettigoe Plateau"
-      ],
-      "sourceItems": [
-        {
-          "auditRowNumber": 318,
-          "title": "PettigoePlateauLocationMap",
-          "provider": "Megan.Ryan_DAERANI",
-          "category": "peatland-direct",
-          "formats": [
-            "Web Map"
-          ],
-          "arcgisItemId": "82e7e48fbff5444f8a9e873374a4f87a",
-          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=82e7e48fbff5444f8a9e873374a4f87a",
-          "modified": "2024-03-14T08:51:39.000Z",
-          "access": "public",
-          "tags": [
-            "SAC",
-            "Northern Ireland",
-            "NI",
-            "UK",
-            "United Kingdom",
-            "Pettigoe Plateau"
-          ],
-          "recommendedAction": "source-context-record-not-map-layer",
-          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
-        }
-      ],
-      "status": "Source context",
-      "statusChips": [
-        "Source context",
-        "Web Map"
-      ],
-      "sourceHierarchy": [
-        "Peatland Geoportal",
-        "Web maps, StoryMaps, apps, and context",
-        "peatland-direct"
-      ],
-      "viewport": {
-        "type": "web-context",
-        "status": "external-context-link",
-        "url": "https://www.arcgis.com/home/item.html?id=82e7e48fbff5444f8a9e873374a4f87a"
-      },
-      "shortCitation": "Megan.Ryan_DAERANI: PettigoePlateauLocationMap",
-      "fullCitation": "PettigoePlateauLocationMap. Megan.Ryan_DAERANI via Peatland Geoportal / ArcGIS item 82e7e48fbff5444f8a9e873374a4f87a, modified 2024-03-14.",
-      "license": {
-        "status": "licence-review-required",
-        "note": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
-      },
-      "approval": {
-        "recommendedAction": "publish as source/context page",
-        "conversionRecommendation": "not preferred for direct conversion; use as context/citation unless it points to an approved Feature Service/WFS",
-        "dedupeRecommendation": "dedupe by ArcGIS item ID and title",
-        "arcgisItemId": "82e7e48fbff5444f8a9e873374a4f87a",
-        "sourceType": "Web Map",
-        "confidence": "high"
-      },
-      "publicationStatus": "context-source-published",
-      "proposedBrowsePath": "Books / Tables / Sources > Peatland Geoportal context",
-      "browseUrl": "/browse/sources/peatland-geoportal-context-pettigoeplateaulocationmap-82e7e48fbff5444f8a9e873374a4f87a"
-    },
-    {
-      "id": "peatland-geoportal:context:pettigoeplateausac-cmpstorymap:cb75816297604397acaaac40ba890c12",
-      "slug": "peatland-geoportal-context-pettigoeplateausac-cmpstorymap-cb75816297604397acaaac40ba890c12",
-      "type": "peatland-geoportal-context-source",
-      "title": "PettigoePlateauSAC_CMPStoryMap",
-      "subtitle": "StoryMap / Megan.Ryan_DAERANI / StoryMap",
-      "category": "Peatland Geoportal context",
-      "date": "2024-03-29",
-      "provider": [
-        "Megan.Ryan_DAERANI",
-        "DAERA / Open Data NI"
-      ],
-      "description": "PettigoePlateauSAC_CMPStoryMap is a StoryMap item from the Peatland Geoportal, owned by Megan.Ryan_DAERANI. not preferred for direct conversion; use as context/citation unless it points to an approved Feature Service/WFS dedupe by ArcGIS item ID and title ArcGIS item ID: cb75816297604397acaaac40ba890c12. Modified: 2024-03-29. The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion.",
-      "url": "https://www.arcgis.com/home/item.html?id=cb75816297604397acaaac40ba890c12",
-      "references": [
-        {
-          "label": "PettigoePlateauSAC_CMPStoryMap ArcGIS item page",
-          "url": "https://www.arcgis.com/home/item.html?id=cb75816297604397acaaac40ba890c12",
-          "source": "ArcGIS Online / Peatland Geoportal",
-          "role": "arcgis-item-page"
-        },
-        {
-          "label": "Peatland Geoportal",
-          "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/",
-          "source": "Queen's University Belfast / ArcGIS Hub",
-          "role": "source-portal"
-        },
-        {
-          "label": "Peatland Geoportal ArcGIS group search",
-          "url": "https://www.arcgis.com/sharing/rest/search?f=json&q=group:b5fdfbe3f6264c14a90afd43f8f51956&num=100&sortField=title",
-          "source": "ArcGIS Online",
-          "role": "source-group"
-        },
-        {
-          "label": "PettigoePlateauSAC_CMPStoryMap service or source URL",
-          "url": "https://storymaps.arcgis.com/stories/cb75816297604397acaaac40ba890c12",
-          "source": "Megan.Ryan_DAERANI",
-          "role": "source-url"
-        }
-      ],
-      "keywords": [
-        "peatland-geoportal",
-        "habitat-protected-site-context",
-        "source-context-record-not-map-layer",
-        "StoryMap",
-        "Megan.Ryan_DAERANI",
-        "Pettigoe Plateau",
-        "SAC",
-        "CMP",
-        "Conservation Management Plan",
-        "Annex 1",
-        "Northern Ireland",
-        "United Kingdom",
-        "NI",
-        "UK"
-      ],
-      "sourceItems": [
-        {
-          "auditRowNumber": 319,
-          "title": "PettigoePlateauSAC_CMPStoryMap",
-          "provider": "Megan.Ryan_DAERANI",
-          "category": "habitat-protected-site-context",
-          "formats": [
-            "StoryMap"
-          ],
-          "arcgisItemId": "cb75816297604397acaaac40ba890c12",
-          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=cb75816297604397acaaac40ba890c12",
-          "serviceUrl": "https://storymaps.arcgis.com/stories/cb75816297604397acaaac40ba890c12",
-          "modified": "2024-03-29T14:15:29.000Z",
-          "access": "public",
-          "tags": [
-            "Pettigoe Plateau",
-            "SAC",
-            "CMP",
-            "Conservation Management Plan",
-            "Annex 1",
-            "Northern Ireland",
-            "United Kingdom",
-            "NI",
-            "UK"
-          ],
-          "recommendedAction": "source-context-record-not-map-layer",
-          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
-        }
-      ],
-      "status": "Source context",
-      "statusChips": [
-        "Source context",
-        "StoryMap"
-      ],
-      "sourceHierarchy": [
-        "Peatland Geoportal",
-        "Web maps, StoryMaps, apps, and context",
-        "habitat-protected-site-context"
-      ],
-      "viewport": {
-        "type": "web-context",
-        "status": "external-context-link",
-        "url": "https://www.arcgis.com/home/item.html?id=cb75816297604397acaaac40ba890c12"
-      },
-      "shortCitation": "Megan.Ryan_DAERANI: PettigoePlateauSAC_CMPStoryMap",
-      "fullCitation": "PettigoePlateauSAC_CMPStoryMap. Megan.Ryan_DAERANI via Peatland Geoportal / ArcGIS item cb75816297604397acaaac40ba890c12, modified 2024-03-29.",
-      "license": {
-        "status": "licence-review-required",
-        "note": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
-      },
-      "approval": {
-        "recommendedAction": "publish as source/context page",
-        "conversionRecommendation": "not preferred for direct conversion; use as context/citation unless it points to an approved Feature Service/WFS",
-        "dedupeRecommendation": "dedupe by ArcGIS item ID and title",
-        "arcgisItemId": "cb75816297604397acaaac40ba890c12",
-        "sourceType": "StoryMap",
-        "confidence": "high"
-      },
-      "publicationStatus": "context-source-published",
-      "proposedBrowsePath": "Books / Tables / Sources > Peatland Geoportal context",
-      "browseUrl": "/browse/sources/peatland-geoportal-context-pettigoeplateausac-cmpstorymap-cb75816297604397acaaac40ba890c12"
     }
   ]
 }

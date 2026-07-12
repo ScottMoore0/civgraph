@@ -1,10 +1,1490 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-11T23:52:09.025Z",
+  "generatedAt": "2026-07-12T22:18:23.317Z",
   "kind": "sources",
   "shard": "sources-101.json",
   "total": 200,
   "items": [
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:food-premise-hygiene-ratings:01948",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-food-premise-hygiene-ratings-01948",
+      "type": "approved-medium-priority-source",
+      "title": "Belfast Food Premise Hygiene Ratings",
+      "subtitle": "Local authority planning/property/open-data layers / Belfast City Council, Open Data NI / Northern Ireland / CSV, XML / Approved source record",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "provider": [
+        "Belfast City Council",
+        "Open Data NI"
+      ],
+      "description": "Belfast Food Premise Hygiene Ratings is published as a medium-priority Civgraph source/provenance record from Belfast City Council, Open Data NI. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://admin.opendatani.gov.uk/dataset/food-premise-hygiene-ratings",
+      "references": [
+        {
+          "label": "Belfast Food Premise Hygiene Ratings provider page",
+          "url": "https://admin.opendatani.gov.uk/dataset/food-premise-hygiene-ratings",
+          "source": "Open Data NI",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "Belfast Food Premise Hygiene Ratings Wayback captures",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/food-premise-hygiene-ratings",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://admin.opendatani.gov.uk/dataset/food-premise-hygiene-ratings",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Local authority planning/property/open-data layers",
+        "source-data",
+        "features",
+        "Northern Ireland",
+        "local-authority-batch-review",
+        "CSV",
+        "XML"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 1949,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:food-premise-hygiene-ratings:01948",
+          "title": "Belfast Food Premise Hygiene Ratings",
+          "cleanTitle": "Belfast Food Premise Hygiene Ratings",
+          "provider": "Open Data NI",
+          "organisation": "Belfast City Council",
+          "category": "tabular",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Northern Ireland",
+          "topic": "source-data",
+          "featureUnit": "features",
+          "formats": [
+            "CSV",
+            "XML"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "XML"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 55,
+          "currentProviderUrl": "https://admin.opendatani.gov.uk/dataset/food-premise-hygiene-ratings",
+          "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/food-premise-hygiene-ratings",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Northern Ireland",
+        "source-data",
+        "Belfast Food Premise Hygiene Ratings"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text"
+        ],
+        "canonicalDatasetUrl": "https://admin.opendatani.gov.uk/dataset/food-premise-hygiene-ratings",
+        "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/food-premise-hygiene-ratings",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Belfast City Council, Open Data NI, Belfast Food Premise Hygiene Ratings.",
+      "fullCitation": "Belfast City Council, Open Data NI. Belfast Food Premise Hygiene Ratings. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://admin.opendatani.gov.uk/dataset/food-premise-hygiene-ratings. Wayback capture index: https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/food-premise-hygiene-ratings.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:food-premise-hygiene-ratings:01948",
+        "sourceRowNumber": 1949,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+        "proposedAction": "local-authority-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV",
+            "XML"
+          ]
+        },
+        "confidence": 55,
+        "resolvedBlockers": [
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+          "needs-provider-context-review: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-food-premise-hygiene-ratings-01948",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:food-premise-hygiene-ratings:01948",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-food-premise-hygiene-ratings-01948",
+        "type": "approved-medium-priority-source",
+        "title": "Belfast Food Premise Hygiene Ratings",
+        "subtitle": "Local authority planning/property/open-data layers / Belfast City Council, Open Data NI / Northern Ireland / CSV, XML / Approved source record",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "provider": [
+          "Belfast City Council",
+          "Open Data NI"
+        ],
+        "description": "Belfast Food Premise Hygiene Ratings is published as a medium-priority Civgraph source/provenance record from Belfast City Council, Open Data NI. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://admin.opendatani.gov.uk/dataset/food-premise-hygiene-ratings",
+        "references": [
+          {
+            "label": "Belfast Food Premise Hygiene Ratings provider page",
+            "url": "https://admin.opendatani.gov.uk/dataset/food-premise-hygiene-ratings",
+            "source": "Open Data NI",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "Belfast Food Premise Hygiene Ratings Wayback captures",
+            "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/food-premise-hygiene-ratings",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://admin.opendatani.gov.uk/dataset/food-premise-hygiene-ratings",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Northern Ireland",
+          "source-data",
+          "Belfast Food Premise Hygiene Ratings"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text"
+          ],
+          "canonicalDatasetUrl": "https://admin.opendatani.gov.uk/dataset/food-premise-hygiene-ratings",
+          "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/food-premise-hygiene-ratings",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Belfast City Council, Open Data NI, Belfast Food Premise Hygiene Ratings.",
+        "fullCitation": "Belfast City Council, Open Data NI. Belfast Food Premise Hygiene Ratings. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://admin.opendatani.gov.uk/dataset/food-premise-hygiene-ratings. Wayback capture index: https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/food-premise-hygiene-ratings.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 1949,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:food-premise-hygiene-ratings:01948",
+            "title": "Belfast Food Premise Hygiene Ratings",
+            "cleanTitle": "Belfast Food Premise Hygiene Ratings",
+            "provider": "Open Data NI",
+            "organisation": "Belfast City Council",
+            "category": "tabular",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Northern Ireland",
+            "topic": "source-data",
+            "featureUnit": "features",
+            "formats": [
+              "CSV",
+              "XML"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "local-authority-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV",
+                "XML"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 55,
+            "currentProviderUrl": "https://admin.opendatani.gov.uk/dataset/food-premise-hygiene-ratings",
+            "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/food-premise-hygiene-ratings",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+              "needs-provider-context-review: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:food-premise-hygiene-ratings:01948",
+          "sourceRowNumber": 1949,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "XML"
+            ]
+          },
+          "confidence": 55,
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Local authority planning/property/open-data layers",
+          "source-data",
+          "features",
+          "Northern Ireland",
+          "local-authority-batch-review",
+          "CSV",
+          "XML"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-food-premise-hygiene-ratings-01948"
+      }
+    },
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:foreign-trips-carbon-tax:02187",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-foreign-trips-carbon-tax-02187",
+      "type": "approved-medium-priority-source",
+      "title": "Foreign Trips Carbon Tax DCC",
+      "subtitle": "Local authority planning/property/open-data layers / Dublin City Council, data.gov.ie / Republic of Ireland / CSV / Approved source record",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "provider": [
+        "Dublin City Council",
+        "data.gov.ie"
+      ],
+      "description": "Foreign Trips Carbon Tax DCC is published as a medium-priority Civgraph source/provenance record from Dublin City Council, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/foreign-trips-carbon-tax",
+      "references": [
+        {
+          "label": "Foreign Trips Carbon Tax DCC provider page",
+          "url": "https://data.gov.ie/dataset/foreign-trips-carbon-tax",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "Foreign Trips Carbon Tax DCC Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/foreign-trips-carbon-tax",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/foreign-trips-carbon-tax",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Local authority planning/property/open-data layers",
+        "source-data",
+        "features",
+        "Republic of Ireland",
+        "local-authority-batch-review",
+        "CSV"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 2188,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:foreign-trips-carbon-tax:02187",
+          "title": "Foreign Trips Carbon Tax DCC",
+          "cleanTitle": "Foreign Trips Carbon Tax DCC",
+          "provider": "data.gov.ie",
+          "organisation": "Dublin City Council",
+          "category": "tabular",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Republic of Ireland",
+          "topic": "source-data",
+          "featureUnit": "features",
+          "formats": [
+            "CSV"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/foreign-trips-carbon-tax",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/foreign-trips-carbon-tax",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Republic of Ireland",
+        "source-data",
+        "Foreign Trips Carbon Tax DCC"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/foreign-trips-carbon-tax",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/foreign-trips-carbon-tax",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Dublin City Council, data.gov.ie, Foreign Trips Carbon Tax DCC.",
+      "fullCitation": "Dublin City Council, data.gov.ie. Foreign Trips Carbon Tax DCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/foreign-trips-carbon-tax. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/foreign-trips-carbon-tax.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:foreign-trips-carbon-tax:02187",
+        "sourceRowNumber": 2188,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+        "proposedAction": "local-authority-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV"
+          ]
+        },
+        "confidence": 60,
+        "resolvedBlockers": [
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+          "source-page-and-ia-viewport-decision: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-foreign-trips-carbon-tax-02187",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:foreign-trips-carbon-tax:02187",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-foreign-trips-carbon-tax-02187",
+        "type": "approved-medium-priority-source",
+        "title": "Foreign Trips Carbon Tax DCC",
+        "subtitle": "Local authority planning/property/open-data layers / Dublin City Council, data.gov.ie / Republic of Ireland / CSV / Approved source record",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "provider": [
+          "Dublin City Council",
+          "data.gov.ie"
+        ],
+        "description": "Foreign Trips Carbon Tax DCC is published as a medium-priority Civgraph source/provenance record from Dublin City Council, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/foreign-trips-carbon-tax",
+        "references": [
+          {
+            "label": "Foreign Trips Carbon Tax DCC provider page",
+            "url": "https://data.gov.ie/dataset/foreign-trips-carbon-tax",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "Foreign Trips Carbon Tax DCC Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/foreign-trips-carbon-tax",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/foreign-trips-carbon-tax",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Republic of Ireland",
+          "source-data",
+          "Foreign Trips Carbon Tax DCC"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/foreign-trips-carbon-tax",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/foreign-trips-carbon-tax",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Dublin City Council, data.gov.ie, Foreign Trips Carbon Tax DCC.",
+        "fullCitation": "Dublin City Council, data.gov.ie. Foreign Trips Carbon Tax DCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/foreign-trips-carbon-tax. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/foreign-trips-carbon-tax.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 2188,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:foreign-trips-carbon-tax:02187",
+            "title": "Foreign Trips Carbon Tax DCC",
+            "cleanTitle": "Foreign Trips Carbon Tax DCC",
+            "provider": "data.gov.ie",
+            "organisation": "Dublin City Council",
+            "category": "tabular",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Republic of Ireland",
+            "topic": "source-data",
+            "featureUnit": "features",
+            "formats": [
+              "CSV"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "local-authority-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/foreign-trips-carbon-tax",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/foreign-trips-carbon-tax",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+              "source-page-and-ia-viewport-decision: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:foreign-trips-carbon-tax:02187",
+          "sourceRowNumber": 2188,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV"
+            ]
+          },
+          "confidence": 60,
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Local authority planning/property/open-data layers",
+          "source-data",
+          "features",
+          "Republic of Ireland",
+          "local-authority-batch-review",
+          "CSV"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-foreign-trips-carbon-tax-02187"
+      }
+    },
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:fossit-1-county:00570",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-fossit-1-county-00570",
+      "type": "approved-medium-priority-source",
+      "title": "Fossit 1 - County",
+      "subtitle": "Local authority planning/property/open-data layers / Roscommon County Council, data.gov.ie / Ireland / unspecified / ARCGIS GEOSERVICES REST API, CSV, GDB, GEOJSON, GPKG, HTML, KML, TXT, XLSX, ZIP / Source record; runtime review pending",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "provider": [
+        "Roscommon County Council",
+        "data.gov.ie"
+      ],
+      "description": "Fossit 1 - County is published as a medium-priority Civgraph source/provenance record from Roscommon County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; large-or-special-format-review: size/format decision remains before runtime publication.",
+      "url": "https://data.gov.ie/dataset/fossit-1-county",
+      "references": [
+        {
+          "label": "Fossit 1 - County provider page",
+          "url": "https://data.gov.ie/dataset/fossit-1-county",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "Fossit 1 - County Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/fossit-1-county",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/fossit-1-county",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "source-record-with-runtime-review",
+        "Local authority planning/property/open-data layers",
+        "source-data",
+        "features",
+        "Ireland / unspecified",
+        "hold-special-format",
+        "ARCGIS GEOSERVICES REST API",
+        "CSV",
+        "GDB",
+        "GEOJSON",
+        "GPKG",
+        "HTML",
+        "KML",
+        "TXT",
+        "XLSX",
+        "ZIP",
+        "review:duplicate-or-variant-review-no-existing-match-candidate",
+        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 571,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:fossit-1-county:00570",
+          "title": "Fossit 1 - County",
+          "cleanTitle": "Fossit 1 - County",
+          "provider": "data.gov.ie",
+          "organisation": "Roscommon County Council",
+          "category": "spatial",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "source-data",
+          "featureUnit": "features",
+          "formats": [
+            "ARCGIS GEOSERVICES REST API",
+            "CSV",
+            "GDB",
+            "GEOJSON",
+            "GPKG",
+            "HTML",
+            "KML",
+            "TXT",
+            "XLSX",
+            "ZIP"
+          ],
+          "isSpatial": true,
+          "isLargeOrSpecial": true,
+          "proposedAction": "hold-special-format",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "download/source viewport first",
+            "conversion": "Do not convert until size/format review approves an interactive derivative.",
+            "sourceFormats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GDB",
+              "GEOJSON",
+              "GPKG",
+              "HTML",
+              "KML",
+              "TXT",
+              "XLSX",
+              "ZIP"
+            ]
+          },
+          "approvalState": "ready-with-residual-review",
+          "sourcePublicationState": "public source record with runtime/semantic review still pending",
+          "confidence": 45,
+          "currentProviderUrl": "https://data.gov.ie/dataset/fossit-1-county",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/fossit-1-county",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate",
+            "large-or-special-format-review: size/format decision remains before runtime publication"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        }
+      ],
+      "status": "Source only",
+      "statusChips": [
+        "Source record",
+        "Runtime review pending",
+        "Spatial source",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Ireland / unspecified",
+        "source-data",
+        "Fossit 1 - County"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "spreadsheet",
+          "download-only"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/fossit-1-county",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/fossit-1-county",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "Do not convert until size/format review approves an interactive derivative."
+      },
+      "shortCitation": "Roscommon County Council, data.gov.ie, Fossit 1 - County.",
+      "fullCitation": "Roscommon County Council, data.gov.ie. Fossit 1 - County. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/fossit-1-county. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/fossit-1-county.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:fossit-1-county:00570",
+        "sourceRowNumber": 571,
+        "approvalState": "ready-with-residual-review",
+        "recommendedAction": "publish source record; hold runtime conversion pending size/format review",
+        "proposedAction": "hold-special-format",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "download/source viewport first",
+          "conversion": "Do not convert until size/format review approves an interactive derivative.",
+          "sourceFormats": [
+            "ARCGIS GEOSERVICES REST API",
+            "CSV",
+            "GDB",
+            "GEOJSON",
+            "GPKG",
+            "HTML",
+            "KML",
+            "TXT",
+            "XLSX",
+            "ZIP"
+          ]
+        },
+        "confidence": 45,
+        "residualBlockers": [
+          "duplicate-or-variant-review: no existing match candidate",
+          "large-or-special-format-review: size/format decision remains before runtime publication"
+        ],
+        "resolvedBlockers": [
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+        ],
+        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+      },
+      "publicationStatus": "source-record-with-runtime-review",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-fossit-1-county-00570",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:fossit-1-county:00570",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-fossit-1-county-00570",
+        "type": "approved-medium-priority-source",
+        "title": "Fossit 1 - County",
+        "subtitle": "Local authority planning/property/open-data layers / Roscommon County Council, data.gov.ie / Ireland / unspecified / ARCGIS GEOSERVICES REST API, CSV, GDB, GEOJSON, GPKG, HTML, KML, TXT, XLSX, ZIP / Source record; runtime review pending",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "provider": [
+          "Roscommon County Council",
+          "data.gov.ie"
+        ],
+        "description": "Fossit 1 - County is published as a medium-priority Civgraph source/provenance record from Roscommon County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; large-or-special-format-review: size/format decision remains before runtime publication.",
+        "url": "https://data.gov.ie/dataset/fossit-1-county",
+        "references": [
+          {
+            "label": "Fossit 1 - County provider page",
+            "url": "https://data.gov.ie/dataset/fossit-1-county",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "Fossit 1 - County Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/fossit-1-county",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/fossit-1-county",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source only",
+        "statusChips": [
+          "Source record",
+          "Runtime review pending",
+          "Spatial source",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Ireland / unspecified",
+          "source-data",
+          "Fossit 1 - County"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "spreadsheet",
+            "download-only"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/fossit-1-county",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/fossit-1-county",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "Do not convert until size/format review approves an interactive derivative."
+        },
+        "shortCitation": "Roscommon County Council, data.gov.ie, Fossit 1 - County.",
+        "fullCitation": "Roscommon County Council, data.gov.ie. Fossit 1 - County. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/fossit-1-county. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/fossit-1-county.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 571,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:fossit-1-county:00570",
+            "title": "Fossit 1 - County",
+            "cleanTitle": "Fossit 1 - County",
+            "provider": "data.gov.ie",
+            "organisation": "Roscommon County Council",
+            "category": "spatial",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "source-data",
+            "featureUnit": "features",
+            "formats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GDB",
+              "GEOJSON",
+              "GPKG",
+              "HTML",
+              "KML",
+              "TXT",
+              "XLSX",
+              "ZIP"
+            ],
+            "isSpatial": true,
+            "isLargeOrSpecial": true,
+            "proposedAction": "hold-special-format",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "download/source viewport first",
+              "conversion": "Do not convert until size/format review approves an interactive derivative.",
+              "sourceFormats": [
+                "ARCGIS GEOSERVICES REST API",
+                "CSV",
+                "GDB",
+                "GEOJSON",
+                "GPKG",
+                "HTML",
+                "KML",
+                "TXT",
+                "XLSX",
+                "ZIP"
+              ]
+            },
+            "approvalState": "ready-with-residual-review",
+            "sourcePublicationState": "public source record with runtime/semantic review still pending",
+            "confidence": 45,
+            "currentProviderUrl": "https://data.gov.ie/dataset/fossit-1-county",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/fossit-1-county",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+            ],
+            "residualBlockers": [
+              "duplicate-or-variant-review: no existing match candidate",
+              "large-or-special-format-review: size/format decision remains before runtime publication"
+            ],
+            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:fossit-1-county:00570",
+          "sourceRowNumber": 571,
+          "approvalState": "ready-with-residual-review",
+          "recommendedAction": "publish source record; hold runtime conversion pending size/format review",
+          "proposedAction": "hold-special-format",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "download/source viewport first",
+            "conversion": "Do not convert until size/format review approves an interactive derivative.",
+            "sourceFormats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GDB",
+              "GEOJSON",
+              "GPKG",
+              "HTML",
+              "KML",
+              "TXT",
+              "XLSX",
+              "ZIP"
+            ]
+          },
+          "confidence": 45,
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate",
+            "large-or-special-format-review: size/format decision remains before runtime publication"
+          ],
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        },
+        "publicationStatus": "source-record-with-runtime-review",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "source-record-with-runtime-review",
+          "Local authority planning/property/open-data layers",
+          "source-data",
+          "features",
+          "Ireland / unspecified",
+          "hold-special-format",
+          "ARCGIS GEOSERVICES REST API",
+          "CSV",
+          "GDB",
+          "GEOJSON",
+          "GPKG",
+          "HTML",
+          "KML",
+          "TXT",
+          "XLSX",
+          "ZIP",
+          "review:duplicate-or-variant-review-no-existing-match-candidate",
+          "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-fossit-1-county-00570"
+      }
+    },
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:fossit-3-town:00571",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-fossit-3-town-00571",
+      "type": "approved-medium-priority-source",
+      "title": "Fossit 3 - Town",
+      "subtitle": "Local authority planning/property/open-data layers / Roscommon County Council, data.gov.ie / Ireland / unspecified / ARCGIS GEOSERVICES REST API, CSV, GDB, GEOJSON, GPKG, HTML, KML, TXT, XLSX, ZIP / Source record; runtime review pending",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "provider": [
+        "Roscommon County Council",
+        "data.gov.ie"
+      ],
+      "description": "Fossit 3 - Town is published as a medium-priority Civgraph source/provenance record from Roscommon County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; large-or-special-format-review: size/format decision remains before runtime publication.",
+      "url": "https://data.gov.ie/dataset/fossit-3-town",
+      "references": [
+        {
+          "label": "Fossit 3 - Town provider page",
+          "url": "https://data.gov.ie/dataset/fossit-3-town",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "Fossit 3 - Town Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/fossit-3-town",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/fossit-3-town",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "source-record-with-runtime-review",
+        "Local authority planning/property/open-data layers",
+        "source-data",
+        "features",
+        "Ireland / unspecified",
+        "hold-special-format",
+        "ARCGIS GEOSERVICES REST API",
+        "CSV",
+        "GDB",
+        "GEOJSON",
+        "GPKG",
+        "HTML",
+        "KML",
+        "TXT",
+        "XLSX",
+        "ZIP",
+        "review:duplicate-or-variant-review-no-existing-match-candidate",
+        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 572,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:fossit-3-town:00571",
+          "title": "Fossit 3 - Town",
+          "cleanTitle": "Fossit 3 - Town",
+          "provider": "data.gov.ie",
+          "organisation": "Roscommon County Council",
+          "category": "spatial",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "source-data",
+          "featureUnit": "features",
+          "formats": [
+            "ARCGIS GEOSERVICES REST API",
+            "CSV",
+            "GDB",
+            "GEOJSON",
+            "GPKG",
+            "HTML",
+            "KML",
+            "TXT",
+            "XLSX",
+            "ZIP"
+          ],
+          "isSpatial": true,
+          "isLargeOrSpecial": true,
+          "proposedAction": "hold-special-format",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "download/source viewport first",
+            "conversion": "Do not convert until size/format review approves an interactive derivative.",
+            "sourceFormats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GDB",
+              "GEOJSON",
+              "GPKG",
+              "HTML",
+              "KML",
+              "TXT",
+              "XLSX",
+              "ZIP"
+            ]
+          },
+          "approvalState": "ready-with-residual-review",
+          "sourcePublicationState": "public source record with runtime/semantic review still pending",
+          "confidence": 45,
+          "currentProviderUrl": "https://data.gov.ie/dataset/fossit-3-town",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/fossit-3-town",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate",
+            "large-or-special-format-review: size/format decision remains before runtime publication"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        }
+      ],
+      "status": "Source only",
+      "statusChips": [
+        "Source record",
+        "Runtime review pending",
+        "Spatial source",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Ireland / unspecified",
+        "source-data",
+        "Fossit 3 - Town"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "spreadsheet",
+          "download-only"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/fossit-3-town",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/fossit-3-town",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "Do not convert until size/format review approves an interactive derivative."
+      },
+      "shortCitation": "Roscommon County Council, data.gov.ie, Fossit 3 - Town.",
+      "fullCitation": "Roscommon County Council, data.gov.ie. Fossit 3 - Town. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/fossit-3-town. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/fossit-3-town.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:fossit-3-town:00571",
+        "sourceRowNumber": 572,
+        "approvalState": "ready-with-residual-review",
+        "recommendedAction": "publish source record; hold runtime conversion pending size/format review",
+        "proposedAction": "hold-special-format",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "download/source viewport first",
+          "conversion": "Do not convert until size/format review approves an interactive derivative.",
+          "sourceFormats": [
+            "ARCGIS GEOSERVICES REST API",
+            "CSV",
+            "GDB",
+            "GEOJSON",
+            "GPKG",
+            "HTML",
+            "KML",
+            "TXT",
+            "XLSX",
+            "ZIP"
+          ]
+        },
+        "confidence": 45,
+        "residualBlockers": [
+          "duplicate-or-variant-review: no existing match candidate",
+          "large-or-special-format-review: size/format decision remains before runtime publication"
+        ],
+        "resolvedBlockers": [
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+        ],
+        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+      },
+      "publicationStatus": "source-record-with-runtime-review",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-fossit-3-town-00571",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:fossit-3-town:00571",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-fossit-3-town-00571",
+        "type": "approved-medium-priority-source",
+        "title": "Fossit 3 - Town",
+        "subtitle": "Local authority planning/property/open-data layers / Roscommon County Council, data.gov.ie / Ireland / unspecified / ARCGIS GEOSERVICES REST API, CSV, GDB, GEOJSON, GPKG, HTML, KML, TXT, XLSX, ZIP / Source record; runtime review pending",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "provider": [
+          "Roscommon County Council",
+          "data.gov.ie"
+        ],
+        "description": "Fossit 3 - Town is published as a medium-priority Civgraph source/provenance record from Roscommon County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; large-or-special-format-review: size/format decision remains before runtime publication.",
+        "url": "https://data.gov.ie/dataset/fossit-3-town",
+        "references": [
+          {
+            "label": "Fossit 3 - Town provider page",
+            "url": "https://data.gov.ie/dataset/fossit-3-town",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "Fossit 3 - Town Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/fossit-3-town",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/fossit-3-town",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source only",
+        "statusChips": [
+          "Source record",
+          "Runtime review pending",
+          "Spatial source",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Ireland / unspecified",
+          "source-data",
+          "Fossit 3 - Town"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "spreadsheet",
+            "download-only"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/fossit-3-town",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/fossit-3-town",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "Do not convert until size/format review approves an interactive derivative."
+        },
+        "shortCitation": "Roscommon County Council, data.gov.ie, Fossit 3 - Town.",
+        "fullCitation": "Roscommon County Council, data.gov.ie. Fossit 3 - Town. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/fossit-3-town. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/fossit-3-town.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 572,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:fossit-3-town:00571",
+            "title": "Fossit 3 - Town",
+            "cleanTitle": "Fossit 3 - Town",
+            "provider": "data.gov.ie",
+            "organisation": "Roscommon County Council",
+            "category": "spatial",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "source-data",
+            "featureUnit": "features",
+            "formats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GDB",
+              "GEOJSON",
+              "GPKG",
+              "HTML",
+              "KML",
+              "TXT",
+              "XLSX",
+              "ZIP"
+            ],
+            "isSpatial": true,
+            "isLargeOrSpecial": true,
+            "proposedAction": "hold-special-format",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "download/source viewport first",
+              "conversion": "Do not convert until size/format review approves an interactive derivative.",
+              "sourceFormats": [
+                "ARCGIS GEOSERVICES REST API",
+                "CSV",
+                "GDB",
+                "GEOJSON",
+                "GPKG",
+                "HTML",
+                "KML",
+                "TXT",
+                "XLSX",
+                "ZIP"
+              ]
+            },
+            "approvalState": "ready-with-residual-review",
+            "sourcePublicationState": "public source record with runtime/semantic review still pending",
+            "confidence": 45,
+            "currentProviderUrl": "https://data.gov.ie/dataset/fossit-3-town",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/fossit-3-town",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+            ],
+            "residualBlockers": [
+              "duplicate-or-variant-review: no existing match candidate",
+              "large-or-special-format-review: size/format decision remains before runtime publication"
+            ],
+            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:fossit-3-town:00571",
+          "sourceRowNumber": 572,
+          "approvalState": "ready-with-residual-review",
+          "recommendedAction": "publish source record; hold runtime conversion pending size/format review",
+          "proposedAction": "hold-special-format",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "download/source viewport first",
+            "conversion": "Do not convert until size/format review approves an interactive derivative.",
+            "sourceFormats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GDB",
+              "GEOJSON",
+              "GPKG",
+              "HTML",
+              "KML",
+              "TXT",
+              "XLSX",
+              "ZIP"
+            ]
+          },
+          "confidence": 45,
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate",
+            "large-or-special-format-review: size/format decision remains before runtime publication"
+          ],
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        },
+        "publicationStatus": "source-record-with-runtime-review",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "source-record-with-runtime-review",
+          "Local authority planning/property/open-data layers",
+          "source-data",
+          "features",
+          "Ireland / unspecified",
+          "hold-special-format",
+          "ARCGIS GEOSERVICES REST API",
+          "CSV",
+          "GDB",
+          "GEOJSON",
+          "GPKG",
+          "HTML",
+          "KML",
+          "TXT",
+          "XLSX",
+          "ZIP",
+          "review:duplicate-or-variant-review-no-existing-match-candidate",
+          "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-fossit-3-town-00571"
+      }
+    },
     {
       "id": "medium-priority:5-local-authority-planning-property-open-data-layers:freedom-of-dublin-city:02189",
       "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-freedom-of-dublin-city-02189",
@@ -67105,1334 +68585,6 @@
           "XLSX"
         ],
         "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-hsq10-new-house-registrations-01468"
-      }
-    },
-    {
-      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:hsq11-esb-connections:01469",
-      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-hsq11-esb-connections-01469",
-      "type": "approved-medium-priority-source",
-      "title": "HSQ11 - ESB Connections",
-      "subtitle": "Local authority planning/property/open-data layers / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
-      "category": "Medium-priority: Local authority planning/property/open-data layers",
-      "provider": [
-        "Department of Housing, Local Government and Heritage",
-        "data.gov.ie"
-      ],
-      "description": "HSQ11 - ESB Connections is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/hsq11-esb-connections",
-      "references": [
-        {
-          "label": "HSQ11 - ESB Connections provider page",
-          "url": "https://data.gov.ie/dataset/hsq11-esb-connections",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "HSQ11 - ESB Connections Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/hsq11-esb-connections",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/hsq11-esb-connections",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Local authority planning/property/open-data layers",
-        "source-data",
-        "features",
-        "Ireland / unspecified",
-        "local-authority-batch-review",
-        "CSV",
-        "JSON-STAT",
-        "PX",
-        "XLSX"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 1470,
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:hsq11-esb-connections:01469",
-          "title": "HSQ11 - ESB Connections",
-          "cleanTitle": "HSQ11 - ESB Connections",
-          "provider": "data.gov.ie",
-          "organisation": "Department of Housing, Local Government and Heritage",
-          "category": "tabular",
-          "roiGroup": "5. Local authority planning/property/open-data layers",
-          "groupTitle": "Local authority planning/property/open-data layers",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "source-data",
-          "featureUnit": "features",
-          "formats": [
-            "CSV",
-            "JSON-STAT",
-            "PX",
-            "XLSX"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "JSON-STAT",
-              "PX",
-              "XLSX"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 55,
-          "currentProviderUrl": "https://data.gov.ie/dataset/hsq11-esb-connections",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/hsq11-esb-connections",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Local authority planning/property/open-data layers",
-        "Ireland / unspecified",
-        "source-data",
-        "HSQ11 - ESB Connections"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text",
-          "spreadsheet"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/hsq11-esb-connections",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/hsq11-esb-connections",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, HSQ11 - ESB Connections.",
-      "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. HSQ11 - ESB Connections. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/hsq11-esb-connections. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/hsq11-esb-connections.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:hsq11-esb-connections:01469",
-        "sourceRowNumber": 1470,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-        "proposedAction": "local-authority-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "CSV",
-            "JSON-STAT",
-            "PX",
-            "XLSX"
-          ]
-        },
-        "confidence": 55,
-        "resolvedBlockers": [
-          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-          "needs-provider-context-review: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-hsq11-esb-connections-01469",
-      "rawMetadata": {
-        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:hsq11-esb-connections:01469",
-        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-hsq11-esb-connections-01469",
-        "type": "approved-medium-priority-source",
-        "title": "HSQ11 - ESB Connections",
-        "subtitle": "Local authority planning/property/open-data layers / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
-        "category": "Medium-priority: Local authority planning/property/open-data layers",
-        "provider": [
-          "Department of Housing, Local Government and Heritage",
-          "data.gov.ie"
-        ],
-        "description": "HSQ11 - ESB Connections is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/hsq11-esb-connections",
-        "references": [
-          {
-            "label": "HSQ11 - ESB Connections provider page",
-            "url": "https://data.gov.ie/dataset/hsq11-esb-connections",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "HSQ11 - ESB Connections Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/hsq11-esb-connections",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/hsq11-esb-connections",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Local authority planning/property/open-data layers",
-          "Ireland / unspecified",
-          "source-data",
-          "HSQ11 - ESB Connections"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text",
-            "spreadsheet"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/hsq11-esb-connections",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/hsq11-esb-connections",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, HSQ11 - ESB Connections.",
-        "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. HSQ11 - ESB Connections. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/hsq11-esb-connections. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/hsq11-esb-connections.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 1470,
-            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:hsq11-esb-connections:01469",
-            "title": "HSQ11 - ESB Connections",
-            "cleanTitle": "HSQ11 - ESB Connections",
-            "provider": "data.gov.ie",
-            "organisation": "Department of Housing, Local Government and Heritage",
-            "category": "tabular",
-            "roiGroup": "5. Local authority planning/property/open-data layers",
-            "groupTitle": "Local authority planning/property/open-data layers",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "source-data",
-            "featureUnit": "features",
-            "formats": [
-              "CSV",
-              "JSON-STAT",
-              "PX",
-              "XLSX"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "local-authority-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "CSV",
-                "JSON-STAT",
-                "PX",
-                "XLSX"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 55,
-            "currentProviderUrl": "https://data.gov.ie/dataset/hsq11-esb-connections",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/hsq11-esb-connections",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-              "needs-provider-context-review: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:hsq11-esb-connections:01469",
-          "sourceRowNumber": 1470,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "JSON-STAT",
-              "PX",
-              "XLSX"
-            ]
-          },
-          "confidence": 55,
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Local authority planning/property/open-data layers",
-          "source-data",
-          "features",
-          "Ireland / unspecified",
-          "local-authority-batch-review",
-          "CSV",
-          "JSON-STAT",
-          "PX",
-          "XLSX"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-hsq11-esb-connections-01469"
-      }
-    },
-    {
-      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:hsq13-local-authority-loan-arrears:01470",
-      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-hsq13-local-authority-loan-arrears-01470",
-      "type": "approved-medium-priority-source",
-      "title": "HSQ13 - Local Authority Loan Arrears",
-      "subtitle": "Local authority planning/property/open-data layers / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
-      "category": "Medium-priority: Local authority planning/property/open-data layers",
-      "provider": [
-        "Department of Housing, Local Government and Heritage",
-        "data.gov.ie"
-      ],
-      "description": "HSQ13 - Local Authority Loan Arrears is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/hsq13-local-authority-loan-arrears",
-      "references": [
-        {
-          "label": "HSQ13 - Local Authority Loan Arrears provider page",
-          "url": "https://data.gov.ie/dataset/hsq13-local-authority-loan-arrears",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "HSQ13 - Local Authority Loan Arrears Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/hsq13-local-authority-loan-arrears",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/hsq13-local-authority-loan-arrears",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Local authority planning/property/open-data layers",
-        "source-data",
-        "features",
-        "Ireland / unspecified",
-        "local-authority-batch-review",
-        "CSV",
-        "JSON-STAT",
-        "PX",
-        "XLSX"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 1471,
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:hsq13-local-authority-loan-arrears:01470",
-          "title": "HSQ13 - Local Authority Loan Arrears",
-          "cleanTitle": "HSQ13 - Local Authority Loan Arrears",
-          "provider": "data.gov.ie",
-          "organisation": "Department of Housing, Local Government and Heritage",
-          "category": "tabular",
-          "roiGroup": "5. Local authority planning/property/open-data layers",
-          "groupTitle": "Local authority planning/property/open-data layers",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "source-data",
-          "featureUnit": "features",
-          "formats": [
-            "CSV",
-            "JSON-STAT",
-            "PX",
-            "XLSX"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "JSON-STAT",
-              "PX",
-              "XLSX"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 55,
-          "currentProviderUrl": "https://data.gov.ie/dataset/hsq13-local-authority-loan-arrears",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/hsq13-local-authority-loan-arrears",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Local authority planning/property/open-data layers",
-        "Ireland / unspecified",
-        "source-data",
-        "HSQ13 - Local Authority Loan Arrears"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text",
-          "spreadsheet"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/hsq13-local-authority-loan-arrears",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/hsq13-local-authority-loan-arrears",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, HSQ13 - Local Authority Loan Arrears.",
-      "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. HSQ13 - Local Authority Loan Arrears. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/hsq13-local-authority-loan-arrears. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/hsq13-local-authority-loan-arrears.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:hsq13-local-authority-loan-arrears:01470",
-        "sourceRowNumber": 1471,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-        "proposedAction": "local-authority-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "CSV",
-            "JSON-STAT",
-            "PX",
-            "XLSX"
-          ]
-        },
-        "confidence": 55,
-        "resolvedBlockers": [
-          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-          "needs-provider-context-review: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-hsq13-local-authority-loan-arrears-01470",
-      "rawMetadata": {
-        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:hsq13-local-authority-loan-arrears:01470",
-        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-hsq13-local-authority-loan-arrears-01470",
-        "type": "approved-medium-priority-source",
-        "title": "HSQ13 - Local Authority Loan Arrears",
-        "subtitle": "Local authority planning/property/open-data layers / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV, JSON-STAT, PX, XLSX / Approved source record",
-        "category": "Medium-priority: Local authority planning/property/open-data layers",
-        "provider": [
-          "Department of Housing, Local Government and Heritage",
-          "data.gov.ie"
-        ],
-        "description": "HSQ13 - Local Authority Loan Arrears is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/hsq13-local-authority-loan-arrears",
-        "references": [
-          {
-            "label": "HSQ13 - Local Authority Loan Arrears provider page",
-            "url": "https://data.gov.ie/dataset/hsq13-local-authority-loan-arrears",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "HSQ13 - Local Authority Loan Arrears Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/hsq13-local-authority-loan-arrears",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/hsq13-local-authority-loan-arrears",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Local authority planning/property/open-data layers",
-          "Ireland / unspecified",
-          "source-data",
-          "HSQ13 - Local Authority Loan Arrears"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text",
-            "spreadsheet"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/hsq13-local-authority-loan-arrears",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/hsq13-local-authority-loan-arrears",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, HSQ13 - Local Authority Loan Arrears.",
-        "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. HSQ13 - Local Authority Loan Arrears. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/hsq13-local-authority-loan-arrears. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/hsq13-local-authority-loan-arrears.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 1471,
-            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:hsq13-local-authority-loan-arrears:01470",
-            "title": "HSQ13 - Local Authority Loan Arrears",
-            "cleanTitle": "HSQ13 - Local Authority Loan Arrears",
-            "provider": "data.gov.ie",
-            "organisation": "Department of Housing, Local Government and Heritage",
-            "category": "tabular",
-            "roiGroup": "5. Local authority planning/property/open-data layers",
-            "groupTitle": "Local authority planning/property/open-data layers",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "source-data",
-            "featureUnit": "features",
-            "formats": [
-              "CSV",
-              "JSON-STAT",
-              "PX",
-              "XLSX"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "local-authority-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "CSV",
-                "JSON-STAT",
-                "PX",
-                "XLSX"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 55,
-            "currentProviderUrl": "https://data.gov.ie/dataset/hsq13-local-authority-loan-arrears",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/hsq13-local-authority-loan-arrears",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-              "needs-provider-context-review: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:hsq13-local-authority-loan-arrears:01470",
-          "sourceRowNumber": 1471,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "JSON-STAT",
-              "PX",
-              "XLSX"
-            ]
-          },
-          "confidence": 55,
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Local authority planning/property/open-data layers",
-          "source-data",
-          "features",
-          "Ireland / unspecified",
-          "local-authority-batch-review",
-          "CSV",
-          "JSON-STAT",
-          "PX",
-          "XLSX"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-hsq13-local-authority-loan-arrears-01470"
-      }
-    },
-    {
-      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf:01697",
-      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf-01697",
-      "type": "approved-medium-priority-source",
-      "title": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC.pdf",
-      "subtitle": "Local authority planning/property/open-data layers / Kildare County Council, data.gov.ie / Ireland / unspecified / PDF / Approved source record",
-      "category": "Medium-priority: Local authority planning/property/open-data layers",
-      "provider": [
-        "Kildare County Council",
-        "data.gov.ie"
-      ],
-      "description": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC.pdf is published as a medium-priority Civgraph source/provenance record from Kildare County Council, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf",
-      "references": [
-        {
-          "label": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC.pdf provider page",
-          "url": "https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC.pdf Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Local authority planning/property/open-data layers",
-        "transport-public-asset",
-        "road features",
-        "Ireland / unspecified",
-        "local-authority-batch-review",
-        "PDF"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 1698,
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf:01697",
-          "title": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC.pdf",
-          "cleanTitle": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC.pdf",
-          "provider": "data.gov.ie",
-          "organisation": "Kildare County Council",
-          "category": "tabular",
-          "roiGroup": "5. Local authority planning/property/open-data layers",
-          "groupTitle": "Local authority planning/property/open-data layers",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "transport-public-asset",
-          "featureUnit": "road features",
-          "formats": [
-            "PDF"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "PDF"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "source-page-and-ia-viewport-decision: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Local authority planning/property/open-data layers",
-        "Ireland / unspecified",
-        "transport-public-asset",
-        "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC.pdf"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "pdf"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Kildare County Council, data.gov.ie, https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC.pdf.",
-      "fullCitation": "Kildare County Council, data.gov.ie. https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC.pdf. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf:01697",
-        "sourceRowNumber": 1698,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-        "proposedAction": "local-authority-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "PDF"
-          ]
-        },
-        "confidence": 60,
-        "resolvedBlockers": [
-          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-          "source-page-and-ia-viewport-decision: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf-01697",
-      "rawMetadata": {
-        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf:01697",
-        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf-01697",
-        "type": "approved-medium-priority-source",
-        "title": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC.pdf",
-        "subtitle": "Local authority planning/property/open-data layers / Kildare County Council, data.gov.ie / Ireland / unspecified / PDF / Approved source record",
-        "category": "Medium-priority: Local authority planning/property/open-data layers",
-        "provider": [
-          "Kildare County Council",
-          "data.gov.ie"
-        ],
-        "description": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC.pdf is published as a medium-priority Civgraph source/provenance record from Kildare County Council, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf",
-        "references": [
-          {
-            "label": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC.pdf provider page",
-            "url": "https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC.pdf Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Local authority planning/property/open-data layers",
-          "Ireland / unspecified",
-          "transport-public-asset",
-          "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC.pdf"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "pdf"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Kildare County Council, data.gov.ie, https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC.pdf.",
-        "fullCitation": "Kildare County Council, data.gov.ie. https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC.pdf. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 1698,
-            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf:01697",
-            "title": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC.pdf",
-            "cleanTitle": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC.pdf",
-            "provider": "data.gov.ie",
-            "organisation": "Kildare County Council",
-            "category": "tabular",
-            "roiGroup": "5. Local authority planning/property/open-data layers",
-            "groupTitle": "Local authority planning/property/open-data layers",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "transport-public-asset",
-            "featureUnit": "road features",
-            "formats": [
-              "PDF"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "local-authority-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "PDF"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-              "source-page-and-ia-viewport-decision: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf:01697",
-          "sourceRowNumber": 1698,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "PDF"
-            ]
-          },
-          "confidence": 60,
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "source-page-and-ia-viewport-decision: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Local authority planning/property/open-data layers",
-          "transport-public-asset",
-          "road features",
-          "Ireland / unspecified",
-          "local-authority-batch-review",
-          "PDF"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc-pdf-01697"
-      }
-    },
-    {
-      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf:01698",
-      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf-01698",
-      "type": "approved-medium-priority-source",
-      "title": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC000.pdf",
-      "subtitle": "Local authority planning/property/open-data layers / Kildare County Council, data.gov.ie / Ireland / unspecified / PDF / Approved source record",
-      "category": "Medium-priority: Local authority planning/property/open-data layers",
-      "provider": [
-        "Kildare County Council",
-        "data.gov.ie"
-      ],
-      "description": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC000.pdf is published as a medium-priority Civgraph source/provenance record from Kildare County Council, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf",
-      "references": [
-        {
-          "label": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC000.pdf provider page",
-          "url": "https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC000.pdf Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Local authority planning/property/open-data layers",
-        "transport-public-asset",
-        "road features",
-        "Ireland / unspecified",
-        "local-authority-batch-review",
-        "PDF"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 1699,
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf:01698",
-          "title": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC000.pdf",
-          "cleanTitle": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC000.pdf",
-          "provider": "data.gov.ie",
-          "organisation": "Kildare County Council",
-          "category": "tabular",
-          "roiGroup": "5. Local authority planning/property/open-data layers",
-          "groupTitle": "Local authority planning/property/open-data layers",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "transport-public-asset",
-          "featureUnit": "road features",
-          "formats": [
-            "PDF"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "PDF"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "source-page-and-ia-viewport-decision: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Local authority planning/property/open-data layers",
-        "Ireland / unspecified",
-        "transport-public-asset",
-        "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC000.pdf"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "pdf"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Kildare County Council, data.gov.ie, https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC000.pdf.",
-      "fullCitation": "Kildare County Council, data.gov.ie. https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC000.pdf. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf:01698",
-        "sourceRowNumber": 1699,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-        "proposedAction": "local-authority-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "PDF"
-          ]
-        },
-        "confidence": 60,
-        "resolvedBlockers": [
-          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-          "source-page-and-ia-viewport-decision: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf-01698",
-      "rawMetadata": {
-        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf:01698",
-        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf-01698",
-        "type": "approved-medium-priority-source",
-        "title": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC000.pdf",
-        "subtitle": "Local authority planning/property/open-data layers / Kildare County Council, data.gov.ie / Ireland / unspecified / PDF / Approved source record",
-        "category": "Medium-priority: Local authority planning/property/open-data layers",
-        "provider": [
-          "Kildare County Council",
-          "data.gov.ie"
-        ],
-        "description": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC000.pdf is published as a medium-priority Civgraph source/provenance record from Kildare County Council, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf",
-        "references": [
-          {
-            "label": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC000.pdf provider page",
-            "url": "https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC000.pdf Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Local authority planning/property/open-data layers",
-          "Ireland / unspecified",
-          "transport-public-asset",
-          "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC000.pdf"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "pdf"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Kildare County Council, data.gov.ie, https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC000.pdf.",
-        "fullCitation": "Kildare County Council, data.gov.ie. https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC000.pdf. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 1699,
-            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf:01698",
-            "title": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC000.pdf",
-            "cleanTitle": "https://kildarecoco.ie/AllServices/Roads/PayParking/PayParkingAthy/DOC000.pdf",
-            "provider": "data.gov.ie",
-            "organisation": "Kildare County Council",
-            "category": "tabular",
-            "roiGroup": "5. Local authority planning/property/open-data layers",
-            "groupTitle": "Local authority planning/property/open-data layers",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "transport-public-asset",
-            "featureUnit": "road features",
-            "formats": [
-              "PDF"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "local-authority-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "PDF"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-              "source-page-and-ia-viewport-decision: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf:01698",
-          "sourceRowNumber": 1699,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "PDF"
-            ]
-          },
-          "confidence": 60,
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "source-page-and-ia-viewport-decision: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Local authority planning/property/open-data layers",
-          "transport-public-asset",
-          "road features",
-          "Ireland / unspecified",
-          "local-authority-batch-review",
-          "PDF"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-https-kildarecoco-ie-allservices-roads-payparking-payparkingathy-doc000-pdf-01698"
       }
     }
   ]

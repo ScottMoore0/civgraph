@@ -1,10 +1,1302 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-11T23:52:09.025Z",
+  "generatedAt": "2026-07-12T22:18:23.317Z",
   "kind": "sources",
   "shard": "sources-099.json",
   "total": 200,
   "items": [
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:belfast-bike-hire-rentals-and-returns:01932",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-belfast-bike-hire-rentals-and-returns-01932",
+      "type": "approved-medium-priority-source",
+      "title": "Belfast Bike Hire Rentals and Returns",
+      "subtitle": "Local authority planning/property/open-data layers / Belfast City Council, Open Data NI / Northern Ireland / CSV / Approved source record",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "provider": [
+        "Belfast City Council",
+        "Open Data NI"
+      ],
+      "description": "Belfast Bike Hire Rentals and Returns is published as a medium-priority Civgraph source/provenance record from Belfast City Council, Open Data NI. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://admin.opendatani.gov.uk/dataset/belfast-bike-hire-rentals-and-returns",
+      "references": [
+        {
+          "label": "Belfast Bike Hire Rentals and Returns provider page",
+          "url": "https://admin.opendatani.gov.uk/dataset/belfast-bike-hire-rentals-and-returns",
+          "source": "Open Data NI",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "Belfast Bike Hire Rentals and Returns Wayback captures",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/belfast-bike-hire-rentals-and-returns",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://admin.opendatani.gov.uk/dataset/belfast-bike-hire-rentals-and-returns",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Local authority planning/property/open-data layers",
+        "source-data",
+        "features",
+        "Northern Ireland",
+        "local-authority-batch-review",
+        "CSV"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 1933,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:belfast-bike-hire-rentals-and-returns:01932",
+          "title": "Belfast Bike Hire Rentals and Returns",
+          "cleanTitle": "Belfast Bike Hire Rentals and Returns",
+          "provider": "Open Data NI",
+          "organisation": "Belfast City Council",
+          "category": "tabular",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Northern Ireland",
+          "topic": "source-data",
+          "featureUnit": "features",
+          "formats": [
+            "CSV"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 55,
+          "currentProviderUrl": "https://admin.opendatani.gov.uk/dataset/belfast-bike-hire-rentals-and-returns",
+          "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/belfast-bike-hire-rentals-and-returns",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Northern Ireland",
+        "source-data",
+        "Belfast Bike Hire Rentals and Returns"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text"
+        ],
+        "canonicalDatasetUrl": "https://admin.opendatani.gov.uk/dataset/belfast-bike-hire-rentals-and-returns",
+        "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/belfast-bike-hire-rentals-and-returns",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Belfast City Council, Open Data NI, Belfast Bike Hire Rentals and Returns.",
+      "fullCitation": "Belfast City Council, Open Data NI. Belfast Bike Hire Rentals and Returns. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://admin.opendatani.gov.uk/dataset/belfast-bike-hire-rentals-and-returns. Wayback capture index: https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/belfast-bike-hire-rentals-and-returns.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:belfast-bike-hire-rentals-and-returns:01932",
+        "sourceRowNumber": 1933,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+        "proposedAction": "local-authority-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV"
+          ]
+        },
+        "confidence": 55,
+        "resolvedBlockers": [
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+          "needs-provider-context-review: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-belfast-bike-hire-rentals-and-returns-01932",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:belfast-bike-hire-rentals-and-returns:01932",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-belfast-bike-hire-rentals-and-returns-01932",
+        "type": "approved-medium-priority-source",
+        "title": "Belfast Bike Hire Rentals and Returns",
+        "subtitle": "Local authority planning/property/open-data layers / Belfast City Council, Open Data NI / Northern Ireland / CSV / Approved source record",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "provider": [
+          "Belfast City Council",
+          "Open Data NI"
+        ],
+        "description": "Belfast Bike Hire Rentals and Returns is published as a medium-priority Civgraph source/provenance record from Belfast City Council, Open Data NI. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://admin.opendatani.gov.uk/dataset/belfast-bike-hire-rentals-and-returns",
+        "references": [
+          {
+            "label": "Belfast Bike Hire Rentals and Returns provider page",
+            "url": "https://admin.opendatani.gov.uk/dataset/belfast-bike-hire-rentals-and-returns",
+            "source": "Open Data NI",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "Belfast Bike Hire Rentals and Returns Wayback captures",
+            "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/belfast-bike-hire-rentals-and-returns",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://admin.opendatani.gov.uk/dataset/belfast-bike-hire-rentals-and-returns",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Northern Ireland",
+          "source-data",
+          "Belfast Bike Hire Rentals and Returns"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text"
+          ],
+          "canonicalDatasetUrl": "https://admin.opendatani.gov.uk/dataset/belfast-bike-hire-rentals-and-returns",
+          "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/belfast-bike-hire-rentals-and-returns",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Belfast City Council, Open Data NI, Belfast Bike Hire Rentals and Returns.",
+        "fullCitation": "Belfast City Council, Open Data NI. Belfast Bike Hire Rentals and Returns. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://admin.opendatani.gov.uk/dataset/belfast-bike-hire-rentals-and-returns. Wayback capture index: https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/belfast-bike-hire-rentals-and-returns.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 1933,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:belfast-bike-hire-rentals-and-returns:01932",
+            "title": "Belfast Bike Hire Rentals and Returns",
+            "cleanTitle": "Belfast Bike Hire Rentals and Returns",
+            "provider": "Open Data NI",
+            "organisation": "Belfast City Council",
+            "category": "tabular",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Northern Ireland",
+            "topic": "source-data",
+            "featureUnit": "features",
+            "formats": [
+              "CSV"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "local-authority-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 55,
+            "currentProviderUrl": "https://admin.opendatani.gov.uk/dataset/belfast-bike-hire-rentals-and-returns",
+            "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/belfast-bike-hire-rentals-and-returns",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+              "needs-provider-context-review: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:belfast-bike-hire-rentals-and-returns:01932",
+          "sourceRowNumber": 1933,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV"
+            ]
+          },
+          "confidence": 55,
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Local authority planning/property/open-data layers",
+          "source-data",
+          "features",
+          "Northern Ireland",
+          "local-authority-batch-review",
+          "CSV"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-belfast-bike-hire-rentals-and-returns-01932"
+      }
+    },
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:belfast-bike-historical-data:01934",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-belfast-bike-historical-data-01934",
+      "type": "approved-medium-priority-source",
+      "title": "Belfast Bike Historical Data",
+      "subtitle": "Local authority planning/property/open-data layers / Belfast City Council, Open Data NI / Northern Ireland / JSON, XML / Approved source record",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "provider": [
+        "Belfast City Council",
+        "Open Data NI"
+      ],
+      "description": "Belfast Bike Historical Data is published as a medium-priority Civgraph source/provenance record from Belfast City Council, Open Data NI. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://admin.opendatani.gov.uk/dataset/belfast-bike-historical-data",
+      "references": [
+        {
+          "label": "Belfast Bike Historical Data provider page",
+          "url": "https://admin.opendatani.gov.uk/dataset/belfast-bike-historical-data",
+          "source": "Open Data NI",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "Belfast Bike Historical Data Wayback captures",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/belfast-bike-historical-data",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://admin.opendatani.gov.uk/dataset/belfast-bike-historical-data",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Local authority planning/property/open-data layers",
+        "source-data",
+        "features",
+        "Northern Ireland",
+        "local-authority-batch-review",
+        "JSON",
+        "XML"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 1935,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:belfast-bike-historical-data:01934",
+          "title": "Belfast Bike Historical Data",
+          "cleanTitle": "Belfast Bike Historical Data",
+          "provider": "Open Data NI",
+          "organisation": "Belfast City Council",
+          "category": "tabular",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Northern Ireland",
+          "topic": "source-data",
+          "featureUnit": "features",
+          "formats": [
+            "JSON",
+            "XML"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "JSON",
+              "XML"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 55,
+          "currentProviderUrl": "https://admin.opendatani.gov.uk/dataset/belfast-bike-historical-data",
+          "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/belfast-bike-historical-data",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Northern Ireland",
+        "source-data",
+        "Belfast Bike Historical Data"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text"
+        ],
+        "canonicalDatasetUrl": "https://admin.opendatani.gov.uk/dataset/belfast-bike-historical-data",
+        "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/belfast-bike-historical-data",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Belfast City Council, Open Data NI, Belfast Bike Historical Data.",
+      "fullCitation": "Belfast City Council, Open Data NI. Belfast Bike Historical Data. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://admin.opendatani.gov.uk/dataset/belfast-bike-historical-data. Wayback capture index: https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/belfast-bike-historical-data.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:belfast-bike-historical-data:01934",
+        "sourceRowNumber": 1935,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+        "proposedAction": "local-authority-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "JSON",
+            "XML"
+          ]
+        },
+        "confidence": 55,
+        "resolvedBlockers": [
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+          "needs-provider-context-review: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-belfast-bike-historical-data-01934",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:belfast-bike-historical-data:01934",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-belfast-bike-historical-data-01934",
+        "type": "approved-medium-priority-source",
+        "title": "Belfast Bike Historical Data",
+        "subtitle": "Local authority planning/property/open-data layers / Belfast City Council, Open Data NI / Northern Ireland / JSON, XML / Approved source record",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "provider": [
+          "Belfast City Council",
+          "Open Data NI"
+        ],
+        "description": "Belfast Bike Historical Data is published as a medium-priority Civgraph source/provenance record from Belfast City Council, Open Data NI. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://admin.opendatani.gov.uk/dataset/belfast-bike-historical-data",
+        "references": [
+          {
+            "label": "Belfast Bike Historical Data provider page",
+            "url": "https://admin.opendatani.gov.uk/dataset/belfast-bike-historical-data",
+            "source": "Open Data NI",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "Belfast Bike Historical Data Wayback captures",
+            "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/belfast-bike-historical-data",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://admin.opendatani.gov.uk/dataset/belfast-bike-historical-data",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Northern Ireland",
+          "source-data",
+          "Belfast Bike Historical Data"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text"
+          ],
+          "canonicalDatasetUrl": "https://admin.opendatani.gov.uk/dataset/belfast-bike-historical-data",
+          "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/belfast-bike-historical-data",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Belfast City Council, Open Data NI, Belfast Bike Historical Data.",
+        "fullCitation": "Belfast City Council, Open Data NI. Belfast Bike Historical Data. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://admin.opendatani.gov.uk/dataset/belfast-bike-historical-data. Wayback capture index: https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/belfast-bike-historical-data.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 1935,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:belfast-bike-historical-data:01934",
+            "title": "Belfast Bike Historical Data",
+            "cleanTitle": "Belfast Bike Historical Data",
+            "provider": "Open Data NI",
+            "organisation": "Belfast City Council",
+            "category": "tabular",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Northern Ireland",
+            "topic": "source-data",
+            "featureUnit": "features",
+            "formats": [
+              "JSON",
+              "XML"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "local-authority-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "JSON",
+                "XML"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 55,
+            "currentProviderUrl": "https://admin.opendatani.gov.uk/dataset/belfast-bike-historical-data",
+            "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/belfast-bike-historical-data",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+              "needs-provider-context-review: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:belfast-bike-historical-data:01934",
+          "sourceRowNumber": 1935,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "JSON",
+              "XML"
+            ]
+          },
+          "confidence": 55,
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Local authority planning/property/open-data layers",
+          "source-data",
+          "features",
+          "Northern Ireland",
+          "local-authority-batch-review",
+          "JSON",
+          "XML"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-belfast-bike-historical-data-01934"
+      }
+    },
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:belfast-bike-live-data:01935",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-belfast-bike-live-data-01935",
+      "type": "approved-medium-priority-source",
+      "title": "Belfast Bike Live Data",
+      "subtitle": "Local authority planning/property/open-data layers / Belfast City Council, Open Data NI / Northern Ireland / JSON, XML / Approved source record",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "provider": [
+        "Belfast City Council",
+        "Open Data NI"
+      ],
+      "description": "Belfast Bike Live Data is published as a medium-priority Civgraph source/provenance record from Belfast City Council, Open Data NI. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://admin.opendatani.gov.uk/dataset/belfast-bike-live-data",
+      "references": [
+        {
+          "label": "Belfast Bike Live Data provider page",
+          "url": "https://admin.opendatani.gov.uk/dataset/belfast-bike-live-data",
+          "source": "Open Data NI",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "Belfast Bike Live Data Wayback captures",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/belfast-bike-live-data",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://admin.opendatani.gov.uk/dataset/belfast-bike-live-data",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Local authority planning/property/open-data layers",
+        "source-data",
+        "features",
+        "Northern Ireland",
+        "local-authority-batch-review",
+        "JSON",
+        "XML"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 1936,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:belfast-bike-live-data:01935",
+          "title": "Belfast Bike Live Data",
+          "cleanTitle": "Belfast Bike Live Data",
+          "provider": "Open Data NI",
+          "organisation": "Belfast City Council",
+          "category": "tabular",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Northern Ireland",
+          "topic": "source-data",
+          "featureUnit": "features",
+          "formats": [
+            "JSON",
+            "XML"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "JSON",
+              "XML"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 55,
+          "currentProviderUrl": "https://admin.opendatani.gov.uk/dataset/belfast-bike-live-data",
+          "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/belfast-bike-live-data",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Northern Ireland",
+        "source-data",
+        "Belfast Bike Live Data"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text"
+        ],
+        "canonicalDatasetUrl": "https://admin.opendatani.gov.uk/dataset/belfast-bike-live-data",
+        "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/belfast-bike-live-data",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Belfast City Council, Open Data NI, Belfast Bike Live Data.",
+      "fullCitation": "Belfast City Council, Open Data NI. Belfast Bike Live Data. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://admin.opendatani.gov.uk/dataset/belfast-bike-live-data. Wayback capture index: https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/belfast-bike-live-data.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:belfast-bike-live-data:01935",
+        "sourceRowNumber": 1936,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+        "proposedAction": "local-authority-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "JSON",
+            "XML"
+          ]
+        },
+        "confidence": 55,
+        "resolvedBlockers": [
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+          "needs-provider-context-review: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-belfast-bike-live-data-01935",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:belfast-bike-live-data:01935",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-belfast-bike-live-data-01935",
+        "type": "approved-medium-priority-source",
+        "title": "Belfast Bike Live Data",
+        "subtitle": "Local authority planning/property/open-data layers / Belfast City Council, Open Data NI / Northern Ireland / JSON, XML / Approved source record",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "provider": [
+          "Belfast City Council",
+          "Open Data NI"
+        ],
+        "description": "Belfast Bike Live Data is published as a medium-priority Civgraph source/provenance record from Belfast City Council, Open Data NI. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://admin.opendatani.gov.uk/dataset/belfast-bike-live-data",
+        "references": [
+          {
+            "label": "Belfast Bike Live Data provider page",
+            "url": "https://admin.opendatani.gov.uk/dataset/belfast-bike-live-data",
+            "source": "Open Data NI",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "Belfast Bike Live Data Wayback captures",
+            "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/belfast-bike-live-data",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://admin.opendatani.gov.uk/dataset/belfast-bike-live-data",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Northern Ireland",
+          "source-data",
+          "Belfast Bike Live Data"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text"
+          ],
+          "canonicalDatasetUrl": "https://admin.opendatani.gov.uk/dataset/belfast-bike-live-data",
+          "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/belfast-bike-live-data",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Belfast City Council, Open Data NI, Belfast Bike Live Data.",
+        "fullCitation": "Belfast City Council, Open Data NI. Belfast Bike Live Data. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://admin.opendatani.gov.uk/dataset/belfast-bike-live-data. Wayback capture index: https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/belfast-bike-live-data.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 1936,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:belfast-bike-live-data:01935",
+            "title": "Belfast Bike Live Data",
+            "cleanTitle": "Belfast Bike Live Data",
+            "provider": "Open Data NI",
+            "organisation": "Belfast City Council",
+            "category": "tabular",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Northern Ireland",
+            "topic": "source-data",
+            "featureUnit": "features",
+            "formats": [
+              "JSON",
+              "XML"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "local-authority-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "JSON",
+                "XML"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 55,
+            "currentProviderUrl": "https://admin.opendatani.gov.uk/dataset/belfast-bike-live-data",
+            "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/belfast-bike-live-data",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+              "needs-provider-context-review: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:belfast-bike-live-data:01935",
+          "sourceRowNumber": 1936,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "JSON",
+              "XML"
+            ]
+          },
+          "confidence": 55,
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Local authority planning/property/open-data layers",
+          "source-data",
+          "features",
+          "Northern Ireland",
+          "local-authority-batch-review",
+          "JSON",
+          "XML"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-belfast-bike-live-data-01935"
+      }
+    },
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:belfast-city-council-councillors:01940",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-belfast-city-council-councillors-01940",
+      "type": "approved-medium-priority-source",
+      "title": "Belfast City Council Councillors",
+      "subtitle": "Local authority planning/property/open-data layers / Belfast City Council, Open Data NI / Northern Ireland / CSV / Approved source record",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "provider": [
+        "Belfast City Council",
+        "Open Data NI"
+      ],
+      "description": "Belfast City Council Councillors is published as a medium-priority Civgraph source/provenance record from Belfast City Council, Open Data NI. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://admin.opendatani.gov.uk/dataset/belfast-city-council-councillors",
+      "references": [
+        {
+          "label": "Belfast City Council Councillors provider page",
+          "url": "https://admin.opendatani.gov.uk/dataset/belfast-city-council-councillors",
+          "source": "Open Data NI",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "Belfast City Council Councillors Wayback captures",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/belfast-city-council-councillors",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://admin.opendatani.gov.uk/dataset/belfast-city-council-councillors",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Local authority planning/property/open-data layers",
+        "source-data",
+        "features",
+        "Northern Ireland",
+        "local-authority-batch-review",
+        "CSV"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 1941,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:belfast-city-council-councillors:01940",
+          "title": "Belfast City Council Councillors",
+          "cleanTitle": "Belfast City Council Councillors",
+          "provider": "Open Data NI",
+          "organisation": "Belfast City Council",
+          "category": "tabular",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Northern Ireland",
+          "topic": "source-data",
+          "featureUnit": "features",
+          "formats": [
+            "CSV"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 55,
+          "currentProviderUrl": "https://admin.opendatani.gov.uk/dataset/belfast-city-council-councillors",
+          "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/belfast-city-council-councillors",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Northern Ireland",
+        "source-data",
+        "Belfast City Council Councillors"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text"
+        ],
+        "canonicalDatasetUrl": "https://admin.opendatani.gov.uk/dataset/belfast-city-council-councillors",
+        "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/belfast-city-council-councillors",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Belfast City Council, Open Data NI, Belfast City Council Councillors.",
+      "fullCitation": "Belfast City Council, Open Data NI. Belfast City Council Councillors. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://admin.opendatani.gov.uk/dataset/belfast-city-council-councillors. Wayback capture index: https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/belfast-city-council-councillors.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:belfast-city-council-councillors:01940",
+        "sourceRowNumber": 1941,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+        "proposedAction": "local-authority-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV"
+          ]
+        },
+        "confidence": 55,
+        "resolvedBlockers": [
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+          "needs-provider-context-review: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-belfast-city-council-councillors-01940",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:belfast-city-council-councillors:01940",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-belfast-city-council-councillors-01940",
+        "type": "approved-medium-priority-source",
+        "title": "Belfast City Council Councillors",
+        "subtitle": "Local authority planning/property/open-data layers / Belfast City Council, Open Data NI / Northern Ireland / CSV / Approved source record",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "provider": [
+          "Belfast City Council",
+          "Open Data NI"
+        ],
+        "description": "Belfast City Council Councillors is published as a medium-priority Civgraph source/provenance record from Belfast City Council, Open Data NI. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://admin.opendatani.gov.uk/dataset/belfast-city-council-councillors",
+        "references": [
+          {
+            "label": "Belfast City Council Councillors provider page",
+            "url": "https://admin.opendatani.gov.uk/dataset/belfast-city-council-councillors",
+            "source": "Open Data NI",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "Belfast City Council Councillors Wayback captures",
+            "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/belfast-city-council-councillors",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://admin.opendatani.gov.uk/dataset/belfast-city-council-councillors",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Northern Ireland",
+          "source-data",
+          "Belfast City Council Councillors"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text"
+          ],
+          "canonicalDatasetUrl": "https://admin.opendatani.gov.uk/dataset/belfast-city-council-councillors",
+          "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/belfast-city-council-councillors",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Belfast City Council, Open Data NI, Belfast City Council Councillors.",
+        "fullCitation": "Belfast City Council, Open Data NI. Belfast City Council Councillors. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://admin.opendatani.gov.uk/dataset/belfast-city-council-councillors. Wayback capture index: https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/belfast-city-council-councillors.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 1941,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:belfast-city-council-councillors:01940",
+            "title": "Belfast City Council Councillors",
+            "cleanTitle": "Belfast City Council Councillors",
+            "provider": "Open Data NI",
+            "organisation": "Belfast City Council",
+            "category": "tabular",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Northern Ireland",
+            "topic": "source-data",
+            "featureUnit": "features",
+            "formats": [
+              "CSV"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "local-authority-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 55,
+            "currentProviderUrl": "https://admin.opendatani.gov.uk/dataset/belfast-city-council-councillors",
+            "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/belfast-city-council-councillors",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+              "needs-provider-context-review: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:belfast-city-council-councillors:01940",
+          "sourceRowNumber": 1941,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV"
+            ]
+          },
+          "confidence": 55,
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Local authority planning/property/open-data layers",
+          "source-data",
+          "features",
+          "Northern Ireland",
+          "local-authority-batch-review",
+          "CSV"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-belfast-city-council-councillors-01940"
+      }
+    },
     {
       "id": "medium-priority:5-local-authority-planning-property-open-data-layers:belfast-council-car-parks:01946",
       "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-belfast-council-car-parks-01946",
@@ -70767,1306 +72059,6 @@
           "ZIP"
         ],
         "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-dcc-scats-detector-volume-jan-jun-2022-02322"
-      }
-    },
-    {
-      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:dcc-scats-detector-volume-jan-jun-2023:02323",
-      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-dcc-scats-detector-volume-jan-jun-2023-02323",
-      "type": "approved-medium-priority-source",
-      "title": "Traffic Volumes from SCATS Traffic Management System Jan-Jun 2023 DCC",
-      "subtitle": "Local authority planning/property/open-data layers / Dublin City Council, data.gov.ie / Republic of Ireland / ZIP / Approved source record",
-      "category": "Medium-priority: Local authority planning/property/open-data layers",
-      "date": "2023",
-      "provider": [
-        "Dublin City Council",
-        "data.gov.ie"
-      ],
-      "description": "Traffic Volumes from SCATS Traffic Management System Jan-Jun 2023 DCC is published as a medium-priority Civgraph source/provenance record from Dublin City Council, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2023",
-      "references": [
-        {
-          "label": "Traffic Volumes from SCATS Traffic Management System Jan-Jun 2023 DCC provider page",
-          "url": "https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2023",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Traffic Volumes from SCATS Traffic Management System Jan-Jun 2023 DCC Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2023",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2023",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Local authority planning/property/open-data layers",
-        "transport-public-asset",
-        "features",
-        "Republic of Ireland",
-        "local-authority-batch-review",
-        "ZIP"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 2324,
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:dcc-scats-detector-volume-jan-jun-2023:02323",
-          "title": "Traffic Volumes from SCATS Traffic Management System Jan-Jun 2023 DCC",
-          "cleanTitle": "Traffic Volumes from SCATS Traffic Management System Jan-Jun 2023 DCC",
-          "provider": "data.gov.ie",
-          "organisation": "Dublin City Council",
-          "category": "tabular",
-          "roiGroup": "5. Local authority planning/property/open-data layers",
-          "groupTitle": "Local authority planning/property/open-data layers",
-          "jurisdiction": "Republic of Ireland",
-          "topic": "transport-public-asset",
-          "featureUnit": "features",
-          "formats": [
-            "ZIP"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "ZIP"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 55,
-          "currentProviderUrl": "https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2023",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2023",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Local authority planning/property/open-data layers",
-        "Republic of Ireland",
-        "transport-public-asset",
-        "Traffic Volumes from SCATS Traffic Management System Jan-Jun 2023 DCC"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "download-only"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2023",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2023",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Dublin City Council, data.gov.ie, Traffic Volumes from SCATS Traffic Management System Jan-Jun 2023 DCC.",
-      "fullCitation": "Dublin City Council, data.gov.ie. Traffic Volumes from SCATS Traffic Management System Jan-Jun 2023 DCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2023. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2023.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:dcc-scats-detector-volume-jan-jun-2023:02323",
-        "sourceRowNumber": 2324,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-        "proposedAction": "local-authority-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "ZIP"
-          ]
-        },
-        "confidence": 55,
-        "resolvedBlockers": [
-          "large-or-special-format-review: normal source package; no special-format hold",
-          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-          "needs-provider-context-review: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-dcc-scats-detector-volume-jan-jun-2023-02323",
-      "rawMetadata": {
-        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:dcc-scats-detector-volume-jan-jun-2023:02323",
-        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-dcc-scats-detector-volume-jan-jun-2023-02323",
-        "type": "approved-medium-priority-source",
-        "title": "Traffic Volumes from SCATS Traffic Management System Jan-Jun 2023 DCC",
-        "subtitle": "Local authority planning/property/open-data layers / Dublin City Council, data.gov.ie / Republic of Ireland / ZIP / Approved source record",
-        "category": "Medium-priority: Local authority planning/property/open-data layers",
-        "date": "2023",
-        "provider": [
-          "Dublin City Council",
-          "data.gov.ie"
-        ],
-        "description": "Traffic Volumes from SCATS Traffic Management System Jan-Jun 2023 DCC is published as a medium-priority Civgraph source/provenance record from Dublin City Council, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2023",
-        "references": [
-          {
-            "label": "Traffic Volumes from SCATS Traffic Management System Jan-Jun 2023 DCC provider page",
-            "url": "https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2023",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Traffic Volumes from SCATS Traffic Management System Jan-Jun 2023 DCC Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2023",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2023",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Local authority planning/property/open-data layers",
-          "Republic of Ireland",
-          "transport-public-asset",
-          "Traffic Volumes from SCATS Traffic Management System Jan-Jun 2023 DCC"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "download-only"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2023",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2023",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Dublin City Council, data.gov.ie, Traffic Volumes from SCATS Traffic Management System Jan-Jun 2023 DCC.",
-        "fullCitation": "Dublin City Council, data.gov.ie. Traffic Volumes from SCATS Traffic Management System Jan-Jun 2023 DCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2023. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2023.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 2324,
-            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:dcc-scats-detector-volume-jan-jun-2023:02323",
-            "title": "Traffic Volumes from SCATS Traffic Management System Jan-Jun 2023 DCC",
-            "cleanTitle": "Traffic Volumes from SCATS Traffic Management System Jan-Jun 2023 DCC",
-            "provider": "data.gov.ie",
-            "organisation": "Dublin City Council",
-            "category": "tabular",
-            "roiGroup": "5. Local authority planning/property/open-data layers",
-            "groupTitle": "Local authority planning/property/open-data layers",
-            "jurisdiction": "Republic of Ireland",
-            "topic": "transport-public-asset",
-            "featureUnit": "features",
-            "formats": [
-              "ZIP"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "local-authority-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "ZIP"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 55,
-            "currentProviderUrl": "https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2023",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2023",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "large-or-special-format-review: normal source package; no special-format hold",
-              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-              "needs-provider-context-review: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:dcc-scats-detector-volume-jan-jun-2023:02323",
-          "sourceRowNumber": 2324,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "ZIP"
-            ]
-          },
-          "confidence": 55,
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Local authority planning/property/open-data layers",
-          "transport-public-asset",
-          "features",
-          "Republic of Ireland",
-          "local-authority-batch-review",
-          "ZIP"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-dcc-scats-detector-volume-jan-jun-2023-02323"
-      }
-    },
-    {
-      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:dcc-scats-detector-volume-jan-jun-2024:02324",
-      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-dcc-scats-detector-volume-jan-jun-2024-02324",
-      "type": "approved-medium-priority-source",
-      "title": "Traffic Volumes from SCATS Traffic Management System Jan-Jun 2024 DCC",
-      "subtitle": "Local authority planning/property/open-data layers / Dublin City Council, data.gov.ie / Republic of Ireland / ZIP / Approved source record",
-      "category": "Medium-priority: Local authority planning/property/open-data layers",
-      "date": "2024",
-      "provider": [
-        "Dublin City Council",
-        "data.gov.ie"
-      ],
-      "description": "Traffic Volumes from SCATS Traffic Management System Jan-Jun 2024 DCC is published as a medium-priority Civgraph source/provenance record from Dublin City Council, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2024",
-      "references": [
-        {
-          "label": "Traffic Volumes from SCATS Traffic Management System Jan-Jun 2024 DCC provider page",
-          "url": "https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2024",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Traffic Volumes from SCATS Traffic Management System Jan-Jun 2024 DCC Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2024",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2024",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Local authority planning/property/open-data layers",
-        "transport-public-asset",
-        "features",
-        "Republic of Ireland",
-        "local-authority-batch-review",
-        "ZIP"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 2325,
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:dcc-scats-detector-volume-jan-jun-2024:02324",
-          "title": "Traffic Volumes from SCATS Traffic Management System Jan-Jun 2024 DCC",
-          "cleanTitle": "Traffic Volumes from SCATS Traffic Management System Jan-Jun 2024 DCC",
-          "provider": "data.gov.ie",
-          "organisation": "Dublin City Council",
-          "category": "tabular",
-          "roiGroup": "5. Local authority planning/property/open-data layers",
-          "groupTitle": "Local authority planning/property/open-data layers",
-          "jurisdiction": "Republic of Ireland",
-          "topic": "transport-public-asset",
-          "featureUnit": "features",
-          "formats": [
-            "ZIP"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "ZIP"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 55,
-          "currentProviderUrl": "https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2024",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2024",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Local authority planning/property/open-data layers",
-        "Republic of Ireland",
-        "transport-public-asset",
-        "Traffic Volumes from SCATS Traffic Management System Jan-Jun 2024 DCC"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "download-only"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2024",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2024",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Dublin City Council, data.gov.ie, Traffic Volumes from SCATS Traffic Management System Jan-Jun 2024 DCC.",
-      "fullCitation": "Dublin City Council, data.gov.ie. Traffic Volumes from SCATS Traffic Management System Jan-Jun 2024 DCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2024. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2024.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:dcc-scats-detector-volume-jan-jun-2024:02324",
-        "sourceRowNumber": 2325,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-        "proposedAction": "local-authority-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "ZIP"
-          ]
-        },
-        "confidence": 55,
-        "resolvedBlockers": [
-          "large-or-special-format-review: normal source package; no special-format hold",
-          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-          "needs-provider-context-review: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-dcc-scats-detector-volume-jan-jun-2024-02324",
-      "rawMetadata": {
-        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:dcc-scats-detector-volume-jan-jun-2024:02324",
-        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-dcc-scats-detector-volume-jan-jun-2024-02324",
-        "type": "approved-medium-priority-source",
-        "title": "Traffic Volumes from SCATS Traffic Management System Jan-Jun 2024 DCC",
-        "subtitle": "Local authority planning/property/open-data layers / Dublin City Council, data.gov.ie / Republic of Ireland / ZIP / Approved source record",
-        "category": "Medium-priority: Local authority planning/property/open-data layers",
-        "date": "2024",
-        "provider": [
-          "Dublin City Council",
-          "data.gov.ie"
-        ],
-        "description": "Traffic Volumes from SCATS Traffic Management System Jan-Jun 2024 DCC is published as a medium-priority Civgraph source/provenance record from Dublin City Council, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2024",
-        "references": [
-          {
-            "label": "Traffic Volumes from SCATS Traffic Management System Jan-Jun 2024 DCC provider page",
-            "url": "https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2024",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Traffic Volumes from SCATS Traffic Management System Jan-Jun 2024 DCC Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2024",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2024",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Local authority planning/property/open-data layers",
-          "Republic of Ireland",
-          "transport-public-asset",
-          "Traffic Volumes from SCATS Traffic Management System Jan-Jun 2024 DCC"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "download-only"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2024",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2024",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Dublin City Council, data.gov.ie, Traffic Volumes from SCATS Traffic Management System Jan-Jun 2024 DCC.",
-        "fullCitation": "Dublin City Council, data.gov.ie. Traffic Volumes from SCATS Traffic Management System Jan-Jun 2024 DCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2024. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2024.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 2325,
-            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:dcc-scats-detector-volume-jan-jun-2024:02324",
-            "title": "Traffic Volumes from SCATS Traffic Management System Jan-Jun 2024 DCC",
-            "cleanTitle": "Traffic Volumes from SCATS Traffic Management System Jan-Jun 2024 DCC",
-            "provider": "data.gov.ie",
-            "organisation": "Dublin City Council",
-            "category": "tabular",
-            "roiGroup": "5. Local authority planning/property/open-data layers",
-            "groupTitle": "Local authority planning/property/open-data layers",
-            "jurisdiction": "Republic of Ireland",
-            "topic": "transport-public-asset",
-            "featureUnit": "features",
-            "formats": [
-              "ZIP"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "local-authority-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "ZIP"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 55,
-            "currentProviderUrl": "https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2024",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2024",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "large-or-special-format-review: normal source package; no special-format hold",
-              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-              "needs-provider-context-review: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:dcc-scats-detector-volume-jan-jun-2024:02324",
-          "sourceRowNumber": 2325,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "ZIP"
-            ]
-          },
-          "confidence": 55,
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Local authority planning/property/open-data layers",
-          "transport-public-asset",
-          "features",
-          "Republic of Ireland",
-          "local-authority-batch-review",
-          "ZIP"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-dcc-scats-detector-volume-jan-jun-2024-02324"
-      }
-    },
-    {
-      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:dcc-scats-detector-volume-jan-jun-2025:02325",
-      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-dcc-scats-detector-volume-jan-jun-2025-02325",
-      "type": "approved-medium-priority-source",
-      "title": "Traffic Volumes from SCATS Traffic Management System Jan-Jun 2025 DCC",
-      "subtitle": "Local authority planning/property/open-data layers / Dublin City Council, data.gov.ie / Republic of Ireland / ZIP / Approved source record",
-      "category": "Medium-priority: Local authority planning/property/open-data layers",
-      "date": "2025",
-      "provider": [
-        "Dublin City Council",
-        "data.gov.ie"
-      ],
-      "description": "Traffic Volumes from SCATS Traffic Management System Jan-Jun 2025 DCC is published as a medium-priority Civgraph source/provenance record from Dublin City Council, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2025",
-      "references": [
-        {
-          "label": "Traffic Volumes from SCATS Traffic Management System Jan-Jun 2025 DCC provider page",
-          "url": "https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2025",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Traffic Volumes from SCATS Traffic Management System Jan-Jun 2025 DCC Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2025",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2025",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Local authority planning/property/open-data layers",
-        "transport-public-asset",
-        "features",
-        "Republic of Ireland",
-        "local-authority-batch-review",
-        "ZIP"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 2326,
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:dcc-scats-detector-volume-jan-jun-2025:02325",
-          "title": "Traffic Volumes from SCATS Traffic Management System Jan-Jun 2025 DCC",
-          "cleanTitle": "Traffic Volumes from SCATS Traffic Management System Jan-Jun 2025 DCC",
-          "provider": "data.gov.ie",
-          "organisation": "Dublin City Council",
-          "category": "tabular",
-          "roiGroup": "5. Local authority planning/property/open-data layers",
-          "groupTitle": "Local authority planning/property/open-data layers",
-          "jurisdiction": "Republic of Ireland",
-          "topic": "transport-public-asset",
-          "featureUnit": "features",
-          "formats": [
-            "ZIP"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "ZIP"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 55,
-          "currentProviderUrl": "https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2025",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2025",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Local authority planning/property/open-data layers",
-        "Republic of Ireland",
-        "transport-public-asset",
-        "Traffic Volumes from SCATS Traffic Management System Jan-Jun 2025 DCC"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "download-only"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2025",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2025",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Dublin City Council, data.gov.ie, Traffic Volumes from SCATS Traffic Management System Jan-Jun 2025 DCC.",
-      "fullCitation": "Dublin City Council, data.gov.ie. Traffic Volumes from SCATS Traffic Management System Jan-Jun 2025 DCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2025. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2025.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:dcc-scats-detector-volume-jan-jun-2025:02325",
-        "sourceRowNumber": 2326,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-        "proposedAction": "local-authority-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "ZIP"
-          ]
-        },
-        "confidence": 55,
-        "resolvedBlockers": [
-          "large-or-special-format-review: normal source package; no special-format hold",
-          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-          "needs-provider-context-review: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-dcc-scats-detector-volume-jan-jun-2025-02325",
-      "rawMetadata": {
-        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:dcc-scats-detector-volume-jan-jun-2025:02325",
-        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-dcc-scats-detector-volume-jan-jun-2025-02325",
-        "type": "approved-medium-priority-source",
-        "title": "Traffic Volumes from SCATS Traffic Management System Jan-Jun 2025 DCC",
-        "subtitle": "Local authority planning/property/open-data layers / Dublin City Council, data.gov.ie / Republic of Ireland / ZIP / Approved source record",
-        "category": "Medium-priority: Local authority planning/property/open-data layers",
-        "date": "2025",
-        "provider": [
-          "Dublin City Council",
-          "data.gov.ie"
-        ],
-        "description": "Traffic Volumes from SCATS Traffic Management System Jan-Jun 2025 DCC is published as a medium-priority Civgraph source/provenance record from Dublin City Council, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2025",
-        "references": [
-          {
-            "label": "Traffic Volumes from SCATS Traffic Management System Jan-Jun 2025 DCC provider page",
-            "url": "https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2025",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Traffic Volumes from SCATS Traffic Management System Jan-Jun 2025 DCC Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2025",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2025",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Local authority planning/property/open-data layers",
-          "Republic of Ireland",
-          "transport-public-asset",
-          "Traffic Volumes from SCATS Traffic Management System Jan-Jun 2025 DCC"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "download-only"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2025",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2025",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Dublin City Council, data.gov.ie, Traffic Volumes from SCATS Traffic Management System Jan-Jun 2025 DCC.",
-        "fullCitation": "Dublin City Council, data.gov.ie. Traffic Volumes from SCATS Traffic Management System Jan-Jun 2025 DCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2025. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2025.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 2326,
-            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:dcc-scats-detector-volume-jan-jun-2025:02325",
-            "title": "Traffic Volumes from SCATS Traffic Management System Jan-Jun 2025 DCC",
-            "cleanTitle": "Traffic Volumes from SCATS Traffic Management System Jan-Jun 2025 DCC",
-            "provider": "data.gov.ie",
-            "organisation": "Dublin City Council",
-            "category": "tabular",
-            "roiGroup": "5. Local authority planning/property/open-data layers",
-            "groupTitle": "Local authority planning/property/open-data layers",
-            "jurisdiction": "Republic of Ireland",
-            "topic": "transport-public-asset",
-            "featureUnit": "features",
-            "formats": [
-              "ZIP"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "local-authority-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "ZIP"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 55,
-            "currentProviderUrl": "https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2025",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dcc-scats-detector-volume-jan-jun-2025",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "large-or-special-format-review: normal source package; no special-format hold",
-              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-              "needs-provider-context-review: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:dcc-scats-detector-volume-jan-jun-2025:02325",
-          "sourceRowNumber": 2326,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "ZIP"
-            ]
-          },
-          "confidence": 55,
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Local authority planning/property/open-data layers",
-          "transport-public-asset",
-          "features",
-          "Republic of Ireland",
-          "local-authority-batch-review",
-          "ZIP"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-dcc-scats-detector-volume-jan-jun-2025-02325"
-      }
-    },
-    {
-      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:dcc-scats-detector-volume-jul-dec-2020:02326",
-      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-dcc-scats-detector-volume-jul-dec-2020-02326",
-      "type": "approved-medium-priority-source",
-      "title": "Traffic Volumes from SCATS Traffic Management System Jul-Dec 2020 DCC",
-      "subtitle": "Local authority planning/property/open-data layers / Dublin City Council, data.gov.ie / Republic of Ireland / ZIP / Approved source record",
-      "category": "Medium-priority: Local authority planning/property/open-data layers",
-      "date": "2020",
-      "provider": [
-        "Dublin City Council",
-        "data.gov.ie"
-      ],
-      "description": "Traffic Volumes from SCATS Traffic Management System Jul-Dec 2020 DCC is published as a medium-priority Civgraph source/provenance record from Dublin City Council, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/dcc-scats-detector-volume-jul-dec-2020",
-      "references": [
-        {
-          "label": "Traffic Volumes from SCATS Traffic Management System Jul-Dec 2020 DCC provider page",
-          "url": "https://data.gov.ie/dataset/dcc-scats-detector-volume-jul-dec-2020",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Traffic Volumes from SCATS Traffic Management System Jul-Dec 2020 DCC Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dcc-scats-detector-volume-jul-dec-2020",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/dcc-scats-detector-volume-jul-dec-2020",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Local authority planning/property/open-data layers",
-        "transport-public-asset",
-        "features",
-        "Republic of Ireland",
-        "local-authority-batch-review",
-        "ZIP"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 2327,
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:dcc-scats-detector-volume-jul-dec-2020:02326",
-          "title": "Traffic Volumes from SCATS Traffic Management System Jul-Dec 2020 DCC",
-          "cleanTitle": "Traffic Volumes from SCATS Traffic Management System Jul-Dec 2020 DCC",
-          "provider": "data.gov.ie",
-          "organisation": "Dublin City Council",
-          "category": "tabular",
-          "roiGroup": "5. Local authority planning/property/open-data layers",
-          "groupTitle": "Local authority planning/property/open-data layers",
-          "jurisdiction": "Republic of Ireland",
-          "topic": "transport-public-asset",
-          "featureUnit": "features",
-          "formats": [
-            "ZIP"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "ZIP"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 55,
-          "currentProviderUrl": "https://data.gov.ie/dataset/dcc-scats-detector-volume-jul-dec-2020",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dcc-scats-detector-volume-jul-dec-2020",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Local authority planning/property/open-data layers",
-        "Republic of Ireland",
-        "transport-public-asset",
-        "Traffic Volumes from SCATS Traffic Management System Jul-Dec 2020 DCC"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "download-only"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/dcc-scats-detector-volume-jul-dec-2020",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dcc-scats-detector-volume-jul-dec-2020",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Dublin City Council, data.gov.ie, Traffic Volumes from SCATS Traffic Management System Jul-Dec 2020 DCC.",
-      "fullCitation": "Dublin City Council, data.gov.ie. Traffic Volumes from SCATS Traffic Management System Jul-Dec 2020 DCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dcc-scats-detector-volume-jul-dec-2020. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dcc-scats-detector-volume-jul-dec-2020.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:dcc-scats-detector-volume-jul-dec-2020:02326",
-        "sourceRowNumber": 2327,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-        "proposedAction": "local-authority-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "ZIP"
-          ]
-        },
-        "confidence": 55,
-        "resolvedBlockers": [
-          "large-or-special-format-review: normal source package; no special-format hold",
-          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-          "needs-provider-context-review: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-dcc-scats-detector-volume-jul-dec-2020-02326",
-      "rawMetadata": {
-        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:dcc-scats-detector-volume-jul-dec-2020:02326",
-        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-dcc-scats-detector-volume-jul-dec-2020-02326",
-        "type": "approved-medium-priority-source",
-        "title": "Traffic Volumes from SCATS Traffic Management System Jul-Dec 2020 DCC",
-        "subtitle": "Local authority planning/property/open-data layers / Dublin City Council, data.gov.ie / Republic of Ireland / ZIP / Approved source record",
-        "category": "Medium-priority: Local authority planning/property/open-data layers",
-        "date": "2020",
-        "provider": [
-          "Dublin City Council",
-          "data.gov.ie"
-        ],
-        "description": "Traffic Volumes from SCATS Traffic Management System Jul-Dec 2020 DCC is published as a medium-priority Civgraph source/provenance record from Dublin City Council, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/dcc-scats-detector-volume-jul-dec-2020",
-        "references": [
-          {
-            "label": "Traffic Volumes from SCATS Traffic Management System Jul-Dec 2020 DCC provider page",
-            "url": "https://data.gov.ie/dataset/dcc-scats-detector-volume-jul-dec-2020",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Traffic Volumes from SCATS Traffic Management System Jul-Dec 2020 DCC Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dcc-scats-detector-volume-jul-dec-2020",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/dcc-scats-detector-volume-jul-dec-2020",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Local authority planning/property/open-data layers",
-          "Republic of Ireland",
-          "transport-public-asset",
-          "Traffic Volumes from SCATS Traffic Management System Jul-Dec 2020 DCC"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "download-only"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/dcc-scats-detector-volume-jul-dec-2020",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dcc-scats-detector-volume-jul-dec-2020",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Dublin City Council, data.gov.ie, Traffic Volumes from SCATS Traffic Management System Jul-Dec 2020 DCC.",
-        "fullCitation": "Dublin City Council, data.gov.ie. Traffic Volumes from SCATS Traffic Management System Jul-Dec 2020 DCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dcc-scats-detector-volume-jul-dec-2020. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dcc-scats-detector-volume-jul-dec-2020.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 2327,
-            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:dcc-scats-detector-volume-jul-dec-2020:02326",
-            "title": "Traffic Volumes from SCATS Traffic Management System Jul-Dec 2020 DCC",
-            "cleanTitle": "Traffic Volumes from SCATS Traffic Management System Jul-Dec 2020 DCC",
-            "provider": "data.gov.ie",
-            "organisation": "Dublin City Council",
-            "category": "tabular",
-            "roiGroup": "5. Local authority planning/property/open-data layers",
-            "groupTitle": "Local authority planning/property/open-data layers",
-            "jurisdiction": "Republic of Ireland",
-            "topic": "transport-public-asset",
-            "featureUnit": "features",
-            "formats": [
-              "ZIP"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "local-authority-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "ZIP"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 55,
-            "currentProviderUrl": "https://data.gov.ie/dataset/dcc-scats-detector-volume-jul-dec-2020",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dcc-scats-detector-volume-jul-dec-2020",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "large-or-special-format-review: normal source package; no special-format hold",
-              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-              "needs-provider-context-review: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:dcc-scats-detector-volume-jul-dec-2020:02326",
-          "sourceRowNumber": 2327,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "ZIP"
-            ]
-          },
-          "confidence": 55,
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Local authority planning/property/open-data layers",
-          "transport-public-asset",
-          "features",
-          "Republic of Ireland",
-          "local-authority-batch-review",
-          "ZIP"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-dcc-scats-detector-volume-jul-dec-2020-02326"
       }
     }
   ]

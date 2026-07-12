@@ -1,9 +1,71 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-11T23:52:47.336Z",
+  "generatedAt": "2026-07-12T22:19:04.604Z",
   "shard": 143,
   "total": 2500,
   "items": [
+    {
+      "id": "cg:statement:326d4f83a913c46eb148",
+      "subjectId": "cg:election:dail-eireann-2024-11-29-donegal",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Donegal - 2024 Irish general election"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:66d66ac7637c241bded7",
+      "subjectId": "cg:election:dail-eireann-2024-11-29-donegal",
+      "propertyId": "cg:property:year",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-year:2024"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-election-index",
+          "sourceTitle": "Civgraph Browse election index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:631d1e6859b71ca6cb0d",
+      "subjectId": "cg:election:dail-eireann-2024-11-29-dublin-bay-north",
+      "propertyId": "cg:property:date",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-month:2024-11",
+        "label": "2024-11-29"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-election-index",
+          "sourceTitle": "Civgraph Browse election index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:7064f8eaa66df9c6226f",
+      "subjectId": "cg:election:dail-eireann-2024-11-29-dublin-bay-north",
+      "propertyId": "cg:property:elected-body",
+      "value": {
+        "type": "entity",
+        "id": "cg:body:dail-eireann"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-election-index",
+          "sourceTitle": "Civgraph Browse election index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
     {
       "id": "cg:statement:1f6246a55fb56db8c23a",
       "subjectId": "cg:election:dail-eireann-2024-11-29-dublin-bay-north",
@@ -42412,68 +42474,6 @@
         "type": "entity",
         "id": "cg:entity-type:election"
       },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:b83eb11716ab3d066020",
-      "subjectId": "cg:election:house-of-commons-of-the-united-kingdom-1992-04-09-overall",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Overall results - 1992 UK general election in Northern Ireland"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:30548a60a52c4f6d22ed",
-      "subjectId": "cg:election:house-of-commons-of-the-united-kingdom-1992-04-09-overall",
-      "propertyId": "cg:property:year",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:1992"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-election-index",
-          "sourceTitle": "Civgraph Browse election index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:59ce44194c5f6d38cabe",
-      "subjectId": "cg:election:house-of-commons-of-the-united-kingdom-1992-04-09-south-antrim",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-month:1992-04",
-        "label": "1992-04-09"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-election-index",
-          "sourceTitle": "Civgraph Browse election index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:bdb36461dd3038ce0ceb",
-      "subjectId": "cg:election:house-of-commons-of-the-united-kingdom-1992-04-09-south-antrim",
-      "propertyId": "cg:property:elected-body",
-      "value": {
-        "type": "entity",
-        "id": "cg:body:house-of-commons"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-election-index",
-          "sourceTitle": "Civgraph Browse election index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
       "rank": "normal"
     }
   ]

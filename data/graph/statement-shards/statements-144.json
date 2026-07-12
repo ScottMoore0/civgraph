@@ -1,9 +1,71 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-11T23:52:47.336Z",
+  "generatedAt": "2026-07-12T22:19:04.604Z",
   "shard": 144,
   "total": 2500,
   "items": [
+    {
+      "id": "cg:statement:b83eb11716ab3d066020",
+      "subjectId": "cg:election:house-of-commons-of-the-united-kingdom-1992-04-09-overall",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Overall results - 1992 UK general election in Northern Ireland"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:30548a60a52c4f6d22ed",
+      "subjectId": "cg:election:house-of-commons-of-the-united-kingdom-1992-04-09-overall",
+      "propertyId": "cg:property:year",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-year:1992"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-election-index",
+          "sourceTitle": "Civgraph Browse election index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:59ce44194c5f6d38cabe",
+      "subjectId": "cg:election:house-of-commons-of-the-united-kingdom-1992-04-09-south-antrim",
+      "propertyId": "cg:property:date",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-month:1992-04",
+        "label": "1992-04-09"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-election-index",
+          "sourceTitle": "Civgraph Browse election index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:bdb36461dd3038ce0ceb",
+      "subjectId": "cg:election:house-of-commons-of-the-united-kingdom-1992-04-09-south-antrim",
+      "propertyId": "cg:property:elected-body",
+      "value": {
+        "type": "entity",
+        "id": "cg:body:house-of-commons"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-election-index",
+          "sourceTitle": "Civgraph Browse election index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
     {
       "id": "cg:statement:a99375dabd25c72c6633",
       "subjectId": "cg:election:house-of-commons-of-the-united-kingdom-1992-04-09-south-antrim",
@@ -42973,61 +43035,6 @@
       "value": {
         "type": "entity",
         "id": "cg:body:referendum-ireland"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-election-index",
-          "sourceTitle": "Civgraph Browse election index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:b180dfb4bc6b980d619a",
-      "subjectId": "cg:election:ireland-referendum-1972-12-07-voting-age-wicklow",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:election"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:99fa00f9d569ad13aa80",
-      "subjectId": "cg:election:ireland-referendum-1972-12-07-voting-age-wicklow",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Wicklow - 1972 Irish voting age referendum"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:f48f9726a7aba3a2a027",
-      "subjectId": "cg:election:ireland-referendum-1972-12-07-voting-age-wicklow",
-      "propertyId": "cg:property:year",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:1972"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-election-index",
-          "sourceTitle": "Civgraph Browse election index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:a5e59fe464f20de4667c",
-      "subjectId": "cg:election:ireland-referendum-1979-07-05-adoption",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-month:1979-07",
-        "label": "1979-07-05-adoption"
       },
       "references": [
         {

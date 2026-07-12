@@ -1,9 +1,95 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-11T23:52:47.336Z",
+  "generatedAt": "2026-07-12T22:19:04.604Z",
   "shard": 142,
   "total": 2500,
   "items": [
+    {
+      "id": "cg:statement:f2f41b46d017e41683ca",
+      "subjectId": "cg:election:dail-eireann-1957-03-05",
+      "propertyId": "cg:property:has-contest",
+      "value": {
+        "type": "entity",
+        "id": "cg:contest:dail-eireann-1957-03-05-dail-eireann-1957-03-05-cork-east"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "Cork East"
+          }
+        },
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "1957-03-05"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-election-index",
+          "sourceTitle": "Civgraph Browse election index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:fb9abc69f3976a9ff7aa",
+      "subjectId": "cg:election:dail-eireann-1957-03-05",
+      "propertyId": "cg:property:has-contest",
+      "value": {
+        "type": "entity",
+        "id": "cg:contest:dail-eireann-1957-03-05-dail-eireann-1957-03-05-monaghan"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "Monaghan"
+          }
+        },
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "1957-03-05"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-election-index",
+          "sourceTitle": "Civgraph Browse election index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:2f89b263342fe89e473f",
+      "subjectId": "cg:election:dail-eireann-1957-03-05",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:election"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:5956ac1470eef9274943",
+      "subjectId": "cg:election:dail-eireann-1957-03-05",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "1957 Irish general election"
+      },
+      "rank": "normal"
+    },
     {
       "id": "cg:statement:7ff22cfdcbe5ef742f44",
       "subjectId": "cg:election:dail-eireann-1957-03-05",
@@ -43347,68 +43433,6 @@
         "type": "entity",
         "id": "cg:entity-type:election"
       },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:326d4f83a913c46eb148",
-      "subjectId": "cg:election:dail-eireann-2024-11-29-donegal",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Donegal - 2024 Irish general election"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:66d66ac7637c241bded7",
-      "subjectId": "cg:election:dail-eireann-2024-11-29-donegal",
-      "propertyId": "cg:property:year",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:2024"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-election-index",
-          "sourceTitle": "Civgraph Browse election index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:631d1e6859b71ca6cb0d",
-      "subjectId": "cg:election:dail-eireann-2024-11-29-dublin-bay-north",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-month:2024-11",
-        "label": "2024-11-29"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-election-index",
-          "sourceTitle": "Civgraph Browse election index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:7064f8eaa66df9c6226f",
-      "subjectId": "cg:election:dail-eireann-2024-11-29-dublin-bay-north",
-      "propertyId": "cg:property:elected-body",
-      "value": {
-        "type": "entity",
-        "id": "cg:body:dail-eireann"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-election-index",
-          "sourceTitle": "Civgraph Browse election index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
       "rank": "normal"
     }
   ]

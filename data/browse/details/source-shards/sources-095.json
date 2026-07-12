@@ -1,10 +1,391 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-11T23:52:09.025Z",
+  "generatedAt": "2026-07-12T22:18:23.317Z",
   "kind": "sources",
   "shard": "sources-095.json",
   "total": 200,
   "items": [
+    {
+      "id": "map-source:tellus-rad-k",
+      "slug": "map-source-tellus-rad-k",
+      "type": "map-source",
+      "title": "Tellus Radiometric — Potassium (K %) source files",
+      "subtitle": "Geology and Geophysics / GSNI, Tellus",
+      "category": "Map sources",
+      "provider": [
+        "GSNI",
+        "Tellus"
+      ],
+      "description": "Surface potassium concentration from natural gamma-ray emissions. Highlights granites and other felsic intrusions (potassium-rich), alkaline volcanics, and certain sedimentary horizons. Inferno colormap (dark = low, bright = high), ±2-3σ stretch.",
+      "sourceMapId": "tellus-rad-k",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "TR",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "OSNI Open Data — Tellus Radiometric Grids",
+          "url": "https://admin.opendatani.gov.uk/dataset/gsni-tellus-regional-airborne-geophysical-survey-radiometric-grids"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "label",
+          "url": "ESRI File Geodatabase (ZIP, 842 MB)"
+        },
+        {
+          "label": "file",
+          "url": "https://opendatani.blob.core.windows.net/gsnigeospatial/Tellus_Radiometrics_ESRIGRID.zip"
+        },
+        {
+          "label": "label",
+          "url": "ASCII Grid (ZIP, 1503 MB)"
+        },
+        {
+          "label": "file",
+          "url": "https://opendatani.blob.core.windows.net/gsnigeospatial/Tellus_Radiometrics_ASCII.zip"
+        },
+        {
+          "label": "xyz",
+          "url": "https://data.civgraph.net/data/maps/geology/tellus-rad-k/{z}/{x}/{y}.png"
+        }
+      ],
+      "interactiveUrl": "/#layers=tellus-rad-k",
+      "browseUrl": "/browse/sources/map-source-tellus-rad-k",
+      "rawMetadata": {
+        "id": "tellus-rad-k",
+        "name": "Tellus Radiometric — Potassium (K %)",
+        "slug": "tellus-rad-k",
+        "category": "geology-geophysics",
+        "provider": [
+          "GSNI",
+          "Tellus"
+        ],
+        "description": "Surface potassium concentration from natural gamma-ray emissions. Highlights granites and other felsic intrusions (potassium-rich), alkaline volcanics, and certain sedimentary horizons. Inferno colormap (dark = low, bright = high), ±2-3σ stretch.",
+        "files": {
+          "xyz": "https://data.civgraph.net/data/maps/geology/tellus-rad-k/{z}/{x}/{y}.png"
+        },
+        "rasterStyle": {
+          "opacity": 0.85,
+          "minZoom": 5,
+          "maxZoom": 18,
+          "maxNativeZoom": 13
+        },
+        "bounds": [
+          [
+            53.99,
+            -8.19
+          ],
+          [
+            55.33,
+            -5.32
+          ]
+        ],
+        "keywords": [
+          "tellus",
+          "gsni",
+          "geophysics",
+          "radiometric",
+          "potassium",
+          "k",
+          "gamma",
+          "airborne"
+        ],
+        "references": [
+          {
+            "label": "OSNI Open Data — Tellus Radiometric Grids",
+            "url": "https://admin.opendatani.gov.uk/dataset/gsni-tellus-regional-airborne-geophysical-survey-radiometric-grids",
+            "note": ""
+          }
+        ],
+        "sourceDownloads": [
+          {
+            "label": "ESRI File Geodatabase (ZIP, 842 MB)",
+            "file": "https://opendatani.blob.core.windows.net/gsnigeospatial/Tellus_Radiometrics_ESRIGRID.zip"
+          },
+          {
+            "label": "ASCII Grid (ZIP, 1503 MB)",
+            "file": "https://opendatani.blob.core.windows.net/gsnigeospatial/Tellus_Radiometrics_ASCII.zip"
+          }
+        ],
+        "license": "Open Government Licence v3.0",
+        "licenseUrl": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+      }
+    },
+    {
+      "id": "map-source:tellus-rad-raw",
+      "slug": "map-source-tellus-rad-raw",
+      "type": "map-source",
+      "title": "Tellus Radiometric — raw airborne flight-line data source files",
+      "subtitle": "Geology and Geophysics / GSNI, Tellus, BGS",
+      "category": "Map sources",
+      "provider": [
+        "GSNI",
+        "Tellus",
+        "BGS"
+      ],
+      "description": "Raw airborne gamma-ray spectrometer readings along each Tellus flight line — K, U, Th window counts plus total count, before gridding into the radiometric maps already on this site. Useful for re-processing or quality-assessing the gridded products.",
+      "sourceMapId": "tellus-rad-raw",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "TR",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "OSNI Open Data — Tellus Radiometrics (raw)",
+          "url": "https://admin.opendatani.gov.uk/dataset/gsni-tellus-regional-airborne-geophysical-survey-radiometrics"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "label",
+          "url": "Tellus Radiometrics raw (ZIP, 56 MB)"
+        },
+        {
+          "label": "file",
+          "url": "http://resources.bgs.ac.uk/gsni/geophysics/Radiometrics.zip"
+        }
+      ],
+      "interactiveUrl": "/#layers=tellus-rad-raw",
+      "browseUrl": "/browse/sources/map-source-tellus-rad-raw",
+      "rawMetadata": {
+        "id": "tellus-rad-raw",
+        "name": "Tellus Radiometric — raw airborne flight-line data",
+        "slug": "tellus-rad-raw",
+        "category": "geology-geophysics",
+        "placeholder": true,
+        "provider": [
+          "GSNI",
+          "Tellus",
+          "BGS"
+        ],
+        "description": "Raw airborne gamma-ray spectrometer readings along each Tellus flight line — K, U, Th window counts plus total count, before gridding into the radiometric maps already on this site. Useful for re-processing or quality-assessing the gridded products.",
+        "keywords": [
+          "tellus",
+          "gsni",
+          "bgs",
+          "geophysics",
+          "radiometric",
+          "gamma",
+          "airborne",
+          "raw",
+          "flight line",
+          "potassium",
+          "uranium",
+          "thorium"
+        ],
+        "references": [
+          {
+            "label": "OSNI Open Data — Tellus Radiometrics (raw)",
+            "url": "https://admin.opendatani.gov.uk/dataset/gsni-tellus-regional-airborne-geophysical-survey-radiometrics",
+            "note": ""
+          }
+        ],
+        "sourceDownloads": [
+          {
+            "label": "Tellus Radiometrics raw (ZIP, 56 MB)",
+            "file": "http://resources.bgs.ac.uk/gsni/geophysics/Radiometrics.zip"
+          }
+        ],
+        "license": "Open Government Licence v3.0",
+        "licenseUrl": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+      }
+    },
+    {
+      "id": "map-source:tellus-rad-ternary",
+      "slug": "map-source-tellus-rad-ternary",
+      "type": "map-source",
+      "title": "Tellus Radiometric — K/Th/U Ternary RGB source files",
+      "subtitle": "Geology and Geophysics / GSNI, Tellus",
+      "category": "Map sources",
+      "provider": [
+        "GSNI",
+        "Tellus"
+      ],
+      "description": "The iconic radiometric ternary composite — K mapped to red, Th to green, U to blue. Reds = potassic (granite, certain volcanics); greens = thorium-rich (resistate sediments, heavy minerals); blues = uranium-rich (organic shales, mineralisation); whites/pale = high in all three; blacks = low overall. The most interpretively powerful single radiometric view. Each band stretched independently to mean ± 2σ.",
+      "sourceMapId": "tellus-rad-ternary",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "TR",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "OSNI Open Data — Tellus Radiometric Grids",
+          "url": "https://admin.opendatani.gov.uk/dataset/gsni-tellus-regional-airborne-geophysical-survey-radiometric-grids"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "label",
+          "url": "ESRI File Geodatabase (ZIP, 842 MB)"
+        },
+        {
+          "label": "file",
+          "url": "https://opendatani.blob.core.windows.net/gsnigeospatial/Tellus_Radiometrics_ESRIGRID.zip"
+        },
+        {
+          "label": "xyz",
+          "url": "https://data.civgraph.net/data/maps/geology/tellus-rad-ternary/{z}/{x}/{y}.png"
+        }
+      ],
+      "interactiveUrl": "/#layers=tellus-rad-ternary",
+      "browseUrl": "/browse/sources/map-source-tellus-rad-ternary",
+      "rawMetadata": {
+        "id": "tellus-rad-ternary",
+        "name": "Tellus Radiometric — K/Th/U Ternary RGB",
+        "slug": "tellus-rad-ternary",
+        "category": "geology-geophysics",
+        "provider": [
+          "GSNI",
+          "Tellus"
+        ],
+        "description": "The iconic radiometric ternary composite — K mapped to red, Th to green, U to blue. Reds = potassic (granite, certain volcanics); greens = thorium-rich (resistate sediments, heavy minerals); blues = uranium-rich (organic shales, mineralisation); whites/pale = high in all three; blacks = low overall. The most interpretively powerful single radiometric view. Each band stretched independently to mean ± 2σ.",
+        "files": {
+          "xyz": "https://data.civgraph.net/data/maps/geology/tellus-rad-ternary/{z}/{x}/{y}.png"
+        },
+        "rasterStyle": {
+          "opacity": 0.9,
+          "minZoom": 5,
+          "maxZoom": 18,
+          "maxNativeZoom": 13
+        },
+        "bounds": [
+          [
+            53.99,
+            -8.19
+          ],
+          [
+            55.33,
+            -5.32
+          ]
+        ],
+        "keywords": [
+          "tellus",
+          "gsni",
+          "geophysics",
+          "radiometric",
+          "ternary",
+          "rgb",
+          "composite",
+          "k th u",
+          "airborne"
+        ],
+        "references": [
+          {
+            "label": "OSNI Open Data — Tellus Radiometric Grids",
+            "url": "https://admin.opendatani.gov.uk/dataset/gsni-tellus-regional-airborne-geophysical-survey-radiometric-grids",
+            "note": ""
+          }
+        ],
+        "sourceDownloads": [
+          {
+            "label": "ESRI File Geodatabase (ZIP, 842 MB)",
+            "file": "https://opendatani.blob.core.windows.net/gsnigeospatial/Tellus_Radiometrics_ESRIGRID.zip"
+          }
+        ],
+        "license": "Open Government Licence v3.0",
+        "licenseUrl": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+      }
+    },
+    {
+      "id": "map-source:tellus-rad-th",
+      "slug": "map-source-tellus-rad-th",
+      "type": "map-source",
+      "title": "Tellus Radiometric — Thorium-Equivalent (eTh ppm) source files",
+      "subtitle": "Geology and Geophysics / GSNI, Tellus",
+      "category": "Map sources",
+      "provider": [
+        "GSNI",
+        "Tellus"
+      ],
+      "description": "Thorium-equivalent concentration from the 2.61 MeV thallium-208 daughter peak. Often correlates with heavy minerals (monazite, zircon) in placer deposits and resistate sediments. Rainbow colormap, ±2-3σ stretch.",
+      "sourceMapId": "tellus-rad-th",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "TR",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "OSNI Open Data — Tellus Radiometric Grids",
+          "url": "https://admin.opendatani.gov.uk/dataset/gsni-tellus-regional-airborne-geophysical-survey-radiometric-grids"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "label",
+          "url": "ESRI File Geodatabase (ZIP, 842 MB)"
+        },
+        {
+          "label": "file",
+          "url": "https://opendatani.blob.core.windows.net/gsnigeospatial/Tellus_Radiometrics_ESRIGRID.zip"
+        },
+        {
+          "label": "xyz",
+          "url": "https://data.civgraph.net/data/maps/geology/tellus-rad-th/{z}/{x}/{y}.png"
+        }
+      ],
+      "interactiveUrl": "/#layers=tellus-rad-th",
+      "browseUrl": "/browse/sources/map-source-tellus-rad-th",
+      "rawMetadata": {
+        "id": "tellus-rad-th",
+        "name": "Tellus Radiometric — Thorium-Equivalent (eTh ppm)",
+        "slug": "tellus-rad-th",
+        "category": "geology-geophysics",
+        "provider": [
+          "GSNI",
+          "Tellus"
+        ],
+        "description": "Thorium-equivalent concentration from the 2.61 MeV thallium-208 daughter peak. Often correlates with heavy minerals (monazite, zircon) in placer deposits and resistate sediments. Rainbow colormap, ±2-3σ stretch.",
+        "files": {
+          "xyz": "https://data.civgraph.net/data/maps/geology/tellus-rad-th/{z}/{x}/{y}.png"
+        },
+        "rasterStyle": {
+          "opacity": 0.85,
+          "minZoom": 5,
+          "maxZoom": 18,
+          "maxNativeZoom": 13
+        },
+        "bounds": [
+          [
+            53.99,
+            -8.19
+          ],
+          [
+            55.33,
+            -5.32
+          ]
+        ],
+        "keywords": [
+          "tellus",
+          "gsni",
+          "geophysics",
+          "radiometric",
+          "thorium",
+          "th",
+          "gamma",
+          "airborne"
+        ],
+        "references": [
+          {
+            "label": "OSNI Open Data — Tellus Radiometric Grids",
+            "url": "https://admin.opendatani.gov.uk/dataset/gsni-tellus-regional-airborne-geophysical-survey-radiometric-grids",
+            "note": ""
+          }
+        ],
+        "sourceDownloads": [
+          {
+            "label": "ESRI File Geodatabase (ZIP, 842 MB)",
+            "file": "https://opendatani.blob.core.windows.net/gsnigeospatial/Tellus_Radiometrics_ESRIGRID.zip"
+          }
+        ],
+        "license": "Open Government Licence v3.0",
+        "licenseUrl": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+      }
+    },
     {
       "id": "map-source:tellus-rad-total",
       "slug": "map-source-tellus-rad-total",
@@ -55898,1338 +56279,6 @@
           "review:election-model-merge-and-provenance-review-requires-exact-election-merge-review"
         ],
         "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-referendum-on-the-third-amendment-of-the-constitution-bill-1968-01592"
-      }
-    },
-    {
-      "id": "medium-priority:2-irish-election-source-enrichment-data:referendum-on-the-thirteenth-amendment-of-the-constitution-bill-1992:01593",
-      "slug": "medium-priority-2-irish-election-source-enrichment-data-referendum-on-the-thirteenth-amendment-of-the-constitution-bill-1992-01593",
-      "type": "approved-medium-priority-source",
-      "title": "Referendum on the Thirteenth Amendment of the Constitution Bill 1992",
-      "subtitle": "Irish election source/enrichment data / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV / Source record; runtime review pending",
-      "category": "Medium-priority: Irish election source/enrichment data",
-      "date": "1992",
-      "provider": [
-        "Department of Housing, Local Government and Heritage",
-        "data.gov.ie"
-      ],
-      "description": "Referendum on the Thirteenth Amendment of the Constitution Bill 1992 is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: election-model-merge-and-provenance-review: requires exact election merge review.",
-      "url": "https://data.gov.ie/dataset/referendum-on-the-thirteenth-amendment-of-the-constitution-bill-1992",
-      "references": [
-        {
-          "label": "Referendum on the Thirteenth Amendment of the Constitution Bill 1992 provider page",
-          "url": "https://data.gov.ie/dataset/referendum-on-the-thirteenth-amendment-of-the-constitution-bill-1992",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Referendum on the Thirteenth Amendment of the Constitution Bill 1992 Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/referendum-on-the-thirteenth-amendment-of-the-constitution-bill-1992",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/referendum-on-the-thirteenth-amendment-of-the-constitution-bill-1992",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "source-record-with-runtime-review",
-        "Irish election source/enrichment data",
-        "election",
-        "features",
-        "Ireland / unspecified",
-        "enrich-existing-source",
-        "CSV",
-        "review:election-model-merge-and-provenance-review-requires-exact-election-merge-review"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 1594,
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:referendum-on-the-thirteenth-amendment-of-the-constitution-bill-1992:01593",
-          "title": "Referendum on the Thirteenth Amendment of the Constitution Bill 1992",
-          "cleanTitle": "Referendum on the Thirteenth Amendment of the Constitution Bill 1992",
-          "provider": "data.gov.ie",
-          "organisation": "Department of Housing, Local Government and Heritage",
-          "category": "tabular",
-          "roiGroup": "2. Irish election source/enrichment data",
-          "groupTitle": "Irish election source/enrichment data",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "election",
-          "featureUnit": "features",
-          "formats": [
-            "CSV"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "enrich-existing-source",
-          "proposedPlacement": "Existing Browse/Books/Tables source metadata",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV"
-            ]
-          },
-          "approvalState": "ready-with-residual-review",
-          "sourcePublicationState": "public source record with runtime/semantic review still pending",
-          "confidence": 45,
-          "currentProviderUrl": "https://data.gov.ie/dataset/referendum-on-the-thirteenth-amendment-of-the-constitution-bill-1992",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/referendum-on-the-thirteenth-amendment-of-the-constitution-bill-1992",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "residualBlockers": [
-            "election-model-merge-and-provenance-review: requires exact election merge review"
-          ],
-          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source record",
-        "Runtime review pending",
-        "Download available",
-        "Provider link",
-        "Wayback link",
-        "Existing record enrichment"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Irish election source/enrichment data",
-        "Ireland / unspecified",
-        "election",
-        "Referendum on the Thirteenth Amendment of the Constitution Bill 1992"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/referendum-on-the-thirteenth-amendment-of-the-constitution-bill-1992",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/referendum-on-the-thirteenth-amendment-of-the-constitution-bill-1992",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, Referendum on the Thirteenth Amendment of the Constitution Bill 1992.",
-      "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. Referendum on the Thirteenth Amendment of the Constitution Bill 1992. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/referendum-on-the-thirteenth-amendment-of-the-constitution-bill-1992. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/referendum-on-the-thirteenth-amendment-of-the-constitution-bill-1992.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:2-irish-election-source-enrichment-data:referendum-on-the-thirteenth-amendment-of-the-constitution-bill-1992:01593",
-        "sourceRowNumber": 1594,
-        "approvalState": "ready-with-residual-review",
-        "recommendedAction": "publish source/provenance enrichment for an existing record",
-        "proposedAction": "enrich-existing-source",
-        "proposedPlacement": "Existing Browse/Books/Tables source metadata",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "CSV"
-          ]
-        },
-        "confidence": 45,
-        "residualBlockers": [
-          "election-model-merge-and-provenance-review: requires exact election merge review"
-        ],
-        "resolvedBlockers": [
-          "needs-provider-context-review: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-      },
-      "publicationStatus": "source-record-with-runtime-review",
-      "proposedBrowsePath": "Existing Browse/Books/Tables source metadata",
-      "relationship": "source-metadata-enrichment",
-      "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-referendum-on-the-thirteenth-amendment-of-the-constitution-bill-1992-01593",
-      "rawMetadata": {
-        "id": "medium-priority:2-irish-election-source-enrichment-data:referendum-on-the-thirteenth-amendment-of-the-constitution-bill-1992:01593",
-        "slug": "medium-priority-2-irish-election-source-enrichment-data-referendum-on-the-thirteenth-amendment-of-the-constitution-bill-1992-01593",
-        "type": "approved-medium-priority-source",
-        "title": "Referendum on the Thirteenth Amendment of the Constitution Bill 1992",
-        "subtitle": "Irish election source/enrichment data / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV / Source record; runtime review pending",
-        "category": "Medium-priority: Irish election source/enrichment data",
-        "date": "1992",
-        "provider": [
-          "Department of Housing, Local Government and Heritage",
-          "data.gov.ie"
-        ],
-        "description": "Referendum on the Thirteenth Amendment of the Constitution Bill 1992 is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: election-model-merge-and-provenance-review: requires exact election merge review.",
-        "url": "https://data.gov.ie/dataset/referendum-on-the-thirteenth-amendment-of-the-constitution-bill-1992",
-        "references": [
-          {
-            "label": "Referendum on the Thirteenth Amendment of the Constitution Bill 1992 provider page",
-            "url": "https://data.gov.ie/dataset/referendum-on-the-thirteenth-amendment-of-the-constitution-bill-1992",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Referendum on the Thirteenth Amendment of the Constitution Bill 1992 Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/referendum-on-the-thirteenth-amendment-of-the-constitution-bill-1992",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/referendum-on-the-thirteenth-amendment-of-the-constitution-bill-1992",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source record",
-          "Runtime review pending",
-          "Download available",
-          "Provider link",
-          "Wayback link",
-          "Existing record enrichment"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Irish election source/enrichment data",
-          "Ireland / unspecified",
-          "election",
-          "Referendum on the Thirteenth Amendment of the Constitution Bill 1992"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/referendum-on-the-thirteenth-amendment-of-the-constitution-bill-1992",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/referendum-on-the-thirteenth-amendment-of-the-constitution-bill-1992",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, Referendum on the Thirteenth Amendment of the Constitution Bill 1992.",
-        "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. Referendum on the Thirteenth Amendment of the Constitution Bill 1992. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/referendum-on-the-thirteenth-amendment-of-the-constitution-bill-1992. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/referendum-on-the-thirteenth-amendment-of-the-constitution-bill-1992.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 1594,
-            "stagingId": "medium-prep:2-irish-election-source-enrichment-data:referendum-on-the-thirteenth-amendment-of-the-constitution-bill-1992:01593",
-            "title": "Referendum on the Thirteenth Amendment of the Constitution Bill 1992",
-            "cleanTitle": "Referendum on the Thirteenth Amendment of the Constitution Bill 1992",
-            "provider": "data.gov.ie",
-            "organisation": "Department of Housing, Local Government and Heritage",
-            "category": "tabular",
-            "roiGroup": "2. Irish election source/enrichment data",
-            "groupTitle": "Irish election source/enrichment data",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "election",
-            "featureUnit": "features",
-            "formats": [
-              "CSV"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "enrich-existing-source",
-            "proposedPlacement": "Existing Browse/Books/Tables source metadata",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "CSV"
-              ]
-            },
-            "approvalState": "ready-with-residual-review",
-            "sourcePublicationState": "public source record with runtime/semantic review still pending",
-            "confidence": 45,
-            "currentProviderUrl": "https://data.gov.ie/dataset/referendum-on-the-thirteenth-amendment-of-the-constitution-bill-1992",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/referendum-on-the-thirteenth-amendment-of-the-constitution-bill-1992",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "needs-provider-context-review: publication policy assigned"
-            ],
-            "residualBlockers": [
-              "election-model-merge-and-provenance-review: requires exact election merge review"
-            ],
-            "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:referendum-on-the-thirteenth-amendment-of-the-constitution-bill-1992:01593",
-          "sourceRowNumber": 1594,
-          "approvalState": "ready-with-residual-review",
-          "recommendedAction": "publish source/provenance enrichment for an existing record",
-          "proposedAction": "enrich-existing-source",
-          "proposedPlacement": "Existing Browse/Books/Tables source metadata",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV"
-            ]
-          },
-          "confidence": 45,
-          "residualBlockers": [
-            "election-model-merge-and-provenance-review: requires exact election merge review"
-          ],
-          "resolvedBlockers": [
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        },
-        "publicationStatus": "source-record-with-runtime-review",
-        "proposedBrowsePath": "Existing Browse/Books/Tables source metadata",
-        "relationship": "source-metadata-enrichment",
-        "keywords": [
-          "medium-priority-publication",
-          "source-record-with-runtime-review",
-          "Irish election source/enrichment data",
-          "election",
-          "features",
-          "Ireland / unspecified",
-          "enrich-existing-source",
-          "CSV",
-          "review:election-model-merge-and-provenance-review-requires-exact-election-merge-review"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-referendum-on-the-thirteenth-amendment-of-the-constitution-bill-1992-01593"
-      }
-    },
-    {
-      "id": "medium-priority:2-irish-election-source-enrichment-data:referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2011:01594",
-      "slug": "medium-priority-2-irish-election-source-enrichment-data-referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2011-01594",
-      "type": "approved-medium-priority-source",
-      "title": "Referendum on the Thirtieth Amendment of the Constitution Bill 2011",
-      "subtitle": "Irish election source/enrichment data / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV / Source record; runtime review pending",
-      "category": "Medium-priority: Irish election source/enrichment data",
-      "date": "2011",
-      "provider": [
-        "Department of Housing, Local Government and Heritage",
-        "data.gov.ie"
-      ],
-      "description": "Referendum on the Thirtieth Amendment of the Constitution Bill 2011 is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: election-model-merge-and-provenance-review: requires exact election merge review.",
-      "url": "https://data.gov.ie/dataset/referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2011",
-      "references": [
-        {
-          "label": "Referendum on the Thirtieth Amendment of the Constitution Bill 2011 provider page",
-          "url": "https://data.gov.ie/dataset/referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2011",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Referendum on the Thirtieth Amendment of the Constitution Bill 2011 Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2011",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2011",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "source-record-with-runtime-review",
-        "Irish election source/enrichment data",
-        "election",
-        "features",
-        "Ireland / unspecified",
-        "enrich-existing-source",
-        "CSV",
-        "review:election-model-merge-and-provenance-review-requires-exact-election-merge-review"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 1595,
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2011:01594",
-          "title": "Referendum on the Thirtieth Amendment of the Constitution Bill 2011",
-          "cleanTitle": "Referendum on the Thirtieth Amendment of the Constitution Bill 2011",
-          "provider": "data.gov.ie",
-          "organisation": "Department of Housing, Local Government and Heritage",
-          "category": "tabular",
-          "roiGroup": "2. Irish election source/enrichment data",
-          "groupTitle": "Irish election source/enrichment data",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "election",
-          "featureUnit": "features",
-          "formats": [
-            "CSV"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "enrich-existing-source",
-          "proposedPlacement": "Existing Browse/Books/Tables source metadata",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV"
-            ]
-          },
-          "approvalState": "ready-with-residual-review",
-          "sourcePublicationState": "public source record with runtime/semantic review still pending",
-          "confidence": 45,
-          "currentProviderUrl": "https://data.gov.ie/dataset/referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2011",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2011",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "residualBlockers": [
-            "election-model-merge-and-provenance-review: requires exact election merge review"
-          ],
-          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source record",
-        "Runtime review pending",
-        "Download available",
-        "Provider link",
-        "Wayback link",
-        "Existing record enrichment"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Irish election source/enrichment data",
-        "Ireland / unspecified",
-        "election",
-        "Referendum on the Thirtieth Amendment of the Constitution Bill 2011"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2011",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2011",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, Referendum on the Thirtieth Amendment of the Constitution Bill 2011.",
-      "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. Referendum on the Thirtieth Amendment of the Constitution Bill 2011. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2011. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2011.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:2-irish-election-source-enrichment-data:referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2011:01594",
-        "sourceRowNumber": 1595,
-        "approvalState": "ready-with-residual-review",
-        "recommendedAction": "publish source/provenance enrichment for an existing record",
-        "proposedAction": "enrich-existing-source",
-        "proposedPlacement": "Existing Browse/Books/Tables source metadata",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "CSV"
-          ]
-        },
-        "confidence": 45,
-        "residualBlockers": [
-          "election-model-merge-and-provenance-review: requires exact election merge review"
-        ],
-        "resolvedBlockers": [
-          "needs-provider-context-review: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-      },
-      "publicationStatus": "source-record-with-runtime-review",
-      "proposedBrowsePath": "Existing Browse/Books/Tables source metadata",
-      "relationship": "source-metadata-enrichment",
-      "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2011-01594",
-      "rawMetadata": {
-        "id": "medium-priority:2-irish-election-source-enrichment-data:referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2011:01594",
-        "slug": "medium-priority-2-irish-election-source-enrichment-data-referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2011-01594",
-        "type": "approved-medium-priority-source",
-        "title": "Referendum on the Thirtieth Amendment of the Constitution Bill 2011",
-        "subtitle": "Irish election source/enrichment data / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV / Source record; runtime review pending",
-        "category": "Medium-priority: Irish election source/enrichment data",
-        "date": "2011",
-        "provider": [
-          "Department of Housing, Local Government and Heritage",
-          "data.gov.ie"
-        ],
-        "description": "Referendum on the Thirtieth Amendment of the Constitution Bill 2011 is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: election-model-merge-and-provenance-review: requires exact election merge review.",
-        "url": "https://data.gov.ie/dataset/referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2011",
-        "references": [
-          {
-            "label": "Referendum on the Thirtieth Amendment of the Constitution Bill 2011 provider page",
-            "url": "https://data.gov.ie/dataset/referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2011",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Referendum on the Thirtieth Amendment of the Constitution Bill 2011 Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2011",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2011",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source record",
-          "Runtime review pending",
-          "Download available",
-          "Provider link",
-          "Wayback link",
-          "Existing record enrichment"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Irish election source/enrichment data",
-          "Ireland / unspecified",
-          "election",
-          "Referendum on the Thirtieth Amendment of the Constitution Bill 2011"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2011",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2011",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, Referendum on the Thirtieth Amendment of the Constitution Bill 2011.",
-        "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. Referendum on the Thirtieth Amendment of the Constitution Bill 2011. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2011. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2011.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 1595,
-            "stagingId": "medium-prep:2-irish-election-source-enrichment-data:referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2011:01594",
-            "title": "Referendum on the Thirtieth Amendment of the Constitution Bill 2011",
-            "cleanTitle": "Referendum on the Thirtieth Amendment of the Constitution Bill 2011",
-            "provider": "data.gov.ie",
-            "organisation": "Department of Housing, Local Government and Heritage",
-            "category": "tabular",
-            "roiGroup": "2. Irish election source/enrichment data",
-            "groupTitle": "Irish election source/enrichment data",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "election",
-            "featureUnit": "features",
-            "formats": [
-              "CSV"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "enrich-existing-source",
-            "proposedPlacement": "Existing Browse/Books/Tables source metadata",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "CSV"
-              ]
-            },
-            "approvalState": "ready-with-residual-review",
-            "sourcePublicationState": "public source record with runtime/semantic review still pending",
-            "confidence": 45,
-            "currentProviderUrl": "https://data.gov.ie/dataset/referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2011",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2011",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "needs-provider-context-review: publication policy assigned"
-            ],
-            "residualBlockers": [
-              "election-model-merge-and-provenance-review: requires exact election merge review"
-            ],
-            "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2011:01594",
-          "sourceRowNumber": 1595,
-          "approvalState": "ready-with-residual-review",
-          "recommendedAction": "publish source/provenance enrichment for an existing record",
-          "proposedAction": "enrich-existing-source",
-          "proposedPlacement": "Existing Browse/Books/Tables source metadata",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV"
-            ]
-          },
-          "confidence": 45,
-          "residualBlockers": [
-            "election-model-merge-and-provenance-review: requires exact election merge review"
-          ],
-          "resolvedBlockers": [
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        },
-        "publicationStatus": "source-record-with-runtime-review",
-        "proposedBrowsePath": "Existing Browse/Books/Tables source metadata",
-        "relationship": "source-metadata-enrichment",
-        "keywords": [
-          "medium-priority-publication",
-          "source-record-with-runtime-review",
-          "Irish election source/enrichment data",
-          "election",
-          "features",
-          "Ireland / unspecified",
-          "enrich-existing-source",
-          "CSV",
-          "review:election-model-merge-and-provenance-review-requires-exact-election-merge-review"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2011-01594"
-      }
-    },
-    {
-      "id": "medium-priority:2-irish-election-source-enrichment-data:referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2012:01595",
-      "slug": "medium-priority-2-irish-election-source-enrichment-data-referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2012-01595",
-      "type": "approved-medium-priority-source",
-      "title": "Referendum on the Thirtieth Amendment of the Constitution Bill 2012",
-      "subtitle": "Irish election source/enrichment data / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV / Source record; runtime review pending",
-      "category": "Medium-priority: Irish election source/enrichment data",
-      "date": "2012",
-      "provider": [
-        "Department of Housing, Local Government and Heritage",
-        "data.gov.ie"
-      ],
-      "description": "Referendum on the Thirtieth Amendment of the Constitution Bill 2012 is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: election-model-merge-and-provenance-review: requires exact election merge review.",
-      "url": "https://data.gov.ie/dataset/referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2012",
-      "references": [
-        {
-          "label": "Referendum on the Thirtieth Amendment of the Constitution Bill 2012 provider page",
-          "url": "https://data.gov.ie/dataset/referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2012",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Referendum on the Thirtieth Amendment of the Constitution Bill 2012 Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2012",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2012",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "source-record-with-runtime-review",
-        "Irish election source/enrichment data",
-        "election",
-        "features",
-        "Ireland / unspecified",
-        "enrich-existing-source",
-        "CSV",
-        "review:election-model-merge-and-provenance-review-requires-exact-election-merge-review"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 1596,
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2012:01595",
-          "title": "Referendum on the Thirtieth Amendment of the Constitution Bill 2012",
-          "cleanTitle": "Referendum on the Thirtieth Amendment of the Constitution Bill 2012",
-          "provider": "data.gov.ie",
-          "organisation": "Department of Housing, Local Government and Heritage",
-          "category": "tabular",
-          "roiGroup": "2. Irish election source/enrichment data",
-          "groupTitle": "Irish election source/enrichment data",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "election",
-          "featureUnit": "features",
-          "formats": [
-            "CSV"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "enrich-existing-source",
-          "proposedPlacement": "Existing Browse/Books/Tables source metadata",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV"
-            ]
-          },
-          "approvalState": "ready-with-residual-review",
-          "sourcePublicationState": "public source record with runtime/semantic review still pending",
-          "confidence": 45,
-          "currentProviderUrl": "https://data.gov.ie/dataset/referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2012",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2012",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "residualBlockers": [
-            "election-model-merge-and-provenance-review: requires exact election merge review"
-          ],
-          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source record",
-        "Runtime review pending",
-        "Download available",
-        "Provider link",
-        "Wayback link",
-        "Existing record enrichment"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Irish election source/enrichment data",
-        "Ireland / unspecified",
-        "election",
-        "Referendum on the Thirtieth Amendment of the Constitution Bill 2012"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2012",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2012",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, Referendum on the Thirtieth Amendment of the Constitution Bill 2012.",
-      "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. Referendum on the Thirtieth Amendment of the Constitution Bill 2012. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2012. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2012.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:2-irish-election-source-enrichment-data:referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2012:01595",
-        "sourceRowNumber": 1596,
-        "approvalState": "ready-with-residual-review",
-        "recommendedAction": "publish source/provenance enrichment for an existing record",
-        "proposedAction": "enrich-existing-source",
-        "proposedPlacement": "Existing Browse/Books/Tables source metadata",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "CSV"
-          ]
-        },
-        "confidence": 45,
-        "residualBlockers": [
-          "election-model-merge-and-provenance-review: requires exact election merge review"
-        ],
-        "resolvedBlockers": [
-          "needs-provider-context-review: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-      },
-      "publicationStatus": "source-record-with-runtime-review",
-      "proposedBrowsePath": "Existing Browse/Books/Tables source metadata",
-      "relationship": "source-metadata-enrichment",
-      "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2012-01595",
-      "rawMetadata": {
-        "id": "medium-priority:2-irish-election-source-enrichment-data:referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2012:01595",
-        "slug": "medium-priority-2-irish-election-source-enrichment-data-referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2012-01595",
-        "type": "approved-medium-priority-source",
-        "title": "Referendum on the Thirtieth Amendment of the Constitution Bill 2012",
-        "subtitle": "Irish election source/enrichment data / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV / Source record; runtime review pending",
-        "category": "Medium-priority: Irish election source/enrichment data",
-        "date": "2012",
-        "provider": [
-          "Department of Housing, Local Government and Heritage",
-          "data.gov.ie"
-        ],
-        "description": "Referendum on the Thirtieth Amendment of the Constitution Bill 2012 is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: election-model-merge-and-provenance-review: requires exact election merge review.",
-        "url": "https://data.gov.ie/dataset/referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2012",
-        "references": [
-          {
-            "label": "Referendum on the Thirtieth Amendment of the Constitution Bill 2012 provider page",
-            "url": "https://data.gov.ie/dataset/referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2012",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Referendum on the Thirtieth Amendment of the Constitution Bill 2012 Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2012",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2012",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source record",
-          "Runtime review pending",
-          "Download available",
-          "Provider link",
-          "Wayback link",
-          "Existing record enrichment"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Irish election source/enrichment data",
-          "Ireland / unspecified",
-          "election",
-          "Referendum on the Thirtieth Amendment of the Constitution Bill 2012"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2012",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2012",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, Referendum on the Thirtieth Amendment of the Constitution Bill 2012.",
-        "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. Referendum on the Thirtieth Amendment of the Constitution Bill 2012. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2012. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2012.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 1596,
-            "stagingId": "medium-prep:2-irish-election-source-enrichment-data:referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2012:01595",
-            "title": "Referendum on the Thirtieth Amendment of the Constitution Bill 2012",
-            "cleanTitle": "Referendum on the Thirtieth Amendment of the Constitution Bill 2012",
-            "provider": "data.gov.ie",
-            "organisation": "Department of Housing, Local Government and Heritage",
-            "category": "tabular",
-            "roiGroup": "2. Irish election source/enrichment data",
-            "groupTitle": "Irish election source/enrichment data",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "election",
-            "featureUnit": "features",
-            "formats": [
-              "CSV"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "enrich-existing-source",
-            "proposedPlacement": "Existing Browse/Books/Tables source metadata",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "CSV"
-              ]
-            },
-            "approvalState": "ready-with-residual-review",
-            "sourcePublicationState": "public source record with runtime/semantic review still pending",
-            "confidence": 45,
-            "currentProviderUrl": "https://data.gov.ie/dataset/referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2012",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2012",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "needs-provider-context-review: publication policy assigned"
-            ],
-            "residualBlockers": [
-              "election-model-merge-and-provenance-review: requires exact election merge review"
-            ],
-            "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2012:01595",
-          "sourceRowNumber": 1596,
-          "approvalState": "ready-with-residual-review",
-          "recommendedAction": "publish source/provenance enrichment for an existing record",
-          "proposedAction": "enrich-existing-source",
-          "proposedPlacement": "Existing Browse/Books/Tables source metadata",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV"
-            ]
-          },
-          "confidence": 45,
-          "residualBlockers": [
-            "election-model-merge-and-provenance-review: requires exact election merge review"
-          ],
-          "resolvedBlockers": [
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        },
-        "publicationStatus": "source-record-with-runtime-review",
-        "proposedBrowsePath": "Existing Browse/Books/Tables source metadata",
-        "relationship": "source-metadata-enrichment",
-        "keywords": [
-          "medium-priority-publication",
-          "source-record-with-runtime-review",
-          "Irish election source/enrichment data",
-          "election",
-          "features",
-          "Ireland / unspecified",
-          "enrich-existing-source",
-          "CSV",
-          "review:election-model-merge-and-provenance-review-requires-exact-election-merge-review"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2012-01595"
-      }
-    },
-    {
-      "id": "medium-priority:2-irish-election-source-enrichment-data:referendum-on-the-thirty-fifth-amendment-of-the-constitution-bill-2015:01596",
-      "slug": "medium-priority-2-irish-election-source-enrichment-data-referendum-on-the-thirty-fifth-amendment-of-the-constitution-bill-2015-01596",
-      "type": "approved-medium-priority-source",
-      "title": "Referendum on the Thirty-fifth Amendment of the Constitution Bill 2015",
-      "subtitle": "Irish election source/enrichment data / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV / Source record; runtime review pending",
-      "category": "Medium-priority: Irish election source/enrichment data",
-      "date": "2015",
-      "provider": [
-        "Department of Housing, Local Government and Heritage",
-        "data.gov.ie"
-      ],
-      "description": "Referendum on the Thirty-fifth Amendment of the Constitution Bill 2015 is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: election-model-merge-and-provenance-review: requires exact election merge review.",
-      "url": "https://data.gov.ie/dataset/referendum-on-the-thirty-fifth-amendment-of-the-constitution-bill-2015",
-      "references": [
-        {
-          "label": "Referendum on the Thirty-fifth Amendment of the Constitution Bill 2015 provider page",
-          "url": "https://data.gov.ie/dataset/referendum-on-the-thirty-fifth-amendment-of-the-constitution-bill-2015",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Referendum on the Thirty-fifth Amendment of the Constitution Bill 2015 Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/referendum-on-the-thirty-fifth-amendment-of-the-constitution-bill-2015",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/referendum-on-the-thirty-fifth-amendment-of-the-constitution-bill-2015",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "source-record-with-runtime-review",
-        "Irish election source/enrichment data",
-        "election",
-        "features",
-        "Ireland / unspecified",
-        "enrich-existing-source",
-        "CSV",
-        "review:election-model-merge-and-provenance-review-requires-exact-election-merge-review"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 1597,
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:referendum-on-the-thirty-fifth-amendment-of-the-constitution-bill-2015:01596",
-          "title": "Referendum on the Thirty-fifth Amendment of the Constitution Bill 2015",
-          "cleanTitle": "Referendum on the Thirty-fifth Amendment of the Constitution Bill 2015",
-          "provider": "data.gov.ie",
-          "organisation": "Department of Housing, Local Government and Heritage",
-          "category": "tabular",
-          "roiGroup": "2. Irish election source/enrichment data",
-          "groupTitle": "Irish election source/enrichment data",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "election",
-          "featureUnit": "features",
-          "formats": [
-            "CSV"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "enrich-existing-source",
-          "proposedPlacement": "Existing Browse/Books/Tables source metadata",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV"
-            ]
-          },
-          "approvalState": "ready-with-residual-review",
-          "sourcePublicationState": "public source record with runtime/semantic review still pending",
-          "confidence": 45,
-          "currentProviderUrl": "https://data.gov.ie/dataset/referendum-on-the-thirty-fifth-amendment-of-the-constitution-bill-2015",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/referendum-on-the-thirty-fifth-amendment-of-the-constitution-bill-2015",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "residualBlockers": [
-            "election-model-merge-and-provenance-review: requires exact election merge review"
-          ],
-          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source record",
-        "Runtime review pending",
-        "Download available",
-        "Provider link",
-        "Wayback link",
-        "Existing record enrichment"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Irish election source/enrichment data",
-        "Ireland / unspecified",
-        "election",
-        "Referendum on the Thirty-fifth Amendment of the Constitution Bill 2015"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/referendum-on-the-thirty-fifth-amendment-of-the-constitution-bill-2015",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/referendum-on-the-thirty-fifth-amendment-of-the-constitution-bill-2015",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, Referendum on the Thirty-fifth Amendment of the Constitution Bill 2015.",
-      "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. Referendum on the Thirty-fifth Amendment of the Constitution Bill 2015. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/referendum-on-the-thirty-fifth-amendment-of-the-constitution-bill-2015. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/referendum-on-the-thirty-fifth-amendment-of-the-constitution-bill-2015.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:2-irish-election-source-enrichment-data:referendum-on-the-thirty-fifth-amendment-of-the-constitution-bill-2015:01596",
-        "sourceRowNumber": 1597,
-        "approvalState": "ready-with-residual-review",
-        "recommendedAction": "publish source/provenance enrichment for an existing record",
-        "proposedAction": "enrich-existing-source",
-        "proposedPlacement": "Existing Browse/Books/Tables source metadata",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "CSV"
-          ]
-        },
-        "confidence": 45,
-        "residualBlockers": [
-          "election-model-merge-and-provenance-review: requires exact election merge review"
-        ],
-        "resolvedBlockers": [
-          "needs-provider-context-review: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-      },
-      "publicationStatus": "source-record-with-runtime-review",
-      "proposedBrowsePath": "Existing Browse/Books/Tables source metadata",
-      "relationship": "source-metadata-enrichment",
-      "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-referendum-on-the-thirty-fifth-amendment-of-the-constitution-bill-2015-01596",
-      "rawMetadata": {
-        "id": "medium-priority:2-irish-election-source-enrichment-data:referendum-on-the-thirty-fifth-amendment-of-the-constitution-bill-2015:01596",
-        "slug": "medium-priority-2-irish-election-source-enrichment-data-referendum-on-the-thirty-fifth-amendment-of-the-constitution-bill-2015-01596",
-        "type": "approved-medium-priority-source",
-        "title": "Referendum on the Thirty-fifth Amendment of the Constitution Bill 2015",
-        "subtitle": "Irish election source/enrichment data / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV / Source record; runtime review pending",
-        "category": "Medium-priority: Irish election source/enrichment data",
-        "date": "2015",
-        "provider": [
-          "Department of Housing, Local Government and Heritage",
-          "data.gov.ie"
-        ],
-        "description": "Referendum on the Thirty-fifth Amendment of the Constitution Bill 2015 is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: election-model-merge-and-provenance-review: requires exact election merge review.",
-        "url": "https://data.gov.ie/dataset/referendum-on-the-thirty-fifth-amendment-of-the-constitution-bill-2015",
-        "references": [
-          {
-            "label": "Referendum on the Thirty-fifth Amendment of the Constitution Bill 2015 provider page",
-            "url": "https://data.gov.ie/dataset/referendum-on-the-thirty-fifth-amendment-of-the-constitution-bill-2015",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Referendum on the Thirty-fifth Amendment of the Constitution Bill 2015 Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/referendum-on-the-thirty-fifth-amendment-of-the-constitution-bill-2015",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/referendum-on-the-thirty-fifth-amendment-of-the-constitution-bill-2015",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source record",
-          "Runtime review pending",
-          "Download available",
-          "Provider link",
-          "Wayback link",
-          "Existing record enrichment"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Irish election source/enrichment data",
-          "Ireland / unspecified",
-          "election",
-          "Referendum on the Thirty-fifth Amendment of the Constitution Bill 2015"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/referendum-on-the-thirty-fifth-amendment-of-the-constitution-bill-2015",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/referendum-on-the-thirty-fifth-amendment-of-the-constitution-bill-2015",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, Referendum on the Thirty-fifth Amendment of the Constitution Bill 2015.",
-        "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. Referendum on the Thirty-fifth Amendment of the Constitution Bill 2015. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/referendum-on-the-thirty-fifth-amendment-of-the-constitution-bill-2015. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/referendum-on-the-thirty-fifth-amendment-of-the-constitution-bill-2015.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 1597,
-            "stagingId": "medium-prep:2-irish-election-source-enrichment-data:referendum-on-the-thirty-fifth-amendment-of-the-constitution-bill-2015:01596",
-            "title": "Referendum on the Thirty-fifth Amendment of the Constitution Bill 2015",
-            "cleanTitle": "Referendum on the Thirty-fifth Amendment of the Constitution Bill 2015",
-            "provider": "data.gov.ie",
-            "organisation": "Department of Housing, Local Government and Heritage",
-            "category": "tabular",
-            "roiGroup": "2. Irish election source/enrichment data",
-            "groupTitle": "Irish election source/enrichment data",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "election",
-            "featureUnit": "features",
-            "formats": [
-              "CSV"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "enrich-existing-source",
-            "proposedPlacement": "Existing Browse/Books/Tables source metadata",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "CSV"
-              ]
-            },
-            "approvalState": "ready-with-residual-review",
-            "sourcePublicationState": "public source record with runtime/semantic review still pending",
-            "confidence": 45,
-            "currentProviderUrl": "https://data.gov.ie/dataset/referendum-on-the-thirty-fifth-amendment-of-the-constitution-bill-2015",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/referendum-on-the-thirty-fifth-amendment-of-the-constitution-bill-2015",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "needs-provider-context-review: publication policy assigned"
-            ],
-            "residualBlockers": [
-              "election-model-merge-and-provenance-review: requires exact election merge review"
-            ],
-            "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:referendum-on-the-thirty-fifth-amendment-of-the-constitution-bill-2015:01596",
-          "sourceRowNumber": 1597,
-          "approvalState": "ready-with-residual-review",
-          "recommendedAction": "publish source/provenance enrichment for an existing record",
-          "proposedAction": "enrich-existing-source",
-          "proposedPlacement": "Existing Browse/Books/Tables source metadata",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV"
-            ]
-          },
-          "confidence": 45,
-          "residualBlockers": [
-            "election-model-merge-and-provenance-review: requires exact election merge review"
-          ],
-          "resolvedBlockers": [
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        },
-        "publicationStatus": "source-record-with-runtime-review",
-        "proposedBrowsePath": "Existing Browse/Books/Tables source metadata",
-        "relationship": "source-metadata-enrichment",
-        "keywords": [
-          "medium-priority-publication",
-          "source-record-with-runtime-review",
-          "Irish election source/enrichment data",
-          "election",
-          "features",
-          "Ireland / unspecified",
-          "enrich-existing-source",
-          "CSV",
-          "review:election-model-merge-and-provenance-review-requires-exact-election-merge-review"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-referendum-on-the-thirty-fifth-amendment-of-the-constitution-bill-2015-01596"
       }
     }
   ]

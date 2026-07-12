@@ -1,9 +1,53 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-11T23:52:47.336Z",
+  "generatedAt": "2026-07-12T22:19:04.604Z",
   "shard": 102,
   "totalSubjects": 250,
   "items": {
+    "cg:map-category:dail-eireann-constituencies": [
+      {
+        "id": "cg:statement:e0ccd7cf80bd347fd9bf",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:map-category",
+        "valueLabel": "Map category",
+        "valueText": "Map category",
+        "valueDescription": "A catalogue category that groups map layers, e.g. Devolved Constituencies.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:25e51a34594e6b2085ae",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Dáil Eireann Constituencies",
+        "valueText": "Dáil Eireann Constituencies",
+        "referenceCount": 0
+      }
+    ],
+    "cg:map-category:data-population": [
+      {
+        "id": "cg:statement:70fd1b4d892f1085b836",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:map-category",
+        "valueLabel": "Map category",
+        "valueText": "Map category",
+        "valueDescription": "A catalogue category that groups map layers, e.g. Devolved Constituencies.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:c98917deb6fe9ea3e959",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "data-population",
+        "valueText": "data-population",
+        "referenceCount": 0
+      }
+    ],
     "cg:map-category:designated-and-protected-sites": [
       {
         "id": "cg:statement:453c230ef8c28ef32342",
@@ -25197,196 +25241,6 @@
             "valueType": "url",
             "valueLabel": "data/census/derived/ms-a01-dz.csv",
             "valueText": "data/census/derived/ms-a01-dz.csv"
-          }
-        ],
-        "referenceCount": 0
-      }
-    ],
-    "cg:map-layer:data-2021-population-lgd": [
-      {
-        "id": "cg:statement:63508b6deb9578285b90",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:map-layer",
-        "valueLabel": "Map layer",
-        "valueText": "Map layer",
-        "valueDescription": "A Civgraph map layer or map dataset exposed through Browse.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:3974f744b4f1ebeb7f0e",
-        "propertyId": "cg:property:interactive-url",
-        "propertyLabel": "interactive URL",
-        "valueType": "url",
-        "valueLabel": "/#layers=data-2021-population-lgd",
-        "valueText": "/#layers=data-2021-population-lgd",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:88c13a4a96492c1d4dfa",
-        "propertyId": "cg:property:map-category",
-        "propertyLabel": "map category",
-        "valueType": "entity",
-        "valueId": "cg:map-category:data-population",
-        "valueLabel": "data-population",
-        "valueText": "data-population",
-        "valueDescription": "Map category: data-population",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:f9075fa939bc4a696319",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Usual resident population (Census 2021, by LGD)",
-        "valueText": "Usual resident population (Census 2021, by LGD)",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:160fc032dd0215fb9472",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:nisra-census-2021-main-statistics-phase-1-ms-e02-household-size-4f46c8f0e21c",
-        "valueLabel": "NISRA Census 2021, Main Statistics Phase 1, MS-E02 (Household size)",
-        "valueText": "NISRA Census 2021, Main Statistics Phase 1, MS-E02 (Household size)",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1",
-            "valueText": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "map-reference",
-            "valueText": "map-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:a203088d72cc09dafe3a",
-        "propertyId": "cg:property:source-file",
-        "propertyLabel": "source file",
-        "valueType": "entity",
-        "valueId": "cg:source-file:ms-a01-lgd-csv-9f740ff3764d",
-        "valueLabel": "ms-a01-lgd.csv",
-        "valueText": "ms-a01-lgd.csv",
-        "valueDescription": "ms-a01-lgd.csv for Usual resident population (Census 2021, by LGD)",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:file-format",
-            "propertyLabel": "file format",
-            "valueType": "string",
-            "valueLabel": "ms-a01-lgd.csv",
-            "valueText": "ms-a01-lgd.csv"
-          },
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "data/census/derived/ms-a01-lgd.csv",
-            "valueText": "data/census/derived/ms-a01-lgd.csv"
-          }
-        ],
-        "referenceCount": 0
-      }
-    ],
-    "cg:map-layer:data-2021-population-sdz": [
-      {
-        "id": "cg:statement:4fa4593361e792233ca1",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:map-layer",
-        "valueLabel": "Map layer",
-        "valueText": "Map layer",
-        "valueDescription": "A Civgraph map layer or map dataset exposed through Browse.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:bb3f2b18cd7d11086509",
-        "propertyId": "cg:property:interactive-url",
-        "propertyLabel": "interactive URL",
-        "valueType": "url",
-        "valueLabel": "/#layers=data-2021-population-sdz",
-        "valueText": "/#layers=data-2021-population-sdz",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:e088d525419ce51b7bb0",
-        "propertyId": "cg:property:map-category",
-        "propertyLabel": "map category",
-        "valueType": "entity",
-        "valueId": "cg:map-category:data-population",
-        "valueLabel": "data-population",
-        "valueText": "data-population",
-        "valueDescription": "Map category: data-population",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:655a38db1f2105b0ba6c",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Usual resident population (Census 2021, by Super Data Zone)",
-        "valueText": "Usual resident population (Census 2021, by Super Data Zone)",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:6497c6f5777818adde58",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:nisra-census-2021-main-statistics-phase-1-ms-e02-household-size-4f46c8f0e21c",
-        "valueLabel": "NISRA Census 2021, Main Statistics Phase 1, MS-E02 (Household size)",
-        "valueText": "NISRA Census 2021, Main Statistics Phase 1, MS-E02 (Household size)",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1",
-            "valueText": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "map-reference",
-            "valueText": "map-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:edf622105fff1a1b4cae",
-        "propertyId": "cg:property:source-file",
-        "propertyLabel": "source file",
-        "valueType": "entity",
-        "valueId": "cg:source-file:ms-a01-sdz-csv-f1861ee623ee",
-        "valueLabel": "ms-a01-sdz.csv",
-        "valueText": "ms-a01-sdz.csv",
-        "valueDescription": "ms-a01-sdz.csv for Usual resident population (Census 2021, by Super Data Zone)",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:file-format",
-            "propertyLabel": "file format",
-            "valueType": "string",
-            "valueLabel": "ms-a01-sdz.csv",
-            "valueText": "ms-a01-sdz.csv"
-          },
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "data/census/derived/ms-a01-sdz.csv",
-            "valueText": "data/census/derived/ms-a01-sdz.csv"
           }
         ],
         "referenceCount": 0
