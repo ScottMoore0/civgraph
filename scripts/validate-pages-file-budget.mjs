@@ -28,6 +28,8 @@ const EXCLUDED_PREFIXES = [
 const EXCLUDED_FILES = new Set([
   'data/database/approved-publication-sources.json'
 ]);
+// The approved-publication gate is stored sharded (repo-size, not deployed).
+EXCLUDED_PREFIXES.push('data/database/approved-publication-sources-shards/');
 
 function listFilesRecursive(dir) {
   if (!existsSync(dir)) return [];

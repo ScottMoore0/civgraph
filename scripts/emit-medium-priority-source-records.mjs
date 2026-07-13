@@ -23,6 +23,7 @@
  * Usage: node scripts/emit-medium-priority-source-records.mjs --bucket <b> --out <path>
  */
 import { readFileSync, writeFileSync } from 'fs';
+import { resolveApprovedPublicationSources } from './lib/approved-publication-index.mjs';
 
 const args = process.argv.slice(2);
 const getArg = (name, def) => (args.includes(name) ? args[args.indexOf(name) + 1] : def);
@@ -60,6 +61,7 @@ const cfg = BUCKETS[bucket];
 
 const rows = JSON.parse(readFileSync(SRC, 'utf8'));
 const gate = JSON.parse(readFileSync(GATE, 'utf8'));
+gate.sources = resolveApprovedPublicationSources(gate);
 
 // Live-gate collision sets: ids (suffix to avoid silent merge-dedup drops) and
 // reference URLs (skip rows already published under any id).

@@ -13,6 +13,7 @@
  */
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import path from 'node:path';
+import { resolveApprovedPublicationSources } from './lib/approved-publication-index.mjs';
 
 const ROOT = process.cwd();
 const SRC = path.join(ROOT, 'data', 'review-inputs', 'medium-priority-publication-prep-2026-06-25', 'row-staging-records.json');
@@ -33,6 +34,7 @@ for (const sh of (srcIdx.shards || [])) {
 const srcByUrl = new Map();
 for (const s of sources) for (const r of (s.references || [])) if (r.url) srcByUrl.set(r.url.replace(/\/+$/, ''), s);
 const gate = JSON.parse(readFileSync(path.join(ROOT, 'data', 'database', 'approved-publication-sources.json'), 'utf8'));
+gate.sources = resolveApprovedPublicationSources(gate, ROOT);
 for (const s of gate.sources) for (const r of (s.references || [])) if (r.url) { const u = r.url.replace(/\/+$/, ''); if (!srcByUrl.has(u)) srcByUrl.set(u, { id: s.id, title: s.title }); }
 
 const norm = s => String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();

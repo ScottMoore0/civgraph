@@ -72,6 +72,7 @@ remove_path "election-viewer-package/data/elections"
 # consumes the compact /data/browse/sources.json index plus sharded source
 # details generated from it.
 remove_path "data/database/approved-publication-sources.json"
+remove_path "data/database/approved-publication-sources-shards"
 
 # Full territorial transition sidecars are source-analysis assets. Runtime uses the
 # deployable red/purple overlays in data/timeline-transition-overlays/ instead.

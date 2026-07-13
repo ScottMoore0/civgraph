@@ -23,6 +23,7 @@
  * Usage: node scripts/census/build-census-explorer-bundle.mjs
  */
 import { readFileSync, writeFileSync } from 'fs';
+import { resolveApprovedPublicationSources } from '../lib/approved-publication-index.mjs';
 
 const CLEANED = 'data/census/cleaned';
 const OUT = 'data/census/explorer-bundle.json';
@@ -192,7 +193,7 @@ let roiCensusTables = [];
 try {
   const gate = JSON.parse(readFileSync(ROI_GATE, 'utf8'));
   const seen = new Set();
-  for (const s of gate.sources || []) {
+  for (const s of resolveApprovedPublicationSources(gate)) {
     if (s.approval?.batchId !== 'cat1-census-cso-ccby') continue;
     const fromRef = (s.references || [])
       .map((r) => (String(r.url || '').match(/data\.cso\.ie\/table\/([A-Z0-9]+)/) || [])[1])

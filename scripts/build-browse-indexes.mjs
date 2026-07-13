@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
+import { resolveApprovedPublicationSources } from './lib/approved-publication-index.mjs';
 import { partyColour } from '../js/election-domain.mjs';
 import { canonicalElectionTitle, electionResultEntryLabel } from '../js/election-names.mjs';
 
@@ -58,6 +59,7 @@ function main() {
   const booksData = readJson('data/database/books.json', { categories: [], books: [] });
   const externalSourcesData = readJson('data/database/external-sources.json', { sources: [] });
   const approvedPublicationSourcesData = readJson('data/database/approved-publication-sources.json', { sources: [] });
+  approvedPublicationSourcesData.sources = resolveApprovedPublicationSources(approvedPublicationSourcesData);
   const rawSourceDocumentsData = readJson('data/database/raw-source-documents.json', { sources: [] });
   const mediumPriorityPublicationSourcesData = readJson('data/database/medium-priority-publication-sources.json', { sources: [] });
   const peatlandGeoportalSourcesData = readJson('data/database/peatland-geoportal-sources.json', { sources: [], targets: [], reviewRows: [] });

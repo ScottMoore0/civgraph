@@ -3,6 +3,7 @@ import { createHash } from 'node:crypto';
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { writeStableGeneratedJson } from './lib/stable-generated-json.mjs';
+import { writeApprovedPublicationSources } from './lib/approved-publication-index.mjs';
 
 const ROOT = process.cwd();
 const APPROVAL_ROOT = path.join(ROOT, 'tasks', 'absence-integration-ready-2026-06-15', 'publication-approval-pack', 'approval-refinement');
@@ -79,7 +80,9 @@ function main() {
   });
 
   writeStableGeneratedJson(OUTPUT_DAIL_ALIASES, dailAliases);
-  writeStableGeneratedJson(OUTPUT_APPROVED_SOURCES, approvedSources);
+  // Gate is stored sharded (repo-size); write manifest + shard files.
+  const { sources: applySources, ...applyMeta } = approvedSources;
+  writeApprovedPublicationSources(applyMeta, applySources, ROOT);
 
   console.log(`Wrote ${dailAliases.aliases.length} approved Dail candidate aliases covering ${dailAliases.counts.sourceRows} source rows.`);
   console.log(`Wrote ${approvedSources.sources.length} approved Category 3 Browse source records (${approvedSources.counts.publish} publish, ${approvedSources.counts.variants} variants).`);

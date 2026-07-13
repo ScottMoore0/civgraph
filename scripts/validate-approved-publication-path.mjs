@@ -2,6 +2,7 @@
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { resolveBrowseSourceItems } from './lib/browse-source-index.mjs';
+import { resolveApprovedPublicationSources } from './lib/approved-publication-index.mjs';
 
 const ROOT = process.cwd();
 const APPROVAL_ROOT = path.join(ROOT, 'tasks', 'absence-integration-ready-2026-06-15', 'publication-approval-pack', 'approval-refinement');
@@ -23,6 +24,7 @@ function main() {
   const validationReport = readJson(path.join(APPROVAL_ROOT, 'refinement-validation-report.json'));
   const dailAliases = readJson(path.join(ROOT, 'data', 'elections', 'dail-approved-candidate-aliases.json'));
   const approvedSources = readJson(path.join(ROOT, 'data', 'database', 'approved-publication-sources.json'));
+  approvedSources.sources = resolveApprovedPublicationSources(approvedSources, ROOT);
   const browseSources = readJson(path.join(ROOT, 'data', 'browse', 'sources.json'));
   browseSources.items = resolveBrowseSourceItems(browseSources, ROOT);
 

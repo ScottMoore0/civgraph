@@ -3,6 +3,7 @@ import { execFileSync } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { writeStableGeneratedJson } from './lib/stable-generated-json.mjs';
+import { resolveApprovedPublicationSources } from './lib/approved-publication-index.mjs';
 
 const ROOT = process.cwd();
 const APPROVAL_ROOT = path.join(ROOT, 'tasks', 'absence-integration-ready-2026-06-15', 'publication-approval-pack', 'approval-refinement');
@@ -26,7 +27,7 @@ function main() {
   const catSpatialHolds = readJson(path.join(APPROVAL_ROOT, 'category3-spatial-hold-inspection.json'));
   const duplicateEvidence = readJson(path.join(APPROVAL_ROOT, 'category3-existing-duplicate-evidence.json'));
   const variants = readJson(path.join(APPROVAL_ROOT, 'category3-variant-parent-proposals.json'));
-  const approvedSources = readJson(path.join(ROOT, 'data', 'database', 'approved-publication-sources.json')).sources || [];
+  const approvedSources = resolveApprovedPublicationSources(readJson(path.join(ROOT, 'data', 'database', 'approved-publication-sources.json')), ROOT);
   const publicationActions = (readJson(path.join(CATEGORY_ROOT, 'publication-approval-actions.json')).records || []);
   const provenanceDrafts = (readJson(path.join(SOURCE_ROOT, 'provenance-drafts.json')).records || []);
 

@@ -18,6 +18,7 @@
  */
 import { readFileSync, writeFileSync, mkdirSync } from 'fs';
 import { dirname } from 'path';
+import { resolveApprovedPublicationSources } from '../lib/approved-publication-index.mjs';
 
 const collPath = process.argv[2];
 const OUT = process.argv[3] || 'data/census/candidates/cso-pxstat-backfill.approved.json';
@@ -52,7 +53,7 @@ const covered = new Set();
 const codeRe = /(?:data\.cso\.ie\/table\/|ReadDataset\/)([A-Z0-9]{3,10})(?:[\/"]|$)/g;
 for (const p of ['data/database/approved-publication-sources.json', 'data/database/medium-priority-publication-sources.json']) {
   const j = JSON.parse(readFileSync(p, 'utf8'));
-  for (const s of j.sources || []) {
+  for (const s of (p.includes('approved-publication') ? resolveApprovedPublicationSources(j) : (j.sources || []))) {
     const str = JSON.stringify(s);
     let m; while ((m = codeRe.exec(str))) if (catalogue.has(m[1])) covered.add(m[1]);
   }
