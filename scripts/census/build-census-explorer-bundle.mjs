@@ -182,13 +182,44 @@ const concepts = (ontology.concepts || []).map((c) => {
 const topics = [...new Set(tables.map((t) => t.topic).filter(Boolean))].sort();
 const geographyLevels = [...new Set(tables.flatMap((t) => t.geographyLevels).filter((g) => g !== 'unknown'))].sort();
 
+// --- ROI census cubes (CSO PxStat) for the interactive Republic-of-Ireland finder ---
+// The cleaned model is NI-only; the ROI census is published as CSO PxStat cube
+// catalogue records (batch cat1-census-cso-ccby). Surface them here so the
+// Explorer offers an interactive ROI census table finder that links to the live
+// PxStat table. Data lives on data.cso.ie; discovery/search is on Civgraph.
+const ROI_GATE = 'data/database/approved-publication-sources.json';
+let roiCensusTables = [];
+try {
+  const gate = JSON.parse(readFileSync(ROI_GATE, 'utf8'));
+  const seen = new Set();
+  for (const s of gate.sources || []) {
+    if (s.approval?.batchId !== 'cat1-census-cso-ccby') continue;
+    const fromRef = (s.references || [])
+      .map((r) => (String(r.url || '').match(/data\.cso\.ie\/table\/([A-Z0-9]+)/) || [])[1])
+      .find(Boolean);
+    const code = fromRef || (s.keywords || []).find((k) => /^[A-Z0-9]{3,10}$/.test(k));
+    if (!code || seen.has(code)) continue;
+    seen.add(code);
+    roiCensusTables.push({ code, title: s.title, year: s.date || null });
+  }
+  roiCensusTables.sort((a, b) => (Number(b.year) || 0) - (Number(a.year) || 0) || a.code.localeCompare(b.code));
+} catch (e) { /* gate is optional at build time */ }
+const roiYears = [...new Set(roiCensusTables.map((t) => t.year).filter(Boolean))].sort((a, b) => Number(b) - Number(a));
+
 const bundle = {
   schemaVersion: 1,
-  generatedFrom: 'data/census/cleaned (concept-ontology, catalogue, availability-graph, comparability-groups)',
-  scope: 'Northern Ireland census (NISRA digital tables 2001/2011/2021 + CSO historical reports 1841–1991)',
+  generatedFrom: 'data/census/cleaned + CSO PxStat census cubes (cat1-census-cso-ccby)',
+  scope: 'NI census (NISRA digital 2001/2011/2021 + CSO historical 1841–1991) and ROI census (CSO PxStat cubes)',
   sources: {
     census: CENSUS_SOURCE,
     historical: HISTORICAL_SOURCE,
+  },
+  roiCensus: {
+    provider: { provider: 'CSO', url: 'https://data.cso.ie', label: 'CSO PxStat — Census of Population (Republic of Ireland)' },
+    tableUrlPrefix: 'https://data.cso.ie/table/',
+    facets: { years: roiYears },
+    count: roiCensusTables.length,
+    tables: roiCensusTables,
   },
   facets: {
     years: DIGITAL_YEARS,
@@ -206,8 +237,9 @@ const bundle = {
 
 writeFileSync(OUT, JSON.stringify(bundle) + '\n');
 console.log(
-  `Wrote ${OUT}: ${concepts.length} concepts, ${tables.length} logical tables ` +
-  `(${JSON.stringify(bundle.counts.tablesByYear)}), ${topics.length} topics, ${geographyLevels.length} geography levels`
+  `Wrote ${OUT}: ${concepts.length} concepts, ${tables.length} NI logical tables ` +
+  `(${JSON.stringify(bundle.counts.tablesByYear)}), ${roiCensusTables.length} ROI census cubes, ` +
+  `${topics.length} topics, ${geographyLevels.length} geography levels`
 );
 
 // Guard: never leak a local filesystem path into the shipped bundle.

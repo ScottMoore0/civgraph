@@ -149,8 +149,9 @@
     <div class="stat-row" id="statRow" aria-hidden="true"></div>
 
     <div class="tabs" role="tablist">
-      <button id="tab-matrix" role="tab" aria-controls="panel-matrix" aria-selected="true">Concept availability</button>
-      <button id="tab-finder" role="tab" aria-controls="panel-finder" aria-selected="false">Table finder</button>
+      <button id="tab-matrix" role="tab" aria-controls="panel-matrix" aria-selected="true">Concept availability (NI)</button>
+      <button id="tab-finder" role="tab" aria-controls="panel-finder" aria-selected="false">Table finder (NI)</button>
+      <button id="tab-roi" role="tab" aria-controls="panel-roi" aria-selected="false">ROI census (CSO)</button>
     </div>
 
     <section id="panel-matrix" class="panel active" role="tabpanel" aria-labelledby="tab-matrix">
@@ -178,6 +179,24 @@
       </div>
       <div id="finderCount"></div>
       <div id="cards" class="cards"></div>
+    </section>
+
+    <section id="panel-roi" class="panel" role="tabpanel" aria-labelledby="tab-roi">
+      <p style="color:var(--text-muted);max-width:70ch;margin:0 0 14px">Census of Population of the
+      Republic of Ireland, published by the CSO as PxStat statistical cubes. Search and filter below;
+      each table opens on the live CSO PxStat viewer.</p>
+      <div class="controls" id="roiControls" hidden>
+        <div class="field">
+          <label for="rq">Search</label>
+          <input type="search" id="rq" placeholder="code, title, year…" autocomplete="off" />
+        </div>
+        <div class="field">
+          <label for="rYear">Census year</label>
+          <select id="rYear"><option value="">All years</option></select>
+        </div>
+      </div>
+      <div id="roiCount"></div>
+      <div id="roiCards" class="cards"></div>
     </section>
   </main>
 
@@ -382,15 +401,56 @@
         }
       }
 
-      function switchTab(which) {
-        var isMatrix = which === 'matrix';
-        document.getElementById('tab-matrix').setAttribute('aria-selected', isMatrix ? 'true' : 'false');
-        document.getElementById('tab-finder').setAttribute('aria-selected', isMatrix ? 'false' : 'true');
-        document.getElementById('panel-matrix').classList.toggle('active', isMatrix);
-        document.getElementById('panel-finder').classList.toggle('active', !isMatrix);
+      function renderRoi(b) {
+        var roi = b.roiCensus;
+        if (!roi || !Array.isArray(roi.tables)) return;
+        state.roi = roi;
+        document.getElementById('roiControls').removeAttribute('hidden');
+        populateSelect(document.getElementById('rYear'), roi.facets.years);
+        ['rq', 'rYear'].forEach(function (id) {
+          document.getElementById(id).addEventListener('input', applyRoiFilters);
+        });
+        applyRoiFilters();
       }
-      document.getElementById('tab-matrix').addEventListener('click', function () { switchTab('matrix'); });
-      document.getElementById('tab-finder').addEventListener('click', function () { switchTab('finder'); });
+      function applyRoiFilters() {
+        var roi = state.roi; if (!roi) return;
+        var q = document.getElementById('rq').value.trim().toLowerCase();
+        var year = document.getElementById('rYear').value;
+        var list = roi.tables.filter(function (t) {
+          if (year && String(t.year) !== year) return false;
+          if (q) { var hay = (t.code + ' ' + t.title + ' ' + (t.year || '')).toLowerCase(); if (hay.indexOf(q) === -1) return false; }
+          return true;
+        });
+        var mount = document.getElementById('roiCards');
+        mount.innerHTML = '';
+        document.getElementById('roiCount').textContent = list.length + ' of ' + roi.tables.length + ' CSO PxStat census cubes';
+        if (!list.length) { mount.appendChild(el('div', { class: 'empty', text: 'No tables match these filters.' })); return; }
+        list.slice(0, 600).forEach(function (t) {
+          var card = el('div', { class: 'card' });
+          var top = el('div', { class: 'card-top' }, [
+            el('span', { class: 'code-badge', text: t.code }),
+            t.year ? el('span', { class: 'year-tag', text: String(t.year) }) : null
+          ]);
+          card.appendChild(top);
+          card.appendChild(el('h3', { text: t.title }));
+          card.appendChild(el('div', { class: 'src' }, [
+            el('a', { href: roi.tableUrlPrefix + encodeURIComponent(t.code), target: '_blank', rel: 'noopener', text: 'Open on CSO PxStat →' })
+          ]));
+          mount.appendChild(card);
+        });
+        if (list.length > 600) mount.appendChild(el('div', { class: 'empty', text: 'Showing first 600 — refine filters to narrow further.' }));
+      }
+
+      var TABS = ['matrix', 'finder', 'roi'];
+      function switchTab(which) {
+        TABS.forEach(function (t) {
+          document.getElementById('tab-' + t).setAttribute('aria-selected', t === which ? 'true' : 'false');
+          document.getElementById('panel-' + t).classList.toggle('active', t === which);
+        });
+      }
+      TABS.forEach(function (t) {
+        document.getElementById('tab-' + t).addEventListener('click', function () { switchTab(t); });
+      });
 
       fetch(BUNDLE_URL)
         .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
@@ -400,6 +460,7 @@
           renderStats(b);
           renderMatrix(b);
           renderFinder(b);
+          renderRoi(b);
         })
         .catch(function (err) {
           document.getElementById('matrixMount').className = 'empty';
