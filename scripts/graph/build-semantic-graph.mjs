@@ -13,6 +13,14 @@ const REGISTRY_DIR = path.join(ROOT_DIR, 'data', 'database');
 const GENERATED_AT = new Date().toISOString();
 const ENTITY_SHARD_SIZE = 5000;
 const STATEMENT_SHARD_SIZE = 2500;
+// Bulk catalogue-link source tranches are published to Browse/Sources (a sharded
+// index that scales) but are intentionally NOT promoted to semantic-graph
+// entities: they are catalogue stubs with no relationships, and folding tens of
+// thousands of them into entity-search.json / entity-slugs.json would push those
+// per-file indexes past the 25 MiB Cloudflare Pages limit. Matched by id prefix.
+const GRAPH_EXCLUDED_SOURCE_ID_PREFIXES = ['approved-publication:cso-pxstat-'];
+const isGraphExcludedSource = (item) =>
+  GRAPH_EXCLUDED_SOURCE_ID_PREFIXES.some((p) => String(item.id || '').startsWith(p));
 const COMPACT_REFERENCE_LIMIT = 3;
 const COMPACT_DESCRIPTION_LIMIT = 600;
 const gzipAsync = promisify(gzip);
@@ -289,6 +297,7 @@ function seedRegistryEntities() {
 
 function buildSourceEntities(items) {
   for (const item of items) {
+    if (isGraphExcludedSource(item)) continue;
     const id = makeEntityId('source', item.id || item.slug || item.title);
     addEntity(id, {
       typeIds: [TYPE.source],

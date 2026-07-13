@@ -11,6 +11,10 @@ const ROOT_DIR = path.resolve(SCRIPT_DIR, '..', '..');
 const GRAPH_DIR = path.join(ROOT_DIR, 'data', 'graph');
 const BROWSE_DIR = path.join(ROOT_DIR, 'data', 'browse');
 const MAX_GRAPH_FILE_BYTES = 25 * 1024 * 1024;
+// Keep in sync with build-semantic-graph.mjs: bulk catalogue-link source
+// tranches published to Browse/Sources but intentionally not promoted to graph
+// entities (so the per-file entity indexes stay under the Pages 25 MiB cap).
+const GRAPH_EXCLUDED_SOURCE_ID_PREFIXES = ['approved-publication:cso-pxstat-'];
 const gunzipAsync = promisify(gunzip);
 
 const REQUIRED_ENTITY_IDS = [
@@ -239,6 +243,12 @@ async function validateBrowseMappings(mappingItems, errors) {
   for (const [type, items] of checks) {
     const missing = [];
     for (const item of items) {
+      // Bulk catalogue-link source tranches (e.g. the CSO PxStat backfill) are
+      // published to Browse/Sources but intentionally not promoted to
+      // semantic-graph entities (see GRAPH_EXCLUDED_SOURCE_ID_PREFIXES in
+      // build-semantic-graph.mjs), so they are exempt from the graph-mapping
+      // requirement. They remain fully searchable via the Browse sources index.
+      if (type === 'sources' && GRAPH_EXCLUDED_SOURCE_ID_PREFIXES.some((p) => String(item.id || '').startsWith(p))) continue;
       const keys = browseMappingKeys(type, item);
       if (!keys.some((key) => mappingItems[key])) missing.push(item.slug || item.id || item.key || item.title || item.name);
     }
