@@ -12,7 +12,7 @@
   "counts": {
     "publish": 5918,
     "variants": 761,
-    "total": 24781,
+    "total": 32071,
     "excluded": {},
     "initiallyExcludedBeforeRemainingApproval": {
       "hold": 20,
@@ -79,10 +79,15 @@
       "publish": 6968,
       "tranche": "cat1-cso-pxstat-full",
       "note": "Category-1 census tranche. Distinct provenance from the June Category-3 pack; cat-3 publish/variants counts unchanged."
+    },
+    "openDataIePortal": {
+      "publish": 7290,
+      "tranche": "cat1-opendata-ie-portal",
+      "note": "Category-1 census tranche. Distinct provenance from the June Category-3 pack; cat-3 publish/variants counts unchanged."
     }
   },
   "indexLayout": "sharded",
-  "shardCount": 9,
+  "shardCount": 11,
   "shards": [
     {
       "url": "data/database/approved-publication-sources-shards/sources-000.json",
@@ -118,7 +123,15 @@
     },
     {
       "url": "data/database/approved-publication-sources-shards/sources-008.json",
-      "count": 781
+      "count": 3000
+    },
+    {
+      "url": "data/database/approved-publication-sources-shards/sources-009.json",
+      "count": 3000
+    },
+    {
+      "url": "data/database/approved-publication-sources-shards/sources-010.json",
+      "count": 2071
     }
   ]
 }

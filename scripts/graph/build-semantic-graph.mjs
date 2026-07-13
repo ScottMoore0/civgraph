@@ -18,7 +18,7 @@ const STATEMENT_SHARD_SIZE = 2500;
 // entities: they are catalogue stubs with no relationships, and folding tens of
 // thousands of them into entity-search.json / entity-slugs.json would push those
 // per-file indexes past the 25 MiB Cloudflare Pages limit. Matched by id prefix.
-const GRAPH_EXCLUDED_SOURCE_ID_PREFIXES = ['approved-publication:cso-pxstat-'];
+const GRAPH_EXCLUDED_SOURCE_ID_PREFIXES = ['approved-publication:cso-pxstat-', 'approved-publication:opendata-ie-'];
 const isGraphExcludedSource = (item) =>
   GRAPH_EXCLUDED_SOURCE_ID_PREFIXES.some((p) => String(item.id || '').startsWith(p));
 const COMPACT_REFERENCE_LIMIT = 3;

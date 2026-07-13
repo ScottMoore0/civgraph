@@ -14,7 +14,7 @@ const MAX_GRAPH_FILE_BYTES = 25 * 1024 * 1024;
 // Keep in sync with build-semantic-graph.mjs: bulk catalogue-link source
 // tranches published to Browse/Sources but intentionally not promoted to graph
 // entities (so the per-file entity indexes stay under the Pages 25 MiB cap).
-const GRAPH_EXCLUDED_SOURCE_ID_PREFIXES = ['approved-publication:cso-pxstat-'];
+const GRAPH_EXCLUDED_SOURCE_ID_PREFIXES = ['approved-publication:cso-pxstat-', 'approved-publication:opendata-ie-'];
 const gunzipAsync = promisify(gunzip);
 
 const REQUIRED_ENTITY_IDS = [
