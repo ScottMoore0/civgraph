@@ -46,10 +46,17 @@ remove_path "tests"
 # individual Pages assets. The one exception is data/census/explorer-bundle.json,
 # which the Census Explorer frontend (pages/census-explorer.html) fetches at
 # runtime — keep that single file and drop the rest of the tree.
-if [ -d "data/census" ]; then
-  find data/census -mindepth 1 -name explorer-bundle.json -prune -o -print0 \
-    | xargs -0 --no-run-if-empty rm -rf
+if [ -f "data/census/explorer-bundle.json" ]; then
+  # Move the one kept file aside, drop the whole tree, then restore it. Avoids a
+  # find|xargs race where xargs rm -rf removes a directory while find is still
+  # descending into it (which makes find exit non-zero and fail the build).
+  mv "data/census/explorer-bundle.json" "data/.census-explorer-bundle.json.tmp"
+  rm -rf "data/census"
+  mkdir -p "data/census"
+  mv "data/.census-explorer-bundle.json.tmp" "data/census/explorer-bundle.json"
   echo "Trimmed data/census (kept explorer-bundle.json) from Pages asset output"
+elif [ -d "data/census" ]; then
+  remove_path "data/census"
 fi
 
 # Provider mirror audits are local review/source-intake records. They are useful
