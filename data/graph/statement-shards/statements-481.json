@@ -1,9 +1,634 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-14T00:57:46.095Z",
+  "generatedAt": "2026-07-14T01:16:48.011Z",
   "shard": 481,
   "total": 2500,
   "items": [
+    {
+      "id": "cg:statement:e03ddd718b0bd1f0458c",
+      "subjectId": "cg:source:election-source-local-government-local-government-districts-2014-05-22",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Election sources"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:176da0981f9f8db2e136",
+      "subjectId": "cg:source:election-source-local-government-local-government-districts-2014-05-22",
+      "propertyId": "cg:property:year",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-year:2014"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:69a350f5f2d84e8b8fdf",
+      "subjectId": "cg:source:election-source-local-government-local-government-districts-2019-05-02",
+      "propertyId": "cg:property:date",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-month:2019-05",
+        "label": "2019-05-02"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:270da5df3f1514447a80",
+      "subjectId": "cg:source:election-source-local-government-local-government-districts-2019-05-02",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:local-government-local-government-districts-2019-05-02-json-4ea26bc3a1bf"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "JSON"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "/test/metadata/elections-test2/local-government-local-government-districts__2019-05-02.json"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:ef7eeed214541133df9f",
+      "subjectId": "cg:source:election-source-local-government-local-government-districts-2019-05-02",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:deas-2012-vector-test-json-66c2f8a9401f"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "JSON"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "/test/metadata/election-anchors-test2/deas-2012-vector-test.json"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:41f1243e30fbb4fe0a79",
+      "subjectId": "cg:source:election-source-local-government-local-government-districts-2019-05-02",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:d4a0070a6a671fe5eb3e",
+      "subjectId": "cg:source:election-source-local-government-local-government-districts-2019-05-02",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "2019 Northern Ireland local elections 2019-05-02"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:3e12a78fb91358519d55",
+      "subjectId": "cg:source:election-source-local-government-local-government-districts-2019-05-02",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:local-government-districts"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:05c6ce7c5a880c93e1ac",
+      "subjectId": "cg:source:election-source-local-government-local-government-districts-2019-05-02",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:local-election-count-results-2019-arklow-lea-data-gov-ie-cc-by-4-0-723cf9dbbba3"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.gov.ie/dataset/local-election-count-results-2019-arklow-lea"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "external-dataset-source"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:245c34614c8858d68540",
+      "subjectId": "cg:source:election-source-local-government-local-government-districts-2019-05-02",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:local-election-count-results-2019-greystones-lea-data-gov-ie-cc-by-4-0-ad86f2a8ca5b"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.gov.ie/dataset/local-election-count-results-2019-greystones-lea"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "external-dataset-source"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:6f5babae43c109524e9a",
+      "subjectId": "cg:source:election-source-local-government-local-government-districts-2019-05-02",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:local-election-count-results-2019-wicklow-lea-data-gov-ie-cc-by-4-0-34c2e71d7e89"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.gov.ie/dataset/local-election-count-results-2019-wicklow-lea"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "external-dataset-source"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:710861d02ce427e18e0e",
+      "subjectId": "cg:source:election-source-local-government-local-government-districts-2019-05-02",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:local-election-count-results-2019-baltinglass-lea-data-gov-ie-cc-by-4-0-d0018b385895"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.gov.ie/dataset/local-election-count-results-2019-baltinglass-lea"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "external-dataset-source"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:a1e45db33c43bd49974b",
+      "subjectId": "cg:source:election-source-local-government-local-government-districts-2019-05-02",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:electoral-office-for-northern-ireland-election-results-and-statistics-896764b09d75"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://www.eoni.org.uk/Elections/Election-results-and-statistics"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "official-source-corpus"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:e4f7faff01fa29ad9738",
+      "subjectId": "cg:source:election-source-local-government-local-government-districts-2019-05-02",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:ark-elections-cain-archive-3cd66755a615"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://www.ark.ac.uk/elections/"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "corroboration-source"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:fe789343a6c6aef39e69",
+      "subjectId": "cg:source:election-source-local-government-local-government-districts-2019-05-02",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:wikipedia-overview-2019-northern-ireland-local-elections-a88291e73151"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://en.wikipedia.org/wiki/2019_Northern_Ireland_local_elections"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "election-overview"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:6ad232390f25a9446dd4",
+      "subjectId": "cg:source:election-source-local-government-local-government-districts-2019-05-02",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Election sources"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:0f76e52db287828f578d",
+      "subjectId": "cg:source:election-source-local-government-local-government-districts-2019-05-02",
+      "propertyId": "cg:property:year",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-year:2019"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:bc4723c8333a554d11a3",
+      "subjectId": "cg:source:election-source-local-government-local-government-districts-2023-05-18",
+      "propertyId": "cg:property:date",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-month:2023-05",
+        "label": "2023-05-18"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:0ce1c3cc247435a084bd",
+      "subjectId": "cg:source:election-source-local-government-local-government-districts-2023-05-18",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:deas-2012-vector-test-json-66c2f8a9401f"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "JSON"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "/test/metadata/election-anchors-test2/deas-2012-vector-test.json"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:c7c7d81ebdf0a78d6c03",
+      "subjectId": "cg:source:election-source-local-government-local-government-districts-2023-05-18",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:local-government-local-government-districts-2023-05-18-json-7edc25e913dc"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "JSON"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "/test/metadata/elections-test2/local-government-local-government-districts__2023-05-18.json"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:c6bfa5dbd8172b76892a",
+      "subjectId": "cg:source:election-source-local-government-local-government-districts-2023-05-18",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:d15b67b5ea4dbf3cda18",
+      "subjectId": "cg:source:election-source-local-government-local-government-districts-2023-05-18",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "2023 Northern Ireland local elections 2023-05-18"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:05247ccfe42a95883211",
+      "subjectId": "cg:source:election-source-local-government-local-government-districts-2023-05-18",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:local-government-districts"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:8044164fe5799e8ab1d4",
+      "subjectId": "cg:source:election-source-local-government-local-government-districts-2023-05-18",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:ark-elections-cain-archive-3cd66755a615"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://www.ark.ac.uk/elections/"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "corroboration-source"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:9bb5e49d86750ff859ec",
+      "subjectId": "cg:source:election-source-local-government-local-government-districts-2023-05-18",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:electoral-office-for-northern-ireland-election-results-and-statistics-896764b09d75"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://www.eoni.org.uk/Elections/Election-results-and-statistics"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "official-source-corpus"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:9c34bf636872d9ed5593",
+      "subjectId": "cg:source:election-source-local-government-local-government-districts-2023-05-18",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:wikipedia-overview-2023-northern-ireland-local-elections-ea4eb4c3ce64"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://en.wikipedia.org/wiki/2023_Northern_Ireland_local_elections"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "election-overview"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:c7ea70d0ac2a4fe7c279",
+      "subjectId": "cg:source:election-source-local-government-local-government-districts-2023-05-18",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Election sources"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:88775002354647d74d46",
+      "subjectId": "cg:source:election-source-local-government-local-government-districts-2023-05-18",
+      "propertyId": "cg:property:year",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-year:2023"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:3c0eec7c80350637c58f",
+      "subjectId": "cg:source:election-source-local-government-mid-and-east-antrim-2018-10-18",
+      "propertyId": "cg:property:date",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-month:2018-10",
+        "label": "2018-10-18"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:62773f859e8a6fadb3c9",
+      "subjectId": "cg:source:election-source-local-government-mid-and-east-antrim-2018-10-18",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:local-government-mid-and-east-antrim-2018-10-18-json-5a1d6ef17d73"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "JSON"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "/test/metadata/elections-test2/local-government-mid-and-east-antrim__2018-10-18.json"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:fb614a42a780f44c8c7a",
+      "subjectId": "cg:source:election-source-local-government-mid-and-east-antrim-2018-10-18",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:deas-2012-vector-test-json-66c2f8a9401f"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "JSON"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "/test/metadata/election-anchors-test2/deas-2012-vector-test.json"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:b5b5ea55a5ef7aa76f44",
+      "subjectId": "cg:source:election-source-local-government-mid-and-east-antrim-2018-10-18",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:d92d09c40380548f13c6",
+      "subjectId": "cg:source:election-source-local-government-mid-and-east-antrim-2018-10-18",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "2018 Carrick Castle by-election 2018-10-18"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:dcfa32090bc1d2bce930",
+      "subjectId": "cg:source:election-source-local-government-mid-and-east-antrim-2018-10-18",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:local-government-mid-and-east-antrim"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:5b76433b35f07010a05b",
+      "subjectId": "cg:source:election-source-local-government-mid-and-east-antrim-2018-10-18",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:wikipedia-overview-2018-carrick-castle-by-election-c3c1500386d9"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://en.wikipedia.org/wiki/2018_Irish_local_elections"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "election-overview"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
     {
       "id": "cg:statement:60e084ec65e2adb330eb",
       "subjectId": "cg:source:election-source-local-government-mid-and-east-antrim-2018-10-18",
@@ -30971,453 +31596,6 @@
         "type": "url",
         "value": "/browse/sources/map-source-translink-rail-stations"
       },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:27db2a816345ab8a42a5",
-      "subjectId": "cg:source:existing-civgraph-source-record-map-source-ttwa-2011-ab155c002bd7",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:221fd2c4cd328926f622",
-      "subjectId": "cg:source:existing-civgraph-source-record-map-source-ttwa-2011-ab155c002bd7",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Existing Civgraph source record: map-source:ttwa-2011"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:f0aa379ab3a4cd1d2d33",
-      "subjectId": "cg:source:existing-civgraph-source-record-map-source-ttwa-2011-ab155c002bd7",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "source-reference"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:d6248a0f90968ad7adbf",
-      "subjectId": "cg:source:existing-civgraph-source-record-map-source-ttwa-2011-ab155c002bd7",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "/browse/sources/map-source-ttwa-2011"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:c137691efe7c7f2255bd",
-      "subjectId": "cg:source:existing-civgraph-source-record-map-source-wq-groundwater-bodies-40b43c959a02",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:38ddaa51b5eeb9231ab8",
-      "subjectId": "cg:source:existing-civgraph-source-record-map-source-wq-groundwater-bodies-40b43c959a02",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Existing Civgraph source record: map-source:wq-groundwater-bodies"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:3a6ba7bf19ead14d689c",
-      "subjectId": "cg:source:existing-civgraph-source-record-map-source-wq-groundwater-bodies-40b43c959a02",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "source-reference"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:98e8efb42fc4495c438d",
-      "subjectId": "cg:source:existing-civgraph-source-record-map-source-wq-groundwater-bodies-40b43c959a02",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "/browse/sources/map-source-wq-groundwater-bodies"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:d34ee3ebfe35ccaea8ee",
-      "subjectId": "cg:source:existing-civgraph-source-record-map-source-wq-lake-water-bodies-4d37a91ad27b",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:0ce7fc3f0a02e73f2076",
-      "subjectId": "cg:source:existing-civgraph-source-record-map-source-wq-lake-water-bodies-4d37a91ad27b",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Existing Civgraph source record: map-source:wq-lake-water-bodies"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:ca06f6be9b716743f96c",
-      "subjectId": "cg:source:existing-civgraph-source-record-map-source-wq-lake-water-bodies-4d37a91ad27b",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "source-reference"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:6c82d1cc3b9d9c533e0c",
-      "subjectId": "cg:source:existing-civgraph-source-record-map-source-wq-lake-water-bodies-4d37a91ad27b",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "/browse/sources/map-source-wq-lake-water-bodies"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:af1f70e63884c1a8d843",
-      "subjectId": "cg:source:existing-civgraph-source-record-map-source-wq-surface-water-bodies-2015-66f095cf370d",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:21a5395127f9e16da957",
-      "subjectId": "cg:source:existing-civgraph-source-record-map-source-wq-surface-water-bodies-2015-66f095cf370d",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Existing Civgraph source record: map-source:wq-surface-water-bodies-2015"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:a8546489128a6c761631",
-      "subjectId": "cg:source:existing-civgraph-source-record-map-source-wq-surface-water-bodies-2015-66f095cf370d",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "source-reference"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:bb471de9e92e6583e64c",
-      "subjectId": "cg:source:existing-civgraph-source-record-map-source-wq-surface-water-bodies-2015-66f095cf370d",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "/browse/sources/map-source-wq-surface-water-bodies-2015"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:3e4b7525dfb85710a4e7",
-      "subjectId": "cg:source:existing-civgraph-source-record-map-source-wq-wfd-river-water-bodies-c8a53ff052a8",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:17871f3994e4f69e4d27",
-      "subjectId": "cg:source:existing-civgraph-source-record-map-source-wq-wfd-river-water-bodies-c8a53ff052a8",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Existing Civgraph source record: map-source:wq-wfd-river-water-bodies"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:c1aac58df6c2a0fb825b",
-      "subjectId": "cg:source:existing-civgraph-source-record-map-source-wq-wfd-river-water-bodies-c8a53ff052a8",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "source-reference"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:94d489dd3208d46c458f",
-      "subjectId": "cg:source:existing-civgraph-source-record-map-source-wq-wfd-river-water-bodies-c8a53ff052a8",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "/browse/sources/map-source-wq-wfd-river-water-bodies"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:44b9b02cdc4ddbf3351d",
-      "subjectId": "cg:source:exploratory-extended-time-mean-sea-level-projections-to-2300-cm-arcgis-item-page-53ddd8a48820",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:ab2bdd187a38799e63f3",
-      "subjectId": "cg:source:exploratory-extended-time-mean-sea-level-projections-to-2300-cm-arcgis-item-page-53ddd8a48820",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Exploratory Extended Time-mean Sea Level Projections to 2300 (cm) ArcGIS item page"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:0c2f40a3af21d8817c09",
-      "subjectId": "cg:source:exploratory-extended-time-mean-sea-level-projections-to-2300-cm-arcgis-item-page-53ddd8a48820",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "source-reference"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:1bd627568e23ef581a42",
-      "subjectId": "cg:source:exploratory-extended-time-mean-sea-level-projections-to-2300-cm-arcgis-item-page-53ddd8a48820",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://www.arcgis.com/home/item.html?id=4086d89fcd904e0c9b3005dc98ce5e59"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:ed0838b4b931ac5b997d",
-      "subjectId": "cg:source:exploratory-extended-time-mean-sea-level-projections-to-2300-cm-service--995e6568abdc",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:b485bd25cea991c07a66",
-      "subjectId": "cg:source:exploratory-extended-time-mean-sea-level-projections-to-2300-cm-service--995e6568abdc",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Exploratory Extended Time-mean Sea Level Projections to 2300 (cm) service or source URL"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:9be90c6027f58e8f76f2",
-      "subjectId": "cg:source:exploratory-extended-time-mean-sea-level-projections-to-2300-cm-service--995e6568abdc",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "source-reference"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:a95e23e5fca27801642b",
-      "subjectId": "cg:source:exploratory-extended-time-mean-sea-level-projections-to-2300-cm-service--995e6568abdc",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://services.arcgis.com/Lq3V5RFuTBC9I7kv/arcgis/rest/services/Time_mean_Sea_Level_Projections_to_2300/FeatureServer"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:2d5e5846d55bb51b9b48",
-      "subjectId": "cg:source:external-dobih-v18-4-dataset",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-month:2026-06",
-        "label": "2026-06-22"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:1301703fa818757100f3",
-      "subjectId": "cg:source:external-dobih-v18-4-dataset",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:csv-gpstest-csv-73cbf45e6777"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "CSV"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://www.hill-bagging.co.uk/dobih-downloads/GPStest.csv"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:3a22af3995963bb0a164",
-      "subjectId": "cg:source:external-dobih-v18-4-dataset",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:xls-corbettab-v4-xls-4f7cad5eede1"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "XLS"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://www.hill-bagging.co.uk/dobih-downloads/corbettab_v4.xls"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:4ea52371f2fb21afed48",
-      "subjectId": "cg:source:external-dobih-v18-4-dataset",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:csv-corbettab-v4-csv-cb2d6172862b"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "CSV"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://www.hill-bagging.co.uk/dobih-downloads/corbettab_v4.csv"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:531e0153c51c108088c8",
-      "subjectId": "cg:source:external-dobih-v18-4-dataset",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:zip-hillxls-zip-160f7c4cd7ad"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "ZIP"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://www.hill-bagging.co.uk/dobih-downloads/hillxls.zip"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:64482c8da9680ef9bef6",
-      "subjectId": "cg:source:external-dobih-v18-4-dataset",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:csv-donaldtab-v3-csv-31d737c68441"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "CSV"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://www.hill-bagging.co.uk/dobih-downloads/donaldtab_v3.csv"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:70f5d0e8129f10778378",
-      "subjectId": "cg:source:external-dobih-v18-4-dataset",
-      "propertyId": "cg:property:download",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:zip-hillcsv-zip-638e160829b9"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "ZIP"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://www.hill-bagging.co.uk/dobih-downloads/hillcsv.zip"
-          }
-        }
-      ],
       "rank": "normal"
     }
   ]

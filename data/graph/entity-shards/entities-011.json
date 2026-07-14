@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-14T00:57:46.095Z",
+  "generatedAt": "2026-07-14T01:16:48.011Z",
   "shard": 11,
   "total": 5000,
   "items": [
@@ -50625,6 +50625,33 @@
           "Devolved Constituencies",
           "devolved",
           "Elections and Government"
+        ]
+      },
+      "typeIds": [
+        "cg:entity-type:map-layer"
+      ]
+    },
+    {
+      "id": "cg:map-layer:streetnames-gazetteer",
+      "label": "Street Names Gazetteer",
+      "description": "Geographical index of 25,643 named streets across Northern Ireland, from OSNI Open Data (each point carries the street name and its Unique Street Reference Number / USRN).",
+      "kind": "entity",
+      "browseType": "maps",
+      "browseSlug": "streetnames-gazetteer",
+      "browseUrl": "/browse/maps/streetnames-gazetteer",
+      "attributes": {
+        "category": "Settlements",
+        "categoryId": "settlements",
+        "group": "Communities",
+        "provider": "OSNI",
+        "status": "available",
+        "loadable": true,
+        "labelProperty": "STREETNAME",
+        "searchHints": [
+          "Settlements",
+          "settlements",
+          "Communities",
+          "OSNI"
         ]
       },
       "typeIds": [
@@ -113715,31 +113742,6 @@
           "lg89-NoD-Abbey",
           "2011 Northern Ireland local elections",
           "1989 Northern Ireland local elections"
-        ]
-      },
-      "typeIds": [
-        "cg:entity-type:person"
-      ]
-    },
-    {
-      "id": "cg:person:name-ball-william",
-      "label": "Ball William",
-      "description": "DUP / 2011 / 1 contests",
-      "kind": "entity",
-      "browseType": "persons",
-      "browseSlug": "name-ball-william",
-      "browseUrl": "/browse/persons/name-ball-william",
-      "attributes": {
-        "firstYear": 2011,
-        "lastYear": 2011,
-        "relatedElectionCount": 1,
-        "contestsStood": 1,
-        "contestsElected": 1,
-        "firstPreferenceVotes": 1328,
-        "searchHints": [
-          "DUP",
-          "University",
-          "2011 Northern Ireland local elections"
         ]
       },
       "typeIds": [

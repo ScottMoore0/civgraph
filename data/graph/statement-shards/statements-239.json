@@ -1,9 +1,328 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-14T00:57:46.095Z",
+  "generatedAt": "2026-07-14T01:16:48.011Z",
   "shard": 239,
   "total": 2500,
   "items": [
+    {
+      "id": "cg:statement:9488d8a9089cedf341dd",
+      "subjectId": "cg:register-interest:ni-register-record-interest-0902c292f86e8f35",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Miscellaneous Interests"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:cda55fc1b4abad2b008c",
+      "subjectId": "cg:register-interest:ni-register-record-interest-0902c292f86e8f35",
+      "propertyId": "cg:property:nil-return",
+      "value": {
+        "type": "boolean",
+        "value": false
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-36a652ac4f596c5b",
+          "sourceTitle": "NI Assembly Register of Members Interests (16 October 2013)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:36a652ac4f596c5b",
+          "sourceRowId": "ni-register-interest:mla-pdf:1e4cd7aa6b95de90",
+          "sourceUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_161013.pdf",
+          "date": "2013-10-16",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        },
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-36a652ac4f596c5b",
+          "sourceTitle": "NI Assembly Register of Members Interests (16 October 2013)",
+          "sourceKind": "historical-html-register",
+          "sourceRecordId": "ni-register:assembly:html:384947e018148578",
+          "sourceRowId": "ni-register-interest:mla-html:8152952ec2f7e8d8",
+          "sourceUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/16-october-2013/",
+          "date": "2013-10-16",
+          "extractionMethod": "html-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:963052db8519817f6cbd",
+      "subjectId": "cg:register-interest:ni-register-record-interest-090322b9b1638b92",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:register-interest"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:34875e03b3fb60b2f905",
+      "subjectId": "cg:register-interest:ni-register-record-interest-090322b9b1638b92",
+      "propertyId": "cg:property:interest-category",
+      "value": {
+        "type": "string",
+        "value": "Shareholdings"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-747840bedd2f9345",
+          "sourceTitle": "NI Assembly Register of Members Interests (20 December 2012)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:747840bedd2f9345",
+          "sourceRowId": "ni-register-interest:mla-pdf:eb94494638b65033",
+          "sourceUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_201212.pdf",
+          "date": "2012-12-20",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        },
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-747840bedd2f9345",
+          "sourceTitle": "NI Assembly Register of Members Interests (20 December 2012)",
+          "sourceKind": "historical-html-register",
+          "sourceRecordId": "ni-register:assembly:html:2067396b85125260",
+          "sourceRowId": "ni-register-interest:mla-html:de56de1dc8b0c371",
+          "sourceUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/20-december-2012/",
+          "date": "2012-12-20",
+          "extractionMethod": "html-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:09160c7ca6b3a7811af2",
+      "subjectId": "cg:register-interest:ni-register-record-interest-090322b9b1638b92",
+      "propertyId": "cg:property:interest-text",
+      "value": {
+        "type": "string",
+        "value": "None."
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-747840bedd2f9345",
+          "sourceTitle": "NI Assembly Register of Members Interests (20 December 2012)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:747840bedd2f9345",
+          "sourceRowId": "ni-register-interest:mla-pdf:eb94494638b65033",
+          "sourceUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_201212.pdf",
+          "date": "2012-12-20",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        },
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-747840bedd2f9345",
+          "sourceTitle": "NI Assembly Register of Members Interests (20 December 2012)",
+          "sourceKind": "historical-html-register",
+          "sourceRecordId": "ni-register:assembly:html:2067396b85125260",
+          "sourceRowId": "ni-register-interest:mla-html:de56de1dc8b0c371",
+          "sourceUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/20-december-2012/",
+          "date": "2012-12-20",
+          "extractionMethod": "html-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:330bb29560289e9fc221",
+      "subjectId": "cg:register-interest:ni-register-record-interest-090322b9b1638b92",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Shareholdings"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:fc18cd5bd02986f19064",
+      "subjectId": "cg:register-interest:ni-register-record-interest-090322b9b1638b92",
+      "propertyId": "cg:property:nil-return",
+      "value": {
+        "type": "boolean",
+        "value": true
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-747840bedd2f9345",
+          "sourceTitle": "NI Assembly Register of Members Interests (20 December 2012)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:747840bedd2f9345",
+          "sourceRowId": "ni-register-interest:mla-pdf:eb94494638b65033",
+          "sourceUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_201212.pdf",
+          "date": "2012-12-20",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        },
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-747840bedd2f9345",
+          "sourceTitle": "NI Assembly Register of Members Interests (20 December 2012)",
+          "sourceKind": "historical-html-register",
+          "sourceRecordId": "ni-register:assembly:html:2067396b85125260",
+          "sourceRowId": "ni-register-interest:mla-html:de56de1dc8b0c371",
+          "sourceUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/20-december-2012/",
+          "date": "2012-12-20",
+          "extractionMethod": "html-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:2048e5a78b7351f02781",
+      "subjectId": "cg:register-interest:ni-register-record-interest-090338cd63248117",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:register-interest"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:807ae40c44b9c2054969",
+      "subjectId": "cg:register-interest:ni-register-record-interest-090338cd63248117",
+      "propertyId": "cg:property:interest-category",
+      "value": {
+        "type": "string",
+        "value": "Directorships"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:provider-source-url-a4ce61fa29e9",
+          "sourceTitle": "NI Assembly Register of Members Interests (5 January 2016)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:a4ce61fa29e9ceb3",
+          "sourceRowId": "ni-register-interest:mla-pdf:d91a78085d78d230",
+          "sourceUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/050116.pdf",
+          "date": "2016-01-05",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:0428c4a839b829131e45",
+      "subjectId": "cg:register-interest:ni-register-record-interest-090338cd63248117",
+      "propertyId": "cg:property:interest-text",
+      "value": {
+        "type": "string",
+        "value": "None."
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:provider-source-url-a4ce61fa29e9",
+          "sourceTitle": "NI Assembly Register of Members Interests (5 January 2016)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:a4ce61fa29e9ceb3",
+          "sourceRowId": "ni-register-interest:mla-pdf:d91a78085d78d230",
+          "sourceUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/050116.pdf",
+          "date": "2016-01-05",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:e7b82416190efd85fd66",
+      "subjectId": "cg:register-interest:ni-register-record-interest-090338cd63248117",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Directorships"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:8779e5ea1178e517424c",
+      "subjectId": "cg:register-interest:ni-register-record-interest-090338cd63248117",
+      "propertyId": "cg:property:nil-return",
+      "value": {
+        "type": "boolean",
+        "value": true
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:provider-source-url-a4ce61fa29e9",
+          "sourceTitle": "NI Assembly Register of Members Interests (5 January 2016)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:a4ce61fa29e9ceb3",
+          "sourceRowId": "ni-register-interest:mla-pdf:d91a78085d78d230",
+          "sourceUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/050116.pdf",
+          "date": "2016-01-05",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:684cfbe0f989ab3a1f26",
+      "subjectId": "cg:register-interest:ni-register-record-interest-09041a42e3c9d197",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:register-interest"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:b8aadb46628e37a67546",
+      "subjectId": "cg:register-interest:ni-register-record-interest-09041a42e3c9d197",
+      "propertyId": "cg:property:interest-category",
+      "value": {
+        "type": "string",
+        "value": "Shareholdings"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-mp-full-csv",
+          "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
+          "sourceKind": "filtered-westminster-csv",
+          "sourceRecordId": "ni-register:mp:full-csv",
+          "sourceRowId": "ni-register-interest:mp:e20adc0b03426c3c",
+          "date": "2015-03-30",
+          "earliestDeclaration": "2014-05-12",
+          "latestDeclaration": "2015-03-30",
+          "extractionMethod": "ni-mp-csv-name-match",
+          "extractionConfidence": "high",
+          "sourceExtractIds": [
+            "full-csv"
+          ]
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:edc68d53ce5e75036799",
+      "subjectId": "cg:register-interest:ni-register-record-interest-09041a42e3c9d197",
+      "propertyId": "cg:property:interest-text",
+      "value": {
+        "type": "string",
+        "value": "QUBRIC Ltd; a private company limited by shares, of which I am an unremunerated director, whose purpose is to promote and share the experience of peace-building and conflict resolution in Northern Ireland (now dormant). (Updated 6 May 2014)"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-mp-full-csv",
+          "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
+          "sourceKind": "filtered-westminster-csv",
+          "sourceRecordId": "ni-register:mp:full-csv",
+          "sourceRowId": "ni-register-interest:mp:e20adc0b03426c3c",
+          "date": "2015-03-30",
+          "earliestDeclaration": "2014-05-12",
+          "latestDeclaration": "2015-03-30",
+          "extractionMethod": "ni-mp-csv-name-match",
+          "extractionConfidence": "high",
+          "sourceExtractIds": [
+            "full-csv"
+          ]
+        }
+      ],
+      "rank": "normal"
+    },
     {
       "id": "cg:statement:6065e8b76282ae3416d6",
       "subjectId": "cg:register-interest:ni-register-record-interest-09041a42e3c9d197",
@@ -51869,317 +52188,6 @@
           "sourceUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/14-november-2014/",
           "date": "2014-11-14",
           "extractionMethod": "html-heading-parser",
-          "extractionConfidence": "medium"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:d131ea09103f05df35f5",
-      "subjectId": "cg:register-interest:ni-register-record-interest-0ba2da56cb1b7e6c",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Land and Property"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:edfaf9eb030a8f7cbd25",
-      "subjectId": "cg:register-interest:ni-register-record-interest-0ba2da56cb1b7e6c",
-      "propertyId": "cg:property:nil-return",
-      "value": {
-        "type": "boolean",
-        "value": true
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:ni-register-assembly-html-f98216522851fd31",
-          "sourceTitle": "NI Assembly Register of Members Interests (14 November 2014)",
-          "sourceKind": "historical-pdf-register",
-          "sourceRecordId": "ni-register:assembly:pdf:d2a3d325d0648fc3",
-          "sourceRowId": "ni-register-interest:mla-pdf:a73b70c105e47a3f",
-          "sourceUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_14-nov-14.pdf",
-          "date": "2014-11-14",
-          "extractionMethod": "pdf-text-heading-parser",
-          "extractionConfidence": "medium"
-        },
-        {
-          "sourceId": "cg:source:ni-register-assembly-html-f98216522851fd31",
-          "sourceTitle": "NI Assembly Register of Members Interests (14 November 2014)",
-          "sourceKind": "historical-html-register",
-          "sourceRecordId": "ni-register:assembly:html:f98216522851fd31",
-          "sourceRowId": "ni-register-interest:mla-html:be3e58bc39a147b2",
-          "sourceUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/14-november-2014/",
-          "date": "2014-11-14",
-          "extractionMethod": "html-heading-parser",
-          "extractionConfidence": "medium"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:b5cf4c9e78c4f4ff674a",
-      "subjectId": "cg:register-interest:ni-register-record-interest-0ba4980230b3d4ec",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:register-interest"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:6fa8b9e28eb318142eb1",
-      "subjectId": "cg:register-interest:ni-register-record-interest-0ba4980230b3d4ec",
-      "propertyId": "cg:property:interest-category",
-      "value": {
-        "type": "string",
-        "value": "Overseas benefits and gifts"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:ni-register-assembly-html-2dd767ee1eafd2fa",
-          "sourceTitle": "NI Assembly Register of Members Interests (21 October 2015)",
-          "sourceKind": "historical-pdf-register",
-          "sourceRecordId": "ni-register:assembly:pdf:1b66909f7c32aae0",
-          "sourceRowId": "ni-register-interest:mla-pdf:5f152e7271e900f0",
-          "sourceUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/211015.pdf",
-          "date": "2015-10-21",
-          "extractionMethod": "pdf-text-heading-parser",
-          "extractionConfidence": "medium"
-        },
-        {
-          "sourceId": "cg:source:ni-register-assembly-html-2dd767ee1eafd2fa",
-          "sourceTitle": "NI Assembly Register of Members Interests (21 October 2015)",
-          "sourceKind": "historical-html-register",
-          "sourceRecordId": "ni-register:assembly:html:2dd767ee1eafd2fa",
-          "sourceRowId": "ni-register-interest:mla-html:aa0c3789fefe5d35",
-          "sourceUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/21-october-2015/",
-          "date": "2015-10-21",
-          "extractionMethod": "html-heading-parser",
-          "extractionConfidence": "medium"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:d64f48b5a2d01c32c3ba",
-      "subjectId": "cg:register-interest:ni-register-record-interest-0ba4980230b3d4ec",
-      "propertyId": "cg:property:interest-text",
-      "value": {
-        "type": "string",
-        "value": "None."
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:ni-register-assembly-html-2dd767ee1eafd2fa",
-          "sourceTitle": "NI Assembly Register of Members Interests (21 October 2015)",
-          "sourceKind": "historical-pdf-register",
-          "sourceRecordId": "ni-register:assembly:pdf:1b66909f7c32aae0",
-          "sourceRowId": "ni-register-interest:mla-pdf:5f152e7271e900f0",
-          "sourceUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/211015.pdf",
-          "date": "2015-10-21",
-          "extractionMethod": "pdf-text-heading-parser",
-          "extractionConfidence": "medium"
-        },
-        {
-          "sourceId": "cg:source:ni-register-assembly-html-2dd767ee1eafd2fa",
-          "sourceTitle": "NI Assembly Register of Members Interests (21 October 2015)",
-          "sourceKind": "historical-html-register",
-          "sourceRecordId": "ni-register:assembly:html:2dd767ee1eafd2fa",
-          "sourceRowId": "ni-register-interest:mla-html:aa0c3789fefe5d35",
-          "sourceUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/21-october-2015/",
-          "date": "2015-10-21",
-          "extractionMethod": "html-heading-parser",
-          "extractionConfidence": "medium"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:292e89c85cc273800600",
-      "subjectId": "cg:register-interest:ni-register-record-interest-0ba4980230b3d4ec",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Overseas benefits and gifts"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:5035549ca061f3408b12",
-      "subjectId": "cg:register-interest:ni-register-record-interest-0ba4980230b3d4ec",
-      "propertyId": "cg:property:nil-return",
-      "value": {
-        "type": "boolean",
-        "value": true
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:ni-register-assembly-html-2dd767ee1eafd2fa",
-          "sourceTitle": "NI Assembly Register of Members Interests (21 October 2015)",
-          "sourceKind": "historical-pdf-register",
-          "sourceRecordId": "ni-register:assembly:pdf:1b66909f7c32aae0",
-          "sourceRowId": "ni-register-interest:mla-pdf:5f152e7271e900f0",
-          "sourceUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/211015.pdf",
-          "date": "2015-10-21",
-          "extractionMethod": "pdf-text-heading-parser",
-          "extractionConfidence": "medium"
-        },
-        {
-          "sourceId": "cg:source:ni-register-assembly-html-2dd767ee1eafd2fa",
-          "sourceTitle": "NI Assembly Register of Members Interests (21 October 2015)",
-          "sourceKind": "historical-html-register",
-          "sourceRecordId": "ni-register:assembly:html:2dd767ee1eafd2fa",
-          "sourceRowId": "ni-register-interest:mla-html:aa0c3789fefe5d35",
-          "sourceUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/21-october-2015/",
-          "date": "2015-10-21",
-          "extractionMethod": "html-heading-parser",
-          "extractionConfidence": "medium"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:5ea12baff15ddc37100a",
-      "subjectId": "cg:register-interest:ni-register-record-interest-0ba6a1abb7fb5488",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:register-interest"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:88f50be5c3f7e8ced842",
-      "subjectId": "cg:register-interest:ni-register-record-interest-0ba6a1abb7fb5488",
-      "propertyId": "cg:property:interest-category",
-      "value": {
-        "type": "string",
-        "value": "Overseas visits"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:ni-register-assembly-html-3f0b845672b76a87",
-          "sourceTitle": "NI Assembly Register of Members Interests (28 April 2010)",
-          "sourceKind": "historical-html-register",
-          "sourceRecordId": "ni-register:assembly:html:3f0b845672b76a87",
-          "sourceRowId": "ni-register-interest:mla-html:a49e7a48e0558867",
-          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register280410.htm",
-          "date": "2010-04-28",
-          "extractionMethod": "html-heading-parser",
-          "extractionConfidence": "medium"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:6d2b4a7f9a134ec98ca9",
-      "subjectId": "cg:register-interest:ni-register-record-interest-0ba6a1abb7fb5488",
-      "propertyId": "cg:property:interest-text",
-      "value": {
-        "type": "string",
-        "value": "In September 2007 I visited Washington D.C. to raise awareness and consider matters in relation to Autism. The cost of this visit was met by Autism N.I. During May 2008 I attended a course on democracy and government in Boston and Washington D.C. The cost was met by Boston College."
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:ni-register-assembly-html-3f0b845672b76a87",
-          "sourceTitle": "NI Assembly Register of Members Interests (28 April 2010)",
-          "sourceKind": "historical-html-register",
-          "sourceRecordId": "ni-register:assembly:html:3f0b845672b76a87",
-          "sourceRowId": "ni-register-interest:mla-html:a49e7a48e0558867",
-          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register280410.htm",
-          "date": "2010-04-28",
-          "extractionMethod": "html-heading-parser",
-          "extractionConfidence": "medium"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:06a600ac2bc9726bfd2b",
-      "subjectId": "cg:register-interest:ni-register-record-interest-0ba6a1abb7fb5488",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Overseas visits"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:8d9c79ecab84c52164e9",
-      "subjectId": "cg:register-interest:ni-register-record-interest-0ba6a1abb7fb5488",
-      "propertyId": "cg:property:nil-return",
-      "value": {
-        "type": "boolean",
-        "value": false
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:ni-register-assembly-html-3f0b845672b76a87",
-          "sourceTitle": "NI Assembly Register of Members Interests (28 April 2010)",
-          "sourceKind": "historical-html-register",
-          "sourceRecordId": "ni-register:assembly:html:3f0b845672b76a87",
-          "sourceRowId": "ni-register-interest:mla-html:a49e7a48e0558867",
-          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register280410.htm",
-          "date": "2010-04-28",
-          "extractionMethod": "html-heading-parser",
-          "extractionConfidence": "medium"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:87009a33043faacfd6ae",
-      "subjectId": "cg:register-interest:ni-register-record-interest-0ba7be9bb89f076f",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:register-interest"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:7b0a9802e9004aad4616",
-      "subjectId": "cg:register-interest:ni-register-record-interest-0ba7be9bb89f076f",
-      "propertyId": "cg:property:interest-category",
-      "value": {
-        "type": "string",
-        "value": "Shareholdings"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:ni-register-assembly-pdf-8e8fa8f589bd34da",
-          "sourceTitle": "NI Assembly Register of Members Interests (25 March 2022)",
-          "sourceKind": "historical-pdf-register",
-          "sourceRecordId": "ni-register:assembly:pdf:8e8fa8f589bd34da",
-          "sourceRowId": "ni-register-interest:mla-pdf:8e7569509e197303",
-          "sourceUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-25-march-2022.pdf",
-          "date": "2022-03-25",
-          "extractionMethod": "pdf-text-heading-parser",
-          "extractionConfidence": "medium"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:6a94d1b9921d034f5ff9",
-      "subjectId": "cg:register-interest:ni-register-record-interest-0ba7be9bb89f076f",
-      "propertyId": "cg:property:interest-text",
-      "value": {
-        "type": "string",
-        "value": "None. (Registered 24 June 2019)"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:ni-register-assembly-pdf-8e8fa8f589bd34da",
-          "sourceTitle": "NI Assembly Register of Members Interests (25 March 2022)",
-          "sourceKind": "historical-pdf-register",
-          "sourceRecordId": "ni-register:assembly:pdf:8e8fa8f589bd34da",
-          "sourceRowId": "ni-register-interest:mla-pdf:8e7569509e197303",
-          "sourceUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-25-march-2022.pdf",
-          "date": "2022-03-25",
-          "extractionMethod": "pdf-text-heading-parser",
           "extractionConfidence": "medium"
         }
       ],

@@ -1,9 +1,87 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-14T00:57:46.095Z",
+  "generatedAt": "2026-07-14T01:16:48.011Z",
   "shard": 37,
   "total": 5000,
   "items": [
+    {
+      "id": "cg:source:json-stat-cube-tmq18-41bdd1284324",
+      "label": "JSON-stat cube (TMQ18)",
+      "kind": "entity",
+      "sourceUrl": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TMQ18/JSON-stat/2.0/en",
+      "attributes": {
+        "sourceKind": "source-reference",
+        "createdFrom": "external-reference"
+      },
+      "typeIds": [
+        "cg:entity-type:source"
+      ]
+    },
+    {
+      "id": "cg:source:json-stat-cube-tmq19-4ac219408e29",
+      "label": "JSON-stat cube (TMQ19)",
+      "kind": "entity",
+      "sourceUrl": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TMQ19/JSON-stat/2.0/en",
+      "attributes": {
+        "sourceKind": "source-reference",
+        "createdFrom": "external-reference"
+      },
+      "typeIds": [
+        "cg:entity-type:source"
+      ]
+    },
+    {
+      "id": "cg:source:json-stat-cube-tmq20-b801ff06e175",
+      "label": "JSON-stat cube (TMQ20)",
+      "kind": "entity",
+      "sourceUrl": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TMQ20/JSON-stat/2.0/en",
+      "attributes": {
+        "sourceKind": "source-reference",
+        "createdFrom": "external-reference"
+      },
+      "typeIds": [
+        "cg:entity-type:source"
+      ]
+    },
+    {
+      "id": "cg:source:json-stat-cube-tmq21-71d59e62344c",
+      "label": "JSON-stat cube (TMQ21)",
+      "kind": "entity",
+      "sourceUrl": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TMQ21/JSON-stat/2.0/en",
+      "attributes": {
+        "sourceKind": "source-reference",
+        "createdFrom": "external-reference"
+      },
+      "typeIds": [
+        "cg:entity-type:source"
+      ]
+    },
+    {
+      "id": "cg:source:json-stat-cube-tnlia01-cecffa4f3dd9",
+      "label": "JSON-stat cube (TNLIA01)",
+      "kind": "entity",
+      "sourceUrl": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TNLIA01/JSON-stat/2.0/en",
+      "attributes": {
+        "sourceKind": "source-reference",
+        "createdFrom": "external-reference"
+      },
+      "typeIds": [
+        "cg:entity-type:source"
+      ]
+    },
+    {
+      "id": "cg:source:json-stat-cube-tnlia02-2aa646c73e41",
+      "label": "JSON-stat cube (TNLIA02)",
+      "kind": "entity",
+      "sourceUrl": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TNLIA02/JSON-stat/2.0/en",
+      "attributes": {
+        "sourceKind": "source-reference",
+        "createdFrom": "external-reference"
+      },
+      "typeIds": [
+        "cg:entity-type:source"
+      ]
+    },
     {
       "id": "cg:source:json-stat-cube-tnlia04-f61df90f28fb",
       "label": "JSON-stat cube (TNLIA04)",
@@ -20440,6 +20518,24 @@
         "date": 1929,
         "referenceCount": 0,
         "downloadCount": 3
+      },
+      "typeIds": [
+        "cg:entity-type:source"
+      ]
+    },
+    {
+      "id": "cg:source:map-source-streetnames-gazetteer",
+      "label": "Street Names Gazetteer source files",
+      "description": "Geographical index of 25,643 named streets across Northern Ireland, from OSNI Open Data (each point carries the street name and its Unique Street Reference Number / USRN).",
+      "kind": "entity",
+      "browseType": "sources",
+      "browseSlug": "map-source-streetnames-gazetteer",
+      "browseUrl": "/browse/sources/map-source-streetnames-gazetteer",
+      "attributes": {
+        "sourceCategory": "Map sources",
+        "provider": "OSNI",
+        "referenceCount": 5,
+        "downloadCount": 9
       },
       "typeIds": [
         "cg:entity-type:source"
@@ -88234,104 +88330,6 @@
       "label": "Original CSO source",
       "kind": "entity",
       "sourceUrl": "https://www.cso.ie/en/media/csoie/census/census1971results/volume2/A_C_3_1971_V2_Explan_Comm_Diagram.pdf",
-      "attributes": {
-        "sourceKind": "source-reference",
-        "role": "source-download",
-        "createdFrom": "external-reference"
-      },
-      "typeIds": [
-        "cg:entity-type:source"
-      ]
-    },
-    {
-      "id": "cg:source:original-cso-source-6ef58d7efdab",
-      "label": "Original CSO source",
-      "kind": "entity",
-      "sourceUrl": "https://www.cso.ie/en/media/csoie/census/census1986results/volume6/C_1986__V_6_T11.pdf",
-      "attributes": {
-        "sourceKind": "source-reference",
-        "role": "source-download",
-        "createdFrom": "external-reference"
-      },
-      "typeIds": [
-        "cg:entity-type:source"
-      ]
-    },
-    {
-      "id": "cg:source:original-cso-source-6f12b20a30ba",
-      "label": "Original CSO source",
-      "kind": "entity",
-      "sourceUrl": "https://www.cso.ie/en/media/csoie/census/census1981results/volume11/C_1981_V11_T17.pdf",
-      "attributes": {
-        "sourceKind": "source-reference",
-        "role": "source-download",
-        "createdFrom": "external-reference"
-      },
-      "typeIds": [
-        "cg:entity-type:source"
-      ]
-    },
-    {
-      "id": "cg:source:original-cso-source-6f5b97ca3776",
-      "label": "Original CSO source",
-      "kind": "entity",
-      "sourceUrl": "https://www.cso.ie/en/media/csoie/census/census1966results/volume1/C_1966_VOL_1_T10.pdf",
-      "attributes": {
-        "sourceKind": "source-reference",
-        "role": "source-download",
-        "createdFrom": "external-reference"
-      },
-      "typeIds": [
-        "cg:entity-type:source"
-      ]
-    },
-    {
-      "id": "cg:source:original-cso-source-6f89bd32503a",
-      "label": "Original CSO source",
-      "kind": "entity",
-      "sourceUrl": "https://www.cso.ie/en/media/csoie/census/census1966results/volume1/C_1966_VOL_1_T8.pdf",
-      "attributes": {
-        "sourceKind": "source-reference",
-        "role": "source-download",
-        "createdFrom": "external-reference"
-      },
-      "typeIds": [
-        "cg:entity-type:source"
-      ]
-    },
-    {
-      "id": "cg:source:original-cso-source-6f8d95a7467c",
-      "label": "Original CSO source",
-      "kind": "entity",
-      "sourceUrl": "https://www.cso.ie/en/media/csoie/statistics/archive/census1841/356__Report_Ireland_1841_Armagh.pdf",
-      "attributes": {
-        "sourceKind": "source-reference",
-        "role": "source-download",
-        "createdFrom": "external-reference"
-      },
-      "typeIds": [
-        "cg:entity-type:source"
-      ]
-    },
-    {
-      "id": "cg:source:original-cso-source-6fc2ee8bd24f",
-      "label": "Original CSO source",
-      "kind": "entity",
-      "sourceUrl": "https://www.cso.ie/en/media/csoie/census/census1926results/volume4/C_1926_VOL_4_T1.pdf",
-      "attributes": {
-        "sourceKind": "source-reference",
-        "role": "source-download",
-        "createdFrom": "external-reference"
-      },
-      "typeIds": [
-        "cg:entity-type:source"
-      ]
-    },
-    {
-      "id": "cg:source:original-cso-source-6fc6ca7aa026",
-      "label": "Original CSO source",
-      "kind": "entity",
-      "sourceUrl": "https://www.cso.ie/en/media/csoie/census/census1991results/volume2/C_1991__V2_T19_b.pdf",
       "attributes": {
         "sourceKind": "source-reference",
         "role": "source-download",

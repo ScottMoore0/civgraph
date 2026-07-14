@@ -1,9 +1,936 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-14T00:57:46.095Z",
+  "generatedAt": "2026-07-14T01:16:48.011Z",
   "shard": 378,
   "total": 2500,
   "items": [
+    {
+      "id": "cg:statement:f485cd24e7228b4ea650",
+      "subjectId": "cg:register-record:ni-register-record-fa55e4fa24c5816d",
+      "propertyId": "cg:property:date",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-month:2010-11",
+        "label": "2010-11-29"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-4ad330edbf7103fd",
+          "sourceTitle": "NI Assembly Register of Members Interests (29 November 2010)",
+          "sourceKind": "historical-html-register",
+          "sourceRecordId": "ni-register:assembly:html:cdab1ad592720cd5",
+          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register291110.htm",
+          "date": "2010-11-29",
+          "extractionMethod": "html-heading-parser",
+          "extractionConfidence": "medium"
+        },
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-4ad330edbf7103fd",
+          "sourceTitle": "NI Assembly Register of Members Interests (29 November 2010)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:4ad330edbf7103fd",
+          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register_291110.pdf",
+          "date": "2010-11-29",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:0a6d2bc85bbb7491e8b1",
+      "subjectId": "cg:register-record:ni-register-record-fa55e4fa24c5816d",
+      "propertyId": "cg:property:declared-interest",
+      "value": {
+        "type": "entity",
+        "id": "cg:register-interest:ni-register-record-interest-789077780e6945c1"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:interest-category",
+          "value": {
+            "type": "string",
+            "value": "Miscellaneous Interests"
+          }
+        },
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "2010-11-29"
+          }
+        },
+        {
+          "propertyId": "cg:property:nil-return",
+          "value": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "propertyId": "cg:property:extraction-confidence",
+          "value": {
+            "type": "string",
+            "value": "medium"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-row-count",
+          "value": {
+            "type": "number",
+            "value": 2
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-4ad330edbf7103fd",
+          "sourceTitle": "NI Assembly Register of Members Interests (29 November 2010)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:4ad330edbf7103fd",
+          "sourceRowId": "ni-register-interest:mla-pdf:ecdcc601ac23cc7e",
+          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register_291110.pdf",
+          "date": "2010-11-29",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        },
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-4ad330edbf7103fd",
+          "sourceTitle": "NI Assembly Register of Members Interests (29 November 2010)",
+          "sourceKind": "historical-html-register",
+          "sourceRecordId": "ni-register:assembly:html:cdab1ad592720cd5",
+          "sourceRowId": "ni-register-interest:mla-html:84b87666a285b709",
+          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register291110.htm",
+          "date": "2010-11-29",
+          "extractionMethod": "html-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:1308a2eb924446f3aff5",
+      "subjectId": "cg:register-record:ni-register-record-fa55e4fa24c5816d",
+      "propertyId": "cg:property:declared-interest",
+      "value": {
+        "type": "entity",
+        "id": "cg:register-interest:ni-register-record-interest-94154d2f15d130fe"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:interest-category",
+          "value": {
+            "type": "string",
+            "value": "Electoral Support and Political Donations"
+          }
+        },
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "2010-11-29"
+          }
+        },
+        {
+          "propertyId": "cg:property:nil-return",
+          "value": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "propertyId": "cg:property:extraction-confidence",
+          "value": {
+            "type": "string",
+            "value": "medium"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-row-count",
+          "value": {
+            "type": "number",
+            "value": 2
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-4ad330edbf7103fd",
+          "sourceTitle": "NI Assembly Register of Members Interests (29 November 2010)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:4ad330edbf7103fd",
+          "sourceRowId": "ni-register-interest:mla-pdf:1276172d3014fabd",
+          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register_291110.pdf",
+          "date": "2010-11-29",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        },
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-4ad330edbf7103fd",
+          "sourceTitle": "NI Assembly Register of Members Interests (29 November 2010)",
+          "sourceKind": "historical-html-register",
+          "sourceRecordId": "ni-register:assembly:html:cdab1ad592720cd5",
+          "sourceRowId": "ni-register-interest:mla-html:6c4bff6b96557e87",
+          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register291110.htm",
+          "date": "2010-11-29",
+          "extractionMethod": "html-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:1d93b9d6d2b776cdb2a7",
+      "subjectId": "cg:register-record:ni-register-record-fa55e4fa24c5816d",
+      "propertyId": "cg:property:declared-interest",
+      "value": {
+        "type": "entity",
+        "id": "cg:register-interest:ni-register-record-interest-b3bffa0a35f1d733"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:interest-category",
+          "value": {
+            "type": "string",
+            "value": "Family members who benefit from Assembly Members' Allowances"
+          }
+        },
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "2010-11-29"
+          }
+        },
+        {
+          "propertyId": "cg:property:nil-return",
+          "value": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "propertyId": "cg:property:extraction-confidence",
+          "value": {
+            "type": "string",
+            "value": "medium"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-row-count",
+          "value": {
+            "type": "number",
+            "value": 2
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-4ad330edbf7103fd",
+          "sourceTitle": "NI Assembly Register of Members Interests (29 November 2010)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:4ad330edbf7103fd",
+          "sourceRowId": "ni-register-interest:mla-pdf:ac0416aa73f7fe1a",
+          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register_291110.pdf",
+          "date": "2010-11-29",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        },
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-4ad330edbf7103fd",
+          "sourceTitle": "NI Assembly Register of Members Interests (29 November 2010)",
+          "sourceKind": "historical-html-register",
+          "sourceRecordId": "ni-register:assembly:html:cdab1ad592720cd5",
+          "sourceRowId": "ni-register-interest:mla-html:b80a999645088265",
+          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register291110.htm",
+          "date": "2010-11-29",
+          "extractionMethod": "html-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:2aca1610bdcdf0424aad",
+      "subjectId": "cg:register-record:ni-register-record-fa55e4fa24c5816d",
+      "propertyId": "cg:property:declared-interest",
+      "value": {
+        "type": "entity",
+        "id": "cg:register-interest:ni-register-record-interest-8aa2555789f82ec2"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:interest-category",
+          "value": {
+            "type": "string",
+            "value": "Elected/Public Office"
+          }
+        },
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "2010-11-29"
+          }
+        },
+        {
+          "propertyId": "cg:property:nil-return",
+          "value": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "propertyId": "cg:property:extraction-confidence",
+          "value": {
+            "type": "string",
+            "value": "medium"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-row-count",
+          "value": {
+            "type": "number",
+            "value": 2
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-4ad330edbf7103fd",
+          "sourceTitle": "NI Assembly Register of Members Interests (29 November 2010)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:4ad330edbf7103fd",
+          "sourceRowId": "ni-register-interest:mla-pdf:bba27a1c0d272131",
+          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register_291110.pdf",
+          "date": "2010-11-29",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        },
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-4ad330edbf7103fd",
+          "sourceTitle": "NI Assembly Register of Members Interests (29 November 2010)",
+          "sourceKind": "historical-html-register",
+          "sourceRecordId": "ni-register:assembly:html:cdab1ad592720cd5",
+          "sourceRowId": "ni-register-interest:mla-html:be25b916059b5ded",
+          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register291110.htm",
+          "date": "2010-11-29",
+          "extractionMethod": "html-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:3f43f6c205f64302a629",
+      "subjectId": "cg:register-record:ni-register-record-fa55e4fa24c5816d",
+      "propertyId": "cg:property:declared-interest",
+      "value": {
+        "type": "entity",
+        "id": "cg:register-interest:ni-register-record-interest-7d7e0aac8959e32e"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:interest-category",
+          "value": {
+            "type": "string",
+            "value": "Remunerated Employment, Office, Profession, etc"
+          }
+        },
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "2010-11-29"
+          }
+        },
+        {
+          "propertyId": "cg:property:nil-return",
+          "value": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "propertyId": "cg:property:extraction-confidence",
+          "value": {
+            "type": "string",
+            "value": "medium"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-row-count",
+          "value": {
+            "type": "number",
+            "value": 2
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-4ad330edbf7103fd",
+          "sourceTitle": "NI Assembly Register of Members Interests (29 November 2010)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:4ad330edbf7103fd",
+          "sourceRowId": "ni-register-interest:mla-pdf:e61ce22a7a63e303",
+          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register_291110.pdf",
+          "date": "2010-11-29",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        },
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-4ad330edbf7103fd",
+          "sourceTitle": "NI Assembly Register of Members Interests (29 November 2010)",
+          "sourceKind": "historical-html-register",
+          "sourceRecordId": "ni-register:assembly:html:cdab1ad592720cd5",
+          "sourceRowId": "ni-register-interest:mla-html:ea52dd693280c697",
+          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register291110.htm",
+          "date": "2010-11-29",
+          "extractionMethod": "html-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:4da3cfcf698d9f0b3ced",
+      "subjectId": "cg:register-record:ni-register-record-fa55e4fa24c5816d",
+      "propertyId": "cg:property:declared-interest",
+      "value": {
+        "type": "entity",
+        "id": "cg:register-interest:ni-register-record-interest-0327d82baa21fc35"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:interest-category",
+          "value": {
+            "type": "string",
+            "value": "Shareholdings"
+          }
+        },
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "2010-11-29"
+          }
+        },
+        {
+          "propertyId": "cg:property:nil-return",
+          "value": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "propertyId": "cg:property:extraction-confidence",
+          "value": {
+            "type": "string",
+            "value": "medium"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-row-count",
+          "value": {
+            "type": "number",
+            "value": 2
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-4ad330edbf7103fd",
+          "sourceTitle": "NI Assembly Register of Members Interests (29 November 2010)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:4ad330edbf7103fd",
+          "sourceRowId": "ni-register-interest:mla-pdf:2de58dbc55d7524b",
+          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register_291110.pdf",
+          "date": "2010-11-29",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        },
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-4ad330edbf7103fd",
+          "sourceTitle": "NI Assembly Register of Members Interests (29 November 2010)",
+          "sourceKind": "historical-html-register",
+          "sourceRecordId": "ni-register:assembly:html:cdab1ad592720cd5",
+          "sourceRowId": "ni-register-interest:mla-html:65d50cc1cdd24b2f",
+          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register291110.htm",
+          "date": "2010-11-29",
+          "extractionMethod": "html-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:65336f5c36d313f8c22e",
+      "subjectId": "cg:register-record:ni-register-record-fa55e4fa24c5816d",
+      "propertyId": "cg:property:declared-interest",
+      "value": {
+        "type": "entity",
+        "id": "cg:register-interest:ni-register-record-interest-2dcaced93cda0844"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:interest-category",
+          "value": {
+            "type": "string",
+            "value": "Unremunerated Interests"
+          }
+        },
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "2010-11-29"
+          }
+        },
+        {
+          "propertyId": "cg:property:nil-return",
+          "value": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "propertyId": "cg:property:extraction-confidence",
+          "value": {
+            "type": "string",
+            "value": "medium"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-row-count",
+          "value": {
+            "type": "number",
+            "value": 2
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-4ad330edbf7103fd",
+          "sourceTitle": "NI Assembly Register of Members Interests (29 November 2010)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:4ad330edbf7103fd",
+          "sourceRowId": "ni-register-interest:mla-pdf:ff0068108709cbdd",
+          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register_291110.pdf",
+          "date": "2010-11-29",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        },
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-4ad330edbf7103fd",
+          "sourceTitle": "NI Assembly Register of Members Interests (29 November 2010)",
+          "sourceKind": "historical-html-register",
+          "sourceRecordId": "ni-register:assembly:html:cdab1ad592720cd5",
+          "sourceRowId": "ni-register-interest:mla-html:dff94b377efb8ce4",
+          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register291110.htm",
+          "date": "2010-11-29",
+          "extractionMethod": "html-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:ba3bb5ca44fd889cf74f",
+      "subjectId": "cg:register-record:ni-register-record-fa55e4fa24c5816d",
+      "propertyId": "cg:property:declared-interest",
+      "value": {
+        "type": "entity",
+        "id": "cg:register-interest:ni-register-record-interest-684987f2a1ed71fd"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:interest-category",
+          "value": {
+            "type": "string",
+            "value": "Overseas benefits and gifts"
+          }
+        },
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "2010-11-29"
+          }
+        },
+        {
+          "propertyId": "cg:property:nil-return",
+          "value": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "propertyId": "cg:property:extraction-confidence",
+          "value": {
+            "type": "string",
+            "value": "medium"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-row-count",
+          "value": {
+            "type": "number",
+            "value": 2
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-4ad330edbf7103fd",
+          "sourceTitle": "NI Assembly Register of Members Interests (29 November 2010)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:4ad330edbf7103fd",
+          "sourceRowId": "ni-register-interest:mla-pdf:5b4e8362e1e7b0e8",
+          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register_291110.pdf",
+          "date": "2010-11-29",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        },
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-4ad330edbf7103fd",
+          "sourceTitle": "NI Assembly Register of Members Interests (29 November 2010)",
+          "sourceKind": "historical-html-register",
+          "sourceRecordId": "ni-register:assembly:html:cdab1ad592720cd5",
+          "sourceRowId": "ni-register-interest:mla-html:634c86c91c4aa32a",
+          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register291110.htm",
+          "date": "2010-11-29",
+          "extractionMethod": "html-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:bf50315237ac10a726c6",
+      "subjectId": "cg:register-record:ni-register-record-fa55e4fa24c5816d",
+      "propertyId": "cg:property:declared-interest",
+      "value": {
+        "type": "entity",
+        "id": "cg:register-interest:ni-register-record-interest-3ff75b3a8f80d756"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:interest-category",
+          "value": {
+            "type": "string",
+            "value": "Directorships"
+          }
+        },
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "2010-11-29"
+          }
+        },
+        {
+          "propertyId": "cg:property:nil-return",
+          "value": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "propertyId": "cg:property:extraction-confidence",
+          "value": {
+            "type": "string",
+            "value": "medium"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-row-count",
+          "value": {
+            "type": "number",
+            "value": 2
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-4ad330edbf7103fd",
+          "sourceTitle": "NI Assembly Register of Members Interests (29 November 2010)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:4ad330edbf7103fd",
+          "sourceRowId": "ni-register-interest:mla-pdf:f43dd1e38774ad3e",
+          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register_291110.pdf",
+          "date": "2010-11-29",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        },
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-4ad330edbf7103fd",
+          "sourceTitle": "NI Assembly Register of Members Interests (29 November 2010)",
+          "sourceKind": "historical-html-register",
+          "sourceRecordId": "ni-register:assembly:html:cdab1ad592720cd5",
+          "sourceRowId": "ni-register-interest:mla-html:f111bd8d7025f506",
+          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register291110.htm",
+          "date": "2010-11-29",
+          "extractionMethod": "html-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:d21f7bbc38cbed1f22dc",
+      "subjectId": "cg:register-record:ni-register-record-fa55e4fa24c5816d",
+      "propertyId": "cg:property:declared-interest",
+      "value": {
+        "type": "entity",
+        "id": "cg:register-interest:ni-register-record-interest-6b7d096cbd943536"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:interest-category",
+          "value": {
+            "type": "string",
+            "value": "Gifts, benefits and hospitality (UK)"
+          }
+        },
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "2010-11-29"
+          }
+        },
+        {
+          "propertyId": "cg:property:nil-return",
+          "value": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "propertyId": "cg:property:extraction-confidence",
+          "value": {
+            "type": "string",
+            "value": "medium"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-row-count",
+          "value": {
+            "type": "number",
+            "value": 2
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-4ad330edbf7103fd",
+          "sourceTitle": "NI Assembly Register of Members Interests (29 November 2010)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:4ad330edbf7103fd",
+          "sourceRowId": "ni-register-interest:mla-pdf:2a48929973508456",
+          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register_291110.pdf",
+          "date": "2010-11-29",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        },
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-4ad330edbf7103fd",
+          "sourceTitle": "NI Assembly Register of Members Interests (29 November 2010)",
+          "sourceKind": "historical-html-register",
+          "sourceRecordId": "ni-register:assembly:html:cdab1ad592720cd5",
+          "sourceRowId": "ni-register-interest:mla-html:4eb55fdd1b0b17c8",
+          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register291110.htm",
+          "date": "2010-11-29",
+          "extractionMethod": "html-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:d3716e89aac19935500e",
+      "subjectId": "cg:register-record:ni-register-record-fa55e4fa24c5816d",
+      "propertyId": "cg:property:declared-interest",
+      "value": {
+        "type": "entity",
+        "id": "cg:register-interest:ni-register-record-interest-f38a422c498d37aa"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:interest-category",
+          "value": {
+            "type": "string",
+            "value": "Overseas visits"
+          }
+        },
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "2010-11-29"
+          }
+        },
+        {
+          "propertyId": "cg:property:nil-return",
+          "value": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "propertyId": "cg:property:extraction-confidence",
+          "value": {
+            "type": "string",
+            "value": "medium"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-row-count",
+          "value": {
+            "type": "number",
+            "value": 2
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-4ad330edbf7103fd",
+          "sourceTitle": "NI Assembly Register of Members Interests (29 November 2010)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:4ad330edbf7103fd",
+          "sourceRowId": "ni-register-interest:mla-pdf:291b854fa7692623",
+          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register_291110.pdf",
+          "date": "2010-11-29",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        },
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-4ad330edbf7103fd",
+          "sourceTitle": "NI Assembly Register of Members Interests (29 November 2010)",
+          "sourceKind": "historical-html-register",
+          "sourceRecordId": "ni-register:assembly:html:cdab1ad592720cd5",
+          "sourceRowId": "ni-register-interest:mla-html:5c792b29cc8ea9af",
+          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register291110.htm",
+          "date": "2010-11-29",
+          "extractionMethod": "html-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:ed27ead16c63a7d9c572",
+      "subjectId": "cg:register-record:ni-register-record-fa55e4fa24c5816d",
+      "propertyId": "cg:property:declared-interest",
+      "value": {
+        "type": "entity",
+        "id": "cg:register-interest:ni-register-record-interest-3a9413cb60a26d9b"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:interest-category",
+          "value": {
+            "type": "string",
+            "value": "Land and Property"
+          }
+        },
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "2010-11-29"
+          }
+        },
+        {
+          "propertyId": "cg:property:nil-return",
+          "value": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "propertyId": "cg:property:extraction-confidence",
+          "value": {
+            "type": "string",
+            "value": "medium"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-row-count",
+          "value": {
+            "type": "number",
+            "value": 2
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-4ad330edbf7103fd",
+          "sourceTitle": "NI Assembly Register of Members Interests (29 November 2010)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:4ad330edbf7103fd",
+          "sourceRowId": "ni-register-interest:mla-pdf:3cc7e969b2de567e",
+          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register_291110.pdf",
+          "date": "2010-11-29",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        },
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-4ad330edbf7103fd",
+          "sourceTitle": "NI Assembly Register of Members Interests (29 November 2010)",
+          "sourceKind": "historical-html-register",
+          "sourceRecordId": "ni-register:assembly:html:cdab1ad592720cd5",
+          "sourceRowId": "ni-register-interest:mla-html:de99762c73e17641",
+          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register291110.htm",
+          "date": "2010-11-29",
+          "extractionMethod": "html-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:700b452bc99a541bdb3e",
+      "subjectId": "cg:register-record:ni-register-record-fa55e4fa24c5816d",
+      "propertyId": "cg:property:elected-body",
+      "value": {
+        "type": "entity",
+        "id": "cg:body:northern-ireland-assembly"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-4ad330edbf7103fd",
+          "sourceTitle": "NI Assembly Register of Members Interests (29 November 2010)",
+          "sourceKind": "historical-html-register",
+          "sourceRecordId": "ni-register:assembly:html:cdab1ad592720cd5",
+          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register291110.htm",
+          "date": "2010-11-29",
+          "extractionMethod": "html-heading-parser",
+          "extractionConfidence": "medium"
+        },
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-4ad330edbf7103fd",
+          "sourceTitle": "NI Assembly Register of Members Interests (29 November 2010)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:4ad330edbf7103fd",
+          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register_291110.pdf",
+          "date": "2010-11-29",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:39f07c8adac79547957a",
+      "subjectId": "cg:register-record:ni-register-record-fa55e4fa24c5816d",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:register-record"
+      },
+      "rank": "normal"
+    },
     {
       "id": "cg:statement:08cd2f4cf48c2d632724",
       "subjectId": "cg:register-record:ni-register-record-fa55e4fa24c5816d",
@@ -98065,156 +98992,6 @@
       "value": {
         "type": "string",
         "value": "2023_special_education_applications_for_transport_by_quarter_and_by_county.csv"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:6f6c206d473f556c23e5",
-      "subjectId": "cg:source-file:2023-special-education-applications-for-transport-by-quarter-and-by-county-csv-70dde41559d1",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.gov.ie/dataset/applications-for-special-education-transport"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:2987975c473d5a2f1e10",
-      "subjectId": "cg:source-file:2023-special-education-applications-for-transport-by-quarter-and-by-county-csv-8794c395b329",
-      "propertyId": "cg:property:file-format",
-      "value": {
-        "type": "string",
-        "value": "CSV"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:e2542ed420c4f769ecb8",
-      "subjectId": "cg:source-file:2023-special-education-applications-for-transport-by-quarter-and-by-county-csv-8794c395b329",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source-file"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:988d2eb9f3d19f9d81a2",
-      "subjectId": "cg:source-file:2023-special-education-applications-for-transport-by-quarter-and-by-county-csv-8794c395b329",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "2023_special_education_applications_for_transport_by_quarter_and_by_county.csv"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:745c6189341e312c8750",
-      "subjectId": "cg:source-file:2023-special-education-applications-for-transport-by-quarter-and-by-county-csv-8794c395b329",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://opendata.ncse.ie/dataset/b9a58bc0-c188-4d00-9e80-a4a6d769ebd1/resource/0f2605e4-f8d7-4be8-a6bc-bd76db6a78f4/download/2023_special_education_applications_for_transport_by_quarter_and_by_county.csv"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:cf04ea54951f40a0dee6",
-      "subjectId": "cg:source-file:2024-08-28-s29-deer-shot-in-2022-2023-season-pdf-2a5034b1712b",
-      "propertyId": "cg:property:file-format",
-      "value": {
-        "type": "string",
-        "value": "PDF"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:9d7bb0f7ca468386f0bd",
-      "subjectId": "cg:source-file:2024-08-28-s29-deer-shot-in-2022-2023-season-pdf-2a5034b1712b",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source-file"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:1cceaeb803b555166cb6",
-      "subjectId": "cg:source-file:2024-08-28-s29-deer-shot-in-2022-2023-season-pdf-2a5034b1712b",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "2024-08-28-s29-deer-shot-in-2022-2023-season.pdf"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:4b54a5d71b8d0ad9b314",
-      "subjectId": "cg:source-file:2024-08-28-s29-deer-shot-in-2022-2023-season-pdf-2a5034b1712b",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.gov.ie/dataset/deer-hunting-licences-issued-by-country-2023-2024"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:05ead49538877f7e1e1d",
-      "subjectId": "cg:source-file:2024-08-28-s42-licences-issued-deer-and-returns-for-2023-male-and-female-pdf-561cd36dfd25",
-      "propertyId": "cg:property:file-format",
-      "value": {
-        "type": "string",
-        "value": "PDF"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:45196b8ac049d72c0514",
-      "subjectId": "cg:source-file:2024-08-28-s42-licences-issued-deer-and-returns-for-2023-male-and-female-pdf-561cd36dfd25",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source-file"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:d7ae937cfa58d7949b93",
-      "subjectId": "cg:source-file:2024-08-28-s42-licences-issued-deer-and-returns-for-2023-male-and-female-pdf-561cd36dfd25",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "2024-08-28-s42-licences-issued-deer-and-returns-for-2023-male-and-female.pdf"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:31cf4b84aef979fe2228",
-      "subjectId": "cg:source-file:2024-08-28-s42-licences-issued-deer-and-returns-for-2023-male-and-female-pdf-561cd36dfd25",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://opendata.housing.gov.ie/dataset/6495719c-dcf3-49fe-9534-b4b85f63bb20/resource/64de31d5-940d-41c6-bbc4-75da098d344d/download/2024-08-28-s42-licences-issued-deer-and-returns-for-2023-male-and-female.pdf"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:d5c364670872f1a47926",
-      "subjectId": "cg:source-file:2024-08-28-s42-licences-issued-deer-and-returns-for-2023-male-and-female-pdf-676068801ec5",
-      "propertyId": "cg:property:file-format",
-      "value": {
-        "type": "string",
-        "value": "PDF"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:42395a0b9faf3e98f007",
-      "subjectId": "cg:source-file:2024-08-28-s42-licences-issued-deer-and-returns-for-2023-male-and-female-pdf-676068801ec5",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source-file"
       },
       "rank": "normal"
     }

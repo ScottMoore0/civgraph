@@ -1,9 +1,573 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-14T00:57:46.095Z",
+  "generatedAt": "2026-07-14T01:16:48.011Z",
   "shard": 200,
   "total": 2500,
   "items": [
+    {
+      "id": "cg:statement:06a03da45b66c11f6e5b",
+      "subjectId": "cg:person:name-duncan-smith",
+      "propertyId": "cg:property:stood-in-election",
+      "value": {
+        "type": "entity",
+        "id": "cg:election:dail-eireann-2024-11-29"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "2024-11-29"
+          }
+        },
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "Dublin Fingal East"
+          }
+        },
+        {
+          "propertyId": "cg:property:candidature-status",
+          "value": {
+            "type": "string",
+            "value": "Made Quota"
+          }
+        },
+        {
+          "propertyId": "cg:property:elected",
+          "value": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "propertyId": "cg:property:first-preference-votes",
+          "value": {
+            "type": "number",
+            "value": 5396
+          }
+        },
+        {
+          "propertyId": "cg:property:member-of-political-party",
+          "value": {
+            "type": "entity",
+            "id": "cg:party:irish-labour"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:befd694f025fba1ce709",
+      "subjectId": "cg:person:name-duncan-smith",
+      "propertyId": "cg:property:stood-in-election",
+      "value": {
+        "type": "entity",
+        "id": "cg:election:dail-eireann-2020-02-08"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "2020-02-08"
+          }
+        },
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "Dublin Fingal"
+          }
+        },
+        {
+          "propertyId": "cg:property:candidature-status",
+          "value": {
+            "type": "string",
+            "value": "Elected"
+          }
+        },
+        {
+          "propertyId": "cg:property:elected",
+          "value": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "propertyId": "cg:property:first-preference-votes",
+          "value": {
+            "type": "number",
+            "value": 4513
+          }
+        },
+        {
+          "propertyId": "cg:property:member-of-political-party",
+          "value": {
+            "type": "entity",
+            "id": "cg:party:irish-labour"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:f6bc8f867839cf1c33a5",
+      "subjectId": "cg:person:name-dundas",
+      "propertyId": "cg:property:has-candidature",
+      "value": {
+        "type": "entity",
+        "id": "cg:candidature:cg-person-name-dundas-cg-contest-local-government-local-government-distr-a86b621e2df3"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "1973-05-30"
+          }
+        },
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "Antrim Area B"
+          }
+        },
+        {
+          "propertyId": "cg:property:candidature-status",
+          "value": {
+            "type": "string",
+            "value": "Elected"
+          }
+        },
+        {
+          "propertyId": "cg:property:elected",
+          "value": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "propertyId": "cg:property:first-preference-votes",
+          "value": {
+            "type": "number",
+            "value": 614
+          }
+        },
+        {
+          "propertyId": "cg:property:member-of-political-party",
+          "value": {
+            "type": "entity",
+            "id": "cg:party:uup"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:59ccbabcec732425accd",
+      "subjectId": "cg:person:name-dundas",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:person"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:ee120d37eb76b8e951ea",
+      "subjectId": "cg:person:name-dundas",
+      "propertyId": "cg:property:member-of-political-party",
+      "value": {
+        "type": "entity",
+        "id": "cg:party:uup"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "Browse person party summary"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:a1a5422c72bfa4b5c143",
+      "subjectId": "cg:person:name-dundas",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Dundas"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:e3e86df397557e93f845",
+      "subjectId": "cg:person:name-dundas",
+      "propertyId": "cg:property:stood-in-election",
+      "value": {
+        "type": "entity",
+        "id": "cg:election:local-government-local-government-districts-1973-05-30"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "1973-05-30"
+          }
+        },
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "Antrim Area B"
+          }
+        },
+        {
+          "propertyId": "cg:property:candidature-status",
+          "value": {
+            "type": "string",
+            "value": "Elected"
+          }
+        },
+        {
+          "propertyId": "cg:property:elected",
+          "value": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "propertyId": "cg:property:first-preference-votes",
+          "value": {
+            "type": "number",
+            "value": 614
+          }
+        },
+        {
+          "propertyId": "cg:property:member-of-political-party",
+          "value": {
+            "type": "entity",
+            "id": "cg:party:uup"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:6eb9b7a8b4ccf16c51f8",
+      "subjectId": "cg:person:name-dunlop",
+      "propertyId": "cg:property:has-candidature",
+      "value": {
+        "type": "entity",
+        "id": "cg:candidature:cg-person-name-dunlop-cg-contest-local-government-local-government-distr-a8fe9205385e"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "1973-05-30"
+          }
+        },
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "Belfast Area B"
+          }
+        },
+        {
+          "propertyId": "cg:property:candidature-status",
+          "value": {
+            "type": "string",
+            "value": "Deemed elected"
+          }
+        },
+        {
+          "propertyId": "cg:property:elected",
+          "value": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "propertyId": "cg:property:first-preference-votes",
+          "value": {
+            "type": "number",
+            "value": 1428
+          }
+        },
+        {
+          "propertyId": "cg:property:member-of-political-party",
+          "value": {
+            "type": "entity",
+            "id": "cg:party:unionist"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:c9aa92304230de8e99f8",
+      "subjectId": "cg:person:name-dunlop",
+      "propertyId": "cg:property:has-candidature",
+      "value": {
+        "type": "entity",
+        "id": "cg:candidature:cg-person-name-dunlop-cg-contest-local-government-local-government-distr-3ebc1030e9be"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "1973-05-30"
+          }
+        },
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "Antrim Area A"
+          }
+        },
+        {
+          "propertyId": "cg:property:candidature-status",
+          "value": {
+            "type": "string",
+            "value": "Elected"
+          }
+        },
+        {
+          "propertyId": "cg:property:elected",
+          "value": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "propertyId": "cg:property:first-preference-votes",
+          "value": {
+            "type": "number",
+            "value": 748
+          }
+        },
+        {
+          "propertyId": "cg:property:member-of-political-party",
+          "value": {
+            "type": "entity",
+            "id": "cg:party:dup"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:fba5d6dc853b18eea1eb",
+      "subjectId": "cg:person:name-dunlop",
+      "propertyId": "cg:property:has-candidature",
+      "value": {
+        "type": "entity",
+        "id": "cg:candidature:cg-person-name-dunlop-cg-contest-local-government-local-government-distr-d4557947d8bd"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "1973-05-30"
+          }
+        },
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "Coleraine Area B"
+          }
+        },
+        {
+          "propertyId": "cg:property:elected",
+          "value": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "propertyId": "cg:property:first-preference-votes",
+          "value": {
+            "type": "number",
+            "value": 264
+          }
+        },
+        {
+          "propertyId": "cg:property:member-of-political-party",
+          "value": {
+            "type": "entity",
+            "id": "cg:party:independent"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:5e83c1c063ce5171743b",
+      "subjectId": "cg:person:name-dunlop",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:person"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:39765e45e0148d1801a7",
+      "subjectId": "cg:person:name-dunlop",
+      "propertyId": "cg:property:member-of-political-party",
+      "value": {
+        "type": "entity",
+        "id": "cg:party:unionist"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "Browse person party summary"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:86ecba2c29566226db44",
+      "subjectId": "cg:person:name-dunlop",
+      "propertyId": "cg:property:member-of-political-party",
+      "value": {
+        "type": "entity",
+        "id": "cg:party:independent"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "Browse person party summary"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:c9ead24a2f5da8a93849",
+      "subjectId": "cg:person:name-dunlop",
+      "propertyId": "cg:property:member-of-political-party",
+      "value": {
+        "type": "entity",
+        "id": "cg:party:dup"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "Browse person party summary"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:559d3f510f6fb0a9f10f",
+      "subjectId": "cg:person:name-dunlop",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Dunlop"
+      },
+      "rank": "normal"
+    },
     {
       "id": "cg:statement:1e912a916b481754baa8",
       "subjectId": "cg:person:name-dunlop",
@@ -99765,503 +100329,6 @@
     {
       "id": "cg:statement:ab311cf9427eb4b4a05c",
       "subjectId": "cg:person:name-ellis-dean-allen",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:person"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:5968ffc6fafde9c15290",
-      "subjectId": "cg:person:name-ellis-dean-allen",
-      "propertyId": "cg:property:member-of-political-party",
-      "value": {
-        "type": "entity",
-        "id": "cg:party:dup"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "Browse person party summary"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:e3ff4886646a88b11b88",
-      "subjectId": "cg:person:name-ellis-dean-allen",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Ellis Dean Allen"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:ba7f5817566f4da145ec",
-      "subjectId": "cg:person:name-ellis-dean-allen",
-      "propertyId": "cg:property:stood-in-election",
-      "value": {
-        "type": "entity",
-        "id": "cg:election:local-government-local-government-districts-1985-05-15"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "1985-05-15"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "Rural"
-          }
-        },
-        {
-          "propertyId": "cg:property:candidature-status",
-          "value": {
-            "type": "string",
-            "value": "Elected"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected",
-          "value": {
-            "type": "boolean",
-            "value": true
-          }
-        },
-        {
-          "propertyId": "cg:property:first-preference-votes",
-          "value": {
-            "type": "number",
-            "value": 811
-          }
-        },
-        {
-          "propertyId": "cg:property:member-of-political-party",
-          "value": {
-            "type": "entity",
-            "id": "cg:party:dup"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:a5c00537ab8923db025c",
-      "subjectId": "cg:person:name-elly-odhiambo",
-      "propertyId": "cg:property:has-candidature",
-      "value": {
-        "type": "entity",
-        "id": "cg:candidature:cg-person-name-elly-odhiambo-cg-contest-northern-ireland-assembly-2022-0-2725a956fd0c"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "2022-05-05"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "Belfast South"
-          }
-        },
-        {
-          "propertyId": "cg:property:candidature-status",
-          "value": {
-            "type": "string",
-            "value": "Excluded"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected",
-          "value": {
-            "type": "boolean",
-            "value": false
-          }
-        },
-        {
-          "propertyId": "cg:property:first-preference-votes",
-          "value": {
-            "type": "number",
-            "value": 107
-          }
-        },
-        {
-          "propertyId": "cg:property:member-of-political-party",
-          "value": {
-            "type": "entity",
-            "id": "cg:party:independent"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:e534b44b1177fe5e6495",
-      "subjectId": "cg:person:name-elly-odhiambo",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:person"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:e219ea14d85cc495bf12",
-      "subjectId": "cg:person:name-elly-odhiambo",
-      "propertyId": "cg:property:member-of-political-party",
-      "value": {
-        "type": "entity",
-        "id": "cg:party:independent"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "Browse person party summary"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:6a76fea806add0acbe24",
-      "subjectId": "cg:person:name-elly-odhiambo",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Elly Odhiambo"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:5158715df6094fd56e64",
-      "subjectId": "cg:person:name-elly-odhiambo",
-      "propertyId": "cg:property:stood-in-election",
-      "value": {
-        "type": "entity",
-        "id": "cg:election:northern-ireland-assembly-2022-05-05"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "2022-05-05"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "Belfast South"
-          }
-        },
-        {
-          "propertyId": "cg:property:candidature-status",
-          "value": {
-            "type": "string",
-            "value": "Excluded"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected",
-          "value": {
-            "type": "boolean",
-            "value": false
-          }
-        },
-        {
-          "propertyId": "cg:property:first-preference-votes",
-          "value": {
-            "type": "number",
-            "value": 107
-          }
-        },
-        {
-          "propertyId": "cg:property:member-of-political-party",
-          "value": {
-            "type": "entity",
-            "id": "cg:party:independent"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:671f5749a95b8c98476f",
-      "subjectId": "cg:person:name-elly-omondi",
-      "propertyId": "cg:property:has-candidature",
-      "value": {
-        "type": "entity",
-        "id": "cg:candidature:cg-person-name-elly-omondi-cg-contest-local-government-local-government--1ffa8958aa63"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "2023-05-18"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "Titanic"
-          }
-        },
-        {
-          "propertyId": "cg:property:candidature-status",
-          "value": {
-            "type": "string",
-            "value": "Excluded"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected",
-          "value": {
-            "type": "boolean",
-            "value": false
-          }
-        },
-        {
-          "propertyId": "cg:property:first-preference-votes",
-          "value": {
-            "type": "number",
-            "value": 129
-          }
-        },
-        {
-          "propertyId": "cg:property:member-of-political-party",
-          "value": {
-            "type": "entity",
-            "id": "cg:party:sdlp"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:2db041946958f89e44ed",
-      "subjectId": "cg:person:name-elly-omondi",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:person"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:d3abcd1bfc7380c54ea3",
-      "subjectId": "cg:person:name-elly-omondi",
-      "propertyId": "cg:property:member-of-political-party",
-      "value": {
-        "type": "entity",
-        "id": "cg:party:sdlp"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "Browse person party summary"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:2c1e716a128631c514d8",
-      "subjectId": "cg:person:name-elly-omondi",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Elly Omondi"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:08278a05591f2705326d",
-      "subjectId": "cg:person:name-elly-omondi",
-      "propertyId": "cg:property:stood-in-election",
-      "value": {
-        "type": "entity",
-        "id": "cg:election:local-government-local-government-districts-2023-05-18"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "2023-05-18"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "Titanic"
-          }
-        },
-        {
-          "propertyId": "cg:property:candidature-status",
-          "value": {
-            "type": "string",
-            "value": "Excluded"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected",
-          "value": {
-            "type": "boolean",
-            "value": false
-          }
-        },
-        {
-          "propertyId": "cg:property:first-preference-votes",
-          "value": {
-            "type": "number",
-            "value": 129
-          }
-        },
-        {
-          "propertyId": "cg:property:member-of-political-party",
-          "value": {
-            "type": "entity",
-            "id": "cg:party:sdlp"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:1f91edbe44c3988108ed",
-      "subjectId": "cg:person:name-elma-mcmaster",
-      "propertyId": "cg:property:has-candidature",
-      "value": {
-        "type": "entity",
-        "id": "cg:candidature:cg-person-name-elma-mcmaster-cg-contest-local-government-local-governmen-40cc578d1251"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "1985-05-15"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "Kilroot"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected",
-          "value": {
-            "type": "boolean",
-            "value": false
-          }
-        },
-        {
-          "propertyId": "cg:property:first-preference-votes",
-          "value": {
-            "type": "number",
-            "value": 188
-          }
-        },
-        {
-          "propertyId": "cg:property:member-of-political-party",
-          "value": {
-            "type": "entity",
-            "id": "cg:party:alliance"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:bd2368980460d2587238",
-      "subjectId": "cg:person:name-elma-mcmaster",
       "propertyId": "cg:property:instance-of",
       "value": {
         "type": "entity",

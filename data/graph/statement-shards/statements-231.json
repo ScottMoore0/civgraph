@@ -1,9 +1,499 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-14T00:57:46.095Z",
+  "generatedAt": "2026-07-14T01:16:48.011Z",
   "shard": 231,
   "total": 2500,
   "items": [
+    {
+      "id": "cg:statement:d7534e909f3ea34707d8",
+      "subjectId": "cg:person:name-todd",
+      "propertyId": "cg:property:stood-in-election",
+      "value": {
+        "type": "entity",
+        "id": "cg:election:local-government-local-government-districts-1973-05-30"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "1973-05-30"
+          }
+        },
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "Newtownabbey Area A"
+          }
+        },
+        {
+          "propertyId": "cg:property:candidature-status",
+          "value": {
+            "type": "string",
+            "value": "Elected"
+          }
+        },
+        {
+          "propertyId": "cg:property:elected",
+          "value": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "propertyId": "cg:property:first-preference-votes",
+          "value": {
+            "type": "number",
+            "value": 593
+          }
+        },
+        {
+          "propertyId": "cg:property:member-of-political-party",
+          "value": {
+            "type": "entity",
+            "id": "cg:party:off-un"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:56d990263ea29f30bb56",
+      "subjectId": "cg:person:name-toddie-byrne",
+      "propertyId": "cg:property:has-candidature",
+      "value": {
+        "type": "entity",
+        "id": "cg:candidature:cg-person-name-toddie-byrne-cg-contest-dail-eireann-1969-06-18-dail-eire-91cea0d7c48d"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "1969-06-18"
+          }
+        },
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "Clare Galway South"
+          }
+        },
+        {
+          "propertyId": "cg:property:candidature-status",
+          "value": {
+            "type": "string",
+            "value": "Excluded"
+          }
+        },
+        {
+          "propertyId": "cg:property:elected",
+          "value": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "propertyId": "cg:property:first-preference-votes",
+          "value": {
+            "type": "number",
+            "value": 2254
+          }
+        },
+        {
+          "propertyId": "cg:property:member-of-political-party",
+          "value": {
+            "type": "entity",
+            "id": "cg:party:fine-gael"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:e71aef30710ba897d4ba",
+      "subjectId": "cg:person:name-toddie-byrne",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:person"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:dd4770c1b9ba33eec6a2",
+      "subjectId": "cg:person:name-toddie-byrne",
+      "propertyId": "cg:property:member-of-political-party",
+      "value": {
+        "type": "entity",
+        "id": "cg:party:fine-gael"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "Browse person party summary"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:0646f8b08a5bd1722231",
+      "subjectId": "cg:person:name-toddie-byrne",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Toddie Byrne"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:ac1aed82e231fcded2d1",
+      "subjectId": "cg:person:name-toddie-byrne",
+      "propertyId": "cg:property:stood-in-election",
+      "value": {
+        "type": "entity",
+        "id": "cg:election:dail-eireann-1969-06-18"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "1969-06-18"
+          }
+        },
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "Clare Galway South"
+          }
+        },
+        {
+          "propertyId": "cg:property:candidature-status",
+          "value": {
+            "type": "string",
+            "value": "Excluded"
+          }
+        },
+        {
+          "propertyId": "cg:property:elected",
+          "value": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "propertyId": "cg:property:first-preference-votes",
+          "value": {
+            "type": "number",
+            "value": 2254
+          }
+        },
+        {
+          "propertyId": "cg:property:member-of-political-party",
+          "value": {
+            "type": "entity",
+            "id": "cg:party:fine-gael"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:ab35fec355fb921447fd",
+      "subjectId": "cg:person:name-toireasa-ferris",
+      "propertyId": "cg:property:has-candidature",
+      "value": {
+        "type": "entity",
+        "id": "cg:candidature:cg-person-name-toireasa-ferris-cg-contest-ireland-european-2009-06-05-ir-0d704b481d54"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "2009-06-05"
+          }
+        },
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "South"
+          }
+        },
+        {
+          "propertyId": "cg:property:elected",
+          "value": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "propertyId": "cg:property:first-preference-votes",
+          "value": {
+            "type": "number",
+            "value": 64671
+          }
+        },
+        {
+          "propertyId": "cg:property:member-of-political-party",
+          "value": {
+            "type": "entity",
+            "id": "cg:party:sinn-fein"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:7ad1c143d147af1ec36f",
+      "subjectId": "cg:person:name-toireasa-ferris",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:person"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:858f0d88409c385a27ca",
+      "subjectId": "cg:person:name-toireasa-ferris",
+      "propertyId": "cg:property:member-of-political-party",
+      "value": {
+        "type": "entity",
+        "id": "cg:party:sinn-fein"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "Browse person party summary"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:468fdb36c122c81f403f",
+      "subjectId": "cg:person:name-toireasa-ferris",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Toireasa Ferris"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:67aae4f9b5b1a57284d7",
+      "subjectId": "cg:person:name-toireasa-ferris",
+      "propertyId": "cg:property:stood-in-election",
+      "value": {
+        "type": "entity",
+        "id": "cg:election:ireland-european-2009-06-05"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "2009-06-05"
+          }
+        },
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "South"
+          }
+        },
+        {
+          "propertyId": "cg:property:elected",
+          "value": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "propertyId": "cg:property:first-preference-votes",
+          "value": {
+            "type": "number",
+            "value": 64671
+          }
+        },
+        {
+          "propertyId": "cg:property:member-of-political-party",
+          "value": {
+            "type": "entity",
+            "id": "cg:party:sinn-fein"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:ce53e4ae1048167a2199",
+      "subjectId": "cg:person:name-tolerton-margar",
+      "propertyId": "cg:property:has-candidature",
+      "value": {
+        "type": "entity",
+        "id": "cg:candidature:cg-person-name-tolerton-margar-cg-contest-local-government-local-governm-57cfc2d32af8"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "2011-05-05"
+          }
+        },
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "Dunmurry Cross"
+          }
+        },
+        {
+          "propertyId": "cg:property:candidature-status",
+          "value": {
+            "type": "string",
+            "value": "Elected"
+          }
+        },
+        {
+          "propertyId": "cg:property:elected",
+          "value": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "propertyId": "cg:property:first-preference-votes",
+          "value": {
+            "type": "number",
+            "value": 1132
+          }
+        },
+        {
+          "propertyId": "cg:property:member-of-political-party",
+          "value": {
+            "type": "entity",
+            "id": "cg:party:dup"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:0de587978d38039307d7",
+      "subjectId": "cg:person:name-tolerton-margar",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:person"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:e229203347ace31b6820",
+      "subjectId": "cg:person:name-tolerton-margar",
+      "propertyId": "cg:property:member-of-political-party",
+      "value": {
+        "type": "entity",
+        "id": "cg:party:dup"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "Browse person party summary"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:e39e3739cde9b5765b45",
+      "subjectId": "cg:person:name-tolerton-margar",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Tolerton Margar"
+      },
+      "rank": "normal"
+    },
     {
       "id": "cg:statement:bc02790bc761bc9ec0ed",
       "subjectId": "cg:person:name-tolerton-margar",
@@ -105225,612 +105715,6 @@
           "value": {
             "type": "entity",
             "id": "cg:party:fine-gael"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:ccb4855a0aabc23db63c",
-      "subjectId": "cg:person:name-vincent-o-connell",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:person"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:b1f037481862db1cb840",
-      "subjectId": "cg:person:name-vincent-o-connell",
-      "propertyId": "cg:property:member-of-political-party",
-      "value": {
-        "type": "entity",
-        "id": "cg:party:fine-gael"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "Browse person party summary"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:58834b8297d4d33ca75d",
-      "subjectId": "cg:person:name-vincent-o-connell",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Vincent O'Connell"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:7696e1907e5f12003afc",
-      "subjectId": "cg:person:name-vincent-o-connell",
-      "propertyId": "cg:property:stood-in-election",
-      "value": {
-        "type": "entity",
-        "id": "cg:election:dail-eireann-1969-06-18"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "1969-06-18"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "Cork City North"
-          }
-        },
-        {
-          "propertyId": "cg:property:candidature-status",
-          "value": {
-            "type": "string",
-            "value": "Excluded"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected",
-          "value": {
-            "type": "boolean",
-            "value": false
-          }
-        },
-        {
-          "propertyId": "cg:property:first-preference-votes",
-          "value": {
-            "type": "number",
-            "value": 2241
-          }
-        },
-        {
-          "propertyId": "cg:property:member-of-political-party",
-          "value": {
-            "type": "entity",
-            "id": "cg:party:fine-gael"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:0ac49b0a78b178e84772",
-      "subjectId": "cg:person:name-vincent-p-martin",
-      "propertyId": "cg:property:has-candidature",
-      "value": {
-        "type": "entity",
-        "id": "cg:candidature:cg-person-name-vincent-p-martin-cg-contest-dail-eireann-2002-05-17-dail--97aebe7c9752"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "2002-05-17"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "Cavan Monaghan"
-          }
-        },
-        {
-          "propertyId": "cg:property:candidature-status",
-          "value": {
-            "type": "string",
-            "value": "Excluded"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected",
-          "value": {
-            "type": "boolean",
-            "value": false
-          }
-        },
-        {
-          "propertyId": "cg:property:first-preference-votes",
-          "value": {
-            "type": "number",
-            "value": 1943
-          }
-        },
-        {
-          "propertyId": "cg:property:member-of-political-party",
-          "value": {
-            "type": "entity",
-            "id": "cg:party:independent"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:61befc6fa1f059ddda7f",
-      "subjectId": "cg:person:name-vincent-p-martin",
-      "propertyId": "cg:property:has-candidature",
-      "value": {
-        "type": "entity",
-        "id": "cg:candidature:cg-person-name-vincent-p-martin-cg-contest-dail-eireann-2007-05-24-dail--3b097e5f0789"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "2007-05-24"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "Cavan Monaghan"
-          }
-        },
-        {
-          "propertyId": "cg:property:candidature-status",
-          "value": {
-            "type": "string",
-            "value": "Excluded"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected",
-          "value": {
-            "type": "boolean",
-            "value": false
-          }
-        },
-        {
-          "propertyId": "cg:property:first-preference-votes",
-          "value": {
-            "type": "number",
-            "value": 2382
-          }
-        },
-        {
-          "propertyId": "cg:property:member-of-political-party",
-          "value": {
-            "type": "entity",
-            "id": "cg:party:green"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:976d36b6cddaa6be9f70",
-      "subjectId": "cg:person:name-vincent-p-martin",
-      "propertyId": "cg:property:has-candidature",
-      "value": {
-        "type": "entity",
-        "id": "cg:candidature:cg-person-name-vincent-p-martin-cg-contest-dail-eireann-2024-11-29-dail--0b330c257c75"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "2024-11-29"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "Kildare North"
-          }
-        },
-        {
-          "propertyId": "cg:property:candidature-status",
-          "value": {
-            "type": "string",
-            "value": "Excluded"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected",
-          "value": {
-            "type": "boolean",
-            "value": false
-          }
-        },
-        {
-          "propertyId": "cg:property:first-preference-votes",
-          "value": {
-            "type": "number",
-            "value": 2059
-          }
-        },
-        {
-          "propertyId": "cg:property:member-of-political-party",
-          "value": {
-            "type": "entity",
-            "id": "cg:party:green"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:be0624f94e4abfafcd14",
-      "subjectId": "cg:person:name-vincent-p-martin",
-      "propertyId": "cg:property:has-candidature",
-      "value": {
-        "type": "entity",
-        "id": "cg:candidature:cg-person-name-vincent-p-martin-cg-contest-dail-eireann-2020-02-08-dail--fc38eb7c4aeb"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "2020-02-08"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "Kildare North"
-          }
-        },
-        {
-          "propertyId": "cg:property:candidature-status",
-          "value": {
-            "type": "string",
-            "value": "Excluded"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected",
-          "value": {
-            "type": "boolean",
-            "value": false
-          }
-        },
-        {
-          "propertyId": "cg:property:first-preference-votes",
-          "value": {
-            "type": "number",
-            "value": 5100
-          }
-        },
-        {
-          "propertyId": "cg:property:member-of-political-party",
-          "value": {
-            "type": "entity",
-            "id": "cg:party:green"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:0d7e3cc49e630642d77c",
-      "subjectId": "cg:person:name-vincent-p-martin",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:person"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:5f2f6ba92849a70879d1",
-      "subjectId": "cg:person:name-vincent-p-martin",
-      "propertyId": "cg:property:member-of-political-party",
-      "value": {
-        "type": "entity",
-        "id": "cg:party:green"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "Browse person party summary"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:65b5886bcd31cb2ac47c",
-      "subjectId": "cg:person:name-vincent-p-martin",
-      "propertyId": "cg:property:member-of-political-party",
-      "value": {
-        "type": "entity",
-        "id": "cg:party:independent"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "Browse person party summary"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:af47697e18270d9c0d22",
-      "subjectId": "cg:person:name-vincent-p-martin",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Vincent P Martin"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:157e4d5cac2515a8d525",
-      "subjectId": "cg:person:name-vincent-p-martin",
-      "propertyId": "cg:property:stood-in-election",
-      "value": {
-        "type": "entity",
-        "id": "cg:election:dail-eireann-2002-05-17"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "2002-05-17"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "Cavan Monaghan"
-          }
-        },
-        {
-          "propertyId": "cg:property:candidature-status",
-          "value": {
-            "type": "string",
-            "value": "Excluded"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected",
-          "value": {
-            "type": "boolean",
-            "value": false
-          }
-        },
-        {
-          "propertyId": "cg:property:first-preference-votes",
-          "value": {
-            "type": "number",
-            "value": 1943
-          }
-        },
-        {
-          "propertyId": "cg:property:member-of-political-party",
-          "value": {
-            "type": "entity",
-            "id": "cg:party:independent"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:1fb3a30842114c81f86a",
-      "subjectId": "cg:person:name-vincent-p-martin",
-      "propertyId": "cg:property:stood-in-election",
-      "value": {
-        "type": "entity",
-        "id": "cg:election:dail-eireann-2024-11-29"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "2024-11-29"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "Kildare North"
-          }
-        },
-        {
-          "propertyId": "cg:property:candidature-status",
-          "value": {
-            "type": "string",
-            "value": "Excluded"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected",
-          "value": {
-            "type": "boolean",
-            "value": false
-          }
-        },
-        {
-          "propertyId": "cg:property:first-preference-votes",
-          "value": {
-            "type": "number",
-            "value": 2059
-          }
-        },
-        {
-          "propertyId": "cg:property:member-of-political-party",
-          "value": {
-            "type": "entity",
-            "id": "cg:party:green"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:5ede169517d05df58a22",
-      "subjectId": "cg:person:name-vincent-p-martin",
-      "propertyId": "cg:property:stood-in-election",
-      "value": {
-        "type": "entity",
-        "id": "cg:election:dail-eireann-2007-05-24"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "2007-05-24"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "Cavan Monaghan"
-          }
-        },
-        {
-          "propertyId": "cg:property:candidature-status",
-          "value": {
-            "type": "string",
-            "value": "Excluded"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected",
-          "value": {
-            "type": "boolean",
-            "value": false
-          }
-        },
-        {
-          "propertyId": "cg:property:first-preference-votes",
-          "value": {
-            "type": "number",
-            "value": 2382
-          }
-        },
-        {
-          "propertyId": "cg:property:member-of-political-party",
-          "value": {
-            "type": "entity",
-            "id": "cg:party:green"
           }
         }
       ],

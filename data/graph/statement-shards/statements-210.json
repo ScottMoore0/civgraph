@@ -1,9 +1,529 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-14T00:57:46.095Z",
+  "generatedAt": "2026-07-14T01:16:48.011Z",
   "shard": 210,
   "total": 2500,
   "items": [
+    {
+      "id": "cg:statement:8dc97aa3db97b7798f07",
+      "subjectId": "cg:person:name-john-joseph-mckay",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:person"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:ebcc4eebed7fec7ee058",
+      "subjectId": "cg:person:name-john-joseph-mckay",
+      "propertyId": "cg:property:member-of-political-party",
+      "value": {
+        "type": "entity",
+        "id": "cg:party:ulster-democractic-unionist-party"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "Browse person party summary"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:3a21bca81bed8dcd164b",
+      "subjectId": "cg:person:name-john-joseph-mckay",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "John Joseph McKay"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:a3353e1f4746d2222766",
+      "subjectId": "cg:person:name-john-joseph-mckay",
+      "propertyId": "cg:property:stood-in-election",
+      "value": {
+        "type": "entity",
+        "id": "cg:election:local-government-local-government-districts-1985-05-15"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "1985-05-15"
+          }
+        },
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "Benbradagh"
+          }
+        },
+        {
+          "propertyId": "cg:property:elected",
+          "value": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "propertyId": "cg:property:first-preference-votes",
+          "value": {
+            "type": "number",
+            "value": 184
+          }
+        },
+        {
+          "propertyId": "cg:property:member-of-political-party",
+          "value": {
+            "type": "entity",
+            "id": "cg:party:ulster-democractic-unionist-party"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:7d52d2bf87714113ea4d",
+      "subjectId": "cg:person:name-john-joseph-o-neill",
+      "propertyId": "cg:property:has-candidature",
+      "value": {
+        "type": "entity",
+        "id": "cg:candidature:cg-person-name-john-joseph-o-neill-cg-contest-local-government-local-gov-ca48c661873e"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "1985-05-15"
+          }
+        },
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "Ballinderry"
+          }
+        },
+        {
+          "propertyId": "cg:property:elected",
+          "value": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "propertyId": "cg:property:first-preference-votes",
+          "value": {
+            "type": "number",
+            "value": 287
+          }
+        },
+        {
+          "propertyId": "cg:property:member-of-political-party",
+          "value": {
+            "type": "entity",
+            "id": "cg:party:sdlp"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:8f18b5133387963ab711",
+      "subjectId": "cg:person:name-john-joseph-o-neill",
+      "propertyId": "cg:property:has-candidature",
+      "value": {
+        "type": "entity",
+        "id": "cg:candidature:cg-person-name-john-joseph-o-neill-cg-contest-local-government-local-gov-a5031d0be75d"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "1989-05-17"
+          }
+        },
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "Ballinderry"
+          }
+        },
+        {
+          "propertyId": "cg:property:candidature-status",
+          "value": {
+            "type": "string",
+            "value": "Elected"
+          }
+        },
+        {
+          "propertyId": "cg:property:elected",
+          "value": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "propertyId": "cg:property:first-preference-votes",
+          "value": {
+            "type": "number",
+            "value": 402
+          }
+        },
+        {
+          "propertyId": "cg:property:member-of-political-party",
+          "value": {
+            "type": "entity",
+            "id": "cg:party:sdlp"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:47539f0f11929699a53d",
+      "subjectId": "cg:person:name-john-joseph-o-neill",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:person"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:9878544c84a3fd83dfce",
+      "subjectId": "cg:person:name-john-joseph-o-neill",
+      "propertyId": "cg:property:member-of-political-party",
+      "value": {
+        "type": "entity",
+        "id": "cg:party:sdlp"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "Browse person party summary"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:19a07b682dadade32acf",
+      "subjectId": "cg:person:name-john-joseph-o-neill",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "John Joseph O'Neill"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:0035416b469b8c8048bd",
+      "subjectId": "cg:person:name-john-joseph-o-neill",
+      "propertyId": "cg:property:stood-in-election",
+      "value": {
+        "type": "entity",
+        "id": "cg:election:local-government-local-government-districts-1989-05-17"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "1989-05-17"
+          }
+        },
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "Ballinderry"
+          }
+        },
+        {
+          "propertyId": "cg:property:candidature-status",
+          "value": {
+            "type": "string",
+            "value": "Elected"
+          }
+        },
+        {
+          "propertyId": "cg:property:elected",
+          "value": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "propertyId": "cg:property:first-preference-votes",
+          "value": {
+            "type": "number",
+            "value": 402
+          }
+        },
+        {
+          "propertyId": "cg:property:member-of-political-party",
+          "value": {
+            "type": "entity",
+            "id": "cg:party:sdlp"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:e6a3e946abd1e667f835",
+      "subjectId": "cg:person:name-john-joseph-o-neill",
+      "propertyId": "cg:property:stood-in-election",
+      "value": {
+        "type": "entity",
+        "id": "cg:election:local-government-local-government-districts-1985-05-15"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "1985-05-15"
+          }
+        },
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "Ballinderry"
+          }
+        },
+        {
+          "propertyId": "cg:property:elected",
+          "value": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "propertyId": "cg:property:first-preference-votes",
+          "value": {
+            "type": "number",
+            "value": 287
+          }
+        },
+        {
+          "propertyId": "cg:property:member-of-political-party",
+          "value": {
+            "type": "entity",
+            "id": "cg:party:sdlp"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:095d8677bf99b0ce4893",
+      "subjectId": "cg:person:name-john-joseph-patrick-nixon",
+      "propertyId": "cg:property:has-candidature",
+      "value": {
+        "type": "entity",
+        "id": "cg:candidature:cg-person-name-john-joseph-patrick-nixon-cg-contest-local-government-loc-7958dcfb6a88"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "2001-06-07"
+          }
+        },
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "Armagh City"
+          }
+        },
+        {
+          "propertyId": "cg:property:elected",
+          "value": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "propertyId": "cg:property:first-preference-votes",
+          "value": {
+            "type": "number",
+            "value": 646
+          }
+        },
+        {
+          "propertyId": "cg:property:member-of-political-party",
+          "value": {
+            "type": "entity",
+            "id": "cg:party:independent"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:eef359756f6f2e32cbbd",
+      "subjectId": "cg:person:name-john-joseph-patrick-nixon",
+      "propertyId": "cg:property:has-candidature",
+      "value": {
+        "type": "entity",
+        "id": "cg:candidature:cg-person-name-john-joseph-patrick-nixon-cg-contest-local-government-loc-9e7fdd8cf7df"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "2005-05-05"
+          }
+        },
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "Armagh City"
+          }
+        },
+        {
+          "propertyId": "cg:property:elected",
+          "value": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "propertyId": "cg:property:first-preference-votes",
+          "value": {
+            "type": "number",
+            "value": 591
+          }
+        },
+        {
+          "propertyId": "cg:property:member-of-political-party",
+          "value": {
+            "type": "entity",
+            "id": "cg:party:independent"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:b37d826064dd08e45ed4",
+      "subjectId": "cg:person:name-john-joseph-patrick-nixon",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:person"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:1185de1e5a0ca9cec9ef",
+      "subjectId": "cg:person:name-john-joseph-patrick-nixon",
+      "propertyId": "cg:property:member-of-political-party",
+      "value": {
+        "type": "entity",
+        "id": "cg:party:independent"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "Browse person party summary"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
     {
       "id": "cg:statement:7e374b59ed71843ce06e",
       "subjectId": "cg:person:name-john-joseph-patrick-nixon",
@@ -105893,496 +106413,6 @@
       "value": {
         "type": "entity",
         "id": "cg:party:dup"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "Browse person party summary"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:81bcd2bc9622c4120969",
-      "subjectId": "cg:person:name-john-terence-stewart-mann",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "John Terence Stewart Mann"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:682c282ad17945755f85",
-      "subjectId": "cg:person:name-john-terence-stewart-mann",
-      "propertyId": "cg:property:stood-in-election",
-      "value": {
-        "type": "entity",
-        "id": "cg:election:local-government-local-government-districts-2001-06-07"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "2001-06-07"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "University"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected",
-          "value": {
-            "type": "boolean",
-            "value": false
-          }
-        },
-        {
-          "propertyId": "cg:property:first-preference-votes",
-          "value": {
-            "type": "number",
-            "value": 479
-          }
-        },
-        {
-          "propertyId": "cg:property:member-of-political-party",
-          "value": {
-            "type": "entity",
-            "id": "cg:party:dup"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:b2aef2565603e6529fe2",
-      "subjectId": "cg:person:name-john-thomas-alderdice",
-      "propertyId": "cg:property:has-candidature",
-      "value": {
-        "type": "entity",
-        "id": "cg:candidature:cg-person-name-john-thomas-alderdice-cg-contest-local-government-local-g-deca5166fda1"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "1989-05-17"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "Victoria"
-          }
-        },
-        {
-          "propertyId": "cg:property:candidature-status",
-          "value": {
-            "type": "string",
-            "value": "Deemed elected"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected",
-          "value": {
-            "type": "boolean",
-            "value": true
-          }
-        },
-        {
-          "propertyId": "cg:property:first-preference-votes",
-          "value": {
-            "type": "number",
-            "value": 2933
-          }
-        },
-        {
-          "propertyId": "cg:property:member-of-political-party",
-          "value": {
-            "type": "entity",
-            "id": "cg:party:a-doctor"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:c1aaca1a50f90865f054",
-      "subjectId": "cg:person:name-john-thomas-alderdice",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:person"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:4638b916d480e2fd775a",
-      "subjectId": "cg:person:name-john-thomas-alderdice",
-      "propertyId": "cg:property:member-of-political-party",
-      "value": {
-        "type": "entity",
-        "id": "cg:party:a-doctor"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "Browse person party summary"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:ae80ae8ffb1a617bb9fa",
-      "subjectId": "cg:person:name-john-thomas-alderdice",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "John Thomas Alderdice"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:e944e2def1501e275452",
-      "subjectId": "cg:person:name-john-thomas-alderdice",
-      "propertyId": "cg:property:stood-in-election",
-      "value": {
-        "type": "entity",
-        "id": "cg:election:local-government-local-government-districts-1989-05-17"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "1989-05-17"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "Victoria"
-          }
-        },
-        {
-          "propertyId": "cg:property:candidature-status",
-          "value": {
-            "type": "string",
-            "value": "Deemed elected"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected",
-          "value": {
-            "type": "boolean",
-            "value": true
-          }
-        },
-        {
-          "propertyId": "cg:property:first-preference-votes",
-          "value": {
-            "type": "number",
-            "value": 2933
-          }
-        },
-        {
-          "propertyId": "cg:property:member-of-political-party",
-          "value": {
-            "type": "entity",
-            "id": "cg:party:a-doctor"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:d2de033ece1741c10bbe",
-      "subjectId": "cg:person:name-john-thomas-aldersice",
-      "propertyId": "cg:property:has-candidature",
-      "value": {
-        "type": "entity",
-        "id": "cg:candidature:cg-person-name-john-thomas-aldersice-cg-contest-local-government-local-g-96e618b670da"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "1993-05-19"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "Victoria"
-          }
-        },
-        {
-          "propertyId": "cg:property:candidature-status",
-          "value": {
-            "type": "string",
-            "value": "Elected"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected",
-          "value": {
-            "type": "boolean",
-            "value": true
-          }
-        },
-        {
-          "propertyId": "cg:property:first-preference-votes",
-          "value": {
-            "type": "number",
-            "value": 3337
-          }
-        },
-        {
-          "propertyId": "cg:property:member-of-political-party",
-          "value": {
-            "type": "entity",
-            "id": "cg:party:alliance"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:0e8bc53b13e9bb3c14b8",
-      "subjectId": "cg:person:name-john-thomas-aldersice",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:person"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:755868b7c0f90427ff6d",
-      "subjectId": "cg:person:name-john-thomas-aldersice",
-      "propertyId": "cg:property:member-of-political-party",
-      "value": {
-        "type": "entity",
-        "id": "cg:party:alliance"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "Browse person party summary"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:02fe3d49aa72ed06724d",
-      "subjectId": "cg:person:name-john-thomas-aldersice",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "John Thomas Aldersice"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:bd4d2cb601dcfd5434d8",
-      "subjectId": "cg:person:name-john-thomas-aldersice",
-      "propertyId": "cg:property:stood-in-election",
-      "value": {
-        "type": "entity",
-        "id": "cg:election:local-government-local-government-districts-1993-05-19"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "1993-05-19"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "Victoria"
-          }
-        },
-        {
-          "propertyId": "cg:property:candidature-status",
-          "value": {
-            "type": "string",
-            "value": "Elected"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected",
-          "value": {
-            "type": "boolean",
-            "value": true
-          }
-        },
-        {
-          "propertyId": "cg:property:first-preference-votes",
-          "value": {
-            "type": "number",
-            "value": 3337
-          }
-        },
-        {
-          "propertyId": "cg:property:member-of-political-party",
-          "value": {
-            "type": "entity",
-            "id": "cg:party:alliance"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:05e7789c7fbbf07f9c71",
-      "subjectId": "cg:person:name-john-thomas-bothwell",
-      "propertyId": "cg:property:has-candidature",
-      "value": {
-        "type": "entity",
-        "id": "cg:candidature:cg-person-name-john-thomas-bothwell-cg-contest-local-government-local-go-995b66a3ebb9"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "1989-05-17"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "Enniskillen"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected",
-          "value": {
-            "type": "boolean",
-            "value": false
-          }
-        },
-        {
-          "propertyId": "cg:property:first-preference-votes",
-          "value": {
-            "type": "number",
-            "value": 25
-          }
-        },
-        {
-          "propertyId": "cg:property:member-of-political-party",
-          "value": {
-            "type": "entity",
-            "id": "cg:party:independent"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:93b4e6ff59633114adf1",
-      "subjectId": "cg:person:name-john-thomas-bothwell",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:person"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:13a8929b63fe1873a82c",
-      "subjectId": "cg:person:name-john-thomas-bothwell",
-      "propertyId": "cg:property:member-of-political-party",
-      "value": {
-        "type": "entity",
-        "id": "cg:party:independent"
       },
       "qualifiers": [
         {

@@ -1,9 +1,111 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-14T00:57:46.095Z",
+  "generatedAt": "2026-07-14T01:16:48.011Z",
   "shard": 197,
   "totalSubjects": 250,
   "items": {
+    "cg:source:approved-publication-census-cube-dha54-age-standardised-morbidity-rate-for-all-procedures": [
+      {
+        "id": "cg:statement:86a2989329635403db1b",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:source",
+        "valueLabel": "Source",
+        "valueText": "Source",
+        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:eab79e9f15d3d33d9196",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Age-Standardised Morbidity Rate for All Procedures",
+        "valueText": "Age-Standardised Morbidity Rate for All Procedures",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:bc9e1c63c6984305a0c2",
+        "propertyId": "cg:property:provider",
+        "propertyLabel": "provider",
+        "valueType": "entity",
+        "valueId": "cg:provider:cso",
+        "valueLabel": "CSO",
+        "valueText": "CSO",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:6fc4d938278c975dc514",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:json-stat-cube-dha54-6cd2d8e0995f",
+        "valueLabel": "JSON-stat cube (DHA54)",
+        "valueText": "JSON-stat cube (DHA54)",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/DHA54/JSON-stat/2.0/en",
+            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/DHA54/JSON-stat/2.0/en"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:a47a9cdbd856d91dac82",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:cso-pxstat-table-dha54-60c881f351cc",
+        "valueLabel": "CSO PxStat table DHA54",
+        "valueText": "CSO PxStat table DHA54",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://data.cso.ie/table/DHA54",
+            "valueText": "https://data.cso.ie/table/DHA54"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:2e86eb607575af7cad46",
+        "propertyId": "cg:property:source-kind",
+        "propertyLabel": "source kind",
+        "valueType": "string",
+        "valueLabel": "Approved tables",
+        "valueText": "Approved tables",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:60e62d45639f7eff1300",
+        "propertyId": "cg:property:url",
+        "propertyLabel": "URL",
+        "valueType": "url",
+        "valueLabel": "https://data.cso.ie/table/DHA54",
+        "valueText": "https://data.cso.ie/table/DHA54",
+        "referenceCount": 0
+      }
+    ],
     "cg:source:approved-publication-census-cube-dha55-age-standardised-discharge-data-for-principal-procedures": [
       {
         "id": "cg:statement:403998da6c6f1a69077a",
@@ -27742,119 +27844,6 @@
         "valueType": "url",
         "valueLabel": "https://data.cso.ie/table/E7012",
         "valueText": "https://data.cso.ie/table/E7012",
-        "referenceCount": 0
-      }
-    ],
-    "cg:source:approved-publication-census-cube-e7013-population-usually-resident-and-p-38582582db30": [
-      {
-        "id": "cg:statement:d6226ec301b7a0f17246",
-        "propertyId": "cg:property:date",
-        "propertyLabel": "date",
-        "valueType": "entity",
-        "valueId": "cg:date-year:2011",
-        "valueLabel": "2011",
-        "valueText": "2011",
-        "valueDescription": "Entities dated 2011",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:92f12b7de0c3f0dc58ed",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:source",
-        "valueLabel": "Source",
-        "valueText": "Source",
-        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:871ebd5438bdaa107876",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Population Usually Resident and Present in the State 2011 to 2016",
-        "valueText": "Population Usually Resident and Present in the State 2011 to 2016",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:b2ba73249a13770d9573",
-        "propertyId": "cg:property:provider",
-        "propertyLabel": "provider",
-        "valueType": "entity",
-        "valueId": "cg:provider:cso",
-        "valueLabel": "CSO",
-        "valueText": "CSO",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:127a962b45887652707c",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:json-stat-cube-e7013-6efd2a95a192",
-        "valueLabel": "JSON-stat cube (E7013)",
-        "valueText": "JSON-stat cube (E7013)",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/E7013/JSON-stat/2.0/en",
-            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/E7013/JSON-stat/2.0/en"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:e604a0447dffc7e9e148",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:cso-pxstat-table-e7013-11b7a7c65bb0",
-        "valueLabel": "CSO PxStat table E7013",
-        "valueText": "CSO PxStat table E7013",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://data.cso.ie/table/E7013",
-            "valueText": "https://data.cso.ie/table/E7013"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:e879cec9de4e704d8396",
-        "propertyId": "cg:property:source-kind",
-        "propertyLabel": "source kind",
-        "valueType": "string",
-        "valueLabel": "Approved tables",
-        "valueText": "Approved tables",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:a7be8224e3310e57cc8b",
-        "propertyId": "cg:property:url",
-        "propertyLabel": "URL",
-        "valueType": "url",
-        "valueLabel": "https://data.cso.ie/table/E7013",
-        "valueText": "https://data.cso.ie/table/E7013",
         "referenceCount": 0
       }
     ]

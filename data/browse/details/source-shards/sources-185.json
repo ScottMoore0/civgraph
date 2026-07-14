@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-14T00:57:07.232Z",
+  "generatedAt": "2026-07-14T01:16:36.913Z",
   "kind": "sources",
   "shard": "sources-185.json",
   "total": 200,
@@ -11462,6 +11462,160 @@
         ],
         "date": 1929,
         "useLOD": true
+      }
+    },
+    {
+      "id": "map-source:streetnames-gazetteer",
+      "slug": "map-source-streetnames-gazetteer",
+      "type": "map-source",
+      "title": "Street Names Gazetteer source files",
+      "subtitle": "Settlements / OSNI",
+      "category": "Map sources",
+      "provider": [
+        "OSNI"
+      ],
+      "description": "Geographical index of 25,643 named streets across Northern Ireland, from OSNI Open Data (each point carries the street name and its Unique Street Reference Number / USRN).",
+      "sourceMapId": "streetnames-gazetteer",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "SN",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "OSNI OpenData - Gazetteer - Streetnames - Open Data NI (admin.opendatani.gov.uk)",
+          "url": "https://admin.opendatani.gov.uk/dataset/osni-opendata-gazetteer-streetnames"
+        },
+        {
+          "label": "Street Names Gazetteer — GeoJSON download",
+          "url": "https://admin.opendatani.gov.uk/dataset/8b3953f1-da42-4d98-b2b9-311e7c9c8075/resource/ce3e70dc-92f3-4107-87eb-aaa89f2690ce/download/osni_open_data_-_gazetteer_-_streetnames.geojson"
+        },
+        {
+          "label": "Street Names Gazetteer — KML download",
+          "url": "https://admin.opendatani.gov.uk/dataset/8b3953f1-da42-4d98-b2b9-311e7c9c8075/resource/261943bc-26fa-4982-bbd0-6bc1e44fc31f/download/osni_open_data_-_gazetteer_-_streetnames.kml"
+        },
+        {
+          "label": "Street Names Gazetteer — Shapefile (ZIP) download",
+          "url": "https://admin.opendatani.gov.uk/dataset/8b3953f1-da42-4d98-b2b9-311e7c9c8075/resource/8ed80001-5c96-4574-afeb-851f34446b0b/download/osni_open_data_-_gazetteer_-_streetnames.zip"
+        },
+        {
+          "label": "Street Names Gazetteer — CSV download",
+          "url": "https://admin.opendatani.gov.uk/dataset/8b3953f1-da42-4d98-b2b9-311e7c9c8075/resource/84b246cf-acf0-4313-b6dc-5995f8e3f122/download/osni_open_data_-_gazetteer_-_streetnames.csv"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "label",
+          "url": "GeoJSON"
+        },
+        {
+          "label": "file",
+          "url": "https://admin.opendatani.gov.uk/dataset/8b3953f1-da42-4d98-b2b9-311e7c9c8075/resource/ce3e70dc-92f3-4107-87eb-aaa89f2690ce/download/osni_open_data_-_gazetteer_-_streetnames.geojson"
+        },
+        {
+          "label": "label",
+          "url": "KML"
+        },
+        {
+          "label": "file",
+          "url": "https://admin.opendatani.gov.uk/dataset/8b3953f1-da42-4d98-b2b9-311e7c9c8075/resource/261943bc-26fa-4982-bbd0-6bc1e44fc31f/download/osni_open_data_-_gazetteer_-_streetnames.kml"
+        },
+        {
+          "label": "label",
+          "url": "Shapefile (ZIP)"
+        },
+        {
+          "label": "file",
+          "url": "https://admin.opendatani.gov.uk/dataset/8b3953f1-da42-4d98-b2b9-311e7c9c8075/resource/8ed80001-5c96-4574-afeb-851f34446b0b/download/osni_open_data_-_gazetteer_-_streetnames.zip"
+        },
+        {
+          "label": "label",
+          "url": "CSV"
+        },
+        {
+          "label": "file",
+          "url": "https://admin.opendatani.gov.uk/dataset/8b3953f1-da42-4d98-b2b9-311e7c9c8075/resource/84b246cf-acf0-4313-b6dc-5995f8e3f122/download/osni_open_data_-_gazetteer_-_streetnames.csv"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/communities/OSNI_Streetnames.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=streetnames-gazetteer",
+      "browseUrl": "/browse/sources/map-source-streetnames-gazetteer",
+      "rawMetadata": {
+        "id": "streetnames-gazetteer",
+        "name": "Street Names Gazetteer",
+        "slug": "streetnames-gazetteer",
+        "category": "settlements",
+        "featured": true,
+        "provider": [
+          "OSNI"
+        ],
+        "description": "Geographical index of 25,643 named streets across Northern Ireland, from OSNI Open Data (each point carries the street name and its Unique Street Reference Number / USRN).",
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/communities/OSNI_Streetnames.fgb"
+        },
+        "style": {
+          "color": "#3A7CA5",
+          "weight": 2,
+          "radius": 3
+        },
+        "keywords": [
+          "street names",
+          "gazetteer",
+          "usrn",
+          "roads",
+          "points",
+          "osni"
+        ],
+        "labelProperty": "STREETNAME",
+        "useLOD": true,
+        "references": [
+          {
+            "label": "OSNI OpenData - Gazetteer - Streetnames - Open Data NI (admin.opendatani.gov.uk)",
+            "url": "https://admin.opendatani.gov.uk/dataset/osni-opendata-gazetteer-streetnames",
+            "note": ""
+          },
+          {
+            "label": "Street Names Gazetteer — GeoJSON download",
+            "url": "https://admin.opendatani.gov.uk/dataset/8b3953f1-da42-4d98-b2b9-311e7c9c8075/resource/ce3e70dc-92f3-4107-87eb-aaa89f2690ce/download/osni_open_data_-_gazetteer_-_streetnames.geojson",
+            "note": ""
+          },
+          {
+            "label": "Street Names Gazetteer — KML download",
+            "url": "https://admin.opendatani.gov.uk/dataset/8b3953f1-da42-4d98-b2b9-311e7c9c8075/resource/261943bc-26fa-4982-bbd0-6bc1e44fc31f/download/osni_open_data_-_gazetteer_-_streetnames.kml",
+            "note": ""
+          },
+          {
+            "label": "Street Names Gazetteer — Shapefile (ZIP) download",
+            "url": "https://admin.opendatani.gov.uk/dataset/8b3953f1-da42-4d98-b2b9-311e7c9c8075/resource/8ed80001-5c96-4574-afeb-851f34446b0b/download/osni_open_data_-_gazetteer_-_streetnames.zip",
+            "note": ""
+          },
+          {
+            "label": "Street Names Gazetteer — CSV download",
+            "url": "https://admin.opendatani.gov.uk/dataset/8b3953f1-da42-4d98-b2b9-311e7c9c8075/resource/84b246cf-acf0-4313-b6dc-5995f8e3f122/download/osni_open_data_-_gazetteer_-_streetnames.csv",
+            "note": ""
+          }
+        ],
+        "sourceDownloads": [
+          {
+            "label": "GeoJSON",
+            "file": "https://admin.opendatani.gov.uk/dataset/8b3953f1-da42-4d98-b2b9-311e7c9c8075/resource/ce3e70dc-92f3-4107-87eb-aaa89f2690ce/download/osni_open_data_-_gazetteer_-_streetnames.geojson"
+          },
+          {
+            "label": "KML",
+            "file": "https://admin.opendatani.gov.uk/dataset/8b3953f1-da42-4d98-b2b9-311e7c9c8075/resource/261943bc-26fa-4982-bbd0-6bc1e44fc31f/download/osni_open_data_-_gazetteer_-_streetnames.kml"
+          },
+          {
+            "label": "Shapefile (ZIP)",
+            "file": "https://admin.opendatani.gov.uk/dataset/8b3953f1-da42-4d98-b2b9-311e7c9c8075/resource/8ed80001-5c96-4574-afeb-851f34446b0b/download/osni_open_data_-_gazetteer_-_streetnames.zip"
+          },
+          {
+            "label": "CSV",
+            "file": "https://admin.opendatani.gov.uk/dataset/8b3953f1-da42-4d98-b2b9-311e7c9c8075/resource/84b246cf-acf0-4313-b6dc-5995f8e3f122/download/osni_open_data_-_gazetteer_-_streetnames.csv"
+          }
+        ]
       }
     },
     {
@@ -33865,393 +34019,6 @@
           "review:election-model-merge-and-provenance-review-requires-exact-election-merge-review"
         ],
         "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-covid-19-hse-daily-vaccination-figures-00914"
-      }
-    },
-    {
-      "id": "medium-priority:2-irish-election-source-enrichment-data:dail-constituencies-2013-sdcc1:00101",
-      "slug": "medium-priority-2-irish-election-source-enrichment-data-dail-constituencies-2013-sdcc1-00101",
-      "type": "approved-medium-priority-source",
-      "title": "Dail Constituencies 2013 SDCC",
-      "subtitle": "Irish election source/enrichment data / South Dublin County Council, data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, GEOJSON, HTML, KML, ZIP / Source record; runtime review pending",
-      "category": "Medium-priority: Irish election source/enrichment data",
-      "date": "2013",
-      "provider": [
-        "South Dublin County Council",
-        "data.gov.ie"
-      ],
-      "description": "Dail Constituencies 2013 SDCC is published as a medium-priority Civgraph source/provenance record from South Dublin County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; election-model-merge-and-provenance-review: requires exact election merge review.",
-      "url": "https://data.gov.ie/dataset/dail-constituencies-2013-sdcc1",
-      "references": [
-        {
-          "label": "Dail Constituencies 2013 SDCC provider page",
-          "url": "https://data.gov.ie/dataset/dail-constituencies-2013-sdcc1",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Dail Constituencies 2013 SDCC Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dail-constituencies-2013-sdcc1",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/dail-constituencies-2013-sdcc1",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "source-record-with-runtime-review",
-        "Irish election source/enrichment data",
-        "election",
-        "constituencies",
-        "Republic of Ireland",
-        "new-interactive-map",
-        "ARCGIS GEOSERVICES REST API",
-        "CSV",
-        "GEOJSON",
-        "HTML",
-        "KML",
-        "ZIP",
-        "review:duplicate-or-variant-review-no-existing-match-candidate",
-        "review:election-model-merge-and-provenance-review-requires-exact-election-merge-review"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 102,
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:dail-constituencies-2013-sdcc1:00101",
-          "title": "Dail Constituencies 2013 SDCC",
-          "cleanTitle": "Dail Constituencies 2013 SDCC",
-          "provider": "data.gov.ie",
-          "organisation": "South Dublin County Council",
-          "category": "spatial",
-          "roiGroup": "2. Irish election source/enrichment data",
-          "groupTitle": "Irish election source/enrichment data",
-          "jurisdiction": "Republic of Ireland",
-          "topic": "election",
-          "featureUnit": "constituencies",
-          "formats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "GEOJSON",
-            "HTML",
-            "KML",
-            "ZIP"
-          ],
-          "isSpatial": true,
-          "isLargeOrSpecial": false,
-          "proposedAction": "new-interactive-map",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "MapLibre interactive layer",
-            "conversion": "Convert source geometry to PMTiles/vector tiles after approval.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GEOJSON",
-              "HTML",
-              "KML",
-              "ZIP"
-            ]
-          },
-          "approvalState": "ready-with-residual-review",
-          "sourcePublicationState": "public source record with runtime/semantic review still pending",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/dail-constituencies-2013-sdcc1",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dail-constituencies-2013-sdcc1",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate",
-            "election-model-merge-and-provenance-review: requires exact election merge review"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source record",
-        "Runtime review pending",
-        "Spatial source",
-        "Conversion pending",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Irish election source/enrichment data",
-        "Republic of Ireland",
-        "election",
-        "Dail Constituencies 2013 SDCC"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text",
-          "download-only"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/dail-constituencies-2013-sdcc1",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dail-constituencies-2013-sdcc1",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "Convert source geometry to PMTiles/vector tiles after approval."
-      },
-      "shortCitation": "South Dublin County Council, data.gov.ie, Dail Constituencies 2013 SDCC.",
-      "fullCitation": "South Dublin County Council, data.gov.ie. Dail Constituencies 2013 SDCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dail-constituencies-2013-sdcc1. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dail-constituencies-2013-sdcc1.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:2-irish-election-source-enrichment-data:dail-constituencies-2013-sdcc1:00101",
-        "sourceRowNumber": 102,
-        "approvalState": "ready-with-residual-review",
-        "recommendedAction": "publish source record; convert to interactive map in a later runtime pass",
-        "proposedAction": "new-interactive-map",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "MapLibre interactive layer",
-          "conversion": "Convert source geometry to PMTiles/vector tiles after approval.",
-          "sourceFormats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "GEOJSON",
-            "HTML",
-            "KML",
-            "ZIP"
-          ]
-        },
-        "confidence": 60,
-        "residualBlockers": [
-          "duplicate-or-variant-review: no existing match candidate",
-          "election-model-merge-and-provenance-review: requires exact election merge review"
-        ],
-        "resolvedBlockers": [
-          "large-or-special-format-review: normal source package; no special-format hold",
-          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-        ],
-        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-      },
-      "publicationStatus": "source-record-with-runtime-review",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record-runtime-conversion-pending",
-      "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-dail-constituencies-2013-sdcc1-00101",
-      "rawMetadata": {
-        "id": "medium-priority:2-irish-election-source-enrichment-data:dail-constituencies-2013-sdcc1:00101",
-        "slug": "medium-priority-2-irish-election-source-enrichment-data-dail-constituencies-2013-sdcc1-00101",
-        "type": "approved-medium-priority-source",
-        "title": "Dail Constituencies 2013 SDCC",
-        "subtitle": "Irish election source/enrichment data / South Dublin County Council, data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, GEOJSON, HTML, KML, ZIP / Source record; runtime review pending",
-        "category": "Medium-priority: Irish election source/enrichment data",
-        "date": "2013",
-        "provider": [
-          "South Dublin County Council",
-          "data.gov.ie"
-        ],
-        "description": "Dail Constituencies 2013 SDCC is published as a medium-priority Civgraph source/provenance record from South Dublin County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; election-model-merge-and-provenance-review: requires exact election merge review.",
-        "url": "https://data.gov.ie/dataset/dail-constituencies-2013-sdcc1",
-        "references": [
-          {
-            "label": "Dail Constituencies 2013 SDCC provider page",
-            "url": "https://data.gov.ie/dataset/dail-constituencies-2013-sdcc1",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Dail Constituencies 2013 SDCC Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dail-constituencies-2013-sdcc1",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/dail-constituencies-2013-sdcc1",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source record",
-          "Runtime review pending",
-          "Spatial source",
-          "Conversion pending",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Irish election source/enrichment data",
-          "Republic of Ireland",
-          "election",
-          "Dail Constituencies 2013 SDCC"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text",
-            "download-only"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/dail-constituencies-2013-sdcc1",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dail-constituencies-2013-sdcc1",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "Convert source geometry to PMTiles/vector tiles after approval."
-        },
-        "shortCitation": "South Dublin County Council, data.gov.ie, Dail Constituencies 2013 SDCC.",
-        "fullCitation": "South Dublin County Council, data.gov.ie. Dail Constituencies 2013 SDCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dail-constituencies-2013-sdcc1. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dail-constituencies-2013-sdcc1.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 102,
-            "stagingId": "medium-prep:2-irish-election-source-enrichment-data:dail-constituencies-2013-sdcc1:00101",
-            "title": "Dail Constituencies 2013 SDCC",
-            "cleanTitle": "Dail Constituencies 2013 SDCC",
-            "provider": "data.gov.ie",
-            "organisation": "South Dublin County Council",
-            "category": "spatial",
-            "roiGroup": "2. Irish election source/enrichment data",
-            "groupTitle": "Irish election source/enrichment data",
-            "jurisdiction": "Republic of Ireland",
-            "topic": "election",
-            "featureUnit": "constituencies",
-            "formats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GEOJSON",
-              "HTML",
-              "KML",
-              "ZIP"
-            ],
-            "isSpatial": true,
-            "isLargeOrSpecial": false,
-            "proposedAction": "new-interactive-map",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "MapLibre interactive layer",
-              "conversion": "Convert source geometry to PMTiles/vector tiles after approval.",
-              "sourceFormats": [
-                "ARCGIS GEOSERVICES REST API",
-                "CSV",
-                "GEOJSON",
-                "HTML",
-                "KML",
-                "ZIP"
-              ]
-            },
-            "approvalState": "ready-with-residual-review",
-            "sourcePublicationState": "public source record with runtime/semantic review still pending",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/dail-constituencies-2013-sdcc1",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dail-constituencies-2013-sdcc1",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "large-or-special-format-review: normal source package; no special-format hold",
-              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-            ],
-            "residualBlockers": [
-              "duplicate-or-variant-review: no existing match candidate",
-              "election-model-merge-and-provenance-review: requires exact election merge review"
-            ],
-            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:dail-constituencies-2013-sdcc1:00101",
-          "sourceRowNumber": 102,
-          "approvalState": "ready-with-residual-review",
-          "recommendedAction": "publish source record; convert to interactive map in a later runtime pass",
-          "proposedAction": "new-interactive-map",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "MapLibre interactive layer",
-            "conversion": "Convert source geometry to PMTiles/vector tiles after approval.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GEOJSON",
-              "HTML",
-              "KML",
-              "ZIP"
-            ]
-          },
-          "confidence": 60,
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate",
-            "election-model-merge-and-provenance-review: requires exact election merge review"
-          ],
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        },
-        "publicationStatus": "source-record-with-runtime-review",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record-runtime-conversion-pending",
-        "keywords": [
-          "medium-priority-publication",
-          "source-record-with-runtime-review",
-          "Irish election source/enrichment data",
-          "election",
-          "constituencies",
-          "Republic of Ireland",
-          "new-interactive-map",
-          "ARCGIS GEOSERVICES REST API",
-          "CSV",
-          "GEOJSON",
-          "HTML",
-          "KML",
-          "ZIP",
-          "review:duplicate-or-variant-review-no-existing-match-candidate",
-          "review:election-model-merge-and-provenance-review-requires-exact-election-merge-review"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-dail-constituencies-2013-sdcc1-00101"
       }
     }
   ]

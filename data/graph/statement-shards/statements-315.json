@@ -1,9 +1,288 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-14T00:57:46.095Z",
+  "generatedAt": "2026-07-14T01:16:48.011Z",
   "shard": 315,
   "total": 2500,
   "items": [
+    {
+      "id": "cg:statement:8c5c17014bfcc0a612dd",
+      "subjectId": "cg:register-interest:ni-register-record-interest-c43058bff8b7854f",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Shareholdings"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:9b4e11020497dd3d214f",
+      "subjectId": "cg:register-interest:ni-register-record-interest-c43058bff8b7854f",
+      "propertyId": "cg:property:nil-return",
+      "value": {
+        "type": "boolean",
+        "value": true
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-assembly-html-dbba1afccd696816",
+          "sourceTitle": "NI Assembly Register of Members Interests (18 June 2010)",
+          "sourceKind": "historical-html-register",
+          "sourceRecordId": "ni-register:assembly:html:dbba1afccd696816",
+          "sourceRowId": "ni-register-interest:mla-html:5aeec9294d516966",
+          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register180610.htm",
+          "date": "2010-06-18",
+          "extractionMethod": "html-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:14f6ca70af3353c14b2a",
+      "subjectId": "cg:register-interest:ni-register-record-interest-c433363cc0d68f91",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:register-interest"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:d5aa78a23389e721b7dd",
+      "subjectId": "cg:register-interest:ni-register-record-interest-c433363cc0d68f91",
+      "propertyId": "cg:property:interest-category",
+      "value": {
+        "type": "string",
+        "value": "Employment and earnings"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-mp-full-csv",
+          "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
+          "sourceKind": "filtered-westminster-csv",
+          "sourceRecordId": "ni-register:mp:full-csv",
+          "sourceRowId": "ni-register-interest:mp:50fae81c57d90649",
+          "date": "2016-06-27",
+          "earliestDeclaration": "2015-07-13",
+          "latestDeclaration": "2016-06-27",
+          "extractionMethod": "ni-mp-csv-name-match",
+          "extractionConfidence": "high",
+          "sourceExtractIds": [
+            "full-csv"
+          ]
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:6c547abcde15e29c43b2",
+      "subjectId": "cg:register-interest:ni-register-record-interest-c433363cc0d68f91",
+      "propertyId": "cg:property:interest-text",
+      "value": {
+        "type": "string",
+        "value": "26 June 2015, received £173.33 childcare allowance for June. Hours: 40 hrs. (Registered 29 June 2015)"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-mp-full-csv",
+          "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
+          "sourceKind": "filtered-westminster-csv",
+          "sourceRecordId": "ni-register:mp:full-csv",
+          "sourceRowId": "ni-register-interest:mp:50fae81c57d90649",
+          "date": "2016-06-27",
+          "earliestDeclaration": "2015-07-13",
+          "latestDeclaration": "2016-06-27",
+          "extractionMethod": "ni-mp-csv-name-match",
+          "extractionConfidence": "high",
+          "sourceExtractIds": [
+            "full-csv"
+          ]
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:83d2847d9418f05db4a8",
+      "subjectId": "cg:register-interest:ni-register-record-interest-c433363cc0d68f91",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Employment and earnings"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:50fc27d7735061e7e4a8",
+      "subjectId": "cg:register-interest:ni-register-record-interest-c433363cc0d68f91",
+      "propertyId": "cg:property:nil-return",
+      "value": {
+        "type": "boolean",
+        "value": false
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-mp-full-csv",
+          "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
+          "sourceKind": "filtered-westminster-csv",
+          "sourceRecordId": "ni-register:mp:full-csv",
+          "sourceRowId": "ni-register-interest:mp:50fae81c57d90649",
+          "date": "2016-06-27",
+          "earliestDeclaration": "2015-07-13",
+          "latestDeclaration": "2016-06-27",
+          "extractionMethod": "ni-mp-csv-name-match",
+          "extractionConfidence": "high",
+          "sourceExtractIds": [
+            "full-csv"
+          ]
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:19d00f526720bf39df40",
+      "subjectId": "cg:register-interest:ni-register-record-interest-c435d46f636c254c",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:register-interest"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:2396070ea8480bc8b33f",
+      "subjectId": "cg:register-interest:ni-register-record-interest-c435d46f636c254c",
+      "propertyId": "cg:property:interest-category",
+      "value": {
+        "type": "string",
+        "value": "Unremunerated Interests"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-c84d8acc0f5a3798",
+          "sourceTitle": "NI Assembly Register of Members Interests (6 February 2012)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:c84d8acc0f5a3798",
+          "sourceRowId": "ni-register-interest:mla-pdf:18963ae8015b2fb2",
+          "sourceUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_060212.pdf",
+          "date": "2012-02-06",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:c2ba47829fbdaf197baf",
+      "subjectId": "cg:register-interest:ni-register-record-interest-c435d46f636c254c",
+      "propertyId": "cg:property:interest-text",
+      "value": {
+        "type": "string",
+        "value": "Director, Foyle Haven, Derry. 12. Family members who benefit from Office Cost Expenditure I employ my wife as a driver. I employ my wife's nephew as a Parliamentary Assistant."
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-c84d8acc0f5a3798",
+          "sourceTitle": "NI Assembly Register of Members Interests (6 February 2012)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:c84d8acc0f5a3798",
+          "sourceRowId": "ni-register-interest:mla-pdf:18963ae8015b2fb2",
+          "sourceUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_060212.pdf",
+          "date": "2012-02-06",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:ae3135faa523aae0143c",
+      "subjectId": "cg:register-interest:ni-register-record-interest-c435d46f636c254c",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Unremunerated Interests"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:a4ad3a6c6aadc89d7305",
+      "subjectId": "cg:register-interest:ni-register-record-interest-c435d46f636c254c",
+      "propertyId": "cg:property:nil-return",
+      "value": {
+        "type": "boolean",
+        "value": false
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-c84d8acc0f5a3798",
+          "sourceTitle": "NI Assembly Register of Members Interests (6 February 2012)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:c84d8acc0f5a3798",
+          "sourceRowId": "ni-register-interest:mla-pdf:18963ae8015b2fb2",
+          "sourceUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_060212.pdf",
+          "date": "2012-02-06",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:7b0e4d3cfb81f55ee82d",
+      "subjectId": "cg:register-interest:ni-register-record-interest-c4361d2bffe8e392",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:register-interest"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:323a2c65f37f22a48e6f",
+      "subjectId": "cg:register-interest:ni-register-record-interest-c4361d2bffe8e392",
+      "propertyId": "cg:property:interest-category",
+      "value": {
+        "type": "string",
+        "value": "Donations and other support"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-f2b657553daac745",
+          "sourceTitle": "NI Assembly Register of Members Interests (24 July 2020)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:f2b657553daac745",
+          "sourceRowId": "ni-register-interest:mla-pdf:da19baba17bfc1b9",
+          "sourceUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/registerofinterests-24.07.2020.pdf",
+          "date": "2020-07-24",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:cf0069200b0c713ba23b",
+      "subjectId": "cg:register-interest:ni-register-record-interest-c4361d2bffe8e392",
+      "propertyId": "cg:property:interest-text",
+      "value": {
+        "type": "string",
+        "value": "None. (Registered 10 April 2017)"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-assembly-pdf-f2b657553daac745",
+          "sourceTitle": "NI Assembly Register of Members Interests (24 July 2020)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:f2b657553daac745",
+          "sourceRowId": "ni-register-interest:mla-pdf:da19baba17bfc1b9",
+          "sourceUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/registerofinterests-24.07.2020.pdf",
+          "date": "2020-07-24",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
     {
       "id": "cg:statement:42231817ffb6bd4ecb3f",
       "subjectId": "cg:register-interest:ni-register-record-interest-c4361d2bffe8e392",
@@ -52269,284 +52548,6 @@
           "sourceRowId": "ni-register-interest:mla-html:e9a77696b402129a",
           "sourceUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/14-november-2014/",
           "date": "2014-11-14",
-          "extractionMethod": "html-heading-parser",
-          "extractionConfidence": "medium"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:a88365c427ccd358014b",
-      "subjectId": "cg:register-interest:ni-register-record-interest-c6be3629ee0facbc",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Remunerated Employment, Office, Profession, etc"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:aeb72d3f5f436411e0f4",
-      "subjectId": "cg:register-interest:ni-register-record-interest-c6be3629ee0facbc",
-      "propertyId": "cg:property:nil-return",
-      "value": {
-        "type": "boolean",
-        "value": true
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:ni-register-assembly-html-f98216522851fd31",
-          "sourceTitle": "NI Assembly Register of Members Interests (14 November 2014)",
-          "sourceKind": "historical-pdf-register",
-          "sourceRecordId": "ni-register:assembly:pdf:d2a3d325d0648fc3",
-          "sourceRowId": "ni-register-interest:mla-pdf:a79451d36cd5920d",
-          "sourceUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register_14-nov-14.pdf",
-          "date": "2014-11-14",
-          "extractionMethod": "pdf-text-heading-parser",
-          "extractionConfidence": "medium"
-        },
-        {
-          "sourceId": "cg:source:ni-register-assembly-html-f98216522851fd31",
-          "sourceTitle": "NI Assembly Register of Members Interests (14 November 2014)",
-          "sourceKind": "historical-html-register",
-          "sourceRecordId": "ni-register:assembly:html:f98216522851fd31",
-          "sourceRowId": "ni-register-interest:mla-html:e9a77696b402129a",
-          "sourceUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/14-november-2014/",
-          "date": "2014-11-14",
-          "extractionMethod": "html-heading-parser",
-          "extractionConfidence": "medium"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:48573f36a850fb58996b",
-      "subjectId": "cg:register-interest:ni-register-record-interest-c6bf5560b1f84bba",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:register-interest"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:cbc049e4363ef4650143",
-      "subjectId": "cg:register-interest:ni-register-record-interest-c6bf5560b1f84bba",
-      "propertyId": "cg:property:interest-category",
-      "value": {
-        "type": "string",
-        "value": "Miscellaneous"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:ni-register-assembly-html-da7008ee50ca2963",
-          "sourceTitle": "NI Assembly Register of Members Interests (25 November 2009)",
-          "sourceKind": "historical-html-register",
-          "sourceRecordId": "ni-register:assembly:html:da7008ee50ca2963",
-          "sourceRowId": "ni-register-interest:mla-html:7ae2f36e32ae3aed",
-          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register251109.htm",
-          "date": "2009-11-25",
-          "extractionMethod": "html-heading-parser",
-          "extractionConfidence": "medium"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:3a9a2de15945f0efa526",
-      "subjectId": "cg:register-interest:ni-register-record-interest-c6bf5560b1f84bba",
-      "propertyId": "cg:property:interest-text",
-      "value": {
-        "type": "string",
-        "value": "None."
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:ni-register-assembly-html-da7008ee50ca2963",
-          "sourceTitle": "NI Assembly Register of Members Interests (25 November 2009)",
-          "sourceKind": "historical-html-register",
-          "sourceRecordId": "ni-register:assembly:html:da7008ee50ca2963",
-          "sourceRowId": "ni-register-interest:mla-html:7ae2f36e32ae3aed",
-          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register251109.htm",
-          "date": "2009-11-25",
-          "extractionMethod": "html-heading-parser",
-          "extractionConfidence": "medium"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:394e9b9cf8d3b4e1663b",
-      "subjectId": "cg:register-interest:ni-register-record-interest-c6bf5560b1f84bba",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Miscellaneous"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:6d1fc178196dd0c0c49c",
-      "subjectId": "cg:register-interest:ni-register-record-interest-c6bf5560b1f84bba",
-      "propertyId": "cg:property:nil-return",
-      "value": {
-        "type": "boolean",
-        "value": true
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:ni-register-assembly-html-da7008ee50ca2963",
-          "sourceTitle": "NI Assembly Register of Members Interests (25 November 2009)",
-          "sourceKind": "historical-html-register",
-          "sourceRecordId": "ni-register:assembly:html:da7008ee50ca2963",
-          "sourceRowId": "ni-register-interest:mla-html:7ae2f36e32ae3aed",
-          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register251109.htm",
-          "date": "2009-11-25",
-          "extractionMethod": "html-heading-parser",
-          "extractionConfidence": "medium"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:210395134319babe5171",
-      "subjectId": "cg:register-interest:ni-register-record-interest-c6c03b6a703c06b9",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:register-interest"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:219f89a1d21180885bac",
-      "subjectId": "cg:register-interest:ni-register-record-interest-c6c03b6a703c06b9",
-      "propertyId": "cg:property:interest-category",
-      "value": {
-        "type": "string",
-        "value": "Gifts, benefits and hospitality"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:ni-register-assembly-pdf-a82dafc397ebc2b0",
-          "sourceTitle": "NI Assembly Register of Members Interests (5 July 2022)",
-          "sourceKind": "historical-pdf-register",
-          "sourceRecordId": "ni-register:assembly:pdf:a82dafc397ebc2b0",
-          "sourceRowId": "ni-register-interest:mla-pdf:2f85a4b6849df091",
-          "sourceUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-05-july-2022.pdf",
-          "date": "2022-07-05",
-          "extractionMethod": "pdf-text-heading-parser",
-          "extractionConfidence": "medium"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:8778369697971111c5b3",
-      "subjectId": "cg:register-interest:ni-register-record-interest-c6c03b6a703c06b9",
-      "propertyId": "cg:property:interest-text",
-      "value": {
-        "type": "string",
-        "value": "No registrable interests included under this category in the PDF text."
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:ni-register-assembly-pdf-a82dafc397ebc2b0",
-          "sourceTitle": "NI Assembly Register of Members Interests (5 July 2022)",
-          "sourceKind": "historical-pdf-register",
-          "sourceRecordId": "ni-register:assembly:pdf:a82dafc397ebc2b0",
-          "sourceRowId": "ni-register-interest:mla-pdf:2f85a4b6849df091",
-          "sourceUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-05-july-2022.pdf",
-          "date": "2022-07-05",
-          "extractionMethod": "pdf-text-heading-parser",
-          "extractionConfidence": "medium"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:a29f3f5e11cb5027bc21",
-      "subjectId": "cg:register-interest:ni-register-record-interest-c6c03b6a703c06b9",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Gifts, benefits and hospitality"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:02943b0dec1098899ba8",
-      "subjectId": "cg:register-interest:ni-register-record-interest-c6c03b6a703c06b9",
-      "propertyId": "cg:property:nil-return",
-      "value": {
-        "type": "boolean",
-        "value": true
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:ni-register-assembly-pdf-a82dafc397ebc2b0",
-          "sourceTitle": "NI Assembly Register of Members Interests (5 July 2022)",
-          "sourceKind": "historical-pdf-register",
-          "sourceRecordId": "ni-register:assembly:pdf:a82dafc397ebc2b0",
-          "sourceRowId": "ni-register-interest:mla-pdf:2f85a4b6849df091",
-          "sourceUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/register-of-interests-05-july-2022.pdf",
-          "date": "2022-07-05",
-          "extractionMethod": "pdf-text-heading-parser",
-          "extractionConfidence": "medium"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:4bab43b9a57fc8ef55ba",
-      "subjectId": "cg:register-interest:ni-register-record-interest-c6c2a4c4b6760b05",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:register-interest"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:b3689d472da86e43bece",
-      "subjectId": "cg:register-interest:ni-register-record-interest-c6c2a4c4b6760b05",
-      "propertyId": "cg:property:interest-category",
-      "value": {
-        "type": "string",
-        "value": "Unremunerated interests"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:ni-register-assembly-html-dbba1afccd696816",
-          "sourceTitle": "NI Assembly Register of Members Interests (18 June 2010)",
-          "sourceKind": "historical-html-register",
-          "sourceRecordId": "ni-register:assembly:html:dbba1afccd696816",
-          "sourceRowId": "ni-register-interest:mla-html:595b9b40304ed16d",
-          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register180610.htm",
-          "date": "2010-06-18",
-          "extractionMethod": "html-heading-parser",
-          "extractionConfidence": "medium"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:b063029ae2d03d6c5c9d",
-      "subjectId": "cg:register-interest:ni-register-record-interest-c6c2a4c4b6760b05",
-      "propertyId": "cg:property:interest-text",
-      "value": {
-        "type": "string",
-        "value": "Member, Kirlish Ulster Scots Association. Member, Loyal Orders. Director, Fintona Regeneration Initiative. Member, Ulster Farmers' Union. (Registered 27 January 2010)."
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:ni-register-assembly-html-dbba1afccd696816",
-          "sourceTitle": "NI Assembly Register of Members Interests (18 June 2010)",
-          "sourceKind": "historical-html-register",
-          "sourceRecordId": "ni-register:assembly:html:dbba1afccd696816",
-          "sourceRowId": "ni-register-interest:mla-html:595b9b40304ed16d",
-          "sourceUrl": "https://archive.niassembly.gov.uk/members/expenses/register180610.htm",
-          "date": "2010-06-18",
           "extractionMethod": "html-heading-parser",
           "extractionConfidence": "medium"
         }

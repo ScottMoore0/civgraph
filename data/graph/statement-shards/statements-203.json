@@ -1,9 +1,492 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-14T00:57:46.095Z",
+  "generatedAt": "2026-07-14T01:16:48.011Z",
   "shard": 203,
   "total": 2500,
   "items": [
+    {
+      "id": "cg:statement:6e0b334c74f9137aea10",
+      "subjectId": "cg:person:name-geoff-dowey",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Geoff Dowey"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:4dfdefb5eadffdf7ce08",
+      "subjectId": "cg:person:name-geoff-dowey",
+      "propertyId": "cg:property:stood-in-election",
+      "value": {
+        "type": "entity",
+        "id": "cg:election:northern-ireland-assembly-2016-05-05"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "2016-05-05"
+          }
+        },
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "Belfast North"
+          }
+        },
+        {
+          "propertyId": "cg:property:candidature-status",
+          "value": {
+            "type": "string",
+            "value": "Excluded"
+          }
+        },
+        {
+          "propertyId": "cg:property:elected",
+          "value": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "propertyId": "cg:property:first-preference-votes",
+          "value": {
+            "type": "number",
+            "value": 32
+          }
+        },
+        {
+          "propertyId": "cg:property:member-of-political-party",
+          "value": {
+            "type": "entity",
+            "id": "cg:party:northern-ireland-first"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:d6f1242ab01a75059214",
+      "subjectId": "cg:person:name-geoffrey-jonah-whitehead",
+      "propertyId": "cg:property:has-candidature",
+      "value": {
+        "type": "entity",
+        "id": "cg:candidature:cg-person-name-geoffrey-jonah-whitehead-cg-contest-local-government-loca-0fff234b8194"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "1985-05-15"
+          }
+        },
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "Coleraine Town"
+          }
+        },
+        {
+          "propertyId": "cg:property:elected",
+          "value": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "propertyId": "cg:property:first-preference-votes",
+          "value": {
+            "type": "number",
+            "value": 28
+          }
+        },
+        {
+          "propertyId": "cg:property:member-of-political-party",
+          "value": {
+            "type": "entity",
+            "id": "cg:party:dup"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:02affb98052aed3dce46",
+      "subjectId": "cg:person:name-geoffrey-jonah-whitehead",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:person"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:3179967698a4039f76ab",
+      "subjectId": "cg:person:name-geoffrey-jonah-whitehead",
+      "propertyId": "cg:property:member-of-political-party",
+      "value": {
+        "type": "entity",
+        "id": "cg:party:dup"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "Browse person party summary"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:53a1311aaabc3caed1ec",
+      "subjectId": "cg:person:name-geoffrey-jonah-whitehead",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Geoffrey Jonah Whitehead"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:4a30afa1a46b4e10b6dc",
+      "subjectId": "cg:person:name-geoffrey-jonah-whitehead",
+      "propertyId": "cg:property:stood-in-election",
+      "value": {
+        "type": "entity",
+        "id": "cg:election:local-government-local-government-districts-1985-05-15"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "1985-05-15"
+          }
+        },
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "Coleraine Town"
+          }
+        },
+        {
+          "propertyId": "cg:property:elected",
+          "value": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "propertyId": "cg:property:first-preference-votes",
+          "value": {
+            "type": "number",
+            "value": 28
+          }
+        },
+        {
+          "propertyId": "cg:property:member-of-political-party",
+          "value": {
+            "type": "entity",
+            "id": "cg:party:dup"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:cef973f83ba0eed520a8",
+      "subjectId": "cg:person:name-geoffrey-knipw",
+      "propertyId": "cg:property:has-candidature",
+      "value": {
+        "type": "entity",
+        "id": "cg:candidature:cg-person-name-geoffrey-knipw-cg-contest-local-government-local-governme-1ab7e973e5e1"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "1985-05-15"
+          }
+        },
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "Armagh City"
+          }
+        },
+        {
+          "propertyId": "cg:property:candidature-status",
+          "value": {
+            "type": "string",
+            "value": "Elected"
+          }
+        },
+        {
+          "propertyId": "cg:property:elected",
+          "value": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "propertyId": "cg:property:first-preference-votes",
+          "value": {
+            "type": "number",
+            "value": 756
+          }
+        },
+        {
+          "propertyId": "cg:property:member-of-political-party",
+          "value": {
+            "type": "entity",
+            "id": "cg:party:dup"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:c093245850958ffb0e7c",
+      "subjectId": "cg:person:name-geoffrey-knipw",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:person"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:e6bfff3e5487a13ae8d7",
+      "subjectId": "cg:person:name-geoffrey-knipw",
+      "propertyId": "cg:property:member-of-political-party",
+      "value": {
+        "type": "entity",
+        "id": "cg:party:dup"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "Browse person party summary"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:4333a74ed4410a7185bd",
+      "subjectId": "cg:person:name-geoffrey-knipw",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Geoffrey Knipw"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:c32f596dde6a82bd1664",
+      "subjectId": "cg:person:name-geoffrey-knipw",
+      "propertyId": "cg:property:stood-in-election",
+      "value": {
+        "type": "entity",
+        "id": "cg:election:local-government-local-government-districts-1985-05-15"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "1985-05-15"
+          }
+        },
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "Armagh City"
+          }
+        },
+        {
+          "propertyId": "cg:property:candidature-status",
+          "value": {
+            "type": "string",
+            "value": "Elected"
+          }
+        },
+        {
+          "propertyId": "cg:property:elected",
+          "value": {
+            "type": "boolean",
+            "value": true
+          }
+        },
+        {
+          "propertyId": "cg:property:first-preference-votes",
+          "value": {
+            "type": "number",
+            "value": 756
+          }
+        },
+        {
+          "propertyId": "cg:property:member-of-political-party",
+          "value": {
+            "type": "entity",
+            "id": "cg:party:dup"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:d1605f99a2fe0d89daf1",
+      "subjectId": "cg:person:name-geoffrey-lionel-bairsto",
+      "propertyId": "cg:property:has-candidature",
+      "value": {
+        "type": "entity",
+        "id": "cg:candidature:cg-person-name-geoffrey-lionel-bairsto-cg-contest-local-government-local-eb4ae859fac1"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "1993-05-19"
+          }
+        },
+        {
+          "propertyId": "cg:property:constituency",
+          "value": {
+            "type": "string",
+            "value": "lg93-NoD-Abbey"
+          }
+        },
+        {
+          "propertyId": "cg:property:elected",
+          "value": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "propertyId": "cg:property:first-preference-votes",
+          "value": {
+            "type": "number",
+            "value": 403
+          }
+        },
+        {
+          "propertyId": "cg:property:member-of-political-party",
+          "value": {
+            "type": "entity",
+            "id": "cg:party:dup"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:21d15d855caeea881c92",
+      "subjectId": "cg:person:name-geoffrey-lionel-bairsto",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:person"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:577dd366bfdd2b04edcb",
+      "subjectId": "cg:person:name-geoffrey-lionel-bairsto",
+      "propertyId": "cg:property:member-of-political-party",
+      "value": {
+        "type": "entity",
+        "id": "cg:party:dup"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "Browse person party summary"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
     {
       "id": "cg:statement:7233d8e8f67b89a31333",
       "subjectId": "cg:person:name-geoffrey-lionel-bairsto",
@@ -104560,540 +105043,6 @@
         "type": "entity",
         "id": "cg:entity-type:person"
       },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:7c1f779dfb5494d04978",
-      "subjectId": "cg:person:name-gillespie-mickey",
-      "propertyId": "cg:property:member-of-political-party",
-      "value": {
-        "type": "entity",
-        "id": "cg:party:sinn-fein"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "Browse person party summary"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:caf546ee6bb594e67293",
-      "subjectId": "cg:person:name-gillespie-mickey",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Gillespie Mickey"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:c2e1eb6c85947ee71742",
-      "subjectId": "cg:person:name-gillespie-mickey",
-      "propertyId": "cg:property:stood-in-election",
-      "value": {
-        "type": "entity",
-        "id": "cg:election:local-government-local-government-districts-2011-05-05"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "2011-05-05"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "Torrent"
-          }
-        },
-        {
-          "propertyId": "cg:property:candidature-status",
-          "value": {
-            "type": "string",
-            "value": "Elected"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected",
-          "value": {
-            "type": "boolean",
-            "value": true
-          }
-        },
-        {
-          "propertyId": "cg:property:first-preference-votes",
-          "value": {
-            "type": "number",
-            "value": 1152
-          }
-        },
-        {
-          "propertyId": "cg:property:member-of-political-party",
-          "value": {
-            "type": "entity",
-            "id": "cg:party:sinn-fein"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:b0f03e2af17fafef6bea",
-      "subjectId": "cg:person:name-gillespie-roy",
-      "propertyId": "cg:property:has-candidature",
-      "value": {
-        "type": "entity",
-        "id": "cg:candidature:cg-person-name-gillespie-roy-cg-contest-local-government-local-governmen-53e07eaa29ab"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "2011-05-05"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "Bannside"
-          }
-        },
-        {
-          "propertyId": "cg:property:candidature-status",
-          "value": {
-            "type": "string",
-            "value": "Elected"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected",
-          "value": {
-            "type": "boolean",
-            "value": true
-          }
-        },
-        {
-          "propertyId": "cg:property:first-preference-votes",
-          "value": {
-            "type": "number",
-            "value": 1031
-          }
-        },
-        {
-          "propertyId": "cg:property:member-of-political-party",
-          "value": {
-            "type": "entity",
-            "id": "cg:party:tuv"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:8fdfe8d82649c96a17b3",
-      "subjectId": "cg:person:name-gillespie-roy",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:person"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:3645e230590e07e02c3e",
-      "subjectId": "cg:person:name-gillespie-roy",
-      "propertyId": "cg:property:member-of-political-party",
-      "value": {
-        "type": "entity",
-        "id": "cg:party:tuv"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "Browse person party summary"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:555ea31711d26d2f751b",
-      "subjectId": "cg:person:name-gillespie-roy",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Gillespie Roy"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:dfc92beecb18de12648e",
-      "subjectId": "cg:person:name-gillespie-roy",
-      "propertyId": "cg:property:stood-in-election",
-      "value": {
-        "type": "entity",
-        "id": "cg:election:local-government-local-government-districts-2011-05-05"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "2011-05-05"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "Bannside"
-          }
-        },
-        {
-          "propertyId": "cg:property:candidature-status",
-          "value": {
-            "type": "string",
-            "value": "Elected"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected",
-          "value": {
-            "type": "boolean",
-            "value": true
-          }
-        },
-        {
-          "propertyId": "cg:property:first-preference-votes",
-          "value": {
-            "type": "number",
-            "value": 1031
-          }
-        },
-        {
-          "propertyId": "cg:property:member-of-political-party",
-          "value": {
-            "type": "entity",
-            "id": "cg:party:tuv"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:203ff0857d67f069e8e7",
-      "subjectId": "cg:person:name-gillian-adele-kirk",
-      "propertyId": "cg:property:has-candidature",
-      "value": {
-        "type": "entity",
-        "id": "cg:candidature:cg-person-name-gillian-adele-kirk-cg-contest-local-government-local-gove-6311c4eb27b3"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "1997-05-21"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "Lurgan"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected",
-          "value": {
-            "type": "boolean",
-            "value": false
-          }
-        },
-        {
-          "propertyId": "cg:property:first-preference-votes",
-          "value": {
-            "type": "number",
-            "value": 49
-          }
-        },
-        {
-          "propertyId": "cg:property:member-of-political-party",
-          "value": {
-            "type": "entity",
-            "id": "cg:party:upper-bann-labour"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:1d0188aed73495802e38",
-      "subjectId": "cg:person:name-gillian-adele-kirk",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:person"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:bbf53a84709127c3822d",
-      "subjectId": "cg:person:name-gillian-adele-kirk",
-      "propertyId": "cg:property:member-of-political-party",
-      "value": {
-        "type": "entity",
-        "id": "cg:party:upper-bann-labour"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "Browse person party summary"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:481417f20cea8a800ccb",
-      "subjectId": "cg:person:name-gillian-adele-kirk",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Gillian Adele Kirk"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:d50ed1f45fcb03045270",
-      "subjectId": "cg:person:name-gillian-adele-kirk",
-      "propertyId": "cg:property:stood-in-election",
-      "value": {
-        "type": "entity",
-        "id": "cg:election:local-government-local-government-districts-1997-05-21"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "1997-05-21"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "Lurgan"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected",
-          "value": {
-            "type": "boolean",
-            "value": false
-          }
-        },
-        {
-          "propertyId": "cg:property:first-preference-votes",
-          "value": {
-            "type": "number",
-            "value": 49
-          }
-        },
-        {
-          "propertyId": "cg:property:member-of-political-party",
-          "value": {
-            "type": "entity",
-            "id": "cg:party:upper-bann-labour"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:694a3c501e0fae754c6d",
-      "subjectId": "cg:person:name-gillian-brien",
-      "propertyId": "cg:property:has-candidature",
-      "value": {
-        "type": "entity",
-        "id": "cg:candidature:cg-person-name-gillian-brien-cg-contest-ireland-european-2019-05-24-irel-151d1b699f68"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "2019-05-24"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "Dublin"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected",
-          "value": {
-            "type": "boolean",
-            "value": false
-          }
-        },
-        {
-          "propertyId": "cg:property:first-preference-votes",
-          "value": {
-            "type": "number",
-            "value": 10864
-          }
-        },
-        {
-          "propertyId": "cg:property:member-of-political-party",
-          "value": {
-            "type": "entity",
-            "id": "cg:party:solidarity-pbp"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:a895de039439fdb701eb",
-      "subjectId": "cg:person:name-gillian-brien",
-      "propertyId": "cg:property:has-candidature",
-      "value": {
-        "type": "entity",
-        "id": "cg:candidature:cg-person-name-gillian-brien-cg-contest-dail-eireann-2020-02-08-dail-eir-dff34ada9040"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "2020-02-08"
-          }
-        },
-        {
-          "propertyId": "cg:property:constituency",
-          "value": {
-            "type": "string",
-            "value": "Dublin Central"
-          }
-        },
-        {
-          "propertyId": "cg:property:candidature-status",
-          "value": {
-            "type": "string",
-            "value": "Excluded"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected",
-          "value": {
-            "type": "boolean",
-            "value": false
-          }
-        },
-        {
-          "propertyId": "cg:property:first-preference-votes",
-          "value": {
-            "type": "number",
-            "value": 776
-          }
-        },
-        {
-          "propertyId": "cg:property:member-of-political-party",
-          "value": {
-            "type": "entity",
-            "id": "cg:party:solidarity-pbp"
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
       "rank": "normal"
     }
   ]

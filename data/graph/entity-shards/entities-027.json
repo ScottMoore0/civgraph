@@ -1,9 +1,41 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-14T00:57:46.095Z",
+  "generatedAt": "2026-07-14T01:16:48.011Z",
   "shard": 27,
   "total": 5000,
   "items": [
+    {
+      "id": "cg:source-file:en-bd5f5485064f",
+      "label": "en",
+      "description": "en for HS227 - Persons per household",
+      "kind": "entity",
+      "sourceUrl": "https://data.gov.ie/dataset/hs227-persons-per-household",
+      "attributes": {
+        "url": "https://data.gov.ie/dataset/hs227-persons-per-household",
+        "format": "file",
+        "relationship": "source-download",
+        "parentLabel": "HS227 - Persons per household"
+      },
+      "typeIds": [
+        "cg:entity-type:source-file"
+      ]
+    },
+    {
+      "id": "cg:source-file:en-bd6d8b1794b9",
+      "label": "en",
+      "description": "en for CD352 - Population Aged 15 Years and Over with a Third Level Qualification",
+      "kind": "entity",
+      "sourceUrl": "https://data.gov.ie/dataset/cd352-population-aged-15-years-and-over-with-a-third-level-qualification",
+      "attributes": {
+        "url": "https://data.gov.ie/dataset/cd352-population-aged-15-years-and-over-with-a-third-level-qualification",
+        "format": "file",
+        "relationship": "source-download",
+        "parentLabel": "CD352 - Population Aged 15 Years and Over with a Third Level Qualification"
+      },
+      "typeIds": [
+        "cg:entity-type:source-file"
+      ]
+    },
     {
       "id": "cg:source-file:en-bd7090387d43",
       "label": "en",
@@ -26944,6 +26976,22 @@
       ]
     },
     {
+      "id": "cg:source-file:fgb-332ae05bc705",
+      "label": "fgb",
+      "description": "fgb for Street Names Gazetteer source files",
+      "kind": "entity",
+      "sourceUrl": "https://data.civgraph.net/data/maps/communities/OSNI_Streetnames.fgb",
+      "attributes": {
+        "url": "https://data.civgraph.net/data/maps/communities/OSNI_Streetnames.fgb",
+        "format": "FGB",
+        "relationship": "source-download",
+        "parentLabel": "Street Names Gazetteer source files"
+      },
+      "typeIds": [
+        "cg:entity-type:source-file"
+      ]
+    },
+    {
       "id": "cg:source-file:fgb-332b065035a4",
       "label": "fgb",
       "description": "fgb for Counties of Ireland 1922 (all-island, Tirconaill) source files",
@@ -34920,6 +34968,22 @@
         "format": "GEOJSON",
         "relationship": "source-download",
         "parentLabel": "Muga (DLR) source files"
+      },
+      "typeIds": [
+        "cg:entity-type:source-file"
+      ]
+    },
+    {
+      "id": "cg:source-file:geojson-3c0e7be26d0f",
+      "label": "GeoJSON",
+      "description": "GeoJSON for Street Names Gazetteer source files",
+      "kind": "entity",
+      "sourceUrl": "https://admin.opendatani.gov.uk/dataset/8b3953f1-da42-4d98-b2b9-311e7c9c8075/resource/ce3e70dc-92f3-4107-87eb-aaa89f2690ce/download/osni_open_data_-_gazetteer_-_streetnames.geojson",
+      "attributes": {
+        "url": "https://admin.opendatani.gov.uk/dataset/8b3953f1-da42-4d98-b2b9-311e7c9c8075/resource/ce3e70dc-92f3-4107-87eb-aaa89f2690ce/download/osni_open_data_-_gazetteer_-_streetnames.geojson",
+        "format": "GeoJSON",
+        "relationship": "source-download",
+        "parentLabel": "Street Names Gazetteer source files"
       },
       "typeIds": [
         "cg:entity-type:source-file"
@@ -61002,6 +61066,22 @@
       ]
     },
     {
+      "id": "cg:source-file:kml-b0cb5899698b",
+      "label": "KML",
+      "description": "KML for Street Names Gazetteer source files",
+      "kind": "entity",
+      "sourceUrl": "https://admin.opendatani.gov.uk/dataset/8b3953f1-da42-4d98-b2b9-311e7c9c8075/resource/261943bc-26fa-4982-bbd0-6bc1e44fc31f/download/osni_open_data_-_gazetteer_-_streetnames.kml",
+      "attributes": {
+        "url": "https://admin.opendatani.gov.uk/dataset/8b3953f1-da42-4d98-b2b9-311e7c9c8075/resource/261943bc-26fa-4982-bbd0-6bc1e44fc31f/download/osni_open_data_-_gazetteer_-_streetnames.kml",
+        "format": "KML",
+        "relationship": "source-download",
+        "parentLabel": "Street Names Gazetteer source files"
+      },
+      "typeIds": [
+        "cg:entity-type:source-file"
+      ]
+    },
+    {
       "id": "cg:source-file:kml-b933ae7875fc",
       "label": "kml",
       "description": "kml for Noise Maps From Traffic Sources In Dublin City Council (DCC) source files",
@@ -79809,86 +79889,6 @@
         "format": "pdf",
         "relationship": "source-download",
         "parentLabel": "C1991 V3 T14 — 14. Private households classified by composition and size and by number of persons aged 65 years and over"
-      },
-      "typeIds": [
-        "cg:entity-type:source-file"
-      ]
-    },
-    {
-      "id": "cg:source-file:pdf-internet-archive-mirror-475e4b1a50b5",
-      "label": "PDF (Internet Archive mirror)",
-      "description": "PDF (Internet Archive mirror) for C 1986 V2 T11b — 11B. Widowed females in each age group as a percentage of the total females in that age group in each province, county and county borough distinguishing separately aggregate town and aggregate rural areas",
-      "kind": "entity",
-      "sourceUrl": "https://archive.org/download/civgraph-cso-historical-reports/C_1986_V2_T11b-6632e90530.pdf",
-      "attributes": {
-        "url": "https://archive.org/download/civgraph-cso-historical-reports/C_1986_V2_T11b-6632e90530.pdf",
-        "format": "pdf",
-        "relationship": "source-download",
-        "parentLabel": "C 1986 V2 T11b — 11B. Widowed females in each age group as a percentage of the total females in that age group in each province, county and county borough distinguishing separately aggregate town and aggregate rural areas"
-      },
-      "typeIds": [
-        "cg:entity-type:source-file"
-      ]
-    },
-    {
-      "id": "cg:source-file:pdf-internet-archive-mirror-479603fea9fc",
-      "label": "PDF (Internet Archive mirror)",
-      "description": "PDF (Internet Archive mirror) for C 1981 V2 T14c — 14C. Population of the state, each Province, County and County Borough classified by sex, marital status and by age groups suitable for cohort analysis for the period 1979 to 1981",
-      "kind": "entity",
-      "sourceUrl": "https://archive.org/download/civgraph-cso-historical-reports/C_1981_V2_T14c-cfa20d76cf.pdf",
-      "attributes": {
-        "url": "https://archive.org/download/civgraph-cso-historical-reports/C_1981_V2_T14c-cfa20d76cf.pdf",
-        "format": "pdf",
-        "relationship": "source-download",
-        "parentLabel": "C 1981 V2 T14c — 14C. Population of the state, each Province, County and County Borough classified by sex, marital status and by age groups suitable for cohort analysis for the period 1979 to 1981"
-      },
-      "typeIds": [
-        "cg:entity-type:source-file"
-      ]
-    },
-    {
-      "id": "cg:source-file:pdf-internet-archive-mirror-47976a9002c8",
-      "label": "PDF (Internet Archive mirror)",
-      "description": "PDF (Internet Archive mirror) for C 1971 V12 P2 T2abc — 02. Gainfully occupied persons, males and females with scientific or technological qualifications classified by subject or branch and age group",
-      "kind": "entity",
-      "sourceUrl": "https://archive.org/download/civgraph-cso-historical-reports/C_1971_V12_P2_T2abc-5940031f50.pdf",
-      "attributes": {
-        "url": "https://archive.org/download/civgraph-cso-historical-reports/C_1971_V12_P2_T2abc-5940031f50.pdf",
-        "format": "pdf",
-        "relationship": "source-download",
-        "parentLabel": "C 1971 V12 P2 T2abc — 02. Gainfully occupied persons, males and females with scientific or technological qualifications classified by subject or branch and age group"
-      },
-      "typeIds": [
-        "cg:entity-type:source-file"
-      ]
-    },
-    {
-      "id": "cg:source-file:pdf-internet-archive-mirror-47d397ad57f6",
-      "label": "PDF (Internet Archive mirror)",
-      "description": "PDF (Internet Archive mirror) for C 1971 V7 T7a — 07A. Private households in permanent housing units classified by type and number of persons and by nature of occupancy",
-      "kind": "entity",
-      "sourceUrl": "https://archive.org/download/civgraph-cso-historical-reports/C_1971_V7_T7a-e9e81dc4bf.pdf",
-      "attributes": {
-        "url": "https://archive.org/download/civgraph-cso-historical-reports/C_1971_V7_T7a-e9e81dc4bf.pdf",
-        "format": "pdf",
-        "relationship": "source-download",
-        "parentLabel": "C 1971 V7 T7a — 07A. Private households in permanent housing units classified by type and number of persons and by nature of occupancy"
-      },
-      "typeIds": [
-        "cg:entity-type:source-file"
-      ]
-    },
-    {
-      "id": "cg:source-file:pdf-internet-archive-mirror-4813eeffe697",
-      "label": "PDF (Internet Archive mirror)",
-      "description": "PDF (Internet Archive mirror) for C 1926 VOL 4 T21a a 22 — 21A. Number of inhabited houses in each Province of Saorstát Éireann at each Census, 1821 - 1926",
-      "kind": "entity",
-      "sourceUrl": "https://archive.org/download/civgraph-cso-historical-reports/wayback/C_1926_VOL_4_T21a_a_22.20201211141201.1e2bbae273.pdf",
-      "attributes": {
-        "url": "https://archive.org/download/civgraph-cso-historical-reports/wayback/C_1926_VOL_4_T21a_a_22.20201211141201.1e2bbae273.pdf",
-        "format": "pdf",
-        "relationship": "source-download",
-        "parentLabel": "C 1926 VOL 4 T21a a 22 — 21A. Number of inhabited houses in each Province of Saorstát Éireann at each Census, 1821 - 1926"
       },
       "typeIds": [
         "cg:entity-type:source-file"

@@ -1,9 +1,31 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-14T00:57:46.095Z",
+  "generatedAt": "2026-07-14T01:16:48.011Z",
   "shard": 168,
   "totalSubjects": 250,
   "items": {
+    "cg:provider:the-boundary-commission-for-northern-ireland": [
+      {
+        "id": "cg:statement:ce1b096eaedc1b11129f",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:provider",
+        "valueLabel": "Provider",
+        "valueText": "Provider",
+        "valueDescription": "An organisation, publisher, public body, or data provider named in Civgraph source metadata.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:0977397bd83ccddef02b",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "The Boundary Commission for Northern Ireland",
+        "valueText": "The Boundary Commission for Northern Ireland",
+        "referenceCount": 0
+      }
+    ],
     "cg:provider:the-courts-service": [
       {
         "id": "cg:statement:20c3abcbb42139a2c88f",
@@ -198844,246 +198866,6 @@
             "sourceKind": "filtered-westminster-csv",
             "sourceRecordId": "ni-register:mp:full-csv",
             "date": "2026-01-19",
-            "extractionConfidence": "high"
-          }
-        ]
-      }
-    ],
-    "cg:register-record:ni-register-record-0c6cb460a178c538": [
-      {
-        "id": "cg:statement:2a163a68d6b0e996fd60",
-        "propertyId": "cg:property:constituency",
-        "propertyLabel": "constituency",
-        "valueType": "string",
-        "valueLabel": "Belfast North",
-        "valueText": "Belfast North",
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:ni-register-mp-full-csv",
-            "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
-            "sourceKind": "filtered-westminster-csv",
-            "sourceRecordId": "ni-register:mp:full-csv",
-            "date": "2016-08-01",
-            "extractionConfidence": "high"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:d135b12f23ff038143bf",
-        "propertyId": "cg:property:date",
-        "propertyLabel": "date",
-        "valueType": "entity",
-        "valueId": "cg:date-month:2016-08",
-        "valueLabel": "2016-08-01",
-        "valueText": "2016-08-01",
-        "valueDescription": "Entities dated August 2016",
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:ni-register-mp-full-csv",
-            "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
-            "sourceKind": "filtered-westminster-csv",
-            "sourceRecordId": "ni-register:mp:full-csv",
-            "date": "2016-08-01",
-            "extractionConfidence": "high"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:304dbc4cdd79df9e28a5",
-        "propertyId": "cg:property:declared-interest",
-        "propertyLabel": "declared interest",
-        "valueType": "entity",
-        "valueId": "cg:register-interest:ni-register-record-interest-4df4a2acf92b2880",
-        "valueLabel": "Employment and earnings",
-        "valueText": "Employment and earnings",
-        "valueDescription": "23 July 2015, received £585 from Guardian News and Media, 90 York Way, London N1P 2AP for two columns. Hours: approx. 4 hrs. Payment donated to charity. (Registered 19 August 2015)",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:interest-category",
-            "propertyLabel": "interest category",
-            "valueType": "string",
-            "valueLabel": "Employment and earnings",
-            "valueText": "Employment and earnings"
-          },
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "2016-08-01",
-            "valueText": "2016-08-01"
-          },
-          {
-            "propertyId": "cg:property:nil-return",
-            "propertyLabel": "nil return",
-            "valueType": "boolean",
-            "valueLabel": "No",
-            "valueText": "No"
-          },
-          {
-            "propertyId": "cg:property:extraction-confidence",
-            "propertyLabel": "extraction confidence",
-            "valueType": "string",
-            "valueLabel": "high",
-            "valueText": "high"
-          },
-          {
-            "propertyId": "cg:property:source-row-count",
-            "propertyLabel": "source row count",
-            "valueType": "number",
-            "valueLabel": "1",
-            "valueText": "1"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:ni-register-mp-full-csv",
-            "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
-            "sourceKind": "filtered-westminster-csv",
-            "sourceRecordId": "ni-register:mp:full-csv",
-            "sourceRowId": "ni-register-interest:mp:f2469eafcdf98524",
-            "date": "2016-08-01",
-            "extractionConfidence": "high"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:2548443283640c471b21",
-        "propertyId": "cg:property:elected-body",
-        "propertyLabel": "elected body",
-        "valueType": "entity",
-        "valueId": "cg:body:house-of-commons",
-        "valueLabel": "House of Commons",
-        "valueText": "House of Commons",
-        "valueDescription": "House of Commons of the United Kingdom",
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:ni-register-mp-full-csv",
-            "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
-            "sourceKind": "filtered-westminster-csv",
-            "sourceRecordId": "ni-register:mp:full-csv",
-            "date": "2016-08-01",
-            "extractionConfidence": "high"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:c2f3269f01a724fb7957",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:register-record",
-        "valueLabel": "Register of interests record",
-        "valueText": "Register of interests record",
-        "valueDescription": "A politician, elected body, and register-date tuple for a register of interests edition.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:6bd331d3f4f01cdf96fb",
-        "propertyId": "cg:property:jurisdiction",
-        "propertyLabel": "jurisdiction",
-        "valueType": "string",
-        "valueLabel": "Northern Ireland",
-        "valueText": "Northern Ireland",
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:ni-register-mp-full-csv",
-            "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
-            "sourceKind": "filtered-westminster-csv",
-            "sourceRecordId": "ni-register:mp:full-csv",
-            "date": "2016-08-01",
-            "extractionConfidence": "high"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:b727df675e27c18600d2",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Nigel Dodds - House of Commons - 2016-08-01",
-        "valueText": "Nigel Dodds - House of Commons - 2016-08-01",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:b9e8beac9bab3ad7012f",
-        "propertyId": "cg:property:political-office",
-        "propertyLabel": "political office",
-        "valueType": "entity",
-        "valueId": "cg:office:mp",
-        "valueLabel": "Member of Parliament",
-        "valueText": "Member of Parliament",
-        "valueDescription": "Member of Parliament in the House of Commons",
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:ni-register-mp-full-csv",
-            "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
-            "sourceKind": "filtered-westminster-csv",
-            "sourceRecordId": "ni-register:mp:full-csv",
-            "date": "2016-08-01",
-            "extractionConfidence": "high"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:31ed6bfae72f7275c9d2",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:ni-register-mp-full-csv",
-        "valueLabel": "Northern Ireland MPs extracted from supplied Westminster register CSV",
-        "valueText": "Northern Ireland MPs extracted from supplied Westminster register CSV",
-        "valueDescription": "A generated NI-only extract from a supplied Westminster register of interests CSV. England, Scotland, and Wales MPs are excluded by matching member names to local Northern Ireland Westminster election winners.",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "filtered-westminster-csv",
-            "valueText": "filtered-westminster-csv"
-          },
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "2016-08-01",
-            "valueText": "2016-08-01"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:ni-register-mp-full-csv",
-            "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
-            "sourceKind": "filtered-westminster-csv",
-            "sourceRecordId": "ni-register:mp:full-csv",
-            "date": "2016-08-01",
-            "extractionConfidence": "high"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:fa7d010c6915b78bd187",
-        "propertyId": "cg:property:year",
-        "propertyLabel": "year",
-        "valueType": "entity",
-        "valueId": "cg:date-year:2016",
-        "valueLabel": "2016",
-        "valueText": "2016",
-        "valueDescription": "Entities dated 2016",
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:ni-register-mp-full-csv",
-            "sourceTitle": "Northern Ireland MPs extracted from supplied Westminster register CSV",
-            "sourceKind": "filtered-westminster-csv",
-            "sourceRecordId": "ni-register:mp:full-csv",
-            "date": "2016-08-01",
             "extractionConfidence": "high"
           }
         ]

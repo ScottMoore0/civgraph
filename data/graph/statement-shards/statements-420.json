@@ -1,9 +1,507 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-14T00:57:46.095Z",
+  "generatedAt": "2026-07-14T01:16:48.011Z",
   "shard": 420,
   "total": 2500,
   "items": [
+    {
+      "id": "cg:statement:545120d47583690fda89",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t4t2town22-family-units",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Family Units"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:dc5a0a28b627de742340",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t4t2town22-family-units",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:cso"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:1cd135e62590106e4fe6",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t4t2town22-family-units",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:json-stat-cube-sap2022t4t2town22-08abe9486e8e"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/SAP2022T4T2TOWN22/JSON-stat/2.0/en"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:8c7db4ab21aa76ddd439",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t4t2town22-family-units",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:cso-pxstat-table-sap2022t4t2town22-6395db18abf4"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.cso.ie/table/SAP2022T4T2TOWN22"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:0a3640b3d7ec79bac6bc",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t4t2town22-family-units",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Approved tables"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:c88cddea105d795f5cab",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t4t2town22-family-units",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://data.cso.ie/table/SAP2022T4T2TOWN22"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:e0efc6f2e747f2ab965a",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t4t3cty-number-of-families-with-children",
+      "propertyId": "cg:property:date",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-year:2022",
+        "label": "2022"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:c2b2f8606db82ed1752c",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t4t3cty-number-of-families-with-children",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:d40d3389c70aab350d9a",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t4t3cty-number-of-families-with-children",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Number of Families with Children"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:c7c44631e6ce25df1263",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t4t3cty-number-of-families-with-children",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:cso"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:334bda65364a01b9fc1f",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t4t3cty-number-of-families-with-children",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:cso-pxstat-table-sap2022t4t3cty-6185f7b7c10f"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.cso.ie/table/SAP2022T4T3CTY"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:582581cc0849f9d7d846",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t4t3cty-number-of-families-with-children",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:json-stat-cube-sap2022t4t3cty-188a6fe27207"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/SAP2022T4T3CTY/JSON-stat/2.0/en"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:7b28e0df057af32f7c2e",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t4t3cty-number-of-families-with-children",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Approved tables"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:70412f58e01070bb778a",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t4t3cty-number-of-families-with-children",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://data.cso.ie/table/SAP2022T4T3CTY"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:9f7748703f98747acd8f",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t4t3ed-number-of-families-with-children",
+      "propertyId": "cg:property:date",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-year:2022",
+        "label": "2022"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:24f6cced6afb61dedcfe",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t4t3ed-number-of-families-with-children",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:780a3e6dc24d54da1468",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t4t3ed-number-of-families-with-children",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Number of Families with Children"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:2a422cd27f67f5beccea",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t4t3ed-number-of-families-with-children",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:cso"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:9cff9ebbac9791d3f3c8",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t4t3ed-number-of-families-with-children",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:json-stat-cube-sap2022t4t3ed-0c3981162729"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/SAP2022T4T3ED/JSON-stat/2.0/en"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:b5a0e4e074ff8163e20f",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t4t3ed-number-of-families-with-children",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:cso-pxstat-table-sap2022t4t3ed-16028ac49bae"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.cso.ie/table/SAP2022T4T3ED"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:207e064ff9673e5973ab",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t4t3ed-number-of-families-with-children",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Approved tables"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:7502f02dc210317651b1",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t4t3ed-number-of-families-with-children",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://data.cso.ie/table/SAP2022T4T3ED"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:377e38c7e27b61d15b62",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t4t3nuts-number-of-families-with-children",
+      "propertyId": "cg:property:date",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-year:2022",
+        "label": "2022"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:1a7441d1b7a37d8a9001",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t4t3nuts-number-of-families-with-children",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:730161e7a5270b3053a3",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t4t3nuts-number-of-families-with-children",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Number of Families with Children"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:9fb7387bc166ac8c61ad",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t4t3nuts-number-of-families-with-children",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:cso"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:7e83f5c4f6a415036afa",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t4t3nuts-number-of-families-with-children",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:json-stat-cube-sap2022t4t3nuts-0f6f1b710436"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/SAP2022T4T3NUTS/JSON-stat/2.0/en"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:c93e1f5d65ed3dd46ffe",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t4t3nuts-number-of-families-with-children",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:cso-pxstat-table-sap2022t4t3nuts-11c74c77472f"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.cso.ie/table/SAP2022T4T3NUTS"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:108c1fa6be462dc4c59d",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t4t3nuts-number-of-families-with-children",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Approved tables"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:340643966c12bfefd581",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t4t3nuts-number-of-families-with-children",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://data.cso.ie/table/SAP2022T4T3NUTS"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:7f2c30982148296ddf11",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t4t3prov-number-of-families-with-children",
+      "propertyId": "cg:property:date",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-year:2022",
+        "label": "2022"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:c6f43b1ec8d2a7e46bc3",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t4t3prov-number-of-families-with-children",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:8f521c3f0a1c3015ae0f",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t4t3prov-number-of-families-with-children",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Number of Families with Children"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:508ee47c21729d970e12",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t4t3prov-number-of-families-with-children",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:cso"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:342e4c52f6d766ccd0c4",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t4t3prov-number-of-families-with-children",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:json-stat-cube-sap2022t4t3prov-9ebc4a3c0ebe"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/SAP2022T4T3PROV/JSON-stat/2.0/en"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
     {
       "id": "cg:statement:acb2be0f5a057131d9ab",
       "subjectId": "cg:source:approved-publication-census-cube-sap2022t4t3prov-number-of-families-with-children",
@@ -35317,504 +35815,6 @@
           }
         }
       ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:a70c7eb2cd347ff90a1a",
-      "subjectId": "cg:source:approved-publication-census-cube-talisa11-barriers-to-quality-provision--6c591394c92f",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:json-stat-cube-talisa11-05d006a8202a"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TALISA11/JSON-stat/2.0/en"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:9c03f440a813ee24c613",
-      "subjectId": "cg:source:approved-publication-census-cube-talisa11-barriers-to-quality-provision--6c591394c92f",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Approved tables"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:18d9b7aec85e1e5dc8a5",
-      "subjectId": "cg:source:approved-publication-census-cube-talisa11-barriers-to-quality-provision--6c591394c92f",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.cso.ie/table/TALISA11"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:185b86b07b42e035f956",
-      "subjectId": "cg:source:approved-publication-census-cube-talisa15-topics-included-in-early-learn-bf8a00299f5d",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:2024",
-        "label": "2024"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:ba6b04f6c583092e845f",
-      "subjectId": "cg:source:approved-publication-census-cube-talisa15-topics-included-in-early-learn-bf8a00299f5d",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:0c55457cd6ce18c36530",
-      "subjectId": "cg:source:approved-publication-census-cube-talisa15-topics-included-in-early-learn-bf8a00299f5d",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Topics included in Early Learning & Care (ELC) managers education and training"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:401d4e6dafcb4f8d6a89",
-      "subjectId": "cg:source:approved-publication-census-cube-talisa15-topics-included-in-early-learn-bf8a00299f5d",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:02d7ec5c910f851eba30",
-      "subjectId": "cg:source:approved-publication-census-cube-talisa15-topics-included-in-early-learn-bf8a00299f5d",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:json-stat-cube-talisa15-5c1de3d4b638"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TALISA15/JSON-stat/2.0/en"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:be07be3f2a3d9ec8e50e",
-      "subjectId": "cg:source:approved-publication-census-cube-talisa15-topics-included-in-early-learn-bf8a00299f5d",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:cso-pxstat-table-talisa15-98d11ebf57e8"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.cso.ie/table/TALISA15"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:1fb1d5d04f28d6ab336a",
-      "subjectId": "cg:source:approved-publication-census-cube-talisa15-topics-included-in-early-learn-bf8a00299f5d",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Approved tables"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:91720a5f88688c2854f2",
-      "subjectId": "cg:source:approved-publication-census-cube-talisa15-topics-included-in-early-learn-bf8a00299f5d",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.cso.ie/table/TALISA15"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:e1eb6e5a9568ee5283ca",
-      "subjectId": "cg:source:approved-publication-census-cube-talisa16-early-learning-care-elc-manage-2104fb78372e",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:2024",
-        "label": "2024"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:b749301ad2039444bbbf",
-      "subjectId": "cg:source:approved-publication-census-cube-talisa16-early-learning-care-elc-manage-2104fb78372e",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:6c55eea2ae43e3ee04fc",
-      "subjectId": "cg:source:approved-publication-census-cube-talisa16-early-learning-care-elc-manage-2104fb78372e",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Early Learning & Care (ELC) managers professional development activities"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:3b574ae23abba68f11bb",
-      "subjectId": "cg:source:approved-publication-census-cube-talisa16-early-learning-care-elc-manage-2104fb78372e",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:77cf980f9ddaab424bef",
-      "subjectId": "cg:source:approved-publication-census-cube-talisa16-early-learning-care-elc-manage-2104fb78372e",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:json-stat-cube-talisa16-18683e9699df"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TALISA16/JSON-stat/2.0/en"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:ca1da7c0e8e86406443f",
-      "subjectId": "cg:source:approved-publication-census-cube-talisa16-early-learning-care-elc-manage-2104fb78372e",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:cso-pxstat-table-talisa16-cd85d6f974fa"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.cso.ie/table/TALISA16"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:aecadb3bc78c92cc85c4",
-      "subjectId": "cg:source:approved-publication-census-cube-talisa16-early-learning-care-elc-manage-2104fb78372e",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Approved tables"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:c36a91ec43107c6f2fff",
-      "subjectId": "cg:source:approved-publication-census-cube-talisa16-early-learning-care-elc-manage-2104fb78372e",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.cso.ie/table/TALISA16"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:afe091b462aaf864d60f",
-      "subjectId": "cg:source:approved-publication-census-cube-talisa17-early-learning-care-elc-manage-dde3acfe22b5",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:2024",
-        "label": "2024"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:bc2f70475d230d271e2b",
-      "subjectId": "cg:source:approved-publication-census-cube-talisa17-early-learning-care-elc-manage-dde3acfe22b5",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:991c23a28dad1f49e2f8",
-      "subjectId": "cg:source:approved-publication-census-cube-talisa17-early-learning-care-elc-manage-dde3acfe22b5",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Early Learning & Care (ELC) managers professional development needs"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:ae6e2927cdbffe7bd3fa",
-      "subjectId": "cg:source:approved-publication-census-cube-talisa17-early-learning-care-elc-manage-dde3acfe22b5",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:63d3fddb1726065a71e8",
-      "subjectId": "cg:source:approved-publication-census-cube-talisa17-early-learning-care-elc-manage-dde3acfe22b5",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:cso-pxstat-table-talisa17-27faeff0bf30"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.cso.ie/table/TALISA17"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:cc44436f3b8c3f6e564e",
-      "subjectId": "cg:source:approved-publication-census-cube-talisa17-early-learning-care-elc-manage-dde3acfe22b5",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:json-stat-cube-talisa17-a44adf42f156"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TALISA17/JSON-stat/2.0/en"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:4f630fc7b4a106156442",
-      "subjectId": "cg:source:approved-publication-census-cube-talisa17-early-learning-care-elc-manage-dde3acfe22b5",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Approved tables"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:40e193928a2061026a5f",
-      "subjectId": "cg:source:approved-publication-census-cube-talisa17-early-learning-care-elc-manage-dde3acfe22b5",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.cso.ie/table/TALISA17"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:c232f72b181200eb08c9",
-      "subjectId": "cg:source:approved-publication-census-cube-talisa19-early-learning-care-elc-managers-job-satisfaction",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:2024",
-        "label": "2024"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:b152b94c114099305a63",
-      "subjectId": "cg:source:approved-publication-census-cube-talisa19-early-learning-care-elc-managers-job-satisfaction",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:1cd14c014d46b97ce193",
-      "subjectId": "cg:source:approved-publication-census-cube-talisa19-early-learning-care-elc-managers-job-satisfaction",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Early Learning & Care (ELC) managers job satisfaction"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:09f8dabff931fbdf6968",
-      "subjectId": "cg:source:approved-publication-census-cube-talisa19-early-learning-care-elc-managers-job-satisfaction",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:009ed9a03e14ce59f63e",
-      "subjectId": "cg:source:approved-publication-census-cube-talisa19-early-learning-care-elc-managers-job-satisfaction",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:json-stat-cube-talisa19-0a7c8fa769e3"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TALISA19/JSON-stat/2.0/en"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:49e36ee77d7017a74de5",
-      "subjectId": "cg:source:approved-publication-census-cube-talisa19-early-learning-care-elc-managers-job-satisfaction",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:cso-pxstat-table-talisa19-249359ea0a55"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.cso.ie/table/TALISA19"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:da7da68765b696d30b07",
-      "subjectId": "cg:source:approved-publication-census-cube-talisa19-early-learning-care-elc-managers-job-satisfaction",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Approved tables"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:7bb56e4707d1f914d81b",
-      "subjectId": "cg:source:approved-publication-census-cube-talisa19-early-learning-care-elc-managers-job-satisfaction",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.cso.ie/table/TALISA19"
-      },
       "rank": "normal"
     }
   ]

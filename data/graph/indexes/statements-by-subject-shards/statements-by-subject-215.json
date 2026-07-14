@@ -1,9 +1,111 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-14T00:57:46.095Z",
+  "generatedAt": "2026-07-14T01:16:48.011Z",
   "shard": 215,
   "totalSubjects": 250,
   "items": {
+    "cg:source:approved-publication-census-cube-vsa38-birth-rates": [
+      {
+        "id": "cg:statement:6a45df1ee4c865c91f17",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:source",
+        "valueLabel": "Source",
+        "valueText": "Source",
+        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:ff481c73482480998d9f",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Birth Rates",
+        "valueText": "Birth Rates",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:2c4befcc87c89b32d11d",
+        "propertyId": "cg:property:provider",
+        "propertyLabel": "provider",
+        "valueType": "entity",
+        "valueId": "cg:provider:cso",
+        "valueLabel": "CSO",
+        "valueText": "CSO",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:15db0359305eb1205730",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:json-stat-cube-vsa38-8157ab3a8e55",
+        "valueLabel": "JSON-stat cube (VSA38)",
+        "valueText": "JSON-stat cube (VSA38)",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/VSA38/JSON-stat/2.0/en",
+            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/VSA38/JSON-stat/2.0/en"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:983ea2fb88407baa4eb6",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:cso-pxstat-table-vsa38-beb4cbf04e62",
+        "valueLabel": "CSO PxStat table VSA38",
+        "valueText": "CSO PxStat table VSA38",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://data.cso.ie/table/VSA38",
+            "valueText": "https://data.cso.ie/table/VSA38"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:e5e501dc99d1bd7da37b",
+        "propertyId": "cg:property:source-kind",
+        "propertyLabel": "source kind",
+        "valueType": "string",
+        "valueLabel": "Approved tables",
+        "valueText": "Approved tables",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:65ecd0490d602745d3de",
+        "propertyId": "cg:property:url",
+        "propertyLabel": "URL",
+        "valueType": "url",
+        "valueLabel": "https://data.cso.ie/table/VSA38",
+        "valueText": "https://data.cso.ie/table/VSA38",
+        "referenceCount": 0
+      }
+    ],
     "cg:source:approved-publication-census-cube-vsa41-marriages-registered": [
       {
         "id": "cg:statement:cf38f147eb75f46cf16a",
@@ -31371,146 +31473,6 @@
         "valueType": "url",
         "valueLabel": "https://www.cso.ie/en/media/csoie/census/census1971results/volume2/A_C_3_1971_V2_Explan_Comm_Diagram.pdf",
         "valueText": "https://www.cso.ie/en/media/csoie/census/census1971results/volume2/A_C_3_1971_V2_Explan_Comm_Diagram.pdf",
-        "referenceCount": 0
-      }
-    ],
-    "cg:source:approved-publication-census-historical-a-c-4-1971-v1-explan-map-e1400bc0eb": [
-      {
-        "id": "cg:statement:0cb80079c8764d08cea6",
-        "propertyId": "cg:property:date",
-        "propertyLabel": "date",
-        "valueType": "entity",
-        "valueId": "cg:date-year:1971",
-        "valueLabel": "1971",
-        "valueText": "1971",
-        "valueDescription": "Entities dated 1971",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:fbe242c563393ee1cc35",
-        "propertyId": "cg:property:download",
-        "propertyLabel": "download",
-        "valueType": "entity",
-        "valueId": "cg:source-file:pdf-internet-archive-mirror-93b198048b03",
-        "valueLabel": "PDF (Internet Archive mirror)",
-        "valueText": "PDF (Internet Archive mirror)",
-        "valueDescription": "PDF (Internet Archive mirror) for A C 4 1971 V1 Explan Map — Explanatory Notes and Map",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:file-format",
-            "propertyLabel": "file format",
-            "valueType": "string",
-            "valueLabel": "pdf",
-            "valueText": "pdf"
-          },
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://archive.org/download/civgraph-cso-historical-reports/A_C_4_1971_V1_Explan_Map-e1400bc0eb.pdf",
-            "valueText": "https://archive.org/download/civgraph-cso-historical-reports/A_C_4_1971_V1_Explan_Map-e1400bc0eb.pdf"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:74f98374f2ad477b2494",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:source",
-        "valueLabel": "Source",
-        "valueText": "Source",
-        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:15b5f75f0768f316000c",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "A C 4 1971 V1 Explan Map — Explanatory Notes and Map",
-        "valueText": "A C 4 1971 V1 Explan Map — Explanatory Notes and Map",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:a807357f3323b5fe3a29",
-        "propertyId": "cg:property:provider",
-        "propertyLabel": "provider",
-        "valueType": "entity",
-        "valueId": "cg:provider:cso",
-        "valueLabel": "CSO",
-        "valueText": "CSO",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:2dd6a3113994f6e57a3c",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:internet-archive-item-1331d7871c8e",
-        "valueLabel": "Internet Archive item",
-        "valueText": "Internet Archive item",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://archive.org/details/civgraph-cso-historical-reports",
-            "valueText": "https://archive.org/details/civgraph-cso-historical-reports"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "mirror-item",
-            "valueText": "mirror-item"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:7e8397495ebfbc9286c8",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:original-cso-source-c3ca0712d244",
-        "valueLabel": "Original CSO source",
-        "valueText": "Original CSO source",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://www.cso.ie/en/media/csoie/census/census1971results/volume1/A_C_4_1971_V1_Explan_Map.pdf",
-            "valueText": "https://www.cso.ie/en/media/csoie/census/census1971results/volume1/A_C_4_1971_V1_Explan_Map.pdf"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-download",
-            "valueText": "source-download"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:f18aa12c1fe9eeaf8396",
-        "propertyId": "cg:property:source-kind",
-        "propertyLabel": "source kind",
-        "valueType": "string",
-        "valueLabel": "Approved census sources",
-        "valueText": "Approved census sources",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:7aedf9da103f1c078998",
-        "propertyId": "cg:property:url",
-        "propertyLabel": "URL",
-        "valueType": "url",
-        "valueLabel": "https://www.cso.ie/en/media/csoie/census/census1971results/volume1/A_C_4_1971_V1_Explan_Map.pdf",
-        "valueText": "https://www.cso.ie/en/media/csoie/census/census1971results/volume1/A_C_4_1971_V1_Explan_Map.pdf",
         "referenceCount": 0
       }
     ]

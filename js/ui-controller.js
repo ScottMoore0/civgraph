@@ -3449,6 +3449,7 @@ class UIController {
             { id: 'flat-polities', name: 'Polities', years: '', extent: '', mapIds: ['ni-1921', 'roi-1938'] },
             // ── Topography ──
             { id: 'flat-place-names', name: 'Place Names (Northern Ireland)', years: '', extent: 'Northern Ireland', mapIds: ['place-names-gazetteer'] },
+            { id: 'flat-street-names', name: 'Street Names (Northern Ireland)', years: '', extent: 'Northern Ireland', mapIds: ['streetnames-gazetteer'] },
             { id: 'flat-seas', name: 'Seas (2023) (These islands)', years: '2023', extent: 'These islands', mapIds: ['britain-ireland-seas'] },
             { id: 'flat-islands', name: 'Islands', years: '', extent: '', mapIds: ['ireland-island'] },
             { id: 'flat-rivers', name: 'Rivers (2016) (Northern Ireland)', years: '2016', extent: 'Northern Ireland', mapIds: ['rivers-2016'] },
