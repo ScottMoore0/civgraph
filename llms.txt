@@ -1,0 +1,30 @@
+# Civgraph
+
+> Civgraph (https://civgraph.net) is an interactive atlas of the geography, administrative history, and statistics of Ireland and Northern Ireland — 1,000+ map layers (boundaries, electoral areas, townlands, physical features, thematic data) plus a large catalogue of statistical sources and a semantic knowledge graph.
+
+The website is a MapLibre GL (WebGL) single-page app: map features are rendered on the GPU, **not** in the DOM. Do not try to read features by scraping the page or driving the UI — you will get stuck at an empty app shell. Instead, use the public, machine-readable data described below. All of it is static and fetchable over HTTPS with no authentication.
+
+## For AI agents: start here
+
+- [Agent guide](https://civgraph.net/agent/guide.md): how to find maps, fetch geometry, and — the common task — determine which features on one map correspond to features on another (spatial join). Includes a copy-paste Python recipe.
+- [Map catalogue (slim, for agents)](https://civgraph.net/agent/maps-index.json): every map layer with its `id`, `name`, `category`, `provider`, `bounds`, `labelProperty`, and a direct link to its geometry file. Prefer this over the full catalogue.
+
+## Data
+
+- Geometries are **FlatGeobuf** (`.fgb`, CRS **EPSG:4326**) served from `https://data.civgraph.net/data/maps/…`. FlatGeobuf is readable by GDAL/OGR, GeoPandas/pyogrio, and the flatgeobuf JS/Python libraries, and supports HTTP range requests (bbox-filtered reads) for large layers.
+- [Full map catalogue](https://civgraph.net/data/database/maps.json): the complete `maps.json` (larger; the slim index above is preferred for agents).
+- Some very large layers are served as **chunked** FlatGeobuf rather than a single file; those appear in the catalogue without a single `geometry.url`. Most layers (686 of ~1,014) have a single fetchable `.fgb`.
+
+## Task: feature correspondence between two maps
+
+To answer "which features on map A correspond to features on map B" (e.g. which District Electoral Area each townland falls in, or how 1993 and 2012 boundaries relate):
+
+1. Look up both maps by name/category in `agent/maps-index.json` and read each `geometry.url`.
+2. Fetch both `.fgb` files.
+3. Run a spatial join with the appropriate predicate — containment for nested administrative hierarchies (townland ⊂ DEA ⊂ county), area-overlap for same-level different-vintage boundaries.
+
+The [agent guide](https://civgraph.net/agent/guide.md) has a working, tested implementation.
+
+## Licence & attribution
+
+Layers carry per-source licences and attribution in the catalogue (`provider`, and `references`/`license` in the full `maps.json`) — commonly OGL v3.0 (NI / OSNI) and CC-BY 4.0 (Tailte Éireann / OSi). Attribute the original providers when reusing data.

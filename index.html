@@ -10,6 +10,29 @@
     content="Northern Ireland, boundaries, maps, GIS, local government, constituencies, wards, DEAs, townlands">
   <meta name="author" content="Scott Moore">
 
+  <!-- AI-agent guidance. The map UI is MapLibre GL (WebGL): features are drawn on
+       the GPU and are NOT in the DOM, so scraping/clicking the page will not
+       enumerate them. Agents should use the machine-readable data instead —
+       start at /llms.txt and /agent/guide.md (a tested feature-correspondence
+       recipe). Geometries are FlatGeobuf (.fgb, EPSG:4326) on data.civgraph.net. -->
+  <meta name="ai-agent-guide" content="/llms.txt">
+  <link rel="alternate" type="text/plain" href="/llms.txt" title="Civgraph guide for AI agents (llms.txt)">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    "name": "Civgraph — maps and administrative geography of Ireland and Northern Ireland",
+    "description": "1,000+ interactive map layers (boundaries, electoral areas, townlands, physical features, thematic data) plus statistical sources and a semantic graph. Machine-readable catalogue and FlatGeobuf geometries for programmatic use; see /llms.txt and /agent/guide.md.",
+    "url": "https://civgraph.net",
+    "creator": { "@type": "Person", "name": "Scott Moore" },
+    "distribution": [
+      { "@type": "DataDownload", "name": "Map catalogue (agent index)", "encodingFormat": "application/json", "contentUrl": "https://civgraph.net/agent/maps-index.json" },
+      { "@type": "DataDownload", "name": "Full map catalogue", "encodingFormat": "application/json", "contentUrl": "https://civgraph.net/data/database/maps.json" },
+      { "@type": "CreativeWork", "name": "AI-agent guide", "url": "https://civgraph.net/agent/guide.md" }
+    ]
+  }
+  </script>
+
   <title>Civgraph</title>
   <!-- Root MapLibre shell. Leaflet root archived at git tag leaflet-main-before-maplibre-root-20260612. -->
   <base href="/">
@@ -101,6 +124,23 @@
 </head>
 
 <body class="app-shell" data-split-state="balanced">
+  <noscript>
+    <div style="max-width:44rem;margin:2rem auto;padding:1rem 1.25rem;font-family:system-ui,sans-serif;line-height:1.5">
+      <h1>Civgraph</h1>
+      <p>Interactive maps of the administrative geography and history of Ireland
+      and Northern Ireland. The map viewer needs JavaScript (it renders with
+      MapLibre GL / WebGL).</p>
+      <p><strong>Using the data programmatically (incl. AI agents):</strong> the
+      full catalogue and geometries are static and machine-readable — you do not
+      need this UI.</p>
+      <ul>
+        <li><a href="/llms.txt">/llms.txt</a> — overview for automated clients</li>
+        <li><a href="/agent/guide.md">/agent/guide.md</a> — how to find maps, fetch geometry, and compute feature correspondence (tested recipe)</li>
+        <li><a href="/agent/maps-index.json">/agent/maps-index.json</a> — slim catalogue: every layer with a direct FlatGeobuf geometry link</li>
+        <li><a href="/data/database/maps.json">/data/database/maps.json</a> — full catalogue</li>
+      </ul>
+    </div>
+  </noscript>
   <!-- Screen reader announcements -->
   <div id="announcer" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
 
