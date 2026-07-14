@@ -34,13 +34,32 @@ for (const m of doc.maps || []) {
   });
 }
 
+// Statistical/attribute overlays (census, deprivation, …): a value table joined
+// to a map layer by a key column. Agents can fetch the CSV directly and join it
+// to the geometry themselves — no UI needed.
+let dataOverlays = [];
+try {
+  const de = JSON.parse(readFileSync('data/database/data-entries.json', 'utf8')).dataEntries || [];
+  dataOverlays = de.map((e) => ({
+    id: e.id,
+    name: e.name,
+    geography: e.geography,
+    valueColumn: e.valueColumn,
+    joinKey: e.joinKey,
+    csv: e.csv ? `https://civgraph.net/${e.csv}` : undefined,
+    source: e.source || undefined,
+  }));
+} catch { /* none */ }
+
 const out = {
   $schema: 'https://civgraph.net/agent/maps-index.schema (informal)',
-  generatedFrom: 'data/database/maps.json',
-  about: 'Civgraph interactive map catalogue for AI agents. Each entry links to a FlatGeobuf (.fgb, EPSG:4326) geometry file on https://data.civgraph.net. To determine how features on one map correspond to features on another, fetch both geometries and run a spatial join — see https://civgraph.net/agent/guide.md.',
+  generatedFrom: 'data/database/maps.json + data/database/data-entries.json',
+  about: 'Civgraph catalogue for AI agents. `maps` links each layer to a FlatGeobuf (.fgb, EPSG:4326) geometry on https://data.civgraph.net. `dataOverlays` links statistical tables (census, NIMDM deprivation, …) as CSVs joined to a map layer by `joinKey`. Fetch the CSV(s) and/or geometry and compute directly — see https://civgraph.net/agent/guide.md.',
   count: maps.length,
   withGeometry: maps.filter((m) => m.geometry).length,
+  dataOverlayCount: dataOverlays.length,
   maps,
+  dataOverlays,
 };
 mkdirSync('agent', { recursive: true });
 writeFileSync('agent/maps-index.json', JSON.stringify(out, null, 0) + '\n');

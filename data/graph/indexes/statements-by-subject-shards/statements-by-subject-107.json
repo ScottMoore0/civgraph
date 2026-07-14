@@ -1,9 +1,4781 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-14T15:54:04.635Z",
+  "generatedAt": "2026-07-14T16:06:49.207Z",
   "shard": 107,
   "totalSubjects": 250,
   "items": {
+    "cg:party:gp": [
+      {
+        "id": "cg:statement:76e569b04e17fc00c3f8",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:political-party",
+        "valueLabel": "Political party or label",
+        "valueText": "Political party or label",
+        "valueDescription": "A political party, electoral label, or observed candidature label.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:528452a2a1c7788872ad",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "GP",
+        "valueText": "GP",
+        "referenceCount": 0
+      }
+    ],
+    "cg:party:green": [
+      {
+        "id": "cg:statement:03f76a1719e406b3e251",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:northern-ireland-assembly-2017-03-02",
+        "valueLabel": "2017 Northern Ireland Assembly election",
+        "valueText": "2017 Northern Ireland Assembly election",
+        "valueDescription": "18 constituencies",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2017-03-02",
+            "valueText": "2017-03-02"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:northern-ireland-assembly",
+            "valueLabel": "Northern Ireland Assembly",
+            "valueText": "Northern Ireland Assembly"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "18",
+            "valueText": "18"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "2",
+            "valueText": "2"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "18527",
+            "valueText": "18527"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "2.30631819398368",
+            "valueText": "2.30631819398368"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:04c6ecbb8574704689bc",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:northern-ireland-assembly-2016-05-05-overall",
+        "valueLabel": "Overall results - 2016 Northern Ireland Assembly election",
+        "valueText": "Overall results - 2016 Northern Ireland Assembly election",
+        "valueDescription": "Overall election result / 18 constituencies",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2016-05-05",
+            "valueText": "2016-05-05"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:northern-ireland-assembly",
+            "valueLabel": "Northern Ireland Assembly",
+            "valueText": "Northern Ireland Assembly"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "18",
+            "valueText": "18"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "2",
+            "valueText": "2"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "18718",
+            "valueText": "18718"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "2.6958983975549966",
+            "valueText": "2.6958983975549966"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:0bb04321c7c4d5a4bddf",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:european-parliament-2019-05-23",
+        "valueLabel": "2019 European election in Northern Ireland",
+        "valueText": "2019 European election in Northern Ireland",
+        "valueDescription": "2019-05-23",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2019-05-23",
+            "valueText": "2019-05-23"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:european-parliament",
+            "valueLabel": "European Parliament",
+            "valueText": "European Parliament"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "1",
+            "valueText": "1"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "12471",
+            "valueText": "12471"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "2.1785422929983036",
+            "valueText": "2.1785422929983036"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:0f9e3f0ff4acd92cbfa5",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:ireland-european-1994-06-09-overall",
+        "valueLabel": "Overall results - 1994 European election in the Republic of Ireland",
+        "valueText": "Overall results - 1994 European election in the Republic of Ireland",
+        "valueDescription": "Overall election result / 4 constituencies",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "1994-06-09",
+            "valueText": "1994-06-09"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:european-parliament-ireland",
+            "valueLabel": "European Parliament (Ireland)",
+            "valueText": "European Parliament (Ireland)"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "4",
+            "valueText": "4"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "2",
+            "valueText": "2"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "90046",
+            "valueText": "90046"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "7.916201461111746",
+            "valueText": "7.916201461111746"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:15fd105903867dd48363",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:local-government-local-government-districts-2014-05-22-overall",
+        "valueLabel": "Overall results - 2014 Northern Ireland local elections",
+        "valueText": "Overall results - 2014 Northern Ireland local elections",
+        "valueDescription": "Overall election result / 80 DEAs",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2014-05-22",
+            "valueText": "2014-05-22"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:local-government-districts",
+            "valueLabel": "Local Government Districts",
+            "valueText": "Local Government Districts"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "14",
+            "valueText": "14"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "4",
+            "valueText": "4"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "5515",
+            "valueText": "5515"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "0.8779959722034276",
+            "valueText": "0.8779959722034276"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:16cb70a04f38e5d9d200",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:house-of-commons-of-the-united-kingdom-1997-05-01",
+        "valueLabel": "1997 UK general election in Northern Ireland",
+        "valueText": "1997 UK general election in Northern Ireland",
+        "valueDescription": "1997-05-01",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "1997-05-01",
+            "valueText": "1997-05-01"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:house-of-commons",
+            "valueLabel": "House of Commons",
+            "valueText": "House of Commons"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "1",
+            "valueText": "1"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "539",
+            "valueText": "539"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "0.06816210187135952",
+            "valueText": "0.06816210187135952"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:172cffd153ab4335d05b",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:ireland-european-2019-05-24",
+        "valueLabel": "2019 European election in the Republic of Ireland",
+        "valueText": "2019 European election in the Republic of Ireland",
+        "valueDescription": "2019-05-24",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2019-05-24",
+            "valueText": "2019-05-24"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:european-parliament-ireland",
+            "valueLabel": "European Parliament (Ireland)",
+            "valueText": "European Parliament (Ireland)"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "3",
+            "valueText": "3"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "2",
+            "valueText": "2"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "190814",
+            "valueText": "190814"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "11.3710529013127",
+            "valueText": "11.3710529013127"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:189c1e1b85b183cee09f",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:northern-ireland-assembly-2007-03-07-overall",
+        "valueLabel": "Overall results - 2007 Northern Ireland Assembly election",
+        "valueText": "Overall results - 2007 Northern Ireland Assembly election",
+        "valueDescription": "Overall election result / 18 constituencies",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2007-03-07",
+            "valueText": "2007-03-07"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:northern-ireland-assembly",
+            "valueLabel": "Northern Ireland Assembly",
+            "valueText": "Northern Ireland Assembly"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "13",
+            "valueText": "13"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "1",
+            "valueText": "1"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "11985",
+            "valueText": "11985"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "1.7361689552420425",
+            "valueText": "1.7361689552420425"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:1ac0ae0a08c8bf073396",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:ireland-european-1984-06-14",
+        "valueLabel": "1984 European election in the Republic of Ireland",
+        "valueText": "1984 European election in the Republic of Ireland",
+        "valueDescription": "1984-06-14",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "1984-06-14",
+            "valueText": "1984-06-14"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:european-parliament-ireland",
+            "valueLabel": "European Parliament (Ireland)",
+            "valueText": "European Parliament (Ireland)"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "1",
+            "valueText": "1"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "5242",
+            "valueText": "5242"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "0.4678619369948305",
+            "valueText": "0.4678619369948305"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:1b17996915c235411ab0",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:ireland-european-2014-05-23-overall",
+        "valueLabel": "Overall results - 2014 European election in the Republic of Ireland",
+        "valueText": "Overall results - 2014 European election in the Republic of Ireland",
+        "valueDescription": "Overall election result / 3 constituencies",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2014-05-23",
+            "valueText": "2014-05-23"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:european-parliament-ireland",
+            "valueLabel": "European Parliament (Ireland)",
+            "valueText": "European Parliament (Ireland)"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "3",
+            "valueText": "3"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "81458",
+            "valueText": "81458"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "4.917423173186165",
+            "valueText": "4.917423173186165"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:1f6a0561440794594425",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:dail-eireann-2011-02-25-overall",
+        "valueLabel": "Overall results - 2011 Irish general election",
+        "valueText": "Overall results - 2011 Irish general election",
+        "valueDescription": "Overall election result / 43 constituencies",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2011-02-25",
+            "valueText": "2011-02-25"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:dail-eireann",
+            "valueLabel": "Dáil Éireann",
+            "valueText": "Dáil Éireann"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "43",
+            "valueText": "43"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "41039",
+            "valueText": "41039"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "1.8483047110850093",
+            "valueText": "1.8483047110850093"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:21a8b9f53401e5601715",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:european-parliament-2009-06-04",
+        "valueLabel": "2009 European election in Northern Ireland",
+        "valueText": "2009 European election in Northern Ireland",
+        "valueDescription": "2009-06-04",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2009-06-04",
+            "valueText": "2009-06-04"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:european-parliament",
+            "valueLabel": "European Parliament",
+            "valueText": "European Parliament"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "1",
+            "valueText": "1"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "15764",
+            "valueText": "15764"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "3.253180125966833",
+            "valueText": "3.253180125966833"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:23108b343f19554d3264",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:northern-ireland-assembly-2003-11-26-overall",
+        "valueLabel": "Overall results - 2003 Northern Ireland Assembly election",
+        "valueText": "Overall results - 2003 Northern Ireland Assembly election",
+        "valueDescription": "Overall election result / 18 constituencies",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2003-11-26",
+            "valueText": "2003-11-26"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:northern-ireland-assembly",
+            "valueLabel": "Northern Ireland Assembly",
+            "valueText": "Northern Ireland Assembly"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "6",
+            "valueText": "6"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "2688",
+            "valueText": "2688"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "0.38842358979694463",
+            "valueText": "0.38842358979694463"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:27004314542244873101",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:house-of-commons-of-the-united-kingdom-1987-06-11",
+        "valueLabel": "1987 UK general election in Northern Ireland",
+        "valueText": "1987 UK general election in Northern Ireland",
+        "valueDescription": "1987-06-11",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "1987-06-11",
+            "valueText": "1987-06-11"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:house-of-commons",
+            "valueLabel": "House of Commons",
+            "valueText": "House of Commons"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "1",
+            "valueText": "1"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "281",
+            "valueText": "281"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "0.03848513734126593",
+            "valueText": "0.03848513734126593"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:3042a8c48c60a6721494",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:european-parliament-2004-06-10-overall",
+        "valueLabel": "Overall results - 2004 European election in Northern Ireland",
+        "valueText": "Overall results - 2004 European election in Northern Ireland",
+        "valueDescription": "Overall election result / 1 constituencies",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2004-06-10",
+            "valueText": "2004-06-10"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:european-parliament",
+            "valueLabel": "European Parliament",
+            "valueText": "European Parliament"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "1",
+            "valueText": "1"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "4810",
+            "valueText": "4810"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "0.8756965975272949",
+            "valueText": "0.8756965975272949"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:30483cd2e2ad8115f43d",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:ireland-european-2024-06-07-overall",
+        "valueLabel": "Overall results - 2024 European election in the Republic of Ireland",
+        "valueText": "Overall results - 2024 European election in the Republic of Ireland",
+        "valueDescription": "Overall election result / 3 constituencies",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2024-06-07",
+            "valueText": "2024-06-07"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:european-parliament-ireland",
+            "valueLabel": "European Parliament (Ireland)",
+            "valueText": "European Parliament (Ireland)"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "3",
+            "valueText": "3"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "93575",
+            "valueText": "93575"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "5.361757476091976",
+            "valueText": "5.361757476091976"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:31d1663eb128f716ee90",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:house-of-commons-of-the-united-kingdom-1987-06-11-overall",
+        "valueLabel": "Overall results - 1987 UK general election in Northern Ireland",
+        "valueText": "Overall results - 1987 UK general election in Northern Ireland",
+        "valueDescription": "Overall election result / 17 constituencies",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "1987-06-11",
+            "valueText": "1987-06-11"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:house-of-commons",
+            "valueLabel": "House of Commons",
+            "valueText": "House of Commons"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "1",
+            "valueText": "1"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "281",
+            "valueText": "281"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "0.03848513734126593",
+            "valueText": "0.03848513734126593"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:38a45180cb0b6da3c9e5",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:dail-eireann-2007-05-24-overall",
+        "valueLabel": "Overall results - 2007 Irish general election",
+        "valueText": "Overall results - 2007 Irish general election",
+        "valueDescription": "Overall election result / 43 constituencies",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2007-05-24",
+            "valueText": "2007-05-24"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:dail-eireann",
+            "valueLabel": "Dáil Éireann",
+            "valueText": "Dáil Éireann"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "44",
+            "valueText": "44"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "6",
+            "valueText": "6"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "96936",
+            "valueText": "96936"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "4.692396687013811",
+            "valueText": "4.692396687013811"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:3b59c9e110c25dffa675",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:dail-eireann-2024-11-29",
+        "valueLabel": "2024 Irish general election",
+        "valueText": "2024 Irish general election",
+        "valueDescription": "2024-11-29",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2024-11-29",
+            "valueText": "2024-11-29"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:dail-eireann",
+            "valueLabel": "Dáil Éireann",
+            "valueText": "Dáil Éireann"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "43",
+            "valueText": "43"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "1",
+            "valueText": "1"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "66911",
+            "valueText": "66911"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "3.038021696717251",
+            "valueText": "3.038021696717251"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:3e61dfad125c8bb3c357",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:local-government-local-government-districts-2023-05-18",
+        "valueLabel": "2023 Northern Ireland local elections",
+        "valueText": "2023 Northern Ireland local elections",
+        "valueDescription": "2023-05-18",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2023-05-18",
+            "valueText": "2023-05-18"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:local-government-districts",
+            "valueLabel": "Local Government Districts",
+            "valueText": "Local Government Districts"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "37",
+            "valueText": "37"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "5",
+            "valueText": "5"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "12692",
+            "valueText": "12692"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "1.7012287396672334",
+            "valueText": "1.7012287396672334"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:40d726fad04a5da6ef97",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:ireland-european-2009-06-05",
+        "valueLabel": "2009 European election in the Republic of Ireland",
+        "valueText": "2009 European election in the Republic of Ireland",
+        "valueDescription": "2009-06-05",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2009-06-05",
+            "valueText": "2009-06-05"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:european-parliament-ireland",
+            "valueLabel": "European Parliament (Ireland)",
+            "valueText": "European Parliament (Ireland)"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "2",
+            "valueText": "2"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "34585",
+            "valueText": "34585"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "1.8906004603914148",
+            "valueText": "1.8906004603914148"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:4a34185f9229097ffdc5",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:european-parliament-2019-05-23-overall",
+        "valueLabel": "Overall results - 2019 European election in Northern Ireland",
+        "valueText": "Overall results - 2019 European election in Northern Ireland",
+        "valueDescription": "Overall election result / 1 constituencies",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2019-05-23",
+            "valueText": "2019-05-23"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:european-parliament",
+            "valueLabel": "European Parliament",
+            "valueText": "European Parliament"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "1",
+            "valueText": "1"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "12471",
+            "valueText": "12471"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "2.1785422929983036",
+            "valueText": "2.1785422929983036"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:4a5fd19617835d708371",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:dail-eireann-2002-05-17-overall",
+        "valueLabel": "Overall results - 2002 Irish general election",
+        "valueText": "Overall results - 2002 Irish general election",
+        "valueDescription": "Overall election result / 42 constituencies",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2002-05-17",
+            "valueText": "2002-05-17"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:dail-eireann",
+            "valueLabel": "Dáil Éireann",
+            "valueText": "Dáil Éireann"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "31",
+            "valueText": "31"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "6",
+            "valueText": "6"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "71470",
+            "valueText": "71470"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "3.84681215693831",
+            "valueText": "3.84681215693831"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:4bc5f0b874932f655e22",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:dail-eireann-2020-02-08",
+        "valueLabel": "2020 Irish general election",
+        "valueText": "2020 Irish general election",
+        "valueDescription": "2020-02-08",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2020-02-08",
+            "valueText": "2020-02-08"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:dail-eireann",
+            "valueLabel": "Dáil Éireann",
+            "valueText": "Dáil Éireann"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "39",
+            "valueText": "39"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "12",
+            "valueText": "12"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "155695",
+            "valueText": "155695"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "7.130560309669525",
+            "valueText": "7.130560309669525"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:54e43375813fb966ca57",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:european-parliament-2004-06-10",
+        "valueLabel": "2004 European election in Northern Ireland",
+        "valueText": "2004 European election in Northern Ireland",
+        "valueDescription": "2004-06-10",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2004-06-10",
+            "valueText": "2004-06-10"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:european-parliament",
+            "valueLabel": "European Parliament",
+            "valueText": "European Parliament"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "1",
+            "valueText": "1"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "4810",
+            "valueText": "4810"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "0.8756965975272949",
+            "valueText": "0.8756965975272949"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:57f7df88b3787d442a92",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:dail-eireann-2016-02-26",
+        "valueLabel": "2016 Irish general election",
+        "valueText": "2016 Irish general election",
+        "valueDescription": "2016-02-26",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2016-02-26",
+            "valueText": "2016-02-26"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:dail-eireann",
+            "valueLabel": "Dáil Éireann",
+            "valueText": "Dáil Éireann"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "40",
+            "valueText": "40"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "2",
+            "valueText": "2"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "57997",
+            "valueText": "57997"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "2.7191680790662454",
+            "valueText": "2.7191680790662454"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:584abc88168ae9581ddd",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:european-parliament-1989-06-15",
+        "valueLabel": "1989 European election in Northern Ireland",
+        "valueText": "1989 European election in Northern Ireland",
+        "valueDescription": "1989-06-15",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "1989-06-15",
+            "valueText": "1989-06-15"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:european-parliament",
+            "valueLabel": "European Parliament",
+            "valueText": "European Parliament"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "1",
+            "valueText": "1"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "6569",
+            "valueText": "6569"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "1.2282843845769813",
+            "valueText": "1.2282843845769813"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:586fdfd3ead7ef9e3f82",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:local-government-local-government-districts-2019-05-02",
+        "valueLabel": "2019 Northern Ireland local elections",
+        "valueText": "2019 Northern Ireland local elections",
+        "valueDescription": "2019-05-02",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2019-05-02",
+            "valueText": "2019-05-02"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:local-government-districts",
+            "valueLabel": "Local Government Districts",
+            "valueText": "Local Government Districts"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "26",
+            "valueText": "26"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "8",
+            "valueText": "8"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "14284",
+            "valueText": "14284"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "2.107079900576039",
+            "valueText": "2.107079900576039"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:59c1b9223442c1a4cbc2",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:ireland-european-2019-05-24-overall",
+        "valueLabel": "Overall results - 2019 European election in the Republic of Ireland",
+        "valueText": "Overall results - 2019 European election in the Republic of Ireland",
+        "valueDescription": "Overall election result / 3 constituencies",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2019-05-24",
+            "valueText": "2019-05-24"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:european-parliament-ireland",
+            "valueLabel": "European Parliament (Ireland)",
+            "valueText": "European Parliament (Ireland)"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "3",
+            "valueText": "3"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "2",
+            "valueText": "2"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "190814",
+            "valueText": "190814"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "11.3710529013127",
+            "valueText": "11.3710529013127"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:5adc29ced91fa7d5757d",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:ireland-european-2014-05-23",
+        "valueLabel": "2014 European election in the Republic of Ireland",
+        "valueText": "2014 European election in the Republic of Ireland",
+        "valueDescription": "2014-05-23",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2014-05-23",
+            "valueText": "2014-05-23"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:european-parliament-ireland",
+            "valueLabel": "European Parliament (Ireland)",
+            "valueText": "European Parliament (Ireland)"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "3",
+            "valueText": "3"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "81458",
+            "valueText": "81458"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "4.917423173186165",
+            "valueText": "4.917423173186165"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:5d0c9c85e15120886980",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:house-of-commons-of-the-united-kingdom-2019-12-12",
+        "valueLabel": "2019 UK general election in Northern Ireland",
+        "valueText": "2019 UK general election in Northern Ireland",
+        "valueDescription": "2019-12-12",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2019-12-12",
+            "valueText": "2019-12-12"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:house-of-commons",
+            "valueLabel": "House of Commons",
+            "valueText": "House of Commons"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "3",
+            "valueText": "3"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "1996",
+            "valueText": "1996"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "0.24980132284568263",
+            "valueText": "0.24980132284568263"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:5e7d163e9bc28906a215",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:ireland-european-2024-06-07",
+        "valueLabel": "2024 European election in the Republic of Ireland",
+        "valueText": "2024 European election in the Republic of Ireland",
+        "valueDescription": "2024-06-07",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2024-06-07",
+            "valueText": "2024-06-07"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:european-parliament-ireland",
+            "valueLabel": "European Parliament (Ireland)",
+            "valueText": "European Parliament (Ireland)"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "3",
+            "valueText": "3"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "93575",
+            "valueText": "93575"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "5.361757476091976",
+            "valueText": "5.361757476091976"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:6349c4eef8c360d881dd",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:dail-eireann-2011-02-25",
+        "valueLabel": "2011 Irish general election",
+        "valueText": "2011 Irish general election",
+        "valueDescription": "2011-02-25",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2011-02-25",
+            "valueText": "2011-02-25"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:dail-eireann",
+            "valueLabel": "Dáil Éireann",
+            "valueText": "Dáil Éireann"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "43",
+            "valueText": "43"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "41039",
+            "valueText": "41039"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "1.8483047110850093",
+            "valueText": "1.8483047110850093"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:64e364d7df9596c2c25e",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:house-of-commons-of-the-united-kingdom-2010-05-06",
+        "valueLabel": "2010 UK general election in Northern Ireland",
+        "valueText": "2010 UK general election in Northern Ireland",
+        "valueDescription": "2010-05-06",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2010-05-06",
+            "valueText": "2010-05-06"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:house-of-commons",
+            "valueLabel": "House of Commons",
+            "valueText": "House of Commons"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "4",
+            "valueText": "4"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "3542",
+            "valueText": "3542"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "0.492781488556256",
+            "valueText": "0.492781488556256"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:65d889d8718f43a50635",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:house-of-commons-of-the-united-kingdom-1997-05-01-overall",
+        "valueLabel": "Overall results - 1997 UK general election in Northern Ireland",
+        "valueText": "Overall results - 1997 UK general election in Northern Ireland",
+        "valueDescription": "Overall election result / 18 constituencies",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "1997-05-01",
+            "valueText": "1997-05-01"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:house-of-commons",
+            "valueLabel": "House of Commons",
+            "valueText": "House of Commons"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "1",
+            "valueText": "1"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "539",
+            "valueText": "539"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "0.06816210187135952",
+            "valueText": "0.06816210187135952"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:6605c60abe4bb44b73ee",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:local-government-local-government-districts-2023-05-18-overall",
+        "valueLabel": "Overall results - 2023 Northern Ireland local elections",
+        "valueText": "Overall results - 2023 Northern Ireland local elections",
+        "valueDescription": "Overall election result / 80 DEAs",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2023-05-18",
+            "valueText": "2023-05-18"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:local-government-districts",
+            "valueLabel": "Local Government Districts",
+            "valueText": "Local Government Districts"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "37",
+            "valueText": "37"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "5",
+            "valueText": "5"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "12692",
+            "valueText": "12692"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "1.7012287396672334",
+            "valueText": "1.7012287396672334"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:6723c023f6b54b0a41eb",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:northern-ireland-assembly-2017-03-02-overall",
+        "valueLabel": "Overall results - 2017 Northern Ireland Assembly election",
+        "valueText": "Overall results - 2017 Northern Ireland Assembly election",
+        "valueDescription": "Overall election result / 18 constituencies",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2017-03-02",
+            "valueText": "2017-03-02"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:northern-ireland-assembly",
+            "valueLabel": "Northern Ireland Assembly",
+            "valueText": "Northern Ireland Assembly"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "18",
+            "valueText": "18"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "2",
+            "valueText": "2"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "18527",
+            "valueText": "18527"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "2.30631819398368",
+            "valueText": "2.30631819398368"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:7f7d2de72905c00a6dd8",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:ireland-european-1989-06-15-overall",
+        "valueLabel": "Overall results - 1989 European election in the Republic of Ireland",
+        "valueText": "Overall results - 1989 European election in the Republic of Ireland",
+        "valueDescription": "Overall election result / 4 constituencies",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "1989-06-15",
+            "valueText": "1989-06-15"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:european-parliament-ireland",
+            "valueLabel": "European Parliament (Ireland)",
+            "valueText": "European Parliament (Ireland)"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "2",
+            "valueText": "2"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "61041",
+            "valueText": "61041"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "3.738589648735123",
+            "valueText": "3.738589648735123"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:80ab867bf3e273598f4b",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:ireland-european-1999-06-11",
+        "valueLabel": "1999 European election in the Republic of Ireland",
+        "valueText": "1999 European election in the Republic of Ireland",
+        "valueDescription": "1999-06-11",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "1999-06-11",
+            "valueText": "1999-06-11"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:european-parliament-ireland",
+            "valueLabel": "European Parliament (Ireland)",
+            "valueText": "European Parliament (Ireland)"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "3",
+            "valueText": "3"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "2",
+            "valueText": "2"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "93100",
+            "valueText": "93100"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "6.689467860376219",
+            "valueText": "6.689467860376219"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:814cbf4a41c41323123c",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:european-parliament-2009-06-04-overall",
+        "valueLabel": "Overall results - 2009 European election in Northern Ireland",
+        "valueText": "Overall results - 2009 European election in Northern Ireland",
+        "valueDescription": "Overall election result / 1 constituencies",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2009-06-04",
+            "valueText": "2009-06-04"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:european-parliament",
+            "valueLabel": "European Parliament",
+            "valueText": "European Parliament"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "1",
+            "valueText": "1"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "15764",
+            "valueText": "15764"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "3.253180125966833",
+            "valueText": "3.253180125966833"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:836e6d33d5ef38804366",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:house-of-commons-of-the-united-kingdom-2015-05-07-overall",
+        "valueLabel": "Overall results - 2015 UK general election in Northern Ireland",
+        "valueText": "Overall results - 2015 UK general election in Northern Ireland",
+        "valueDescription": "Overall election result / 18 constituencies",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2015-05-07",
+            "valueText": "2015-05-07"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:house-of-commons",
+            "valueLabel": "House of Commons",
+            "valueText": "House of Commons"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "5",
+            "valueText": "5"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "6822",
+            "valueText": "6822"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "0.9500029939994681",
+            "valueText": "0.9500029939994681"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:84d839802719c173aa5d",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:european-parliament-2014-05-22-overall",
+        "valueLabel": "Overall results - 2014 European election in Northern Ireland",
+        "valueText": "Overall results - 2014 European election in Northern Ireland",
+        "valueDescription": "Overall election result / 1 constituencies",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2014-05-22",
+            "valueText": "2014-05-22"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:european-parliament",
+            "valueLabel": "European Parliament",
+            "valueText": "European Parliament"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "1",
+            "valueText": "1"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "10598",
+            "valueText": "10598"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "1.692633260131763",
+            "valueText": "1.692633260131763"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:84e98489163e596b58d2",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:house-of-commons-of-the-united-kingdom-2019-12-12-overall",
+        "valueLabel": "Overall results - 2019 UK general election in Northern Ireland",
+        "valueText": "Overall results - 2019 UK general election in Northern Ireland",
+        "valueDescription": "Overall election result / 18 constituencies",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2019-12-12",
+            "valueText": "2019-12-12"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:house-of-commons",
+            "valueLabel": "House of Commons",
+            "valueText": "House of Commons"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "3",
+            "valueText": "3"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "1996",
+            "valueText": "1996"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "0.24980132284568263",
+            "valueText": "0.24980132284568263"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:88006eba8da8bcb01ab5",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:house-of-commons-of-the-united-kingdom-2024-07-04",
+        "valueLabel": "2024 UK general election in Northern Ireland",
+        "valueText": "2024 UK general election in Northern Ireland",
+        "valueDescription": "2024-07-04",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2024-07-04",
+            "valueText": "2024-07-04"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:house-of-commons",
+            "valueLabel": "House of Commons",
+            "valueText": "House of Commons"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "11",
+            "valueText": "11"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "8692",
+            "valueText": "8692"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "1.114587607714403",
+            "valueText": "1.114587607714403"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:8822127686d1f23703e1",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:northern-ireland-assembly-2022-05-05-overall",
+        "valueLabel": "Overall results - 2022 Northern Ireland Assembly election",
+        "valueText": "Overall results - 2022 Northern Ireland Assembly election",
+        "valueDescription": "Overall election result / 18 constituencies",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2022-05-05",
+            "valueText": "2022-05-05"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:northern-ireland-assembly",
+            "valueLabel": "Northern Ireland Assembly",
+            "valueText": "Northern Ireland Assembly"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "18",
+            "valueText": "18"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "16433",
+            "valueText": "16433"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "1.9048336617595922",
+            "valueText": "1.9048336617595922"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:8abb265b1001ea6ac5ec",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:ireland-european-2004-06-11-overall",
+        "valueLabel": "Overall results - 2004 European election in the Republic of Ireland",
+        "valueText": "Overall results - 2004 European election in the Republic of Ireland",
+        "valueDescription": "Overall election result / 4 constituencies",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2004-06-11",
+            "valueText": "2004-06-11"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:european-parliament-ireland",
+            "valueLabel": "European Parliament (Ireland)",
+            "valueText": "European Parliament (Ireland)"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "3",
+            "valueText": "3"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "76917",
+            "valueText": "76917"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "4.319316160218512",
+            "valueText": "4.319316160218512"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:8e1ded0b67f81b94f897",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:dail-eireann-2024-11-29-overall",
+        "valueLabel": "Overall results - 2024 Irish general election",
+        "valueText": "Overall results - 2024 Irish general election",
+        "valueDescription": "Overall election result / 43 constituencies",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2024-11-29",
+            "valueText": "2024-11-29"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:dail-eireann",
+            "valueLabel": "Dáil Éireann",
+            "valueText": "Dáil Éireann"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "43",
+            "valueText": "43"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "1",
+            "valueText": "1"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "66911",
+            "valueText": "66911"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "3.038021696717251",
+            "valueText": "3.038021696717251"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:985010acf45117a3dcf0",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:dail-eireann-2007-05-24",
+        "valueLabel": "2007 Irish general election",
+        "valueText": "2007 Irish general election",
+        "valueDescription": "2007-05-24",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2007-05-24",
+            "valueText": "2007-05-24"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:dail-eireann",
+            "valueLabel": "Dáil Éireann",
+            "valueText": "Dáil Éireann"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "44",
+            "valueText": "44"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "6",
+            "valueText": "6"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "96936",
+            "valueText": "96936"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "4.692396687013811",
+            "valueText": "4.692396687013811"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:99f113e5730e14cf7b86",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:northern-ireland-assembly-2011-05-05",
+        "valueLabel": "2011 Northern Ireland Assembly election",
+        "valueText": "2011 Northern Ireland Assembly election",
+        "valueDescription": "18 constituencies",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2011-05-05",
+            "valueText": "2011-05-05"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:northern-ireland-assembly",
+            "valueLabel": "Northern Ireland Assembly",
+            "valueText": "Northern Ireland Assembly"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "6",
+            "valueText": "6"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "1",
+            "valueText": "1"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "6031",
+            "valueText": "6031"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "0.9118688094298515",
+            "valueText": "0.9118688094298515"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:9cb8004eb675a99c5f0d",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:dail-eireann-2002-05-17",
+        "valueLabel": "2002 Irish general election",
+        "valueText": "2002 Irish general election",
+        "valueDescription": "2002-05-17",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2002-05-17",
+            "valueText": "2002-05-17"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:dail-eireann",
+            "valueLabel": "Dáil Éireann",
+            "valueText": "Dáil Éireann"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "31",
+            "valueText": "31"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "6",
+            "valueText": "6"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "71470",
+            "valueText": "71470"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "3.84681215693831",
+            "valueText": "3.84681215693831"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:aa3c1fa558def5780cd8",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:ireland-european-1984-06-14-overall",
+        "valueLabel": "Overall results - 1984 European election in the Republic of Ireland",
+        "valueText": "Overall results - 1984 European election in the Republic of Ireland",
+        "valueDescription": "Overall election result / 4 constituencies",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "1984-06-14",
+            "valueText": "1984-06-14"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:european-parliament-ireland",
+            "valueLabel": "European Parliament (Ireland)",
+            "valueText": "European Parliament (Ireland)"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "1",
+            "valueText": "1"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "5242",
+            "valueText": "5242"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "0.4678619369948305",
+            "valueText": "0.4678619369948305"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:aaec5d0617939214a109",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:northern-ireland-assembly-2022-05-05",
+        "valueLabel": "2022 Northern Ireland Assembly election",
+        "valueText": "2022 Northern Ireland Assembly election",
+        "valueDescription": "18 constituencies",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2022-05-05",
+            "valueText": "2022-05-05"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:northern-ireland-assembly",
+            "valueLabel": "Northern Ireland Assembly",
+            "valueText": "Northern Ireland Assembly"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "18",
+            "valueText": "18"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "16433",
+            "valueText": "16433"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "1.9048336617595922",
+            "valueText": "1.9048336617595922"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:afa5c9cfee702d514743",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:house-of-commons-of-the-united-kingdom-1990-05-17-overall",
+        "valueLabel": "Overall results - 1990 Upper Bann by-election",
+        "valueText": "Overall results - 1990 Upper Bann by-election",
+        "valueDescription": "Overall election result / 1 constituencies",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "1990-05-17",
+            "valueText": "1990-05-17"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:house-of-commons",
+            "valueLabel": "House of Commons",
+            "valueText": "House of Commons"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "1",
+            "valueText": "1"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "576",
+            "valueText": "576"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "1.6250070529820009",
+            "valueText": "1.6250070529820009"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:afcbd41b00c20b311946",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:local-government-local-government-districts-2019-05-02-overall",
+        "valueLabel": "Overall results - 2019 Northern Ireland local elections",
+        "valueText": "Overall results - 2019 Northern Ireland local elections",
+        "valueDescription": "Overall election result / 80 DEAs",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2019-05-02",
+            "valueText": "2019-05-02"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:local-government-districts",
+            "valueLabel": "Local Government Districts",
+            "valueText": "Local Government Districts"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "26",
+            "valueText": "26"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "8",
+            "valueText": "8"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "14284",
+            "valueText": "14284"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "2.107079900576039",
+            "valueText": "2.107079900576039"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:b197bb4dce7932e99fac",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:ireland-european-1989-06-15",
+        "valueLabel": "1989 European election in the Republic of Ireland",
+        "valueText": "1989 European election in the Republic of Ireland",
+        "valueDescription": "1989-06-15",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "1989-06-15",
+            "valueText": "1989-06-15"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:european-parliament-ireland",
+            "valueLabel": "European Parliament (Ireland)",
+            "valueText": "European Parliament (Ireland)"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "2",
+            "valueText": "2"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "61041",
+            "valueText": "61041"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "3.738589648735123",
+            "valueText": "3.738589648735123"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:b6a0f8da7d0f77f91d39",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:local-government-local-government-districts-2014-05-22",
+        "valueLabel": "2014 Northern Ireland local elections",
+        "valueText": "2014 Northern Ireland local elections",
+        "valueDescription": "2014-05-22",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2014-05-22",
+            "valueText": "2014-05-22"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:local-government-districts",
+            "valueLabel": "Local Government Districts",
+            "valueText": "Local Government Districts"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "14",
+            "valueText": "14"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "4",
+            "valueText": "4"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "5515",
+            "valueText": "5515"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "0.8779959722034276",
+            "valueText": "0.8779959722034276"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:b6b4a6c7f229ee40804f",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:ireland-european-2004-06-11",
+        "valueLabel": "2004 European election in the Republic of Ireland",
+        "valueText": "2004 European election in the Republic of Ireland",
+        "valueDescription": "2004-06-11",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2004-06-11",
+            "valueText": "2004-06-11"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:european-parliament-ireland",
+            "valueLabel": "European Parliament (Ireland)",
+            "valueText": "European Parliament (Ireland)"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "3",
+            "valueText": "3"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "76917",
+            "valueText": "76917"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "4.319316160218512",
+            "valueText": "4.319316160218512"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:b905d795c440a2045069",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:ireland-european-1994-06-09",
+        "valueLabel": "1994 European election in the Republic of Ireland",
+        "valueText": "1994 European election in the Republic of Ireland",
+        "valueDescription": "1994-06-09",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "1994-06-09",
+            "valueText": "1994-06-09"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:european-parliament-ireland",
+            "valueLabel": "European Parliament (Ireland)",
+            "valueText": "European Parliament (Ireland)"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "4",
+            "valueText": "4"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "2",
+            "valueText": "2"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "90046",
+            "valueText": "90046"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "7.916201461111746",
+            "valueText": "7.916201461111746"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:b915b809245ca56033ff",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:ireland-european-1999-06-11-overall",
+        "valueLabel": "Overall results - 1999 European election in the Republic of Ireland",
+        "valueText": "Overall results - 1999 European election in the Republic of Ireland",
+        "valueDescription": "Overall election result / 4 constituencies",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "1999-06-11",
+            "valueText": "1999-06-11"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:european-parliament-ireland",
+            "valueLabel": "European Parliament (Ireland)",
+            "valueText": "European Parliament (Ireland)"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "3",
+            "valueText": "3"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "2",
+            "valueText": "2"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "93100",
+            "valueText": "93100"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "6.689467860376219",
+            "valueText": "6.689467860376219"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:babfe572280fbfc30024",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:european-parliament-2014-05-22",
+        "valueLabel": "2014 European election in Northern Ireland",
+        "valueText": "2014 European election in Northern Ireland",
+        "valueDescription": "2014-05-22",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2014-05-22",
+            "valueText": "2014-05-22"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:european-parliament",
+            "valueLabel": "European Parliament",
+            "valueText": "European Parliament"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "1",
+            "valueText": "1"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "10598",
+            "valueText": "10598"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "1.692633260131763",
+            "valueText": "1.692633260131763"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:bc37fe6f990eceaa98b0",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:northern-ireland-assembly-2003-11-26",
+        "valueLabel": "2003 Northern Ireland Assembly election",
+        "valueText": "2003 Northern Ireland Assembly election",
+        "valueDescription": "18 constituencies",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2003-11-26",
+            "valueText": "2003-11-26"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:northern-ireland-assembly",
+            "valueLabel": "Northern Ireland Assembly",
+            "valueText": "Northern Ireland Assembly"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "6",
+            "valueText": "6"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "2688",
+            "valueText": "2688"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "0.38842358979694463",
+            "valueText": "0.38842358979694463"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:bea88935fafae01cc9b6",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:northern-ireland-assembly-2016-05-05",
+        "valueLabel": "2016 Northern Ireland Assembly election",
+        "valueText": "2016 Northern Ireland Assembly election",
+        "valueDescription": "18 constituencies",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2016-05-05",
+            "valueText": "2016-05-05"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:northern-ireland-assembly",
+            "valueLabel": "Northern Ireland Assembly",
+            "valueText": "Northern Ireland Assembly"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "18",
+            "valueText": "18"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "2",
+            "valueText": "2"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "18718",
+            "valueText": "18718"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "2.6958983975549966",
+            "valueText": "2.6958983975549966"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:c5d019958920e7d1cbad",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:house-of-commons-of-the-united-kingdom-2015-05-07",
+        "valueLabel": "2015 UK general election in Northern Ireland",
+        "valueText": "2015 UK general election in Northern Ireland",
+        "valueDescription": "2015-05-07",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2015-05-07",
+            "valueText": "2015-05-07"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:house-of-commons",
+            "valueLabel": "House of Commons",
+            "valueText": "House of Commons"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "5",
+            "valueText": "5"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "6822",
+            "valueText": "6822"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "0.9500029939994681",
+            "valueText": "0.9500029939994681"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:c690b7121909bed30dd7",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:ireland-european-2009-06-05-overall",
+        "valueLabel": "Overall results - 2009 European election in the Republic of Ireland",
+        "valueText": "Overall results - 2009 European election in the Republic of Ireland",
+        "valueDescription": "Overall election result / 4 constituencies",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2009-06-05",
+            "valueText": "2009-06-05"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:european-parliament-ireland",
+            "valueLabel": "European Parliament (Ireland)",
+            "valueText": "European Parliament (Ireland)"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "2",
+            "valueText": "2"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "34585",
+            "valueText": "34585"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "1.8906004603914148",
+            "valueText": "1.8906004603914148"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:c772429cf0f54aacf88c",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:dail-eireann-2016-02-26-overall",
+        "valueLabel": "Overall results - 2016 Irish general election",
+        "valueText": "Overall results - 2016 Irish general election",
+        "valueDescription": "Overall election result / 40 constituencies",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2016-02-26",
+            "valueText": "2016-02-26"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:dail-eireann",
+            "valueLabel": "Dáil Éireann",
+            "valueText": "Dáil Éireann"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "40",
+            "valueText": "40"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "2",
+            "valueText": "2"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "57997",
+            "valueText": "57997"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "2.7191680790662454",
+            "valueText": "2.7191680790662454"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:c972f22bdae87ffa7706",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:house-of-commons-of-the-united-kingdom-2017-06-08-overall",
+        "valueLabel": "Overall results - 2017 UK general election in Northern Ireland",
+        "valueText": "Overall results - 2017 UK general election in Northern Ireland",
+        "valueDescription": "Overall election result / 18 constituencies",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2017-06-08",
+            "valueText": "2017-06-08"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:house-of-commons",
+            "valueLabel": "House of Commons",
+            "valueText": "House of Commons"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "7",
+            "valueText": "7"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "7452",
+            "valueText": "7452"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "0.9175272075382025",
+            "valueText": "0.9175272075382025"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:cb95fbabe7295ef169a4",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:european-parliament-1989-06-15-overall",
+        "valueLabel": "Overall results - 1989 European election in Northern Ireland",
+        "valueText": "Overall results - 1989 European election in Northern Ireland",
+        "valueDescription": "Overall election result / 1 constituencies",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "1989-06-15",
+            "valueText": "1989-06-15"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:european-parliament",
+            "valueLabel": "European Parliament",
+            "valueText": "European Parliament"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "1",
+            "valueText": "1"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "6569",
+            "valueText": "6569"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "1.2282843845769813",
+            "valueText": "1.2282843845769813"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:d35fe53de01c208155c0",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:house-of-commons-of-the-united-kingdom-1990-05-17",
+        "valueLabel": "1990 Upper Bann by-election",
+        "valueText": "1990 Upper Bann by-election",
+        "valueDescription": "1990-05-17",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "1990-05-17",
+            "valueText": "1990-05-17"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:house-of-commons",
+            "valueLabel": "House of Commons",
+            "valueText": "House of Commons"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "1",
+            "valueText": "1"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "576",
+            "valueText": "576"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "1.6250070529820009",
+            "valueText": "1.6250070529820009"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:d97b30d76f51a9784552",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:house-of-commons-of-the-united-kingdom-2024-07-04-overall",
+        "valueLabel": "Overall results - 2024 UK general election in Northern Ireland",
+        "valueText": "Overall results - 2024 UK general election in Northern Ireland",
+        "valueDescription": "Overall election result / 18 constituencies",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2024-07-04",
+            "valueText": "2024-07-04"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:house-of-commons",
+            "valueLabel": "House of Commons",
+            "valueText": "House of Commons"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "11",
+            "valueText": "11"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "8692",
+            "valueText": "8692"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "1.114587607714403",
+            "valueText": "1.114587607714403"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:dc0ffee7d921fe9dead2",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:house-of-commons-of-the-united-kingdom-2010-05-06-overall",
+        "valueLabel": "Overall results - 2010 UK general election in Northern Ireland",
+        "valueText": "Overall results - 2010 UK general election in Northern Ireland",
+        "valueDescription": "Overall election result / 19 constituencies",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2010-05-06",
+            "valueText": "2010-05-06"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:house-of-commons",
+            "valueLabel": "House of Commons",
+            "valueText": "House of Commons"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "4",
+            "valueText": "4"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "3542",
+            "valueText": "3542"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "0.492781488556256",
+            "valueText": "0.492781488556256"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:e0e1a109a0eee8514df7",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:house-of-commons-of-the-united-kingdom-2017-06-08",
+        "valueLabel": "2017 UK general election in Northern Ireland",
+        "valueText": "2017 UK general election in Northern Ireland",
+        "valueDescription": "2017-06-08",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2017-06-08",
+            "valueText": "2017-06-08"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:house-of-commons",
+            "valueLabel": "House of Commons",
+            "valueText": "House of Commons"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "7",
+            "valueText": "7"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "0",
+            "valueText": "0"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "7452",
+            "valueText": "7452"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "0.9175272075382025",
+            "valueText": "0.9175272075382025"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:e36f1610b5c821061515",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:northern-ireland-assembly-2007-03-07",
+        "valueLabel": "2007 Northern Ireland Assembly election",
+        "valueText": "2007 Northern Ireland Assembly election",
+        "valueDescription": "18 constituencies",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2007-03-07",
+            "valueText": "2007-03-07"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:northern-ireland-assembly",
+            "valueLabel": "Northern Ireland Assembly",
+            "valueText": "Northern Ireland Assembly"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "13",
+            "valueText": "13"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "1",
+            "valueText": "1"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "11985",
+            "valueText": "11985"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "1.7361689552420425",
+            "valueText": "1.7361689552420425"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:ef3d836b1d5de4e17bcd",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:dail-eireann-2020-02-08-overall",
+        "valueLabel": "Overall results - 2020 Irish general election",
+        "valueText": "Overall results - 2020 Irish general election",
+        "valueDescription": "Overall election result / 39 constituencies",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2020-02-08",
+            "valueText": "2020-02-08"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:dail-eireann",
+            "valueLabel": "Dáil Éireann",
+            "valueText": "Dáil Éireann"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "39",
+            "valueText": "39"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "12",
+            "valueText": "12"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "155695",
+            "valueText": "155695"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "7.130560309669525",
+            "valueText": "7.130560309669525"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:fc1db41abcc2d58fc210",
+        "propertyId": "cg:property:appeared-in-election",
+        "propertyLabel": "appeared in election",
+        "valueType": "entity",
+        "valueId": "cg:election:northern-ireland-assembly-2011-05-05-overall",
+        "valueLabel": "Overall results - 2011 Northern Ireland Assembly election",
+        "valueText": "Overall results - 2011 Northern Ireland Assembly election",
+        "valueDescription": "Overall election result / 18 constituencies",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2011-05-05",
+            "valueText": "2011-05-05"
+          },
+          {
+            "propertyId": "cg:property:elected-body",
+            "propertyLabel": "elected body",
+            "valueType": "entity",
+            "valueId": "cg:body:northern-ireland-assembly",
+            "valueLabel": "Northern Ireland Assembly",
+            "valueText": "Northern Ireland Assembly"
+          },
+          {
+            "propertyId": "cg:property:stood",
+            "propertyLabel": "stood",
+            "valueType": "number",
+            "valueLabel": "6",
+            "valueText": "6"
+          },
+          {
+            "propertyId": "cg:property:seats",
+            "propertyLabel": "seats",
+            "valueType": "number",
+            "valueLabel": "1",
+            "valueText": "1"
+          },
+          {
+            "propertyId": "cg:property:votes",
+            "propertyLabel": "votes",
+            "valueType": "number",
+            "valueLabel": "6031",
+            "valueText": "6031"
+          },
+          {
+            "propertyId": "cg:property:vote-share",
+            "propertyLabel": "vote share",
+            "valueType": "number",
+            "valueLabel": "0.9118688094298515",
+            "valueText": "0.9118688094298515"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:fb7c0c34971b01d7362b",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:political-party",
+        "valueLabel": "Political party or label",
+        "valueText": "Political party or label",
+        "valueDescription": "A political party, electoral label, or observed candidature label.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:4a41ddf4a30b12aeac30",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Green",
+        "valueText": "Green",
+        "referenceCount": 0
+      }
+    ],
+    "cg:party:headway-n-i": [
+      {
+        "id": "cg:statement:cfdbb7bb769214cb2916",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:political-party",
+        "valueLabel": "Political party or label",
+        "valueText": "Political party or label",
+        "valueDescription": "A political party, electoral label, or observed candidature label.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:58bf983cecf0914b18e1",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Headway N.I.",
+        "valueText": "Headway N.I.",
+        "referenceCount": 0
+      }
+    ],
+    "cg:party:healyite-nationalist": [
+      {
+        "id": "cg:statement:4f0b22dee03ebe5a41d9",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:political-party",
+        "valueLabel": "Political party or label",
+        "valueText": "Political party or label",
+        "valueDescription": "A political party, electoral label, or observed candidature label.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:c344e7af285147ab7029",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Healyite Nationalist",
+        "valueText": "Healyite Nationalist",
+        "referenceCount": 0
+      }
+    ],
+    "cg:party:heritage-party": [
+      {
+        "id": "cg:statement:4282bf2f7a3928fb2fe0",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:political-party",
+        "valueLabel": "Political party or label",
+        "valueText": "Political party or label",
+        "valueDescription": "A political party, electoral label, or observed candidature label.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:a3ee31391a16ba80c998",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Heritage Party",
+        "valueText": "Heritage Party",
+        "referenceCount": 0
+      }
+    ],
     "cg:party:holywood-pool-campaigner-independent": [
       {
         "id": "cg:statement:c8b269de82f6e130e7b8",
@@ -65591,116 +70363,6 @@
         "valueType": "string",
         "valueLabel": "Offical Ulster Unionist",
         "valueText": "Offical Ulster Unionist",
-        "referenceCount": 0
-      }
-    ],
-    "cg:party:offical-unionist": [
-      {
-        "id": "cg:statement:e15e1ebca87237e1fa83",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:political-party",
-        "valueLabel": "Political party or label",
-        "valueText": "Political party or label",
-        "valueDescription": "A political party, electoral label, or observed candidature label.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:a2a4d3a7bd79d2aa8670",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Offical Unionist",
-        "valueText": "Offical Unionist",
-        "referenceCount": 0
-      }
-    ],
-    "cg:party:offical-unionist-party": [
-      {
-        "id": "cg:statement:ccd8a12061ba6443c2e2",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:political-party",
-        "valueLabel": "Political party or label",
-        "valueText": "Political party or label",
-        "valueDescription": "A political party, electoral label, or observed candidature label.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:1b2e3fa8b4cb265cf1fa",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Offical Unionist Party",
-        "valueText": "Offical Unionist Party",
-        "referenceCount": 0
-      }
-    ],
-    "cg:party:official-anti-trimble-u": [
-      {
-        "id": "cg:statement:b388b7854e23d2ccd9aa",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:political-party",
-        "valueLabel": "Political party or label",
-        "valueText": "Political party or label",
-        "valueDescription": "A political party, electoral label, or observed candidature label.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:c376747e76b0ad040e22",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Official Anti-Trimble U",
-        "valueText": "Official Anti-Trimble U",
-        "referenceCount": 0
-      }
-    ],
-    "cg:party:official-rep": [
-      {
-        "id": "cg:statement:2c36cb6c58b567bcd2e3",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:political-party",
-        "valueLabel": "Political party or label",
-        "valueText": "Political party or label",
-        "valueDescription": "A political party, electoral label, or observed candidature label.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:aa09eee2e66103eefda7",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Official Rep.",
-        "valueText": "Official Rep.",
-        "referenceCount": 0
-      }
-    ],
-    "cg:party:official-ulster": [
-      {
-        "id": "cg:statement:2b0a1c08014104759080",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:political-party",
-        "valueLabel": "Political party or label",
-        "valueText": "Political party or label",
-        "valueDescription": "A political party, electoral label, or observed candidature label.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:2bb9c719cc85654eed2f",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Official Ulster",
-        "valueText": "Official Ulster",
         "referenceCount": 0
       }
     ]

@@ -1,9 +1,359 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-14T15:54:04.635Z",
+  "generatedAt": "2026-07-14T16:06:49.207Z",
   "shard": 379,
   "total": 2500,
   "items": [
+    {
+      "id": "cg:statement:fa71a5639b8baad6c227",
+      "subjectId": "cg:register-record:ni-register-record-fff59f13a8a78c87",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:ni-register-assembly-html-2dd767ee1eafd2fa"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "historical-pdf-register"
+          }
+        },
+        {
+          "propertyId": "cg:property:date",
+          "value": {
+            "type": "date",
+            "value": "2015-10-21"
+          }
+        }
+      ],
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-assembly-html-2dd767ee1eafd2fa",
+          "sourceTitle": "NI Assembly Register of Members Interests (21 October 2015)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:1b66909f7c32aae0",
+          "sourceUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/211015.pdf",
+          "date": "2015-10-21",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:3300bf950a95fe0623d5",
+      "subjectId": "cg:register-record:ni-register-record-fff59f13a8a78c87",
+      "propertyId": "cg:property:year",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-year:2015"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:ni-register-assembly-html-2dd767ee1eafd2fa",
+          "sourceTitle": "NI Assembly Register of Members Interests (21 October 2015)",
+          "sourceKind": "historical-html-register",
+          "sourceRecordId": "ni-register:assembly:html:2dd767ee1eafd2fa",
+          "sourceUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/21-october-2015/",
+          "date": "2015-10-21",
+          "extractionMethod": "html-heading-parser",
+          "extractionConfidence": "medium"
+        },
+        {
+          "sourceId": "cg:source:ni-register-assembly-html-2dd767ee1eafd2fa",
+          "sourceTitle": "NI Assembly Register of Members Interests (21 October 2015)",
+          "sourceKind": "historical-pdf-register",
+          "sourceRecordId": "ni-register:assembly:pdf:1b66909f7c32aae0",
+          "sourceUrl": "https://www.niassembly.gov.uk/globalassets/documents/your_mlas/register-of-interests/211015.pdf",
+          "date": "2015-10-21",
+          "extractionMethod": "pdf-text-heading-parser",
+          "extractionConfidence": "medium"
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:f55cab50c8142b960e3c",
+      "subjectId": "cg:source-file:0-07cf6ecbda24",
+      "propertyId": "cg:property:file-format",
+      "value": {
+        "type": "string",
+        "value": "JSON"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:655dc6f2f4f01a797762",
+      "subjectId": "cg:source-file:0-07cf6ecbda24",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source-file"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:be39037def4fd84c6442",
+      "subjectId": "cg:source-file:0-07cf6ecbda24",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "0"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:721502d5514721957809",
+      "subjectId": "cg:source-file:0-07cf6ecbda24",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://services.arcgis.com/kNPftFdcdm7bfDuO/arcgis/rest/services/Caravan_and_Camping_Sites/FeatureServer/0"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:d67bc521127385dae849",
+      "subjectId": "cg:source-file:0-8833b27399b8",
+      "propertyId": "cg:property:file-format",
+      "value": {
+        "type": "string",
+        "value": "JSON"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:2a433642daf4a5aa83c3",
+      "subjectId": "cg:source-file:0-8833b27399b8",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source-file"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:62fd842f7e2d51d67a78",
+      "subjectId": "cg:source-file:0-8833b27399b8",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "0"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:590a91cabee447bf1472",
+      "subjectId": "cg:source-file:0-8833b27399b8",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://services-eu1.arcgis.com/kswen6BYexuc1SUk/arcgis/rest/services/FarmCensusDistrictElectoralArea2015/FeatureServer/0"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:2569df355e654c765877",
+      "subjectId": "cg:source-file:0-8a95d18bef73",
+      "propertyId": "cg:property:file-format",
+      "value": {
+        "type": "string",
+        "value": "JSON"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:c6c7747025ae7bb45ed2",
+      "subjectId": "cg:source-file:0-8a95d18bef73",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source-file"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:4e5e8f4b54b499b4ea5d",
+      "subjectId": "cg:source-file:0-8a95d18bef73",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "0"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:72c2eb699838bb77361f",
+      "subjectId": "cg:source-file:0-8a95d18bef73",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://services.arcgis.com/kNPftFdcdm7bfDuO/arcgis/rest/services/CCGDC_BoundaryMain/FeatureServer/0"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:ec7d5de9559238b49f55",
+      "subjectId": "cg:source-file:01-20portrait-20-202123stage1public-20consultaiona1final-pdf-7805e007fbd2",
+      "propertyId": "cg:property:file-format",
+      "value": {
+        "type": "string",
+        "value": "PDF"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:98fae14c88a3711ae128",
+      "subjectId": "cg:source-file:01-20portrait-20-202123stage1public-20consultaiona1final-pdf-7805e007fbd2",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source-file"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:5bb803fb01575b9873a9",
+      "subjectId": "cg:source-file:01-20portrait-20-202123stage1public-20consultaiona1final-pdf-7805e007fbd2",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "01%20Portrait%20%202123Stage1Public%20Consultaiona1Final.pdf"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:597e33346b45924f8fe3",
+      "subjectId": "cg:source-file:01-20portrait-20-202123stage1public-20consultaiona1final-pdf-7805e007fbd2",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://data.gov.ie/dataset/the-wonderful-barn"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:60a794467936b0685fd6",
+      "subjectId": "cg:source-file:08-20-20hunter-20williams-20-20national-20groundwater-20recharge-20map-pdf-221a8d5dcb51",
+      "propertyId": "cg:property:file-format",
+      "value": {
+        "type": "string",
+        "value": "PDF"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:fc34539cfe3311c90f50",
+      "subjectId": "cg:source-file:08-20-20hunter-20williams-20-20national-20groundwater-20recharge-20map-pdf-221a8d5dcb51",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source-file"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:f86b11d7f6db1da18686",
+      "subjectId": "cg:source-file:08-20-20hunter-20williams-20-20national-20groundwater-20recharge-20map-pdf-221a8d5dcb51",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "08%20-%20Hunter%20Williams%20-%20National%20Groundwater%20Recharge%20Map.pdf"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:38473d745038699f3f60",
+      "subjectId": "cg:source-file:08-20-20hunter-20williams-20-20national-20groundwater-20recharge-20map-pdf-221a8d5dcb51",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://data.gov.ie/dataset/pollution-impact-potential-maps-groundwater-nitrate"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:6fbd2af374a9a4eb4fcb",
+      "subjectId": "cg:source-file:08-20-20hunter-20williams-20-20national-20groundwater-20recharge-20map-pdf-3d4ed94dccb3",
+      "propertyId": "cg:property:file-format",
+      "value": {
+        "type": "string",
+        "value": "PDF"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:70a7d55285b9978d068e",
+      "subjectId": "cg:source-file:08-20-20hunter-20williams-20-20national-20groundwater-20recharge-20map-pdf-3d4ed94dccb3",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source-file"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:666fc2f77bb40c7197dc",
+      "subjectId": "cg:source-file:08-20-20hunter-20williams-20-20national-20groundwater-20recharge-20map-pdf-3d4ed94dccb3",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "08%20-%20Hunter%20Williams%20-%20National%20Groundwater%20Recharge%20Map.pdf"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:f08243f89e7c1dc97b9c",
+      "subjectId": "cg:source-file:08-20-20hunter-20williams-20-20national-20groundwater-20recharge-20map-pdf-3d4ed94dccb3",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://data.gov.ie/dataset/pollution-impact-potential-maps-groundwater-nitrate-localised"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:91b4199dea2bee90eef5",
+      "subjectId": "cg:source-file:08-20-20hunter-20williams-20-20national-20groundwater-20recharge-20map-pdf-47bb60126f0d",
+      "propertyId": "cg:property:file-format",
+      "value": {
+        "type": "string",
+        "value": "PDF"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:c8b0eee6510228db82d4",
+      "subjectId": "cg:source-file:08-20-20hunter-20williams-20-20national-20groundwater-20recharge-20map-pdf-47bb60126f0d",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source-file"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:08c1c5faf2faea8fb65a",
+      "subjectId": "cg:source-file:08-20-20hunter-20williams-20-20national-20groundwater-20recharge-20map-pdf-47bb60126f0d",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "08%20-%20Hunter%20Williams%20-%20National%20Groundwater%20Recharge%20Map.pdf"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:296e78cf23bbe3fbbf79",
+      "subjectId": "cg:source-file:08-20-20hunter-20williams-20-20national-20groundwater-20recharge-20map-pdf-47bb60126f0d",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://data.gov.ie/dataset/pollution-impact-potential-maps-surface-water-phosphate"
+      },
+      "rank": "normal"
+    },
     {
       "id": "cg:statement:7a4c41e8fb45fc5df2e4",
       "subjectId": "cg:source-file:08-20-20hunter-20williams-20-20national-20groundwater-20recharge-20map-pdf-ee946ef87458",
@@ -20855,6 +21205,46 @@
       "rank": "normal"
     },
     {
+      "id": "cg:statement:08314112a89503ef6261",
+      "subjectId": "cg:source-file:census-2011-sa-csv-3221298d364e",
+      "propertyId": "cg:property:file-format",
+      "value": {
+        "type": "string",
+        "value": "CSV"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:dc8121db1c54550faed6",
+      "subjectId": "cg:source-file:census-2011-sa-csv-3221298d364e",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source-file"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:9233011b6fa9110145d8",
+      "subjectId": "cg:source-file:census-2011-sa-csv-3221298d364e",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "census-2011-sa.csv"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:32dc10864424d5ab6c6e",
+      "subjectId": "cg:source-file:census-2011-sa-csv-3221298d364e",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "data/census/derived/census-2011-sa.csv"
+      },
+      "rank": "normal"
+    },
+    {
       "id": "cg:statement:29bbcb78e7af8e2731ec",
       "subjectId": "cg:source-file:cessation-20of-20turf-20cutting-20compensation-20scheme-20statistics-20f-7b22e79caf55",
       "propertyId": "cg:property:file-format",
@@ -24661,346 +25051,6 @@
       "value": {
         "type": "url",
         "value": "https://admin.opendatani.gov.uk/dataset/dc01f414-21e2-409c-8a8b-d34a67187ddd/resource/1c35fb41-1c4e-4c33-956e-3b2e7850ee93/download/regionalsoilsaxrf.csv"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:fe8f7fecf625ecca914b",
-      "subjectId": "cg:source-file:csv-a0b08d89c482",
-      "propertyId": "cg:property:file-format",
-      "value": {
-        "type": "string",
-        "value": "CSV"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:bf18577ebead59220ce6",
-      "subjectId": "cg:source-file:csv-a0b08d89c482",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source-file"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:4756146d1c43f0d5d7e5",
-      "subjectId": "cg:source-file:csv-a0b08d89c482",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "CSV"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:dedb22fabf90fc7cd5c6",
-      "subjectId": "cg:source-file:csv-a0b08d89c482",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://admin.opendatani.gov.uk/dataset/a407c67a-6bc2-499d-b3a9-55f88e40bf9b/resource/13e63bf9-854f-4f44-8f1b-11086172ec0b/download/osni_open_data_largescale_boundaries_parliamentary_constituencies_2023.csv"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:aa81d854ee56e53023f8",
-      "subjectId": "cg:source-file:csv-a3a3fb4bb2c5",
-      "propertyId": "cg:property:file-format",
-      "value": {
-        "type": "string",
-        "value": "CSV"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:76a0fbe6d945991fdc42",
-      "subjectId": "cg:source-file:csv-a3a3fb4bb2c5",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source-file"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:f7d66b873266648eec7e",
-      "subjectId": "cg:source-file:csv-a3a3fb4bb2c5",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "csv"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:77866178a6ed6a016e45",
-      "subjectId": "cg:source-file:csv-a3a3fb4bb2c5",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.fingal.ie/api/download/v1/items/7a8f99bfa0ba498ba73eb1aeeb458631/csv?layers=0"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:e9cd4d30468e9839cd81",
-      "subjectId": "cg:source-file:csv-a3adc6acfead",
-      "propertyId": "cg:property:file-format",
-      "value": {
-        "type": "string",
-        "value": "CSV"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:5e904e2c634a32050293",
-      "subjectId": "cg:source-file:csv-a3adc6acfead",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source-file"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:2b547dc1b4759b658640",
-      "subjectId": "cg:source-file:csv-a3adc6acfead",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "CSV"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:ba44227e7e86af997016",
-      "subjectId": "cg:source-file:csv-a3adc6acfead",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://admin.opendatani.gov.uk/dataset/2b45ee6a-2c7a-4729-b6dc-0eb0b0361cc7/resource/c9eb6ca9-278a-408a-b677-1f6bf80a85ab/download/osni_open_data_largescale_boundaries_parliamentary_constituencies_2008.csv"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:bfd7e569ee3f5ae3c0ab",
-      "subjectId": "cg:source-file:csv-a6aedde761e7",
-      "propertyId": "cg:property:file-format",
-      "value": {
-        "type": "string",
-        "value": "CSV"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:5253649e9716c3145a98",
-      "subjectId": "cg:source-file:csv-a6aedde761e7",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source-file"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:423b4a9128c8d645238e",
-      "subjectId": "cg:source-file:csv-a6aedde761e7",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "csv"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:88f838fce9d2c755a123",
-      "subjectId": "cg:source-file:csv-a6aedde761e7",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data-sdublincoco.opendata.arcgis.com/api/download/v1/items/312a35d243f14b5ab5623b9a2fef6593/csv?layers=0"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:9a1c7fff0d3016ebad1e",
-      "subjectId": "cg:source-file:csv-adf8bf4fcf39",
-      "propertyId": "cg:property:file-format",
-      "value": {
-        "type": "string",
-        "value": "CSV"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:8d1aeb33e5378e57f1b3",
-      "subjectId": "cg:source-file:csv-adf8bf4fcf39",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source-file"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:9821d5aba26f4d264c8e",
-      "subjectId": "cg:source-file:csv-adf8bf4fcf39",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "csv"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:65ce7938f5aad0cc590b",
-      "subjectId": "cg:source-file:csv-adf8bf4fcf39",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.fingal.ie/api/download/v1/items/926337dfd8c941c29a73d9e9e0f53f99/csv?layers=0"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:1b55d21d8dd253d8c06c",
-      "subjectId": "cg:source-file:csv-au-and-pge-98897b428807",
-      "propertyId": "cg:property:file-format",
-      "value": {
-        "type": "string",
-        "value": "CSV"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:19ea6a06793e4ed64e24",
-      "subjectId": "cg:source-file:csv-au-and-pge-98897b428807",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source-file"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:b76924450468e7471261",
-      "subjectId": "cg:source-file:csv-au-and-pge-98897b428807",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "CSV — Au and PGE"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:2ef4c506835ddf6f7492",
-      "subjectId": "cg:source-file:csv-au-and-pge-98897b428807",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://admin.opendatani.gov.uk/dataset/b278a287-0165-4b0d-ac06-f5356590355e/resource/bc7a7099-8c3c-42ab-af49-6f9f55485e19/download/regionalsedimentsxrfauandpge.csv"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:31bf8ef3f6d5b3897e73",
-      "subjectId": "cg:source-file:csv-b816e01e727d",
-      "propertyId": "cg:property:file-format",
-      "value": {
-        "type": "string",
-        "value": "CSV"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:125b7b1626e43eea547d",
-      "subjectId": "cg:source-file:csv-b816e01e727d",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source-file"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:dc64912d036484502a0e",
-      "subjectId": "cg:source-file:csv-b816e01e727d",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "csv"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:203d3d4c8524ef906d00",
-      "subjectId": "cg:source-file:csv-b816e01e727d",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://galway-city-council-opendata-galwaycityco.hub.arcgis.com/api/download/v1/items/a69111c1841948bdb5de8c85099b922d/csv?layers=0"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:2ccbf26e59c8c17005d6",
-      "subjectId": "cg:source-file:csv-b9ebc7723617",
-      "propertyId": "cg:property:file-format",
-      "value": {
-        "type": "string",
-        "value": "CSV"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:ea44c791efb6200a933a",
-      "subjectId": "cg:source-file:csv-b9ebc7723617",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source-file"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:bdb52bb37886200cba5f",
-      "subjectId": "cg:source-file:csv-b9ebc7723617",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "csv"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:730ae87c4347e346f0e5",
-      "subjectId": "cg:source-file:csv-b9ebc7723617",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://galway-city-council-opendata-galwaycityco.hub.arcgis.com/api/download/v1/items/e71090a99ee2402598f2916e04144bef/csv?layers=0"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:fc57a5d90b23c3d4178a",
-      "subjectId": "cg:source-file:csv-bacaea4c7cf7",
-      "propertyId": "cg:property:file-format",
-      "value": {
-        "type": "string",
-        "value": "CSV"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:2e59fc9048372ae470fc",
-      "subjectId": "cg:source-file:csv-bacaea4c7cf7",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source-file"
       },
       "rank": "normal"
     }

@@ -1,9 +1,519 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-14T15:54:04.635Z",
+  "generatedAt": "2026-07-14T16:06:49.207Z",
   "shard": 205,
   "totalSubjects": 250,
   "items": {
+    "cg:source:approved-publication-census-cube-hspae13-stemi-patients-without-contrain-7fbbdce7fbb8": [
+      {
+        "id": "cg:statement:74371dd9cf5e263f6f06",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:source",
+        "valueLabel": "Source",
+        "valueText": "Source",
+        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:b8f4c1b1a8dca1c7d307",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "STEMI patients (without contraindication to reperfusion therapy) who got timely percutaneous coronary intervention",
+        "valueText": "STEMI patients (without contraindication to reperfusion therapy) who got timely percutaneous coronary intervention",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:c4ff2bb2ca898560082d",
+        "propertyId": "cg:property:provider",
+        "propertyLabel": "provider",
+        "valueType": "entity",
+        "valueId": "cg:provider:cso",
+        "valueLabel": "CSO",
+        "valueText": "CSO",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:218470cdfbe7c1ad800c",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:json-stat-cube-hspae13-03554e8daa90",
+        "valueLabel": "JSON-stat cube (HSPAE13)",
+        "valueText": "JSON-stat cube (HSPAE13)",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/HSPAE13/JSON-stat/2.0/en",
+            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/HSPAE13/JSON-stat/2.0/en"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:f4ae4e018bbe746b266f",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:cso-pxstat-table-hspae13-87eedb45c60e",
+        "valueLabel": "CSO PxStat table HSPAE13",
+        "valueText": "CSO PxStat table HSPAE13",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://data.cso.ie/table/HSPAE13",
+            "valueText": "https://data.cso.ie/table/HSPAE13"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:a862cf74c182c7569ffc",
+        "propertyId": "cg:property:source-kind",
+        "propertyLabel": "source kind",
+        "valueType": "string",
+        "valueLabel": "Approved tables",
+        "valueText": "Approved tables",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:a6306fc43428d728b152",
+        "propertyId": "cg:property:url",
+        "propertyLabel": "URL",
+        "valueType": "url",
+        "valueLabel": "https://data.cso.ie/table/HSPAE13",
+        "valueText": "https://data.cso.ie/table/HSPAE13",
+        "referenceCount": 0
+      }
+    ],
+    "cg:source:approved-publication-census-cube-hspae134-persons-vaccinated-for-sars-cov-2": [
+      {
+        "id": "cg:statement:3fc9149f0dd0d255e75d",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:source",
+        "valueLabel": "Source",
+        "valueText": "Source",
+        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:c98ca1799ebb361557e2",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Persons vaccinated for SARS-CoV-2",
+        "valueText": "Persons vaccinated for SARS-CoV-2",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:87478818681f7e3d8698",
+        "propertyId": "cg:property:provider",
+        "propertyLabel": "provider",
+        "valueType": "entity",
+        "valueId": "cg:provider:cso",
+        "valueLabel": "CSO",
+        "valueText": "CSO",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:5829b9ec7487731684cd",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:json-stat-cube-hspae134-f9ef949e8485",
+        "valueLabel": "JSON-stat cube (HSPAE134)",
+        "valueText": "JSON-stat cube (HSPAE134)",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/HSPAE134/JSON-stat/2.0/en",
+            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/HSPAE134/JSON-stat/2.0/en"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:ea92582880fbccfdc0cf",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:cso-pxstat-table-hspae134-6422f254ac25",
+        "valueLabel": "CSO PxStat table HSPAE134",
+        "valueText": "CSO PxStat table HSPAE134",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://data.cso.ie/table/HSPAE134",
+            "valueText": "https://data.cso.ie/table/HSPAE134"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:b4025ec3b7648f95f3e9",
+        "propertyId": "cg:property:source-kind",
+        "propertyLabel": "source kind",
+        "valueType": "string",
+        "valueLabel": "Approved tables",
+        "valueText": "Approved tables",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:46eab8565ca81cf4b7d6",
+        "propertyId": "cg:property:url",
+        "propertyLabel": "URL",
+        "valueType": "url",
+        "valueLabel": "https://data.cso.ie/table/HSPAE134",
+        "valueText": "https://data.cso.ie/table/HSPAE134",
+        "referenceCount": 0
+      }
+    ],
+    "cg:source:approved-publication-census-cube-hspae135-persons-aged-65-and-over-with--c58e46c63cc7": [
+      {
+        "id": "cg:statement:3b762a9e089973971e30",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:source",
+        "valueLabel": "Source",
+        "valueText": "Source",
+        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:a26f968895a7dbb7a90f",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Persons aged 65 and over with a Medical Card or GP visit card vaccinated for influenza",
+        "valueText": "Persons aged 65 and over with a Medical Card or GP visit card vaccinated for influenza",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:3d8ce7925f1c7b8c13ac",
+        "propertyId": "cg:property:provider",
+        "propertyLabel": "provider",
+        "valueType": "entity",
+        "valueId": "cg:provider:cso",
+        "valueLabel": "CSO",
+        "valueText": "CSO",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:55f6c711c34d66fc7aa1",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:cso-pxstat-table-hspae135-3b1f96d5bb2e",
+        "valueLabel": "CSO PxStat table HSPAE135",
+        "valueText": "CSO PxStat table HSPAE135",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://data.cso.ie/table/HSPAE135",
+            "valueText": "https://data.cso.ie/table/HSPAE135"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:b12444be4a50b399def9",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:json-stat-cube-hspae135-49b1ca673adf",
+        "valueLabel": "JSON-stat cube (HSPAE135)",
+        "valueText": "JSON-stat cube (HSPAE135)",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/HSPAE135/JSON-stat/2.0/en",
+            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/HSPAE135/JSON-stat/2.0/en"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:100a94121d76ac9b6cd1",
+        "propertyId": "cg:property:source-kind",
+        "propertyLabel": "source kind",
+        "valueType": "string",
+        "valueLabel": "Approved tables",
+        "valueText": "Approved tables",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:04f916c096f1c022f914",
+        "propertyId": "cg:property:url",
+        "propertyLabel": "URL",
+        "valueType": "url",
+        "valueLabel": "https://data.cso.ie/table/HSPAE135",
+        "valueText": "https://data.cso.ie/table/HSPAE135",
+        "referenceCount": 0
+      }
+    ],
+    "cg:source:approved-publication-census-cube-hspae139-overall-daily-volume-of-antibi-10490a71d44a": [
+      {
+        "id": "cg:statement:0c7a498dcdfa4eb85c0b",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:source",
+        "valueLabel": "Source",
+        "valueText": "Source",
+        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:01e28fb481df85ae5f54",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Overall daily volume of antibiotics prescribed in primary care (DDDs) per 1,000 population",
+        "valueText": "Overall daily volume of antibiotics prescribed in primary care (DDDs) per 1,000 population",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:d21cfce4e895f8a87b5f",
+        "propertyId": "cg:property:provider",
+        "propertyLabel": "provider",
+        "valueType": "entity",
+        "valueId": "cg:provider:cso",
+        "valueLabel": "CSO",
+        "valueText": "CSO",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:259b753c8adf296562aa",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:json-stat-cube-hspae139-476b24d8f60e",
+        "valueLabel": "JSON-stat cube (HSPAE139)",
+        "valueText": "JSON-stat cube (HSPAE139)",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/HSPAE139/JSON-stat/2.0/en",
+            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/HSPAE139/JSON-stat/2.0/en"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:741ba1bb5b9123208b35",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:cso-pxstat-table-hspae139-bd76839ca5d8",
+        "valueLabel": "CSO PxStat table HSPAE139",
+        "valueText": "CSO PxStat table HSPAE139",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://data.cso.ie/table/HSPAE139",
+            "valueText": "https://data.cso.ie/table/HSPAE139"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:7b73fe423e2221f45ba1",
+        "propertyId": "cg:property:source-kind",
+        "propertyLabel": "source kind",
+        "valueType": "string",
+        "valueLabel": "Approved tables",
+        "valueText": "Approved tables",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:93ecacef745f0bc6a5df",
+        "propertyId": "cg:property:url",
+        "propertyLabel": "URL",
+        "valueType": "url",
+        "valueLabel": "https://data.cso.ie/table/HSPAE139",
+        "valueText": "https://data.cso.ie/table/HSPAE139",
+        "referenceCount": 0
+      }
+    ],
+    "cg:source:approved-publication-census-cube-hspae142-overall-daily-volume-of-antibi-9800aaf4f6e0": [
+      {
+        "id": "cg:statement:ba974a5a3bf07a8c52b2",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:source",
+        "valueLabel": "Source",
+        "valueText": "Source",
+        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:7b1f2dc7eeaa7ec07e04",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Overall daily volume of antibiotics consumed (Defined Daily Doses) per 1,000 population in Primary Care",
+        "valueText": "Overall daily volume of antibiotics consumed (Defined Daily Doses) per 1,000 population in Primary Care",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:7da28c62f06ed7cdc40f",
+        "propertyId": "cg:property:provider",
+        "propertyLabel": "provider",
+        "valueType": "entity",
+        "valueId": "cg:provider:cso",
+        "valueLabel": "CSO",
+        "valueText": "CSO",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:39b1b27bcf0e0148a739",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:cso-pxstat-table-hspae142-4f7526ad4015",
+        "valueLabel": "CSO PxStat table HSPAE142",
+        "valueText": "CSO PxStat table HSPAE142",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://data.cso.ie/table/HSPAE142",
+            "valueText": "https://data.cso.ie/table/HSPAE142"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:46aa58cd5888f7d78bfb",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:json-stat-cube-hspae142-4529f7630d93",
+        "valueLabel": "JSON-stat cube (HSPAE142)",
+        "valueText": "JSON-stat cube (HSPAE142)",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/HSPAE142/JSON-stat/2.0/en",
+            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/HSPAE142/JSON-stat/2.0/en"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:8c6c00e6a5d89099acbc",
+        "propertyId": "cg:property:source-kind",
+        "propertyLabel": "source kind",
+        "valueType": "string",
+        "valueLabel": "Approved tables",
+        "valueText": "Approved tables",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:2b15f7b9560e8951c57c",
+        "propertyId": "cg:property:url",
+        "propertyLabel": "URL",
+        "valueType": "url",
+        "valueLabel": "https://data.cso.ie/table/HSPAE142",
+        "valueText": "https://data.cso.ie/table/HSPAE142",
+        "referenceCount": 0
+      }
+    ],
     "cg:source:approved-publication-census-cube-hspae143-overall-daily-volume-of-antibi-63176e3a6b65": [
       {
         "id": "cg:statement:4cbff143d37869ef1134",
@@ -26135,571 +26645,6 @@
         "valueType": "url",
         "valueLabel": "https://data.cso.ie/table/IH286",
         "valueText": "https://data.cso.ie/table/IH286",
-        "referenceCount": 0
-      }
-    ],
-    "cg:source:approved-publication-census-cube-ih292-physical-activity-of-persons-aged-15-years-and-over": [
-      {
-        "id": "cg:statement:14d565cf303742a52d69",
-        "propertyId": "cg:property:date",
-        "propertyLabel": "date",
-        "valueType": "entity",
-        "valueId": "cg:date-year:2019",
-        "valueLabel": "2019",
-        "valueText": "2019",
-        "valueDescription": "Entities dated 2019",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:db7c1a9c20b8c4aa37eb",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:source",
-        "valueLabel": "Source",
-        "valueText": "Source",
-        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:eab82f41f2aa7e793932",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Physical activity of persons aged 15 years and over",
-        "valueText": "Physical activity of persons aged 15 years and over",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:77b0390da02bcec5dce7",
-        "propertyId": "cg:property:provider",
-        "propertyLabel": "provider",
-        "valueType": "entity",
-        "valueId": "cg:provider:cso",
-        "valueLabel": "CSO",
-        "valueText": "CSO",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:0b5383a82ed7cc432b40",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:json-stat-cube-ih292-ba597c74de92",
-        "valueLabel": "JSON-stat cube (IH292)",
-        "valueText": "JSON-stat cube (IH292)",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/IH292/JSON-stat/2.0/en",
-            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/IH292/JSON-stat/2.0/en"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:6be105050fed1a65a512",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:cso-pxstat-table-ih292-919410b97094",
-        "valueLabel": "CSO PxStat table IH292",
-        "valueText": "CSO PxStat table IH292",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://data.cso.ie/table/IH292",
-            "valueText": "https://data.cso.ie/table/IH292"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:323a5978928669dad068",
-        "propertyId": "cg:property:source-kind",
-        "propertyLabel": "source kind",
-        "valueType": "string",
-        "valueLabel": "Approved tables",
-        "valueText": "Approved tables",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:7f73b6675953c63ae9a5",
-        "propertyId": "cg:property:url",
-        "propertyLabel": "URL",
-        "valueType": "url",
-        "valueLabel": "https://data.cso.ie/table/IH292",
-        "valueText": "https://data.cso.ie/table/IH292",
-        "referenceCount": 0
-      }
-    ],
-    "cg:source:approved-publication-census-cube-ih296-prevalence-of-smoking-drinking-al-fb23e96c133f": [
-      {
-        "id": "cg:statement:da4047241fd4bc8466d9",
-        "propertyId": "cg:property:date",
-        "propertyLabel": "date",
-        "valueType": "entity",
-        "valueId": "cg:date-year:2019",
-        "valueLabel": "2019",
-        "valueText": "2019",
-        "valueDescription": "Entities dated 2019",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:af99815cd83c4d8924a8",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:source",
-        "valueLabel": "Source",
-        "valueText": "Source",
-        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:a71f8b5e7a10068215d8",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Prevalence of smoking, drinking alcohol, and fruit and vegetable consumption of persons aged 15 years and over",
-        "valueText": "Prevalence of smoking, drinking alcohol, and fruit and vegetable consumption of persons aged 15 years and over",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:fcb58155c557f607e7b9",
-        "propertyId": "cg:property:provider",
-        "propertyLabel": "provider",
-        "valueType": "entity",
-        "valueId": "cg:provider:cso",
-        "valueLabel": "CSO",
-        "valueText": "CSO",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:8cb1024070b607b8d16d",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:json-stat-cube-ih296-7f62c3bb369f",
-        "valueLabel": "JSON-stat cube (IH296)",
-        "valueText": "JSON-stat cube (IH296)",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/IH296/JSON-stat/2.0/en",
-            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/IH296/JSON-stat/2.0/en"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:9372ad15197fb15ed5eb",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:cso-pxstat-table-ih296-f74d9b589fab",
-        "valueLabel": "CSO PxStat table IH296",
-        "valueText": "CSO PxStat table IH296",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://data.cso.ie/table/IH296",
-            "valueText": "https://data.cso.ie/table/IH296"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:31c8ef4a21d6e3a9773b",
-        "propertyId": "cg:property:source-kind",
-        "propertyLabel": "source kind",
-        "valueType": "string",
-        "valueLabel": "Approved tables",
-        "valueText": "Approved tables",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:160979e715496a6cfbff",
-        "propertyId": "cg:property:url",
-        "propertyLabel": "URL",
-        "valueType": "url",
-        "valueLabel": "https://data.cso.ie/table/IH296",
-        "valueText": "https://data.cso.ie/table/IH296",
-        "referenceCount": 0
-      }
-    ],
-    "cg:source:approved-publication-census-cube-ih297-prevalence-of-smoking-drinking-al-47ad6cac91be": [
-      {
-        "id": "cg:statement:9f7929e8fa05dc297ba2",
-        "propertyId": "cg:property:date",
-        "propertyLabel": "date",
-        "valueType": "entity",
-        "valueId": "cg:date-year:2019",
-        "valueLabel": "2019",
-        "valueText": "2019",
-        "valueDescription": "Entities dated 2019",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:fc54012aaad197f55ac3",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:source",
-        "valueLabel": "Source",
-        "valueText": "Source",
-        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:0eb46c7a51088b5925e5",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Prevalence of smoking, drinking alcohol, and fruit and vegetable consumption of persons aged 15 years and over",
-        "valueText": "Prevalence of smoking, drinking alcohol, and fruit and vegetable consumption of persons aged 15 years and over",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:d9f65999834c766b5f25",
-        "propertyId": "cg:property:provider",
-        "propertyLabel": "provider",
-        "valueType": "entity",
-        "valueId": "cg:provider:cso",
-        "valueLabel": "CSO",
-        "valueText": "CSO",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:4fe3ed878abcd38f3c5d",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:cso-pxstat-table-ih297-0e5d8d8e8639",
-        "valueLabel": "CSO PxStat table IH297",
-        "valueText": "CSO PxStat table IH297",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://data.cso.ie/table/IH297",
-            "valueText": "https://data.cso.ie/table/IH297"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:c31ae0c1db89648e92f8",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:json-stat-cube-ih297-e1ac751f43fe",
-        "valueLabel": "JSON-stat cube (IH297)",
-        "valueText": "JSON-stat cube (IH297)",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/IH297/JSON-stat/2.0/en",
-            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/IH297/JSON-stat/2.0/en"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:c8e8bc7d09b591939758",
-        "propertyId": "cg:property:source-kind",
-        "propertyLabel": "source kind",
-        "valueType": "string",
-        "valueLabel": "Approved tables",
-        "valueText": "Approved tables",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:03a74a53ed3542e1e222",
-        "propertyId": "cg:property:url",
-        "propertyLabel": "URL",
-        "valueType": "url",
-        "valueLabel": "https://data.cso.ie/table/IH297",
-        "valueText": "https://data.cso.ie/table/IH297",
-        "referenceCount": 0
-      }
-    ],
-    "cg:source:approved-publication-census-cube-ih298-prevalence-of-smoking-drinking-al-84ed4d06bac9": [
-      {
-        "id": "cg:statement:4ed54157f1312afcd027",
-        "propertyId": "cg:property:date",
-        "propertyLabel": "date",
-        "valueType": "entity",
-        "valueId": "cg:date-year:2019",
-        "valueLabel": "2019",
-        "valueText": "2019",
-        "valueDescription": "Entities dated 2019",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:80dea4375d0009e437a1",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:source",
-        "valueLabel": "Source",
-        "valueText": "Source",
-        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:a8a0af63d2a3eacb9c8c",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Prevalence of smoking, drinking alcohol, and fruit and vegetable consumption of persons aged 15 years and over",
-        "valueText": "Prevalence of smoking, drinking alcohol, and fruit and vegetable consumption of persons aged 15 years and over",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:01495b85d626f8f8b51e",
-        "propertyId": "cg:property:provider",
-        "propertyLabel": "provider",
-        "valueType": "entity",
-        "valueId": "cg:provider:cso",
-        "valueLabel": "CSO",
-        "valueText": "CSO",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:8e3127f1431046a15037",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:cso-pxstat-table-ih298-132e9fde9251",
-        "valueLabel": "CSO PxStat table IH298",
-        "valueText": "CSO PxStat table IH298",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://data.cso.ie/table/IH298",
-            "valueText": "https://data.cso.ie/table/IH298"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:c834ece9a93bf5a2fcc1",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:json-stat-cube-ih298-1b0d81f10792",
-        "valueLabel": "JSON-stat cube (IH298)",
-        "valueText": "JSON-stat cube (IH298)",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/IH298/JSON-stat/2.0/en",
-            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/IH298/JSON-stat/2.0/en"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:3c384e060d4f4a0dbda9",
-        "propertyId": "cg:property:source-kind",
-        "propertyLabel": "source kind",
-        "valueType": "string",
-        "valueLabel": "Approved tables",
-        "valueText": "Approved tables",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:49ba4182e24937cd089b",
-        "propertyId": "cg:property:url",
-        "propertyLabel": "URL",
-        "valueType": "url",
-        "valueLabel": "https://data.cso.ie/table/IH298",
-        "valueText": "https://data.cso.ie/table/IH298",
-        "referenceCount": 0
-      }
-    ],
-    "cg:source:approved-publication-census-cube-ih299-prevalence-of-smoking-drinking-al-ed77f03174f8": [
-      {
-        "id": "cg:statement:6794487d919ee8f90520",
-        "propertyId": "cg:property:date",
-        "propertyLabel": "date",
-        "valueType": "entity",
-        "valueId": "cg:date-year:2019",
-        "valueLabel": "2019",
-        "valueText": "2019",
-        "valueDescription": "Entities dated 2019",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:f8180afbfa91f5e4c723",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:source",
-        "valueLabel": "Source",
-        "valueText": "Source",
-        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:7494371539609b7f4ec5",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Prevalence of smoking, drinking alcohol, and fruit and vegetable consumption of persons aged 15 years and over",
-        "valueText": "Prevalence of smoking, drinking alcohol, and fruit and vegetable consumption of persons aged 15 years and over",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:2a23f7d6d0d6c5062826",
-        "propertyId": "cg:property:provider",
-        "propertyLabel": "provider",
-        "valueType": "entity",
-        "valueId": "cg:provider:cso",
-        "valueLabel": "CSO",
-        "valueText": "CSO",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:6bb78b193b3a48099519",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:cso-pxstat-table-ih299-7f0868b6e35e",
-        "valueLabel": "CSO PxStat table IH299",
-        "valueText": "CSO PxStat table IH299",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://data.cso.ie/table/IH299",
-            "valueText": "https://data.cso.ie/table/IH299"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:e666542d80156fd0b93e",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:json-stat-cube-ih299-8b890c90809d",
-        "valueLabel": "JSON-stat cube (IH299)",
-        "valueText": "JSON-stat cube (IH299)",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/IH299/JSON-stat/2.0/en",
-            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/IH299/JSON-stat/2.0/en"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:5aefe880efcd254185dd",
-        "propertyId": "cg:property:source-kind",
-        "propertyLabel": "source kind",
-        "valueType": "string",
-        "valueLabel": "Approved tables",
-        "valueText": "Approved tables",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:12c4c452b4d0887b6ff5",
-        "propertyId": "cg:property:url",
-        "propertyLabel": "URL",
-        "valueType": "url",
-        "valueLabel": "https://data.cso.ie/table/IH299",
-        "valueText": "https://data.cso.ie/table/IH299",
         "referenceCount": 0
       }
     ]
