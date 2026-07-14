@@ -122,6 +122,10 @@ function validateApprovedSources(validationReport, approvedSources) {
   // nisraPublications = NISRA non-census statistical publications (OGL v3.0) as
   // catalogue-reference records linking to nisra.gov.uk.
   const nisraPublications = approvedSources.counts?.nisraPublications?.publish || 0;
+  // openDataNiPortal = net-new Open Data NI (opendatani.gov.uk) datasets as
+  // OGL catalogue-reference records with direct resource download links; datasets
+  // already referenced in the gate are deduped out at emit time.
+  const openDataNiPortal = approvedSources.counts?.openDataNiPortal?.publish || 0;
   assert(censusCso === 6560, `Expected 6,560 approved CSO census records, found ${censusCso}.`);
   assert(censusNisra === 645, `Expected 645 approved NISRA census records, found ${censusNisra}.`);
   assert(censusCsoNiCarveout === 35, `Expected 35 approved CSO NI-carveout census records, found ${censusCsoNiCarveout}.`);
@@ -135,9 +139,10 @@ function validateApprovedSources(validationReport, approvedSources) {
   assert(csoPxstatBacklog === 6968, `Expected 6,968 approved CSO PxStat backfill records, found ${csoPxstatBacklog}.`);
   assert(openDataIePortal === 7290, `Expected 7,290 approved data.gov.ie portal records, found ${openDataIePortal}.`);
   assert(nisraPublications === 2940, `Expected 2,940 approved NISRA publication records, found ${nisraPublications}.`);
+  assert(openDataNiPortal === 902, `Expected 902 approved Open Data NI portal records, found ${openDataNiPortal}.`);
   const expectedTotal = 6679 + censusCso + censusNisra + censusCsoNiCarveout + localAuthoritySources
     + localAuthoritySourcesHeld + transportPublicAssets + sourceDownloadRecords + openDataSourceRecords + variantSourceRecords
-    + censusHistoricalReports + csoPxstatBacklog + openDataIePortal + nisraPublications;
+    + censusHistoricalReports + csoPxstatBacklog + openDataIePortal + nisraPublications + openDataNiPortal;
   assert(approvedSources.counts?.total === expectedTotal, `Expected ${expectedTotal} approved source records, found ${approvedSources.counts?.total}.`);
   assert(Array.isArray(approvedSources.sources) && approvedSources.sources.length === expectedTotal, `Expected ${expectedTotal} approved source records in sources array, found ${approvedSources.sources?.length}.`);
   assert(approvedSources.counts?.remainingApproved?.publish === 26, `Expected 26 approved remaining publish records, found ${approvedSources.counts?.remainingApproved?.publish}.`);
