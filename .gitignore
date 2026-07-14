@@ -200,6 +200,10 @@ data/downloads/
 # `node scripts/build-statistical-staging.mjs`.
 data/census/statistical-staging/
 
+# Intermediate catalogue harvest/emit outputs (regenerable via the harvest +
+# emit scripts; only the merged gate is tracked). e.g. Open Data NI / data.gov.ie.
+data/census/candidates/
+
 # Raster georef pipeline outputs (uploaded to R2/IA separately, not tracked)
 data/maps/raster/_cache/
 data/maps/raster/*.png
