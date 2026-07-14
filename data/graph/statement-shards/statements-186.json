@@ -1,9 +1,193 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-14T12:09:19.645Z",
+  "generatedAt": "2026-07-14T15:54:04.635Z",
   "shard": 186,
   "total": 2500,
   "items": [
+    {
+      "id": "cg:statement:3b06d6e7f31a9ac47819",
+      "subjectId": "cg:map-layer:tellus-flight-tracks",
+      "propertyId": "cg:property:source-file",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:fgb-0a3a59d337db"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "fgb"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.civgraph.net/data/maps/geology/tellus-flight-tracks.fgb"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:dd01a96c8fa0c10e2100",
+      "subjectId": "cg:map-layer:tellus-mag-raw",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:tellus-magnetics-raw-zip-952-mb-06a2857aac18"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "ZIP"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "http://resources.bgs.ac.uk/gsni/geophysics/Magnetics.zip"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:5a0eb348bc4524811be8",
+      "subjectId": "cg:map-layer:tellus-mag-raw",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:map-layer"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:1dff95d7b678a736b8ec",
+      "subjectId": "cg:map-layer:tellus-mag-raw",
+      "propertyId": "cg:property:interactive-url",
+      "value": {
+        "type": "url",
+        "value": "/#layers=tellus-mag-raw"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:0f020a190c48c29487b2",
+      "subjectId": "cg:map-layer:tellus-mag-raw",
+      "propertyId": "cg:property:map-category",
+      "value": {
+        "type": "entity",
+        "id": "cg:map-category:geology-and-geophysics"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:b57b5a71bf2d260cea27",
+      "subjectId": "cg:map-layer:tellus-mag-raw",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Tellus Magnetic — raw airborne flight-line data"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:49a7bb435532ea84033f",
+      "subjectId": "cg:map-layer:tellus-mag-raw",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:tellus"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:71a5705537e151b731f0",
+      "subjectId": "cg:map-layer:tellus-mag-raw",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:gsni"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:c1a20c11eea407e9be9d",
+      "subjectId": "cg:map-layer:tellus-mag-raw",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:bgs"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:04f34af083a4286e26de",
+      "subjectId": "cg:map-layer:tellus-mag-raw",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:osni-open-data-tellus-magnetics-raw-b14212bc55b3"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://admin.opendatani.gov.uk/dataset/gsni-tellus-regional-airborne-geophysical-survey-magnetics"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "map-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:a0c8fc7454ecdb724683",
+      "subjectId": "cg:map-layer:tellus-mag-rtp",
+      "propertyId": "cg:property:download",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:esri-file-geodatabase-zip-601-mb-056834d4abc5"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "ZIP"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://opendatani.blob.core.windows.net/gsnigeospatial/Tellus_Magnetics_ESRIGRID.zip"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:8a531d18e82e22b51ab6",
+      "subjectId": "cg:map-layer:tellus-mag-rtp",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:map-layer"
+      },
+      "rank": "normal"
+    },
     {
       "id": "cg:statement:c24604a6d77c7912afd1",
       "subjectId": "cg:map-layer:tellus-mag-rtp",
@@ -87671,228 +87855,6 @@
         "type": "string",
         "value": "Independent Unionist Housewife"
       },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:1cb657a7602390ac06ee",
-      "subjectId": "cg:party:independent-unity",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:political-party"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:edc345cdff07f486bf35",
-      "subjectId": "cg:party:independent-unity",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Independent Unity"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:7f5242e0d5e9d8c36fa0",
-      "subjectId": "cg:party:independent-unsure",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:political-party"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:18644417151d72285804",
-      "subjectId": "cg:party:independent-unsure",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Independent (##unsure##)"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:a0c367455c4febf87e15",
-      "subjectId": "cg:party:independent-vintner",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:political-party"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:a4af68a2121b36edd4a9",
-      "subjectId": "cg:party:independent-vintner",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Independent Vintner"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:1f40a5af2621a6ff23f6",
-      "subjectId": "cg:party:independent-w-p",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:political-party"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:6ded80c43a67259f7d60",
-      "subjectId": "cg:party:independent-w-p",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Independent W.P."
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:d6023e51146060ffe854",
-      "subjectId": "cg:party:independent-workers-representative",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:political-party"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:5469f93588b56ac9240f",
-      "subjectId": "cg:party:independent-workers-representative",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Independent Workers Representative"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:1f2639c0a427aba54412",
-      "subjectId": "cg:party:independents-4-change",
-      "propertyId": "cg:property:appeared-in-election",
-      "value": {
-        "type": "entity",
-        "id": "cg:election:dail-eireann-2024-11-29-overall"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "2024-11-29"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected-body",
-          "value": {
-            "type": "entity",
-            "id": "cg:body:dail-eireann"
-          }
-        },
-        {
-          "propertyId": "cg:property:stood",
-          "value": {
-            "type": "number",
-            "value": 3
-          }
-        },
-        {
-          "propertyId": "cg:property:seats",
-          "value": {
-            "type": "number",
-            "value": 0
-          }
-        },
-        {
-          "propertyId": "cg:property:votes",
-          "value": {
-            "type": "number",
-            "value": 5166
-          }
-        },
-        {
-          "propertyId": "cg:property:vote-share",
-          "value": {
-            "type": "number",
-            "value": 0.2345566511521472
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-election-index",
-          "sourceTitle": "Civgraph Browse election index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:1f70f57177f9598b6aee",
-      "subjectId": "cg:party:independents-4-change",
-      "propertyId": "cg:property:appeared-in-election",
-      "value": {
-        "type": "entity",
-        "id": "cg:election:dail-eireann-2016-02-26"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:date",
-          "value": {
-            "type": "date",
-            "value": "2016-02-26"
-          }
-        },
-        {
-          "propertyId": "cg:property:elected-body",
-          "value": {
-            "type": "entity",
-            "id": "cg:body:dail-eireann"
-          }
-        },
-        {
-          "propertyId": "cg:property:stood",
-          "value": {
-            "type": "number",
-            "value": 5
-          }
-        },
-        {
-          "propertyId": "cg:property:seats",
-          "value": {
-            "type": "number",
-            "value": 4
-          }
-        },
-        {
-          "propertyId": "cg:property:votes",
-          "value": {
-            "type": "number",
-            "value": 31365
-          }
-        },
-        {
-          "propertyId": "cg:property:vote-share",
-          "value": {
-            "type": "number",
-            "value": 1.4705365243014776
-          }
-        }
-      ],
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-election-index",
-          "sourceTitle": "Civgraph Browse election index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
       "rank": "normal"
     }
   ]

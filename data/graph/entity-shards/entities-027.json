@@ -1,9 +1,41 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-14T12:09:19.645Z",
+  "generatedAt": "2026-07-14T15:54:04.635Z",
   "shard": 27,
   "total": 5000,
   "items": [
+    {
+      "id": "cg:source-file:en-bb238c299174",
+      "label": "en",
+      "description": "en for HCA14 - Tenements of One Room, Area, Houses Inhabited and Population in 1911",
+      "kind": "entity",
+      "sourceUrl": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/HCA14/CSV/1.0/en",
+      "attributes": {
+        "url": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/HCA14/CSV/1.0/en",
+        "format": "CSV",
+        "relationship": "source-download",
+        "parentLabel": "HCA14 - Tenements of One Room, Area, Houses Inhabited and Population in 1911"
+      },
+      "typeIds": [
+        "cg:entity-type:source-file"
+      ]
+    },
+    {
+      "id": "cg:source-file:en-bb28c5a7d0a1",
+      "label": "en",
+      "description": "en for SIA30 - Profile of the Population at Risk of Poverty, Experiencing Deprivation and in Consistent Poverty",
+      "kind": "entity",
+      "sourceUrl": "https://data.gov.ie/dataset/sia30-of-the-population-at-risk-of-poverty-experiencing-deprivation-and-in-consistent-poverty-d588",
+      "attributes": {
+        "url": "https://data.gov.ie/dataset/sia30-of-the-population-at-risk-of-poverty-experiencing-deprivation-and-in-consistent-poverty-d588",
+        "format": "file",
+        "relationship": "source-download",
+        "parentLabel": "SIA30 - Profile of the Population at Risk of Poverty, Experiencing Deprivation and in Consistent Poverty"
+      },
+      "typeIds": [
+        "cg:entity-type:source-file"
+      ]
+    },
     {
       "id": "cg:source-file:en-bb2d149f083c",
       "label": "en",
@@ -69796,6 +69828,22 @@
       ]
     },
     {
+      "id": "cg:source-file:nimdm-2017-sa-csv-2fa3269a0297",
+      "label": "nimdm-2017-sa.csv",
+      "description": "nimdm-2017-sa.csv for Multiple Deprivation Measure decile (NIMDM 2017, by Small Area)",
+      "kind": "entity",
+      "sourceUrl": "data/census/derived/nimdm-2017-sa.csv",
+      "attributes": {
+        "url": "data/census/derived/nimdm-2017-sa.csv",
+        "format": "CSV",
+        "relationship": "map-source-file",
+        "parentLabel": "Multiple Deprivation Measure decile (NIMDM 2017, by Small Area)"
+      },
+      "typeIds": [
+        "cg:entity-type:source-file"
+      ]
+    },
+    {
       "id": "cg:source-file:nitrate-7bdcd88ab6a4",
       "label": "Nitrate",
       "description": "Nitrate for River Water Quality Monitoring 1990–2018 (14 chemistry parameters) source files",
@@ -79841,54 +79889,6 @@
         "format": "pdf",
         "relationship": "source-download",
         "parentLabel": "C 1979 VOL 2 T5a — 05A. Number of males in each age group per 10,000 males in each Province, County and County Borough."
-      },
-      "typeIds": [
-        "cg:entity-type:source-file"
-      ]
-    },
-    {
-      "id": "cg:source-file:pdf-internet-archive-mirror-30eca701f156",
-      "label": "PDF (Internet Archive mirror)",
-      "description": "PDF (Internet Archive mirror) for 457 Area, houses, and population, Ulster, Ireland, 1911 Belfast City — Census 1911 Original Reports: Area, houses, and population - Belfast City",
-      "kind": "entity",
-      "sourceUrl": "https://archive.org/download/civgraph-cso-historical-reports/457_Area,_houses,_and_population,_Ulster,_Ireland,_1911_Belfast_City-97bcc827fe.pdf",
-      "attributes": {
-        "url": "https://archive.org/download/civgraph-cso-historical-reports/457_Area,_houses,_and_population,_Ulster,_Ireland,_1911_Belfast_City-97bcc827fe.pdf",
-        "format": "pdf",
-        "relationship": "source-download",
-        "parentLabel": "457 Area, houses, and population, Ulster, Ireland, 1911 Belfast City — Census 1911 Original Reports: Area, houses, and population - Belfast City"
-      },
-      "typeIds": [
-        "cg:entity-type:source-file"
-      ]
-    },
-    {
-      "id": "cg:source-file:pdf-internet-archive-mirror-313eb180474a",
-      "label": "PDF (Internet Archive mirror)",
-      "description": "PDF (Internet Archive mirror) for C 1981 V10 T17ab — 17. Males and females in the labour force classified by highest type of educational establishment attended full-time and age at which full-time education ceased with those at work classified by industrial groups",
-      "kind": "entity",
-      "sourceUrl": "https://archive.org/download/civgraph-cso-historical-reports/C_1981_V10_T17ab-a0d2067a86.pdf",
-      "attributes": {
-        "url": "https://archive.org/download/civgraph-cso-historical-reports/C_1981_V10_T17ab-a0d2067a86.pdf",
-        "format": "pdf",
-        "relationship": "source-download",
-        "parentLabel": "C 1981 V10 T17ab — 17. Males and females in the labour force classified by highest type of educational establishment attended full-time and age at which full-time education ceased with those at work classified by industrial groups"
-      },
-      "typeIds": [
-        "cg:entity-type:source-file"
-      ]
-    },
-    {
-      "id": "cg:source-file:pdf-internet-archive-mirror-3157893deff8",
-      "label": "PDF (Internet Archive mirror)",
-      "description": "PDF (Internet Archive mirror) for C1991 V2 T12 ab — 12. Separated males and females in each age group as a percentage of the total males/females in that age group in each Province, County and County Borough distinguishing separately Aggregate Town and Rural Areas",
-      "kind": "entity",
-      "sourceUrl": "https://archive.org/download/civgraph-cso-historical-reports/C1991__V2__T12_ab-5bc11d98d8.pdf",
-      "attributes": {
-        "url": "https://archive.org/download/civgraph-cso-historical-reports/C1991__V2__T12_ab-5bc11d98d8.pdf",
-        "format": "pdf",
-        "relationship": "source-download",
-        "parentLabel": "C1991 V2 T12 ab — 12. Separated males and females in each age group as a percentage of the total males/females in that age group in each Province, County and County Borough distinguishing separately Aggregate Town and Rural Areas"
       },
       "typeIds": [
         "cg:entity-type:source-file"
