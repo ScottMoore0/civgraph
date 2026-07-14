@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-14T02:37:27.025Z",
+  "generatedAt": "2026-07-14T12:08:35.080Z",
   "kind": "sources",
   "shard": "sources-185.json",
   "total": 200,
@@ -13001,6 +13001,914 @@
       }
     },
     {
+      "id": "map-source:tailte-hvd-building-groups",
+      "slug": "map-source-tailte-hvd-building-groups",
+      "type": "map-source",
+      "title": "Building Groups (Tailte Éireann HVD) source files",
+      "subtitle": "Built Environment / Tailte Éireann",
+      "category": "Map sources",
+      "provider": [
+        "Tailte Éireann"
+      ],
+      "description": "Building Groups — Tailte Éireann / Ordnance Survey Ireland High Value Dataset (838 features). Building Group is a terrace of Buildings that share a Distinctive Name A Building Group object links together Buildings that belong to a named terrace. The Buildings must be physically connected such that one BuildingGroup's polygon geometry equals the union of two or more contig",
+      "sourceMapId": "tailte-hvd-building-groups",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "BG",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Building Groups — Tailte Éireann HVD (data.gov.ie)",
+          "url": "https://data.gov.ie/dataset/high-value-dataset-building-groups1",
+          "note": "Creative Commons Attribution 4.0"
+        },
+        {
+          "label": "Building Groups — GeoJSON download",
+          "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/fd28ab739a6f4e00bffbf1d6bb468f31/geojson?layers=1"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "label",
+          "url": "GeoJSON"
+        },
+        {
+          "label": "file",
+          "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/fd28ab739a6f4e00bffbf1d6bb468f31/geojson?layers=1"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_building_groups.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=tailte-hvd-building-groups",
+      "browseUrl": "/browse/sources/map-source-tailte-hvd-building-groups",
+      "rawMetadata": {
+        "id": "tailte-hvd-building-groups",
+        "name": "Building Groups (Tailte Éireann HVD)",
+        "slug": "tailte-hvd-building-groups",
+        "category": "built-environment",
+        "provider": [
+          "Tailte Éireann"
+        ],
+        "description": "Building Groups — Tailte Éireann / Ordnance Survey Ireland High Value Dataset (838 features). Building Group is a terrace of Buildings that share a Distinctive Name A Building Group object links together Buildings that belong to a named terrace. The Buildings must be physically connected such that one BuildingGroup's polygon geometry equals the union of two or more contig",
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_building_groups.fgb"
+        },
+        "style": {
+          "color": "#6A4C93",
+          "weight": 1,
+          "fillOpacity": 0.08
+        },
+        "keywords": [
+          "tailte éireann",
+          "osi",
+          "high value dataset",
+          "hvd",
+          "ireland",
+          "building",
+          "groups"
+        ],
+        "useLOD": true,
+        "references": [
+          {
+            "label": "Building Groups — Tailte Éireann HVD (data.gov.ie)",
+            "url": "https://data.gov.ie/dataset/high-value-dataset-building-groups1",
+            "note": "Creative Commons Attribution 4.0"
+          },
+          {
+            "label": "Building Groups — GeoJSON download",
+            "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/fd28ab739a6f4e00bffbf1d6bb468f31/geojson?layers=1",
+            "note": ""
+          }
+        ],
+        "sourceDownloads": [
+          {
+            "label": "GeoJSON",
+            "file": "https://data-osi.opendata.arcgis.com/api/download/v1/items/fd28ab739a6f4e00bffbf1d6bb468f31/geojson?layers=1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-source:tailte-hvd-cadastral-parcels-leasehold",
+      "slug": "map-source-tailte-hvd-cadastral-parcels-leasehold",
+      "type": "map-source",
+      "title": "Cadastral Parcels Leasehold (Tailte Éireann HVD) source files",
+      "subtitle": "Government Land and Property Register / Tailte Éireann",
+      "category": "Map sources",
+      "provider": [
+        "Tailte Éireann"
+      ],
+      "description": "Cadastral Parcels Leasehold — Tailte Éireann / Ordnance Survey Ireland High Value Dataset (131,073 features). Leasehold Land Ownership Boundaries Leasehold Land Ownership Boundaries - The dataset contains the boundaries of each individual leasehold title to land. A Leasehold is the interest created by a lease. Currently only leases for more than 21 years can be registered.",
+      "sourceMapId": "tailte-hvd-cadastral-parcels-leasehold",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "CP",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Cadastral Parcels Leasehold — Tailte Éireann HVD (data.gov.ie)",
+          "url": "https://data.gov.ie/dataset/high-value-dataset-cadastral-parcels-leasehold1",
+          "note": "Creative Commons Attribution 4.0"
+        },
+        {
+          "label": "Cadastral Parcels Leasehold — GeoJSON download",
+          "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/9811f102cba04a01b0873d7e3bc98e70/geojson?layers=13"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "label",
+          "url": "GeoJSON"
+        },
+        {
+          "label": "file",
+          "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/9811f102cba04a01b0873d7e3bc98e70/geojson?layers=13"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_cadastral_parcels_leasehold.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=tailte-hvd-cadastral-parcels-leasehold",
+      "browseUrl": "/browse/sources/map-source-tailte-hvd-cadastral-parcels-leasehold",
+      "rawMetadata": {
+        "id": "tailte-hvd-cadastral-parcels-leasehold",
+        "name": "Cadastral Parcels Leasehold (Tailte Éireann HVD)",
+        "slug": "tailte-hvd-cadastral-parcels-leasehold",
+        "category": "land-property",
+        "provider": [
+          "Tailte Éireann"
+        ],
+        "description": "Cadastral Parcels Leasehold — Tailte Éireann / Ordnance Survey Ireland High Value Dataset (131,073 features). Leasehold Land Ownership Boundaries Leasehold Land Ownership Boundaries - The dataset contains the boundaries of each individual leasehold title to land. A Leasehold is the interest created by a lease. Currently only leases for more than 21 years can be registered.",
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_cadastral_parcels_leasehold.fgb"
+        },
+        "style": {
+          "color": "#7B4B94",
+          "weight": 2
+        },
+        "keywords": [
+          "tailte éireann",
+          "osi",
+          "high value dataset",
+          "hvd",
+          "ireland",
+          "cadastral",
+          "parcels",
+          "leasehold"
+        ],
+        "labelProperty": "COUNTY_NAM",
+        "useLOD": true,
+        "references": [
+          {
+            "label": "Cadastral Parcels Leasehold — Tailte Éireann HVD (data.gov.ie)",
+            "url": "https://data.gov.ie/dataset/high-value-dataset-cadastral-parcels-leasehold1",
+            "note": "Creative Commons Attribution 4.0"
+          },
+          {
+            "label": "Cadastral Parcels Leasehold — GeoJSON download",
+            "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/9811f102cba04a01b0873d7e3bc98e70/geojson?layers=13",
+            "note": ""
+          }
+        ],
+        "sourceDownloads": [
+          {
+            "label": "GeoJSON",
+            "file": "https://data-osi.opendata.arcgis.com/api/download/v1/items/9811f102cba04a01b0873d7e3bc98e70/geojson?layers=13"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-source:tailte-hvd-locales",
+      "slug": "map-source-tailte-hvd-locales",
+      "type": "map-source",
+      "title": "Locales (Tailte Éireann HVD) source files",
+      "subtitle": "Built Environment / Tailte Éireann",
+      "category": "Map sources",
+      "provider": [
+        "Tailte Éireann"
+      ],
+      "description": "Locales — Tailte Éireann / Ordnance Survey Ireland High Value Dataset (51,195 features). Locales are polygon objects with fuzzy boundaries where the geographic entity is undefined or subject to interpretation Locales, permit the use of virtual extents. Many Locale objects cover areas that do not have a defined outline, such as named bays, mountain ranges and district",
+      "sourceMapId": "tailte-hvd-locales",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "L(",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Locales — Tailte Éireann HVD (data.gov.ie)",
+          "url": "https://data.gov.ie/dataset/high-value-dataset-locales1",
+          "note": "Creative Commons Attribution 4.0"
+        },
+        {
+          "label": "Locales — GeoJSON download",
+          "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/623241dd5acd4502b58972ef634fa324/geojson?layers=2"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "label",
+          "url": "GeoJSON"
+        },
+        {
+          "label": "file",
+          "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/623241dd5acd4502b58972ef634fa324/geojson?layers=2"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_locales.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=tailte-hvd-locales",
+      "browseUrl": "/browse/sources/map-source-tailte-hvd-locales",
+      "rawMetadata": {
+        "id": "tailte-hvd-locales",
+        "name": "Locales (Tailte Éireann HVD)",
+        "slug": "tailte-hvd-locales",
+        "category": "built-environment",
+        "provider": [
+          "Tailte Éireann"
+        ],
+        "description": "Locales — Tailte Éireann / Ordnance Survey Ireland High Value Dataset (51,195 features). Locales are polygon objects with fuzzy boundaries where the geographic entity is undefined or subject to interpretation Locales, permit the use of virtual extents. Many Locale objects cover areas that do not have a defined outline, such as named bays, mountain ranges and district",
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_locales.fgb"
+        },
+        "style": {
+          "color": "#6A4C93",
+          "weight": 2
+        },
+        "keywords": [
+          "tailte éireann",
+          "osi",
+          "high value dataset",
+          "hvd",
+          "ireland",
+          "locales"
+        ],
+        "useLOD": true,
+        "references": [
+          {
+            "label": "Locales — Tailte Éireann HVD (data.gov.ie)",
+            "url": "https://data.gov.ie/dataset/high-value-dataset-locales1",
+            "note": "Creative Commons Attribution 4.0"
+          },
+          {
+            "label": "Locales — GeoJSON download",
+            "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/623241dd5acd4502b58972ef634fa324/geojson?layers=2",
+            "note": ""
+          }
+        ],
+        "sourceDownloads": [
+          {
+            "label": "GeoJSON",
+            "file": "https://data-osi.opendata.arcgis.com/api/download/v1/items/623241dd5acd4502b58972ef634fa324/geojson?layers=2"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-source:tailte-hvd-rail-network-segment",
+      "slug": "map-source-tailte-hvd-rail-network-segment",
+      "type": "map-source",
+      "title": "Rail Network Segment (Tailte Éireann HVD) source files",
+      "subtitle": "Transport / Tailte Éireann",
+      "category": "Map sources",
+      "provider": [
+        "Tailte Éireann"
+      ],
+      "description": "Rail Network Segment — Tailte Éireann / Ordnance Survey Ireland High Value Dataset (8,430 features). RailNetworkSegments, have both a GDF1 and GDF2 representation. A GDF1 is required for all railways. GDF2 is required for Standard (mainline) railways only. RailNetworkSegments, have both a GDF1 and GDF2 representation. A GDF1 is required for all railways. GDF2 is required for Sta",
+      "sourceMapId": "tailte-hvd-rail-network-segment",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "RN",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Rail Network Segment — Tailte Éireann HVD (data.gov.ie)",
+          "url": "https://data.gov.ie/dataset/high-value-dataset-rail-network-segment1",
+          "note": "Creative Commons Attribution 4.0"
+        },
+        {
+          "label": "Rail Network Segment — GeoJSON download",
+          "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/8c534da1a45c4cabbab810e27f9234c1/geojson?layers=3"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "label",
+          "url": "GeoJSON"
+        },
+        {
+          "label": "file",
+          "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/8c534da1a45c4cabbab810e27f9234c1/geojson?layers=3"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_rail_network_segment.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=tailte-hvd-rail-network-segment",
+      "browseUrl": "/browse/sources/map-source-tailte-hvd-rail-network-segment",
+      "rawMetadata": {
+        "id": "tailte-hvd-rail-network-segment",
+        "name": "Rail Network Segment (Tailte Éireann HVD)",
+        "slug": "tailte-hvd-rail-network-segment",
+        "category": "transport",
+        "provider": [
+          "Tailte Éireann"
+        ],
+        "description": "Rail Network Segment — Tailte Éireann / Ordnance Survey Ireland High Value Dataset (8,430 features). RailNetworkSegments, have both a GDF1 and GDF2 representation. A GDF1 is required for all railways. GDF2 is required for Standard (mainline) railways only. RailNetworkSegments, have both a GDF1 and GDF2 representation. A GDF1 is required for all railways. GDF2 is required for Sta",
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_rail_network_segment.fgb"
+        },
+        "style": {
+          "color": "#C1440E",
+          "weight": 2
+        },
+        "keywords": [
+          "tailte éireann",
+          "osi",
+          "high value dataset",
+          "hvd",
+          "ireland",
+          "rail",
+          "network",
+          "segment"
+        ],
+        "useLOD": true,
+        "references": [
+          {
+            "label": "Rail Network Segment — Tailte Éireann HVD (data.gov.ie)",
+            "url": "https://data.gov.ie/dataset/high-value-dataset-rail-network-segment1",
+            "note": "Creative Commons Attribution 4.0"
+          },
+          {
+            "label": "Rail Network Segment — GeoJSON download",
+            "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/8c534da1a45c4cabbab810e27f9234c1/geojson?layers=3",
+            "note": ""
+          }
+        ],
+        "sourceDownloads": [
+          {
+            "label": "GeoJSON",
+            "file": "https://data-osi.opendata.arcgis.com/api/download/v1/items/8c534da1a45c4cabbab810e27f9234c1/geojson?layers=3"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-source:tailte-hvd-rail-points",
+      "slug": "map-source-tailte-hvd-rail-points",
+      "type": "map-source",
+      "title": "Rail Points (Tailte Éireann HVD) source files",
+      "subtitle": "Transport / Tailte Éireann",
+      "category": "Map sources",
+      "provider": [
+        "Tailte Éireann"
+      ],
+      "description": "Rail Points — Tailte Éireann / Ordnance Survey Ireland High Value Dataset (8,261 features). A Rail Point is a point that indicates either an end point of a railway line, or a point at which there is a transition or junction between railway lines. A Rail Point is a point that indicates either an end point of a railway line, or a point at which there is a transition or ju",
+      "sourceMapId": "tailte-hvd-rail-points",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "RP",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Rail Points — Tailte Éireann HVD (data.gov.ie)",
+          "url": "https://data.gov.ie/dataset/high-value-dataset-rail-points1",
+          "note": "Creative Commons Attribution 4.0"
+        },
+        {
+          "label": "Rail Points — GeoJSON download",
+          "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/e16afbdce7b14e8b99a417997119261b/geojson?layers=4"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "label",
+          "url": "GeoJSON"
+        },
+        {
+          "label": "file",
+          "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/e16afbdce7b14e8b99a417997119261b/geojson?layers=4"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_rail_points.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=tailte-hvd-rail-points",
+      "browseUrl": "/browse/sources/map-source-tailte-hvd-rail-points",
+      "rawMetadata": {
+        "id": "tailte-hvd-rail-points",
+        "name": "Rail Points (Tailte Éireann HVD)",
+        "slug": "tailte-hvd-rail-points",
+        "category": "transport",
+        "provider": [
+          "Tailte Éireann"
+        ],
+        "description": "Rail Points — Tailte Éireann / Ordnance Survey Ireland High Value Dataset (8,261 features). A Rail Point is a point that indicates either an end point of a railway line, or a point at which there is a transition or junction between railway lines. A Rail Point is a point that indicates either an end point of a railway line, or a point at which there is a transition or ju",
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_rail_points.fgb"
+        },
+        "style": {
+          "color": "#C1440E",
+          "radius": 3,
+          "weight": 2
+        },
+        "keywords": [
+          "tailte éireann",
+          "osi",
+          "high value dataset",
+          "hvd",
+          "ireland",
+          "rail",
+          "points"
+        ],
+        "useLOD": true,
+        "references": [
+          {
+            "label": "Rail Points — Tailte Éireann HVD (data.gov.ie)",
+            "url": "https://data.gov.ie/dataset/high-value-dataset-rail-points1",
+            "note": "Creative Commons Attribution 4.0"
+          },
+          {
+            "label": "Rail Points — GeoJSON download",
+            "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/e16afbdce7b14e8b99a417997119261b/geojson?layers=4",
+            "note": ""
+          }
+        ],
+        "sourceDownloads": [
+          {
+            "label": "GeoJSON",
+            "file": "https://data-osi.opendata.arcgis.com/api/download/v1/items/e16afbdce7b14e8b99a417997119261b/geojson?layers=4"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-source:tailte-hvd-sites",
+      "slug": "map-source-tailte-hvd-sites",
+      "type": "map-source",
+      "title": "Sites (Tailte Éireann HVD) source files",
+      "subtitle": "Built Environment / Tailte Éireann",
+      "category": "Map sources",
+      "provider": [
+        "Tailte Éireann"
+      ],
+      "description": "Sites — Tailte Éireann / Ordnance Survey Ireland High Value Dataset (360 features). A Site is a large contiguous area encompassing multiple objects that are related in some way. A Site is a large contiguous area encompassing multiple objects that are related in some way. A Site may cover one geographic area only.",
+      "sourceMapId": "tailte-hvd-sites",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "S(",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Sites — Tailte Éireann HVD (data.gov.ie)",
+          "url": "https://data.gov.ie/dataset/high-value-dataset-sites1",
+          "note": "Creative Commons Attribution 4.0"
+        },
+        {
+          "label": "Sites — GeoJSON download",
+          "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/f477136c339d4c29beba594f50f64434/geojson?layers=5"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "label",
+          "url": "GeoJSON"
+        },
+        {
+          "label": "file",
+          "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/f477136c339d4c29beba594f50f64434/geojson?layers=5"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_sites.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=tailte-hvd-sites",
+      "browseUrl": "/browse/sources/map-source-tailte-hvd-sites",
+      "rawMetadata": {
+        "id": "tailte-hvd-sites",
+        "name": "Sites (Tailte Éireann HVD)",
+        "slug": "tailte-hvd-sites",
+        "category": "built-environment",
+        "provider": [
+          "Tailte Éireann"
+        ],
+        "description": "Sites — Tailte Éireann / Ordnance Survey Ireland High Value Dataset (360 features). A Site is a large contiguous area encompassing multiple objects that are related in some way. A Site is a large contiguous area encompassing multiple objects that are related in some way. A Site may cover one geographic area only.",
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_sites.fgb"
+        },
+        "style": {
+          "color": "#6A4C93",
+          "weight": 1,
+          "fillOpacity": 0.08
+        },
+        "keywords": [
+          "tailte éireann",
+          "osi",
+          "high value dataset",
+          "hvd",
+          "ireland",
+          "sites"
+        ],
+        "labelProperty": "ENG_NAME_VALUE",
+        "useLOD": true,
+        "references": [
+          {
+            "label": "Sites — Tailte Éireann HVD (data.gov.ie)",
+            "url": "https://data.gov.ie/dataset/high-value-dataset-sites1",
+            "note": "Creative Commons Attribution 4.0"
+          },
+          {
+            "label": "Sites — GeoJSON download",
+            "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/f477136c339d4c29beba594f50f64434/geojson?layers=5",
+            "note": ""
+          }
+        ],
+        "sourceDownloads": [
+          {
+            "label": "GeoJSON",
+            "file": "https://data-osi.opendata.arcgis.com/api/download/v1/items/f477136c339d4c29beba594f50f64434/geojson?layers=5"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-source:tailte-hvd-water-points",
+      "slug": "map-source-tailte-hvd-water-points",
+      "type": "map-source",
+      "title": "water points (Tailte Éireann HVD) source files",
+      "subtitle": "Physical Geography / Tailte Éireann",
+      "category": "Map sources",
+      "provider": [
+        "Tailte Éireann"
+      ],
+      "description": "water points — Tailte Éireann / Ordnance Survey Ireland High Value Dataset (663,676 features). Water points describe all points along a network segment currently captured by Tailte Éireann. A Water Point is a point that marks either a source point or an end point (either at a sink point or where the Water object enters the sea) of a Water Network Segment, a point along the",
+      "sourceMapId": "tailte-hvd-water-points",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "WP",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "water points — Tailte Éireann HVD (data.gov.ie)",
+          "url": "https://data.gov.ie/dataset/high-value-dataset-water-points1",
+          "note": "Creative Commons Attribution 4.0"
+        },
+        {
+          "label": "water points — GeoJSON download",
+          "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/6f863f6e4bdc4b65850c3976688fd0eb/geojson?layers=7"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "label",
+          "url": "GeoJSON"
+        },
+        {
+          "label": "file",
+          "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/6f863f6e4bdc4b65850c3976688fd0eb/geojson?layers=7"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_water_points.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=tailte-hvd-water-points",
+      "browseUrl": "/browse/sources/map-source-tailte-hvd-water-points",
+      "rawMetadata": {
+        "id": "tailte-hvd-water-points",
+        "name": "water points (Tailte Éireann HVD)",
+        "slug": "tailte-hvd-water-points",
+        "category": "physical-geography",
+        "provider": [
+          "Tailte Éireann"
+        ],
+        "description": "water points — Tailte Éireann / Ordnance Survey Ireland High Value Dataset (663,676 features). Water points describe all points along a network segment currently captured by Tailte Éireann. A Water Point is a point that marks either a source point or an end point (either at a sink point or where the Water object enters the sea) of a Water Network Segment, a point along the",
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_water_points.fgb"
+        },
+        "style": {
+          "color": "#2E86AB",
+          "radius": 3,
+          "weight": 2
+        },
+        "keywords": [
+          "tailte éireann",
+          "osi",
+          "high value dataset",
+          "hvd",
+          "ireland",
+          "water",
+          "points"
+        ],
+        "useLOD": true,
+        "references": [
+          {
+            "label": "water points — Tailte Éireann HVD (data.gov.ie)",
+            "url": "https://data.gov.ie/dataset/high-value-dataset-water-points1",
+            "note": "Creative Commons Attribution 4.0"
+          },
+          {
+            "label": "water points — GeoJSON download",
+            "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/6f863f6e4bdc4b65850c3976688fd0eb/geojson?layers=7",
+            "note": ""
+          }
+        ],
+        "sourceDownloads": [
+          {
+            "label": "GeoJSON",
+            "file": "https://data-osi.opendata.arcgis.com/api/download/v1/items/6f863f6e4bdc4b65850c3976688fd0eb/geojson?layers=7"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-source:tailte-hvd-water-single-stream",
+      "slug": "map-source-tailte-hvd-water-single-stream",
+      "type": "map-source",
+      "title": "Water Single Stream (Tailte Éireann HVD) source files",
+      "subtitle": "Physical Geography / Tailte Éireann",
+      "category": "Map sources",
+      "provider": [
+        "Tailte Éireann"
+      ],
+      "description": "Water Single Stream — Tailte Éireann / Ordnance Survey Ireland High Value Dataset (372,225 features). Water lines describe all water bodies currently captured by Tailte Éireann less than 2m wide. Water Single Stream Line is used to represent a stream that is less than 2m wide. It is polyline geometry.",
+      "sourceMapId": "tailte-hvd-water-single-stream",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "WS",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Water Single Stream — Tailte Éireann HVD (data.gov.ie)",
+          "url": "https://data.gov.ie/dataset/high-value-dataset-water-single-stream1",
+          "note": "Creative Commons Attribution 4.0"
+        },
+        {
+          "label": "Water Single Stream — GeoJSON download",
+          "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/7f141e643559438182ccccbbf32634cb/geojson?layers=8"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "label",
+          "url": "GeoJSON"
+        },
+        {
+          "label": "file",
+          "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/7f141e643559438182ccccbbf32634cb/geojson?layers=8"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_water_single_stream.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=tailte-hvd-water-single-stream",
+      "browseUrl": "/browse/sources/map-source-tailte-hvd-water-single-stream",
+      "rawMetadata": {
+        "id": "tailte-hvd-water-single-stream",
+        "name": "Water Single Stream (Tailte Éireann HVD)",
+        "slug": "tailte-hvd-water-single-stream",
+        "category": "physical-geography",
+        "provider": [
+          "Tailte Éireann"
+        ],
+        "description": "Water Single Stream — Tailte Éireann / Ordnance Survey Ireland High Value Dataset (372,225 features). Water lines describe all water bodies currently captured by Tailte Éireann less than 2m wide. Water Single Stream Line is used to represent a stream that is less than 2m wide. It is polyline geometry.",
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_water_single_stream.fgb"
+        },
+        "style": {
+          "color": "#2E86AB",
+          "weight": 2
+        },
+        "keywords": [
+          "tailte éireann",
+          "osi",
+          "high value dataset",
+          "hvd",
+          "ireland",
+          "water",
+          "single",
+          "stream"
+        ],
+        "useLOD": true,
+        "references": [
+          {
+            "label": "Water Single Stream — Tailte Éireann HVD (data.gov.ie)",
+            "url": "https://data.gov.ie/dataset/high-value-dataset-water-single-stream1",
+            "note": "Creative Commons Attribution 4.0"
+          },
+          {
+            "label": "Water Single Stream — GeoJSON download",
+            "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/7f141e643559438182ccccbbf32634cb/geojson?layers=8",
+            "note": ""
+          }
+        ],
+        "sourceDownloads": [
+          {
+            "label": "GeoJSON",
+            "file": "https://data-osi.opendata.arcgis.com/api/download/v1/items/7f141e643559438182ccccbbf32634cb/geojson?layers=8"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-source:tailte-hvd-way-gdf2",
+      "slug": "map-source-tailte-hvd-way-gdf2",
+      "type": "map-source",
+      "title": "Way GDF2 (Tailte Éireann HVD) source files",
+      "subtitle": "Transport / Tailte Éireann",
+      "category": "Map sources",
+      "provider": [
+        "Tailte Éireann"
+      ],
+      "description": "Way GDF2 — Tailte Éireann / Ordnance Survey Ireland High Value Dataset (336,126 features). A GDF2 is a notional line indicating the centerline of a Way A GDF2 is a notional line indicating the centerline of a Way excepting that in the case of a dual carriageway or motorway, it indicates the central median between opposing carriageways and in the case of a roundabout, i",
+      "sourceMapId": "tailte-hvd-way-gdf2",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "WG",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Way GDF2 — Tailte Éireann HVD (data.gov.ie)",
+          "url": "https://data.gov.ie/dataset/high-value-dataset-way-gdf21",
+          "note": "Creative Commons Attribution 4.0"
+        },
+        {
+          "label": "Way GDF2 — GeoJSON download",
+          "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/4aa8d1c94b0d4b84a0c8d89166d191e4/geojson?layers=10"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "label",
+          "url": "GeoJSON"
+        },
+        {
+          "label": "file",
+          "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/4aa8d1c94b0d4b84a0c8d89166d191e4/geojson?layers=10"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_way_gdf2.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=tailte-hvd-way-gdf2",
+      "browseUrl": "/browse/sources/map-source-tailte-hvd-way-gdf2",
+      "rawMetadata": {
+        "id": "tailte-hvd-way-gdf2",
+        "name": "Way GDF2 (Tailte Éireann HVD)",
+        "slug": "tailte-hvd-way-gdf2",
+        "category": "transport",
+        "provider": [
+          "Tailte Éireann"
+        ],
+        "description": "Way GDF2 — Tailte Éireann / Ordnance Survey Ireland High Value Dataset (336,126 features). A GDF2 is a notional line indicating the centerline of a Way A GDF2 is a notional line indicating the centerline of a Way excepting that in the case of a dual carriageway or motorway, it indicates the central median between opposing carriageways and in the case of a roundabout, i",
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_way_gdf2.fgb"
+        },
+        "style": {
+          "color": "#C1440E",
+          "weight": 2
+        },
+        "keywords": [
+          "tailte éireann",
+          "osi",
+          "high value dataset",
+          "hvd",
+          "ireland",
+          "way",
+          "gdf2"
+        ],
+        "useLOD": true,
+        "references": [
+          {
+            "label": "Way GDF2 — Tailte Éireann HVD (data.gov.ie)",
+            "url": "https://data.gov.ie/dataset/high-value-dataset-way-gdf21",
+            "note": "Creative Commons Attribution 4.0"
+          },
+          {
+            "label": "Way GDF2 — GeoJSON download",
+            "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/4aa8d1c94b0d4b84a0c8d89166d191e4/geojson?layers=10",
+            "note": ""
+          }
+        ],
+        "sourceDownloads": [
+          {
+            "label": "GeoJSON",
+            "file": "https://data-osi.opendata.arcgis.com/api/download/v1/items/4aa8d1c94b0d4b84a0c8d89166d191e4/geojson?layers=10"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-source:tailte-hvd-way-points",
+      "slug": "map-source-tailte-hvd-way-points",
+      "type": "map-source",
+      "title": "Way Points (Tailte Éireann HVD) source files",
+      "subtitle": "Transport / Tailte Éireann",
+      "category": "Map sources",
+      "provider": [
+        "Tailte Éireann"
+      ],
+      "description": "Way Points — Tailte Éireann / Ordnance Survey Ireland High Value Dataset (311,821 features). Way points describe all points along a network segment currently captured by Tailte Éireann. A Way Point is a point that marks either an end point of a Way Network Segment, or a point on the Way Network Segment at which there is a transition, or a point at which there is a juncti",
+      "sourceMapId": "tailte-hvd-way-points",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "WP",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Way Points — Tailte Éireann HVD (data.gov.ie)",
+          "url": "https://data.gov.ie/dataset/high-value-dataset-way-points1",
+          "note": "Creative Commons Attribution 4.0"
+        },
+        {
+          "label": "Way Points — GeoJSON download",
+          "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/f09f1d48368740159b4c9a2eafe5c86d/geojson?layers=11"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "label",
+          "url": "GeoJSON"
+        },
+        {
+          "label": "file",
+          "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/f09f1d48368740159b4c9a2eafe5c86d/geojson?layers=11"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_way_points.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=tailte-hvd-way-points",
+      "browseUrl": "/browse/sources/map-source-tailte-hvd-way-points",
+      "rawMetadata": {
+        "id": "tailte-hvd-way-points",
+        "name": "Way Points (Tailte Éireann HVD)",
+        "slug": "tailte-hvd-way-points",
+        "category": "transport",
+        "provider": [
+          "Tailte Éireann"
+        ],
+        "description": "Way Points — Tailte Éireann / Ordnance Survey Ireland High Value Dataset (311,821 features). Way points describe all points along a network segment currently captured by Tailte Éireann. A Way Point is a point that marks either an end point of a Way Network Segment, or a point on the Way Network Segment at which there is a transition, or a point at which there is a juncti",
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_way_points.fgb"
+        },
+        "style": {
+          "color": "#C1440E",
+          "radius": 3,
+          "weight": 2
+        },
+        "keywords": [
+          "tailte éireann",
+          "osi",
+          "high value dataset",
+          "hvd",
+          "ireland",
+          "way",
+          "points"
+        ],
+        "useLOD": true,
+        "references": [
+          {
+            "label": "Way Points — Tailte Éireann HVD (data.gov.ie)",
+            "url": "https://data.gov.ie/dataset/high-value-dataset-way-points1",
+            "note": "Creative Commons Attribution 4.0"
+          },
+          {
+            "label": "Way Points — GeoJSON download",
+            "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/f09f1d48368740159b4c9a2eafe5c86d/geojson?layers=11",
+            "note": ""
+          }
+        ],
+        "sourceDownloads": [
+          {
+            "label": "GeoJSON",
+            "file": "https://data-osi.opendata.arcgis.com/api/download/v1/items/f09f1d48368740159b4c9a2eafe5c86d/geojson?layers=11"
+          }
+        ]
+      }
+    },
+    {
       "id": "map-source:tailte-hydro-nodes",
       "slug": "map-source-tailte-hydro-nodes",
       "type": "map-source",
@@ -24015,962 +24923,6 @@
             55.32,
             -5.43
           ]
-        ]
-      }
-    },
-    {
-      "id": "map-source:wq-ni-water-drinking",
-      "slug": "map-source-wq-ni-water-drinking",
-      "type": "map-source",
-      "title": "NI Water — Drinking-Water Quality Public Registers source files",
-      "subtitle": "Water Quality / NI Water",
-      "category": "Map sources",
-      "provider": [
-        "NI Water"
-      ],
-      "description": "NI Water’s Drinking-Water Quality Public Registers — Individual Customer Tap & Authorised Supply Point Results, plus annual reports. Per-tap test results (CSV) and per-year summary PDFs.",
-      "sourceMapId": "wq-ni-water-drinking",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "NW",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "OSNI Open Data — NI Water Drinking Water Quality Public Registers",
-          "url": "https://admin.opendatani.gov.uk/dataset/ni-water-customer-tap-authorised-supply-point-results"
-        }
-      ],
-      "interactiveUrl": "/#layers=wq-ni-water-drinking",
-      "browseUrl": "/browse/sources/map-source-wq-ni-water-drinking",
-      "rawMetadata": {
-        "id": "wq-ni-water-drinking",
-        "name": "NI Water — Drinking-Water Quality Public Registers",
-        "slug": "wq-ni-water-drinking",
-        "category": "water-quality",
-        "provider": [
-          "NI Water"
-        ],
-        "description": "NI Water’s Drinking-Water Quality Public Registers — Individual Customer Tap & Authorised Supply Point Results, plus annual reports. Per-tap test results (CSV) and per-year summary PDFs.",
-        "keywords": [
-          "ni water",
-          "drinking water",
-          "tap",
-          "supply point",
-          "public register",
-          "annual report"
-        ],
-        "references": [
-          {
-            "label": "OSNI Open Data — NI Water Drinking Water Quality Public Registers",
-            "url": "https://admin.opendatani.gov.uk/dataset/ni-water-customer-tap-authorised-supply-point-results",
-            "note": ""
-          }
-        ],
-        "placeholder": true
-      }
-    },
-    {
-      "id": "map-source:wq-river-quality-1990-2018",
-      "slug": "map-source-wq-river-quality-1990-2018",
-      "type": "map-source",
-      "title": "River Water Quality Monitoring 1990–2018 (14 chemistry parameters) source files",
-      "subtitle": "Water Quality / DAERA, NIEA",
-      "category": "Map sources",
-      "provider": [
-        "DAERA",
-        "NIEA"
-      ],
-      "description": "Long-term chemistry time-series from NI rivers, 1990–2018, broken down by 14 individual parameters (pH, dissolved oxygen, BOD, ammonia, nitrate, nitrite, dissolved iron, suspended solids, plus extended set: alkalinity, conductivity, dissolved copper, dissolved zinc, soluble phosphorus). The \"umbrella\" package contains the spatial monitoring sites + summary; per-parameter packages contain the full time-series CSVs. No interactive map layer — use the WFD Monitoring Sites layer to see where samples are taken.",
-      "sourceMapId": "wq-river-quality-1990-2018",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "RW",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (umbrella)",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-20181"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "label",
-          "url": "Combined sites (GeoJSON)"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-20181"
-        },
-        {
-          "label": "label",
-          "url": "pH (per-parameter dataset)"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-ph1"
-        },
-        {
-          "label": "label",
-          "url": "Dissolved oxygen"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-dissolved-oxygen1"
-        },
-        {
-          "label": "label",
-          "url": "Biochemical oxygen demand (BOD)"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-biochemical-oxygen-demand1"
-        },
-        {
-          "label": "label",
-          "url": "Ammonia"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-ammonia1"
-        },
-        {
-          "label": "label",
-          "url": "Nitrate"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-nitrate1"
-        },
-        {
-          "label": "label",
-          "url": "Nitrite"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-nitrite1"
-        },
-        {
-          "label": "label",
-          "url": "Dissolved iron"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-dissolved-iron1"
-        },
-        {
-          "label": "label",
-          "url": "Dissolved copper"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-dissolved-copper1"
-        },
-        {
-          "label": "label",
-          "url": "Dissolved zinc"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-dissolved-zinc1"
-        },
-        {
-          "label": "label",
-          "url": "Suspended solids"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-suspended-solids1"
-        },
-        {
-          "label": "label",
-          "url": "Conductivity"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-conductivity1"
-        },
-        {
-          "label": "label",
-          "url": "Alkalinity"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-alkalinity1"
-        },
-        {
-          "label": "label",
-          "url": "Soluble phosphorus"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-soluble-phosphorus1"
-        }
-      ],
-      "interactiveUrl": "/#layers=wq-river-quality-1990-2018",
-      "browseUrl": "/browse/sources/map-source-wq-river-quality-1990-2018",
-      "rawMetadata": {
-        "id": "wq-river-quality-1990-2018",
-        "name": "River Water Quality Monitoring 1990–2018 (14 chemistry parameters)",
-        "slug": "wq-river-quality-1990-2018",
-        "category": "water-quality",
-        "provider": [
-          "DAERA",
-          "NIEA"
-        ],
-        "description": "Long-term chemistry time-series from NI rivers, 1990–2018, broken down by 14 individual parameters (pH, dissolved oxygen, BOD, ammonia, nitrate, nitrite, dissolved iron, suspended solids, plus extended set: alkalinity, conductivity, dissolved copper, dissolved zinc, soluble phosphorus). The \"umbrella\" package contains the spatial monitoring sites + summary; per-parameter packages contain the full time-series CSVs. No interactive map layer — use the WFD Monitoring Sites layer to see where samples are taken.",
-        "keywords": [
-          "river",
-          "water quality",
-          "monitoring",
-          "chemistry",
-          "time series",
-          "long term",
-          "1990",
-          "2018",
-          "pH",
-          "dissolved oxygen",
-          "ammonia",
-          "nitrate"
-        ],
-        "references": [
-          {
-            "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (umbrella)",
-            "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-20181",
-            "note": ""
-          }
-        ],
-        "sourceDownloads": [
-          {
-            "label": "Combined sites (GeoJSON)",
-            "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-20181"
-          },
-          {
-            "label": "pH (per-parameter dataset)",
-            "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-ph1"
-          },
-          {
-            "label": "Dissolved oxygen",
-            "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-dissolved-oxygen1"
-          },
-          {
-            "label": "Biochemical oxygen demand (BOD)",
-            "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-biochemical-oxygen-demand1"
-          },
-          {
-            "label": "Ammonia",
-            "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-ammonia1"
-          },
-          {
-            "label": "Nitrate",
-            "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-nitrate1"
-          },
-          {
-            "label": "Nitrite",
-            "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-nitrite1"
-          },
-          {
-            "label": "Dissolved iron",
-            "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-dissolved-iron1"
-          },
-          {
-            "label": "Dissolved copper",
-            "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-dissolved-copper1"
-          },
-          {
-            "label": "Dissolved zinc",
-            "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-dissolved-zinc1"
-          },
-          {
-            "label": "Suspended solids",
-            "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-suspended-solids1"
-          },
-          {
-            "label": "Conductivity",
-            "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-conductivity1"
-          },
-          {
-            "label": "Alkalinity",
-            "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-alkalinity1"
-          },
-          {
-            "label": "Soluble phosphorus",
-            "file": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-soluble-phosphorus1"
-          }
-        ],
-        "placeholder": true
-      }
-    },
-    {
-      "id": "map-source:wq-rwq-alkalinity",
-      "slug": "map-source-wq-rwq-alkalinity",
-      "type": "map-source",
-      "title": "River Water Quality 1990–2018 — Alkalinity source files",
-      "subtitle": "Water Quality / DAERA, NIEA",
-      "category": "Map sources",
-      "provider": [
-        "DAERA",
-        "NIEA"
-      ],
-      "description": "Per-monitoring-site mean alkalinity for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 633 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
-      "sourceMapId": "wq-rwq-alkalinity",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "RW",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Alkalinity)",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-alkalinity1"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/rwq-alkalinity.fgb"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/rwq-alkalinity.fgb"
-        }
-      ],
-      "interactiveUrl": "/#layers=wq-rwq-alkalinity",
-      "browseUrl": "/browse/sources/map-source-wq-rwq-alkalinity",
-      "rawMetadata": {
-        "id": "wq-rwq-alkalinity",
-        "name": "River Water Quality 1990–2018 — Alkalinity",
-        "slug": "wq-rwq-alkalinity",
-        "category": "water-quality",
-        "provider": [
-          "DAERA",
-          "NIEA"
-        ],
-        "description": "Per-monitoring-site mean alkalinity for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 633 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-alkalinity.fgb"
-        },
-        "style": {
-          "color": "#888888",
-          "radius": 5,
-          "weight": 0.5,
-          "fillOpacity": 0.9
-        },
-        "colorScale": {
-          "property": "mean_value",
-          "ramp": "viridis",
-          "domain": [
-            10,
-            300
-          ],
-          "logarithmic": false
-        },
-        "keywords": [
-          "water quality",
-          "river",
-          "monitoring",
-          "daera",
-          "niea",
-          "alkalinity",
-          "alkalinity"
-        ],
-        "labelProperty": "Station_Name",
-        "useLOD": false,
-        "references": [
-          {
-            "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Alkalinity)",
-            "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-alkalinity1",
-            "note": ""
-          }
-        ]
-      }
-    },
-    {
-      "id": "map-source:wq-rwq-ammonia",
-      "slug": "map-source-wq-rwq-ammonia",
-      "type": "map-source",
-      "title": "River Water Quality 1990–2018 — Total ammonia (as N) source files",
-      "subtitle": "Water Quality / DAERA, NIEA",
-      "category": "Map sources",
-      "provider": [
-        "DAERA",
-        "NIEA"
-      ],
-      "description": "Per-monitoring-site mean total ammonia (as n) for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
-      "sourceMapId": "wq-rwq-ammonia",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "RW",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Total ammonia (as N))",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-ammonia1"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/rwq-ammonia.fgb"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/rwq-ammonia.fgb"
-        }
-      ],
-      "interactiveUrl": "/#layers=wq-rwq-ammonia",
-      "browseUrl": "/browse/sources/map-source-wq-rwq-ammonia",
-      "rawMetadata": {
-        "id": "wq-rwq-ammonia",
-        "name": "River Water Quality 1990–2018 — Total ammonia (as N)",
-        "slug": "wq-rwq-ammonia",
-        "category": "water-quality",
-        "provider": [
-          "DAERA",
-          "NIEA"
-        ],
-        "description": "Per-monitoring-site mean total ammonia (as n) for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-ammonia.fgb"
-        },
-        "style": {
-          "color": "#888888",
-          "radius": 5,
-          "weight": 0.5,
-          "fillOpacity": 0.9
-        },
-        "colorScale": {
-          "property": "mean_value",
-          "ramp": "inferno",
-          "domain": [
-            0.05,
-            5
-          ],
-          "logarithmic": true
-        },
-        "keywords": [
-          "water quality",
-          "river",
-          "monitoring",
-          "daera",
-          "niea",
-          "total ammonia (as n)",
-          "ammonia"
-        ],
-        "labelProperty": "Station_Name",
-        "useLOD": false,
-        "references": [
-          {
-            "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Total ammonia (as N))",
-            "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-ammonia1",
-            "note": ""
-          }
-        ]
-      }
-    },
-    {
-      "id": "map-source:wq-rwq-biochemical-oxygen-demand",
-      "slug": "map-source-wq-rwq-biochemical-oxygen-demand",
-      "type": "map-source",
-      "title": "River Water Quality 1990–2018 — Biochemical oxygen demand (BOD) source files",
-      "subtitle": "Water Quality / DAERA, NIEA",
-      "category": "Map sources",
-      "provider": [
-        "DAERA",
-        "NIEA"
-      ],
-      "description": "Per-monitoring-site mean biochemical oxygen demand (bod) for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
-      "sourceMapId": "wq-rwq-biochemical-oxygen-demand",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "RW",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Biochemical oxygen demand (BOD))",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-biochemical-oxygen-demand1"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/rwq-biochemical-oxygen-demand.fgb"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/rwq-biochemical-oxygen-demand.fgb"
-        }
-      ],
-      "interactiveUrl": "/#layers=wq-rwq-biochemical-oxygen-demand",
-      "browseUrl": "/browse/sources/map-source-wq-rwq-biochemical-oxygen-demand",
-      "rawMetadata": {
-        "id": "wq-rwq-biochemical-oxygen-demand",
-        "name": "River Water Quality 1990–2018 — Biochemical oxygen demand (BOD)",
-        "slug": "wq-rwq-biochemical-oxygen-demand",
-        "category": "water-quality",
-        "provider": [
-          "DAERA",
-          "NIEA"
-        ],
-        "description": "Per-monitoring-site mean biochemical oxygen demand (bod) for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-biochemical-oxygen-demand.fgb"
-        },
-        "style": {
-          "color": "#888888",
-          "radius": 5,
-          "weight": 0.5,
-          "fillOpacity": 0.9
-        },
-        "colorScale": {
-          "property": "mean_value",
-          "ramp": "inferno",
-          "domain": [
-            1,
-            8
-          ],
-          "logarithmic": true
-        },
-        "keywords": [
-          "water quality",
-          "river",
-          "monitoring",
-          "daera",
-          "niea",
-          "biochemical oxygen demand (bod)",
-          "biochemical-oxygen-demand"
-        ],
-        "labelProperty": "Station_Name",
-        "useLOD": false,
-        "references": [
-          {
-            "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Biochemical oxygen demand (BOD))",
-            "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-biochemical-oxygen-demand1",
-            "note": ""
-          }
-        ]
-      }
-    },
-    {
-      "id": "map-source:wq-rwq-conductivity",
-      "slug": "map-source-wq-rwq-conductivity",
-      "type": "map-source",
-      "title": "River Water Quality 1990–2018 — Conductivity source files",
-      "subtitle": "Water Quality / DAERA, NIEA",
-      "category": "Map sources",
-      "provider": [
-        "DAERA",
-        "NIEA"
-      ],
-      "description": "Per-monitoring-site mean conductivity for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
-      "sourceMapId": "wq-rwq-conductivity",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "RW",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Conductivity)",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-conductivity1"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/rwq-conductivity.fgb"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/rwq-conductivity.fgb"
-        }
-      ],
-      "interactiveUrl": "/#layers=wq-rwq-conductivity",
-      "browseUrl": "/browse/sources/map-source-wq-rwq-conductivity",
-      "rawMetadata": {
-        "id": "wq-rwq-conductivity",
-        "name": "River Water Quality 1990–2018 — Conductivity",
-        "slug": "wq-rwq-conductivity",
-        "category": "water-quality",
-        "provider": [
-          "DAERA",
-          "NIEA"
-        ],
-        "description": "Per-monitoring-site mean conductivity for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-conductivity.fgb"
-        },
-        "style": {
-          "color": "#888888",
-          "radius": 5,
-          "weight": 0.5,
-          "fillOpacity": 0.9
-        },
-        "colorScale": {
-          "property": "mean_value",
-          "ramp": "viridis",
-          "domain": [
-            100,
-            800
-          ],
-          "logarithmic": false
-        },
-        "keywords": [
-          "water quality",
-          "river",
-          "monitoring",
-          "daera",
-          "niea",
-          "conductivity",
-          "conductivity"
-        ],
-        "labelProperty": "Station_Name",
-        "useLOD": false,
-        "references": [
-          {
-            "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Conductivity)",
-            "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-conductivity1",
-            "note": ""
-          }
-        ]
-      }
-    },
-    {
-      "id": "map-source:wq-rwq-dissolved-copper",
-      "slug": "map-source-wq-rwq-dissolved-copper",
-      "type": "map-source",
-      "title": "River Water Quality 1990–2018 — Dissolved copper source files",
-      "subtitle": "Water Quality / DAERA, NIEA",
-      "category": "Map sources",
-      "provider": [
-        "DAERA",
-        "NIEA"
-      ],
-      "description": "Per-monitoring-site mean dissolved copper for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 377 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
-      "sourceMapId": "wq-rwq-dissolved-copper",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "RW",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Dissolved copper)",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-dissolved-copper1"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/rwq-dissolved-copper.fgb"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/rwq-dissolved-copper.fgb"
-        }
-      ],
-      "interactiveUrl": "/#layers=wq-rwq-dissolved-copper",
-      "browseUrl": "/browse/sources/map-source-wq-rwq-dissolved-copper",
-      "rawMetadata": {
-        "id": "wq-rwq-dissolved-copper",
-        "name": "River Water Quality 1990–2018 — Dissolved copper",
-        "slug": "wq-rwq-dissolved-copper",
-        "category": "water-quality",
-        "provider": [
-          "DAERA",
-          "NIEA"
-        ],
-        "description": "Per-monitoring-site mean dissolved copper for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 377 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-dissolved-copper.fgb"
-        },
-        "style": {
-          "color": "#888888",
-          "radius": 5,
-          "weight": 0.5,
-          "fillOpacity": 0.9
-        },
-        "colorScale": {
-          "property": "mean_value",
-          "ramp": "inferno",
-          "domain": [
-            0.5,
-            20
-          ],
-          "logarithmic": true
-        },
-        "keywords": [
-          "water quality",
-          "river",
-          "monitoring",
-          "daera",
-          "niea",
-          "dissolved copper",
-          "dissolved-copper"
-        ],
-        "labelProperty": "Station_Name",
-        "useLOD": false,
-        "references": [
-          {
-            "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Dissolved copper)",
-            "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-dissolved-copper1",
-            "note": ""
-          }
-        ]
-      }
-    },
-    {
-      "id": "map-source:wq-rwq-dissolved-iron",
-      "slug": "map-source-wq-rwq-dissolved-iron",
-      "type": "map-source",
-      "title": "River Water Quality 1990–2018 — Dissolved iron source files",
-      "subtitle": "Water Quality / DAERA, NIEA",
-      "category": "Map sources",
-      "provider": [
-        "DAERA",
-        "NIEA"
-      ],
-      "description": "Per-monitoring-site mean dissolved iron for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 559 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
-      "sourceMapId": "wq-rwq-dissolved-iron",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "RW",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Dissolved iron)",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-dissolved-iron1"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/rwq-dissolved-iron.fgb"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/rwq-dissolved-iron.fgb"
-        }
-      ],
-      "interactiveUrl": "/#layers=wq-rwq-dissolved-iron",
-      "browseUrl": "/browse/sources/map-source-wq-rwq-dissolved-iron",
-      "rawMetadata": {
-        "id": "wq-rwq-dissolved-iron",
-        "name": "River Water Quality 1990–2018 — Dissolved iron",
-        "slug": "wq-rwq-dissolved-iron",
-        "category": "water-quality",
-        "provider": [
-          "DAERA",
-          "NIEA"
-        ],
-        "description": "Per-monitoring-site mean dissolved iron for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 559 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-dissolved-iron.fgb"
-        },
-        "style": {
-          "color": "#888888",
-          "radius": 5,
-          "weight": 0.5,
-          "fillOpacity": 0.9
-        },
-        "colorScale": {
-          "property": "mean_value",
-          "ramp": "inferno",
-          "domain": [
-            10,
-            2000
-          ],
-          "logarithmic": true
-        },
-        "keywords": [
-          "water quality",
-          "river",
-          "monitoring",
-          "daera",
-          "niea",
-          "dissolved iron",
-          "dissolved-iron"
-        ],
-        "labelProperty": "Station_Name",
-        "useLOD": false,
-        "references": [
-          {
-            "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Dissolved iron)",
-            "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-dissolved-iron1",
-            "note": ""
-          }
-        ]
-      }
-    },
-    {
-      "id": "map-source:wq-rwq-dissolved-oxygen",
-      "slug": "map-source-wq-rwq-dissolved-oxygen",
-      "type": "map-source",
-      "title": "River Water Quality 1990–2018 — Dissolved oxygen source files",
-      "subtitle": "Water Quality / DAERA, NIEA",
-      "category": "Map sources",
-      "provider": [
-        "DAERA",
-        "NIEA"
-      ],
-      "description": "Per-monitoring-site mean dissolved oxygen for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
-      "sourceMapId": "wq-rwq-dissolved-oxygen",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "RW",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Dissolved oxygen)",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-dissolved-oxygen1"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/rwq-dissolved-oxygen.fgb"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/rwq-dissolved-oxygen.fgb"
-        }
-      ],
-      "interactiveUrl": "/#layers=wq-rwq-dissolved-oxygen",
-      "browseUrl": "/browse/sources/map-source-wq-rwq-dissolved-oxygen",
-      "rawMetadata": {
-        "id": "wq-rwq-dissolved-oxygen",
-        "name": "River Water Quality 1990–2018 — Dissolved oxygen",
-        "slug": "wq-rwq-dissolved-oxygen",
-        "category": "water-quality",
-        "provider": [
-          "DAERA",
-          "NIEA"
-        ],
-        "description": "Per-monitoring-site mean dissolved oxygen for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-dissolved-oxygen.fgb"
-        },
-        "style": {
-          "color": "#888888",
-          "radius": 5,
-          "weight": 0.5,
-          "fillOpacity": 0.9
-        },
-        "colorScale": {
-          "property": "mean_value",
-          "ramp": "viridis",
-          "domain": [
-            5,
-            15
-          ],
-          "logarithmic": false
-        },
-        "keywords": [
-          "water quality",
-          "river",
-          "monitoring",
-          "daera",
-          "niea",
-          "dissolved oxygen",
-          "dissolved-oxygen"
-        ],
-        "labelProperty": "Station_Name",
-        "useLOD": false,
-        "references": [
-          {
-            "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Dissolved oxygen)",
-            "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-dissolved-oxygen1",
-            "note": ""
-          }
-        ]
-      }
-    },
-    {
-      "id": "map-source:wq-rwq-dissolved-zinc",
-      "slug": "map-source-wq-rwq-dissolved-zinc",
-      "type": "map-source",
-      "title": "River Water Quality 1990–2018 — Dissolved zinc source files",
-      "subtitle": "Water Quality / DAERA, NIEA",
-      "category": "Map sources",
-      "provider": [
-        "DAERA",
-        "NIEA"
-      ],
-      "description": "Per-monitoring-site mean dissolved zinc for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 559 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
-      "sourceMapId": "wq-rwq-dissolved-zinc",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "RW",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Dissolved zinc)",
-          "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-dissolved-zinc1"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/rwq-dissolved-zinc.fgb"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/water-quality/rwq-dissolved-zinc.fgb"
-        }
-      ],
-      "interactiveUrl": "/#layers=wq-rwq-dissolved-zinc",
-      "browseUrl": "/browse/sources/map-source-wq-rwq-dissolved-zinc",
-      "rawMetadata": {
-        "id": "wq-rwq-dissolved-zinc",
-        "name": "River Water Quality 1990–2018 — Dissolved zinc",
-        "slug": "wq-rwq-dissolved-zinc",
-        "category": "water-quality",
-        "provider": [
-          "DAERA",
-          "NIEA"
-        ],
-        "description": "Per-monitoring-site mean dissolved zinc for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 559 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-dissolved-zinc.fgb"
-        },
-        "style": {
-          "color": "#888888",
-          "radius": 5,
-          "weight": 0.5,
-          "fillOpacity": 0.9
-        },
-        "colorScale": {
-          "property": "mean_value",
-          "ramp": "inferno",
-          "domain": [
-            1,
-            80
-          ],
-          "logarithmic": true
-        },
-        "keywords": [
-          "water quality",
-          "river",
-          "monitoring",
-          "daera",
-          "niea",
-          "dissolved zinc",
-          "dissolved-zinc"
-        ],
-        "labelProperty": "Station_Name",
-        "useLOD": false,
-        "references": [
-          {
-            "label": "OSNI Open Data — River Water Quality Monitoring 1990 to 2018 (Dissolved zinc)",
-            "url": "https://admin.opendatani.gov.uk/dataset/river-water-quality-monitoring-1990-to-2018-dissolved-zinc1",
-            "note": ""
-          }
         ]
       }
     }

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-14T02:37:27.025Z",
-  "total": 962,
+  "generatedAt": "2026-07-14T12:08:35.080Z",
+  "total": 972,
   "items": [
     {
       "id": "eds-roi-1971-04-15",
@@ -7701,6 +7701,65 @@
       "browseUrl": "/browse/maps/dlr-bridges"
     },
     {
+      "id": "tailte-hvd-building-groups",
+      "slug": "tailte-hvd-building-groups",
+      "type": "map",
+      "title": "Building Groups (Tailte Éireann HVD)",
+      "categoryId": "built-environment",
+      "category": "Built Environment",
+      "group": "Built Environment",
+      "description": "Building Groups — Tailte Éireann / Ordnance Survey Ireland High Value Dataset (838 features). Building Group is a terrace of Buildings that share a Distinctive Name A Building Group object links together Buildings that belong to a named terrace. The Buildings must be physically connected such that one BuildingGroup's polygon geometry equals the union of two or more contig",
+      "provider": [
+        "Tailte Éireann"
+      ],
+      "keywords": [
+        "tailte éireann",
+        "osi",
+        "high value dataset",
+        "hvd",
+        "ireland",
+        "building",
+        "groups"
+      ],
+      "status": "available",
+      "featured": false,
+      "loadable": true,
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "BG",
+        "type": "map"
+      },
+      "sourceFiles": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_building_groups.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "Building Groups — Tailte Éireann HVD (data.gov.ie)",
+          "url": "https://data.gov.ie/dataset/high-value-dataset-building-groups1",
+          "note": "Creative Commons Attribution 4.0"
+        },
+        {
+          "label": "Building Groups — GeoJSON download",
+          "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/fd28ab739a6f4e00bffbf1d6bb468f31/geojson?layers=1"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "label",
+          "url": "GeoJSON"
+        },
+        {
+          "label": "file",
+          "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/fd28ab739a6f4e00bffbf1d6bb468f31/geojson?layers=1"
+        }
+      ],
+      "interactiveUrl": "/#layers=tailte-hvd-building-groups",
+      "browseUrl": "/browse/maps/tailte-hvd-building-groups"
+    },
+    {
       "id": "tailte-built-up-points-250k",
       "slug": "tailte-built-up-points-250k",
       "type": "map",
@@ -7917,6 +7976,67 @@
       ],
       "interactiveUrl": "/#layers=dlr-burial-grounds",
       "browseUrl": "/browse/maps/dlr-burial-grounds"
+    },
+    {
+      "id": "tailte-hvd-cadastral-parcels-leasehold",
+      "slug": "tailte-hvd-cadastral-parcels-leasehold",
+      "type": "map",
+      "title": "Cadastral Parcels Leasehold (Tailte Éireann HVD)",
+      "categoryId": "land-property",
+      "category": "Government Land and Property Register",
+      "group": "Public Services",
+      "description": "Cadastral Parcels Leasehold — Tailte Éireann / Ordnance Survey Ireland High Value Dataset (131,073 features). Leasehold Land Ownership Boundaries Leasehold Land Ownership Boundaries - The dataset contains the boundaries of each individual leasehold title to land. A Leasehold is the interest created by a lease. Currently only leases for more than 21 years can be registered.",
+      "provider": [
+        "Tailte Éireann"
+      ],
+      "keywords": [
+        "tailte éireann",
+        "osi",
+        "high value dataset",
+        "hvd",
+        "ireland",
+        "cadastral",
+        "parcels",
+        "leasehold"
+      ],
+      "status": "available",
+      "featured": false,
+      "loadable": true,
+      "labelProperty": "COUNTY_NAM",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "CP",
+        "type": "map"
+      },
+      "sourceFiles": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_cadastral_parcels_leasehold.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "Cadastral Parcels Leasehold — Tailte Éireann HVD (data.gov.ie)",
+          "url": "https://data.gov.ie/dataset/high-value-dataset-cadastral-parcels-leasehold1",
+          "note": "Creative Commons Attribution 4.0"
+        },
+        {
+          "label": "Cadastral Parcels Leasehold — GeoJSON download",
+          "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/9811f102cba04a01b0873d7e3bc98e70/geojson?layers=13"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "label",
+          "url": "GeoJSON"
+        },
+        {
+          "label": "file",
+          "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/9811f102cba04a01b0873d7e3bc98e70/geojson?layers=13"
+        }
+      ],
+      "interactiveUrl": "/#layers=tailte-hvd-cadastral-parcels-leasehold",
+      "browseUrl": "/browse/maps/tailte-hvd-cadastral-parcels-leasehold"
     },
     {
       "id": "oda-map-00438-car-parking-locations-roscommon",
@@ -30677,6 +30797,64 @@
       "browseUrl": "/browse/maps/osni-open-data-largescale-boundaries-local-government-districts-1993"
     },
     {
+      "id": "tailte-hvd-locales",
+      "slug": "tailte-hvd-locales",
+      "type": "map",
+      "title": "Locales (Tailte Éireann HVD)",
+      "categoryId": "built-environment",
+      "category": "Built Environment",
+      "group": "Built Environment",
+      "description": "Locales — Tailte Éireann / Ordnance Survey Ireland High Value Dataset (51,195 features). Locales are polygon objects with fuzzy boundaries where the geographic entity is undefined or subject to interpretation Locales, permit the use of virtual extents. Many Locale objects cover areas that do not have a defined outline, such as named bays, mountain ranges and district",
+      "provider": [
+        "Tailte Éireann"
+      ],
+      "keywords": [
+        "tailte éireann",
+        "osi",
+        "high value dataset",
+        "hvd",
+        "ireland",
+        "locales"
+      ],
+      "status": "available",
+      "featured": false,
+      "loadable": true,
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "L(",
+        "type": "map"
+      },
+      "sourceFiles": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_locales.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "Locales — Tailte Éireann HVD (data.gov.ie)",
+          "url": "https://data.gov.ie/dataset/high-value-dataset-locales1",
+          "note": "Creative Commons Attribution 4.0"
+        },
+        {
+          "label": "Locales — GeoJSON download",
+          "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/623241dd5acd4502b58972ef634fa324/geojson?layers=2"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "label",
+          "url": "GeoJSON"
+        },
+        {
+          "label": "file",
+          "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/623241dd5acd4502b58972ef634fa324/geojson?layers=2"
+        }
+      ],
+      "interactiveUrl": "/#layers=tailte-hvd-locales",
+      "browseUrl": "/browse/maps/tailte-hvd-locales"
+    },
+    {
       "id": "oda-map-00625-locations",
       "slug": "oda-map-00625-locations",
       "type": "map",
@@ -44382,6 +44560,125 @@
       "browseUrl": "/browse/maps/tailte-rail-network"
     },
     {
+      "id": "tailte-hvd-rail-network-segment",
+      "slug": "tailte-hvd-rail-network-segment",
+      "type": "map",
+      "title": "Rail Network Segment (Tailte Éireann HVD)",
+      "categoryId": "transport",
+      "category": "Transport",
+      "group": "Built Environment",
+      "description": "Rail Network Segment — Tailte Éireann / Ordnance Survey Ireland High Value Dataset (8,430 features). RailNetworkSegments, have both a GDF1 and GDF2 representation. A GDF1 is required for all railways. GDF2 is required for Standard (mainline) railways only. RailNetworkSegments, have both a GDF1 and GDF2 representation. A GDF1 is required for all railways. GDF2 is required for Sta",
+      "provider": [
+        "Tailte Éireann"
+      ],
+      "keywords": [
+        "tailte éireann",
+        "osi",
+        "high value dataset",
+        "hvd",
+        "ireland",
+        "rail",
+        "network",
+        "segment"
+      ],
+      "status": "available",
+      "featured": false,
+      "loadable": true,
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "RN",
+        "type": "map"
+      },
+      "sourceFiles": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_rail_network_segment.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "Rail Network Segment — Tailte Éireann HVD (data.gov.ie)",
+          "url": "https://data.gov.ie/dataset/high-value-dataset-rail-network-segment1",
+          "note": "Creative Commons Attribution 4.0"
+        },
+        {
+          "label": "Rail Network Segment — GeoJSON download",
+          "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/8c534da1a45c4cabbab810e27f9234c1/geojson?layers=3"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "label",
+          "url": "GeoJSON"
+        },
+        {
+          "label": "file",
+          "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/8c534da1a45c4cabbab810e27f9234c1/geojson?layers=3"
+        }
+      ],
+      "interactiveUrl": "/#layers=tailte-hvd-rail-network-segment",
+      "browseUrl": "/browse/maps/tailte-hvd-rail-network-segment"
+    },
+    {
+      "id": "tailte-hvd-rail-points",
+      "slug": "tailte-hvd-rail-points",
+      "type": "map",
+      "title": "Rail Points (Tailte Éireann HVD)",
+      "categoryId": "transport",
+      "category": "Transport",
+      "group": "Built Environment",
+      "description": "Rail Points — Tailte Éireann / Ordnance Survey Ireland High Value Dataset (8,261 features). A Rail Point is a point that indicates either an end point of a railway line, or a point at which there is a transition or junction between railway lines. A Rail Point is a point that indicates either an end point of a railway line, or a point at which there is a transition or ju",
+      "provider": [
+        "Tailte Éireann"
+      ],
+      "keywords": [
+        "tailte éireann",
+        "osi",
+        "high value dataset",
+        "hvd",
+        "ireland",
+        "rail",
+        "points"
+      ],
+      "status": "available",
+      "featured": false,
+      "loadable": true,
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "RP",
+        "type": "map"
+      },
+      "sourceFiles": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_rail_points.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "Rail Points — Tailte Éireann HVD (data.gov.ie)",
+          "url": "https://data.gov.ie/dataset/high-value-dataset-rail-points1",
+          "note": "Creative Commons Attribution 4.0"
+        },
+        {
+          "label": "Rail Points — GeoJSON download",
+          "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/e16afbdce7b14e8b99a417997119261b/geojson?layers=4"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "label",
+          "url": "GeoJSON"
+        },
+        {
+          "label": "file",
+          "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/e16afbdce7b14e8b99a417997119261b/geojson?layers=4"
+        }
+      ],
+      "interactiveUrl": "/#layers=tailte-hvd-rail-points",
+      "browseUrl": "/browse/maps/tailte-hvd-rail-points"
+    },
+    {
       "id": "tailte-railway-stations",
       "slug": "tailte-railway-stations",
       "type": "map",
@@ -48413,6 +48710,65 @@
       ],
       "interactiveUrl": "/#layers=dobih-v18-4-simms",
       "browseUrl": "/browse/maps/dobih-v18-4-simms"
+    },
+    {
+      "id": "tailte-hvd-sites",
+      "slug": "tailte-hvd-sites",
+      "type": "map",
+      "title": "Sites (Tailte Éireann HVD)",
+      "categoryId": "built-environment",
+      "category": "Built Environment",
+      "group": "Built Environment",
+      "description": "Sites — Tailte Éireann / Ordnance Survey Ireland High Value Dataset (360 features). A Site is a large contiguous area encompassing multiple objects that are related in some way. A Site is a large contiguous area encompassing multiple objects that are related in some way. A Site may cover one geographic area only.",
+      "provider": [
+        "Tailte Éireann"
+      ],
+      "keywords": [
+        "tailte éireann",
+        "osi",
+        "high value dataset",
+        "hvd",
+        "ireland",
+        "sites"
+      ],
+      "status": "available",
+      "featured": false,
+      "loadable": true,
+      "labelProperty": "ENG_NAME_VALUE",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "S(",
+        "type": "map"
+      },
+      "sourceFiles": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_sites.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "Sites — Tailte Éireann HVD (data.gov.ie)",
+          "url": "https://data.gov.ie/dataset/high-value-dataset-sites1",
+          "note": "Creative Commons Attribution 4.0"
+        },
+        {
+          "label": "Sites — GeoJSON download",
+          "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/f477136c339d4c29beba594f50f64434/geojson?layers=5"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "label",
+          "url": "GeoJSON"
+        },
+        {
+          "label": "file",
+          "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/f477136c339d4c29beba594f50f64434/geojson?layers=5"
+        }
+      ],
+      "interactiveUrl": "/#layers=tailte-hvd-sites",
+      "browseUrl": "/browse/maps/tailte-hvd-sites"
     },
     {
       "id": "hed-sites-and-monuments",
@@ -56778,6 +57134,125 @@
       "browseUrl": "/browse/maps/water-framework-directive-2nd-cycle-interim-status1"
     },
     {
+      "id": "tailte-hvd-water-points",
+      "slug": "tailte-hvd-water-points",
+      "type": "map",
+      "title": "water points (Tailte Éireann HVD)",
+      "categoryId": "physical-geography",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "description": "water points — Tailte Éireann / Ordnance Survey Ireland High Value Dataset (663,676 features). Water points describe all points along a network segment currently captured by Tailte Éireann. A Water Point is a point that marks either a source point or an end point (either at a sink point or where the Water object enters the sea) of a Water Network Segment, a point along the",
+      "provider": [
+        "Tailte Éireann"
+      ],
+      "keywords": [
+        "tailte éireann",
+        "osi",
+        "high value dataset",
+        "hvd",
+        "ireland",
+        "water",
+        "points"
+      ],
+      "status": "available",
+      "featured": false,
+      "loadable": true,
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "WP",
+        "type": "map"
+      },
+      "sourceFiles": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_water_points.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "water points — Tailte Éireann HVD (data.gov.ie)",
+          "url": "https://data.gov.ie/dataset/high-value-dataset-water-points1",
+          "note": "Creative Commons Attribution 4.0"
+        },
+        {
+          "label": "water points — GeoJSON download",
+          "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/6f863f6e4bdc4b65850c3976688fd0eb/geojson?layers=7"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "label",
+          "url": "GeoJSON"
+        },
+        {
+          "label": "file",
+          "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/6f863f6e4bdc4b65850c3976688fd0eb/geojson?layers=7"
+        }
+      ],
+      "interactiveUrl": "/#layers=tailte-hvd-water-points",
+      "browseUrl": "/browse/maps/tailte-hvd-water-points"
+    },
+    {
+      "id": "tailte-hvd-water-single-stream",
+      "slug": "tailte-hvd-water-single-stream",
+      "type": "map",
+      "title": "Water Single Stream (Tailte Éireann HVD)",
+      "categoryId": "physical-geography",
+      "category": "Physical Geography",
+      "group": "Physical Geography",
+      "description": "Water Single Stream — Tailte Éireann / Ordnance Survey Ireland High Value Dataset (372,225 features). Water lines describe all water bodies currently captured by Tailte Éireann less than 2m wide. Water Single Stream Line is used to represent a stream that is less than 2m wide. It is polyline geometry.",
+      "provider": [
+        "Tailte Éireann"
+      ],
+      "keywords": [
+        "tailte éireann",
+        "osi",
+        "high value dataset",
+        "hvd",
+        "ireland",
+        "water",
+        "single",
+        "stream"
+      ],
+      "status": "available",
+      "featured": false,
+      "loadable": true,
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "WS",
+        "type": "map"
+      },
+      "sourceFiles": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_water_single_stream.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "Water Single Stream — Tailte Éireann HVD (data.gov.ie)",
+          "url": "https://data.gov.ie/dataset/high-value-dataset-water-single-stream1",
+          "note": "Creative Commons Attribution 4.0"
+        },
+        {
+          "label": "Water Single Stream — GeoJSON download",
+          "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/7f141e643559438182ccccbbf32634cb/geojson?layers=8"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "label",
+          "url": "GeoJSON"
+        },
+        {
+          "label": "file",
+          "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/7f141e643559438182ccccbbf32634cb/geojson?layers=8"
+        }
+      ],
+      "interactiveUrl": "/#layers=tailte-hvd-water-single-stream",
+      "browseUrl": "/browse/maps/tailte-hvd-water-single-stream"
+    },
+    {
       "id": "tailte-watercourse-start-end-points",
       "slug": "tailte-watercourse-start-end-points",
       "type": "map",
@@ -56894,6 +57369,124 @@
       ],
       "interactiveUrl": "/#layers=tailte-waterfalls",
       "browseUrl": "/browse/maps/tailte-waterfalls"
+    },
+    {
+      "id": "tailte-hvd-way-gdf2",
+      "slug": "tailte-hvd-way-gdf2",
+      "type": "map",
+      "title": "Way GDF2 (Tailte Éireann HVD)",
+      "categoryId": "transport",
+      "category": "Transport",
+      "group": "Built Environment",
+      "description": "Way GDF2 — Tailte Éireann / Ordnance Survey Ireland High Value Dataset (336,126 features). A GDF2 is a notional line indicating the centerline of a Way A GDF2 is a notional line indicating the centerline of a Way excepting that in the case of a dual carriageway or motorway, it indicates the central median between opposing carriageways and in the case of a roundabout, i",
+      "provider": [
+        "Tailte Éireann"
+      ],
+      "keywords": [
+        "tailte éireann",
+        "osi",
+        "high value dataset",
+        "hvd",
+        "ireland",
+        "way",
+        "gdf2"
+      ],
+      "status": "available",
+      "featured": false,
+      "loadable": true,
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "WG",
+        "type": "map"
+      },
+      "sourceFiles": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_way_gdf2.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "Way GDF2 — Tailte Éireann HVD (data.gov.ie)",
+          "url": "https://data.gov.ie/dataset/high-value-dataset-way-gdf21",
+          "note": "Creative Commons Attribution 4.0"
+        },
+        {
+          "label": "Way GDF2 — GeoJSON download",
+          "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/4aa8d1c94b0d4b84a0c8d89166d191e4/geojson?layers=10"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "label",
+          "url": "GeoJSON"
+        },
+        {
+          "label": "file",
+          "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/4aa8d1c94b0d4b84a0c8d89166d191e4/geojson?layers=10"
+        }
+      ],
+      "interactiveUrl": "/#layers=tailte-hvd-way-gdf2",
+      "browseUrl": "/browse/maps/tailte-hvd-way-gdf2"
+    },
+    {
+      "id": "tailte-hvd-way-points",
+      "slug": "tailte-hvd-way-points",
+      "type": "map",
+      "title": "Way Points (Tailte Éireann HVD)",
+      "categoryId": "transport",
+      "category": "Transport",
+      "group": "Built Environment",
+      "description": "Way Points — Tailte Éireann / Ordnance Survey Ireland High Value Dataset (311,821 features). Way points describe all points along a network segment currently captured by Tailte Éireann. A Way Point is a point that marks either an end point of a Way Network Segment, or a point on the Way Network Segment at which there is a transition, or a point at which there is a juncti",
+      "provider": [
+        "Tailte Éireann"
+      ],
+      "keywords": [
+        "tailte éireann",
+        "osi",
+        "high value dataset",
+        "hvd",
+        "ireland",
+        "way",
+        "points"
+      ],
+      "status": "available",
+      "featured": false,
+      "loadable": true,
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "WP",
+        "type": "map"
+      },
+      "sourceFiles": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_way_points.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "Way Points — Tailte Éireann HVD (data.gov.ie)",
+          "url": "https://data.gov.ie/dataset/high-value-dataset-way-points1",
+          "note": "Creative Commons Attribution 4.0"
+        },
+        {
+          "label": "Way Points — GeoJSON download",
+          "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/f09f1d48368740159b4c9a2eafe5c86d/geojson?layers=11"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "label",
+          "url": "GeoJSON"
+        },
+        {
+          "label": "file",
+          "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/f09f1d48368740159b4c9a2eafe5c86d/geojson?layers=11"
+        }
+      ],
+      "interactiveUrl": "/#layers=tailte-hvd-way-points",
+      "browseUrl": "/browse/maps/tailte-hvd-way-points"
     },
     {
       "id": "historic-wedge-tomb",

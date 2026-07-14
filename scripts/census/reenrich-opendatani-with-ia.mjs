@@ -27,7 +27,9 @@ const bySource = new Map();
 for (const p of manifests) {
   let doc; try { doc = JSON.parse(readFileSync(p, 'utf8')); } catch { continue; }
   for (const m of doc.mirrored || []) {
-    if (m.status === 'failed') continue;
+    // only files actually present on IA (uploaded this run, or already there);
+    // skip 'failed' and 'skipped-dynamic' (ArcGIS exports never uploaded)
+    if (m.status !== 'uploaded' && m.status !== 'already') continue;
     bySource.set(m.sourceUrl, { iaUrl: m.iaUrl, item: m.item });
   }
 }
