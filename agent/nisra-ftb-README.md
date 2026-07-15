@@ -1,9 +1,14 @@
 # NISRA 2021 Census flexible-table-builder corpus
 
-A machine-readable mirror of **3,664 tables** harvested from the NISRA 2021
+A machine-readable mirror of **27,859 tables** harvested from the NISRA 2021
 Census flexible table builder (`build.nisra.gov.uk`), served as gzipped CSVs
 from Cloudflare R2. This lets an agent read 2021 Census counts at NI
 small-area geographies **without** driving the Cantabular web UI.
+
+Composition: 220 univariate, 3,381 two-way, 24,238 three-way, 20 four-way
+(ready-made) tables. By geography: LGD14 10,640, DEA14 9,120, SDZ21 5,142,
+DZ21 2,949 (the finest geography has the fewest tables because most fine
+crosstabs are disclosure-blocked — see below).
 
 ## Index
 
@@ -31,10 +36,13 @@ Fetch `url` and `gunzip` — the payload is the exact CSV NISRA's builder emits
   `HOUSEHOLD` (household-level, 14 attribute variables).
 - **Geographies:** `LGD14` (11 councils), `DEA14` (80 District Electoral
   Areas), `SDZ21` (850 Super Data Zones), `DZ21` (3,780 Data Zones).
-- **Table shapes:** all 81 NISRA ready-made tables, every univariate
-  (geography × one attribute) table, every 2-way (geography × two attributes)
-  table that passes disclosure control, and targeted 3-way joints for the MRP
-  attribute set (sex × age × religion × NS-SeC) wherever they pass.
+- **Table shapes:** all 81 NISRA ready-made tables; every univariate
+  (geography × one attribute) table; every 2-way (geography × two attributes)
+  table that passes disclosure control; and **every valid 3-way (geography ×
+  three attributes) table that passes disclosure control** — the full
+  exhaustive 3-way sweep across both datasets and all four geographies, not
+  just the MRP subset. Combinations of two variants of the same base variable
+  (e.g. two age-band granularities) are structurally invalid and are excluded.
 
 ## Disclosure control (why some combinations are absent)
 
