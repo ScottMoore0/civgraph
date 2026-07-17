@@ -20,7 +20,9 @@ const DEFAULT_PARTY_COLOURS = new Map([
   ['tuv', '#0c3a6a'],
   ['uup', '#48a5ee'],
   ['yes', '#2aa82c'],
-  ['no', '#d46a4c']
+  ['no', '#d46a4c'],
+  ['remain', '#2aa82c'],
+  ['leave', '#d46a4c']
 ]);
 
 export function normalizeName(value) {

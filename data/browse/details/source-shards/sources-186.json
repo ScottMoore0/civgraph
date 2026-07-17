@@ -1,10 +1,1048 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-14T17:47:33.902Z",
+  "generatedAt": "2026-07-17T19:32:11.369Z",
   "kind": "sources",
   "shard": "sources-186.json",
   "total": 200,
   "items": [
+    {
+      "id": "map-source:wq-aquatroll-realtime",
+      "slug": "map-source-wq-aquatroll-realtime",
+      "type": "map-source",
+      "title": "AquaTROLL Real-Time Water Quality Sensors source files",
+      "subtitle": "Water Quality / DAERA, NIEA",
+      "category": "Map sources",
+      "provider": [
+        "DAERA",
+        "NIEA"
+      ],
+      "description": "Live AquaTROLL multi-parameter sensor monitoring sites publishing real-time water-quality metrics (pH, conductivity, dissolved oxygen, temperature, turbidity, etc.) at three locations in Northern Ireland.",
+      "sourceMapId": "wq-aquatroll-realtime",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "AR",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Rea’s Wood AquaTROLL Metrics View",
+          "url": "https://admin.opendatani.gov.uk/dataset/reas-wood-aquatroll-metrics-view"
+        },
+        {
+          "label": "Toome AquaTROLL Metrics View",
+          "url": "https://admin.opendatani.gov.uk/dataset/toome-aquatroll-metrics-view"
+        },
+        {
+          "label": "Washing Bay AquaTROLL Metrics View",
+          "url": "https://admin.opendatani.gov.uk/dataset/washing-bay-aquatroll-metrics-view"
+        }
+      ],
+      "interactiveUrl": "/#layers=wq-aquatroll-realtime",
+      "browseUrl": "/browse/sources/map-source-wq-aquatroll-realtime",
+      "rawMetadata": {
+        "id": "wq-aquatroll-realtime",
+        "name": "AquaTROLL Real-Time Water Quality Sensors",
+        "slug": "wq-aquatroll-realtime",
+        "category": "water-quality",
+        "provider": [
+          "DAERA",
+          "NIEA"
+        ],
+        "description": "Live AquaTROLL multi-parameter sensor monitoring sites publishing real-time water-quality metrics (pH, conductivity, dissolved oxygen, temperature, turbidity, etc.) at three locations in Northern Ireland.",
+        "keywords": [
+          "aquatroll",
+          "real time",
+          "sensor",
+          "monitoring",
+          "live",
+          "multi parameter"
+        ],
+        "references": [
+          {
+            "label": "Rea’s Wood AquaTROLL Metrics View",
+            "url": "https://admin.opendatani.gov.uk/dataset/reas-wood-aquatroll-metrics-view",
+            "note": ""
+          },
+          {
+            "label": "Toome AquaTROLL Metrics View",
+            "url": "https://admin.opendatani.gov.uk/dataset/toome-aquatroll-metrics-view",
+            "note": ""
+          },
+          {
+            "label": "Washing Bay AquaTROLL Metrics View",
+            "url": "https://admin.opendatani.gov.uk/dataset/washing-bay-aquatroll-metrics-view",
+            "note": ""
+          }
+        ],
+        "placeholder": true
+      }
+    },
+    {
+      "id": "map-source:wq-groundwater-bodies",
+      "slug": "map-source-wq-groundwater-bodies",
+      "type": "map-source",
+      "title": "Northern Ireland Groundwater Bodies source files",
+      "subtitle": "Water Quality / DAERA, NIEA",
+      "category": "Map sources",
+      "provider": [
+        "DAERA",
+        "NIEA"
+      ],
+      "description": "Polygons of groundwater bodies — the underground aquifer-based units used for WFD groundwater status assessment. 1 ArcGIS metadata item staged as provenance for this existing Civgraph record; owner/provider: DAERA_OpenContent; ArcGIS item ID: 419801229efd42988a8745ae4aa776ca; modified: 2023-08-17; access: public; 1 service link preserved as references; licence note: The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion.",
+      "sourceMapId": "wq-groundwater-bodies",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "wq-groundwater-bodies",
+        "url": "/assets/thumbnails/wq-groundwater-bodies.webp",
+        "smallUrl": "/assets/thumbnails/wq-groundwater-bodies-60.webp",
+        "alt": "Northern Ireland Groundwater Bodies"
+      },
+      "references": [
+        {
+          "label": "OSNI Open Data — Northern Ireland Groundwater Bodies",
+          "url": "https://admin.opendatani.gov.uk/dataset/northern-ireland-groundwater-bodies2"
+        },
+        {
+          "label": "Existing Civgraph record: Northern Ireland Groundwater Bodies",
+          "url": "/browse/maps/wq-groundwater-bodies",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:wq-groundwater-bodies",
+          "url": "/browse/sources/map-source-wq-groundwater-bodies",
+          "source": "Civgraph",
+          "role": "matched-source-record"
+        },
+        {
+          "label": "ArcGIS item: Northern Ireland Groundwater Bodies",
+          "url": "https://www.arcgis.com/home/item.html?id=419801229efd42988a8745ae4aa776ca",
+          "source": "DAERA_OpenContent",
+          "role": "arcgis-item-page",
+          "type": "Feature Service",
+          "note": "Item ID 419801229efd42988a8745ae4aa776ca / modified 2023-08-17 / access public"
+        },
+        {
+          "label": "ArcGIS service: Northern Ireland Groundwater Bodies",
+          "url": "https://services-eu1.arcgis.com/kswen6BYexuc1SUk/arcgis/rest/services/NorthernIrelandGroundwaterBodies/FeatureServer",
+          "source": "DAERA_OpenContent",
+          "role": "arcgis-service-url",
+          "type": "ArcGIS service",
+          "note": "geometry: esriGeometryPolygon / capabilities: Query, Sync / 1 layers"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/water-quality/northern-ireland-groundwater-bodies2.fgb"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/water-quality/northern-ireland-groundwater-bodies2.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=wq-groundwater-bodies",
+      "browseUrl": "/browse/sources/map-source-wq-groundwater-bodies",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:wq-groundwater-bodies",
+          "targetEntityKind": "map",
+          "targetEntityId": "wq-groundwater-bodies",
+          "targetTitle": "Northern Ireland Groundwater Bodies",
+          "targetBrowseUrl": "/browse/maps/wq-groundwater-bodies",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "DAERA_OpenContent"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "arcgisItemIds": [
+            "419801229efd42988a8745ae4aa776ca"
+          ],
+          "arcgisItemPages": [
+            "https://www.arcgis.com/home/item.html?id=419801229efd42988a8745ae4aa776ca"
+          ],
+          "serviceUrls": [
+            "https://services-eu1.arcgis.com/kswen6BYexuc1SUk/arcgis/rest/services/NorthernIrelandGroundwaterBodies/FeatureServer"
+          ],
+          "modifiedDates": [
+            "2023-08-17T00:02:47.000Z"
+          ],
+          "accessStates": [
+            "public"
+          ],
+          "licenseNotes": [
+            "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+          ],
+          "provenanceSummary": "1 ArcGIS metadata item staged as provenance for this existing Civgraph record; owner/provider: DAERA_OpenContent; ArcGIS item ID: 419801229efd42988a8745ae4aa776ca; modified: 2023-08-17; access: public; 1 service link preserved as references; licence note: The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion.",
+          "sourceItems": [
+            {
+              "auditRowNumber": 293,
+              "title": "Northern Ireland Groundwater Bodies",
+              "provider": "DAERA_OpenContent",
+              "category": "habitat-protected-site-context",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "419801229efd42988a8745ae4aa776ca",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=419801229efd42988a8745ae4aa776ca",
+              "serviceUrl": "https://services-eu1.arcgis.com/kswen6BYexuc1SUk/arcgis/rest/services/NorthernIrelandGroundwaterBodies/FeatureServer",
+              "modified": "2023-08-17T00:02:47.000Z",
+              "access": "public",
+              "tags": [
+                "Groundwater",
+                "hydrogeology",
+                "WFD",
+                "Water Framework Directive",
+                "Aquifers"
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query",
+                "Sync"
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Northern Ireland Groundwater Bodies",
+              "civgraphMatchId": "wq-groundwater-bodies",
+              "civgraphMatchTitle": "Northern Ireland Groundwater Bodies",
+              "civgraphMatchKind": "map",
+              "civgraphMatchScore": 1,
+              "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "map",
+              "id": "wq-groundwater-bodies",
+              "title": "Northern Ireland Groundwater Bodies",
+              "score": 1
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 293,
+          "title": "Northern Ireland Groundwater Bodies",
+          "provider": "DAERA_OpenContent",
+          "category": "habitat-protected-site-context",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "419801229efd42988a8745ae4aa776ca",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=419801229efd42988a8745ae4aa776ca",
+          "serviceUrl": "https://services-eu1.arcgis.com/kswen6BYexuc1SUk/arcgis/rest/services/NorthernIrelandGroundwaterBodies/FeatureServer",
+          "modified": "2023-08-17T00:02:47.000Z",
+          "access": "public",
+          "tags": [
+            "Groundwater",
+            "hydrogeology",
+            "WFD",
+            "Water Framework Directive",
+            "Aquifers"
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query",
+            "Sync"
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Northern Ireland Groundwater Bodies",
+          "civgraphMatchId": "wq-groundwater-bodies",
+          "civgraphMatchTitle": "Northern Ireland Groundwater Bodies",
+          "civgraphMatchKind": "map",
+          "civgraphMatchScore": 1,
+          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
+      ],
+      "publicationStatus": "enriched",
+      "rawMetadata": {
+        "id": "wq-groundwater-bodies",
+        "name": "Northern Ireland Groundwater Bodies",
+        "slug": "wq-groundwater-bodies",
+        "category": "water-quality",
+        "provider": [
+          "DAERA",
+          "NIEA"
+        ],
+        "description": "Polygons of groundwater bodies — the underground aquifer-based units used for WFD groundwater status assessment.",
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/water-quality/northern-ireland-groundwater-bodies2.fgb"
+        },
+        "style": {
+          "color": "#6a3d9a",
+          "weight": 1,
+          "fillOpacity": 0.3
+        },
+        "keywords": [
+          "groundwater",
+          "aquifer",
+          "water body",
+          "wfd",
+          "subsurface"
+        ],
+        "useLOD": true,
+        "references": [
+          {
+            "label": "OSNI Open Data — Northern Ireland Groundwater Bodies",
+            "url": "https://admin.opendatani.gov.uk/dataset/northern-ireland-groundwater-bodies2",
+            "note": ""
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-source:wq-groundwater-dwpa",
+      "slug": "map-source-wq-groundwater-dwpa",
+      "type": "map-source",
+      "title": "Groundwater Drinking-Water Protected Areas (DWPAs) source files",
+      "subtitle": "Water Quality / DAERA, NIEA",
+      "category": "Map sources",
+      "provider": [
+        "DAERA",
+        "NIEA"
+      ],
+      "description": "Designated protection zones where groundwater is abstracted for drinking-water supply, subject to elevated water-quality safeguards.",
+      "sourceMapId": "wq-groundwater-dwpa",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "wq-groundwater-dwpa",
+        "url": "/assets/thumbnails/wq-groundwater-dwpa.webp",
+        "smallUrl": "/assets/thumbnails/wq-groundwater-dwpa-60.webp",
+        "alt": "Groundwater Drinking-Water Protected Areas (DWPAs)"
+      },
+      "references": [
+        {
+          "label": "OSNI Open Data — Groundwater Drinking Water Protected Areas (DWPAs)",
+          "url": "https://admin.opendatani.gov.uk/dataset/groundwater-drinking-water-protected-areas-dwpas1"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/water-quality/groundwater-drinking-water-protected-areas-dwpas1.fgb"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/water-quality/groundwater-drinking-water-protected-areas-dwpas1.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=wq-groundwater-dwpa",
+      "browseUrl": "/browse/sources/map-source-wq-groundwater-dwpa",
+      "rawMetadata": {
+        "id": "wq-groundwater-dwpa",
+        "name": "Groundwater Drinking-Water Protected Areas (DWPAs)",
+        "slug": "wq-groundwater-dwpa",
+        "category": "water-quality",
+        "provider": [
+          "DAERA",
+          "NIEA"
+        ],
+        "description": "Designated protection zones where groundwater is abstracted for drinking-water supply, subject to elevated water-quality safeguards.",
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/water-quality/groundwater-drinking-water-protected-areas-dwpas1.fgb"
+        },
+        "style": {
+          "color": "#fdbf6f",
+          "weight": 1,
+          "fillOpacity": 0.4
+        },
+        "keywords": [
+          "drinking water",
+          "protected area",
+          "dwpa",
+          "groundwater",
+          "abstraction"
+        ],
+        "useLOD": true,
+        "references": [
+          {
+            "label": "OSNI Open Data — Groundwater Drinking Water Protected Areas (DWPAs)",
+            "url": "https://admin.opendatani.gov.uk/dataset/groundwater-drinking-water-protected-areas-dwpas1",
+            "note": ""
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-source:wq-lake-water-bodies",
+      "slug": "map-source-wq-lake-water-bodies",
+      "type": "map-source",
+      "title": "Lake Water Bodies source files",
+      "subtitle": "Water Quality / DAERA, NIEA",
+      "category": "Map sources",
+      "provider": [
+        "DAERA",
+        "NIEA"
+      ],
+      "description": "Polygons of lakes and standing waters classified as WFD water bodies in Northern Ireland. 1 ArcGIS metadata item staged as provenance for this existing Civgraph record; owner/provider: DAERA_OpenContent; ArcGIS item ID: b28bf03a9c5a487eb91a98386960feab; modified: 2023-08-17; access: public; 1 service link preserved as references; licence note: The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion.",
+      "sourceMapId": "wq-lake-water-bodies",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "wq-lake-water-bodies",
+        "url": "/assets/thumbnails/wq-lake-water-bodies.webp",
+        "smallUrl": "/assets/thumbnails/wq-lake-water-bodies-60.webp",
+        "alt": "Lake Water Bodies"
+      },
+      "references": [
+        {
+          "label": "OSNI Open Data — Lake Water Bodies",
+          "url": "https://admin.opendatani.gov.uk/dataset/lake-water-bodies1"
+        },
+        {
+          "label": "Existing Civgraph record: Lake Water Bodies",
+          "url": "/browse/maps/wq-lake-water-bodies",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:wq-lake-water-bodies",
+          "url": "/browse/sources/map-source-wq-lake-water-bodies",
+          "source": "Civgraph",
+          "role": "matched-source-record"
+        },
+        {
+          "label": "ArcGIS item: Lake Water Bodies",
+          "url": "https://www.arcgis.com/home/item.html?id=b28bf03a9c5a487eb91a98386960feab",
+          "source": "DAERA_OpenContent",
+          "role": "arcgis-item-page",
+          "type": "Feature Service",
+          "note": "Item ID b28bf03a9c5a487eb91a98386960feab / modified 2023-08-17 / access public"
+        },
+        {
+          "label": "ArcGIS service: Lake Water Bodies",
+          "url": "https://services-eu1.arcgis.com/kswen6BYexuc1SUk/arcgis/rest/services/Lake_Water_Bodies_2016/FeatureServer",
+          "source": "DAERA_OpenContent",
+          "role": "arcgis-service-url",
+          "type": "ArcGIS service",
+          "note": "geometry: esriGeometryPolygon / capabilities: Query, Extract, Sync / 1 layers"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/water-quality/lake-water-bodies1.fgb"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/water-quality/lake-water-bodies1.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=wq-lake-water-bodies",
+      "browseUrl": "/browse/sources/map-source-wq-lake-water-bodies",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:wq-lake-water-bodies",
+          "targetEntityKind": "map",
+          "targetEntityId": "wq-lake-water-bodies",
+          "targetTitle": "Lake Water Bodies",
+          "targetBrowseUrl": "/browse/maps/wq-lake-water-bodies",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "DAERA_OpenContent"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "arcgisItemIds": [
+            "b28bf03a9c5a487eb91a98386960feab"
+          ],
+          "arcgisItemPages": [
+            "https://www.arcgis.com/home/item.html?id=b28bf03a9c5a487eb91a98386960feab"
+          ],
+          "serviceUrls": [
+            "https://services-eu1.arcgis.com/kswen6BYexuc1SUk/arcgis/rest/services/Lake_Water_Bodies_2016/FeatureServer"
+          ],
+          "modifiedDates": [
+            "2023-08-17T00:02:43.000Z"
+          ],
+          "accessStates": [
+            "public"
+          ],
+          "licenseNotes": [
+            "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+          ],
+          "provenanceSummary": "1 ArcGIS metadata item staged as provenance for this existing Civgraph record; owner/provider: DAERA_OpenContent; ArcGIS item ID: b28bf03a9c5a487eb91a98386960feab; modified: 2023-08-17; access: public; 1 service link preserved as references; licence note: The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion.",
+          "sourceItems": [
+            {
+              "auditRowNumber": 192,
+              "title": "Lake Water Bodies",
+              "provider": "DAERA_OpenContent",
+              "category": "habitat-protected-site-context",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "b28bf03a9c5a487eb91a98386960feab",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=b28bf03a9c5a487eb91a98386960feab",
+              "serviceUrl": "https://services-eu1.arcgis.com/kswen6BYexuc1SUk/arcgis/rest/services/Lake_Water_Bodies_2016/FeatureServer",
+              "modified": "2023-08-17T00:02:43.000Z",
+              "access": "public",
+              "tags": [
+                "WFD",
+                "Lake Water Bodies",
+                "2nd cycle",
+                "NIEA",
+                "Water Framework Directive",
+                "DAERA",
+                "Water"
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query",
+                "Extract",
+                "Sync"
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Lake Water Bodies",
+              "civgraphMatchId": "wq-lake-water-bodies",
+              "civgraphMatchTitle": "Lake Water Bodies",
+              "civgraphMatchKind": "map",
+              "civgraphMatchScore": 1,
+              "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "map",
+              "id": "wq-lake-water-bodies",
+              "title": "Lake Water Bodies",
+              "score": 1
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 192,
+          "title": "Lake Water Bodies",
+          "provider": "DAERA_OpenContent",
+          "category": "habitat-protected-site-context",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "b28bf03a9c5a487eb91a98386960feab",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=b28bf03a9c5a487eb91a98386960feab",
+          "serviceUrl": "https://services-eu1.arcgis.com/kswen6BYexuc1SUk/arcgis/rest/services/Lake_Water_Bodies_2016/FeatureServer",
+          "modified": "2023-08-17T00:02:43.000Z",
+          "access": "public",
+          "tags": [
+            "WFD",
+            "Lake Water Bodies",
+            "2nd cycle",
+            "NIEA",
+            "Water Framework Directive",
+            "DAERA",
+            "Water"
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query",
+            "Extract",
+            "Sync"
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Lake Water Bodies",
+          "civgraphMatchId": "wq-lake-water-bodies",
+          "civgraphMatchTitle": "Lake Water Bodies",
+          "civgraphMatchKind": "map",
+          "civgraphMatchScore": 1,
+          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
+      ],
+      "publicationStatus": "enriched",
+      "rawMetadata": {
+        "id": "wq-lake-water-bodies",
+        "name": "Lake Water Bodies",
+        "slug": "wq-lake-water-bodies",
+        "category": "water-quality",
+        "provider": [
+          "DAERA",
+          "NIEA"
+        ],
+        "description": "Polygons of lakes and standing waters classified as WFD water bodies in Northern Ireland.",
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/water-quality/lake-water-bodies1.fgb"
+        },
+        "style": {
+          "color": "#1f78b4",
+          "weight": 1,
+          "fillOpacity": 0.5
+        },
+        "keywords": [
+          "lake",
+          "lough",
+          "water body",
+          "wfd",
+          "standing water"
+        ],
+        "useLOD": true,
+        "references": [
+          {
+            "label": "OSNI Open Data — Lake Water Bodies",
+            "url": "https://admin.opendatani.gov.uk/dataset/lake-water-bodies1",
+            "note": ""
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-source:wq-network-contribution",
+      "slug": "map-source-wq-network-contribution",
+      "type": "map-source",
+      "title": "DAERA Network Contribution — SciMAP modelled pollution scores by river basin (26 catchments) source files",
+      "subtitle": "Water Quality / DAERA, NIEA",
+      "category": "Map sources",
+      "provider": [
+        "DAERA",
+        "NIEA"
+      ],
+      "description": "Per-river-basin pollution-contribution scores from the SciMAP hydrological model (CEH Land Cover 2007 + Met Office rainfall + 5 m DTM), rasterised at 25 m and rendered as a Web Mercator tile pyramid coloured on inferno (low → high contribution). Raw GRIDCODE values of 58–100 stretch the inferno ramp from dark purple to pale yellow. Each parcel of land is scored for how much sediment / nutrient pollution its upstream catchment contributes to receiving waters. 26 catchment datasets were rasterised individually, mosaicked, and re-projected; per-catchment download links remain in sourceDownloads for the raw vector data.",
+      "sourceMapId": "wq-network-contribution",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "DN",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "DAERA Open Data Hub — Network Contribution datasets",
+          "url": "https://opendata-daerani.hub.arcgis.com/search?q=network%20contribution"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "label",
+          "url": "Ballinderry Network Contribution"
+        },
+        {
+          "label": "file",
+          "url": "https://opendata-daerani.hub.arcgis.com/datasets/ballinderry-network-contribution"
+        },
+        {
+          "label": "label",
+          "url": "Belfast Lough Network Contribution"
+        },
+        {
+          "label": "file",
+          "url": "https://opendata-daerani.hub.arcgis.com/datasets/belfast-lough-network-contribution"
+        },
+        {
+          "label": "label",
+          "url": "Braid And Main Network Contribution"
+        },
+        {
+          "label": "file",
+          "url": "https://opendata-daerani.hub.arcgis.com/datasets/braid-and-main-network-contribution"
+        },
+        {
+          "label": "label",
+          "url": "Burn Dennet And Foyle Network Contribution"
+        },
+        {
+          "label": "file",
+          "url": "https://opendata-daerani.hub.arcgis.com/datasets/burn-dennet-and-foyle-network-contribution"
+        },
+        {
+          "label": "label",
+          "url": "Bush Network Contribution"
+        },
+        {
+          "label": "file",
+          "url": "https://opendata-daerani.hub.arcgis.com/datasets/bush-network-contribution"
+        },
+        {
+          "label": "label",
+          "url": "Carlingford And Newry Network Contribution"
+        },
+        {
+          "label": "file",
+          "url": "https://opendata-daerani.hub.arcgis.com/datasets/carlingford-and-newry-network-contribution"
+        },
+        {
+          "label": "label",
+          "url": "Derg And Mourne Network Contribution"
+        },
+        {
+          "label": "file",
+          "url": "https://opendata-daerani.hub.arcgis.com/datasets/derg-and-mourne-network-contribution"
+        },
+        {
+          "label": "label",
+          "url": "Faughan Network Contribution"
+        },
+        {
+          "label": "file",
+          "url": "https://opendata-daerani.hub.arcgis.com/datasets/faughan-network-contribution"
+        },
+        {
+          "label": "label",
+          "url": "Glens Rathlin Network Contribution"
+        },
+        {
+          "label": "file",
+          "url": "https://opendata-daerani.hub.arcgis.com/datasets/glens-rathlin-network-contribution"
+        },
+        {
+          "label": "label",
+          "url": "Lagan Network Contribution"
+        },
+        {
+          "label": "file",
+          "url": "https://opendata-daerani.hub.arcgis.com/datasets/lagan-network-contribution"
+        },
+        {
+          "label": "label",
+          "url": "Larne Lough Network Contribution"
+        },
+        {
+          "label": "file",
+          "url": "https://opendata-daerani.hub.arcgis.com/datasets/larne-lough-network-contribution"
+        },
+        {
+          "label": "label",
+          "url": "Lough Melvin And Arney Network Contribution"
+        },
+        {
+          "label": "file",
+          "url": "https://opendata-daerani.hub.arcgis.com/datasets/lough-melvin-and-arney-network-contribution"
+        },
+        {
+          "label": "label",
+          "url": "Lough Neagh Network Contribution"
+        },
+        {
+          "label": "file",
+          "url": "https://opendata-daerani.hub.arcgis.com/datasets/lough-neagh-network-contribution"
+        },
+        {
+          "label": "label",
+          "url": "Lower Bann Network Contribution"
+        },
+        {
+          "label": "file",
+          "url": "https://opendata-daerani.hub.arcgis.com/datasets/lower-bann-network-contribution"
+        },
+        {
+          "label": "label",
+          "url": "Lower Lough Erne Network Contribution"
+        },
+        {
+          "label": "file",
+          "url": "https://opendata-daerani.hub.arcgis.com/datasets/lower-lough-erne-network-contribution"
+        },
+        {
+          "label": "label",
+          "url": "Moyola Network Contribution"
+        },
+        {
+          "label": "file",
+          "url": "https://opendata-daerani.hub.arcgis.com/datasets/moyola-network-contribution"
+        },
+        {
+          "label": "label",
+          "url": "Owenkillew Network Contribution"
+        },
+        {
+          "label": "file",
+          "url": "https://opendata-daerani.hub.arcgis.com/datasets/owenkillew-network-contribution"
+        },
+        {
+          "label": "label",
+          "url": "Quoile Network Contribution"
+        },
+        {
+          "label": "file",
+          "url": "https://opendata-daerani.hub.arcgis.com/datasets/quoile-network-contribution"
+        },
+        {
+          "label": "label",
+          "url": "River Blackwater Network Contribution"
+        },
+        {
+          "label": "file",
+          "url": "https://opendata-daerani.hub.arcgis.com/datasets/river-blackwater-network-contribution"
+        },
+        {
+          "label": "label",
+          "url": "Roe Network Contribution"
+        },
+        {
+          "label": "file",
+          "url": "https://opendata-daerani.hub.arcgis.com/datasets/roe-network-contribution"
+        },
+        {
+          "label": "label",
+          "url": "Six Mile Water Network Contribution"
+        },
+        {
+          "label": "file",
+          "url": "https://opendata-daerani.hub.arcgis.com/datasets/six-mile-water-network-contribution"
+        },
+        {
+          "label": "label",
+          "url": "South Down Network Contribution"
+        },
+        {
+          "label": "file",
+          "url": "https://opendata-daerani.hub.arcgis.com/datasets/south-down-network-contribution"
+        },
+        {
+          "label": "label",
+          "url": "Strangford Network Contribution"
+        },
+        {
+          "label": "file",
+          "url": "https://opendata-daerani.hub.arcgis.com/datasets/strangford-network-contribution"
+        },
+        {
+          "label": "label",
+          "url": "Strule Network Contribution"
+        },
+        {
+          "label": "file",
+          "url": "https://opendata-daerani.hub.arcgis.com/datasets/strule-network-contribution"
+        },
+        {
+          "label": "label",
+          "url": "Upper Bann Network Contribution"
+        },
+        {
+          "label": "file",
+          "url": "https://opendata-daerani.hub.arcgis.com/datasets/upper-bann-network-contribution"
+        },
+        {
+          "label": "label",
+          "url": "Upper Lough Erne Network Contribution"
+        },
+        {
+          "label": "file",
+          "url": "https://opendata-daerani.hub.arcgis.com/datasets/upper-lough-erne-network-contribution"
+        },
+        {
+          "label": "xyz",
+          "url": "https://data.civgraph.net/data/maps/water-quality/network-contribution-tiles/{z}/{x}/{y}.png"
+        }
+      ],
+      "interactiveUrl": "/#layers=wq-network-contribution",
+      "browseUrl": "/browse/sources/map-source-wq-network-contribution",
+      "rawMetadata": {
+        "id": "wq-network-contribution",
+        "name": "DAERA Network Contribution — SciMAP modelled pollution scores by river basin (26 catchments)",
+        "slug": "wq-network-contribution",
+        "category": "water-quality",
+        "provider": [
+          "DAERA",
+          "NIEA"
+        ],
+        "description": "Per-river-basin pollution-contribution scores from the SciMAP hydrological model (CEH Land Cover 2007 + Met Office rainfall + 5 m DTM), rasterised at 25 m and rendered as a Web Mercator tile pyramid coloured on inferno (low → high contribution). Raw GRIDCODE values of 58–100 stretch the inferno ramp from dark purple to pale yellow. Each parcel of land is scored for how much sediment / nutrient pollution its upstream catchment contributes to receiving waters. 26 catchment datasets were rasterised individually, mosaicked, and re-projected; per-catchment download links remain in sourceDownloads for the raw vector data.",
+        "keywords": [
+          "scimap",
+          "pollution",
+          "river",
+          "catchment",
+          "daera",
+          "niea",
+          "network contribution",
+          "runoff",
+          "diffuse"
+        ],
+        "references": [
+          {
+            "label": "DAERA Open Data Hub — Network Contribution datasets",
+            "url": "https://opendata-daerani.hub.arcgis.com/search?q=network%20contribution",
+            "note": ""
+          }
+        ],
+        "sourceDownloads": [
+          {
+            "label": "Ballinderry Network Contribution",
+            "file": "https://opendata-daerani.hub.arcgis.com/datasets/ballinderry-network-contribution"
+          },
+          {
+            "label": "Belfast Lough Network Contribution",
+            "file": "https://opendata-daerani.hub.arcgis.com/datasets/belfast-lough-network-contribution"
+          },
+          {
+            "label": "Braid And Main Network Contribution",
+            "file": "https://opendata-daerani.hub.arcgis.com/datasets/braid-and-main-network-contribution"
+          },
+          {
+            "label": "Burn Dennet And Foyle Network Contribution",
+            "file": "https://opendata-daerani.hub.arcgis.com/datasets/burn-dennet-and-foyle-network-contribution"
+          },
+          {
+            "label": "Bush Network Contribution",
+            "file": "https://opendata-daerani.hub.arcgis.com/datasets/bush-network-contribution"
+          },
+          {
+            "label": "Carlingford And Newry Network Contribution",
+            "file": "https://opendata-daerani.hub.arcgis.com/datasets/carlingford-and-newry-network-contribution"
+          },
+          {
+            "label": "Derg And Mourne Network Contribution",
+            "file": "https://opendata-daerani.hub.arcgis.com/datasets/derg-and-mourne-network-contribution"
+          },
+          {
+            "label": "Faughan Network Contribution",
+            "file": "https://opendata-daerani.hub.arcgis.com/datasets/faughan-network-contribution"
+          },
+          {
+            "label": "Glens Rathlin Network Contribution",
+            "file": "https://opendata-daerani.hub.arcgis.com/datasets/glens-rathlin-network-contribution"
+          },
+          {
+            "label": "Lagan Network Contribution",
+            "file": "https://opendata-daerani.hub.arcgis.com/datasets/lagan-network-contribution"
+          },
+          {
+            "label": "Larne Lough Network Contribution",
+            "file": "https://opendata-daerani.hub.arcgis.com/datasets/larne-lough-network-contribution"
+          },
+          {
+            "label": "Lough Melvin And Arney Network Contribution",
+            "file": "https://opendata-daerani.hub.arcgis.com/datasets/lough-melvin-and-arney-network-contribution"
+          },
+          {
+            "label": "Lough Neagh Network Contribution",
+            "file": "https://opendata-daerani.hub.arcgis.com/datasets/lough-neagh-network-contribution"
+          },
+          {
+            "label": "Lower Bann Network Contribution",
+            "file": "https://opendata-daerani.hub.arcgis.com/datasets/lower-bann-network-contribution"
+          },
+          {
+            "label": "Lower Lough Erne Network Contribution",
+            "file": "https://opendata-daerani.hub.arcgis.com/datasets/lower-lough-erne-network-contribution"
+          },
+          {
+            "label": "Moyola Network Contribution",
+            "file": "https://opendata-daerani.hub.arcgis.com/datasets/moyola-network-contribution"
+          },
+          {
+            "label": "Owenkillew Network Contribution",
+            "file": "https://opendata-daerani.hub.arcgis.com/datasets/owenkillew-network-contribution"
+          },
+          {
+            "label": "Quoile Network Contribution",
+            "file": "https://opendata-daerani.hub.arcgis.com/datasets/quoile-network-contribution"
+          },
+          {
+            "label": "River Blackwater Network Contribution",
+            "file": "https://opendata-daerani.hub.arcgis.com/datasets/river-blackwater-network-contribution"
+          },
+          {
+            "label": "Roe Network Contribution",
+            "file": "https://opendata-daerani.hub.arcgis.com/datasets/roe-network-contribution"
+          },
+          {
+            "label": "Six Mile Water Network Contribution",
+            "file": "https://opendata-daerani.hub.arcgis.com/datasets/six-mile-water-network-contribution"
+          },
+          {
+            "label": "South Down Network Contribution",
+            "file": "https://opendata-daerani.hub.arcgis.com/datasets/south-down-network-contribution"
+          },
+          {
+            "label": "Strangford Network Contribution",
+            "file": "https://opendata-daerani.hub.arcgis.com/datasets/strangford-network-contribution"
+          },
+          {
+            "label": "Strule Network Contribution",
+            "file": "https://opendata-daerani.hub.arcgis.com/datasets/strule-network-contribution"
+          },
+          {
+            "label": "Upper Bann Network Contribution",
+            "file": "https://opendata-daerani.hub.arcgis.com/datasets/upper-bann-network-contribution"
+          },
+          {
+            "label": "Upper Lough Erne Network Contribution",
+            "file": "https://opendata-daerani.hub.arcgis.com/datasets/upper-lough-erne-network-contribution"
+          }
+        ],
+        "files": {
+          "xyz": "https://data.civgraph.net/data/maps/water-quality/network-contribution-tiles/{z}/{x}/{y}.png"
+        },
+        "rasterStyle": {
+          "opacity": 0.78,
+          "minZoom": 5,
+          "maxZoom": 17,
+          "maxNativeZoom": 13
+        },
+        "bounds": [
+          [
+            54,
+            -8.2
+          ],
+          [
+            55.32,
+            -5.43
+          ]
+        ]
+      }
+    },
     {
       "id": "map-source:wq-ni-water-drinking",
       "slug": "map-source-wq-ni-water-drinking",
@@ -62995,2057 +64033,6 @@
           "XLSX"
         ],
         "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-wmi08-leaving-certificate-candidates-02343"
-      }
-    },
-    {
-      "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:admin-areas-national-1m-map-of-ireland1:00905",
-      "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-admin-areas-national-1m-map-of-ireland1-00905",
-      "type": "approved-medium-priority-source",
-      "title": "Admin Areas - National 1m Map Of Ireland",
-      "subtitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA / Tailte Éireann, Tailte/OSI/data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, GDB, GEOJSON, GPKG, HTML, KML, TXT, XLSX, ZIP / Source record; runtime review pending",
-      "category": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-      "provider": [
-        "Tailte Éireann",
-        "Tailte/OSI/data.gov.ie"
-      ],
-      "description": "Admin Areas - National 1m Map Of Ireland is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; geography-crosswalk-and-versioning: needs exact geography crosswalk; large-or-special-format-review: size/format decision remains before runtime publication.",
-      "url": "https://data.gov.ie/dataset/admin-areas-national-1m-map-of-ireland1",
-      "references": [
-        {
-          "label": "Admin Areas - National 1m Map Of Ireland provider page",
-          "url": "https://data.gov.ie/dataset/admin-areas-national-1m-map-of-ireland1",
-          "source": "Tailte/OSI/data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Admin Areas - National 1m Map Of Ireland Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/admin-areas-national-1m-map-of-ireland1",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/admin-areas-national-1m-map-of-ireland1",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "source-record-with-runtime-review",
-        "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "source-data",
-        "features",
-        "Republic of Ireland",
-        "hold-special-format",
-        "ARCGIS GEOSERVICES REST API",
-        "CSV",
-        "GDB",
-        "GEOJSON",
-        "GPKG",
-        "HTML",
-        "KML",
-        "TXT",
-        "XLSX",
-        "ZIP",
-        "review:duplicate-or-variant-review-no-existing-match-candidate",
-        "review:geography-crosswalk-and-versioning-needs-exact-geography-crosswalk",
-        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 906,
-          "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:admin-areas-national-1m-map-of-ireland1:00905",
-          "title": "Admin Areas - National 1m Map Of Ireland",
-          "cleanTitle": "Admin Areas - National 1m Map Of Ireland",
-          "provider": "Tailte/OSI/data.gov.ie",
-          "organisation": "Tailte Éireann",
-          "category": "spatial",
-          "roiGroup": "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "groupTitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "jurisdiction": "Republic of Ireland",
-          "topic": "source-data",
-          "featureUnit": "features",
-          "formats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "GDB",
-            "GEOJSON",
-            "GPKG",
-            "HTML",
-            "KML",
-            "TXT",
-            "XLSX",
-            "ZIP"
-          ],
-          "isSpatial": true,
-          "isLargeOrSpecial": true,
-          "proposedAction": "hold-special-format",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "download/source viewport first",
-            "conversion": "Do not convert until size/format review approves an interactive derivative.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GDB",
-              "GEOJSON",
-              "GPKG",
-              "HTML",
-              "KML",
-              "TXT",
-              "XLSX",
-              "ZIP"
-            ]
-          },
-          "approvalState": "ready-with-residual-review",
-          "sourcePublicationState": "public source record with runtime/semantic review still pending",
-          "confidence": 45,
-          "currentProviderUrl": "https://data.gov.ie/dataset/admin-areas-national-1m-map-of-ireland1",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/admin-areas-national-1m-map-of-ireland1",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate",
-            "geography-crosswalk-and-versioning: needs exact geography crosswalk",
-            "large-or-special-format-review: size/format decision remains before runtime publication"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source record",
-        "Runtime review pending",
-        "Spatial source",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "Republic of Ireland",
-        "source-data",
-        "Admin Areas - National 1m Map Of Ireland"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text",
-          "spreadsheet",
-          "download-only"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/admin-areas-national-1m-map-of-ireland1",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/admin-areas-national-1m-map-of-ireland1",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "Do not convert until size/format review approves an interactive derivative."
-      },
-      "shortCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie, Admin Areas - National 1m Map Of Ireland.",
-      "fullCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie. Admin Areas - National 1m Map Of Ireland. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/admin-areas-national-1m-map-of-ireland1. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/admin-areas-national-1m-map-of-ireland1.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:admin-areas-national-1m-map-of-ireland1:00905",
-        "sourceRowNumber": 906,
-        "approvalState": "ready-with-residual-review",
-        "recommendedAction": "publish source record; hold runtime conversion pending size/format review",
-        "proposedAction": "hold-special-format",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "download/source viewport first",
-          "conversion": "Do not convert until size/format review approves an interactive derivative.",
-          "sourceFormats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "GDB",
-            "GEOJSON",
-            "GPKG",
-            "HTML",
-            "KML",
-            "TXT",
-            "XLSX",
-            "ZIP"
-          ]
-        },
-        "confidence": 45,
-        "residualBlockers": [
-          "duplicate-or-variant-review: no existing match candidate",
-          "geography-crosswalk-and-versioning: needs exact geography crosswalk",
-          "large-or-special-format-review: size/format decision remains before runtime publication"
-        ],
-        "resolvedBlockers": [
-          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-        ],
-        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-      },
-      "publicationStatus": "source-record-with-runtime-review",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-admin-areas-national-1m-map-of-ireland1-00905",
-      "rawMetadata": {
-        "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:admin-areas-national-1m-map-of-ireland1:00905",
-        "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-admin-areas-national-1m-map-of-ireland1-00905",
-        "type": "approved-medium-priority-source",
-        "title": "Admin Areas - National 1m Map Of Ireland",
-        "subtitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA / Tailte Éireann, Tailte/OSI/data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, GDB, GEOJSON, GPKG, HTML, KML, TXT, XLSX, ZIP / Source record; runtime review pending",
-        "category": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "provider": [
-          "Tailte Éireann",
-          "Tailte/OSI/data.gov.ie"
-        ],
-        "description": "Admin Areas - National 1m Map Of Ireland is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; geography-crosswalk-and-versioning: needs exact geography crosswalk; large-or-special-format-review: size/format decision remains before runtime publication.",
-        "url": "https://data.gov.ie/dataset/admin-areas-national-1m-map-of-ireland1",
-        "references": [
-          {
-            "label": "Admin Areas - National 1m Map Of Ireland provider page",
-            "url": "https://data.gov.ie/dataset/admin-areas-national-1m-map-of-ireland1",
-            "source": "Tailte/OSI/data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Admin Areas - National 1m Map Of Ireland Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/admin-areas-national-1m-map-of-ireland1",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/admin-areas-national-1m-map-of-ireland1",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source record",
-          "Runtime review pending",
-          "Spatial source",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "Republic of Ireland",
-          "source-data",
-          "Admin Areas - National 1m Map Of Ireland"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text",
-            "spreadsheet",
-            "download-only"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/admin-areas-national-1m-map-of-ireland1",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/admin-areas-national-1m-map-of-ireland1",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "Do not convert until size/format review approves an interactive derivative."
-        },
-        "shortCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie, Admin Areas - National 1m Map Of Ireland.",
-        "fullCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie. Admin Areas - National 1m Map Of Ireland. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/admin-areas-national-1m-map-of-ireland1. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/admin-areas-national-1m-map-of-ireland1.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 906,
-            "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:admin-areas-national-1m-map-of-ireland1:00905",
-            "title": "Admin Areas - National 1m Map Of Ireland",
-            "cleanTitle": "Admin Areas - National 1m Map Of Ireland",
-            "provider": "Tailte/OSI/data.gov.ie",
-            "organisation": "Tailte Éireann",
-            "category": "spatial",
-            "roiGroup": "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-            "groupTitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-            "jurisdiction": "Republic of Ireland",
-            "topic": "source-data",
-            "featureUnit": "features",
-            "formats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GDB",
-              "GEOJSON",
-              "GPKG",
-              "HTML",
-              "KML",
-              "TXT",
-              "XLSX",
-              "ZIP"
-            ],
-            "isSpatial": true,
-            "isLargeOrSpecial": true,
-            "proposedAction": "hold-special-format",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "download/source viewport first",
-              "conversion": "Do not convert until size/format review approves an interactive derivative.",
-              "sourceFormats": [
-                "ARCGIS GEOSERVICES REST API",
-                "CSV",
-                "GDB",
-                "GEOJSON",
-                "GPKG",
-                "HTML",
-                "KML",
-                "TXT",
-                "XLSX",
-                "ZIP"
-              ]
-            },
-            "approvalState": "ready-with-residual-review",
-            "sourcePublicationState": "public source record with runtime/semantic review still pending",
-            "confidence": 45,
-            "currentProviderUrl": "https://data.gov.ie/dataset/admin-areas-national-1m-map-of-ireland1",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/admin-areas-national-1m-map-of-ireland1",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-            ],
-            "residualBlockers": [
-              "duplicate-or-variant-review: no existing match candidate",
-              "geography-crosswalk-and-versioning: needs exact geography crosswalk",
-              "large-or-special-format-review: size/format decision remains before runtime publication"
-            ],
-            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:admin-areas-national-1m-map-of-ireland1:00905",
-          "sourceRowNumber": 906,
-          "approvalState": "ready-with-residual-review",
-          "recommendedAction": "publish source record; hold runtime conversion pending size/format review",
-          "proposedAction": "hold-special-format",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "download/source viewport first",
-            "conversion": "Do not convert until size/format review approves an interactive derivative.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GDB",
-              "GEOJSON",
-              "GPKG",
-              "HTML",
-              "KML",
-              "TXT",
-              "XLSX",
-              "ZIP"
-            ]
-          },
-          "confidence": 45,
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate",
-            "geography-crosswalk-and-versioning: needs exact geography crosswalk",
-            "large-or-special-format-review: size/format decision remains before runtime publication"
-          ],
-          "resolvedBlockers": [
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        },
-        "publicationStatus": "source-record-with-runtime-review",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "source-record-with-runtime-review",
-          "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "source-data",
-          "features",
-          "Republic of Ireland",
-          "hold-special-format",
-          "ARCGIS GEOSERVICES REST API",
-          "CSV",
-          "GDB",
-          "GEOJSON",
-          "GPKG",
-          "HTML",
-          "KML",
-          "TXT",
-          "XLSX",
-          "ZIP",
-          "review:duplicate-or-variant-review-no-existing-match-candidate",
-          "review:geography-crosswalk-and-versioning-needs-exact-geography-crosswalk",
-          "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-admin-areas-national-1m-map-of-ireland1-00905"
-      }
-    },
-    {
-      "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:admin-boundaries-national-250k-map-of-ireland1:00174",
-      "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-admin-boundaries-national-250k-map-of-ireland1-00174",
-      "type": "approved-medium-priority-source",
-      "title": "Admin Boundaries - National 250K Map Of Ireland",
-      "subtitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA / Tailte Éireann, Tailte/OSI/data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, GDB, GEOJSON, GPKG, HTML, KML, TXT, XLSX, ZIP / Source record; runtime review pending",
-      "category": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-      "provider": [
-        "Tailte Éireann",
-        "Tailte/OSI/data.gov.ie"
-      ],
-      "description": "Admin Boundaries - National 250K Map Of Ireland is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; geography-crosswalk-and-versioning: needs exact geography crosswalk; large-or-special-format-review: size/format decision remains before runtime publication.",
-      "url": "https://data.gov.ie/dataset/admin-boundaries-national-250k-map-of-ireland1",
-      "references": [
-        {
-          "label": "Admin Boundaries - National 250K Map Of Ireland provider page",
-          "url": "https://data.gov.ie/dataset/admin-boundaries-national-250k-map-of-ireland1",
-          "source": "Tailte/OSI/data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Admin Boundaries - National 250K Map Of Ireland Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/admin-boundaries-national-250k-map-of-ireland1",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/admin-boundaries-national-250k-map-of-ireland1",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "source-record-with-runtime-review",
-        "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "boundary",
-        "features",
-        "Republic of Ireland",
-        "hold-special-format",
-        "ARCGIS GEOSERVICES REST API",
-        "CSV",
-        "GDB",
-        "GEOJSON",
-        "GPKG",
-        "HTML",
-        "KML",
-        "TXT",
-        "XLSX",
-        "ZIP",
-        "review:duplicate-or-variant-review-no-existing-match-candidate",
-        "review:geography-crosswalk-and-versioning-needs-exact-geography-crosswalk",
-        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 175,
-          "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:admin-boundaries-national-250k-map-of-ireland1:00174",
-          "title": "Admin Boundaries - National 250K Map Of Ireland",
-          "cleanTitle": "Admin Boundaries - National 250K Map Of Ireland",
-          "provider": "Tailte/OSI/data.gov.ie",
-          "organisation": "Tailte Éireann",
-          "category": "spatial",
-          "roiGroup": "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "groupTitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "jurisdiction": "Republic of Ireland",
-          "topic": "boundary",
-          "featureUnit": "features",
-          "formats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "GDB",
-            "GEOJSON",
-            "GPKG",
-            "HTML",
-            "KML",
-            "TXT",
-            "XLSX",
-            "ZIP"
-          ],
-          "isSpatial": true,
-          "isLargeOrSpecial": true,
-          "proposedAction": "hold-special-format",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "download/source viewport first",
-            "conversion": "Do not convert until size/format review approves an interactive derivative.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GDB",
-              "GEOJSON",
-              "GPKG",
-              "HTML",
-              "KML",
-              "TXT",
-              "XLSX",
-              "ZIP"
-            ]
-          },
-          "approvalState": "ready-with-residual-review",
-          "sourcePublicationState": "public source record with runtime/semantic review still pending",
-          "confidence": 45,
-          "currentProviderUrl": "https://data.gov.ie/dataset/admin-boundaries-national-250k-map-of-ireland1",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/admin-boundaries-national-250k-map-of-ireland1",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate",
-            "geography-crosswalk-and-versioning: needs exact geography crosswalk",
-            "large-or-special-format-review: size/format decision remains before runtime publication"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source record",
-        "Runtime review pending",
-        "Spatial source",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "Republic of Ireland",
-        "boundary",
-        "Admin Boundaries - National 250K Map Of Ireland"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text",
-          "spreadsheet",
-          "download-only"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/admin-boundaries-national-250k-map-of-ireland1",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/admin-boundaries-national-250k-map-of-ireland1",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "Do not convert until size/format review approves an interactive derivative."
-      },
-      "shortCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie, Admin Boundaries - National 250K Map Of Ireland.",
-      "fullCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie. Admin Boundaries - National 250K Map Of Ireland. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/admin-boundaries-national-250k-map-of-ireland1. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/admin-boundaries-national-250k-map-of-ireland1.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:admin-boundaries-national-250k-map-of-ireland1:00174",
-        "sourceRowNumber": 175,
-        "approvalState": "ready-with-residual-review",
-        "recommendedAction": "publish source record; hold runtime conversion pending size/format review",
-        "proposedAction": "hold-special-format",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "download/source viewport first",
-          "conversion": "Do not convert until size/format review approves an interactive derivative.",
-          "sourceFormats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "GDB",
-            "GEOJSON",
-            "GPKG",
-            "HTML",
-            "KML",
-            "TXT",
-            "XLSX",
-            "ZIP"
-          ]
-        },
-        "confidence": 45,
-        "residualBlockers": [
-          "duplicate-or-variant-review: no existing match candidate",
-          "geography-crosswalk-and-versioning: needs exact geography crosswalk",
-          "large-or-special-format-review: size/format decision remains before runtime publication"
-        ],
-        "resolvedBlockers": [
-          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-        ],
-        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-      },
-      "publicationStatus": "source-record-with-runtime-review",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-admin-boundaries-national-250k-map-of-ireland1-00174",
-      "rawMetadata": {
-        "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:admin-boundaries-national-250k-map-of-ireland1:00174",
-        "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-admin-boundaries-national-250k-map-of-ireland1-00174",
-        "type": "approved-medium-priority-source",
-        "title": "Admin Boundaries - National 250K Map Of Ireland",
-        "subtitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA / Tailte Éireann, Tailte/OSI/data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, GDB, GEOJSON, GPKG, HTML, KML, TXT, XLSX, ZIP / Source record; runtime review pending",
-        "category": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "provider": [
-          "Tailte Éireann",
-          "Tailte/OSI/data.gov.ie"
-        ],
-        "description": "Admin Boundaries - National 250K Map Of Ireland is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; geography-crosswalk-and-versioning: needs exact geography crosswalk; large-or-special-format-review: size/format decision remains before runtime publication.",
-        "url": "https://data.gov.ie/dataset/admin-boundaries-national-250k-map-of-ireland1",
-        "references": [
-          {
-            "label": "Admin Boundaries - National 250K Map Of Ireland provider page",
-            "url": "https://data.gov.ie/dataset/admin-boundaries-national-250k-map-of-ireland1",
-            "source": "Tailte/OSI/data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Admin Boundaries - National 250K Map Of Ireland Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/admin-boundaries-national-250k-map-of-ireland1",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/admin-boundaries-national-250k-map-of-ireland1",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source record",
-          "Runtime review pending",
-          "Spatial source",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "Republic of Ireland",
-          "boundary",
-          "Admin Boundaries - National 250K Map Of Ireland"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text",
-            "spreadsheet",
-            "download-only"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/admin-boundaries-national-250k-map-of-ireland1",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/admin-boundaries-national-250k-map-of-ireland1",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "Do not convert until size/format review approves an interactive derivative."
-        },
-        "shortCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie, Admin Boundaries - National 250K Map Of Ireland.",
-        "fullCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie. Admin Boundaries - National 250K Map Of Ireland. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/admin-boundaries-national-250k-map-of-ireland1. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/admin-boundaries-national-250k-map-of-ireland1.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 175,
-            "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:admin-boundaries-national-250k-map-of-ireland1:00174",
-            "title": "Admin Boundaries - National 250K Map Of Ireland",
-            "cleanTitle": "Admin Boundaries - National 250K Map Of Ireland",
-            "provider": "Tailte/OSI/data.gov.ie",
-            "organisation": "Tailte Éireann",
-            "category": "spatial",
-            "roiGroup": "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-            "groupTitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-            "jurisdiction": "Republic of Ireland",
-            "topic": "boundary",
-            "featureUnit": "features",
-            "formats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GDB",
-              "GEOJSON",
-              "GPKG",
-              "HTML",
-              "KML",
-              "TXT",
-              "XLSX",
-              "ZIP"
-            ],
-            "isSpatial": true,
-            "isLargeOrSpecial": true,
-            "proposedAction": "hold-special-format",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "download/source viewport first",
-              "conversion": "Do not convert until size/format review approves an interactive derivative.",
-              "sourceFormats": [
-                "ARCGIS GEOSERVICES REST API",
-                "CSV",
-                "GDB",
-                "GEOJSON",
-                "GPKG",
-                "HTML",
-                "KML",
-                "TXT",
-                "XLSX",
-                "ZIP"
-              ]
-            },
-            "approvalState": "ready-with-residual-review",
-            "sourcePublicationState": "public source record with runtime/semantic review still pending",
-            "confidence": 45,
-            "currentProviderUrl": "https://data.gov.ie/dataset/admin-boundaries-national-250k-map-of-ireland1",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/admin-boundaries-national-250k-map-of-ireland1",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-            ],
-            "residualBlockers": [
-              "duplicate-or-variant-review: no existing match candidate",
-              "geography-crosswalk-and-versioning: needs exact geography crosswalk",
-              "large-or-special-format-review: size/format decision remains before runtime publication"
-            ],
-            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:admin-boundaries-national-250k-map-of-ireland1:00174",
-          "sourceRowNumber": 175,
-          "approvalState": "ready-with-residual-review",
-          "recommendedAction": "publish source record; hold runtime conversion pending size/format review",
-          "proposedAction": "hold-special-format",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "download/source viewport first",
-            "conversion": "Do not convert until size/format review approves an interactive derivative.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GDB",
-              "GEOJSON",
-              "GPKG",
-              "HTML",
-              "KML",
-              "TXT",
-              "XLSX",
-              "ZIP"
-            ]
-          },
-          "confidence": 45,
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate",
-            "geography-crosswalk-and-versioning: needs exact geography crosswalk",
-            "large-or-special-format-review: size/format decision remains before runtime publication"
-          ],
-          "resolvedBlockers": [
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        },
-        "publicationStatus": "source-record-with-runtime-review",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "source-record-with-runtime-review",
-          "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "boundary",
-          "features",
-          "Republic of Ireland",
-          "hold-special-format",
-          "ARCGIS GEOSERVICES REST API",
-          "CSV",
-          "GDB",
-          "GEOJSON",
-          "GPKG",
-          "HTML",
-          "KML",
-          "TXT",
-          "XLSX",
-          "ZIP",
-          "review:duplicate-or-variant-review-no-existing-match-candidate",
-          "review:geography-crosswalk-and-versioning-needs-exact-geography-crosswalk",
-          "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-admin-boundaries-national-250k-map-of-ireland1-00174"
-      }
-    },
-    {
-      "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:admin-boundary-areas-national-250k-map-of-ireland1:00175",
-      "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-admin-boundary-areas-national-250k-map-of-ireland1-00175",
-      "type": "approved-medium-priority-source",
-      "title": "Admin Boundary Areas - National 250K Map Of Ireland",
-      "subtitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA / Tailte Éireann, Tailte/OSI/data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, GDB, GEOJSON, GPKG, HTML, KML, TXT, XLSX, ZIP / Source record; runtime review pending",
-      "category": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-      "provider": [
-        "Tailte Éireann",
-        "Tailte/OSI/data.gov.ie"
-      ],
-      "description": "Admin Boundary Areas - National 250K Map Of Ireland is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; geography-crosswalk-and-versioning: needs exact geography crosswalk; large-or-special-format-review: size/format decision remains before runtime publication.",
-      "url": "https://data.gov.ie/dataset/admin-boundary-areas-national-250k-map-of-ireland1",
-      "references": [
-        {
-          "label": "Admin Boundary Areas - National 250K Map Of Ireland provider page",
-          "url": "https://data.gov.ie/dataset/admin-boundary-areas-national-250k-map-of-ireland1",
-          "source": "Tailte/OSI/data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Admin Boundary Areas - National 250K Map Of Ireland Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/admin-boundary-areas-national-250k-map-of-ireland1",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/admin-boundary-areas-national-250k-map-of-ireland1",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "source-record-with-runtime-review",
-        "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "boundary",
-        "features",
-        "Republic of Ireland",
-        "hold-special-format",
-        "ARCGIS GEOSERVICES REST API",
-        "CSV",
-        "GDB",
-        "GEOJSON",
-        "GPKG",
-        "HTML",
-        "KML",
-        "TXT",
-        "XLSX",
-        "ZIP",
-        "review:duplicate-or-variant-review-no-existing-match-candidate",
-        "review:geography-crosswalk-and-versioning-needs-exact-geography-crosswalk",
-        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 176,
-          "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:admin-boundary-areas-national-250k-map-of-ireland1:00175",
-          "title": "Admin Boundary Areas - National 250K Map Of Ireland",
-          "cleanTitle": "Admin Boundary Areas - National 250K Map Of Ireland",
-          "provider": "Tailte/OSI/data.gov.ie",
-          "organisation": "Tailte Éireann",
-          "category": "spatial",
-          "roiGroup": "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "groupTitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "jurisdiction": "Republic of Ireland",
-          "topic": "boundary",
-          "featureUnit": "features",
-          "formats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "GDB",
-            "GEOJSON",
-            "GPKG",
-            "HTML",
-            "KML",
-            "TXT",
-            "XLSX",
-            "ZIP"
-          ],
-          "isSpatial": true,
-          "isLargeOrSpecial": true,
-          "proposedAction": "hold-special-format",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "download/source viewport first",
-            "conversion": "Do not convert until size/format review approves an interactive derivative.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GDB",
-              "GEOJSON",
-              "GPKG",
-              "HTML",
-              "KML",
-              "TXT",
-              "XLSX",
-              "ZIP"
-            ]
-          },
-          "approvalState": "ready-with-residual-review",
-          "sourcePublicationState": "public source record with runtime/semantic review still pending",
-          "confidence": 45,
-          "currentProviderUrl": "https://data.gov.ie/dataset/admin-boundary-areas-national-250k-map-of-ireland1",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/admin-boundary-areas-national-250k-map-of-ireland1",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate",
-            "geography-crosswalk-and-versioning: needs exact geography crosswalk",
-            "large-or-special-format-review: size/format decision remains before runtime publication"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source record",
-        "Runtime review pending",
-        "Spatial source",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "Republic of Ireland",
-        "boundary",
-        "Admin Boundary Areas - National 250K Map Of Ireland"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text",
-          "spreadsheet",
-          "download-only"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/admin-boundary-areas-national-250k-map-of-ireland1",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/admin-boundary-areas-national-250k-map-of-ireland1",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "Do not convert until size/format review approves an interactive derivative."
-      },
-      "shortCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie, Admin Boundary Areas - National 250K Map Of Ireland.",
-      "fullCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie. Admin Boundary Areas - National 250K Map Of Ireland. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/admin-boundary-areas-national-250k-map-of-ireland1. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/admin-boundary-areas-national-250k-map-of-ireland1.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:admin-boundary-areas-national-250k-map-of-ireland1:00175",
-        "sourceRowNumber": 176,
-        "approvalState": "ready-with-residual-review",
-        "recommendedAction": "publish source record; hold runtime conversion pending size/format review",
-        "proposedAction": "hold-special-format",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "download/source viewport first",
-          "conversion": "Do not convert until size/format review approves an interactive derivative.",
-          "sourceFormats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "GDB",
-            "GEOJSON",
-            "GPKG",
-            "HTML",
-            "KML",
-            "TXT",
-            "XLSX",
-            "ZIP"
-          ]
-        },
-        "confidence": 45,
-        "residualBlockers": [
-          "duplicate-or-variant-review: no existing match candidate",
-          "geography-crosswalk-and-versioning: needs exact geography crosswalk",
-          "large-or-special-format-review: size/format decision remains before runtime publication"
-        ],
-        "resolvedBlockers": [
-          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-        ],
-        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-      },
-      "publicationStatus": "source-record-with-runtime-review",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-admin-boundary-areas-national-250k-map-of-ireland1-00175",
-      "rawMetadata": {
-        "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:admin-boundary-areas-national-250k-map-of-ireland1:00175",
-        "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-admin-boundary-areas-national-250k-map-of-ireland1-00175",
-        "type": "approved-medium-priority-source",
-        "title": "Admin Boundary Areas - National 250K Map Of Ireland",
-        "subtitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA / Tailte Éireann, Tailte/OSI/data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, GDB, GEOJSON, GPKG, HTML, KML, TXT, XLSX, ZIP / Source record; runtime review pending",
-        "category": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "provider": [
-          "Tailte Éireann",
-          "Tailte/OSI/data.gov.ie"
-        ],
-        "description": "Admin Boundary Areas - National 250K Map Of Ireland is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; geography-crosswalk-and-versioning: needs exact geography crosswalk; large-or-special-format-review: size/format decision remains before runtime publication.",
-        "url": "https://data.gov.ie/dataset/admin-boundary-areas-national-250k-map-of-ireland1",
-        "references": [
-          {
-            "label": "Admin Boundary Areas - National 250K Map Of Ireland provider page",
-            "url": "https://data.gov.ie/dataset/admin-boundary-areas-national-250k-map-of-ireland1",
-            "source": "Tailte/OSI/data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Admin Boundary Areas - National 250K Map Of Ireland Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/admin-boundary-areas-national-250k-map-of-ireland1",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/admin-boundary-areas-national-250k-map-of-ireland1",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source record",
-          "Runtime review pending",
-          "Spatial source",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "Republic of Ireland",
-          "boundary",
-          "Admin Boundary Areas - National 250K Map Of Ireland"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text",
-            "spreadsheet",
-            "download-only"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/admin-boundary-areas-national-250k-map-of-ireland1",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/admin-boundary-areas-national-250k-map-of-ireland1",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "Do not convert until size/format review approves an interactive derivative."
-        },
-        "shortCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie, Admin Boundary Areas - National 250K Map Of Ireland.",
-        "fullCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie. Admin Boundary Areas - National 250K Map Of Ireland. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/admin-boundary-areas-national-250k-map-of-ireland1. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/admin-boundary-areas-national-250k-map-of-ireland1.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 176,
-            "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:admin-boundary-areas-national-250k-map-of-ireland1:00175",
-            "title": "Admin Boundary Areas - National 250K Map Of Ireland",
-            "cleanTitle": "Admin Boundary Areas - National 250K Map Of Ireland",
-            "provider": "Tailte/OSI/data.gov.ie",
-            "organisation": "Tailte Éireann",
-            "category": "spatial",
-            "roiGroup": "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-            "groupTitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-            "jurisdiction": "Republic of Ireland",
-            "topic": "boundary",
-            "featureUnit": "features",
-            "formats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GDB",
-              "GEOJSON",
-              "GPKG",
-              "HTML",
-              "KML",
-              "TXT",
-              "XLSX",
-              "ZIP"
-            ],
-            "isSpatial": true,
-            "isLargeOrSpecial": true,
-            "proposedAction": "hold-special-format",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "download/source viewport first",
-              "conversion": "Do not convert until size/format review approves an interactive derivative.",
-              "sourceFormats": [
-                "ARCGIS GEOSERVICES REST API",
-                "CSV",
-                "GDB",
-                "GEOJSON",
-                "GPKG",
-                "HTML",
-                "KML",
-                "TXT",
-                "XLSX",
-                "ZIP"
-              ]
-            },
-            "approvalState": "ready-with-residual-review",
-            "sourcePublicationState": "public source record with runtime/semantic review still pending",
-            "confidence": 45,
-            "currentProviderUrl": "https://data.gov.ie/dataset/admin-boundary-areas-national-250k-map-of-ireland1",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/admin-boundary-areas-national-250k-map-of-ireland1",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-            ],
-            "residualBlockers": [
-              "duplicate-or-variant-review: no existing match candidate",
-              "geography-crosswalk-and-versioning: needs exact geography crosswalk",
-              "large-or-special-format-review: size/format decision remains before runtime publication"
-            ],
-            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:admin-boundary-areas-national-250k-map-of-ireland1:00175",
-          "sourceRowNumber": 176,
-          "approvalState": "ready-with-residual-review",
-          "recommendedAction": "publish source record; hold runtime conversion pending size/format review",
-          "proposedAction": "hold-special-format",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "download/source viewport first",
-            "conversion": "Do not convert until size/format review approves an interactive derivative.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GDB",
-              "GEOJSON",
-              "GPKG",
-              "HTML",
-              "KML",
-              "TXT",
-              "XLSX",
-              "ZIP"
-            ]
-          },
-          "confidence": 45,
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate",
-            "geography-crosswalk-and-versioning: needs exact geography crosswalk",
-            "large-or-special-format-review: size/format decision remains before runtime publication"
-          ],
-          "resolvedBlockers": [
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        },
-        "publicationStatus": "source-record-with-runtime-review",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "source-record-with-runtime-review",
-          "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "boundary",
-          "features",
-          "Republic of Ireland",
-          "hold-special-format",
-          "ARCGIS GEOSERVICES REST API",
-          "CSV",
-          "GDB",
-          "GEOJSON",
-          "GPKG",
-          "HTML",
-          "KML",
-          "TXT",
-          "XLSX",
-          "ZIP",
-          "review:duplicate-or-variant-review-no-existing-match-candidate",
-          "review:geography-crosswalk-and-versioning-needs-exact-geography-crosswalk",
-          "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-admin-boundary-areas-national-250k-map-of-ireland1-00175"
-      }
-    },
-    {
-      "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:administrative-areas-dcc:00352",
-      "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-administrative-areas-dcc-00352",
-      "type": "approved-medium-priority-source",
-      "title": "Administrative Areas DCC",
-      "subtitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA / Dublin City Council, data.gov.ie / Republic of Ireland / DB_TABLE, GEOJSON, KML, SHP, WMS / Source record; runtime review pending",
-      "category": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-      "provider": [
-        "Dublin City Council",
-        "data.gov.ie"
-      ],
-      "description": "Administrative Areas DCC is published as a medium-priority Civgraph source/provenance record from Dublin City Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: geography-crosswalk-and-versioning: needs exact geography crosswalk.",
-      "url": "https://data.gov.ie/dataset/administrative-areas-dcc",
-      "references": [
-        {
-          "label": "Administrative Areas DCC provider page",
-          "url": "https://data.gov.ie/dataset/administrative-areas-dcc",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Administrative Areas DCC Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/administrative-areas-dcc",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/administrative-areas-dcc",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "source-record-with-runtime-review",
-        "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "source-data",
-        "features",
-        "Republic of Ireland",
-        "variant-child-map",
-        "DB_TABLE",
-        "GEOJSON",
-        "KML",
-        "SHP",
-        "WMS",
-        "review:geography-crosswalk-and-versioning-needs-exact-geography-crosswalk"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 353,
-          "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:administrative-areas-dcc:00352",
-          "title": "Administrative Areas DCC",
-          "cleanTitle": "Administrative Areas DCC",
-          "provider": "data.gov.ie",
-          "organisation": "Dublin City Council",
-          "category": "spatial",
-          "roiGroup": "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "groupTitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "jurisdiction": "Republic of Ireland",
-          "topic": "source-data",
-          "featureUnit": "features",
-          "formats": [
-            "DB_TABLE",
-            "GEOJSON",
-            "KML",
-            "SHP",
-            "WMS"
-          ],
-          "isSpatial": true,
-          "isLargeOrSpecial": false,
-          "proposedAction": "variant-child-map",
-          "proposedPlacement": "Maps > boundary/geography variant",
-          "proposedRuntime": {
-            "desired": "MapLibre interactive layer",
-            "conversion": "Convert source geometry to PMTiles/vector tiles after approval.",
-            "sourceFormats": [
-              "DB_TABLE",
-              "GEOJSON",
-              "KML",
-              "SHP",
-              "WMS"
-            ]
-          },
-          "approvalState": "ready-with-residual-review",
-          "sourcePublicationState": "public source record with runtime/semantic review still pending",
-          "confidence": 45,
-          "currentProviderUrl": "https://data.gov.ie/dataset/administrative-areas-dcc",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/administrative-areas-dcc",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "duplicate-or-variant-review: classified as variant-child-map",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "residualBlockers": [
-            "geography-crosswalk-and-versioning: needs exact geography crosswalk"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source record",
-        "Runtime review pending",
-        "Spatial source",
-        "Conversion pending",
-        "Download available",
-        "Provider link",
-        "Wayback link",
-        "Variant candidate"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "Republic of Ireland",
-        "source-data",
-        "Administrative Areas DCC"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text",
-          "download-only"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/administrative-areas-dcc",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/administrative-areas-dcc",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "Convert source geometry to PMTiles/vector tiles after approval."
-      },
-      "shortCitation": "Dublin City Council, data.gov.ie, Administrative Areas DCC.",
-      "fullCitation": "Dublin City Council, data.gov.ie. Administrative Areas DCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/administrative-areas-dcc. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/administrative-areas-dcc.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:administrative-areas-dcc:00352",
-        "sourceRowNumber": 353,
-        "approvalState": "ready-with-residual-review",
-        "recommendedAction": "publish source record as candidate child/variant metadata",
-        "proposedAction": "variant-child-map",
-        "proposedPlacement": "Maps > boundary/geography variant",
-        "proposedRuntime": {
-          "desired": "MapLibre interactive layer",
-          "conversion": "Convert source geometry to PMTiles/vector tiles after approval.",
-          "sourceFormats": [
-            "DB_TABLE",
-            "GEOJSON",
-            "KML",
-            "SHP",
-            "WMS"
-          ]
-        },
-        "confidence": 45,
-        "residualBlockers": [
-          "geography-crosswalk-and-versioning: needs exact geography crosswalk"
-        ],
-        "resolvedBlockers": [
-          "duplicate-or-variant-review: classified as variant-child-map",
-          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-        ],
-        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
-      },
-      "publicationStatus": "source-record-with-runtime-review",
-      "proposedBrowsePath": "Maps > boundary/geography variant",
-      "relationship": "variant-source-candidate",
-      "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-administrative-areas-dcc-00352",
-      "rawMetadata": {
-        "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:administrative-areas-dcc:00352",
-        "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-administrative-areas-dcc-00352",
-        "type": "approved-medium-priority-source",
-        "title": "Administrative Areas DCC",
-        "subtitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA / Dublin City Council, data.gov.ie / Republic of Ireland / DB_TABLE, GEOJSON, KML, SHP, WMS / Source record; runtime review pending",
-        "category": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "provider": [
-          "Dublin City Council",
-          "data.gov.ie"
-        ],
-        "description": "Administrative Areas DCC is published as a medium-priority Civgraph source/provenance record from Dublin City Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: geography-crosswalk-and-versioning: needs exact geography crosswalk.",
-        "url": "https://data.gov.ie/dataset/administrative-areas-dcc",
-        "references": [
-          {
-            "label": "Administrative Areas DCC provider page",
-            "url": "https://data.gov.ie/dataset/administrative-areas-dcc",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Administrative Areas DCC Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/administrative-areas-dcc",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/administrative-areas-dcc",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source record",
-          "Runtime review pending",
-          "Spatial source",
-          "Conversion pending",
-          "Download available",
-          "Provider link",
-          "Wayback link",
-          "Variant candidate"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "Republic of Ireland",
-          "source-data",
-          "Administrative Areas DCC"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text",
-            "download-only"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/administrative-areas-dcc",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/administrative-areas-dcc",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "Convert source geometry to PMTiles/vector tiles after approval."
-        },
-        "shortCitation": "Dublin City Council, data.gov.ie, Administrative Areas DCC.",
-        "fullCitation": "Dublin City Council, data.gov.ie. Administrative Areas DCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/administrative-areas-dcc. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/administrative-areas-dcc.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 353,
-            "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:administrative-areas-dcc:00352",
-            "title": "Administrative Areas DCC",
-            "cleanTitle": "Administrative Areas DCC",
-            "provider": "data.gov.ie",
-            "organisation": "Dublin City Council",
-            "category": "spatial",
-            "roiGroup": "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-            "groupTitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-            "jurisdiction": "Republic of Ireland",
-            "topic": "source-data",
-            "featureUnit": "features",
-            "formats": [
-              "DB_TABLE",
-              "GEOJSON",
-              "KML",
-              "SHP",
-              "WMS"
-            ],
-            "isSpatial": true,
-            "isLargeOrSpecial": false,
-            "proposedAction": "variant-child-map",
-            "proposedPlacement": "Maps > boundary/geography variant",
-            "proposedRuntime": {
-              "desired": "MapLibre interactive layer",
-              "conversion": "Convert source geometry to PMTiles/vector tiles after approval.",
-              "sourceFormats": [
-                "DB_TABLE",
-                "GEOJSON",
-                "KML",
-                "SHP",
-                "WMS"
-              ]
-            },
-            "approvalState": "ready-with-residual-review",
-            "sourcePublicationState": "public source record with runtime/semantic review still pending",
-            "confidence": 45,
-            "currentProviderUrl": "https://data.gov.ie/dataset/administrative-areas-dcc",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/administrative-areas-dcc",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "duplicate-or-variant-review: classified as variant-child-map",
-              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-            ],
-            "residualBlockers": [
-              "geography-crosswalk-and-versioning: needs exact geography crosswalk"
-            ],
-            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:administrative-areas-dcc:00352",
-          "sourceRowNumber": 353,
-          "approvalState": "ready-with-residual-review",
-          "recommendedAction": "publish source record as candidate child/variant metadata",
-          "proposedAction": "variant-child-map",
-          "proposedPlacement": "Maps > boundary/geography variant",
-          "proposedRuntime": {
-            "desired": "MapLibre interactive layer",
-            "conversion": "Convert source geometry to PMTiles/vector tiles after approval.",
-            "sourceFormats": [
-              "DB_TABLE",
-              "GEOJSON",
-              "KML",
-              "SHP",
-              "WMS"
-            ]
-          },
-          "confidence": 45,
-          "residualBlockers": [
-            "geography-crosswalk-and-versioning: needs exact geography crosswalk"
-          ],
-          "resolvedBlockers": [
-            "duplicate-or-variant-review: classified as variant-child-map",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
-        },
-        "publicationStatus": "source-record-with-runtime-review",
-        "proposedBrowsePath": "Maps > boundary/geography variant",
-        "relationship": "variant-source-candidate",
-        "keywords": [
-          "medium-priority-publication",
-          "source-record-with-runtime-review",
-          "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "source-data",
-          "features",
-          "Republic of Ireland",
-          "variant-child-map",
-          "DB_TABLE",
-          "GEOJSON",
-          "KML",
-          "SHP",
-          "WMS",
-          "review:geography-crosswalk-and-versioning-needs-exact-geography-crosswalk"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-administrative-areas-dcc-00352"
-      }
-    },
-    {
-      "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:administrative-areas-generalised-100m-national-statutory-boundaries-20151:00014",
-      "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-administrative-areas-generalised-100m-national-statutory-boundaries-20151-00014",
-      "type": "approved-medium-priority-source",
-      "title": "Administrative Areas Generalised 100m - National Statutory Boundaries - 2015",
-      "subtitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA / Tailte Éireann, Tailte/OSI/data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, GDB, GEOJSON, GPKG, HTML, KML, TXT, XLSX, ZIP / Source record; runtime review pending",
-      "category": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-      "date": "2015",
-      "provider": [
-        "Tailte Éireann",
-        "Tailte/OSI/data.gov.ie"
-      ],
-      "description": "Administrative Areas Generalised 100m - National Statutory Boundaries - 2015 is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; geography-crosswalk-and-versioning: needs exact geography crosswalk; large-or-special-format-review: size/format decision remains before runtime publication.",
-      "url": "https://data.gov.ie/dataset/administrative-areas-generalised-100m-national-statutory-boundaries-20151",
-      "references": [
-        {
-          "label": "Administrative Areas Generalised 100m - National Statutory Boundaries - 2015 provider page",
-          "url": "https://data.gov.ie/dataset/administrative-areas-generalised-100m-national-statutory-boundaries-20151",
-          "source": "Tailte/OSI/data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Administrative Areas Generalised 100m - National Statutory Boundaries - 2015 Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/administrative-areas-generalised-100m-national-statutory-boundaries-20151",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/administrative-areas-generalised-100m-national-statutory-boundaries-20151",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "source-record-with-runtime-review",
-        "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "boundary",
-        "features",
-        "Republic of Ireland",
-        "hold-special-format",
-        "ARCGIS GEOSERVICES REST API",
-        "CSV",
-        "GDB",
-        "GEOJSON",
-        "GPKG",
-        "HTML",
-        "KML",
-        "TXT",
-        "XLSX",
-        "ZIP",
-        "review:duplicate-or-variant-review-no-existing-match-candidate",
-        "review:geography-crosswalk-and-versioning-needs-exact-geography-crosswalk",
-        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 15,
-          "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:administrative-areas-generalised-100m-national-statutory-boundaries-20151:00014",
-          "title": "Administrative Areas Generalised 100m - National Statutory Boundaries - 2015",
-          "cleanTitle": "Administrative Areas Generalised 100m - National Statutory Boundaries - 2015",
-          "provider": "Tailte/OSI/data.gov.ie",
-          "organisation": "Tailte Éireann",
-          "category": "spatial",
-          "roiGroup": "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "groupTitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "jurisdiction": "Republic of Ireland",
-          "topic": "boundary",
-          "featureUnit": "features",
-          "formats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "GDB",
-            "GEOJSON",
-            "GPKG",
-            "HTML",
-            "KML",
-            "TXT",
-            "XLSX",
-            "ZIP"
-          ],
-          "isSpatial": true,
-          "isLargeOrSpecial": true,
-          "proposedAction": "hold-special-format",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "download/source viewport first",
-            "conversion": "Do not convert until size/format review approves an interactive derivative.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GDB",
-              "GEOJSON",
-              "GPKG",
-              "HTML",
-              "KML",
-              "TXT",
-              "XLSX",
-              "ZIP"
-            ]
-          },
-          "approvalState": "ready-with-residual-review",
-          "sourcePublicationState": "public source record with runtime/semantic review still pending",
-          "confidence": 45,
-          "currentProviderUrl": "https://data.gov.ie/dataset/administrative-areas-generalised-100m-national-statutory-boundaries-20151",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/administrative-areas-generalised-100m-national-statutory-boundaries-20151",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate",
-            "geography-crosswalk-and-versioning: needs exact geography crosswalk",
-            "large-or-special-format-review: size/format decision remains before runtime publication"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source record",
-        "Runtime review pending",
-        "Spatial source",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "Republic of Ireland",
-        "boundary",
-        "Administrative Areas Generalised 100m - National Statutory Boundaries - 2015"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text",
-          "spreadsheet",
-          "download-only"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/administrative-areas-generalised-100m-national-statutory-boundaries-20151",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/administrative-areas-generalised-100m-national-statutory-boundaries-20151",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "Do not convert until size/format review approves an interactive derivative."
-      },
-      "shortCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie, Administrative Areas Generalised 100m - National Statutory Boundaries - 2015.",
-      "fullCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie. Administrative Areas Generalised 100m - National Statutory Boundaries - 2015. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/administrative-areas-generalised-100m-national-statutory-boundaries-20151. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/administrative-areas-generalised-100m-national-statutory-boundaries-20151.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:administrative-areas-generalised-100m-national-statutory-boundaries-20151:00014",
-        "sourceRowNumber": 15,
-        "approvalState": "ready-with-residual-review",
-        "recommendedAction": "publish source record; hold runtime conversion pending size/format review",
-        "proposedAction": "hold-special-format",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "download/source viewport first",
-          "conversion": "Do not convert until size/format review approves an interactive derivative.",
-          "sourceFormats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "GDB",
-            "GEOJSON",
-            "GPKG",
-            "HTML",
-            "KML",
-            "TXT",
-            "XLSX",
-            "ZIP"
-          ]
-        },
-        "confidence": 45,
-        "residualBlockers": [
-          "duplicate-or-variant-review: no existing match candidate",
-          "geography-crosswalk-and-versioning: needs exact geography crosswalk",
-          "large-or-special-format-review: size/format decision remains before runtime publication"
-        ],
-        "resolvedBlockers": [
-          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-        ],
-        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-      },
-      "publicationStatus": "source-record-with-runtime-review",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-administrative-areas-generalised-100m-national-statutory-boundaries-20151-00014",
-      "rawMetadata": {
-        "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:administrative-areas-generalised-100m-national-statutory-boundaries-20151:00014",
-        "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-administrative-areas-generalised-100m-national-statutory-boundaries-20151-00014",
-        "type": "approved-medium-priority-source",
-        "title": "Administrative Areas Generalised 100m - National Statutory Boundaries - 2015",
-        "subtitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA / Tailte Éireann, Tailte/OSI/data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, GDB, GEOJSON, GPKG, HTML, KML, TXT, XLSX, ZIP / Source record; runtime review pending",
-        "category": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "date": "2015",
-        "provider": [
-          "Tailte Éireann",
-          "Tailte/OSI/data.gov.ie"
-        ],
-        "description": "Administrative Areas Generalised 100m - National Statutory Boundaries - 2015 is published as a medium-priority Civgraph source/provenance record from Tailte Éireann, Tailte/OSI/data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; geography-crosswalk-and-versioning: needs exact geography crosswalk; large-or-special-format-review: size/format decision remains before runtime publication.",
-        "url": "https://data.gov.ie/dataset/administrative-areas-generalised-100m-national-statutory-boundaries-20151",
-        "references": [
-          {
-            "label": "Administrative Areas Generalised 100m - National Statutory Boundaries - 2015 provider page",
-            "url": "https://data.gov.ie/dataset/administrative-areas-generalised-100m-national-statutory-boundaries-20151",
-            "source": "Tailte/OSI/data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Administrative Areas Generalised 100m - National Statutory Boundaries - 2015 Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/administrative-areas-generalised-100m-national-statutory-boundaries-20151",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/administrative-areas-generalised-100m-national-statutory-boundaries-20151",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source record",
-          "Runtime review pending",
-          "Spatial source",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "Republic of Ireland",
-          "boundary",
-          "Administrative Areas Generalised 100m - National Statutory Boundaries - 2015"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text",
-            "spreadsheet",
-            "download-only"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/administrative-areas-generalised-100m-national-statutory-boundaries-20151",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/administrative-areas-generalised-100m-national-statutory-boundaries-20151",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "Do not convert until size/format review approves an interactive derivative."
-        },
-        "shortCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie, Administrative Areas Generalised 100m - National Statutory Boundaries - 2015.",
-        "fullCitation": "Tailte Éireann, Tailte/OSI/data.gov.ie. Administrative Areas Generalised 100m - National Statutory Boundaries - 2015. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/administrative-areas-generalised-100m-national-statutory-boundaries-20151. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/administrative-areas-generalised-100m-national-statutory-boundaries-20151.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 15,
-            "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:administrative-areas-generalised-100m-national-statutory-boundaries-20151:00014",
-            "title": "Administrative Areas Generalised 100m - National Statutory Boundaries - 2015",
-            "cleanTitle": "Administrative Areas Generalised 100m - National Statutory Boundaries - 2015",
-            "provider": "Tailte/OSI/data.gov.ie",
-            "organisation": "Tailte Éireann",
-            "category": "spatial",
-            "roiGroup": "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-            "groupTitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-            "jurisdiction": "Republic of Ireland",
-            "topic": "boundary",
-            "featureUnit": "features",
-            "formats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GDB",
-              "GEOJSON",
-              "GPKG",
-              "HTML",
-              "KML",
-              "TXT",
-              "XLSX",
-              "ZIP"
-            ],
-            "isSpatial": true,
-            "isLargeOrSpecial": true,
-            "proposedAction": "hold-special-format",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "download/source viewport first",
-              "conversion": "Do not convert until size/format review approves an interactive derivative.",
-              "sourceFormats": [
-                "ARCGIS GEOSERVICES REST API",
-                "CSV",
-                "GDB",
-                "GEOJSON",
-                "GPKG",
-                "HTML",
-                "KML",
-                "TXT",
-                "XLSX",
-                "ZIP"
-              ]
-            },
-            "approvalState": "ready-with-residual-review",
-            "sourcePublicationState": "public source record with runtime/semantic review still pending",
-            "confidence": 45,
-            "currentProviderUrl": "https://data.gov.ie/dataset/administrative-areas-generalised-100m-national-statutory-boundaries-20151",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/administrative-areas-generalised-100m-national-statutory-boundaries-20151",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-            ],
-            "residualBlockers": [
-              "duplicate-or-variant-review: no existing match candidate",
-              "geography-crosswalk-and-versioning: needs exact geography crosswalk",
-              "large-or-special-format-review: size/format decision remains before runtime publication"
-            ],
-            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:administrative-areas-generalised-100m-national-statutory-boundaries-20151:00014",
-          "sourceRowNumber": 15,
-          "approvalState": "ready-with-residual-review",
-          "recommendedAction": "publish source record; hold runtime conversion pending size/format review",
-          "proposedAction": "hold-special-format",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "download/source viewport first",
-            "conversion": "Do not convert until size/format review approves an interactive derivative.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GDB",
-              "GEOJSON",
-              "GPKG",
-              "HTML",
-              "KML",
-              "TXT",
-              "XLSX",
-              "ZIP"
-            ]
-          },
-          "confidence": 45,
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate",
-            "geography-crosswalk-and-versioning: needs exact geography crosswalk",
-            "large-or-special-format-review: size/format decision remains before runtime publication"
-          ],
-          "resolvedBlockers": [
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        },
-        "publicationStatus": "source-record-with-runtime-review",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "source-record-with-runtime-review",
-          "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "boundary",
-          "features",
-          "Republic of Ireland",
-          "hold-special-format",
-          "ARCGIS GEOSERVICES REST API",
-          "CSV",
-          "GDB",
-          "GEOJSON",
-          "GPKG",
-          "HTML",
-          "KML",
-          "TXT",
-          "XLSX",
-          "ZIP",
-          "review:duplicate-or-variant-review-no-existing-match-candidate",
-          "review:geography-crosswalk-and-versioning-needs-exact-geography-crosswalk",
-          "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-administrative-areas-generalised-100m-national-statutory-boundaries-20151-00014"
       }
     }
   ]

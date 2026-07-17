@@ -1,10 +1,1639 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-14T17:47:33.902Z",
+  "generatedAt": "2026-07-17T19:32:11.369Z",
   "kind": "sources",
   "shard": "sources-197.json",
   "total": 200,
   "items": [
+    {
+      "id": "medium-priority:7-transport-roads-infrastructure-public-assets:2015-nct-pass-fail-rates-by-test-centre:02006",
+      "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-2015-nct-pass-fail-rates-by-test-centre-02006",
+      "type": "approved-medium-priority-source",
+      "title": "2015 NCT Pass/Fail Rates by Test Centre",
+      "subtitle": "Transport, roads, infrastructure, public assets / Road Safety Authority, data.gov.ie / Ireland / unspecified / CSV, XLSX / Approved source record",
+      "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+      "date": "2015",
+      "provider": [
+        "Road Safety Authority",
+        "data.gov.ie"
+      ],
+      "description": "2015 NCT Pass/Fail Rates by Test Centre is published as a medium-priority Civgraph source/provenance record from Road Safety Authority, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/2015-nct-pass-fail-rates-by-test-centre",
+      "references": [
+        {
+          "label": "2015 NCT Pass/Fail Rates by Test Centre provider page",
+          "url": "https://data.gov.ie/dataset/2015-nct-pass-fail-rates-by-test-centre",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "2015 NCT Pass/Fail Rates by Test Centre Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/2015-nct-pass-fail-rates-by-test-centre",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/2015-nct-pass-fail-rates-by-test-centre",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Transport, roads, infrastructure, public assets",
+        "transport-public-asset",
+        "road features",
+        "Ireland / unspecified",
+        "transport-public-asset-batch-review",
+        "CSV",
+        "XLSX"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 2007,
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:2015-nct-pass-fail-rates-by-test-centre:02006",
+          "title": "2015 NCT Pass/Fail Rates by Test Centre",
+          "cleanTitle": "2015 NCT Pass/Fail Rates by Test Centre",
+          "provider": "data.gov.ie",
+          "organisation": "Road Safety Authority",
+          "category": "tabular",
+          "roiGroup": "7. Transport, roads, infrastructure, public assets",
+          "groupTitle": "Transport, roads, infrastructure, public assets",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "transport-public-asset",
+          "featureUnit": "road features",
+          "formats": [
+            "CSV",
+            "XLSX"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "XLSX"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/2015-nct-pass-fail-rates-by-test-centre",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/2015-nct-pass-fail-rates-by-test-centre",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "public-asset-batch-placement: publication policy assigned",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Transport, roads, infrastructure, public assets",
+        "Ireland / unspecified",
+        "transport-public-asset",
+        "2015 NCT Pass/Fail Rates by Test Centre"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "spreadsheet"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/2015-nct-pass-fail-rates-by-test-centre",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/2015-nct-pass-fail-rates-by-test-centre",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Road Safety Authority, data.gov.ie, 2015 NCT Pass/Fail Rates by Test Centre.",
+      "fullCitation": "Road Safety Authority, data.gov.ie. 2015 NCT Pass/Fail Rates by Test Centre. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/2015-nct-pass-fail-rates-by-test-centre. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/2015-nct-pass-fail-rates-by-test-centre.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:2015-nct-pass-fail-rates-by-test-centre:02006",
+        "sourceRowNumber": 2007,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+        "proposedAction": "transport-public-asset-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV",
+            "XLSX"
+          ]
+        },
+        "confidence": 60,
+        "resolvedBlockers": [
+          "public-asset-batch-placement: publication policy assigned",
+          "source-page-and-ia-viewport-decision: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-2015-nct-pass-fail-rates-by-test-centre-02006",
+      "rawMetadata": {
+        "id": "medium-priority:7-transport-roads-infrastructure-public-assets:2015-nct-pass-fail-rates-by-test-centre:02006",
+        "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-2015-nct-pass-fail-rates-by-test-centre-02006",
+        "type": "approved-medium-priority-source",
+        "title": "2015 NCT Pass/Fail Rates by Test Centre",
+        "subtitle": "Transport, roads, infrastructure, public assets / Road Safety Authority, data.gov.ie / Ireland / unspecified / CSV, XLSX / Approved source record",
+        "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+        "date": "2015",
+        "provider": [
+          "Road Safety Authority",
+          "data.gov.ie"
+        ],
+        "description": "2015 NCT Pass/Fail Rates by Test Centre is published as a medium-priority Civgraph source/provenance record from Road Safety Authority, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/2015-nct-pass-fail-rates-by-test-centre",
+        "references": [
+          {
+            "label": "2015 NCT Pass/Fail Rates by Test Centre provider page",
+            "url": "https://data.gov.ie/dataset/2015-nct-pass-fail-rates-by-test-centre",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "2015 NCT Pass/Fail Rates by Test Centre Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/2015-nct-pass-fail-rates-by-test-centre",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/2015-nct-pass-fail-rates-by-test-centre",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Transport, roads, infrastructure, public assets",
+          "Ireland / unspecified",
+          "transport-public-asset",
+          "2015 NCT Pass/Fail Rates by Test Centre"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "spreadsheet"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/2015-nct-pass-fail-rates-by-test-centre",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/2015-nct-pass-fail-rates-by-test-centre",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Road Safety Authority, data.gov.ie, 2015 NCT Pass/Fail Rates by Test Centre.",
+        "fullCitation": "Road Safety Authority, data.gov.ie. 2015 NCT Pass/Fail Rates by Test Centre. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/2015-nct-pass-fail-rates-by-test-centre. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/2015-nct-pass-fail-rates-by-test-centre.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 2007,
+            "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:2015-nct-pass-fail-rates-by-test-centre:02006",
+            "title": "2015 NCT Pass/Fail Rates by Test Centre",
+            "cleanTitle": "2015 NCT Pass/Fail Rates by Test Centre",
+            "provider": "data.gov.ie",
+            "organisation": "Road Safety Authority",
+            "category": "tabular",
+            "roiGroup": "7. Transport, roads, infrastructure, public assets",
+            "groupTitle": "Transport, roads, infrastructure, public assets",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "transport-public-asset",
+            "featureUnit": "road features",
+            "formats": [
+              "CSV",
+              "XLSX"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "transport-public-asset-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV",
+                "XLSX"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/2015-nct-pass-fail-rates-by-test-centre",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/2015-nct-pass-fail-rates-by-test-centre",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "public-asset-batch-placement: publication policy assigned",
+              "source-page-and-ia-viewport-decision: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:2015-nct-pass-fail-rates-by-test-centre:02006",
+          "sourceRowNumber": 2007,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "XLSX"
+            ]
+          },
+          "confidence": 60,
+          "resolvedBlockers": [
+            "public-asset-batch-placement: publication policy assigned",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Transport, roads, infrastructure, public assets",
+          "transport-public-asset",
+          "road features",
+          "Ireland / unspecified",
+          "transport-public-asset-batch-review",
+          "CSV",
+          "XLSX"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-2015-nct-pass-fail-rates-by-test-centre-02006"
+      }
+    },
+    {
+      "id": "medium-priority:7-transport-roads-infrastructure-public-assets:2016-nct-pass-fail-rates-by-test-centre:02007",
+      "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-2016-nct-pass-fail-rates-by-test-centre-02007",
+      "type": "approved-medium-priority-source",
+      "title": "2016 NCT Pass/Fail Rates by test centre",
+      "subtitle": "Transport, roads, infrastructure, public assets / Road Safety Authority, data.gov.ie / Ireland / unspecified / CSV, XLS / Approved source record",
+      "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+      "date": "2016",
+      "provider": [
+        "Road Safety Authority",
+        "data.gov.ie"
+      ],
+      "description": "2016 NCT Pass/Fail Rates by test centre is published as a medium-priority Civgraph source/provenance record from Road Safety Authority, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/2016-nct-pass-fail-rates-by-test-centre",
+      "references": [
+        {
+          "label": "2016 NCT Pass/Fail Rates by test centre provider page",
+          "url": "https://data.gov.ie/dataset/2016-nct-pass-fail-rates-by-test-centre",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "2016 NCT Pass/Fail Rates by test centre Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/2016-nct-pass-fail-rates-by-test-centre",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/2016-nct-pass-fail-rates-by-test-centre",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Transport, roads, infrastructure, public assets",
+        "transport-public-asset",
+        "road features",
+        "Ireland / unspecified",
+        "transport-public-asset-batch-review",
+        "CSV",
+        "XLS"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 2008,
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:2016-nct-pass-fail-rates-by-test-centre:02007",
+          "title": "2016 NCT Pass/Fail Rates by test centre",
+          "cleanTitle": "2016 NCT Pass/Fail Rates by test centre",
+          "provider": "data.gov.ie",
+          "organisation": "Road Safety Authority",
+          "category": "tabular",
+          "roiGroup": "7. Transport, roads, infrastructure, public assets",
+          "groupTitle": "Transport, roads, infrastructure, public assets",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "transport-public-asset",
+          "featureUnit": "road features",
+          "formats": [
+            "CSV",
+            "XLS"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "XLS"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/2016-nct-pass-fail-rates-by-test-centre",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/2016-nct-pass-fail-rates-by-test-centre",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "public-asset-batch-placement: publication policy assigned",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Transport, roads, infrastructure, public assets",
+        "Ireland / unspecified",
+        "transport-public-asset",
+        "2016 NCT Pass/Fail Rates by test centre"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "spreadsheet"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/2016-nct-pass-fail-rates-by-test-centre",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/2016-nct-pass-fail-rates-by-test-centre",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Road Safety Authority, data.gov.ie, 2016 NCT Pass/Fail Rates by test centre.",
+      "fullCitation": "Road Safety Authority, data.gov.ie. 2016 NCT Pass/Fail Rates by test centre. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/2016-nct-pass-fail-rates-by-test-centre. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/2016-nct-pass-fail-rates-by-test-centre.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:2016-nct-pass-fail-rates-by-test-centre:02007",
+        "sourceRowNumber": 2008,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+        "proposedAction": "transport-public-asset-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV",
+            "XLS"
+          ]
+        },
+        "confidence": 60,
+        "resolvedBlockers": [
+          "public-asset-batch-placement: publication policy assigned",
+          "source-page-and-ia-viewport-decision: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-2016-nct-pass-fail-rates-by-test-centre-02007",
+      "rawMetadata": {
+        "id": "medium-priority:7-transport-roads-infrastructure-public-assets:2016-nct-pass-fail-rates-by-test-centre:02007",
+        "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-2016-nct-pass-fail-rates-by-test-centre-02007",
+        "type": "approved-medium-priority-source",
+        "title": "2016 NCT Pass/Fail Rates by test centre",
+        "subtitle": "Transport, roads, infrastructure, public assets / Road Safety Authority, data.gov.ie / Ireland / unspecified / CSV, XLS / Approved source record",
+        "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+        "date": "2016",
+        "provider": [
+          "Road Safety Authority",
+          "data.gov.ie"
+        ],
+        "description": "2016 NCT Pass/Fail Rates by test centre is published as a medium-priority Civgraph source/provenance record from Road Safety Authority, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/2016-nct-pass-fail-rates-by-test-centre",
+        "references": [
+          {
+            "label": "2016 NCT Pass/Fail Rates by test centre provider page",
+            "url": "https://data.gov.ie/dataset/2016-nct-pass-fail-rates-by-test-centre",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "2016 NCT Pass/Fail Rates by test centre Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/2016-nct-pass-fail-rates-by-test-centre",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/2016-nct-pass-fail-rates-by-test-centre",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Transport, roads, infrastructure, public assets",
+          "Ireland / unspecified",
+          "transport-public-asset",
+          "2016 NCT Pass/Fail Rates by test centre"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "spreadsheet"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/2016-nct-pass-fail-rates-by-test-centre",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/2016-nct-pass-fail-rates-by-test-centre",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Road Safety Authority, data.gov.ie, 2016 NCT Pass/Fail Rates by test centre.",
+        "fullCitation": "Road Safety Authority, data.gov.ie. 2016 NCT Pass/Fail Rates by test centre. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/2016-nct-pass-fail-rates-by-test-centre. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/2016-nct-pass-fail-rates-by-test-centre.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 2008,
+            "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:2016-nct-pass-fail-rates-by-test-centre:02007",
+            "title": "2016 NCT Pass/Fail Rates by test centre",
+            "cleanTitle": "2016 NCT Pass/Fail Rates by test centre",
+            "provider": "data.gov.ie",
+            "organisation": "Road Safety Authority",
+            "category": "tabular",
+            "roiGroup": "7. Transport, roads, infrastructure, public assets",
+            "groupTitle": "Transport, roads, infrastructure, public assets",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "transport-public-asset",
+            "featureUnit": "road features",
+            "formats": [
+              "CSV",
+              "XLS"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "transport-public-asset-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV",
+                "XLS"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/2016-nct-pass-fail-rates-by-test-centre",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/2016-nct-pass-fail-rates-by-test-centre",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "public-asset-batch-placement: publication policy assigned",
+              "source-page-and-ia-viewport-decision: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:2016-nct-pass-fail-rates-by-test-centre:02007",
+          "sourceRowNumber": 2008,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "XLS"
+            ]
+          },
+          "confidence": 60,
+          "resolvedBlockers": [
+            "public-asset-batch-placement: publication policy assigned",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Transport, roads, infrastructure, public assets",
+          "transport-public-asset",
+          "road features",
+          "Ireland / unspecified",
+          "transport-public-asset-batch-review",
+          "CSV",
+          "XLS"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-2016-nct-pass-fail-rates-by-test-centre-02007"
+      }
+    },
+    {
+      "id": "medium-priority:7-transport-roads-infrastructure-public-assets:a26-dualling-lidar:01727",
+      "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-a26-dualling-lidar-01727",
+      "type": "approved-medium-priority-source",
+      "title": "A26 Dualling LIDAR",
+      "subtitle": "Transport, roads, infrastructure, public assets / Department for Infrastructure - Roads, Open Data NI / Northern Ireland / LAS / Source record; runtime review pending",
+      "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+      "provider": [
+        "Department for Infrastructure - Roads",
+        "Open Data NI"
+      ],
+      "description": "A26 Dualling LIDAR is published as a medium-priority Civgraph source/provenance record from Department for Infrastructure - Roads, Open Data NI. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; large-or-special-format-review: size/format decision remains before runtime publication.",
+      "url": "https://admin.opendatani.gov.uk/dataset/a26-dualling-lidar",
+      "references": [
+        {
+          "label": "A26 Dualling LIDAR provider page",
+          "url": "https://admin.opendatani.gov.uk/dataset/a26-dualling-lidar",
+          "source": "Open Data NI",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "A26 Dualling LIDAR Wayback captures",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/a26-dualling-lidar",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://admin.opendatani.gov.uk/dataset/a26-dualling-lidar",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "source-record-with-runtime-review",
+        "Transport, roads, infrastructure, public assets",
+        "transport-public-asset",
+        "road features",
+        "Northern Ireland",
+        "hold-special-format",
+        "LAS",
+        "review:duplicate-or-variant-review-no-existing-match-candidate",
+        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 1728,
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:a26-dualling-lidar:01727",
+          "title": "A26 Dualling LIDAR",
+          "cleanTitle": "A26 Dualling LIDAR",
+          "provider": "Open Data NI",
+          "organisation": "Department for Infrastructure - Roads",
+          "category": "tabular",
+          "roiGroup": "7. Transport, roads, infrastructure, public assets",
+          "groupTitle": "Transport, roads, infrastructure, public assets",
+          "jurisdiction": "Northern Ireland",
+          "topic": "transport-public-asset",
+          "featureUnit": "road features",
+          "formats": [
+            "LAS"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": true,
+          "proposedAction": "hold-special-format",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "download/source viewport first",
+            "conversion": "Do not convert until size/format review approves an interactive derivative.",
+            "sourceFormats": [
+              "LAS"
+            ]
+          },
+          "approvalState": "ready-with-residual-review",
+          "sourcePublicationState": "public source record with runtime/semantic review still pending",
+          "confidence": 45,
+          "currentProviderUrl": "https://admin.opendatani.gov.uk/dataset/a26-dualling-lidar",
+          "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/a26-dualling-lidar",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "public-asset-batch-placement: publication policy assigned"
+          ],
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate",
+            "large-or-special-format-review: size/format decision remains before runtime publication"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        }
+      ],
+      "status": "Source only",
+      "statusChips": [
+        "Source record",
+        "Runtime review pending",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Transport, roads, infrastructure, public assets",
+        "Northern Ireland",
+        "transport-public-asset",
+        "A26 Dualling LIDAR"
+      ],
+      "viewport": {
+        "status": "source-page-only",
+        "canonicalDatasetUrl": "https://admin.opendatani.gov.uk/dataset/a26-dualling-lidar",
+        "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/a26-dualling-lidar",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "Do not convert until size/format review approves an interactive derivative."
+      },
+      "shortCitation": "Department for Infrastructure - Roads, Open Data NI, A26 Dualling LIDAR.",
+      "fullCitation": "Department for Infrastructure - Roads, Open Data NI. A26 Dualling LIDAR. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://admin.opendatani.gov.uk/dataset/a26-dualling-lidar. Wayback capture index: https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/a26-dualling-lidar.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:a26-dualling-lidar:01727",
+        "sourceRowNumber": 1728,
+        "approvalState": "ready-with-residual-review",
+        "recommendedAction": "publish source record; hold runtime conversion pending size/format review",
+        "proposedAction": "hold-special-format",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "download/source viewport first",
+          "conversion": "Do not convert until size/format review approves an interactive derivative.",
+          "sourceFormats": [
+            "LAS"
+          ]
+        },
+        "confidence": 45,
+        "residualBlockers": [
+          "duplicate-or-variant-review: no existing match candidate",
+          "large-or-special-format-review: size/format decision remains before runtime publication"
+        ],
+        "resolvedBlockers": [
+          "public-asset-batch-placement: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+      },
+      "publicationStatus": "source-record-with-runtime-review",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-a26-dualling-lidar-01727",
+      "rawMetadata": {
+        "id": "medium-priority:7-transport-roads-infrastructure-public-assets:a26-dualling-lidar:01727",
+        "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-a26-dualling-lidar-01727",
+        "type": "approved-medium-priority-source",
+        "title": "A26 Dualling LIDAR",
+        "subtitle": "Transport, roads, infrastructure, public assets / Department for Infrastructure - Roads, Open Data NI / Northern Ireland / LAS / Source record; runtime review pending",
+        "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+        "provider": [
+          "Department for Infrastructure - Roads",
+          "Open Data NI"
+        ],
+        "description": "A26 Dualling LIDAR is published as a medium-priority Civgraph source/provenance record from Department for Infrastructure - Roads, Open Data NI. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; large-or-special-format-review: size/format decision remains before runtime publication.",
+        "url": "https://admin.opendatani.gov.uk/dataset/a26-dualling-lidar",
+        "references": [
+          {
+            "label": "A26 Dualling LIDAR provider page",
+            "url": "https://admin.opendatani.gov.uk/dataset/a26-dualling-lidar",
+            "source": "Open Data NI",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "A26 Dualling LIDAR Wayback captures",
+            "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/a26-dualling-lidar",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://admin.opendatani.gov.uk/dataset/a26-dualling-lidar",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source only",
+        "statusChips": [
+          "Source record",
+          "Runtime review pending",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Transport, roads, infrastructure, public assets",
+          "Northern Ireland",
+          "transport-public-asset",
+          "A26 Dualling LIDAR"
+        ],
+        "viewport": {
+          "status": "source-page-only",
+          "canonicalDatasetUrl": "https://admin.opendatani.gov.uk/dataset/a26-dualling-lidar",
+          "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/a26-dualling-lidar",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "Do not convert until size/format review approves an interactive derivative."
+        },
+        "shortCitation": "Department for Infrastructure - Roads, Open Data NI, A26 Dualling LIDAR.",
+        "fullCitation": "Department for Infrastructure - Roads, Open Data NI. A26 Dualling LIDAR. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://admin.opendatani.gov.uk/dataset/a26-dualling-lidar. Wayback capture index: https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/a26-dualling-lidar.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 1728,
+            "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:a26-dualling-lidar:01727",
+            "title": "A26 Dualling LIDAR",
+            "cleanTitle": "A26 Dualling LIDAR",
+            "provider": "Open Data NI",
+            "organisation": "Department for Infrastructure - Roads",
+            "category": "tabular",
+            "roiGroup": "7. Transport, roads, infrastructure, public assets",
+            "groupTitle": "Transport, roads, infrastructure, public assets",
+            "jurisdiction": "Northern Ireland",
+            "topic": "transport-public-asset",
+            "featureUnit": "road features",
+            "formats": [
+              "LAS"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": true,
+            "proposedAction": "hold-special-format",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "download/source viewport first",
+              "conversion": "Do not convert until size/format review approves an interactive derivative.",
+              "sourceFormats": [
+                "LAS"
+              ]
+            },
+            "approvalState": "ready-with-residual-review",
+            "sourcePublicationState": "public source record with runtime/semantic review still pending",
+            "confidence": 45,
+            "currentProviderUrl": "https://admin.opendatani.gov.uk/dataset/a26-dualling-lidar",
+            "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/a26-dualling-lidar",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "public-asset-batch-placement: publication policy assigned"
+            ],
+            "residualBlockers": [
+              "duplicate-or-variant-review: no existing match candidate",
+              "large-or-special-format-review: size/format decision remains before runtime publication"
+            ],
+            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:a26-dualling-lidar:01727",
+          "sourceRowNumber": 1728,
+          "approvalState": "ready-with-residual-review",
+          "recommendedAction": "publish source record; hold runtime conversion pending size/format review",
+          "proposedAction": "hold-special-format",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "download/source viewport first",
+            "conversion": "Do not convert until size/format review approves an interactive derivative.",
+            "sourceFormats": [
+              "LAS"
+            ]
+          },
+          "confidence": 45,
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate",
+            "large-or-special-format-review: size/format decision remains before runtime publication"
+          ],
+          "resolvedBlockers": [
+            "public-asset-batch-placement: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        },
+        "publicationStatus": "source-record-with-runtime-review",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "source-record-with-runtime-review",
+          "Transport, roads, infrastructure, public assets",
+          "transport-public-asset",
+          "road features",
+          "Northern Ireland",
+          "hold-special-format",
+          "LAS",
+          "review:duplicate-or-variant-review-no-existing-match-candidate",
+          "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-a26-dualling-lidar-01727"
+      }
+    },
+    {
+      "id": "medium-priority:7-transport-roads-infrastructure-public-assets:anbc-car-parking:01925",
+      "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-anbc-car-parking-01925",
+      "type": "approved-medium-priority-source",
+      "title": "ANBC Car Parking",
+      "subtitle": "Transport, roads, infrastructure, public assets / Antrim and Newtownabbey Borough Council, Open Data NI / Northern Ireland / CSV / Approved source record",
+      "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+      "provider": [
+        "Antrim and Newtownabbey Borough Council",
+        "Open Data NI"
+      ],
+      "description": "ANBC Car Parking is published as a medium-priority Civgraph source/provenance record from Antrim and Newtownabbey Borough Council, Open Data NI. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://admin.opendatani.gov.uk/dataset/anbc-car-parking",
+      "references": [
+        {
+          "label": "ANBC Car Parking provider page",
+          "url": "https://admin.opendatani.gov.uk/dataset/anbc-car-parking",
+          "source": "Open Data NI",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "ANBC Car Parking Wayback captures",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/anbc-car-parking",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://admin.opendatani.gov.uk/dataset/anbc-car-parking",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Transport, roads, infrastructure, public assets",
+        "transport-public-asset",
+        "parking assets",
+        "Northern Ireland",
+        "transport-public-asset-batch-review",
+        "CSV"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 1926,
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:anbc-car-parking:01925",
+          "title": "ANBC Car Parking",
+          "cleanTitle": "ANBC Car Parking",
+          "provider": "Open Data NI",
+          "organisation": "Antrim and Newtownabbey Borough Council",
+          "category": "tabular",
+          "roiGroup": "7. Transport, roads, infrastructure, public assets",
+          "groupTitle": "Transport, roads, infrastructure, public assets",
+          "jurisdiction": "Northern Ireland",
+          "topic": "transport-public-asset",
+          "featureUnit": "parking assets",
+          "formats": [
+            "CSV"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 55,
+          "currentProviderUrl": "https://admin.opendatani.gov.uk/dataset/anbc-car-parking",
+          "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/anbc-car-parking",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "needs-provider-context-review: publication policy assigned",
+            "public-asset-batch-placement: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Transport, roads, infrastructure, public assets",
+        "Northern Ireland",
+        "transport-public-asset",
+        "ANBC Car Parking"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text"
+        ],
+        "canonicalDatasetUrl": "https://admin.opendatani.gov.uk/dataset/anbc-car-parking",
+        "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/anbc-car-parking",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Antrim and Newtownabbey Borough Council, Open Data NI, ANBC Car Parking.",
+      "fullCitation": "Antrim and Newtownabbey Borough Council, Open Data NI. ANBC Car Parking. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://admin.opendatani.gov.uk/dataset/anbc-car-parking. Wayback capture index: https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/anbc-car-parking.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:anbc-car-parking:01925",
+        "sourceRowNumber": 1926,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+        "proposedAction": "transport-public-asset-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV"
+          ]
+        },
+        "confidence": 55,
+        "resolvedBlockers": [
+          "needs-provider-context-review: publication policy assigned",
+          "public-asset-batch-placement: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-anbc-car-parking-01925",
+      "rawMetadata": {
+        "id": "medium-priority:7-transport-roads-infrastructure-public-assets:anbc-car-parking:01925",
+        "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-anbc-car-parking-01925",
+        "type": "approved-medium-priority-source",
+        "title": "ANBC Car Parking",
+        "subtitle": "Transport, roads, infrastructure, public assets / Antrim and Newtownabbey Borough Council, Open Data NI / Northern Ireland / CSV / Approved source record",
+        "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+        "provider": [
+          "Antrim and Newtownabbey Borough Council",
+          "Open Data NI"
+        ],
+        "description": "ANBC Car Parking is published as a medium-priority Civgraph source/provenance record from Antrim and Newtownabbey Borough Council, Open Data NI. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://admin.opendatani.gov.uk/dataset/anbc-car-parking",
+        "references": [
+          {
+            "label": "ANBC Car Parking provider page",
+            "url": "https://admin.opendatani.gov.uk/dataset/anbc-car-parking",
+            "source": "Open Data NI",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "ANBC Car Parking Wayback captures",
+            "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/anbc-car-parking",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://admin.opendatani.gov.uk/dataset/anbc-car-parking",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Transport, roads, infrastructure, public assets",
+          "Northern Ireland",
+          "transport-public-asset",
+          "ANBC Car Parking"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text"
+          ],
+          "canonicalDatasetUrl": "https://admin.opendatani.gov.uk/dataset/anbc-car-parking",
+          "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/anbc-car-parking",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Antrim and Newtownabbey Borough Council, Open Data NI, ANBC Car Parking.",
+        "fullCitation": "Antrim and Newtownabbey Borough Council, Open Data NI. ANBC Car Parking. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://admin.opendatani.gov.uk/dataset/anbc-car-parking. Wayback capture index: https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/anbc-car-parking.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 1926,
+            "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:anbc-car-parking:01925",
+            "title": "ANBC Car Parking",
+            "cleanTitle": "ANBC Car Parking",
+            "provider": "Open Data NI",
+            "organisation": "Antrim and Newtownabbey Borough Council",
+            "category": "tabular",
+            "roiGroup": "7. Transport, roads, infrastructure, public assets",
+            "groupTitle": "Transport, roads, infrastructure, public assets",
+            "jurisdiction": "Northern Ireland",
+            "topic": "transport-public-asset",
+            "featureUnit": "parking assets",
+            "formats": [
+              "CSV"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "transport-public-asset-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 55,
+            "currentProviderUrl": "https://admin.opendatani.gov.uk/dataset/anbc-car-parking",
+            "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/anbc-car-parking",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "needs-provider-context-review: publication policy assigned",
+              "public-asset-batch-placement: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:anbc-car-parking:01925",
+          "sourceRowNumber": 1926,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV"
+            ]
+          },
+          "confidence": 55,
+          "resolvedBlockers": [
+            "needs-provider-context-review: publication policy assigned",
+            "public-asset-batch-placement: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Transport, roads, infrastructure, public assets",
+          "transport-public-asset",
+          "parking assets",
+          "Northern Ireland",
+          "transport-public-asset-batch-review",
+          "CSV"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-anbc-car-parking-01925"
+      }
+    },
+    {
+      "id": "medium-priority:7-transport-roads-infrastructure-public-assets:applications-for-special-education-transport:02008",
+      "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-applications-for-special-education-transport-02008",
+      "type": "approved-medium-priority-source",
+      "title": "Applications for Special Education Transport",
+      "subtitle": "Transport, roads, infrastructure, public assets / National Council for Special Education, data.gov.ie / Ireland / unspecified / CSV / Approved source record",
+      "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+      "provider": [
+        "National Council for Special Education",
+        "data.gov.ie"
+      ],
+      "description": "Applications for Special Education Transport is published as a medium-priority Civgraph source/provenance record from National Council for Special Education, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/applications-for-special-education-transport",
+      "references": [
+        {
+          "label": "Applications for Special Education Transport provider page",
+          "url": "https://data.gov.ie/dataset/applications-for-special-education-transport",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "Applications for Special Education Transport Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/applications-for-special-education-transport",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/applications-for-special-education-transport",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Transport, roads, infrastructure, public assets",
+        "transport-public-asset",
+        "road features",
+        "Ireland / unspecified",
+        "transport-public-asset-batch-review",
+        "CSV"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 2009,
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:applications-for-special-education-transport:02008",
+          "title": "Applications for Special Education Transport",
+          "cleanTitle": "Applications for Special Education Transport",
+          "provider": "data.gov.ie",
+          "organisation": "National Council for Special Education",
+          "category": "tabular",
+          "roiGroup": "7. Transport, roads, infrastructure, public assets",
+          "groupTitle": "Transport, roads, infrastructure, public assets",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "transport-public-asset",
+          "featureUnit": "road features",
+          "formats": [
+            "CSV"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/applications-for-special-education-transport",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/applications-for-special-education-transport",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "public-asset-batch-placement: publication policy assigned",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Transport, roads, infrastructure, public assets",
+        "Ireland / unspecified",
+        "transport-public-asset",
+        "Applications for Special Education Transport"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/applications-for-special-education-transport",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/applications-for-special-education-transport",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "National Council for Special Education, data.gov.ie, Applications for Special Education Transport.",
+      "fullCitation": "National Council for Special Education, data.gov.ie. Applications for Special Education Transport. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/applications-for-special-education-transport. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/applications-for-special-education-transport.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:applications-for-special-education-transport:02008",
+        "sourceRowNumber": 2009,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+        "proposedAction": "transport-public-asset-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV"
+          ]
+        },
+        "confidence": 60,
+        "resolvedBlockers": [
+          "public-asset-batch-placement: publication policy assigned",
+          "source-page-and-ia-viewport-decision: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-applications-for-special-education-transport-02008",
+      "rawMetadata": {
+        "id": "medium-priority:7-transport-roads-infrastructure-public-assets:applications-for-special-education-transport:02008",
+        "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-applications-for-special-education-transport-02008",
+        "type": "approved-medium-priority-source",
+        "title": "Applications for Special Education Transport",
+        "subtitle": "Transport, roads, infrastructure, public assets / National Council for Special Education, data.gov.ie / Ireland / unspecified / CSV / Approved source record",
+        "category": "Medium-priority: Transport, roads, infrastructure, public assets",
+        "provider": [
+          "National Council for Special Education",
+          "data.gov.ie"
+        ],
+        "description": "Applications for Special Education Transport is published as a medium-priority Civgraph source/provenance record from National Council for Special Education, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/applications-for-special-education-transport",
+        "references": [
+          {
+            "label": "Applications for Special Education Transport provider page",
+            "url": "https://data.gov.ie/dataset/applications-for-special-education-transport",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "Applications for Special Education Transport Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/applications-for-special-education-transport",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/applications-for-special-education-transport",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Transport, roads, infrastructure, public assets",
+          "Ireland / unspecified",
+          "transport-public-asset",
+          "Applications for Special Education Transport"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/applications-for-special-education-transport",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/applications-for-special-education-transport",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "National Council for Special Education, data.gov.ie, Applications for Special Education Transport.",
+        "fullCitation": "National Council for Special Education, data.gov.ie. Applications for Special Education Transport. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/applications-for-special-education-transport. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/applications-for-special-education-transport.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 2009,
+            "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:applications-for-special-education-transport:02008",
+            "title": "Applications for Special Education Transport",
+            "cleanTitle": "Applications for Special Education Transport",
+            "provider": "data.gov.ie",
+            "organisation": "National Council for Special Education",
+            "category": "tabular",
+            "roiGroup": "7. Transport, roads, infrastructure, public assets",
+            "groupTitle": "Transport, roads, infrastructure, public assets",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "transport-public-asset",
+            "featureUnit": "road features",
+            "formats": [
+              "CSV"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "transport-public-asset-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/applications-for-special-education-transport",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/applications-for-special-education-transport",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "public-asset-batch-placement: publication policy assigned",
+              "source-page-and-ia-viewport-decision: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:7-transport-roads-infrastructure-public-assets:applications-for-special-education-transport:02008",
+          "sourceRowNumber": 2009,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in transport/public-asset batch; convert stable layers before operational feeds",
+          "proposedAction": "transport-public-asset-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV"
+            ]
+          },
+          "confidence": 60,
+          "resolvedBlockers": [
+            "public-asset-batch-placement: publication policy assigned",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch public-asset layers by provider/topic; add as lower-priority map/source bundles after higher-value geography/election/census work.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Transport, roads, infrastructure, public assets",
+          "transport-public-asset",
+          "road features",
+          "Ireland / unspecified",
+          "transport-public-asset-batch-review",
+          "CSV"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-7-transport-roads-infrastructure-public-assets-applications-for-special-education-transport-02008"
+      }
+    },
     {
       "id": "medium-priority:7-transport-roads-infrastructure-public-assets:archaeology-seminar-papers:02009",
       "slug": "medium-priority-7-transport-roads-infrastructure-public-assets-archaeology-seminar-papers-02009",
@@ -59276,667 +60905,6 @@
             "bytes": 338715,
             "sha256": "58006934d81d0d77d1b005c083a1899cd066b54053c69a8503e1e0495396e16d",
             "providerUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/07-october-2011/"
-          }
-        ]
-      }
-    },
-    {
-      "id": "ni-register:assembly:html:b906614aac337765",
-      "slug": "ni-register-assembly-html-ni-assembly-register-of-members-interests-9-march-2010-e7d79a90",
-      "type": "register-source-document",
-      "title": "NI Assembly Register of Members Interests (9 March 2010)",
-      "subtitle": "Archive / html / 9 March 2010",
-      "category": "Registers of interests",
-      "date": "2010-03-09",
-      "provider": [
-        "Northern Ireland Assembly"
-      ],
-      "description": "NI Assembly register of interests html. edition dated 9 March 2010. content type text/html",
-      "url": "https://archive.niassembly.gov.uk/members/expenses/register090310.htm",
-      "references": [
-        {
-          "label": "Archive register landing page",
-          "url": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm"
-        },
-        {
-          "label": "Provider source URL",
-          "url": "https://archive.niassembly.gov.uk/members/expenses/register090310.htm"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "html source",
-          "url": "https://archive.niassembly.gov.uk/members/expenses/register090310.htm",
-          "type": "html"
-        }
-      ],
-      "keywords": [
-        "register of interests",
-        "MLA",
-        "Northern Ireland Assembly",
-        "html",
-        "archive"
-      ],
-      "sourceItems": [
-        {
-          "sourcePageId": "archive",
-          "sourcePageUrl": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm",
-          "title": "Register of Members' Interests",
-          "linkText": "Register of Members' Interests",
-          "kind": "html",
-          "contentType": "text/html",
-          "httpStatus": 200,
-          "bytes": 215436,
-          "sha256": "cd8cefb66ccbb95735047ad26349382003e3ce68805c401535c03c9fd3f6613f",
-          "lastModified": "Wed, 26 Nov 2014 12:13:53 GMT",
-          "providerUrl": "https://archive.niassembly.gov.uk/members/expenses/register090310.htm"
-        }
-      ],
-      "status": "Available",
-      "statusChips": [
-        "html",
-        "HTTP 200",
-        "archive"
-      ],
-      "sourceHierarchy": [
-        "Browse",
-        "Registers of interests",
-        "Northern Ireland Assembly",
-        "Archive"
-      ],
-      "parentId": "ni-register:assembly:collection",
-      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
-      "browseUrl": "/browse/sources/ni-register-assembly-html-ni-assembly-register-of-members-interests-9-march-2010-e7d79a90",
-      "rawMetadata": {
-        "id": "ni-register:assembly:html:b906614aac337765",
-        "slug": "ni-register-assembly-html-ni-assembly-register-of-members-interests-9-march-2010-e7d79a90",
-        "type": "register-source-document",
-        "title": "NI Assembly Register of Members Interests (9 March 2010)",
-        "subtitle": "Archive / html / 9 March 2010",
-        "category": "Registers of interests",
-        "date": "2010-03-09",
-        "provider": [
-          "Northern Ireland Assembly"
-        ],
-        "description": "NI Assembly register of interests html. edition dated 9 March 2010. content type text/html",
-        "url": "https://archive.niassembly.gov.uk/members/expenses/register090310.htm",
-        "references": [
-          {
-            "label": "Archive register landing page",
-            "url": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm"
-          },
-          {
-            "label": "Provider source URL",
-            "url": "https://archive.niassembly.gov.uk/members/expenses/register090310.htm"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "html source",
-            "url": "https://archive.niassembly.gov.uk/members/expenses/register090310.htm",
-            "type": "html"
-          }
-        ],
-        "keywords": [
-          "register of interests",
-          "MLA",
-          "Northern Ireland Assembly",
-          "html",
-          "archive"
-        ],
-        "sourceHierarchy": [
-          "Browse",
-          "Registers of interests",
-          "Northern Ireland Assembly",
-          "Archive"
-        ],
-        "status": "Available",
-        "statusChips": [
-          "html",
-          "HTTP 200",
-          "archive"
-        ],
-        "parentId": "ni-register:assembly:collection",
-        "parentTitle": "Northern Ireland Assembly Register of Members Interests",
-        "sourceItems": [
-          {
-            "sourcePageId": "archive",
-            "sourcePageUrl": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm",
-            "title": "Register of Members' Interests",
-            "linkText": "Register of Members' Interests",
-            "kind": "html",
-            "contentType": "text/html",
-            "httpStatus": 200,
-            "bytes": 215436,
-            "sha256": "cd8cefb66ccbb95735047ad26349382003e3ce68805c401535c03c9fd3f6613f",
-            "lastModified": "Wed, 26 Nov 2014 12:13:53 GMT",
-            "providerUrl": "https://archive.niassembly.gov.uk/members/expenses/register090310.htm"
-          }
-        ]
-      }
-    },
-    {
-      "id": "ni-register:assembly:html:3315a8c292c7aa1d",
-      "slug": "ni-register-assembly-html-ni-assembly-register-of-members-interests-c84954c0",
-      "type": "register-source-document",
-      "title": "NI Assembly Register of Members' Interests",
-      "subtitle": "Archive / html",
-      "category": "Registers of interests",
-      "provider": [
-        "Northern Ireland Assembly"
-      ],
-      "description": "NI Assembly register of interests html. content type text/html",
-      "url": "https://archive.niassembly.gov.uk/members/expenses/register.htm",
-      "references": [
-        {
-          "label": "Archive register landing page",
-          "url": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm"
-        },
-        {
-          "label": "Provider source URL",
-          "url": "https://archive.niassembly.gov.uk/members/expenses/register.htm"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "html source",
-          "url": "https://archive.niassembly.gov.uk/members/expenses/register.htm",
-          "type": "html"
-        }
-      ],
-      "keywords": [
-        "register of interests",
-        "MLA",
-        "Northern Ireland Assembly",
-        "html",
-        "archive"
-      ],
-      "sourceItems": [
-        {
-          "sourcePageId": "archive",
-          "sourcePageUrl": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm",
-          "title": "Register of Members' Interests",
-          "linkText": "Register of Members' Interests",
-          "kind": "html",
-          "contentType": "text/html",
-          "httpStatus": 200,
-          "bytes": 83693,
-          "sha256": "cbf87ef3ba2b532bfb43d2c82bd8da6c96e6db3022ed15fd371bea6b18f2cd66",
-          "lastModified": "Wed, 26 Nov 2014 12:13:53 GMT",
-          "providerUrl": "https://archive.niassembly.gov.uk/members/expenses/register.htm"
-        }
-      ],
-      "status": "Available",
-      "statusChips": [
-        "html",
-        "HTTP 200",
-        "archive"
-      ],
-      "sourceHierarchy": [
-        "Browse",
-        "Registers of interests",
-        "Northern Ireland Assembly",
-        "Archive"
-      ],
-      "parentId": "ni-register:assembly:collection",
-      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
-      "browseUrl": "/browse/sources/ni-register-assembly-html-ni-assembly-register-of-members-interests-c84954c0",
-      "rawMetadata": {
-        "id": "ni-register:assembly:html:3315a8c292c7aa1d",
-        "slug": "ni-register-assembly-html-ni-assembly-register-of-members-interests-c84954c0",
-        "type": "register-source-document",
-        "title": "NI Assembly Register of Members' Interests",
-        "subtitle": "Archive / html",
-        "category": "Registers of interests",
-        "provider": [
-          "Northern Ireland Assembly"
-        ],
-        "description": "NI Assembly register of interests html. content type text/html",
-        "url": "https://archive.niassembly.gov.uk/members/expenses/register.htm",
-        "references": [
-          {
-            "label": "Archive register landing page",
-            "url": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm"
-          },
-          {
-            "label": "Provider source URL",
-            "url": "https://archive.niassembly.gov.uk/members/expenses/register.htm"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "html source",
-            "url": "https://archive.niassembly.gov.uk/members/expenses/register.htm",
-            "type": "html"
-          }
-        ],
-        "keywords": [
-          "register of interests",
-          "MLA",
-          "Northern Ireland Assembly",
-          "html",
-          "archive"
-        ],
-        "sourceHierarchy": [
-          "Browse",
-          "Registers of interests",
-          "Northern Ireland Assembly",
-          "Archive"
-        ],
-        "status": "Available",
-        "statusChips": [
-          "html",
-          "HTTP 200",
-          "archive"
-        ],
-        "parentId": "ni-register:assembly:collection",
-        "parentTitle": "Northern Ireland Assembly Register of Members Interests",
-        "sourceItems": [
-          {
-            "sourcePageId": "archive",
-            "sourcePageUrl": "https://archive.niassembly.gov.uk/members/expenses/register_home.htm",
-            "title": "Register of Members' Interests",
-            "linkText": "Register of Members' Interests",
-            "kind": "html",
-            "contentType": "text/html",
-            "httpStatus": 200,
-            "bytes": 83693,
-            "sha256": "cbf87ef3ba2b532bfb43d2c82bd8da6c96e6db3022ed15fd371bea6b18f2cd66",
-            "lastModified": "Wed, 26 Nov 2014 12:13:53 GMT",
-            "providerUrl": "https://archive.niassembly.gov.uk/members/expenses/register.htm"
-          }
-        ]
-      }
-    },
-    {
-      "id": "ni-register:assembly:html:37a015d4fca7e7b1",
-      "slug": "ni-register-assembly-html-ni-assembly-register-of-members-interests-during-the-2022-2027-mandate-d6ccee85",
-      "type": "register-source-document",
-      "title": "NI Assembly Register of Members’ Interests during the 2022-2027 Mandate",
-      "subtitle": "Current / html",
-      "category": "Registers of interests",
-      "provider": [
-        "Northern Ireland Assembly"
-      ],
-      "description": "NI Assembly register of interests html. content type text/html; charset=utf-8",
-      "url": "https://aims.niassembly.gov.uk/mlas/registerofinterests.aspx",
-      "references": [
-        {
-          "label": "Current register landing page",
-          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
-        },
-        {
-          "label": "Provider source URL",
-          "url": "https://aims.niassembly.gov.uk/mlas/registerofinterests.aspx"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "html source",
-          "url": "https://aims.niassembly.gov.uk/mlas/registerofinterests.aspx",
-          "type": "html"
-        }
-      ],
-      "keywords": [
-        "register of interests",
-        "MLA",
-        "Northern Ireland Assembly",
-        "html",
-        "current"
-      ],
-      "sourceItems": [
-        {
-          "sourcePageId": "current",
-          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
-          "title": "Register of Members’ Interests during the 2022-2027 Mandate",
-          "linkText": "Register of Members’ Interests during the 2022-2027 Mandate",
-          "kind": "html",
-          "contentType": "text/html; charset=utf-8",
-          "httpStatus": 200,
-          "bytes": 90086,
-          "sha256": "1544fb44236bc5cfebd7e43f9ecba86c15190c5e7e912351be3ad0b8d6f6dca0",
-          "providerUrl": "https://aims.niassembly.gov.uk/mlas/registerofinterests.aspx"
-        }
-      ],
-      "status": "Available",
-      "statusChips": [
-        "html",
-        "HTTP 200",
-        "current"
-      ],
-      "sourceHierarchy": [
-        "Browse",
-        "Registers of interests",
-        "Northern Ireland Assembly",
-        "Current"
-      ],
-      "parentId": "ni-register:assembly:collection",
-      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
-      "browseUrl": "/browse/sources/ni-register-assembly-html-ni-assembly-register-of-members-interests-during-the-2022-2027-mandate-d6ccee85",
-      "rawMetadata": {
-        "id": "ni-register:assembly:html:37a015d4fca7e7b1",
-        "slug": "ni-register-assembly-html-ni-assembly-register-of-members-interests-during-the-2022-2027-mandate-d6ccee85",
-        "type": "register-source-document",
-        "title": "NI Assembly Register of Members’ Interests during the 2022-2027 Mandate",
-        "subtitle": "Current / html",
-        "category": "Registers of interests",
-        "provider": [
-          "Northern Ireland Assembly"
-        ],
-        "description": "NI Assembly register of interests html. content type text/html; charset=utf-8",
-        "url": "https://aims.niassembly.gov.uk/mlas/registerofinterests.aspx",
-        "references": [
-          {
-            "label": "Current register landing page",
-            "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
-          },
-          {
-            "label": "Provider source URL",
-            "url": "https://aims.niassembly.gov.uk/mlas/registerofinterests.aspx"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "html source",
-            "url": "https://aims.niassembly.gov.uk/mlas/registerofinterests.aspx",
-            "type": "html"
-          }
-        ],
-        "keywords": [
-          "register of interests",
-          "MLA",
-          "Northern Ireland Assembly",
-          "html",
-          "current"
-        ],
-        "sourceHierarchy": [
-          "Browse",
-          "Registers of interests",
-          "Northern Ireland Assembly",
-          "Current"
-        ],
-        "status": "Available",
-        "statusChips": [
-          "html",
-          "HTTP 200",
-          "current"
-        ],
-        "parentId": "ni-register:assembly:collection",
-        "parentTitle": "Northern Ireland Assembly Register of Members Interests",
-        "sourceItems": [
-          {
-            "sourcePageId": "current",
-            "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
-            "title": "Register of Members’ Interests during the 2022-2027 Mandate",
-            "linkText": "Register of Members’ Interests during the 2022-2027 Mandate",
-            "kind": "html",
-            "contentType": "text/html; charset=utf-8",
-            "httpStatus": 200,
-            "bytes": 90086,
-            "sha256": "1544fb44236bc5cfebd7e43f9ecba86c15190c5e7e912351be3ad0b8d6f6dca0",
-            "providerUrl": "https://aims.niassembly.gov.uk/mlas/registerofinterests.aspx"
-          }
-        ]
-      }
-    },
-    {
-      "id": "ni-register:assembly:json:a66cec8ce9a0b26c",
-      "slug": "ni-register-assembly-json-ni-assembly-current-registered-interests-json-api-60f80a1c",
-      "type": "register-source-dataset",
-      "title": "NI Assembly current registered interests JSON API",
-      "subtitle": "Current / json",
-      "category": "Registers of interests",
-      "provider": [
-        "Northern Ireland Assembly"
-      ],
-      "description": "NI Assembly register of interests json. content type application/json; charset=utf-8",
-      "url": "http://data.niassembly.gov.uk/register.asmx/GetAllRegisteredInterests_JSON",
-      "references": [
-        {
-          "label": "Current register landing page",
-          "url": "http://data.niassembly.gov.uk/register.asmx"
-        },
-        {
-          "label": "Provider source URL",
-          "url": "http://data.niassembly.gov.uk/register.asmx/GetAllRegisteredInterests_JSON"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "json source",
-          "url": "http://data.niassembly.gov.uk/register.asmx/GetAllRegisteredInterests_JSON",
-          "type": "json"
-        }
-      ],
-      "keywords": [
-        "register of interests",
-        "MLA",
-        "Northern Ireland Assembly",
-        "json",
-        "current"
-      ],
-      "sourceItems": [
-        {
-          "sourcePageId": "current",
-          "sourcePageUrl": "http://data.niassembly.gov.uk/register.asmx",
-          "title": "NI Assembly GetAllRegisteredInterests JSON",
-          "linkText": "NI Assembly GetAllRegisteredInterests JSON",
-          "kind": "json",
-          "contentType": "application/json; charset=utf-8",
-          "httpStatus": 200,
-          "bytes": 137804,
-          "sha256": "9b881e299486f254896e5c1b9cd62598f5ff30f226f89ab54e33bebf42041099",
-          "providerUrl": "http://data.niassembly.gov.uk/register.asmx/GetAllRegisteredInterests_JSON"
-        }
-      ],
-      "status": "Available",
-      "statusChips": [
-        "json",
-        "HTTP 200",
-        "current"
-      ],
-      "sourceHierarchy": [
-        "Browse",
-        "Registers of interests",
-        "Northern Ireland Assembly",
-        "Current"
-      ],
-      "parentId": "ni-register:assembly:collection",
-      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
-      "browseUrl": "/browse/sources/ni-register-assembly-json-ni-assembly-current-registered-interests-json-api-60f80a1c",
-      "rawMetadata": {
-        "id": "ni-register:assembly:json:a66cec8ce9a0b26c",
-        "slug": "ni-register-assembly-json-ni-assembly-current-registered-interests-json-api-60f80a1c",
-        "type": "register-source-dataset",
-        "title": "NI Assembly current registered interests JSON API",
-        "subtitle": "Current / json",
-        "category": "Registers of interests",
-        "provider": [
-          "Northern Ireland Assembly"
-        ],
-        "description": "NI Assembly register of interests json. content type application/json; charset=utf-8",
-        "url": "http://data.niassembly.gov.uk/register.asmx/GetAllRegisteredInterests_JSON",
-        "references": [
-          {
-            "label": "Current register landing page",
-            "url": "http://data.niassembly.gov.uk/register.asmx"
-          },
-          {
-            "label": "Provider source URL",
-            "url": "http://data.niassembly.gov.uk/register.asmx/GetAllRegisteredInterests_JSON"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "json source",
-            "url": "http://data.niassembly.gov.uk/register.asmx/GetAllRegisteredInterests_JSON",
-            "type": "json"
-          }
-        ],
-        "keywords": [
-          "register of interests",
-          "MLA",
-          "Northern Ireland Assembly",
-          "json",
-          "current"
-        ],
-        "sourceHierarchy": [
-          "Browse",
-          "Registers of interests",
-          "Northern Ireland Assembly",
-          "Current"
-        ],
-        "status": "Available",
-        "statusChips": [
-          "json",
-          "HTTP 200",
-          "current"
-        ],
-        "parentId": "ni-register:assembly:collection",
-        "parentTitle": "Northern Ireland Assembly Register of Members Interests",
-        "sourceItems": [
-          {
-            "sourcePageId": "current",
-            "sourcePageUrl": "http://data.niassembly.gov.uk/register.asmx",
-            "title": "NI Assembly GetAllRegisteredInterests JSON",
-            "linkText": "NI Assembly GetAllRegisteredInterests JSON",
-            "kind": "json",
-            "contentType": "application/json; charset=utf-8",
-            "httpStatus": 200,
-            "bytes": 137804,
-            "sha256": "9b881e299486f254896e5c1b9cd62598f5ff30f226f89ab54e33bebf42041099",
-            "providerUrl": "http://data.niassembly.gov.uk/register.asmx/GetAllRegisteredInterests_JSON"
-          }
-        ]
-      }
-    },
-    {
-      "id": "ni-register:assembly:json:d5e8bbd570ffe5e5",
-      "slug": "ni-register-assembly-json-ni-assembly-current-registered-interests-json-api-fb54ef92",
-      "type": "register-source-dataset",
-      "title": "NI Assembly current registered interests JSON API",
-      "subtitle": "Current / json",
-      "category": "Registers of interests",
-      "provider": [
-        "Northern Ireland Assembly"
-      ],
-      "description": "NI Assembly register of interests json. content type application/json; charset=utf-8",
-      "url": "http://data.niassembly.gov.uk/register.asmx/GetAllRegisteredInterests_JSONP",
-      "references": [
-        {
-          "label": "Current register landing page",
-          "url": "http://data.niassembly.gov.uk/register.asmx"
-        },
-        {
-          "label": "Provider source URL",
-          "url": "http://data.niassembly.gov.uk/register.asmx/GetAllRegisteredInterests_JSONP"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "json source",
-          "url": "http://data.niassembly.gov.uk/register.asmx/GetAllRegisteredInterests_JSONP",
-          "type": "json"
-        }
-      ],
-      "keywords": [
-        "register of interests",
-        "MLA",
-        "Northern Ireland Assembly",
-        "json",
-        "current"
-      ],
-      "sourceItems": [
-        {
-          "sourcePageId": "current",
-          "sourcePageUrl": "http://data.niassembly.gov.uk/register.asmx",
-          "title": "NI Assembly GetAllRegisteredInterests JSONP",
-          "linkText": "NI Assembly GetAllRegisteredInterests JSONP",
-          "kind": "json",
-          "contentType": "application/json; charset=utf-8",
-          "httpStatus": 200,
-          "bytes": 137808,
-          "sha256": "b7701552c004a530f9fa151438e2ff0c23711c95056d23266aa0be63c3d04517",
-          "providerUrl": "http://data.niassembly.gov.uk/register.asmx/GetAllRegisteredInterests_JSONP"
-        }
-      ],
-      "status": "Available",
-      "statusChips": [
-        "json",
-        "HTTP 200",
-        "current"
-      ],
-      "sourceHierarchy": [
-        "Browse",
-        "Registers of interests",
-        "Northern Ireland Assembly",
-        "Current"
-      ],
-      "parentId": "ni-register:assembly:collection",
-      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
-      "browseUrl": "/browse/sources/ni-register-assembly-json-ni-assembly-current-registered-interests-json-api-fb54ef92",
-      "rawMetadata": {
-        "id": "ni-register:assembly:json:d5e8bbd570ffe5e5",
-        "slug": "ni-register-assembly-json-ni-assembly-current-registered-interests-json-api-fb54ef92",
-        "type": "register-source-dataset",
-        "title": "NI Assembly current registered interests JSON API",
-        "subtitle": "Current / json",
-        "category": "Registers of interests",
-        "provider": [
-          "Northern Ireland Assembly"
-        ],
-        "description": "NI Assembly register of interests json. content type application/json; charset=utf-8",
-        "url": "http://data.niassembly.gov.uk/register.asmx/GetAllRegisteredInterests_JSONP",
-        "references": [
-          {
-            "label": "Current register landing page",
-            "url": "http://data.niassembly.gov.uk/register.asmx"
-          },
-          {
-            "label": "Provider source URL",
-            "url": "http://data.niassembly.gov.uk/register.asmx/GetAllRegisteredInterests_JSONP"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "json source",
-            "url": "http://data.niassembly.gov.uk/register.asmx/GetAllRegisteredInterests_JSONP",
-            "type": "json"
-          }
-        ],
-        "keywords": [
-          "register of interests",
-          "MLA",
-          "Northern Ireland Assembly",
-          "json",
-          "current"
-        ],
-        "sourceHierarchy": [
-          "Browse",
-          "Registers of interests",
-          "Northern Ireland Assembly",
-          "Current"
-        ],
-        "status": "Available",
-        "statusChips": [
-          "json",
-          "HTTP 200",
-          "current"
-        ],
-        "parentId": "ni-register:assembly:collection",
-        "parentTitle": "Northern Ireland Assembly Register of Members Interests",
-        "sourceItems": [
-          {
-            "sourcePageId": "current",
-            "sourcePageUrl": "http://data.niassembly.gov.uk/register.asmx",
-            "title": "NI Assembly GetAllRegisteredInterests JSONP",
-            "linkText": "NI Assembly GetAllRegisteredInterests JSONP",
-            "kind": "json",
-            "contentType": "application/json; charset=utf-8",
-            "httpStatus": 200,
-            "bytes": 137808,
-            "sha256": "b7701552c004a530f9fa151438e2ff0c23711c95056d23266aa0be63c3d04517",
-            "providerUrl": "http://data.niassembly.gov.uk/register.asmx/GetAllRegisteredInterests_JSONP"
           }
         ]
       }

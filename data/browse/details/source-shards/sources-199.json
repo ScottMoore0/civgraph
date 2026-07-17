@@ -1,10 +1,629 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-14T17:47:33.902Z",
+  "generatedAt": "2026-07-17T19:32:11.369Z",
   "kind": "sources",
   "shard": "sources-199.json",
   "total": 200,
   "items": [
+    {
+      "id": "peatland-geoportal:conversion-candidate:annual-temperature-projections-2050-2079:efab8cc4581748e8b358042a943795b6",
+      "slug": "peatland-geoportal-conversion-candidate-annual-temperature-projections-2050-2079-efab8cc4581748e8b358042a943795b6",
+      "type": "peatland-geoportal-conversion-candidate-source",
+      "title": "Annual Temperature Projections 2050-2079",
+      "subtitle": "Feature Service / MetOffice_data / conversion candidate",
+      "category": "Peatland Geoportal conversion candidates",
+      "date": "2025-03-28",
+      "provider": [
+        "MetOffice_data",
+        "Met Office"
+      ],
+      "description": "Annual Temperature Projections 2050-2079 is a Feature Service item from the Peatland Geoportal, owned by MetOffice_data. Best conversion source if approved: ArcGIS Feature Service (esriGeometryPolygon); use item metadata and sibling records for provenance. No high-confidence Civgraph duplicate from metadata-only title matching; still inspect provider lineage before conversion. ArcGIS item ID: efab8cc4581748e8b358042a943795b6. Modified: 2025-03-28. Service metadata observed in the audit: 1 layer; esriGeometryPolygon; capabilities: Query, Extract. The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion.",
+      "url": "https://www.arcgis.com/home/item.html?id=efab8cc4581748e8b358042a943795b6",
+      "references": [
+        {
+          "label": "Annual Temperature Projections 2050-2079 ArcGIS item page",
+          "url": "https://www.arcgis.com/home/item.html?id=efab8cc4581748e8b358042a943795b6",
+          "source": "ArcGIS Online / Peatland Geoportal",
+          "role": "arcgis-item-page"
+        },
+        {
+          "label": "Peatland Geoportal",
+          "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/",
+          "source": "Queen's University Belfast / ArcGIS Hub",
+          "role": "source-portal"
+        },
+        {
+          "label": "Peatland Geoportal ArcGIS group search",
+          "url": "https://www.arcgis.com/sharing/rest/search?f=json&q=group:b5fdfbe3f6264c14a90afd43f8f51956&num=100&sortField=title",
+          "source": "ArcGIS Online",
+          "role": "source-group"
+        },
+        {
+          "label": "Annual Temperature Projections 2050-2079 service or source URL",
+          "url": "https://services.arcgis.com/Lq3V5RFuTBC9I7kv/arcgis/rest/services/Temperature_annual_averages_projected_2050_to_2079/FeatureServer",
+          "source": "MetOffice_data",
+          "role": "feature-service"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Annual Temperature Projections 2050-2079 service endpoint",
+          "url": "https://services.arcgis.com/Lq3V5RFuTBC9I7kv/arcgis/rest/services/Temperature_annual_averages_projected_2050_to_2079/FeatureServer"
+        }
+      ],
+      "keywords": [
+        "peatland-geoportal",
+        "habitat-protected-site-context",
+        "candidate-interactive-map-after-license-dedupe",
+        "Feature Service",
+        "MetOffice_data",
+        "Met Office",
+        "Climate",
+        "UKCP",
+        "12km",
+        "UK",
+        "Projections",
+        "Temperature",
+        "Average",
+        "Annual",
+        "2050-2079",
+        "UK projections temperature",
+        "UK emissions scenarios"
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 35,
+          "title": "Annual Temperature Projections 2050-2079",
+          "provider": "MetOffice_data",
+          "category": "habitat-protected-site-context",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "efab8cc4581748e8b358042a943795b6",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=efab8cc4581748e8b358042a943795b6",
+          "serviceUrl": "https://services.arcgis.com/Lq3V5RFuTBC9I7kv/arcgis/rest/services/Temperature_annual_averages_projected_2050_to_2079/FeatureServer",
+          "modified": "2025-03-28T09:37:28.000Z",
+          "access": "public",
+          "tags": [
+            "Met Office",
+            "Climate",
+            "UKCP",
+            "12km",
+            "UK",
+            "Projections",
+            "Temperature",
+            "Average",
+            "Annual",
+            "2050-2079",
+            "UK projections temperature",
+            "UK emissions scenarios"
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query",
+            "Extract"
+          ],
+          "recommendedAction": "candidate-interactive-map-after-license-dedupe",
+          "licenseNote": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+        }
+      ],
+      "status": "Conversion candidate",
+      "statusChips": [
+        "Conversion candidate",
+        "Licence review required",
+        "Geometry not ingested"
+      ],
+      "sourceHierarchy": [
+        "Peatland Geoportal",
+        "Conversion candidates",
+        "habitat-protected-site-context"
+      ],
+      "shortCitation": "MetOffice_data: Annual Temperature Projections 2050-2079",
+      "fullCitation": "Annual Temperature Projections 2050-2079. MetOffice_data via Peatland Geoportal / ArcGIS item efab8cc4581748e8b358042a943795b6, modified 2025-03-28.",
+      "license": {
+        "status": "licence-review-required",
+        "note": "The metadata audit confirms public item access, not a definitive reuse licence. Confirm provider licence before geometry conversion."
+      },
+      "approval": {
+        "recommendedAction": "retain as conversion candidate; do not publish runtime layer until approved",
+        "conversionRecommendation": "Best conversion source if approved: ArcGIS Feature Service (esriGeometryPolygon); use item metadata and sibling records for provenance.",
+        "dedupeRecommendation": "No high-confidence Civgraph duplicate from metadata-only title matching; still inspect provider lineage before conversion.",
+        "arcgisItemId": "efab8cc4581748e8b358042a943795b6",
+        "sourceType": "Feature Service",
+        "confidence": "candidate"
+      },
+      "publicationStatus": "conversion-review-only",
+      "proposedBrowsePath": "Books / Tables / Sources > Peatland Geoportal conversion candidates",
+      "relationship": "conversion-review-source",
+      "browseUrl": "/browse/sources/peatland-geoportal-conversion-candidate-annual-temperature-projections-2050-2079-efab8cc4581748e8b358042a943795b6"
+    },
+    {
+      "id": "peatland-geoportal:conversion-candidate:article-17-habitat-details-terrestrial-2019-npws:e24885788f924e108bc9535492af420a",
+      "slug": "peatland-geoportal-conversion-candidate-article-17-habitat-details-terrestrial-2019-npws-e24885788f924e108bc9535492af420a",
+      "type": "peatland-geoportal-conversion-candidate-source",
+      "title": "Article 17 Habitat Details Terrestrial 2019 (NPWS)",
+      "subtitle": "Feature Service / NPWS_Ireland / conversion candidate",
+      "category": "Peatland Geoportal conversion candidates",
+      "date": "2025-11-03",
+      "provider": [
+        "NPWS_Ireland",
+        "NPWS"
+      ],
+      "description": "Article 17 Habitat Details Terrestrial 2019 (NPWS) is a Feature Service item from the Peatland Geoportal, owned by NPWS_Ireland. Best conversion source if approved: ArcGIS Feature Service (esriGeometryPoint, esriGeometryPolyline, esriGeometryPolygon); use item metadata and sibling records for provenance. No high-confidence Civgraph duplicate from metadata-only title matching; still inspect provider lineage before conversion. ArcGIS item ID: e24885788f924e108bc9535492af420a. Modified: 2025-11-03. Service metadata observed in the audit: 3 layers; esriGeometryPoint, esriGeometryPolyline, esriGeometryPolygon; capabilities: Query, Extract. Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion.",
+      "url": "https://www.arcgis.com/home/item.html?id=e24885788f924e108bc9535492af420a",
+      "references": [
+        {
+          "label": "Article 17 Habitat Details Terrestrial 2019 (NPWS) ArcGIS item page",
+          "url": "https://www.arcgis.com/home/item.html?id=e24885788f924e108bc9535492af420a",
+          "source": "ArcGIS Online / Peatland Geoportal",
+          "role": "arcgis-item-page"
+        },
+        {
+          "label": "Peatland Geoportal",
+          "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/",
+          "source": "Queen's University Belfast / ArcGIS Hub",
+          "role": "source-portal"
+        },
+        {
+          "label": "Peatland Geoportal ArcGIS group search",
+          "url": "https://www.arcgis.com/sharing/rest/search?f=json&q=group:b5fdfbe3f6264c14a90afd43f8f51956&num=100&sortField=title",
+          "source": "ArcGIS Online",
+          "role": "source-group"
+        },
+        {
+          "label": "Article 17 Habitat Details Terrestrial 2019 (NPWS) service or source URL",
+          "url": "https://services-eu1.arcgis.com/Jhij7i46ouO8Cc0N/arcgis/rest/services/Article17HabitatDetailsTerrestrial2019/FeatureServer",
+          "source": "NPWS_Ireland",
+          "role": "feature-service"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Article 17 Habitat Details Terrestrial 2019 (NPWS) service endpoint",
+          "url": "https://services-eu1.arcgis.com/Jhij7i46ouO8Cc0N/arcgis/rest/services/Article17HabitatDetailsTerrestrial2019/FeatureServer"
+        }
+      ],
+      "keywords": [
+        "peatland-geoportal",
+        "habitat-protected-site-context",
+        "candidate-interactive-map-after-license-dedupe",
+        "Feature Service",
+        "NPWS_Ireland",
+        "Article 17",
+        "NPWS",
+        "National Parks and Wildlife Service",
+        "Open data"
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 40,
+          "title": "Article 17 Habitat Details Terrestrial 2019 (NPWS)",
+          "provider": "NPWS_Ireland",
+          "category": "habitat-protected-site-context",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "e24885788f924e108bc9535492af420a",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=e24885788f924e108bc9535492af420a",
+          "serviceUrl": "https://services-eu1.arcgis.com/Jhij7i46ouO8Cc0N/arcgis/rest/services/Article17HabitatDetailsTerrestrial2019/FeatureServer",
+          "modified": "2025-11-03T10:19:54.000Z",
+          "access": "public",
+          "tags": [
+            "Article 17",
+            "NPWS",
+            "National Parks and Wildlife Service",
+            "Open data"
+          ],
+          "serviceLayerCount": 3,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPoint",
+            "esriGeometryPolyline",
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query",
+            "Extract"
+          ],
+          "recommendedAction": "candidate-interactive-map-after-license-dedupe",
+          "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+        }
+      ],
+      "status": "Conversion candidate",
+      "statusChips": [
+        "Conversion candidate",
+        "Licence review required",
+        "Geometry not ingested"
+      ],
+      "sourceHierarchy": [
+        "Peatland Geoportal",
+        "Conversion candidates",
+        "habitat-protected-site-context"
+      ],
+      "shortCitation": "NPWS_Ireland: Article 17 Habitat Details Terrestrial 2019 (NPWS)",
+      "fullCitation": "Article 17 Habitat Details Terrestrial 2019 (NPWS). NPWS_Ireland via Peatland Geoportal / ArcGIS item e24885788f924e108bc9535492af420a, modified 2025-11-03.",
+      "license": {
+        "status": "likely-open-but-confirm",
+        "note": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+      },
+      "approval": {
+        "recommendedAction": "retain as conversion candidate; do not publish runtime layer until approved",
+        "conversionRecommendation": "Best conversion source if approved: ArcGIS Feature Service (esriGeometryPoint, esriGeometryPolyline, esriGeometryPolygon); use item metadata and sibling records for provenance.",
+        "dedupeRecommendation": "No high-confidence Civgraph duplicate from metadata-only title matching; still inspect provider lineage before conversion.",
+        "arcgisItemId": "e24885788f924e108bc9535492af420a",
+        "sourceType": "Feature Service",
+        "confidence": "candidate"
+      },
+      "publicationStatus": "conversion-review-only",
+      "proposedBrowsePath": "Books / Tables / Sources > Peatland Geoportal conversion candidates",
+      "relationship": "conversion-review-source",
+      "browseUrl": "/browse/sources/peatland-geoportal-conversion-candidate-article-17-habitat-details-terrestrial-2019-npws-e24885788f924e108bc9535492af420a"
+    },
+    {
+      "id": "peatland-geoportal:conversion-candidate:article-17-habitats-grids-marine-2019-npws-wgs84:593d5ee031a546c88b4578006e1b05bf",
+      "slug": "peatland-geoportal-conversion-candidate-article-17-habitats-grids-marine-2019-npws-wgs84-593d5ee031a546c88b4578006e1b05bf",
+      "type": "peatland-geoportal-conversion-candidate-source",
+      "title": "Article 17 Habitats Grids Marine 2019 (NPWS) (WGS84)",
+      "subtitle": "Feature Service / NPWS_Ireland / conversion candidate",
+      "category": "Peatland Geoportal conversion candidates",
+      "date": "2025-11-03",
+      "provider": [
+        "NPWS_Ireland",
+        "NPWS"
+      ],
+      "description": "Article 17 Habitats Grids Marine 2019 (NPWS) (WGS84) is a Feature Service item from the Peatland Geoportal, owned by NPWS_Ireland. Best conversion source if approved: ArcGIS Feature Service (esriGeometryPolygon); use item metadata and sibling records for provenance. No high-confidence Civgraph duplicate from metadata-only title matching; still inspect provider lineage before conversion. ArcGIS item ID: 593d5ee031a546c88b4578006e1b05bf. Modified: 2025-11-03. Service metadata observed in the audit: 2 layers; esriGeometryPolygon; capabilities: Query, Extract. Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion.",
+      "url": "https://www.arcgis.com/home/item.html?id=593d5ee031a546c88b4578006e1b05bf",
+      "references": [
+        {
+          "label": "Article 17 Habitats Grids Marine 2019 (NPWS) (WGS84) ArcGIS item page",
+          "url": "https://www.arcgis.com/home/item.html?id=593d5ee031a546c88b4578006e1b05bf",
+          "source": "ArcGIS Online / Peatland Geoportal",
+          "role": "arcgis-item-page"
+        },
+        {
+          "label": "Peatland Geoportal",
+          "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/",
+          "source": "Queen's University Belfast / ArcGIS Hub",
+          "role": "source-portal"
+        },
+        {
+          "label": "Peatland Geoportal ArcGIS group search",
+          "url": "https://www.arcgis.com/sharing/rest/search?f=json&q=group:b5fdfbe3f6264c14a90afd43f8f51956&num=100&sortField=title",
+          "source": "ArcGIS Online",
+          "role": "source-group"
+        },
+        {
+          "label": "Article 17 Habitats Grids Marine 2019 (NPWS) (WGS84) service or source URL",
+          "url": "https://services-eu1.arcgis.com/Jhij7i46ouO8Cc0N/arcgis/rest/services/Article17HabitatsGridsMarine2019WGS84/FeatureServer",
+          "source": "NPWS_Ireland",
+          "role": "feature-service"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Article 17 Habitats Grids Marine 2019 (NPWS) (WGS84) service endpoint",
+          "url": "https://services-eu1.arcgis.com/Jhij7i46ouO8Cc0N/arcgis/rest/services/Article17HabitatsGridsMarine2019WGS84/FeatureServer"
+        }
+      ],
+      "keywords": [
+        "peatland-geoportal",
+        "habitat-protected-site-context",
+        "candidate-interactive-map-after-license-dedupe",
+        "Feature Service",
+        "NPWS_Ireland",
+        "Article 17",
+        "NPWS",
+        "National Parks and Wildlife Service",
+        "Open data"
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 41,
+          "title": "Article 17 Habitats Grids Marine 2019 (NPWS) (WGS84)",
+          "provider": "NPWS_Ireland",
+          "category": "habitat-protected-site-context",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "593d5ee031a546c88b4578006e1b05bf",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=593d5ee031a546c88b4578006e1b05bf",
+          "serviceUrl": "https://services-eu1.arcgis.com/Jhij7i46ouO8Cc0N/arcgis/rest/services/Article17HabitatsGridsMarine2019WGS84/FeatureServer",
+          "modified": "2025-11-03T10:37:27.000Z",
+          "access": "public",
+          "tags": [
+            "Article 17",
+            "NPWS",
+            "National Parks and Wildlife Service",
+            "Open data"
+          ],
+          "serviceLayerCount": 2,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query",
+            "Extract"
+          ],
+          "recommendedAction": "candidate-interactive-map-after-license-dedupe",
+          "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+        }
+      ],
+      "status": "Conversion candidate",
+      "statusChips": [
+        "Conversion candidate",
+        "Licence review required",
+        "Geometry not ingested"
+      ],
+      "sourceHierarchy": [
+        "Peatland Geoportal",
+        "Conversion candidates",
+        "habitat-protected-site-context"
+      ],
+      "shortCitation": "NPWS_Ireland: Article 17 Habitats Grids Marine 2019 (NPWS) (WGS84)",
+      "fullCitation": "Article 17 Habitats Grids Marine 2019 (NPWS) (WGS84). NPWS_Ireland via Peatland Geoportal / ArcGIS item 593d5ee031a546c88b4578006e1b05bf, modified 2025-11-03.",
+      "license": {
+        "status": "likely-open-but-confirm",
+        "note": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+      },
+      "approval": {
+        "recommendedAction": "retain as conversion candidate; do not publish runtime layer until approved",
+        "conversionRecommendation": "Best conversion source if approved: ArcGIS Feature Service (esriGeometryPolygon); use item metadata and sibling records for provenance.",
+        "dedupeRecommendation": "No high-confidence Civgraph duplicate from metadata-only title matching; still inspect provider lineage before conversion.",
+        "arcgisItemId": "593d5ee031a546c88b4578006e1b05bf",
+        "sourceType": "Feature Service",
+        "confidence": "candidate"
+      },
+      "publicationStatus": "conversion-review-only",
+      "proposedBrowsePath": "Books / Tables / Sources > Peatland Geoportal conversion candidates",
+      "relationship": "conversion-review-source",
+      "browseUrl": "/browse/sources/peatland-geoportal-conversion-candidate-article-17-habitats-grids-marine-2019-npws-wgs84-593d5ee031a546c88b4578006e1b05bf"
+    },
+    {
+      "id": "peatland-geoportal:conversion-candidate:article-17-habitats-grids-terrestrial-2019-npws:eee7130c2c424ecdab3ad25e98823b35",
+      "slug": "peatland-geoportal-conversion-candidate-article-17-habitats-grids-terrestrial-2019-npws-eee7130c2c424ecdab3ad25e98823b35",
+      "type": "peatland-geoportal-conversion-candidate-source",
+      "title": "Article 17 Habitats Grids Terrestrial 2019 (NPWS)",
+      "subtitle": "Feature Service / NPWS_Ireland / conversion candidate",
+      "category": "Peatland Geoportal conversion candidates",
+      "date": "2025-11-03",
+      "provider": [
+        "NPWS_Ireland",
+        "NPWS"
+      ],
+      "description": "Article 17 Habitats Grids Terrestrial 2019 (NPWS) is a Feature Service item from the Peatland Geoportal, owned by NPWS_Ireland. Best conversion source if approved: ArcGIS Feature Service (esriGeometryPolygon); use item metadata and sibling records for provenance. No high-confidence Civgraph duplicate from metadata-only title matching; still inspect provider lineage before conversion. ArcGIS item ID: eee7130c2c424ecdab3ad25e98823b35. Modified: 2025-11-03. Service metadata observed in the audit: 2 layers; esriGeometryPolygon; capabilities: Query, Extract. Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion.",
+      "url": "https://www.arcgis.com/home/item.html?id=eee7130c2c424ecdab3ad25e98823b35",
+      "references": [
+        {
+          "label": "Article 17 Habitats Grids Terrestrial 2019 (NPWS) ArcGIS item page",
+          "url": "https://www.arcgis.com/home/item.html?id=eee7130c2c424ecdab3ad25e98823b35",
+          "source": "ArcGIS Online / Peatland Geoportal",
+          "role": "arcgis-item-page"
+        },
+        {
+          "label": "Peatland Geoportal",
+          "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/",
+          "source": "Queen's University Belfast / ArcGIS Hub",
+          "role": "source-portal"
+        },
+        {
+          "label": "Peatland Geoportal ArcGIS group search",
+          "url": "https://www.arcgis.com/sharing/rest/search?f=json&q=group:b5fdfbe3f6264c14a90afd43f8f51956&num=100&sortField=title",
+          "source": "ArcGIS Online",
+          "role": "source-group"
+        },
+        {
+          "label": "Article 17 Habitats Grids Terrestrial 2019 (NPWS) service or source URL",
+          "url": "https://services-eu1.arcgis.com/Jhij7i46ouO8Cc0N/arcgis/rest/services/Article17HabitatsGridsTerrestrial2019/FeatureServer",
+          "source": "NPWS_Ireland",
+          "role": "feature-service"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Article 17 Habitats Grids Terrestrial 2019 (NPWS) service endpoint",
+          "url": "https://services-eu1.arcgis.com/Jhij7i46ouO8Cc0N/arcgis/rest/services/Article17HabitatsGridsTerrestrial2019/FeatureServer"
+        }
+      ],
+      "keywords": [
+        "peatland-geoportal",
+        "habitat-protected-site-context",
+        "candidate-interactive-map-after-license-dedupe",
+        "Feature Service",
+        "NPWS_Ireland",
+        "Article 17",
+        "NPWS",
+        "National Parks and Wildlife Service",
+        "Open data"
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 42,
+          "title": "Article 17 Habitats Grids Terrestrial 2019 (NPWS)",
+          "provider": "NPWS_Ireland",
+          "category": "habitat-protected-site-context",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "eee7130c2c424ecdab3ad25e98823b35",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=eee7130c2c424ecdab3ad25e98823b35",
+          "serviceUrl": "https://services-eu1.arcgis.com/Jhij7i46ouO8Cc0N/arcgis/rest/services/Article17HabitatsGridsTerrestrial2019/FeatureServer",
+          "modified": "2025-11-03T10:23:30.000Z",
+          "access": "public",
+          "tags": [
+            "Article 17",
+            "NPWS",
+            "National Parks and Wildlife Service",
+            "Open data"
+          ],
+          "serviceLayerCount": 2,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query",
+            "Extract"
+          ],
+          "recommendedAction": "candidate-interactive-map-after-license-dedupe",
+          "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+        }
+      ],
+      "status": "Conversion candidate",
+      "statusChips": [
+        "Conversion candidate",
+        "Licence review required",
+        "Geometry not ingested"
+      ],
+      "sourceHierarchy": [
+        "Peatland Geoportal",
+        "Conversion candidates",
+        "habitat-protected-site-context"
+      ],
+      "shortCitation": "NPWS_Ireland: Article 17 Habitats Grids Terrestrial 2019 (NPWS)",
+      "fullCitation": "Article 17 Habitats Grids Terrestrial 2019 (NPWS). NPWS_Ireland via Peatland Geoportal / ArcGIS item eee7130c2c424ecdab3ad25e98823b35, modified 2025-11-03.",
+      "license": {
+        "status": "likely-open-but-confirm",
+        "note": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+      },
+      "approval": {
+        "recommendedAction": "retain as conversion candidate; do not publish runtime layer until approved",
+        "conversionRecommendation": "Best conversion source if approved: ArcGIS Feature Service (esriGeometryPolygon); use item metadata and sibling records for provenance.",
+        "dedupeRecommendation": "No high-confidence Civgraph duplicate from metadata-only title matching; still inspect provider lineage before conversion.",
+        "arcgisItemId": "eee7130c2c424ecdab3ad25e98823b35",
+        "sourceType": "Feature Service",
+        "confidence": "candidate"
+      },
+      "publicationStatus": "conversion-review-only",
+      "proposedBrowsePath": "Books / Tables / Sources > Peatland Geoportal conversion candidates",
+      "relationship": "conversion-review-source",
+      "browseUrl": "/browse/sources/peatland-geoportal-conversion-candidate-article-17-habitats-grids-terrestrial-2019-npws-eee7130c2c424ecdab3ad25e98823b35"
+    },
+    {
+      "id": "peatland-geoportal:conversion-candidate:article-17-species-details-terrestrial-2019-npws:940e13b8b80d40129334156ebcc59512",
+      "slug": "peatland-geoportal-conversion-candidate-article-17-species-details-terrestrial-2019-npws-940e13b8b80d40129334156ebcc59512",
+      "type": "peatland-geoportal-conversion-candidate-source",
+      "title": "Article 17 Species Details Terrestrial 2019 (NPWS)",
+      "subtitle": "Feature Service / NPWS_Ireland / conversion candidate",
+      "category": "Peatland Geoportal conversion candidates",
+      "date": "2025-11-03",
+      "provider": [
+        "NPWS_Ireland",
+        "NPWS"
+      ],
+      "description": "Article 17 Species Details Terrestrial 2019 (NPWS) is a Feature Service item from the Peatland Geoportal, owned by NPWS_Ireland. Best conversion source if approved: ArcGIS Feature Service (esriGeometryPoint, esriGeometryPolygon); use item metadata and sibling records for provenance. No high-confidence Civgraph duplicate from metadata-only title matching; still inspect provider lineage before conversion. ArcGIS item ID: 940e13b8b80d40129334156ebcc59512. Modified: 2025-11-03. Service metadata observed in the audit: 2 layers; esriGeometryPoint, esriGeometryPolygon; capabilities: Query, Extract. Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion.",
+      "url": "https://www.arcgis.com/home/item.html?id=940e13b8b80d40129334156ebcc59512",
+      "references": [
+        {
+          "label": "Article 17 Species Details Terrestrial 2019 (NPWS) ArcGIS item page",
+          "url": "https://www.arcgis.com/home/item.html?id=940e13b8b80d40129334156ebcc59512",
+          "source": "ArcGIS Online / Peatland Geoportal",
+          "role": "arcgis-item-page"
+        },
+        {
+          "label": "Peatland Geoportal",
+          "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/",
+          "source": "Queen's University Belfast / ArcGIS Hub",
+          "role": "source-portal"
+        },
+        {
+          "label": "Peatland Geoportal ArcGIS group search",
+          "url": "https://www.arcgis.com/sharing/rest/search?f=json&q=group:b5fdfbe3f6264c14a90afd43f8f51956&num=100&sortField=title",
+          "source": "ArcGIS Online",
+          "role": "source-group"
+        },
+        {
+          "label": "Article 17 Species Details Terrestrial 2019 (NPWS) service or source URL",
+          "url": "https://services-eu1.arcgis.com/Jhij7i46ouO8Cc0N/arcgis/rest/services/Article17SpeciesDetailsTerrestrial2019/FeatureServer",
+          "source": "NPWS_Ireland",
+          "role": "feature-service"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Article 17 Species Details Terrestrial 2019 (NPWS) service endpoint",
+          "url": "https://services-eu1.arcgis.com/Jhij7i46ouO8Cc0N/arcgis/rest/services/Article17SpeciesDetailsTerrestrial2019/FeatureServer"
+        }
+      ],
+      "keywords": [
+        "peatland-geoportal",
+        "habitat-protected-site-context",
+        "candidate-interactive-map-after-license-dedupe",
+        "Feature Service",
+        "NPWS_Ireland",
+        "Article 17",
+        "NPWS",
+        "National Parks and Wildlife Service",
+        "Open data"
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 43,
+          "title": "Article 17 Species Details Terrestrial 2019 (NPWS)",
+          "provider": "NPWS_Ireland",
+          "category": "habitat-protected-site-context",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "940e13b8b80d40129334156ebcc59512",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=940e13b8b80d40129334156ebcc59512",
+          "serviceUrl": "https://services-eu1.arcgis.com/Jhij7i46ouO8Cc0N/arcgis/rest/services/Article17SpeciesDetailsTerrestrial2019/FeatureServer",
+          "modified": "2025-11-03T10:33:45.000Z",
+          "access": "public",
+          "tags": [
+            "Article 17",
+            "NPWS",
+            "National Parks and Wildlife Service",
+            "Open data"
+          ],
+          "serviceLayerCount": 2,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPoint",
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query",
+            "Extract"
+          ],
+          "recommendedAction": "candidate-interactive-map-after-license-dedupe",
+          "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+        }
+      ],
+      "status": "Conversion candidate",
+      "statusChips": [
+        "Conversion candidate",
+        "Licence review required",
+        "Geometry not ingested"
+      ],
+      "sourceHierarchy": [
+        "Peatland Geoportal",
+        "Conversion candidates",
+        "habitat-protected-site-context"
+      ],
+      "shortCitation": "NPWS_Ireland: Article 17 Species Details Terrestrial 2019 (NPWS)",
+      "fullCitation": "Article 17 Species Details Terrestrial 2019 (NPWS). NPWS_Ireland via Peatland Geoportal / ArcGIS item 940e13b8b80d40129334156ebcc59512, modified 2025-11-03.",
+      "license": {
+        "status": "likely-open-but-confirm",
+        "note": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+      },
+      "approval": {
+        "recommendedAction": "retain as conversion candidate; do not publish runtime layer until approved",
+        "conversionRecommendation": "Best conversion source if approved: ArcGIS Feature Service (esriGeometryPoint, esriGeometryPolygon); use item metadata and sibling records for provenance.",
+        "dedupeRecommendation": "No high-confidence Civgraph duplicate from metadata-only title matching; still inspect provider lineage before conversion.",
+        "arcgisItemId": "940e13b8b80d40129334156ebcc59512",
+        "sourceType": "Feature Service",
+        "confidence": "candidate"
+      },
+      "publicationStatus": "conversion-review-only",
+      "proposedBrowsePath": "Books / Tables / Sources > Peatland Geoportal conversion candidates",
+      "relationship": "conversion-review-source",
+      "browseUrl": "/browse/sources/peatland-geoportal-conversion-candidate-article-17-species-details-terrestrial-2019-npws-940e13b8b80d40129334156ebcc59512"
+    },
     {
       "id": "peatland-geoportal:conversion-candidate:article-17-species-grids-terrestrial-2019-npws:9c911a128b644054a979fb81c36fd70f",
       "slug": "peatland-geoportal-conversion-candidate-article-17-species-grids-terrestrial-2019-npws-9c911a128b644054a979fb81c36fd70f",
@@ -28838,1606 +29457,6 @@
           "mirrorStatus": "mirrored",
           "verifiedAt": "2026-06-28T02:10:52.845Z",
           "fileCount": 2
-        }
-      }
-    },
-    {
-      "id": "raw-source:data-gov-ie:civil-service-customer-satisfaction-survey-2016",
-      "slug": "raw-source-data-gov-ie-civil-service-customer-satisfaction-survey-2016",
-      "type": "raw-source-table",
-      "title": "Civil Service Customer Satisfaction Survey 2017",
-      "subtitle": "Department of Public Expenditure, Infrastructure, Public Service Reform and Digitalisation / data.gov.ie / CSV, PDF / Source-only",
-      "category": "Raw source tables",
-      "date": "2017",
-      "provider": [
-        "Department of Public Expenditure, Infrastructure, Public Service Reform and Digitalisation",
-        "data.gov.ie"
-      ],
-      "description": "Civil Service Customer Satisfaction Survey 2017 is staged as a table source record from Department of Public Expenditure, Infrastructure, Public Service Reform and Digitalisation, data.gov.ie. The record is suitable for a Browse/Books/Tables source page with provider links now and IA-hotlinked viewport/download links once the public IA item/file URLs are attached. No map conversion or deep semantic modelling is implied by this source-only record. Formats observed in the local audit: CSV, PDF.",
-      "url": "https://data.gov.ie/dataset/civil-service-customer-satisfaction-survey-2016",
-      "references": [
-        {
-          "label": "Civil Service Customer Satisfaction Survey 2017 provider dataset page",
-          "url": "https://data.gov.ie/dataset/civil-service-customer-satisfaction-survey-2016",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-dataset"
-        },
-        {
-          "label": "Civil Service Customer Satisfaction Survey 2017 Internet Archive source mirror",
-          "url": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
-          "source": "Internet Archive",
-          "role": "source-mirror"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset page",
-          "url": "https://data.gov.ie/dataset/civil-service-customer-satisfaction-survey-2016",
-          "type": "dataset-page"
-        },
-        {
-          "label": "Internet Archive mirror - CS-survey.csv",
-          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Department%20of%20Public%20Expenditure%2C%20Infrastructure%2C%20Public%20Service%20Reform%20and%20Digitalisation/civil-service-customer-satisfaction-survey-2016/CS-survey.csv",
-          "type": "CSV"
-        }
-      ],
-      "keywords": [
-        "raw-source-document",
-        "ia-ready",
-        "source-only",
-        "table",
-        "data.gov.ie",
-        "Department of Public Expenditure, Infrastructure, Public Service Reform and Digitalisation",
-        "CSV",
-        "PDF",
-        "source-documents-books",
-        "internet-archive-mirror",
-        "raw-source-mirrored"
-      ],
-      "sourceItems": [
-        {
-          "auditRowNumber": 23517,
-          "title": "Civil Service Customer Satisfaction Survey 2017",
-          "provider": "data.gov.ie",
-          "organisation": "Department of Public Expenditure, Infrastructure, Public Service Reform and Digitalisation",
-          "formats": [
-            "CSV",
-            "PDF"
-          ],
-          "category": "tabular",
-          "refinedStatus": "source-only or Browse/Books candidate",
-          "recommendedAction": "Publish as IA-hotlinked source/document/table records first; no runtime bundle unless cleaned/queryable.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download.",
-          "blockerCategories": [
-            "raw-source-hosting-and-viewport-policy",
-            "source-page-and-ia-viewport-decision"
-          ],
-          "detectedFamilies": [
-            "source-documents-books"
-          ],
-          "siteFamiliesPresent": [
-            "source-documents-books"
-          ],
-          "mirrorPolicy": "Internet Archive mirror verified; local mirror paths remain excluded from public output",
-          "providerDatasetUrl": "https://data.gov.ie/dataset/civil-service-customer-satisfaction-survey-2016",
-          "internetArchiveItem": "civgraph-data-gov-ie-raw-sources",
-          "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
-          "internetArchiveFileCount": 1
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source only",
-        "Preview available",
-        "Download available",
-        "Needs review",
-        "Mirror available"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "data.gov.ie",
-        "Department of Public Expenditure, Infrastructure, Public Service Reform and Digitalisation",
-        "Civil Service Customer Satisfaction Survey 2017"
-      ],
-      "viewport": {
-        "status": "mirror-preview-ready",
-        "supportedViewportTypes": [
-          "pdf",
-          "table-or-text"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/civil-service-customer-satisfaction-survey-2016",
-        "note": "Internet Archive mirror files are verified for durable public view/download; provider dataset page remains the canonical source.",
-        "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
-        "fileUrl": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Department%20of%20Public%20Expenditure%2C%20Infrastructure%2C%20Public%20Service%20Reform%20and%20Digitalisation/civil-service-customer-satisfaction-survey-2016/CS-survey.csv"
-      },
-      "shortCitation": "Department of Public Expenditure, Infrastructure, Public Service Reform and Digitalisation, data.gov.ie, Civil Service Customer Satisfaction Survey 2017.",
-      "fullCitation": "Department of Public Expenditure, Infrastructure, Public Service Reform and Digitalisation, data.gov.ie. Civil Service Customer Satisfaction Survey 2017. Current provider dataset URL: https://data.gov.ie/dataset/civil-service-customer-satisfaction-survey-2016. Civgraph raw source-document record.",
-      "relatedRecords": [
-        {
-          "kind": "database-map",
-          "id": "dfi-surface-defects-2017",
-          "title": "NI Road Surface Defects 2017",
-          "score": 0.29
-        },
-        {
-          "kind": "database-map",
-          "id": "dfi-surface-defects-2016",
-          "title": "NI Road Surface Defects 2016",
-          "score": 0.29
-        },
-        {
-          "kind": "database-map",
-          "id": "dfi-pothole-enquiries-2017",
-          "title": "NI Pothole Enquiries 2017",
-          "score": 0.29
-        }
-      ],
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, and IA item metadata to confirm resource-level licence before structured reuse."
-      },
-      "approval": {
-        "recommendedAction": "publish as source/document/table record; do not create duplicate map or election parent",
-        "stagingId": "raw-source:data-gov-ie:civil-service-customer-satisfaction-survey-2016",
-        "confidence": "approved-convention",
-        "sourceType": "raw source-document corpus",
-        "provider": "Department of Public Expenditure, Infrastructure, Public Service Reform and Digitalisation; data.gov.ie"
-      },
-      "publicationStatus": "raw-source-staged; raw-source-mirrored-internet-archive",
-      "proposedBrowsePath": "Books / Tables / Sources > Raw source tables",
-      "browseUrl": "/browse/sources/raw-source-data-gov-ie-civil-service-customer-satisfaction-survey-2016",
-      "rawMetadata": {
-        "id": "raw-source:data-gov-ie:civil-service-customer-satisfaction-survey-2016",
-        "slug": "raw-source-data-gov-ie-civil-service-customer-satisfaction-survey-2016",
-        "type": "raw-source-table",
-        "title": "Civil Service Customer Satisfaction Survey 2017",
-        "subtitle": "Department of Public Expenditure, Infrastructure, Public Service Reform and Digitalisation / data.gov.ie / CSV, PDF / Source-only",
-        "category": "Raw source tables",
-        "date": "2017",
-        "provider": [
-          "Department of Public Expenditure, Infrastructure, Public Service Reform and Digitalisation",
-          "data.gov.ie"
-        ],
-        "description": "Civil Service Customer Satisfaction Survey 2017 is staged as a table source record from Department of Public Expenditure, Infrastructure, Public Service Reform and Digitalisation, data.gov.ie. The record is suitable for a Browse/Books/Tables source page with provider links now and IA-hotlinked viewport/download links once the public IA item/file URLs are attached. No map conversion or deep semantic modelling is implied by this source-only record. Formats observed in the local audit: CSV, PDF.",
-        "url": "https://data.gov.ie/dataset/civil-service-customer-satisfaction-survey-2016",
-        "references": [
-          {
-            "label": "Civil Service Customer Satisfaction Survey 2017 provider dataset page",
-            "url": "https://data.gov.ie/dataset/civil-service-customer-satisfaction-survey-2016",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-dataset",
-            "status": "inferred-from-provider-slug"
-          },
-          {
-            "label": "Civil Service Customer Satisfaction Survey 2017 Internet Archive source mirror",
-            "url": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
-            "source": "Internet Archive",
-            "role": "source-mirror",
-            "status": "verified"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset page",
-            "url": "https://data.gov.ie/dataset/civil-service-customer-satisfaction-survey-2016",
-            "type": "dataset-page",
-            "status": "resource downloads listed by provider dataset page"
-          },
-          {
-            "label": "Internet Archive mirror - CS-survey.csv",
-            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Department%20of%20Public%20Expenditure%2C%20Infrastructure%2C%20Public%20Service%20Reform%20and%20Digitalisation/civil-service-customer-satisfaction-survey-2016/CS-survey.csv",
-            "type": "CSV",
-            "size": 434733,
-            "sha256": "572107d6a6c72f90285da07fde7a45cff1b7ab50b2077723f7d526b48ab90f82",
-            "status": "verified Internet Archive mirror",
-            "source": "Internet Archive"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source only",
-          "Preview available",
-          "Download available",
-          "Needs review",
-          "Mirror available"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "data.gov.ie",
-          "Department of Public Expenditure, Infrastructure, Public Service Reform and Digitalisation",
-          "Civil Service Customer Satisfaction Survey 2017"
-        ],
-        "viewport": {
-          "status": "mirror-preview-ready",
-          "supportedViewportTypes": [
-            "pdf",
-            "table-or-text"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/civil-service-customer-satisfaction-survey-2016",
-          "note": "Internet Archive mirror files are verified for durable public view/download; provider dataset page remains the canonical source.",
-          "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
-          "fileUrl": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Department%20of%20Public%20Expenditure%2C%20Infrastructure%2C%20Public%20Service%20Reform%20and%20Digitalisation/civil-service-customer-satisfaction-survey-2016/CS-survey.csv"
-        },
-        "shortCitation": "Department of Public Expenditure, Infrastructure, Public Service Reform and Digitalisation, data.gov.ie, Civil Service Customer Satisfaction Survey 2017.",
-        "fullCitation": "Department of Public Expenditure, Infrastructure, Public Service Reform and Digitalisation, data.gov.ie. Civil Service Customer Satisfaction Survey 2017. Current provider dataset URL: https://data.gov.ie/dataset/civil-service-customer-satisfaction-survey-2016. Civgraph raw source-document record.",
-        "sourceItems": [
-          {
-            "auditRowNumber": 23517,
-            "title": "Civil Service Customer Satisfaction Survey 2017",
-            "provider": "data.gov.ie",
-            "organisation": "Department of Public Expenditure, Infrastructure, Public Service Reform and Digitalisation",
-            "formats": [
-              "CSV",
-              "PDF"
-            ],
-            "category": "tabular",
-            "refinedStatus": "source-only or Browse/Books candidate",
-            "recommendedAction": "Publish as IA-hotlinked source/document/table records first; no runtime bundle unless cleaned/queryable.",
-            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download.",
-            "blockerCategories": [
-              "raw-source-hosting-and-viewport-policy",
-              "source-page-and-ia-viewport-decision"
-            ],
-            "detectedFamilies": [
-              "source-documents-books"
-            ],
-            "siteFamiliesPresent": [
-              "source-documents-books"
-            ],
-            "mirrorPolicy": "Internet Archive mirror verified; local mirror paths remain excluded from public output",
-            "providerDatasetUrl": "https://data.gov.ie/dataset/civil-service-customer-satisfaction-survey-2016",
-            "internetArchiveItem": "civgraph-data-gov-ie-raw-sources",
-            "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
-            "internetArchiveFileCount": 1
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, and IA item metadata to confirm resource-level licence before structured reuse."
-        },
-        "approval": {
-          "recommendedAction": "publish as source/document/table record; do not create duplicate map or election parent",
-          "stagingId": "raw-source:data-gov-ie:civil-service-customer-satisfaction-survey-2016",
-          "confidence": "approved-convention",
-          "sourceType": "raw source-document corpus",
-          "provider": "Department of Public Expenditure, Infrastructure, Public Service Reform and Digitalisation; data.gov.ie"
-        },
-        "publicationStatus": "raw-source-staged; raw-source-mirrored-internet-archive",
-        "proposedBrowsePath": "Books / Tables / Sources > Raw source tables",
-        "relatedRecords": [
-          {
-            "kind": "database-map",
-            "id": "dfi-surface-defects-2017",
-            "title": "NI Road Surface Defects 2017",
-            "score": 0.29
-          },
-          {
-            "kind": "database-map",
-            "id": "dfi-surface-defects-2016",
-            "title": "NI Road Surface Defects 2016",
-            "score": 0.29
-          },
-          {
-            "kind": "database-map",
-            "id": "dfi-pothole-enquiries-2017",
-            "title": "NI Pothole Enquiries 2017",
-            "score": 0.29
-          }
-        ],
-        "keywords": [
-          "raw-source-document",
-          "ia-ready",
-          "source-only",
-          "table",
-          "data.gov.ie",
-          "Department of Public Expenditure, Infrastructure, Public Service Reform and Digitalisation",
-          "CSV",
-          "PDF",
-          "source-documents-books",
-          "internet-archive-mirror",
-          "raw-source-mirrored"
-        ],
-        "browseUrl": "/browse/sources/raw-source-data-gov-ie-civil-service-customer-satisfaction-survey-2016",
-        "iaMirror": {
-          "itemIdentifier": "civgraph-data-gov-ie-raw-sources",
-          "itemUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
-          "mirrorStatus": "mirrored",
-          "verifiedAt": "2026-06-28T02:10:52.845Z",
-          "fileCount": 1
-        }
-      }
-    },
-    {
-      "id": "raw-source:data-gov-ie:cloyne-the-deanery-rainfall-data",
-      "slug": "raw-source-data-gov-ie-cloyne-the-deanery-rainfall-data",
-      "type": "raw-source-table",
-      "title": "Cloyne (The Deanery) Rainfall Data",
-      "subtitle": "Met Éireann / data.gov.ie / CSV, TXT / Source-only",
-      "category": "Raw source tables",
-      "provider": [
-        "Met Éireann",
-        "data.gov.ie"
-      ],
-      "description": "Cloyne (The Deanery) Rainfall Data is staged as a table source record from Met Éireann, data.gov.ie. The record is suitable for a Browse/Books/Tables source page with provider links now and IA-hotlinked viewport/download links once the public IA item/file URLs are attached. No map conversion or deep semantic modelling is implied by this source-only record. Formats observed in the local audit: CSV, TXT.",
-      "url": "https://data.gov.ie/dataset/cloyne-the-deanery-rainfall-data",
-      "references": [
-        {
-          "label": "Cloyne (The Deanery) Rainfall Data provider dataset page",
-          "url": "https://data.gov.ie/dataset/cloyne-the-deanery-rainfall-data",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-dataset"
-        },
-        {
-          "label": "Cloyne (The Deanery) Rainfall Data Internet Archive source mirror",
-          "url": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
-          "source": "Internet Archive",
-          "role": "source-mirror"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset page",
-          "url": "https://data.gov.ie/dataset/cloyne-the-deanery-rainfall-data",
-          "type": "dataset-page"
-        },
-        {
-          "label": "Internet Archive mirror - dly304.csv",
-          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Met%20E%CC%81ireann/cloyne-the-deanery-rainfall-data/dly304.csv",
-          "type": "CSV"
-        },
-        {
-          "label": "Internet Archive mirror - KeyDly_Rain.txt",
-          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Met%20E%CC%81ireann/cloyne-the-deanery-rainfall-data/KeyDly_Rain.txt",
-          "type": "TXT"
-        },
-        {
-          "label": "Internet Archive mirror - mly304.csv",
-          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Met%20E%CC%81ireann/cloyne-the-deanery-rainfall-data/mly304.csv",
-          "type": "CSV"
-        },
-        {
-          "label": "Internet Archive mirror - Monthly_Rain_Indicator.txt",
-          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Met%20E%CC%81ireann/cloyne-the-deanery-rainfall-data/Monthly_Rain_Indicator.txt",
-          "type": "TXT"
-        }
-      ],
-      "keywords": [
-        "raw-source-document",
-        "ia-ready",
-        "source-only",
-        "table",
-        "data.gov.ie",
-        "Met Éireann",
-        "CSV",
-        "TXT",
-        "ni-district-electoral-areas",
-        "internet-archive-mirror",
-        "raw-source-mirrored"
-      ],
-      "sourceItems": [
-        {
-          "auditRowNumber": 5973,
-          "title": "Cloyne (The Deanery) Rainfall Data",
-          "provider": "data.gov.ie",
-          "organisation": "Met Éireann",
-          "formats": [
-            "CSV",
-            "TXT"
-          ],
-          "category": "tabular",
-          "refinedStatus": "source-only or Browse/Books candidate",
-          "recommendedAction": "Publish as IA-hotlinked source/document/table records first; no runtime bundle unless cleaned/queryable.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download.",
-          "blockerCategories": [
-            "geography-matching",
-            "raw-source-hosting-and-viewport-policy",
-            "source-page-and-ia-viewport-decision"
-          ],
-          "detectedFamilies": [
-            "ni-district-electoral-areas"
-          ],
-          "siteFamiliesPresent": [
-            "ni-district-electoral-areas"
-          ],
-          "mirrorPolicy": "Internet Archive mirror verified; local mirror paths remain excluded from public output",
-          "providerDatasetUrl": "https://data.gov.ie/dataset/cloyne-the-deanery-rainfall-data",
-          "internetArchiveItem": "civgraph-data-gov-ie-raw-sources",
-          "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
-          "internetArchiveFileCount": 4
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source only",
-        "Preview available",
-        "Download available",
-        "Needs review",
-        "Mirror available"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "data.gov.ie",
-        "Met Éireann",
-        "Cloyne (The Deanery) Rainfall Data"
-      ],
-      "viewport": {
-        "status": "mirror-preview-ready",
-        "supportedViewportTypes": [
-          "table-or-text"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/cloyne-the-deanery-rainfall-data",
-        "note": "Internet Archive mirror files are verified for durable public view/download; provider dataset page remains the canonical source.",
-        "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
-        "fileUrl": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Met%20E%CC%81ireann/cloyne-the-deanery-rainfall-data/dly304.csv"
-      },
-      "shortCitation": "Met Éireann, data.gov.ie, Cloyne (The Deanery) Rainfall Data.",
-      "fullCitation": "Met Éireann, data.gov.ie. Cloyne (The Deanery) Rainfall Data. Current provider dataset URL: https://data.gov.ie/dataset/cloyne-the-deanery-rainfall-data. Civgraph raw source-document record.",
-      "relatedRecords": [
-        {
-          "kind": "database-map",
-          "id": "wq-network-contribution",
-          "title": "DAERA Network Contribution — SciMAP modelled pollution scores by river basin (26 catchments)",
-          "score": 0.25
-        },
-        {
-          "kind": "database-map",
-          "id": "wq-agricultural-critical-risk",
-          "title": "Agricultural Critical Risk Areas (DAERA)",
-          "score": 0.25
-        },
-        {
-          "kind": "database-map",
-          "id": "baronies-all-ireland",
-          "title": "Baronies",
-          "score": 0.25
-        }
-      ],
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, and IA item metadata to confirm resource-level licence before structured reuse."
-      },
-      "approval": {
-        "recommendedAction": "publish as source/document/table record; do not create duplicate map or election parent",
-        "stagingId": "raw-source:data-gov-ie:cloyne-the-deanery-rainfall-data",
-        "confidence": "approved-convention",
-        "sourceType": "raw source-document corpus",
-        "provider": "Met Éireann; data.gov.ie"
-      },
-      "publicationStatus": "raw-source-staged; raw-source-mirrored-internet-archive",
-      "proposedBrowsePath": "Books / Tables / Sources > Raw source tables",
-      "browseUrl": "/browse/sources/raw-source-data-gov-ie-cloyne-the-deanery-rainfall-data",
-      "rawMetadata": {
-        "id": "raw-source:data-gov-ie:cloyne-the-deanery-rainfall-data",
-        "slug": "raw-source-data-gov-ie-cloyne-the-deanery-rainfall-data",
-        "type": "raw-source-table",
-        "title": "Cloyne (The Deanery) Rainfall Data",
-        "subtitle": "Met Éireann / data.gov.ie / CSV, TXT / Source-only",
-        "category": "Raw source tables",
-        "provider": [
-          "Met Éireann",
-          "data.gov.ie"
-        ],
-        "description": "Cloyne (The Deanery) Rainfall Data is staged as a table source record from Met Éireann, data.gov.ie. The record is suitable for a Browse/Books/Tables source page with provider links now and IA-hotlinked viewport/download links once the public IA item/file URLs are attached. No map conversion or deep semantic modelling is implied by this source-only record. Formats observed in the local audit: CSV, TXT.",
-        "url": "https://data.gov.ie/dataset/cloyne-the-deanery-rainfall-data",
-        "references": [
-          {
-            "label": "Cloyne (The Deanery) Rainfall Data provider dataset page",
-            "url": "https://data.gov.ie/dataset/cloyne-the-deanery-rainfall-data",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-dataset",
-            "status": "inferred-from-provider-slug"
-          },
-          {
-            "label": "Cloyne (The Deanery) Rainfall Data Internet Archive source mirror",
-            "url": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
-            "source": "Internet Archive",
-            "role": "source-mirror",
-            "status": "verified"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset page",
-            "url": "https://data.gov.ie/dataset/cloyne-the-deanery-rainfall-data",
-            "type": "dataset-page",
-            "status": "resource downloads listed by provider dataset page"
-          },
-          {
-            "label": "Internet Archive mirror - dly304.csv",
-            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Met%20E%CC%81ireann/cloyne-the-deanery-rainfall-data/dly304.csv",
-            "type": "CSV",
-            "size": 80851,
-            "sha256": "336caeac4cd54b422cc151241b4f3b9699843508f8e40546db7a73e2ed8e3923",
-            "status": "verified Internet Archive mirror",
-            "source": "Internet Archive"
-          },
-          {
-            "label": "Internet Archive mirror - KeyDly_Rain.txt",
-            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Met%20E%CC%81ireann/cloyne-the-deanery-rainfall-data/KeyDly_Rain.txt",
-            "type": "TXT",
-            "size": 1466,
-            "sha256": "c965c3ae8a4ac6e4f372465297319f656599f1946af501299299ebf92e78c011",
-            "status": "verified Internet Archive mirror",
-            "source": "Internet Archive"
-          },
-          {
-            "label": "Internet Archive mirror - mly304.csv",
-            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Met%20E%CC%81ireann/cloyne-the-deanery-rainfall-data/mly304.csv",
-            "type": "CSV",
-            "size": 3574,
-            "sha256": "36b84bac8df13298c26d66d7bff939760b8617442bec6ab8d07d0db4b453b25b",
-            "status": "verified Internet Archive mirror",
-            "source": "Internet Archive"
-          },
-          {
-            "label": "Internet Archive mirror - Monthly_Rain_Indicator.txt",
-            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Met%20E%CC%81ireann/cloyne-the-deanery-rainfall-data/Monthly_Rain_Indicator.txt",
-            "type": "TXT",
-            "size": 379,
-            "sha256": "4ee14f32eeda82fcb6944eee5891e0d483dd83dcce2801088b735085f05e5bb3",
-            "status": "verified Internet Archive mirror",
-            "source": "Internet Archive"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source only",
-          "Preview available",
-          "Download available",
-          "Needs review",
-          "Mirror available"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "data.gov.ie",
-          "Met Éireann",
-          "Cloyne (The Deanery) Rainfall Data"
-        ],
-        "viewport": {
-          "status": "mirror-preview-ready",
-          "supportedViewportTypes": [
-            "table-or-text"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/cloyne-the-deanery-rainfall-data",
-          "note": "Internet Archive mirror files are verified for durable public view/download; provider dataset page remains the canonical source.",
-          "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
-          "fileUrl": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Met%20E%CC%81ireann/cloyne-the-deanery-rainfall-data/dly304.csv"
-        },
-        "shortCitation": "Met Éireann, data.gov.ie, Cloyne (The Deanery) Rainfall Data.",
-        "fullCitation": "Met Éireann, data.gov.ie. Cloyne (The Deanery) Rainfall Data. Current provider dataset URL: https://data.gov.ie/dataset/cloyne-the-deanery-rainfall-data. Civgraph raw source-document record.",
-        "sourceItems": [
-          {
-            "auditRowNumber": 5973,
-            "title": "Cloyne (The Deanery) Rainfall Data",
-            "provider": "data.gov.ie",
-            "organisation": "Met Éireann",
-            "formats": [
-              "CSV",
-              "TXT"
-            ],
-            "category": "tabular",
-            "refinedStatus": "source-only or Browse/Books candidate",
-            "recommendedAction": "Publish as IA-hotlinked source/document/table records first; no runtime bundle unless cleaned/queryable.",
-            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download.",
-            "blockerCategories": [
-              "geography-matching",
-              "raw-source-hosting-and-viewport-policy",
-              "source-page-and-ia-viewport-decision"
-            ],
-            "detectedFamilies": [
-              "ni-district-electoral-areas"
-            ],
-            "siteFamiliesPresent": [
-              "ni-district-electoral-areas"
-            ],
-            "mirrorPolicy": "Internet Archive mirror verified; local mirror paths remain excluded from public output",
-            "providerDatasetUrl": "https://data.gov.ie/dataset/cloyne-the-deanery-rainfall-data",
-            "internetArchiveItem": "civgraph-data-gov-ie-raw-sources",
-            "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
-            "internetArchiveFileCount": 4
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, and IA item metadata to confirm resource-level licence before structured reuse."
-        },
-        "approval": {
-          "recommendedAction": "publish as source/document/table record; do not create duplicate map or election parent",
-          "stagingId": "raw-source:data-gov-ie:cloyne-the-deanery-rainfall-data",
-          "confidence": "approved-convention",
-          "sourceType": "raw source-document corpus",
-          "provider": "Met Éireann; data.gov.ie"
-        },
-        "publicationStatus": "raw-source-staged; raw-source-mirrored-internet-archive",
-        "proposedBrowsePath": "Books / Tables / Sources > Raw source tables",
-        "relatedRecords": [
-          {
-            "kind": "database-map",
-            "id": "wq-network-contribution",
-            "title": "DAERA Network Contribution — SciMAP modelled pollution scores by river basin (26 catchments)",
-            "score": 0.25
-          },
-          {
-            "kind": "database-map",
-            "id": "wq-agricultural-critical-risk",
-            "title": "Agricultural Critical Risk Areas (DAERA)",
-            "score": 0.25
-          },
-          {
-            "kind": "database-map",
-            "id": "baronies-all-ireland",
-            "title": "Baronies",
-            "score": 0.25
-          }
-        ],
-        "keywords": [
-          "raw-source-document",
-          "ia-ready",
-          "source-only",
-          "table",
-          "data.gov.ie",
-          "Met Éireann",
-          "CSV",
-          "TXT",
-          "ni-district-electoral-areas",
-          "internet-archive-mirror",
-          "raw-source-mirrored"
-        ],
-        "browseUrl": "/browse/sources/raw-source-data-gov-ie-cloyne-the-deanery-rainfall-data",
-        "iaMirror": {
-          "itemIdentifier": "civgraph-data-gov-ie-raw-sources",
-          "itemUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
-          "mirrorStatus": "mirrored",
-          "verifiedAt": "2026-06-28T02:10:52.845Z",
-          "fileCount": 4
-        }
-      }
-    },
-    {
-      "id": "raw-source:data-gov-ie:collection-of-vat-on-e-commerce",
-      "slug": "raw-source-data-gov-ie-collection-of-vat-on-e-commerce",
-      "type": "raw-source-document",
-      "title": "Collection of VAT on e-commerce",
-      "subtitle": "Office of the Comptroller & Auditor General / data.gov.ie / PDF / Source-only",
-      "category": "Raw source documents",
-      "provider": [
-        "Office of the Comptroller & Auditor General",
-        "data.gov.ie"
-      ],
-      "description": "Collection of VAT on e-commerce is staged as a document source record from Office of the Comptroller & Auditor General, data.gov.ie. The record is suitable for a Browse/Books/Tables source page with provider links now and IA-hotlinked viewport/download links once the public IA item/file URLs are attached. No map conversion or deep semantic modelling is implied by this source-only record. Formats observed in the local audit: PDF.",
-      "url": "https://data.gov.ie/dataset/collection-of-vat-on-e-commerce",
-      "references": [
-        {
-          "label": "Collection of VAT on e-commerce provider dataset page",
-          "url": "https://data.gov.ie/dataset/collection-of-vat-on-e-commerce",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-dataset"
-        },
-        {
-          "label": "Collection of VAT on e-commerce Internet Archive source mirror",
-          "url": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
-          "source": "Internet Archive",
-          "role": "source-mirror"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset page",
-          "url": "https://data.gov.ie/dataset/collection-of-vat-on-e-commerce",
-          "type": "dataset-page"
-        },
-        {
-          "label": "Internet Archive mirror - 15-collection-of-vat-on-e-commerce.pdf",
-          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Office%20of%20the%20Comptroller%20%26%20Auditor%20General/collection-of-vat-on-e-commerce/15-collection-of-vat-on-e-commerce.pdf",
-          "type": "PDF"
-        }
-      ],
-      "keywords": [
-        "raw-source-document",
-        "ia-ready",
-        "source-only",
-        "document",
-        "data.gov.ie",
-        "Office of the Comptroller & Auditor General",
-        "PDF",
-        "source-documents-books",
-        "internet-archive-mirror",
-        "raw-source-mirrored"
-      ],
-      "sourceItems": [
-        {
-          "auditRowNumber": 23654,
-          "title": "Collection of VAT on e-commerce",
-          "provider": "data.gov.ie",
-          "organisation": "Office of the Comptroller & Auditor General",
-          "formats": [
-            "PDF"
-          ],
-          "category": "tabular",
-          "refinedStatus": "source-only or Browse/Books candidate",
-          "recommendedAction": "Publish as IA-hotlinked source/document/table records first; no runtime bundle unless cleaned/queryable.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download.",
-          "blockerCategories": [
-            "raw-source-hosting-and-viewport-policy",
-            "source-page-and-ia-viewport-decision"
-          ],
-          "detectedFamilies": [
-            "source-documents-books"
-          ],
-          "siteFamiliesPresent": [
-            "source-documents-books"
-          ],
-          "mirrorPolicy": "Internet Archive mirror verified; local mirror paths remain excluded from public output",
-          "providerDatasetUrl": "https://data.gov.ie/dataset/collection-of-vat-on-e-commerce",
-          "internetArchiveItem": "civgraph-data-gov-ie-raw-sources",
-          "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
-          "internetArchiveFileCount": 1
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source only",
-        "Preview available",
-        "Download available",
-        "Needs review",
-        "Mirror available"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "data.gov.ie",
-        "Office of the Comptroller & Auditor General",
-        "Collection of VAT on e-commerce"
-      ],
-      "viewport": {
-        "status": "mirror-preview-ready",
-        "supportedViewportTypes": [
-          "pdf"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/collection-of-vat-on-e-commerce",
-        "note": "Internet Archive mirror files are verified for durable public view/download; provider dataset page remains the canonical source.",
-        "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
-        "fileUrl": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Office%20of%20the%20Comptroller%20%26%20Auditor%20General/collection-of-vat-on-e-commerce/15-collection-of-vat-on-e-commerce.pdf"
-      },
-      "shortCitation": "Office of the Comptroller & Auditor General, data.gov.ie, Collection of VAT on e-commerce.",
-      "fullCitation": "Office of the Comptroller & Auditor General, data.gov.ie. Collection of VAT on e-commerce. Current provider dataset URL: https://data.gov.ie/dataset/collection-of-vat-on-e-commerce. Civgraph raw source-document record.",
-      "relatedRecords": [
-        {
-          "kind": "database-map",
-          "id": "peacelines",
-          "title": "Peacelines",
-          "score": 0.2
-        },
-        {
-          "kind": "browse-source",
-          "id": "map-source",
-          "title": "Peacelines source files",
-          "score": 0.2
-        },
-        {
-          "kind": "browse-source",
-          "id": "election-source",
-          "title": "2024 UK general election in Northern Ireland 2024-07-04",
-          "score": 0.2
-        }
-      ],
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, and IA item metadata to confirm resource-level licence before structured reuse."
-      },
-      "approval": {
-        "recommendedAction": "publish as source/document/table record; do not create duplicate map or election parent",
-        "stagingId": "raw-source:data-gov-ie:collection-of-vat-on-e-commerce",
-        "confidence": "approved-convention",
-        "sourceType": "raw source-document corpus",
-        "provider": "Office of the Comptroller & Auditor General; data.gov.ie"
-      },
-      "publicationStatus": "raw-source-staged; raw-source-mirrored-internet-archive",
-      "proposedBrowsePath": "Books / Tables / Sources > Raw source documents",
-      "browseUrl": "/browse/sources/raw-source-data-gov-ie-collection-of-vat-on-e-commerce",
-      "rawMetadata": {
-        "id": "raw-source:data-gov-ie:collection-of-vat-on-e-commerce",
-        "slug": "raw-source-data-gov-ie-collection-of-vat-on-e-commerce",
-        "type": "raw-source-document",
-        "title": "Collection of VAT on e-commerce",
-        "subtitle": "Office of the Comptroller & Auditor General / data.gov.ie / PDF / Source-only",
-        "category": "Raw source documents",
-        "provider": [
-          "Office of the Comptroller & Auditor General",
-          "data.gov.ie"
-        ],
-        "description": "Collection of VAT on e-commerce is staged as a document source record from Office of the Comptroller & Auditor General, data.gov.ie. The record is suitable for a Browse/Books/Tables source page with provider links now and IA-hotlinked viewport/download links once the public IA item/file URLs are attached. No map conversion or deep semantic modelling is implied by this source-only record. Formats observed in the local audit: PDF.",
-        "url": "https://data.gov.ie/dataset/collection-of-vat-on-e-commerce",
-        "references": [
-          {
-            "label": "Collection of VAT on e-commerce provider dataset page",
-            "url": "https://data.gov.ie/dataset/collection-of-vat-on-e-commerce",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-dataset",
-            "status": "inferred-from-provider-slug"
-          },
-          {
-            "label": "Collection of VAT on e-commerce Internet Archive source mirror",
-            "url": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
-            "source": "Internet Archive",
-            "role": "source-mirror",
-            "status": "verified"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset page",
-            "url": "https://data.gov.ie/dataset/collection-of-vat-on-e-commerce",
-            "type": "dataset-page",
-            "status": "resource downloads listed by provider dataset page"
-          },
-          {
-            "label": "Internet Archive mirror - 15-collection-of-vat-on-e-commerce.pdf",
-            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Office%20of%20the%20Comptroller%20%26%20Auditor%20General/collection-of-vat-on-e-commerce/15-collection-of-vat-on-e-commerce.pdf",
-            "type": "PDF",
-            "size": 581247,
-            "sha256": "7c9dd0273baa12873f37ef139f5353857c813c8fdc9eb0730a6865236e5c8b99",
-            "status": "verified Internet Archive mirror",
-            "source": "Internet Archive"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source only",
-          "Preview available",
-          "Download available",
-          "Needs review",
-          "Mirror available"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "data.gov.ie",
-          "Office of the Comptroller & Auditor General",
-          "Collection of VAT on e-commerce"
-        ],
-        "viewport": {
-          "status": "mirror-preview-ready",
-          "supportedViewportTypes": [
-            "pdf"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/collection-of-vat-on-e-commerce",
-          "note": "Internet Archive mirror files are verified for durable public view/download; provider dataset page remains the canonical source.",
-          "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
-          "fileUrl": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Office%20of%20the%20Comptroller%20%26%20Auditor%20General/collection-of-vat-on-e-commerce/15-collection-of-vat-on-e-commerce.pdf"
-        },
-        "shortCitation": "Office of the Comptroller & Auditor General, data.gov.ie, Collection of VAT on e-commerce.",
-        "fullCitation": "Office of the Comptroller & Auditor General, data.gov.ie. Collection of VAT on e-commerce. Current provider dataset URL: https://data.gov.ie/dataset/collection-of-vat-on-e-commerce. Civgraph raw source-document record.",
-        "sourceItems": [
-          {
-            "auditRowNumber": 23654,
-            "title": "Collection of VAT on e-commerce",
-            "provider": "data.gov.ie",
-            "organisation": "Office of the Comptroller & Auditor General",
-            "formats": [
-              "PDF"
-            ],
-            "category": "tabular",
-            "refinedStatus": "source-only or Browse/Books candidate",
-            "recommendedAction": "Publish as IA-hotlinked source/document/table records first; no runtime bundle unless cleaned/queryable.",
-            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download.",
-            "blockerCategories": [
-              "raw-source-hosting-and-viewport-policy",
-              "source-page-and-ia-viewport-decision"
-            ],
-            "detectedFamilies": [
-              "source-documents-books"
-            ],
-            "siteFamiliesPresent": [
-              "source-documents-books"
-            ],
-            "mirrorPolicy": "Internet Archive mirror verified; local mirror paths remain excluded from public output",
-            "providerDatasetUrl": "https://data.gov.ie/dataset/collection-of-vat-on-e-commerce",
-            "internetArchiveItem": "civgraph-data-gov-ie-raw-sources",
-            "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
-            "internetArchiveFileCount": 1
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, and IA item metadata to confirm resource-level licence before structured reuse."
-        },
-        "approval": {
-          "recommendedAction": "publish as source/document/table record; do not create duplicate map or election parent",
-          "stagingId": "raw-source:data-gov-ie:collection-of-vat-on-e-commerce",
-          "confidence": "approved-convention",
-          "sourceType": "raw source-document corpus",
-          "provider": "Office of the Comptroller & Auditor General; data.gov.ie"
-        },
-        "publicationStatus": "raw-source-staged; raw-source-mirrored-internet-archive",
-        "proposedBrowsePath": "Books / Tables / Sources > Raw source documents",
-        "relatedRecords": [
-          {
-            "kind": "database-map",
-            "id": "peacelines",
-            "title": "Peacelines",
-            "score": 0.2
-          },
-          {
-            "kind": "browse-source",
-            "id": "map-source",
-            "title": "Peacelines source files",
-            "score": 0.2
-          },
-          {
-            "kind": "browse-source",
-            "id": "election-source",
-            "title": "2024 UK general election in Northern Ireland 2024-07-04",
-            "score": 0.2
-          }
-        ],
-        "keywords": [
-          "raw-source-document",
-          "ia-ready",
-          "source-only",
-          "document",
-          "data.gov.ie",
-          "Office of the Comptroller & Auditor General",
-          "PDF",
-          "source-documents-books",
-          "internet-archive-mirror",
-          "raw-source-mirrored"
-        ],
-        "browseUrl": "/browse/sources/raw-source-data-gov-ie-collection-of-vat-on-e-commerce",
-        "iaMirror": {
-          "itemIdentifier": "civgraph-data-gov-ie-raw-sources",
-          "itemUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
-          "mirrorStatus": "mirrored",
-          "verifiedAt": "2026-06-28T02:10:52.845Z",
-          "fileCount": 1
-        }
-      }
-    },
-    {
-      "id": "raw-source:data-gov-ie:commission-for-communications-regulation-comreg",
-      "slug": "raw-source-data-gov-ie-commission-for-communications-regulation-comreg",
-      "type": "raw-source-source",
-      "title": "Quarterly Key Data Reports (QDKR) ComReg",
-      "subtitle": "Commission for Communications Regulation (ComReg) / data.gov.ie / DATA PORTAL, MAP HUB, WEBSITE, XLSX / Source-only",
-      "category": "Raw source files",
-      "provider": [
-        "Commission for Communications Regulation (ComReg)",
-        "data.gov.ie"
-      ],
-      "description": "Quarterly Key Data Reports (QDKR) ComReg is staged as a source source record from Commission for Communications Regulation (ComReg), data.gov.ie. The record is suitable for a Browse/Books/Tables source page with provider links now and IA-hotlinked viewport/download links once the public IA item/file URLs are attached. No map conversion or deep semantic modelling is implied by this source-only record. Formats observed in the local audit: DATA PORTAL, MAP HUB, WEBSITE, XLSX.",
-      "url": "https://data.gov.ie/dataset/commission-for-communications-regulation-comreg",
-      "references": [
-        {
-          "label": "Quarterly Key Data Reports (QDKR) ComReg provider dataset page",
-          "url": "https://data.gov.ie/dataset/commission-for-communications-regulation-comreg",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-dataset"
-        },
-        {
-          "label": "Quarterly Key Data Reports (QDKR) ComReg Internet Archive source mirror",
-          "url": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
-          "source": "Internet Archive",
-          "role": "source-mirror"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset page",
-          "url": "https://data.gov.ie/dataset/commission-for-communications-regulation-comreg",
-          "type": "dataset-page"
-        },
-        {
-          "label": "Internet Archive mirror - All-Data-Q1-2026.xlsx",
-          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Commission%20for%20Communications%20Regulation%20(ComReg)/commission-for-communications-regulation-comreg/All-Data-Q1-2026.xlsx",
-          "type": "XLSX"
-        },
-        {
-          "label": "Internet Archive mirror - commission-for-communications-regulation-comreg-data-portal.dat",
-          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Commission%20for%20Communications%20Regulation%20(ComReg)/commission-for-communications-regulation-comreg/commission-for-communications-regulation-comreg-data-portal.dat",
-          "type": "data portal"
-        },
-        {
-          "label": "Internet Archive mirror - commission-for-communications-regulation-comreg-map-hub.dat",
-          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Commission%20for%20Communications%20Regulation%20(ComReg)/commission-for-communications-regulation-comreg/commission-for-communications-regulation-comreg-map-hub.dat",
-          "type": "Map Hub"
-        },
-        {
-          "label": "Internet Archive mirror - commission-for-communications-regulation-comreg-website.dat",
-          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Commission%20for%20Communications%20Regulation%20(ComReg)/commission-for-communications-regulation-comreg/commission-for-communications-regulation-comreg-website.dat",
-          "type": "website"
-        }
-      ],
-      "keywords": [
-        "raw-source-document",
-        "ia-ready",
-        "source-only",
-        "source",
-        "data.gov.ie",
-        "Commission for Communications Regulation (ComReg)",
-        "DATA PORTAL",
-        "MAP HUB",
-        "WEBSITE",
-        "XLSX",
-        "source-documents-books",
-        "internet-archive-mirror",
-        "raw-source-mirrored"
-      ],
-      "sourceItems": [
-        {
-          "auditRowNumber": 31627,
-          "title": "Quarterly Key Data Reports (QDKR) ComReg",
-          "provider": "data.gov.ie",
-          "organisation": "Commission for Communications Regulation (ComReg)",
-          "formats": [
-            "DATA PORTAL",
-            "MAP HUB",
-            "WEBSITE",
-            "XLSX"
-          ],
-          "category": "tabular",
-          "refinedStatus": "source-only or Browse/Books candidate",
-          "recommendedAction": "Publish as IA-hotlinked source/document/table records first; no runtime bundle unless cleaned/queryable.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download.",
-          "blockerCategories": [
-            "raw-source-hosting-and-viewport-policy",
-            "source-page-and-ia-viewport-decision"
-          ],
-          "detectedFamilies": [
-            "source-documents-books"
-          ],
-          "siteFamiliesPresent": [
-            "source-documents-books"
-          ],
-          "mirrorPolicy": "Internet Archive mirror verified; local mirror paths remain excluded from public output",
-          "providerDatasetUrl": "https://data.gov.ie/dataset/commission-for-communications-regulation-comreg",
-          "internetArchiveItem": "civgraph-data-gov-ie-raw-sources",
-          "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
-          "internetArchiveFileCount": 4
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source only",
-        "Preview available",
-        "Download available",
-        "Needs review",
-        "Mirror available"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "data.gov.ie",
-        "Commission for Communications Regulation (ComReg)",
-        "Quarterly Key Data Reports (QDKR) ComReg"
-      ],
-      "viewport": {
-        "status": "mirror-preview-ready",
-        "supportedViewportTypes": [
-          "spreadsheet"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/commission-for-communications-regulation-comreg",
-        "note": "Internet Archive mirror files are verified for durable public view/download; provider dataset page remains the canonical source.",
-        "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
-        "fileUrl": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Commission%20for%20Communications%20Regulation%20(ComReg)/commission-for-communications-regulation-comreg/All-Data-Q1-2026.xlsx"
-      },
-      "shortCitation": "Commission for Communications Regulation (ComReg), data.gov.ie, Quarterly Key Data Reports (QDKR) ComReg.",
-      "fullCitation": "Commission for Communications Regulation (ComReg), data.gov.ie. Quarterly Key Data Reports (QDKR) ComReg. Current provider dataset URL: https://data.gov.ie/dataset/commission-for-communications-regulation-comreg. Civgraph raw source-document record.",
-      "relatedRecords": [
-        {
-          "kind": "database-map",
-          "id": "dfi-pothole-enquiries-2021",
-          "title": "NI Pothole Enquiries 2021",
-          "score": 0.14
-        },
-        {
-          "kind": "database-map",
-          "id": "dfi-pothole-enquiries-2020",
-          "title": "NI Pothole Enquiries 2020",
-          "score": 0.14
-        },
-        {
-          "kind": "database-map",
-          "id": "dfi-pothole-enquiries-2019",
-          "title": "NI Pothole Enquiries 2019",
-          "score": 0.14
-        }
-      ],
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, and IA item metadata to confirm resource-level licence before structured reuse."
-      },
-      "approval": {
-        "recommendedAction": "publish as source/document/table record; do not create duplicate map or election parent",
-        "stagingId": "raw-source:data-gov-ie:commission-for-communications-regulation-comreg",
-        "confidence": "approved-convention",
-        "sourceType": "raw source-document corpus",
-        "provider": "Commission for Communications Regulation (ComReg); data.gov.ie"
-      },
-      "publicationStatus": "raw-source-staged; raw-source-mirrored-internet-archive",
-      "proposedBrowsePath": "Books / Tables / Sources > Raw source files",
-      "browseUrl": "/browse/sources/raw-source-data-gov-ie-commission-for-communications-regulation-comreg",
-      "rawMetadata": {
-        "id": "raw-source:data-gov-ie:commission-for-communications-regulation-comreg",
-        "slug": "raw-source-data-gov-ie-commission-for-communications-regulation-comreg",
-        "type": "raw-source-source",
-        "title": "Quarterly Key Data Reports (QDKR) ComReg",
-        "subtitle": "Commission for Communications Regulation (ComReg) / data.gov.ie / DATA PORTAL, MAP HUB, WEBSITE, XLSX / Source-only",
-        "category": "Raw source files",
-        "provider": [
-          "Commission for Communications Regulation (ComReg)",
-          "data.gov.ie"
-        ],
-        "description": "Quarterly Key Data Reports (QDKR) ComReg is staged as a source source record from Commission for Communications Regulation (ComReg), data.gov.ie. The record is suitable for a Browse/Books/Tables source page with provider links now and IA-hotlinked viewport/download links once the public IA item/file URLs are attached. No map conversion or deep semantic modelling is implied by this source-only record. Formats observed in the local audit: DATA PORTAL, MAP HUB, WEBSITE, XLSX.",
-        "url": "https://data.gov.ie/dataset/commission-for-communications-regulation-comreg",
-        "references": [
-          {
-            "label": "Quarterly Key Data Reports (QDKR) ComReg provider dataset page",
-            "url": "https://data.gov.ie/dataset/commission-for-communications-regulation-comreg",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-dataset",
-            "status": "inferred-from-provider-slug"
-          },
-          {
-            "label": "Quarterly Key Data Reports (QDKR) ComReg Internet Archive source mirror",
-            "url": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
-            "source": "Internet Archive",
-            "role": "source-mirror",
-            "status": "verified"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset page",
-            "url": "https://data.gov.ie/dataset/commission-for-communications-regulation-comreg",
-            "type": "dataset-page",
-            "status": "resource downloads listed by provider dataset page"
-          },
-          {
-            "label": "Internet Archive mirror - All-Data-Q1-2026.xlsx",
-            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Commission%20for%20Communications%20Regulation%20(ComReg)/commission-for-communications-regulation-comreg/All-Data-Q1-2026.xlsx",
-            "type": "XLSX",
-            "size": 510243,
-            "sha256": "22395d50a9a38d374098f8a35b4f3e833504412ecfbf9a26cb0404ee28ad25d1",
-            "status": "verified Internet Archive mirror",
-            "source": "Internet Archive"
-          },
-          {
-            "label": "Internet Archive mirror - commission-for-communications-regulation-comreg-data-portal.dat",
-            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Commission%20for%20Communications%20Regulation%20(ComReg)/commission-for-communications-regulation-comreg/commission-for-communications-regulation-comreg-data-portal.dat",
-            "type": "data portal",
-            "size": 238756,
-            "sha256": "b4c44e52a64ffb796bb41a8345f2fe0a4aa03e37811860ec4c37de50ae2037ae",
-            "status": "verified Internet Archive mirror",
-            "source": "Internet Archive"
-          },
-          {
-            "label": "Internet Archive mirror - commission-for-communications-regulation-comreg-map-hub.dat",
-            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Commission%20for%20Communications%20Regulation%20(ComReg)/commission-for-communications-regulation-comreg/commission-for-communications-regulation-comreg-map-hub.dat",
-            "type": "Map Hub",
-            "size": 59636,
-            "sha256": "d089d2cabda3efe3c0d242ea068683103bdb3f37f060b4d7a5133b4c7657ee5f",
-            "status": "verified Internet Archive mirror",
-            "source": "Internet Archive"
-          },
-          {
-            "label": "Internet Archive mirror - commission-for-communications-regulation-comreg-website.dat",
-            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Commission%20for%20Communications%20Regulation%20(ComReg)/commission-for-communications-regulation-comreg/commission-for-communications-regulation-comreg-website.dat",
-            "type": "website",
-            "size": 245251,
-            "sha256": "36e685c081ba2bd906ef3007e8f667a406adcf86624fc49f712ffdf8de34804a",
-            "status": "verified Internet Archive mirror",
-            "source": "Internet Archive"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source only",
-          "Preview available",
-          "Download available",
-          "Needs review",
-          "Mirror available"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "data.gov.ie",
-          "Commission for Communications Regulation (ComReg)",
-          "Quarterly Key Data Reports (QDKR) ComReg"
-        ],
-        "viewport": {
-          "status": "mirror-preview-ready",
-          "supportedViewportTypes": [
-            "spreadsheet"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/commission-for-communications-regulation-comreg",
-          "note": "Internet Archive mirror files are verified for durable public view/download; provider dataset page remains the canonical source.",
-          "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
-          "fileUrl": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Commission%20for%20Communications%20Regulation%20(ComReg)/commission-for-communications-regulation-comreg/All-Data-Q1-2026.xlsx"
-        },
-        "shortCitation": "Commission for Communications Regulation (ComReg), data.gov.ie, Quarterly Key Data Reports (QDKR) ComReg.",
-        "fullCitation": "Commission for Communications Regulation (ComReg), data.gov.ie. Quarterly Key Data Reports (QDKR) ComReg. Current provider dataset URL: https://data.gov.ie/dataset/commission-for-communications-regulation-comreg. Civgraph raw source-document record.",
-        "sourceItems": [
-          {
-            "auditRowNumber": 31627,
-            "title": "Quarterly Key Data Reports (QDKR) ComReg",
-            "provider": "data.gov.ie",
-            "organisation": "Commission for Communications Regulation (ComReg)",
-            "formats": [
-              "DATA PORTAL",
-              "MAP HUB",
-              "WEBSITE",
-              "XLSX"
-            ],
-            "category": "tabular",
-            "refinedStatus": "source-only or Browse/Books candidate",
-            "recommendedAction": "Publish as IA-hotlinked source/document/table records first; no runtime bundle unless cleaned/queryable.",
-            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download.",
-            "blockerCategories": [
-              "raw-source-hosting-and-viewport-policy",
-              "source-page-and-ia-viewport-decision"
-            ],
-            "detectedFamilies": [
-              "source-documents-books"
-            ],
-            "siteFamiliesPresent": [
-              "source-documents-books"
-            ],
-            "mirrorPolicy": "Internet Archive mirror verified; local mirror paths remain excluded from public output",
-            "providerDatasetUrl": "https://data.gov.ie/dataset/commission-for-communications-regulation-comreg",
-            "internetArchiveItem": "civgraph-data-gov-ie-raw-sources",
-            "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
-            "internetArchiveFileCount": 4
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, and IA item metadata to confirm resource-level licence before structured reuse."
-        },
-        "approval": {
-          "recommendedAction": "publish as source/document/table record; do not create duplicate map or election parent",
-          "stagingId": "raw-source:data-gov-ie:commission-for-communications-regulation-comreg",
-          "confidence": "approved-convention",
-          "sourceType": "raw source-document corpus",
-          "provider": "Commission for Communications Regulation (ComReg); data.gov.ie"
-        },
-        "publicationStatus": "raw-source-staged; raw-source-mirrored-internet-archive",
-        "proposedBrowsePath": "Books / Tables / Sources > Raw source files",
-        "relatedRecords": [
-          {
-            "kind": "database-map",
-            "id": "dfi-pothole-enquiries-2021",
-            "title": "NI Pothole Enquiries 2021",
-            "score": 0.14
-          },
-          {
-            "kind": "database-map",
-            "id": "dfi-pothole-enquiries-2020",
-            "title": "NI Pothole Enquiries 2020",
-            "score": 0.14
-          },
-          {
-            "kind": "database-map",
-            "id": "dfi-pothole-enquiries-2019",
-            "title": "NI Pothole Enquiries 2019",
-            "score": 0.14
-          }
-        ],
-        "keywords": [
-          "raw-source-document",
-          "ia-ready",
-          "source-only",
-          "source",
-          "data.gov.ie",
-          "Commission for Communications Regulation (ComReg)",
-          "DATA PORTAL",
-          "MAP HUB",
-          "WEBSITE",
-          "XLSX",
-          "source-documents-books",
-          "internet-archive-mirror",
-          "raw-source-mirrored"
-        ],
-        "browseUrl": "/browse/sources/raw-source-data-gov-ie-commission-for-communications-regulation-comreg",
-        "iaMirror": {
-          "itemIdentifier": "civgraph-data-gov-ie-raw-sources",
-          "itemUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
-          "mirrorStatus": "mirrored",
-          "verifiedAt": "2026-06-28T02:10:52.845Z",
-          "fileCount": 4
-        }
-      }
-    },
-    {
-      "id": "raw-source:data-gov-ie:contract-payments-in-respect-of-convention-centre-dublin",
-      "slug": "raw-source-data-gov-ie-contract-payments-in-respect-of-convention-centre-dublin",
-      "type": "raw-source-document",
-      "title": "Contract Payments in respect of Convention Centre Dublin",
-      "subtitle": "Office of the Comptroller & Auditor General / data.gov.ie / PDF / Source-only",
-      "category": "Raw source documents",
-      "provider": [
-        "Office of the Comptroller & Auditor General",
-        "data.gov.ie"
-      ],
-      "description": "Contract Payments in respect of Convention Centre Dublin is staged as a document source record from Office of the Comptroller & Auditor General, data.gov.ie. The record is suitable for a Browse/Books/Tables source page with provider links now and IA-hotlinked viewport/download links once the public IA item/file URLs are attached. No map conversion or deep semantic modelling is implied by this source-only record. Formats observed in the local audit: PDF.",
-      "url": "https://data.gov.ie/dataset/contract-payments-in-respect-of-convention-centre-dublin",
-      "references": [
-        {
-          "label": "Contract Payments in respect of Convention Centre Dublin provider dataset page",
-          "url": "https://data.gov.ie/dataset/contract-payments-in-respect-of-convention-centre-dublin",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-dataset"
-        },
-        {
-          "label": "Contract Payments in respect of Convention Centre Dublin Internet Archive source mirror",
-          "url": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
-          "source": "Internet Archive",
-          "role": "source-mirror"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset page",
-          "url": "https://data.gov.ie/dataset/contract-payments-in-respect-of-convention-centre-dublin",
-          "type": "dataset-page"
-        },
-        {
-          "label": "Internet Archive mirror - 8-contract-payments-in-respect-of-convention-centre-dublin.pdf",
-          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Office%20of%20the%20Comptroller%20%26%20Auditor%20General/contract-payments-in-respect-of-convention-centre-dublin/8-contract-payments-in-respect-of-convention-centre-dublin.pdf",
-          "type": "PDF"
-        }
-      ],
-      "keywords": [
-        "raw-source-document",
-        "ia-ready",
-        "source-only",
-        "document",
-        "data.gov.ie",
-        "Office of the Comptroller & Auditor General",
-        "PDF",
-        "source-documents-books",
-        "internet-archive-mirror",
-        "raw-source-mirrored"
-      ],
-      "sourceItems": [
-        {
-          "auditRowNumber": 23671,
-          "title": "Contract Payments in respect of Convention Centre Dublin",
-          "provider": "data.gov.ie",
-          "organisation": "Office of the Comptroller & Auditor General",
-          "formats": [
-            "PDF"
-          ],
-          "category": "tabular",
-          "refinedStatus": "source-only or Browse/Books candidate",
-          "recommendedAction": "Publish as IA-hotlinked source/document/table records first; no runtime bundle unless cleaned/queryable.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download.",
-          "blockerCategories": [
-            "raw-source-hosting-and-viewport-policy",
-            "source-page-and-ia-viewport-decision"
-          ],
-          "detectedFamilies": [
-            "source-documents-books"
-          ],
-          "siteFamiliesPresent": [
-            "source-documents-books"
-          ],
-          "mirrorPolicy": "Internet Archive mirror verified; local mirror paths remain excluded from public output",
-          "providerDatasetUrl": "https://data.gov.ie/dataset/contract-payments-in-respect-of-convention-centre-dublin",
-          "internetArchiveItem": "civgraph-data-gov-ie-raw-sources",
-          "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
-          "internetArchiveFileCount": 1
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source only",
-        "Preview available",
-        "Download available",
-        "Needs review",
-        "Mirror available"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "data.gov.ie",
-        "Office of the Comptroller & Auditor General",
-        "Contract Payments in respect of Convention Centre Dublin"
-      ],
-      "viewport": {
-        "status": "mirror-preview-ready",
-        "supportedViewportTypes": [
-          "pdf"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/contract-payments-in-respect-of-convention-centre-dublin",
-        "note": "Internet Archive mirror files are verified for durable public view/download; provider dataset page remains the canonical source.",
-        "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
-        "fileUrl": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Office%20of%20the%20Comptroller%20%26%20Auditor%20General/contract-payments-in-respect-of-convention-centre-dublin/8-contract-payments-in-respect-of-convention-centre-dublin.pdf"
-      },
-      "shortCitation": "Office of the Comptroller & Auditor General, data.gov.ie, Contract Payments in respect of Convention Centre Dublin.",
-      "fullCitation": "Office of the Comptroller & Auditor General, data.gov.ie. Contract Payments in respect of Convention Centre Dublin. Current provider dataset URL: https://data.gov.ie/dataset/contract-payments-in-respect-of-convention-centre-dublin. Civgraph raw source-document record.",
-      "relatedRecords": [
-        {
-          "kind": "database-map",
-          "id": "catholic-dublin-parishes",
-          "title": "Catholic Parishes (Dublin)",
-          "score": 0.15
-        },
-        {
-          "kind": "database-map",
-          "id": "peacelines",
-          "title": "Peacelines",
-          "score": 0.15
-        },
-        {
-          "kind": "browse-feature",
-          "id": "dail-2023",
-          "title": "2023",
-          "score": 0.15
-        }
-      ],
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, and IA item metadata to confirm resource-level licence before structured reuse."
-      },
-      "approval": {
-        "recommendedAction": "publish as source/document/table record; do not create duplicate map or election parent",
-        "stagingId": "raw-source:data-gov-ie:contract-payments-in-respect-of-convention-centre-dublin",
-        "confidence": "approved-convention",
-        "sourceType": "raw source-document corpus",
-        "provider": "Office of the Comptroller & Auditor General; data.gov.ie"
-      },
-      "publicationStatus": "raw-source-staged; raw-source-mirrored-internet-archive",
-      "proposedBrowsePath": "Books / Tables / Sources > Raw source documents",
-      "browseUrl": "/browse/sources/raw-source-data-gov-ie-contract-payments-in-respect-of-convention-centre-dublin",
-      "rawMetadata": {
-        "id": "raw-source:data-gov-ie:contract-payments-in-respect-of-convention-centre-dublin",
-        "slug": "raw-source-data-gov-ie-contract-payments-in-respect-of-convention-centre-dublin",
-        "type": "raw-source-document",
-        "title": "Contract Payments in respect of Convention Centre Dublin",
-        "subtitle": "Office of the Comptroller & Auditor General / data.gov.ie / PDF / Source-only",
-        "category": "Raw source documents",
-        "provider": [
-          "Office of the Comptroller & Auditor General",
-          "data.gov.ie"
-        ],
-        "description": "Contract Payments in respect of Convention Centre Dublin is staged as a document source record from Office of the Comptroller & Auditor General, data.gov.ie. The record is suitable for a Browse/Books/Tables source page with provider links now and IA-hotlinked viewport/download links once the public IA item/file URLs are attached. No map conversion or deep semantic modelling is implied by this source-only record. Formats observed in the local audit: PDF.",
-        "url": "https://data.gov.ie/dataset/contract-payments-in-respect-of-convention-centre-dublin",
-        "references": [
-          {
-            "label": "Contract Payments in respect of Convention Centre Dublin provider dataset page",
-            "url": "https://data.gov.ie/dataset/contract-payments-in-respect-of-convention-centre-dublin",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-dataset",
-            "status": "inferred-from-provider-slug"
-          },
-          {
-            "label": "Contract Payments in respect of Convention Centre Dublin Internet Archive source mirror",
-            "url": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
-            "source": "Internet Archive",
-            "role": "source-mirror",
-            "status": "verified"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset page",
-            "url": "https://data.gov.ie/dataset/contract-payments-in-respect-of-convention-centre-dublin",
-            "type": "dataset-page",
-            "status": "resource downloads listed by provider dataset page"
-          },
-          {
-            "label": "Internet Archive mirror - 8-contract-payments-in-respect-of-convention-centre-dublin.pdf",
-            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Office%20of%20the%20Comptroller%20%26%20Auditor%20General/contract-payments-in-respect-of-convention-centre-dublin/8-contract-payments-in-respect-of-convention-centre-dublin.pdf",
-            "type": "PDF",
-            "size": 587236,
-            "sha256": "6ee933585fdf04398ddac970aafa16762d3ec36d5c496ea002aba29114a939eb",
-            "status": "verified Internet Archive mirror",
-            "source": "Internet Archive"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source only",
-          "Preview available",
-          "Download available",
-          "Needs review",
-          "Mirror available"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "data.gov.ie",
-          "Office of the Comptroller & Auditor General",
-          "Contract Payments in respect of Convention Centre Dublin"
-        ],
-        "viewport": {
-          "status": "mirror-preview-ready",
-          "supportedViewportTypes": [
-            "pdf"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/contract-payments-in-respect-of-convention-centre-dublin",
-          "note": "Internet Archive mirror files are verified for durable public view/download; provider dataset page remains the canonical source.",
-          "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
-          "fileUrl": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Office%20of%20the%20Comptroller%20%26%20Auditor%20General/contract-payments-in-respect-of-convention-centre-dublin/8-contract-payments-in-respect-of-convention-centre-dublin.pdf"
-        },
-        "shortCitation": "Office of the Comptroller & Auditor General, data.gov.ie, Contract Payments in respect of Convention Centre Dublin.",
-        "fullCitation": "Office of the Comptroller & Auditor General, data.gov.ie. Contract Payments in respect of Convention Centre Dublin. Current provider dataset URL: https://data.gov.ie/dataset/contract-payments-in-respect-of-convention-centre-dublin. Civgraph raw source-document record.",
-        "sourceItems": [
-          {
-            "auditRowNumber": 23671,
-            "title": "Contract Payments in respect of Convention Centre Dublin",
-            "provider": "data.gov.ie",
-            "organisation": "Office of the Comptroller & Auditor General",
-            "formats": [
-              "PDF"
-            ],
-            "category": "tabular",
-            "refinedStatus": "source-only or Browse/Books candidate",
-            "recommendedAction": "Publish as IA-hotlinked source/document/table records first; no runtime bundle unless cleaned/queryable.",
-            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download.",
-            "blockerCategories": [
-              "raw-source-hosting-and-viewport-policy",
-              "source-page-and-ia-viewport-decision"
-            ],
-            "detectedFamilies": [
-              "source-documents-books"
-            ],
-            "siteFamiliesPresent": [
-              "source-documents-books"
-            ],
-            "mirrorPolicy": "Internet Archive mirror verified; local mirror paths remain excluded from public output",
-            "providerDatasetUrl": "https://data.gov.ie/dataset/contract-payments-in-respect-of-convention-centre-dublin",
-            "internetArchiveItem": "civgraph-data-gov-ie-raw-sources",
-            "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
-            "internetArchiveFileCount": 1
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, and IA item metadata to confirm resource-level licence before structured reuse."
-        },
-        "approval": {
-          "recommendedAction": "publish as source/document/table record; do not create duplicate map or election parent",
-          "stagingId": "raw-source:data-gov-ie:contract-payments-in-respect-of-convention-centre-dublin",
-          "confidence": "approved-convention",
-          "sourceType": "raw source-document corpus",
-          "provider": "Office of the Comptroller & Auditor General; data.gov.ie"
-        },
-        "publicationStatus": "raw-source-staged; raw-source-mirrored-internet-archive",
-        "proposedBrowsePath": "Books / Tables / Sources > Raw source documents",
-        "relatedRecords": [
-          {
-            "kind": "database-map",
-            "id": "catholic-dublin-parishes",
-            "title": "Catholic Parishes (Dublin)",
-            "score": 0.15
-          },
-          {
-            "kind": "database-map",
-            "id": "peacelines",
-            "title": "Peacelines",
-            "score": 0.15
-          },
-          {
-            "kind": "browse-feature",
-            "id": "dail-2023",
-            "title": "2023",
-            "score": 0.15
-          }
-        ],
-        "keywords": [
-          "raw-source-document",
-          "ia-ready",
-          "source-only",
-          "document",
-          "data.gov.ie",
-          "Office of the Comptroller & Auditor General",
-          "PDF",
-          "source-documents-books",
-          "internet-archive-mirror",
-          "raw-source-mirrored"
-        ],
-        "browseUrl": "/browse/sources/raw-source-data-gov-ie-contract-payments-in-respect-of-convention-centre-dublin",
-        "iaMirror": {
-          "itemIdentifier": "civgraph-data-gov-ie-raw-sources",
-          "itemUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
-          "mirrorStatus": "mirrored",
-          "verifiedAt": "2026-06-28T02:10:52.845Z",
-          "fileCount": 1
         }
       }
     }

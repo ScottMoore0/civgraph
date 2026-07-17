@@ -277,7 +277,9 @@ const PARTY_COLOURS = new Map([
   ['tuv', '#0c3a6a'],
   ['uup', '#48a5ee'],
   ['yes', '#2aa82c'],
-  ['no', '#d46a4c']
+  ['no', '#d46a4c'],
+  ['remain', '#2aa82c'],
+  ['leave', '#d46a4c']
 ]);
 
 async function main() {
@@ -678,6 +680,15 @@ function resolveElectionGeography(entry) {
     return { sourceMapId: null };
   }
   if (body === 'President of Ireland') return { sourceMapId: 'roi-1938', singleConstituency: true };
+  if (body === 'Referendum (Northern Ireland)') {
+    const d = String(entry.date || '');
+    if (d.startsWith('2016')) return { sourceMapId: 'eu-referendum-2016' };
+    if (d.startsWith('2011')) return { sourceMapId: 'av-referendum-2011' };
+    if (d.startsWith('1998')) return { sourceMapId: 'ni-1921', singleConstituency: true };
+    if (d.startsWith('1975')) return { sourceMapId: 'common-market-1975', singleConstituency: true };
+    if (d.startsWith('1973')) return { sourceMapId: 'border-poll-1973', singleConstituency: true };
+    return { sourceMapId: 'ni-1921', singleConstituency: true };
+  }
   if (body === 'Referendum (Ireland)') {
     if (isNationalAggregateElection(entry)) return { sourceMapId: 'roi-1938', singleConstituency: true };
     if (looksLikeRoiLocalAuthorityResults(entry)) {

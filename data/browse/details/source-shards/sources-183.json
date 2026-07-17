@@ -1,10 +1,1269 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-14T17:47:33.902Z",
+  "generatedAt": "2026-07-17T19:32:11.369Z",
   "kind": "sources",
   "shard": "sources-183.json",
   "total": 200,
   "items": [
+    {
+      "id": "map-source:dcc-skateboard-parks",
+      "slug": "map-source-dcc-skateboard-parks",
+      "type": "map-source",
+      "title": "Skateboard Parks (DCC) source files",
+      "subtitle": "Built Environment / Dublin City Council",
+      "category": "Map sources",
+      "provider": [
+        "Dublin City Council"
+      ],
+      "description": "Skateboard Parks (DCC) — published by Dublin City Council. 1 related provider/source row is staged as provenance for this existing Civgraph record; provider: data.gov.ie; formats: CSV, GEOJSON; 1 provider dataset link preserved as references.",
+      "sourceMapId": "dcc-skateboard-parks",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "SP",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Source — data.gov.ie",
+          "url": "https://data.gov.ie/"
+        },
+        {
+          "label": "Existing Civgraph record: Skateboard Parks (DCC) source files",
+          "url": "/browse/maps/dcc-skateboard-parks",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:dcc-skateboard-parks",
+          "url": "/browse/sources/map-source-dcc-skateboard-parks",
+          "source": "Civgraph",
+          "role": "matched-source-record"
+        },
+        {
+          "label": "Provider dataset: Skateboard Parks DCC",
+          "url": "https://data.gov.ie/dataset/skateboard-parks-dcc",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-dataset",
+          "type": "CSV"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/roi-dcc/dcc-skateboard-parks.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/roi-dcc/dcc-skateboard-parks.geojson"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/roi-dcc/dcc-skateboard-parks.geojson"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/roi-dcc/dcc-skateboard-parks.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/roi-dcc/dcc-skateboard-parks.geojson"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/roi-dcc/dcc-skateboard-parks.geojson"
+        }
+      ],
+      "interactiveUrl": "/#layers=dcc-skateboard-parks",
+      "browseUrl": "/browse/sources/map-source-dcc-skateboard-parks",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:dcc-skateboard-parks",
+          "targetEntityKind": "map",
+          "targetEntityId": "dcc-skateboard-parks",
+          "targetTitle": "Skateboard Parks (DCC) source files",
+          "targetBrowseUrl": "/browse/maps/dcc-skateboard-parks",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "CSV",
+            "GEOJSON"
+          ],
+          "providers": [
+            "data.gov.ie"
+          ],
+          "categories": [
+            "spatial"
+          ],
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geometry lineage and boundary-version metadata",
+            "geospatial source-format metadata",
+            "raw-source viewport candidate metadata",
+            "schema/table/attribute metadata",
+            "source/provenance metadata"
+          ],
+          "provenanceSummary": "1 related provider/source row is staged as provenance for this existing Civgraph record; provider: data.gov.ie; formats: CSV, GEOJSON; 1 provider dataset link preserved as references.",
+          "sourceItems": [
+            {
+              "auditRowNumber": 892,
+              "title": "Skateboard Parks DCC",
+              "provider": "data.gov.ie",
+              "category": "spatial",
+              "formats": [
+                "CSV",
+                "GEOJSON"
+              ],
+              "safetyClass": "safe metadata enrichment candidate",
+              "providerDatasetUrl": "https://data.gov.ie/dataset/skateboard-parks-dcc",
+              "recommendedAction": "Do not publish as new; enrich existing record only if source/provenance is missing.",
+              "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+              "enrichmentTypes": [
+                "alternate-format metadata",
+                "download/source-file metadata",
+                "geometry lineage and boundary-version metadata",
+                "geospatial source-format metadata",
+                "raw-source viewport candidate metadata",
+                "schema/table/attribute metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "habitat-protected-sites"
+              ],
+              "siteFamiliesPresent": [
+                "habitat-protected-sites"
+              ],
+              "refinedStatus": "already represented or very strong exact match"
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "database-map",
+              "id": "dcc-skateboard-parks",
+              "title": "Skateboard Parks (DCC)",
+              "score": 1.75
+            },
+            {
+              "kind": "browse-map",
+              "id": "dcc-skateboard-parks",
+              "title": "Skateboard Parks (DCC)",
+              "score": 1.75
+            },
+            {
+              "kind": "browse-source",
+              "id": "map-source:dcc-skateboard-parks",
+              "title": "Skateboard Parks (DCC) source files",
+              "score": 0.75
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 892,
+          "title": "Skateboard Parks DCC",
+          "provider": "data.gov.ie",
+          "category": "spatial",
+          "formats": [
+            "CSV",
+            "GEOJSON"
+          ],
+          "safetyClass": "safe metadata enrichment candidate",
+          "providerDatasetUrl": "https://data.gov.ie/dataset/skateboard-parks-dcc",
+          "recommendedAction": "Do not publish as new; enrich existing record only if source/provenance is missing.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geometry lineage and boundary-version metadata",
+            "geospatial source-format metadata",
+            "raw-source viewport candidate metadata",
+            "schema/table/attribute metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "habitat-protected-sites"
+          ],
+          "siteFamiliesPresent": [
+            "habitat-protected-sites"
+          ],
+          "refinedStatus": "already represented or very strong exact match"
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "alternate-format metadata",
+        "download/source-file metadata",
+        "geometry lineage and boundary-version metadata",
+        "geospatial source-format metadata",
+        "raw-source viewport candidate metadata",
+        "schema/table/attribute metadata",
+        "source/provenance metadata"
+      ],
+      "publicationStatus": "enriched",
+      "rawMetadata": {
+        "id": "dcc-skateboard-parks",
+        "name": "Skateboard Parks (DCC)",
+        "slug": "dcc-skateboard-parks",
+        "category": "built-environment",
+        "provider": [
+          "Dublin City Council"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/roi-dcc/dcc-skateboard-parks.fgb",
+          "downloads": {
+            "geojson": "https://data.civgraph.net/data/maps/roi-dcc/dcc-skateboard-parks.geojson"
+          },
+          "geojson": "https://data.civgraph.net/data/maps/roi-dcc/dcc-skateboard-parks.geojson"
+        },
+        "style": {
+          "color": "#FF6F00",
+          "weight": 1,
+          "fillOpacity": 0.4
+        },
+        "keywords": [
+          "ROI",
+          "ireland",
+          "dublin",
+          "dcc",
+          "amenity",
+          "council",
+          "skateboard",
+          "parks"
+        ],
+        "description": "Skateboard Parks (DCC) — published by Dublin City Council.",
+        "references": [
+          {
+            "label": "Source — data.gov.ie",
+            "url": "https://data.gov.ie/",
+            "note": ""
+          }
+        ],
+        "labelProperty": "Title"
+      }
+    },
+    {
+      "id": "map-source:dcc-sport-pitches-and-facilities",
+      "slug": "map-source-dcc-sport-pitches-and-facilities",
+      "type": "map-source",
+      "title": "Sport Pitches And Facilities (DCC) source files",
+      "subtitle": "Built Environment / Dublin City Council",
+      "category": "Map sources",
+      "provider": [
+        "Dublin City Council"
+      ],
+      "description": "Sport Pitches And Facilities (DCC) — published by Dublin City Council. 1 related provider/source row is staged as provenance for this existing Civgraph record; provider: data.gov.ie; formats: CSV, GEOJSON; 1 provider dataset link preserved as references.",
+      "sourceMapId": "dcc-sport-pitches-and-facilities",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "SP",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Source — data.gov.ie",
+          "url": "https://data.gov.ie/"
+        },
+        {
+          "label": "Existing Civgraph record: Sport Pitches And Facilities (DCC) source files",
+          "url": "/browse/maps/dcc-sport-pitches-and-facilities",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:dcc-sport-pitches-and-facilities",
+          "url": "/browse/sources/map-source-dcc-sport-pitches-and-facilities",
+          "source": "Civgraph",
+          "role": "matched-source-record"
+        },
+        {
+          "label": "Provider dataset: Sport pitches and Facilities DCC",
+          "url": "https://data.gov.ie/dataset/sport-pitches-and-facilities-dcc",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-dataset",
+          "type": "CSV"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/roi-dcc/dcc-sport-pitches-and-facilities.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/roi-dcc/dcc-sport-pitches-and-facilities.geojson"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/roi-dcc/dcc-sport-pitches-and-facilities.geojson"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/roi-dcc/dcc-sport-pitches-and-facilities.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/roi-dcc/dcc-sport-pitches-and-facilities.geojson"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/roi-dcc/dcc-sport-pitches-and-facilities.geojson"
+        }
+      ],
+      "interactiveUrl": "/#layers=dcc-sport-pitches-and-facilities",
+      "browseUrl": "/browse/sources/map-source-dcc-sport-pitches-and-facilities",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:dcc-sport-pitches-and-facilities",
+          "targetEntityKind": "map",
+          "targetEntityId": "dcc-sport-pitches-and-facilities",
+          "targetTitle": "Sport Pitches And Facilities (DCC) source files",
+          "targetBrowseUrl": "/browse/maps/dcc-sport-pitches-and-facilities",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "CSV",
+            "GEOJSON"
+          ],
+          "providers": [
+            "data.gov.ie"
+          ],
+          "categories": [
+            "spatial"
+          ],
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geometry lineage and boundary-version metadata",
+            "geospatial source-format metadata",
+            "raw-source viewport candidate metadata",
+            "schema/table/attribute metadata",
+            "source/provenance metadata"
+          ],
+          "provenanceSummary": "1 related provider/source row is staged as provenance for this existing Civgraph record; provider: data.gov.ie; formats: CSV, GEOJSON; 1 provider dataset link preserved as references.",
+          "sourceItems": [
+            {
+              "auditRowNumber": 893,
+              "title": "Sport pitches and Facilities DCC",
+              "provider": "data.gov.ie",
+              "category": "spatial",
+              "formats": [
+                "CSV",
+                "GEOJSON"
+              ],
+              "safetyClass": "safe metadata enrichment candidate",
+              "providerDatasetUrl": "https://data.gov.ie/dataset/sport-pitches-and-facilities-dcc",
+              "recommendedAction": "Do not publish as new; enrich existing record only if source/provenance is missing.",
+              "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+              "enrichmentTypes": [
+                "alternate-format metadata",
+                "download/source-file metadata",
+                "geometry lineage and boundary-version metadata",
+                "geospatial source-format metadata",
+                "raw-source viewport candidate metadata",
+                "schema/table/attribute metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "habitat-protected-sites"
+              ],
+              "siteFamiliesPresent": [
+                "habitat-protected-sites"
+              ],
+              "refinedStatus": "already represented or very strong exact match"
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "database-map",
+              "id": "dcc-sport-pitches-and-facilities",
+              "title": "Sport Pitches And Facilities (DCC)",
+              "score": 1.78
+            },
+            {
+              "kind": "browse-map",
+              "id": "dcc-sport-pitches-and-facilities",
+              "title": "Sport Pitches And Facilities (DCC)",
+              "score": 1.78
+            },
+            {
+              "kind": "browse-source",
+              "id": "map-source:dcc-sport-pitches-and-facilities",
+              "title": "Sport Pitches And Facilities (DCC) source files",
+              "score": 0.78
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 893,
+          "title": "Sport pitches and Facilities DCC",
+          "provider": "data.gov.ie",
+          "category": "spatial",
+          "formats": [
+            "CSV",
+            "GEOJSON"
+          ],
+          "safetyClass": "safe metadata enrichment candidate",
+          "providerDatasetUrl": "https://data.gov.ie/dataset/sport-pitches-and-facilities-dcc",
+          "recommendedAction": "Do not publish as new; enrich existing record only if source/provenance is missing.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geometry lineage and boundary-version metadata",
+            "geospatial source-format metadata",
+            "raw-source viewport candidate metadata",
+            "schema/table/attribute metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "habitat-protected-sites"
+          ],
+          "siteFamiliesPresent": [
+            "habitat-protected-sites"
+          ],
+          "refinedStatus": "already represented or very strong exact match"
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "alternate-format metadata",
+        "download/source-file metadata",
+        "geometry lineage and boundary-version metadata",
+        "geospatial source-format metadata",
+        "raw-source viewport candidate metadata",
+        "schema/table/attribute metadata",
+        "source/provenance metadata"
+      ],
+      "publicationStatus": "enriched",
+      "rawMetadata": {
+        "id": "dcc-sport-pitches-and-facilities",
+        "name": "Sport Pitches And Facilities (DCC)",
+        "slug": "dcc-sport-pitches-and-facilities",
+        "category": "built-environment",
+        "provider": [
+          "Dublin City Council"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/roi-dcc/dcc-sport-pitches-and-facilities.fgb",
+          "downloads": {
+            "geojson": "https://data.civgraph.net/data/maps/roi-dcc/dcc-sport-pitches-and-facilities.geojson"
+          },
+          "geojson": "https://data.civgraph.net/data/maps/roi-dcc/dcc-sport-pitches-and-facilities.geojson"
+        },
+        "style": {
+          "color": "#FF6F00",
+          "weight": 1,
+          "fillOpacity": 0.4
+        },
+        "keywords": [
+          "ROI",
+          "ireland",
+          "dublin",
+          "dcc",
+          "amenity",
+          "council",
+          "sport",
+          "pitches",
+          "and",
+          "facilities"
+        ],
+        "description": "Sport Pitches And Facilities (DCC) — published by Dublin City Council.",
+        "references": [
+          {
+            "label": "Source — data.gov.ie",
+            "url": "https://data.gov.ie/",
+            "note": ""
+          }
+        ],
+        "labelProperty": "Title"
+      }
+    },
+    {
+      "id": "map-source:dcc-street-lighting-dublin-city",
+      "slug": "map-source-dcc-street-lighting-dublin-city",
+      "type": "map-source",
+      "title": "Street Lighting Dublin City (DCC) source files",
+      "subtitle": "Built Environment / Dublin City Council",
+      "category": "Map sources",
+      "provider": [
+        "Dublin City Council"
+      ],
+      "description": "Street Lighting Dublin City (DCC) — published by Dublin City Council. 1 related provider/source row is staged as provenance for this existing Civgraph record; provider: data.gov.ie; formats: CSV, DB_TABLE, GEOJSON, KML, WMS, XLSX and 1 more; 1 provider dataset link preserved as references; licence: Creative Commons Attribution 4.0; relationship: related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval.",
+      "sourceMapId": "dcc-street-lighting-dublin-city",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "dcc-street-lighting-dublin-city",
+        "url": "/assets/thumbnails/dcc-street-lighting-dublin-city.webp",
+        "smallUrl": "/assets/thumbnails/dcc-street-lighting-dublin-city-60.webp",
+        "alt": "Street Lighting Dublin City (DCC)"
+      },
+      "references": [
+        {
+          "label": "Source — data.gov.ie",
+          "url": "https://data.gov.ie/"
+        },
+        {
+          "label": "Existing Civgraph record: Street Lighting Dublin City (DCC) source files",
+          "url": "/browse/maps/dcc-street-lighting-dublin-city",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:dcc-street-lighting-dublin-city",
+          "url": "/browse/sources/map-source-dcc-street-lighting-dublin-city",
+          "source": "Civgraph",
+          "role": "matched-source-record"
+        },
+        {
+          "label": "Provider dataset: Public Lighting DCC",
+          "url": "https://data.gov.ie/dataset/street-lighting-dublin-city",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-dataset",
+          "type": "CSV",
+          "note": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval / licence: Creative Commons Attribution 4.0"
+        },
+        {
+          "label": "Licence: Creative Commons Attribution 4.0",
+          "url": "https://creativecommons.org/licenses/by/4.0/",
+          "source": "data.gov.ie",
+          "role": "source-licence"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/roi-dcc/dcc-street-lighting-dublin-city.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/roi-dcc/dcc-street-lighting-dublin-city.geojson"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/roi-dcc/dcc-street-lighting-dublin-city.geojson"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/roi-dcc/dcc-street-lighting-dublin-city.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/roi-dcc/dcc-street-lighting-dublin-city.geojson"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/roi-dcc/dcc-street-lighting-dublin-city.geojson"
+        }
+      ],
+      "interactiveUrl": "/#layers=dcc-street-lighting-dublin-city",
+      "browseUrl": "/browse/sources/map-source-dcc-street-lighting-dublin-city",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:dcc-street-lighting-dublin-city",
+          "targetEntityKind": "map",
+          "targetEntityId": "dcc-street-lighting-dublin-city",
+          "targetTitle": "Street Lighting Dublin City (DCC) source files",
+          "targetBrowseUrl": "/browse/maps/dcc-street-lighting-dublin-city",
+          "sourceItemCount": 1,
+          "confidence": "high-confidence",
+          "safetyClasses": [
+            "variant/source enrichment review"
+          ],
+          "formats": [
+            "CSV",
+            "DB_TABLE",
+            "GEOJSON",
+            "KML",
+            "WMS",
+            "XLSX",
+            "ZIP"
+          ],
+          "providers": [
+            "data.gov.ie"
+          ],
+          "categories": [
+            "spatial"
+          ],
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geometry lineage and boundary-version metadata",
+            "geospatial source-format metadata",
+            "raw-source viewport candidate metadata",
+            "scale/generalisation/edition metadata",
+            "schema/table/attribute metadata",
+            "source/provenance metadata"
+          ],
+          "provenanceSummary": "1 related provider/source row is staged as provenance for this existing Civgraph record; provider: data.gov.ie; formats: CSV, DB_TABLE, GEOJSON, KML, WMS, XLSX and 1 more; 1 provider dataset link preserved as references; licence: Creative Commons Attribution 4.0; relationship: related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval.",
+          "sourceItems": [
+            {
+              "auditRowNumber": 879,
+              "title": "Public Lighting DCC",
+              "provider": "data.gov.ie",
+              "category": "spatial",
+              "formats": [
+                "CSV",
+                "DB_TABLE",
+                "GEOJSON",
+                "KML",
+                "WMS",
+                "XLSX",
+                "ZIP"
+              ],
+              "safetyClass": "variant/source enrichment review",
+              "approvalStatus": "user-approved-related-source-enrichment",
+              "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+              "providerDatasetUrl": "https://data.gov.ie/dataset/street-lighting-dublin-city",
+              "licenseTitle": "Creative Commons Attribution 4.0",
+              "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+              "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+              "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews.",
+              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+              "enrichmentTypes": [
+                "alternate-format metadata",
+                "download/source-file metadata",
+                "geometry lineage and boundary-version metadata",
+                "geospatial source-format metadata",
+                "raw-source viewport candidate metadata",
+                "scale/generalisation/edition metadata",
+                "schema/table/attribute metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "habitat-protected-sites"
+              ],
+              "siteFamiliesPresent": [
+                "habitat-protected-sites"
+              ],
+              "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "database-map",
+              "id": "dcc-street-lighting-dublin-city",
+              "title": "Street Lighting Dublin City (DCC)",
+              "score": 0.67
+            },
+            {
+              "kind": "browse-source",
+              "id": "map-source:dcc-street-lighting-dublin-city",
+              "title": "Street Lighting Dublin City (DCC) source files",
+              "score": 0.67
+            },
+            {
+              "kind": "browse-map",
+              "id": "dcc-street-lighting-dublin-city",
+              "title": "Street Lighting Dublin City (DCC)",
+              "score": 0.67
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 879,
+          "title": "Public Lighting DCC",
+          "provider": "data.gov.ie",
+          "category": "spatial",
+          "formats": [
+            "CSV",
+            "DB_TABLE",
+            "GEOJSON",
+            "KML",
+            "WMS",
+            "XLSX",
+            "ZIP"
+          ],
+          "safetyClass": "variant/source enrichment review",
+          "approvalStatus": "user-approved-related-source-enrichment",
+          "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
+          "providerDatasetUrl": "https://data.gov.ie/dataset/street-lighting-dublin-city",
+          "licenseTitle": "Creative Commons Attribution 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geometry lineage and boundary-version metadata",
+            "geospatial source-format metadata",
+            "raw-source viewport candidate metadata",
+            "scale/generalisation/edition metadata",
+            "schema/table/attribute metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "habitat-protected-sites"
+          ],
+          "siteFamiliesPresent": [
+            "habitat-protected-sites"
+          ],
+          "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "alternate-format metadata",
+        "download/source-file metadata",
+        "geometry lineage and boundary-version metadata",
+        "geospatial source-format metadata",
+        "raw-source viewport candidate metadata",
+        "scale/generalisation/edition metadata",
+        "schema/table/attribute metadata",
+        "source/provenance metadata"
+      ],
+      "publicationStatus": "enriched",
+      "rawMetadata": {
+        "id": "dcc-street-lighting-dublin-city",
+        "name": "Street Lighting Dublin City (DCC)",
+        "slug": "dcc-street-lighting-dublin-city",
+        "category": "built-environment",
+        "provider": [
+          "Dublin City Council"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/roi-dcc/dcc-street-lighting-dublin-city.fgb",
+          "downloads": {
+            "geojson": "https://data.civgraph.net/data/maps/roi-dcc/dcc-street-lighting-dublin-city.geojson"
+          },
+          "geojson": "https://data.civgraph.net/data/maps/roi-dcc/dcc-street-lighting-dublin-city.geojson"
+        },
+        "style": {
+          "color": "#FF6F00",
+          "weight": 1,
+          "fillOpacity": 0.4
+        },
+        "keywords": [
+          "ROI",
+          "ireland",
+          "dublin",
+          "dcc",
+          "amenity",
+          "council",
+          "street",
+          "lighting",
+          "dublin",
+          "city"
+        ],
+        "description": "Street Lighting Dublin City (DCC) — published by Dublin City Council.",
+        "references": [
+          {
+            "label": "Source — data.gov.ie",
+            "url": "https://data.gov.ie/",
+            "note": ""
+          }
+        ],
+        "labelProperty": "site_name",
+        "useLOD": true
+      }
+    },
+    {
+      "id": "map-source:dcc-swimming-pools",
+      "slug": "map-source-dcc-swimming-pools",
+      "type": "map-source",
+      "title": "Swimming Pools (DCC) source files",
+      "subtitle": "Built Environment / Dublin City Council",
+      "category": "Map sources",
+      "provider": [
+        "Dublin City Council"
+      ],
+      "description": "Swimming Pools (DCC) — published by Dublin City Council. 1 related provider/source row is staged as provenance for this existing Civgraph record; provider: data.gov.ie; formats: CSV, GEOJSON; 1 provider dataset link preserved as references.",
+      "sourceMapId": "dcc-swimming-pools",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "SP",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Source — data.gov.ie",
+          "url": "https://data.gov.ie/"
+        },
+        {
+          "label": "Existing Civgraph record: Swimming Pools (DCC) source files",
+          "url": "/browse/maps/dcc-swimming-pools",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:dcc-swimming-pools",
+          "url": "/browse/sources/map-source-dcc-swimming-pools",
+          "source": "Civgraph",
+          "role": "matched-source-record"
+        },
+        {
+          "label": "Provider dataset: Swimming Pools DCC",
+          "url": "https://data.gov.ie/dataset/swimming-pools-dcc",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-dataset",
+          "type": "CSV"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/roi-dcc/dcc-swimming-pools.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/roi-dcc/dcc-swimming-pools.geojson"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/roi-dcc/dcc-swimming-pools.geojson"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/roi-dcc/dcc-swimming-pools.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/roi-dcc/dcc-swimming-pools.geojson"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/roi-dcc/dcc-swimming-pools.geojson"
+        }
+      ],
+      "interactiveUrl": "/#layers=dcc-swimming-pools",
+      "browseUrl": "/browse/sources/map-source-dcc-swimming-pools",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:dcc-swimming-pools",
+          "targetEntityKind": "map",
+          "targetEntityId": "dcc-swimming-pools",
+          "targetTitle": "Swimming Pools (DCC) source files",
+          "targetBrowseUrl": "/browse/maps/dcc-swimming-pools",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "CSV",
+            "GEOJSON"
+          ],
+          "providers": [
+            "data.gov.ie"
+          ],
+          "categories": [
+            "spatial"
+          ],
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geometry lineage and boundary-version metadata",
+            "geospatial source-format metadata",
+            "raw-source viewport candidate metadata",
+            "schema/table/attribute metadata",
+            "source/provenance metadata"
+          ],
+          "provenanceSummary": "1 related provider/source row is staged as provenance for this existing Civgraph record; provider: data.gov.ie; formats: CSV, GEOJSON; 1 provider dataset link preserved as references.",
+          "sourceItems": [
+            {
+              "auditRowNumber": 894,
+              "title": "Swimming Pools DCC",
+              "provider": "data.gov.ie",
+              "category": "spatial",
+              "formats": [
+                "CSV",
+                "GEOJSON"
+              ],
+              "safetyClass": "safe metadata enrichment candidate",
+              "providerDatasetUrl": "https://data.gov.ie/dataset/swimming-pools-dcc",
+              "recommendedAction": "Do not publish as new; enrich existing record only if source/provenance is missing.",
+              "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+              "enrichmentTypes": [
+                "alternate-format metadata",
+                "download/source-file metadata",
+                "geometry lineage and boundary-version metadata",
+                "geospatial source-format metadata",
+                "raw-source viewport candidate metadata",
+                "schema/table/attribute metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "habitat-protected-sites"
+              ],
+              "siteFamiliesPresent": [
+                "habitat-protected-sites"
+              ],
+              "refinedStatus": "already represented or very strong exact match"
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "database-map",
+              "id": "dcc-swimming-pools",
+              "title": "Swimming Pools (DCC)",
+              "score": 1.75
+            },
+            {
+              "kind": "browse-map",
+              "id": "dcc-swimming-pools",
+              "title": "Swimming Pools (DCC)",
+              "score": 1.75
+            },
+            {
+              "kind": "browse-source",
+              "id": "map-source:dcc-swimming-pools",
+              "title": "Swimming Pools (DCC) source files",
+              "score": 0.75
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 894,
+          "title": "Swimming Pools DCC",
+          "provider": "data.gov.ie",
+          "category": "spatial",
+          "formats": [
+            "CSV",
+            "GEOJSON"
+          ],
+          "safetyClass": "safe metadata enrichment candidate",
+          "providerDatasetUrl": "https://data.gov.ie/dataset/swimming-pools-dcc",
+          "recommendedAction": "Do not publish as new; enrich existing record only if source/provenance is missing.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geometry lineage and boundary-version metadata",
+            "geospatial source-format metadata",
+            "raw-source viewport candidate metadata",
+            "schema/table/attribute metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "habitat-protected-sites"
+          ],
+          "siteFamiliesPresent": [
+            "habitat-protected-sites"
+          ],
+          "refinedStatus": "already represented or very strong exact match"
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "alternate-format metadata",
+        "download/source-file metadata",
+        "geometry lineage and boundary-version metadata",
+        "geospatial source-format metadata",
+        "raw-source viewport candidate metadata",
+        "schema/table/attribute metadata",
+        "source/provenance metadata"
+      ],
+      "publicationStatus": "enriched",
+      "rawMetadata": {
+        "id": "dcc-swimming-pools",
+        "name": "Swimming Pools (DCC)",
+        "slug": "dcc-swimming-pools",
+        "category": "built-environment",
+        "provider": [
+          "Dublin City Council"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/roi-dcc/dcc-swimming-pools.fgb",
+          "downloads": {
+            "geojson": "https://data.civgraph.net/data/maps/roi-dcc/dcc-swimming-pools.geojson"
+          },
+          "geojson": "https://data.civgraph.net/data/maps/roi-dcc/dcc-swimming-pools.geojson"
+        },
+        "style": {
+          "color": "#FF6F00",
+          "weight": 1,
+          "fillOpacity": 0.4
+        },
+        "keywords": [
+          "ROI",
+          "ireland",
+          "dublin",
+          "dcc",
+          "amenity",
+          "council",
+          "swimming",
+          "pools"
+        ],
+        "description": "Swimming Pools (DCC) — published by Dublin City Council.",
+        "references": [
+          {
+            "label": "Source — data.gov.ie",
+            "url": "https://data.gov.ie/",
+            "note": ""
+          }
+        ],
+        "labelProperty": "Title"
+      }
+    },
+    {
+      "id": "map-source:dcc-theatres-arts-centres-performance-spaces",
+      "slug": "map-source-dcc-theatres-arts-centres-performance-spaces",
+      "type": "map-source",
+      "title": "Theatres Arts Centres Performance Spaces (DCC) source files",
+      "subtitle": "Built Environment / Dublin City Council",
+      "category": "Map sources",
+      "provider": [
+        "Dublin City Council"
+      ],
+      "description": "Theatres Arts Centres Performance Spaces (DCC) — published by Dublin City Council. 1 related provider/source row is staged as provenance for this existing Civgraph record; provider: data.gov.ie; formats: CSV, GEOJSON; 1 provider dataset link preserved as references.",
+      "sourceMapId": "dcc-theatres-arts-centres-performance-spaces",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "TA",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "Source — data.gov.ie",
+          "url": "https://data.gov.ie/"
+        },
+        {
+          "label": "Existing Civgraph record: Theatres Arts Centres Performance Spaces (DCC) source files",
+          "url": "/browse/maps/dcc-theatres-arts-centres-performance-spaces",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:dcc-theatres-arts-centres-performance-spaces",
+          "url": "/browse/sources/map-source-dcc-theatres-arts-centres-performance-spaces",
+          "source": "Civgraph",
+          "role": "matched-source-record"
+        },
+        {
+          "label": "Provider dataset: Theatres Arts Centres Performance Spaces DCC",
+          "url": "https://data.gov.ie/dataset/theatres-arts-centres-performance-spaces-dcc",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-dataset",
+          "type": "CSV"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/roi-dcc/dcc-theatres-arts-centres-performance-spaces.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/roi-dcc/dcc-theatres-arts-centres-performance-spaces.geojson"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/roi-dcc/dcc-theatres-arts-centres-performance-spaces.geojson"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/roi-dcc/dcc-theatres-arts-centres-performance-spaces.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/roi-dcc/dcc-theatres-arts-centres-performance-spaces.geojson"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/roi-dcc/dcc-theatres-arts-centres-performance-spaces.geojson"
+        }
+      ],
+      "interactiveUrl": "/#layers=dcc-theatres-arts-centres-performance-spaces",
+      "browseUrl": "/browse/sources/map-source-dcc-theatres-arts-centres-performance-spaces",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:dcc-theatres-arts-centres-performance-spaces",
+          "targetEntityKind": "map",
+          "targetEntityId": "dcc-theatres-arts-centres-performance-spaces",
+          "targetTitle": "Theatres Arts Centres Performance Spaces (DCC) source files",
+          "targetBrowseUrl": "/browse/maps/dcc-theatres-arts-centres-performance-spaces",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "CSV",
+            "GEOJSON"
+          ],
+          "providers": [
+            "data.gov.ie"
+          ],
+          "categories": [
+            "spatial"
+          ],
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geometry lineage and boundary-version metadata",
+            "geospatial source-format metadata",
+            "raw-source viewport candidate metadata",
+            "schema/table/attribute metadata",
+            "source/provenance metadata"
+          ],
+          "provenanceSummary": "1 related provider/source row is staged as provenance for this existing Civgraph record; provider: data.gov.ie; formats: CSV, GEOJSON; 1 provider dataset link preserved as references.",
+          "sourceItems": [
+            {
+              "auditRowNumber": 898,
+              "title": "Theatres Arts Centres Performance Spaces DCC",
+              "provider": "data.gov.ie",
+              "category": "spatial",
+              "formats": [
+                "CSV",
+                "GEOJSON"
+              ],
+              "safetyClass": "safe metadata enrichment candidate",
+              "providerDatasetUrl": "https://data.gov.ie/dataset/theatres-arts-centres-performance-spaces-dcc",
+              "recommendedAction": "Do not publish as new; enrich existing record only if source/provenance is missing.",
+              "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+              "enrichmentTypes": [
+                "alternate-format metadata",
+                "download/source-file metadata",
+                "geometry lineage and boundary-version metadata",
+                "geospatial source-format metadata",
+                "raw-source viewport candidate metadata",
+                "schema/table/attribute metadata",
+                "source/provenance metadata"
+              ],
+              "detectedFamilies": [
+                "habitat-protected-sites"
+              ],
+              "siteFamiliesPresent": [
+                "habitat-protected-sites"
+              ],
+              "refinedStatus": "already represented or very strong exact match"
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "database-map",
+              "id": "dcc-theatres-arts-centres-performance-spaces",
+              "title": "Theatres Arts Centres Performance Spaces (DCC)",
+              "score": 1.82
+            },
+            {
+              "kind": "browse-map",
+              "id": "dcc-theatres-arts-centres-performance-spaces",
+              "title": "Theatres Arts Centres Performance Spaces (DCC)",
+              "score": 1.82
+            },
+            {
+              "kind": "browse-source",
+              "id": "map-source:dcc-theatres-arts-centres-performance-spaces",
+              "title": "Theatres Arts Centres Performance Spaces (DCC) source files",
+              "score": 0.82
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 898,
+          "title": "Theatres Arts Centres Performance Spaces DCC",
+          "provider": "data.gov.ie",
+          "category": "spatial",
+          "formats": [
+            "CSV",
+            "GEOJSON"
+          ],
+          "safetyClass": "safe metadata enrichment candidate",
+          "providerDatasetUrl": "https://data.gov.ie/dataset/theatres-arts-centres-performance-spaces-dcc",
+          "recommendedAction": "Do not publish as new; enrich existing record only if source/provenance is missing.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "enrichmentTypes": [
+            "alternate-format metadata",
+            "download/source-file metadata",
+            "geometry lineage and boundary-version metadata",
+            "geospatial source-format metadata",
+            "raw-source viewport candidate metadata",
+            "schema/table/attribute metadata",
+            "source/provenance metadata"
+          ],
+          "detectedFamilies": [
+            "habitat-protected-sites"
+          ],
+          "siteFamiliesPresent": [
+            "habitat-protected-sites"
+          ],
+          "refinedStatus": "already represented or very strong exact match"
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "alternate-format metadata",
+        "download/source-file metadata",
+        "geometry lineage and boundary-version metadata",
+        "geospatial source-format metadata",
+        "raw-source viewport candidate metadata",
+        "schema/table/attribute metadata",
+        "source/provenance metadata"
+      ],
+      "publicationStatus": "enriched",
+      "rawMetadata": {
+        "id": "dcc-theatres-arts-centres-performance-spaces",
+        "name": "Theatres Arts Centres Performance Spaces (DCC)",
+        "slug": "dcc-theatres-arts-centres-performance-spaces",
+        "category": "built-environment",
+        "provider": [
+          "Dublin City Council"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/roi-dcc/dcc-theatres-arts-centres-performance-spaces.fgb",
+          "downloads": {
+            "geojson": "https://data.civgraph.net/data/maps/roi-dcc/dcc-theatres-arts-centres-performance-spaces.geojson"
+          },
+          "geojson": "https://data.civgraph.net/data/maps/roi-dcc/dcc-theatres-arts-centres-performance-spaces.geojson"
+        },
+        "style": {
+          "color": "#FF6F00",
+          "weight": 1,
+          "fillOpacity": 0.4
+        },
+        "keywords": [
+          "ROI",
+          "ireland",
+          "dublin",
+          "dcc",
+          "amenity",
+          "council",
+          "theatres",
+          "arts",
+          "centres",
+          "performance",
+          "spaces"
+        ],
+        "description": "Theatres Arts Centres Performance Spaces (DCC) — published by Dublin City Council.",
+        "references": [
+          {
+            "label": "Source — data.gov.ie",
+            "url": "https://data.gov.ie/",
+            "note": ""
+          }
+        ],
+        "labelProperty": "Title"
+      }
+    },
     {
       "id": "map-source:dcc-traffic-signal-sites-juctions",
       "slug": "map-source-dcc-traffic-signal-sites-juctions",
@@ -36754,1035 +38013,6 @@
           {
             "label": "Open Data NI — Maritime Cliff and Slope Habitat Network",
             "url": "https://admin.opendatani.gov.uk/dataset/2b89ad59-e650-4eca-b974-19dda42a8572",
-            "note": ""
-          }
-        ]
-      }
-    },
-    {
-      "id": "map-source:habitat-pond",
-      "slug": "map-source-habitat-pond",
-      "type": "map-source",
-      "title": "Habitat Network — Pond source files",
-      "subtitle": "Biodiversity & Habitats / Ulster Wildlife",
-      "category": "Map sources",
-      "provider": [
-        "Ulster Wildlife"
-      ],
-      "description": "Spatial extent of pond habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI. 1 ArcGIS metadata item staged as provenance for this existing Civgraph record; owner/provider: edelaney05_QueensUB; ArcGIS item ID: b10da9e3003f44bbadb55fc942da1d1d; modified: 2025-11-17; access: public; 1 service link preserved as references; 1 related ArcGIS sibling/context item preserved as references; licence note: Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion.",
-      "sourceMapId": "habitat-pond",
-      "thumbnail": {
-        "kind": "asset",
-        "id": "habitat-pond",
-        "url": "/assets/thumbnails/habitat-pond.webp",
-        "smallUrl": "/assets/thumbnails/habitat-pond-60.webp",
-        "alt": "Habitat Network — Pond"
-      },
-      "references": [
-        {
-          "label": "Open Data NI — Pond Habitat Network",
-          "url": "https://admin.opendatani.gov.uk/dataset/4773a29d-b525-4e50-acae-b4ffa4047279"
-        },
-        {
-          "label": "Existing Civgraph record: Habitat Network — Pond",
-          "url": "/browse/maps/habitat-pond",
-          "source": "Civgraph",
-          "role": "matched-existing-record"
-        },
-        {
-          "label": "Existing Civgraph source record: map-source:habitat-pond",
-          "url": "/browse/sources/map-source-habitat-pond",
-          "source": "Civgraph",
-          "role": "matched-source-record"
-        },
-        {
-          "label": "ArcGIS item: Pond Habitat Network",
-          "url": "https://www.arcgis.com/home/item.html?id=b10da9e3003f44bbadb55fc942da1d1d",
-          "source": "edelaney05_QueensUB",
-          "role": "arcgis-item-page",
-          "type": "Feature Service",
-          "note": "Item ID b10da9e3003f44bbadb55fc942da1d1d / modified 2025-11-17 / access public"
-        },
-        {
-          "label": "ArcGIS service: Pond Habitat Network",
-          "url": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Pond_Habitat_Network/FeatureServer",
-          "source": "edelaney05_QueensUB",
-          "role": "arcgis-service-url",
-          "type": "ArcGIS service",
-          "note": "geometry: esriGeometryPolygon / capabilities: Query / 1 layers"
-        },
-        {
-          "label": "Related ArcGIS Service Definition: 5b03a6c078e94350a2537a6cd12a7e8f",
-          "url": "https://www.arcgis.com/home/item.html?id=5b03a6c078e94350a2537a6cd12a7e8f",
-          "source": "ArcGIS Online",
-          "role": "arcgis-related-item",
-          "type": "Service Definition",
-          "note": "Item ID 5b03a6c078e94350a2537a6cd12a7e8f"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/biodiversity/habitat-pond.fgb"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/biodiversity/habitat-pond.fgb"
-        }
-      ],
-      "interactiveUrl": "/#layers=habitat-pond",
-      "browseUrl": "/browse/sources/map-source-habitat-pond",
-      "alreadyOnSiteEnrichments": [
-        {
-          "sourceTargetId": "map-source:habitat-pond",
-          "targetEntityKind": "map",
-          "targetEntityId": "habitat-pond",
-          "targetTitle": "Habitat Network — Pond",
-          "targetBrowseUrl": "/browse/maps/habitat-pond",
-          "sourceItemCount": 1,
-          "confidence": "safe",
-          "safetyClasses": [
-            "safe metadata enrichment candidate"
-          ],
-          "formats": [
-            "Feature Service"
-          ],
-          "providers": [
-            "edelaney05_QueensUB"
-          ],
-          "categories": [
-            "Peatland Geoportal duplicate-match enrichment"
-          ],
-          "enrichmentTypes": [
-            "ArcGIS item provenance",
-            "provider metadata",
-            "source URL",
-            "service URL",
-            "alternative service link"
-          ],
-          "arcgisItemIds": [
-            "b10da9e3003f44bbadb55fc942da1d1d"
-          ],
-          "arcgisItemPages": [
-            "https://www.arcgis.com/home/item.html?id=b10da9e3003f44bbadb55fc942da1d1d"
-          ],
-          "serviceUrls": [
-            "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Pond_Habitat_Network/FeatureServer"
-          ],
-          "modifiedDates": [
-            "2025-11-17T09:08:03.000Z"
-          ],
-          "accessStates": [
-            "public"
-          ],
-          "licenseNotes": [
-            "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
-          ],
-          "provenanceSummary": "1 ArcGIS metadata item staged as provenance for this existing Civgraph record; owner/provider: edelaney05_QueensUB; ArcGIS item ID: b10da9e3003f44bbadb55fc942da1d1d; modified: 2025-11-17; access: public; 1 service link preserved as references; 1 related ArcGIS sibling/context item preserved as references; licence note: Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion.",
-          "sourceItems": [
-            {
-              "auditRowNumber": 322,
-              "title": "Pond Habitat Network",
-              "provider": "edelaney05_QueensUB",
-              "category": "peatland-direct",
-              "formats": [
-                "Feature Service"
-              ],
-              "arcgisItemId": "b10da9e3003f44bbadb55fc942da1d1d",
-              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=b10da9e3003f44bbadb55fc942da1d1d",
-              "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Pond_Habitat_Network/FeatureServer",
-              "modified": "2025-11-17T09:08:03.000Z",
-              "access": "public",
-              "tags": [
-                "Ulster Wildlife",
-                "Pond Habitats",
-                "OpenDataNI",
-                "National Trust NI",
-                "RSPB NI",
-                "Woodland Trust NI",
-                "Nature Recovery Networks",
-                "Biodiversity."
-              ],
-              "serviceLayerCount": 1,
-              "serviceTableCount": 0,
-              "geometryTypes": [
-                "esriGeometryPolygon"
-              ],
-              "capabilities": [
-                "Query"
-              ],
-              "siblingItems": [
-                {
-                  "type": "Service Definition",
-                  "itemId": "5b03a6c078e94350a2537a6cd12a7e8f",
-                  "itemPage": "https://www.arcgis.com/home/item.html?id=5b03a6c078e94350a2537a6cd12a7e8f"
-                }
-              ],
-              "recommendedAction": "likely-duplicate-enrich-existing",
-              "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — Pond",
-              "civgraphMatchId": "habitat-pond",
-              "civgraphMatchTitle": "Habitat Network — Pond",
-              "civgraphMatchKind": "map",
-              "civgraphMatchScore": 1,
-              "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
-            }
-          ],
-          "evidence": [
-            {
-              "kind": "map",
-              "id": "habitat-pond",
-              "title": "Habitat Network — Pond",
-              "score": 1
-            }
-          ]
-        }
-      ],
-      "sourceItems": [
-        {
-          "auditRowNumber": 322,
-          "title": "Pond Habitat Network",
-          "provider": "edelaney05_QueensUB",
-          "category": "peatland-direct",
-          "formats": [
-            "Feature Service"
-          ],
-          "arcgisItemId": "b10da9e3003f44bbadb55fc942da1d1d",
-          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=b10da9e3003f44bbadb55fc942da1d1d",
-          "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Pond_Habitat_Network/FeatureServer",
-          "modified": "2025-11-17T09:08:03.000Z",
-          "access": "public",
-          "tags": [
-            "Ulster Wildlife",
-            "Pond Habitats",
-            "OpenDataNI",
-            "National Trust NI",
-            "RSPB NI",
-            "Woodland Trust NI",
-            "Nature Recovery Networks",
-            "Biodiversity."
-          ],
-          "serviceLayerCount": 1,
-          "serviceTableCount": 0,
-          "geometryTypes": [
-            "esriGeometryPolygon"
-          ],
-          "capabilities": [
-            "Query"
-          ],
-          "siblingItems": [
-            {
-              "type": "Service Definition",
-              "itemId": "5b03a6c078e94350a2537a6cd12a7e8f",
-              "itemPage": "https://www.arcgis.com/home/item.html?id=5b03a6c078e94350a2537a6cd12a7e8f"
-            }
-          ],
-          "recommendedAction": "likely-duplicate-enrich-existing",
-          "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — Pond",
-          "civgraphMatchId": "habitat-pond",
-          "civgraphMatchTitle": "Habitat Network — Pond",
-          "civgraphMatchKind": "map",
-          "civgraphMatchScore": 1,
-          "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
-        }
-      ],
-      "keywords": [
-        "already-on-site-enrichment",
-        "duplicate-source-match",
-        "ArcGIS item provenance",
-        "provider metadata",
-        "source URL",
-        "service URL",
-        "alternative service link"
-      ],
-      "publicationStatus": "enriched",
-      "rawMetadata": {
-        "id": "habitat-pond",
-        "name": "Habitat Network — Pond",
-        "slug": "habitat-pond",
-        "category": "biodiversity",
-        "provider": [
-          "Ulster Wildlife"
-        ],
-        "description": "Spatial extent of pond habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-pond.fgb"
-        },
-        "style": {
-          "color": "#3a3a3a",
-          "weight": 0.2,
-          "fillColor": "#5DA4D8",
-          "fillOpacity": 0.6
-        },
-        "colorMap": {
-          "property": "Class",
-          "palette": {
-            "Associated Habitats": "#666666",
-            "Fragmentation Action Zone": "#D4894C",
-            "Network Enhancement Zone 1": "#E8C85C",
-            "Network Enhancement Zone 2": "#C8A442",
-            "Network Expansion Zone": "#9CCB7C",
-            "Existing Habitat": "#2E7D32"
-          },
-          "default": "#5DA4D8"
-        },
-        "labelProperty": "Class",
-        "useLOD": true,
-        "keywords": [
-          "habitat",
-          "biodiversity",
-          "nature recovery",
-          "ulster wildlife",
-          "habitat network",
-          "pond"
-        ],
-        "references": [
-          {
-            "label": "Open Data NI — Pond Habitat Network",
-            "url": "https://admin.opendatani.gov.uk/dataset/4773a29d-b525-4e50-acae-b4ffa4047279",
-            "note": ""
-          }
-        ]
-      }
-    },
-    {
-      "id": "map-source:habitat-purple-moor-grass",
-      "slug": "map-source-habitat-purple-moor-grass",
-      "type": "map-source",
-      "title": "Habitat Network — Purple Moor Grass and Rush Pasture source files",
-      "subtitle": "Biodiversity & Habitats / Ulster Wildlife",
-      "category": "Map sources",
-      "provider": [
-        "Ulster Wildlife"
-      ],
-      "description": "Spatial extent of purple moor grass and rush pasture habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
-      "sourceMapId": "habitat-purple-moor-grass",
-      "thumbnail": {
-        "kind": "asset",
-        "id": "habitat-purple-moor-grass",
-        "url": "/assets/thumbnails/habitat-purple-moor-grass.webp",
-        "smallUrl": "/assets/thumbnails/habitat-purple-moor-grass-60.webp",
-        "alt": "Habitat Network — Purple Moor Grass and Rush Pasture"
-      },
-      "references": [
-        {
-          "label": "Open Data NI — Purple Moor Grass and Rush Pasture Habitat Network",
-          "url": "https://admin.opendatani.gov.uk/dataset/7bd34e15-1fd7-4b7d-acd3-f2cfefbc15c6"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/biodiversity/habitat-purple-moor-grass.fgb"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/biodiversity/habitat-purple-moor-grass.fgb"
-        }
-      ],
-      "interactiveUrl": "/#layers=habitat-purple-moor-grass",
-      "browseUrl": "/browse/sources/map-source-habitat-purple-moor-grass",
-      "rawMetadata": {
-        "id": "habitat-purple-moor-grass",
-        "name": "Habitat Network — Purple Moor Grass and Rush Pasture",
-        "slug": "habitat-purple-moor-grass",
-        "category": "biodiversity",
-        "provider": [
-          "Ulster Wildlife"
-        ],
-        "description": "Spatial extent of purple moor grass and rush pasture habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-purple-moor-grass.fgb"
-        },
-        "style": {
-          "color": "#3a3a3a",
-          "weight": 0.2,
-          "fillColor": "#7E5C8A",
-          "fillOpacity": 0.6
-        },
-        "colorMap": {
-          "property": "Class",
-          "palette": {
-            "Associated Habitats": "#666666",
-            "Fragmentation Action Zone": "#D4894C",
-            "Network Enhancement Zone 1": "#E8C85C",
-            "Network Enhancement Zone 2": "#C8A442",
-            "Network Expansion Zone": "#9CCB7C",
-            "Existing Habitat": "#2E7D32"
-          },
-          "default": "#7E5C8A"
-        },
-        "labelProperty": "Class",
-        "useLOD": true,
-        "keywords": [
-          "habitat",
-          "biodiversity",
-          "nature recovery",
-          "ulster wildlife",
-          "habitat network",
-          "purple moor grass and rush pasture"
-        ],
-        "references": [
-          {
-            "label": "Open Data NI — Purple Moor Grass and Rush Pasture Habitat Network",
-            "url": "https://admin.opendatani.gov.uk/dataset/7bd34e15-1fd7-4b7d-acd3-f2cfefbc15c6",
-            "note": ""
-          }
-        ]
-      }
-    },
-    {
-      "id": "map-source:habitat-reedbed",
-      "slug": "map-source-habitat-reedbed",
-      "type": "map-source",
-      "title": "Habitat Network — Reedbed source files",
-      "subtitle": "Biodiversity & Habitats / Ulster Wildlife",
-      "category": "Map sources",
-      "provider": [
-        "Ulster Wildlife"
-      ],
-      "description": "Spatial extent of reedbed habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI. 1 ArcGIS metadata item staged as provenance for this existing Civgraph record; owner/provider: edelaney05_QueensUB; ArcGIS item ID: e109b25550804869b8fb60c6d4422606; modified: 2025-11-17; access: public; 1 service link preserved as references; 1 related ArcGIS sibling/context item preserved as references; licence note: Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion.",
-      "sourceMapId": "habitat-reedbed",
-      "thumbnail": {
-        "kind": "asset",
-        "id": "habitat-reedbed",
-        "url": "/assets/thumbnails/habitat-reedbed.webp",
-        "smallUrl": "/assets/thumbnails/habitat-reedbed-60.webp",
-        "alt": "Habitat Network — Reedbed"
-      },
-      "references": [
-        {
-          "label": "Open Data NI — Reedbed Habitat Network",
-          "url": "https://admin.opendatani.gov.uk/dataset/2aad7ca5-4619-4519-ab64-4ecfff858e72"
-        },
-        {
-          "label": "Existing Civgraph record: Habitat Network — Reedbed",
-          "url": "/browse/maps/habitat-reedbed",
-          "source": "Civgraph",
-          "role": "matched-existing-record"
-        },
-        {
-          "label": "Existing Civgraph source record: map-source:habitat-reedbed",
-          "url": "/browse/sources/map-source-habitat-reedbed",
-          "source": "Civgraph",
-          "role": "matched-source-record"
-        },
-        {
-          "label": "ArcGIS item: Reedbed Habitat Network",
-          "url": "https://www.arcgis.com/home/item.html?id=e109b25550804869b8fb60c6d4422606",
-          "source": "edelaney05_QueensUB",
-          "role": "arcgis-item-page",
-          "type": "Feature Service",
-          "note": "Item ID e109b25550804869b8fb60c6d4422606 / modified 2025-11-17 / access public"
-        },
-        {
-          "label": "ArcGIS service: Reedbed Habitat Network",
-          "url": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Reedbed_Habitat_Network/FeatureServer",
-          "source": "edelaney05_QueensUB",
-          "role": "arcgis-service-url",
-          "type": "ArcGIS service",
-          "note": "geometry: esriGeometryPolygon / capabilities: Query / 1 layers"
-        },
-        {
-          "label": "Related ArcGIS Service Definition: 522d2d75abce4d748be78fd54df16e85",
-          "url": "https://www.arcgis.com/home/item.html?id=522d2d75abce4d748be78fd54df16e85",
-          "source": "ArcGIS Online",
-          "role": "arcgis-related-item",
-          "type": "Service Definition",
-          "note": "Item ID 522d2d75abce4d748be78fd54df16e85"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/biodiversity/habitat-reedbed.fgb"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/biodiversity/habitat-reedbed.fgb"
-        }
-      ],
-      "interactiveUrl": "/#layers=habitat-reedbed",
-      "browseUrl": "/browse/sources/map-source-habitat-reedbed",
-      "alreadyOnSiteEnrichments": [
-        {
-          "sourceTargetId": "map-source:habitat-reedbed",
-          "targetEntityKind": "map",
-          "targetEntityId": "habitat-reedbed",
-          "targetTitle": "Habitat Network — Reedbed",
-          "targetBrowseUrl": "/browse/maps/habitat-reedbed",
-          "sourceItemCount": 1,
-          "confidence": "safe",
-          "safetyClasses": [
-            "safe metadata enrichment candidate"
-          ],
-          "formats": [
-            "Feature Service"
-          ],
-          "providers": [
-            "edelaney05_QueensUB"
-          ],
-          "categories": [
-            "Peatland Geoportal duplicate-match enrichment"
-          ],
-          "enrichmentTypes": [
-            "ArcGIS item provenance",
-            "provider metadata",
-            "source URL",
-            "service URL",
-            "alternative service link"
-          ],
-          "arcgisItemIds": [
-            "e109b25550804869b8fb60c6d4422606"
-          ],
-          "arcgisItemPages": [
-            "https://www.arcgis.com/home/item.html?id=e109b25550804869b8fb60c6d4422606"
-          ],
-          "serviceUrls": [
-            "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Reedbed_Habitat_Network/FeatureServer"
-          ],
-          "modifiedDates": [
-            "2025-11-17T09:25:37.000Z"
-          ],
-          "accessStates": [
-            "public"
-          ],
-          "licenseNotes": [
-            "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
-          ],
-          "provenanceSummary": "1 ArcGIS metadata item staged as provenance for this existing Civgraph record; owner/provider: edelaney05_QueensUB; ArcGIS item ID: e109b25550804869b8fb60c6d4422606; modified: 2025-11-17; access: public; 1 service link preserved as references; 1 related ArcGIS sibling/context item preserved as references; licence note: Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion.",
-          "sourceItems": [
-            {
-              "auditRowNumber": 334,
-              "title": "Reedbed Habitat Network",
-              "provider": "edelaney05_QueensUB",
-              "category": "peatland-direct",
-              "formats": [
-                "Feature Service"
-              ],
-              "arcgisItemId": "e109b25550804869b8fb60c6d4422606",
-              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=e109b25550804869b8fb60c6d4422606",
-              "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Reedbed_Habitat_Network/FeatureServer",
-              "modified": "2025-11-17T09:25:37.000Z",
-              "access": "public",
-              "tags": [
-                "Ulster Wildlife",
-                "Reedbed Habitat Network",
-                "OpenDataNI",
-                "National Trust NI",
-                "RSPB NI",
-                "Woodland Trust NI",
-                "Nature Recovery Networks",
-                "Biodiversity",
-                "Wetland."
-              ],
-              "serviceLayerCount": 1,
-              "serviceTableCount": 0,
-              "geometryTypes": [
-                "esriGeometryPolygon"
-              ],
-              "capabilities": [
-                "Query"
-              ],
-              "siblingItems": [
-                {
-                  "type": "Service Definition",
-                  "itemId": "522d2d75abce4d748be78fd54df16e85",
-                  "itemPage": "https://www.arcgis.com/home/item.html?id=522d2d75abce4d748be78fd54df16e85"
-                }
-              ],
-              "recommendedAction": "likely-duplicate-enrich-existing",
-              "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — Reedbed",
-              "civgraphMatchId": "habitat-reedbed",
-              "civgraphMatchTitle": "Habitat Network — Reedbed",
-              "civgraphMatchKind": "map",
-              "civgraphMatchScore": 1,
-              "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
-            }
-          ],
-          "evidence": [
-            {
-              "kind": "map",
-              "id": "habitat-reedbed",
-              "title": "Habitat Network — Reedbed",
-              "score": 1
-            }
-          ]
-        }
-      ],
-      "sourceItems": [
-        {
-          "auditRowNumber": 334,
-          "title": "Reedbed Habitat Network",
-          "provider": "edelaney05_QueensUB",
-          "category": "peatland-direct",
-          "formats": [
-            "Feature Service"
-          ],
-          "arcgisItemId": "e109b25550804869b8fb60c6d4422606",
-          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=e109b25550804869b8fb60c6d4422606",
-          "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Reedbed_Habitat_Network/FeatureServer",
-          "modified": "2025-11-17T09:25:37.000Z",
-          "access": "public",
-          "tags": [
-            "Ulster Wildlife",
-            "Reedbed Habitat Network",
-            "OpenDataNI",
-            "National Trust NI",
-            "RSPB NI",
-            "Woodland Trust NI",
-            "Nature Recovery Networks",
-            "Biodiversity",
-            "Wetland."
-          ],
-          "serviceLayerCount": 1,
-          "serviceTableCount": 0,
-          "geometryTypes": [
-            "esriGeometryPolygon"
-          ],
-          "capabilities": [
-            "Query"
-          ],
-          "siblingItems": [
-            {
-              "type": "Service Definition",
-              "itemId": "522d2d75abce4d748be78fd54df16e85",
-              "itemPage": "https://www.arcgis.com/home/item.html?id=522d2d75abce4d748be78fd54df16e85"
-            }
-          ],
-          "recommendedAction": "likely-duplicate-enrich-existing",
-          "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — Reedbed",
-          "civgraphMatchId": "habitat-reedbed",
-          "civgraphMatchTitle": "Habitat Network — Reedbed",
-          "civgraphMatchKind": "map",
-          "civgraphMatchScore": 1,
-          "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
-        }
-      ],
-      "keywords": [
-        "already-on-site-enrichment",
-        "duplicate-source-match",
-        "ArcGIS item provenance",
-        "provider metadata",
-        "source URL",
-        "service URL",
-        "alternative service link"
-      ],
-      "publicationStatus": "enriched",
-      "rawMetadata": {
-        "id": "habitat-reedbed",
-        "name": "Habitat Network — Reedbed",
-        "slug": "habitat-reedbed",
-        "category": "biodiversity",
-        "provider": [
-          "Ulster Wildlife"
-        ],
-        "description": "Spatial extent of reedbed habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-reedbed.fgb"
-        },
-        "style": {
-          "color": "#3a3a3a",
-          "weight": 0.2,
-          "fillColor": "#807A52",
-          "fillOpacity": 0.6
-        },
-        "colorMap": {
-          "property": "Class",
-          "palette": {
-            "Associated Habitats": "#666666",
-            "Fragmentation Action Zone": "#D4894C",
-            "Network Enhancement Zone 1": "#E8C85C",
-            "Network Enhancement Zone 2": "#C8A442",
-            "Network Expansion Zone": "#9CCB7C",
-            "Existing Habitat": "#2E7D32"
-          },
-          "default": "#807A52"
-        },
-        "labelProperty": "Class",
-        "useLOD": true,
-        "keywords": [
-          "habitat",
-          "biodiversity",
-          "nature recovery",
-          "ulster wildlife",
-          "habitat network",
-          "reedbed"
-        ],
-        "references": [
-          {
-            "label": "Open Data NI — Reedbed Habitat Network",
-            "url": "https://admin.opendatani.gov.uk/dataset/2aad7ca5-4619-4519-ab64-4ecfff858e72",
-            "note": ""
-          }
-        ]
-      }
-    },
-    {
-      "id": "map-source:habitat-river",
-      "slug": "map-source-habitat-river",
-      "type": "map-source",
-      "title": "Habitat Network — River source files",
-      "subtitle": "Biodiversity & Habitats / Ulster Wildlife",
-      "category": "Map sources",
-      "provider": [
-        "Ulster Wildlife"
-      ],
-      "description": "Spatial extent of river habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI. 1 ArcGIS metadata item staged as provenance for this existing Civgraph record; owner/provider: edelaney05_QueensUB; ArcGIS item ID: 39d26d634a694a13a438185bc9de5a3e; modified: 2025-11-17; access: public; 1 service link preserved as references; 1 related ArcGIS sibling/context item preserved as references; licence note: Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion.",
-      "sourceMapId": "habitat-river",
-      "thumbnail": {
-        "kind": "asset",
-        "id": "habitat-river",
-        "url": "/assets/thumbnails/habitat-river.webp",
-        "smallUrl": "/assets/thumbnails/habitat-river-60.webp",
-        "alt": "Habitat Network — River"
-      },
-      "references": [
-        {
-          "label": "Open Data NI — River Habitat Network",
-          "url": "https://admin.opendatani.gov.uk/dataset/bde1d3a6-9276-442d-89e7-8a064af48898"
-        },
-        {
-          "label": "Existing Civgraph record: Habitat Network — River",
-          "url": "/browse/maps/habitat-river",
-          "source": "Civgraph",
-          "role": "matched-existing-record"
-        },
-        {
-          "label": "Existing Civgraph source record: map-source:habitat-river",
-          "url": "/browse/sources/map-source-habitat-river",
-          "source": "Civgraph",
-          "role": "matched-source-record"
-        },
-        {
-          "label": "ArcGIS item: River Habitat Network",
-          "url": "https://www.arcgis.com/home/item.html?id=39d26d634a694a13a438185bc9de5a3e",
-          "source": "edelaney05_QueensUB",
-          "role": "arcgis-item-page",
-          "type": "Feature Service",
-          "note": "Item ID 39d26d634a694a13a438185bc9de5a3e / modified 2025-11-17 / access public"
-        },
-        {
-          "label": "ArcGIS service: River Habitat Network",
-          "url": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/River_Habitat_Network/FeatureServer",
-          "source": "edelaney05_QueensUB",
-          "role": "arcgis-service-url",
-          "type": "ArcGIS service",
-          "note": "geometry: esriGeometryPolygon / capabilities: Query / 1 layers"
-        },
-        {
-          "label": "Related ArcGIS Service Definition: 70ff70fb11d04b2cb874e57bf28fca60",
-          "url": "https://www.arcgis.com/home/item.html?id=70ff70fb11d04b2cb874e57bf28fca60",
-          "source": "ArcGIS Online",
-          "role": "arcgis-related-item",
-          "type": "Service Definition",
-          "note": "Item ID 70ff70fb11d04b2cb874e57bf28fca60"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/biodiversity/habitat-river.fgb"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/biodiversity/habitat-river.fgb"
-        }
-      ],
-      "interactiveUrl": "/#layers=habitat-river",
-      "browseUrl": "/browse/sources/map-source-habitat-river",
-      "alreadyOnSiteEnrichments": [
-        {
-          "sourceTargetId": "map-source:habitat-river",
-          "targetEntityKind": "map",
-          "targetEntityId": "habitat-river",
-          "targetTitle": "Habitat Network — River",
-          "targetBrowseUrl": "/browse/maps/habitat-river",
-          "sourceItemCount": 1,
-          "confidence": "safe",
-          "safetyClasses": [
-            "safe metadata enrichment candidate"
-          ],
-          "formats": [
-            "Feature Service"
-          ],
-          "providers": [
-            "edelaney05_QueensUB"
-          ],
-          "categories": [
-            "Peatland Geoportal duplicate-match enrichment"
-          ],
-          "enrichmentTypes": [
-            "ArcGIS item provenance",
-            "provider metadata",
-            "source URL",
-            "service URL",
-            "alternative service link"
-          ],
-          "arcgisItemIds": [
-            "39d26d634a694a13a438185bc9de5a3e"
-          ],
-          "arcgisItemPages": [
-            "https://www.arcgis.com/home/item.html?id=39d26d634a694a13a438185bc9de5a3e"
-          ],
-          "serviceUrls": [
-            "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/River_Habitat_Network/FeatureServer"
-          ],
-          "modifiedDates": [
-            "2025-11-17T09:32:41.000Z"
-          ],
-          "accessStates": [
-            "public"
-          ],
-          "licenseNotes": [
-            "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
-          ],
-          "provenanceSummary": "1 ArcGIS metadata item staged as provenance for this existing Civgraph record; owner/provider: edelaney05_QueensUB; ArcGIS item ID: 39d26d634a694a13a438185bc9de5a3e; modified: 2025-11-17; access: public; 1 service link preserved as references; 1 related ArcGIS sibling/context item preserved as references; licence note: Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion.",
-          "sourceItems": [
-            {
-              "auditRowNumber": 341,
-              "title": "River Habitat Network",
-              "provider": "edelaney05_QueensUB",
-              "category": "peatland-direct",
-              "formats": [
-                "Feature Service"
-              ],
-              "arcgisItemId": "39d26d634a694a13a438185bc9de5a3e",
-              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=39d26d634a694a13a438185bc9de5a3e",
-              "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/River_Habitat_Network/FeatureServer",
-              "modified": "2025-11-17T09:32:41.000Z",
-              "access": "public",
-              "tags": [
-                "Ulster Wildlife",
-                "River Habitats",
-                "OpenDataNI",
-                "National Trust NI",
-                "RSPB NI",
-                "Woodland Trust NI",
-                "Nature Recovery Networks",
-                "Biodiversity"
-              ],
-              "serviceLayerCount": 1,
-              "serviceTableCount": 0,
-              "geometryTypes": [
-                "esriGeometryPolygon"
-              ],
-              "capabilities": [
-                "Query"
-              ],
-              "siblingItems": [
-                {
-                  "type": "Service Definition",
-                  "itemId": "70ff70fb11d04b2cb874e57bf28fca60",
-                  "itemPage": "https://www.arcgis.com/home/item.html?id=70ff70fb11d04b2cb874e57bf28fca60"
-                }
-              ],
-              "recommendedAction": "likely-duplicate-enrich-existing",
-              "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — River",
-              "civgraphMatchId": "habitat-river",
-              "civgraphMatchTitle": "Habitat Network — River",
-              "civgraphMatchKind": "map",
-              "civgraphMatchScore": 1,
-              "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
-            }
-          ],
-          "evidence": [
-            {
-              "kind": "map",
-              "id": "habitat-river",
-              "title": "Habitat Network — River",
-              "score": 1
-            }
-          ]
-        }
-      ],
-      "sourceItems": [
-        {
-          "auditRowNumber": 341,
-          "title": "River Habitat Network",
-          "provider": "edelaney05_QueensUB",
-          "category": "peatland-direct",
-          "formats": [
-            "Feature Service"
-          ],
-          "arcgisItemId": "39d26d634a694a13a438185bc9de5a3e",
-          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=39d26d634a694a13a438185bc9de5a3e",
-          "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/River_Habitat_Network/FeatureServer",
-          "modified": "2025-11-17T09:32:41.000Z",
-          "access": "public",
-          "tags": [
-            "Ulster Wildlife",
-            "River Habitats",
-            "OpenDataNI",
-            "National Trust NI",
-            "RSPB NI",
-            "Woodland Trust NI",
-            "Nature Recovery Networks",
-            "Biodiversity"
-          ],
-          "serviceLayerCount": 1,
-          "serviceTableCount": 0,
-          "geometryTypes": [
-            "esriGeometryPolygon"
-          ],
-          "capabilities": [
-            "Query"
-          ],
-          "siblingItems": [
-            {
-              "type": "Service Definition",
-              "itemId": "70ff70fb11d04b2cb874e57bf28fca60",
-              "itemPage": "https://www.arcgis.com/home/item.html?id=70ff70fb11d04b2cb874e57bf28fca60"
-            }
-          ],
-          "recommendedAction": "likely-duplicate-enrich-existing",
-          "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — River",
-          "civgraphMatchId": "habitat-river",
-          "civgraphMatchTitle": "Habitat Network — River",
-          "civgraphMatchKind": "map",
-          "civgraphMatchScore": 1,
-          "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
-        }
-      ],
-      "keywords": [
-        "already-on-site-enrichment",
-        "duplicate-source-match",
-        "ArcGIS item provenance",
-        "provider metadata",
-        "source URL",
-        "service URL",
-        "alternative service link"
-      ],
-      "publicationStatus": "enriched",
-      "rawMetadata": {
-        "id": "habitat-river",
-        "name": "Habitat Network — River",
-        "slug": "habitat-river",
-        "category": "biodiversity",
-        "provider": [
-          "Ulster Wildlife"
-        ],
-        "description": "Spatial extent of river habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-river.fgb"
-        },
-        "style": {
-          "color": "#3a3a3a",
-          "weight": 0.2,
-          "fillColor": "#4F89AE",
-          "fillOpacity": 0.6
-        },
-        "colorMap": {
-          "property": "Class",
-          "palette": {
-            "Associated Habitats": "#666666",
-            "Fragmentation Action Zone": "#D4894C",
-            "Network Enhancement Zone 1": "#E8C85C",
-            "Network Enhancement Zone 2": "#C8A442",
-            "Network Expansion Zone": "#9CCB7C",
-            "Existing Habitat": "#2E7D32"
-          },
-          "default": "#4F89AE"
-        },
-        "labelProperty": "Class",
-        "useLOD": true,
-        "keywords": [
-          "habitat",
-          "biodiversity",
-          "nature recovery",
-          "ulster wildlife",
-          "habitat network",
-          "river"
-        ],
-        "references": [
-          {
-            "label": "Open Data NI — River Habitat Network",
-            "url": "https://admin.opendatani.gov.uk/dataset/bde1d3a6-9276-442d-89e7-8a064af48898",
-            "note": ""
-          }
-        ]
-      }
-    },
-    {
-      "id": "map-source:habitat-traditional-orchard",
-      "slug": "map-source-habitat-traditional-orchard",
-      "type": "map-source",
-      "title": "Habitat Network — Traditional Orchard source files",
-      "subtitle": "Biodiversity & Habitats / Ulster Wildlife",
-      "category": "Map sources",
-      "provider": [
-        "Ulster Wildlife"
-      ],
-      "description": "Spatial extent of traditional orchard habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
-      "sourceMapId": "habitat-traditional-orchard",
-      "thumbnail": {
-        "kind": "asset",
-        "id": "habitat-traditional-orchard",
-        "url": "/assets/thumbnails/habitat-traditional-orchard.webp",
-        "smallUrl": "/assets/thumbnails/habitat-traditional-orchard-60.webp",
-        "alt": "Habitat Network — Traditional Orchard"
-      },
-      "references": [
-        {
-          "label": "Open Data NI — Traditional Orchard Habitat Network",
-          "url": "https://admin.opendatani.gov.uk/dataset/c4f05bd7-5dd5-4504-b6d7-23940957c3cd"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/biodiversity/habitat-traditional-orchard.fgb"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/biodiversity/habitat-traditional-orchard.fgb"
-        }
-      ],
-      "interactiveUrl": "/#layers=habitat-traditional-orchard",
-      "browseUrl": "/browse/sources/map-source-habitat-traditional-orchard",
-      "rawMetadata": {
-        "id": "habitat-traditional-orchard",
-        "name": "Habitat Network — Traditional Orchard",
-        "slug": "habitat-traditional-orchard",
-        "category": "biodiversity",
-        "provider": [
-          "Ulster Wildlife"
-        ],
-        "description": "Spatial extent of traditional orchard habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-traditional-orchard.fgb"
-        },
-        "style": {
-          "color": "#3a3a3a",
-          "weight": 0.2,
-          "fillColor": "#A3C266",
-          "fillOpacity": 0.6
-        },
-        "colorMap": {
-          "property": "Class",
-          "palette": {
-            "Associated Habitats": "#666666",
-            "Fragmentation Action Zone": "#D4894C",
-            "Network Enhancement Zone 1": "#E8C85C",
-            "Network Enhancement Zone 2": "#C8A442",
-            "Network Expansion Zone": "#9CCB7C",
-            "Existing Habitat": "#2E7D32"
-          },
-          "default": "#A3C266"
-        },
-        "labelProperty": "Class",
-        "useLOD": true,
-        "keywords": [
-          "habitat",
-          "biodiversity",
-          "nature recovery",
-          "ulster wildlife",
-          "habitat network",
-          "traditional orchard"
-        ],
-        "references": [
-          {
-            "label": "Open Data NI — Traditional Orchard Habitat Network",
-            "url": "https://admin.opendatani.gov.uk/dataset/c4f05bd7-5dd5-4504-b6d7-23940957c3cd",
             "note": ""
           }
         ]

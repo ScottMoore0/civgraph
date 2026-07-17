@@ -108,6 +108,22 @@ function referendumTopicFromKey({ key = '', bodySlug = '', date = '' } = {}) {
   return '';
 }
 
+const NI_REFERENDUM_TITLES = new Map([
+  ['1973-03-08-border-poll', '1973 Northern Ireland border poll'],
+  ['1975-06-05-eec-membership', '1975 EEC membership referendum in Northern Ireland'],
+  ['1998-05-22-belfast-agreement', '1998 Good Friday Agreement referendum'],
+  ['2011-05-05-alternative-vote', '2011 Alternative Vote referendum in Northern Ireland'],
+  ['2016-06-23-eu-membership', '2016 EU referendum in Northern Ireland']
+]);
+
+function niReferendumTitle(params = {}) {
+  const { year } = dateParts(params.date);
+  const rawKey = String(params.key || '');
+  const dateKey = rawKey.includes('__') ? rawKey.split('__').pop() : String(params.date || '');
+  if (NI_REFERENDUM_TITLES.has(dateKey)) return NI_REFERENDUM_TITLES.get(dateKey);
+  return `${year} Northern Ireland referendum`.trim();
+}
+
 function referendumTitle(params = {}) {
   const { year } = dateParts(params.date);
   const datePrefix = String(params.date || '').slice(0, 10);
@@ -212,6 +228,7 @@ export function canonicalElectionTitle({
   if (normalizedBody === 'northern ireland constitutional convention') return '1975 Northern Ireland Constitutional Convention election';
   if (normalizedBody === 'parliament of northern ireland') return `${year} Parliament of Northern Ireland election`.trim();
   if (normalizedBody === 'president of ireland') return `${year} Irish presidential election`.trim();
+  if (normalizedBody === 'referendum northern ireland') return niReferendumTitle({ date, key, bodySlug });
   if (normalizedBody === 'referendum ireland') return referendumTitle({ body, bodyGroup, date, constituencies, specialType, specialDisplayName, key, bodySlug });
 
   return `${year} ${String(body || '').trim()}`.trim();
