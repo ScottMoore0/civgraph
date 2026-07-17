@@ -310,6 +310,8 @@ async function main() {
       councilGeography,
       councilLayer
     });
+    const geographyModes = await buildReferendumGeographyModes(entry, bundle, layerBySource, featureIndexes);
+    if (geographyModes) bundle.geographyModes = geographyModes;
     const bundlePath = path.join(OUT_DIR, `${bundle.key}.json`);
     writeJson(bundlePath, bundle);
 
@@ -352,7 +354,10 @@ async function main() {
       anchorUrl: bundle.anchorUrl,
       previousKey: bundle.previousKey,
       previousDate: bundle.previousDate,
-      stylingModes: bundle.availableStyleModes
+      stylingModes: bundle.availableStyleModes,
+      geographyModes: geographyModes
+        ? geographyModes.map(({ results, mainLikeTotals, ...meta }) => meta)
+        : undefined
     };
     manifestEntries.push(manifestEntry);
     if (!bundle.loadable || bundle.unmatchedCount > 0) {
@@ -715,6 +720,89 @@ function resolveElectionGeography(entry) {
     ]);
   }
   return { sourceMapId: null };
+}
+
+// Referendums whose result was declared on a coarse geography (a single NI
+// count, or eight counting areas) but whose TURNOUT was published per
+// Westminster constituency. These carry a second, constituency-level
+// "turnout" geography that the viewer exposes via a geography toggle.
+const NI_REFERENDUM_TURNOUT_GEOGRAPHY = Object.freeze({
+  '1998-05-22-belfast-agreement': {
+    resultsLabel: 'NI',
+    sourceMapId: 'belfast-agreement-1998',
+    note: 'Ballots were counted at a single central location, so the Yes/No result is not available by constituency. Turnout, however, was published for each Westminster constituency.'
+  },
+  '2011-05-05-alternative-vote': {
+    resultsLabel: 'Counting Area',
+    sourceMapId: 'av-turnout-2011',
+    note: 'Yes/No results were declared by eight counting areas. Turnout was published separately for each of the 18 Westminster constituencies.'
+  }
+});
+
+async function buildReferendumGeographyModes(entry, bundle, layerBySource, featureIndexes) {
+  const config = NI_REFERENDUM_TURNOUT_GEOGRAPHY[String(entry.date || '')];
+  if (!config) return null;
+  const dateDir = path.join(ELECTION_ROOT, entry.bodySlug, entry.date);
+  const sidecarPath = path.join(dateDir, '_turnout_by_constituency.json');
+  if (!existsSync(sidecarPath)) return null;
+  const sidecar = readJson(sidecarPath);
+  const layer = layerBySource.get(config.sourceMapId);
+  if (!layer) return null;
+  const featureIndex = featureIndexes.get(layer.id) || featureIndexes.get(layer.sourceMapId) || featureIndexes.get(config.sourceMapId);
+  const featureLookup = buildFeatureLookup(featureIndex, config.sourceMapId);
+  const anchorIndex = await loadOrBuildAnchorIndex(layer, featureIndex);
+  const labelProperty = layer.labelProperty || bundle.labelProperty || 'name';
+
+  const turnoutResults = [];
+  let matched = 0;
+  for (const row of sidecar.rows || []) {
+    const name = row.constituency;
+    const feature = matchFeature(featureLookup, name, entry);
+    const match = feature ? normalizeFeatureMatch(feature) : null;
+    if (match) matched += 1;
+    turnoutResults.push({
+      constituency: name,
+      turnoutPct: row.turnout_pct,
+      matched: Boolean(match),
+      featureId: match?.id ?? null,
+      featureName: match?.name ?? null,
+      matchName: match?.name ?? null,
+      featureAliases: match?.aliases || [],
+      colour: null,
+      anchor: match ? findAnchorForMatch(anchorIndex, match, { constituency: name }) : null
+    });
+  }
+
+  const resultsMode = {
+    id: 'results',
+    label: config.resultsLabel,
+    dataKind: 'results',
+    sourceMapId: bundle.sourceMapId,
+    layerId: bundle.layerId,
+    labelProperty: bundle.labelProperty,
+    geometryType: bundle.geometryType || 'polygon',
+    stylingModes: bundle.availableStyleModes || ['winner'],
+    defaultMode: (bundle.availableStyleModes || ['winner'])[0] || 'winner'
+  };
+  const turnoutMode = {
+    id: 'turnout',
+    label: 'Constituency',
+    dataKind: 'turnout',
+    sourceMapId: config.sourceMapId,
+    layerId: layer.id,
+    labelProperty,
+    geometryType: layer.geometryType || 'polygon',
+    stylingModes: ['turnout'],
+    defaultMode: 'turnout',
+    note: config.note,
+    overallTurnoutPct: sidecar.overall_turnout_pct ?? null,
+    sourceUrl: sidecar.source_url || null,
+    matchedCount: matched,
+    totalConstituencies: turnoutResults.length,
+    mainLikeTotals: { turnoutPct: sidecar.overall_turnout_pct ?? null },
+    results: turnoutResults
+  };
+  return [resultsMode, turnoutMode];
 }
 
 function resolveLocalGovernmentCouncilGeography(entry) {

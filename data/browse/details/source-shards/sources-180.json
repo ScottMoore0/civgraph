@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-17T19:32:11.369Z",
+  "generatedAt": "2026-07-17T20:08:01.579Z",
   "kind": "sources",
   "shard": "sources-180.json",
   "total": 200,
@@ -25240,6 +25240,44 @@
             "majority",
             "seats"
           ],
+          "geographyModes": [
+            {
+              "id": "results",
+              "label": "NI",
+              "dataKind": "results",
+              "sourceMapId": "ni-1921",
+              "layerId": "ni-1921-vector-test",
+              "labelProperty": "Name",
+              "geometryType": "polygon",
+              "stylingModes": [
+                "winner",
+                "leadingParty",
+                "voteShare",
+                "turnout",
+                "majority",
+                "seats"
+              ],
+              "defaultMode": "winner"
+            },
+            {
+              "id": "turnout",
+              "label": "Constituency",
+              "dataKind": "turnout",
+              "sourceMapId": "belfast-agreement-1998",
+              "layerId": "belfast-agreement-1998-alias-test",
+              "labelProperty": "Name",
+              "geometryType": "polygon",
+              "stylingModes": [
+                "turnout"
+              ],
+              "defaultMode": "turnout",
+              "note": "Ballots were counted at a single central location, so the Yes/No result is not available by constituency. Turnout, however, was published for each Westminster constituency.",
+              "overallTurnoutPct": 81.1,
+              "sourceUrl": "https://www.ark.ac.uk/elections/fref98.htm",
+              "matchedCount": 18,
+              "totalConstituencies": 18
+            }
+          ],
           "summaryUrl": "/test/metadata/elections-test2-summaries/northern-ireland-referendum__1998-05-22-belfast-agreement.json"
         },
         "resultUrl": "/test/metadata/elections-test2/northern-ireland-referendum__1998-05-22-belfast-agreement.json",
@@ -25361,6 +25399,43 @@
             "voteShare",
             "majority",
             "seats"
+          ],
+          "geographyModes": [
+            {
+              "id": "results",
+              "label": "Counting Area",
+              "dataKind": "results",
+              "sourceMapId": "av-referendum-2011",
+              "layerId": "av-referendum-2011-vector-test",
+              "labelProperty": "PC_NAME",
+              "geometryType": "polygon",
+              "stylingModes": [
+                "winner",
+                "leadingParty",
+                "voteShare",
+                "majority",
+                "seats"
+              ],
+              "defaultMode": "winner"
+            },
+            {
+              "id": "turnout",
+              "label": "Constituency",
+              "dataKind": "turnout",
+              "sourceMapId": "av-turnout-2011",
+              "layerId": "av-turnout-2011-alias-test",
+              "labelProperty": "PC_NAME",
+              "geometryType": "polygon",
+              "stylingModes": [
+                "turnout"
+              ],
+              "defaultMode": "turnout",
+              "note": "Yes/No results were declared by eight counting areas. Turnout was published separately for each of the 18 Westminster constituencies.",
+              "overallTurnoutPct": 55.8,
+              "sourceUrl": "https://www.ark.ac.uk/elections/fr11.htm",
+              "matchedCount": 18,
+              "totalConstituencies": 18
+            }
           ],
           "summaryUrl": "/test/metadata/elections-test2-summaries/northern-ireland-referendum__2011-05-05-alternative-vote.json"
         },

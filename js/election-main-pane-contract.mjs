@@ -86,6 +86,7 @@ export class MainElectionPaneContract {
   renderOverallResults(view = 'party') {
     const results = this.host.currentResults();
     if (view === 'trends') return this.host.renderTrendsPanel?.(null) || '<p class="election-no-data">No trend data is available.</p>';
+    if (this.host.isTurnoutGeographyMode?.()) return this.host.renderTurnoutGeographyPanel();
     if (results.some((result) => result.recallPetition)) return this.host.renderRecallPetitionOverview(results);
     if (this.host.isLocalGovernmentElection() && this.host.activeLocalMode === 'district') {
       return this.host.renderDistrictResults(view);
@@ -113,6 +114,7 @@ export class MainElectionPaneContract {
 
   renderConstituencyResults(result, view = 'party') {
     if (view === 'trends') return this.host.renderTrendsPanel?.(result) || '<p class="election-no-data">No trend data is available.</p>';
+    if (this.host.isTurnoutGeographyMode?.()) return this.host.renderTurnoutConstituencyDetail(result);
     if (this.host.isCouncilAggregateResult?.(result)) return this.host.renderCouncilAggregateResults(result, view);
     if (result.recallPetition) return this.host.renderRecallPetitionResult(result);
     const candidates = [...(result.candidates || [])].sort((a, b) => {

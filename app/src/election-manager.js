@@ -143,6 +143,7 @@ export class Test2ElectionManager {
     this.activeEntityKey = null;
     this.activeEntityReturnView = 'party';
     this.activeLocalMode = 'dea';
+    this.activeGeographyModeId = null;
     this.countDetailedView = false;
     this.bundleCache = new Map();
     this.trendSummaryCache = new Map();
@@ -248,6 +249,7 @@ export class Test2ElectionManager {
     this.activeEntityKey = null;
     this.activeEntityReturnView = 'party';
     this.activeLocalMode = entry.bodyGroup === 'local-government' ? 'dea' : 'constituency';
+    this.activeGeographyModeId = this.defaultGeographyModeId();
     this.countDetailedView = false;
     this.indexBundle(bundle);
     await this.syncLocalGovernmentBackingLayers();
@@ -287,12 +289,16 @@ export class Test2ElectionManager {
   }
 
   getActiveElectionBackingLayerIds(entry = this.activeEntry, bundle = this.activeBundle) {
+    const geographyLayerIds = Array.isArray(bundle?.geographyModes)
+      ? bundle.geographyModes.flatMap((mode) => [mode.sourceMapId, mode.layerId])
+      : [];
     return [...new Set([
       entry?.sourceMapId,
       bundle?.sourceMapId,
       bundle?.layerId,
       bundle?.councilSourceMapId,
-      bundle?.councilLayerId
+      bundle?.councilLayerId,
+      ...geographyLayerIds
     ].filter(Boolean))];
   }
 
@@ -346,6 +352,7 @@ export class Test2ElectionManager {
       overlay: this.overlayMode,
       view: this.activePanelView,
       localMode: this.activeLocalMode,
+      geographyMode: this.activeGeographyModeId,
       selected: this.activeSelectedResultKey,
       countDetail: this.countDetailedView,
       entityKind: this.activeEntityKind,
@@ -380,6 +387,10 @@ export class Test2ElectionManager {
     }
     if (!body || !date) return;
     await this.loadElection(body, date);
+    const geographyMode = params.get('electionGeographyMode');
+    if (geographyMode && this.geographyModes().some((item) => item.id === geographyMode)) {
+      await this.switchGeographyMode(geographyMode);
+    }
     const mode = params.get('electionMode');
     if (mode && this.activeEntry?.stylingModes?.includes(mode)) {
       this.activeMode = mode;
@@ -620,6 +631,8 @@ export class Test2ElectionManager {
     if (this.isLocalGovernmentElection() && this.activeLocalMode === 'district') {
       return this.activeBundle?.councilSourceMapId || this.activeEntry?.councilSourceMapId || this.activeEntry?.sourceMapId;
     }
+    const geographyMode = this.activeGeographyMode();
+    if (geographyMode?.sourceMapId) return geographyMode.sourceMapId;
     return this.activeEntry?.sourceMapId || this.activeBundle?.sourceMapId;
   }
 
@@ -629,6 +642,15 @@ export class Test2ElectionManager {
     const layer = this.mapController?.resolveLayer?.(sourceMapId)
       || this.app?.metadataService?.getLayer?.(sourceMapId)
       || null;
+    const geographyMode = this.activeGeographyMode();
+    if (geographyMode?.sourceMapId === sourceMapId) {
+      return layer || {
+        id: geographyMode.layerId,
+        sourceMapId,
+        labelProperty: geographyMode.labelProperty,
+        geometryType: geographyMode.geometryType
+      };
+    }
     return layer || {
       id: this.isLocalGovernmentElection() && this.activeLocalMode === 'district'
         ? this.activeBundle?.councilLayerId
@@ -676,7 +698,8 @@ export class Test2ElectionManager {
     return this.buildElectionMatchExpression(
       (result) => this.colourForMode(mode, result),
       fallback,
-      layer
+      layer,
+      this.currentResults()
     );
   }
 
@@ -798,6 +821,9 @@ export class Test2ElectionManager {
     pane.querySelector('#test2ElectionMode')?.addEventListener('change', (event) => {
       this.activeMode = event.target.value;
       this.applyActiveStyle();
+    });
+    pane.querySelector('#test2ElectionGeography')?.addEventListener('change', (event) => {
+      this.switchGeographyMode(event.target.value);
     });
     pane.querySelector('#test2ElectionOverlay')?.addEventListener('change', async (event) => {
       this.overlayMode = event.target.value === 'bars' ? 'bars' : 'circles';
@@ -2131,7 +2157,17 @@ export class Test2ElectionManager {
   }
 
   renderMapDisplayControls() {
-    const modes = this.activeEntry?.stylingModes || [];
+    const geographyMode = this.activeGeographyMode();
+    const modes = geographyMode?.stylingModes || this.activeEntry?.stylingModes || [];
+    const geographyOptions = this.geographyModes();
+    const geographyControl = geographyOptions.length > 1 ? `
+      <label class="test2-election-panel__mode">
+        <span>Geography</span>
+        <select id="test2ElectionGeography">
+          ${geographyOptions.map((mode) => `<option value="${escapeHtml(mode.id)}" ${mode.id === (geographyMode?.id || this.defaultGeographyModeId()) ? 'selected' : ''}>${escapeHtml(mode.label || mode.id)}</option>`).join('')}
+        </select>
+      </label>
+    ` : '';
     const overlayControl = this.shouldRenderElectionOverlays() ? `
       <label class="test2-election-panel__mode">
         <span>Overlay</span>
@@ -2141,15 +2177,61 @@ export class Test2ElectionManager {
         </select>
       </label>
     ` : '';
-    if (!modes.length && !overlayControl) return '';
+    if (!modes.length && !overlayControl && !geographyControl) return '';
     return `
       <details class="test2-election-map-display">
         <summary>Map display</summary>
         <div class="test2-election-map-display__controls">
+          ${geographyControl}
           ${modes.length ? `<label class="test2-election-panel__mode"><span>Style</span><select id="test2ElectionMode">${modes.map((mode) => `<option value="${escapeHtml(mode)}" ${mode === this.activeMode ? 'selected' : ''}>${escapeHtml(MODE_LABELS[mode] || mode)}</option>`).join('')}</select></label>` : ''}
           ${overlayControl}
         </div>
       </details>
+    `;
+  }
+
+  renderTurnoutGeographyPanel() {
+    const mode = this.activeGeographyMode();
+    const results = [...this.currentResults()]
+      .sort((a, b) => (Number(b.turnoutPct) || 0) - (Number(a.turnoutPct) || 0));
+    const overall = Number(mode?.overallTurnoutPct);
+    const source = mode?.sourceUrl
+      ? ` <a href="${escapeHtml(mode.sourceUrl)}" target="_blank" rel="noopener">Source (ARK)</a>.`
+      : '';
+    const rows = results.map((result) => `
+      <tr>
+        <td>${escapeHtml(result.constituency || result.featureName || '')}</td>
+        <td class="election-num">${Number.isFinite(Number(result.turnoutPct)) ? formatPercent(Number(result.turnoutPct)) : '-'}</td>
+      </tr>`).join('');
+    return `
+      <section class="test2-election-panel test2-election-turnout" aria-label="Turnout by constituency">
+        <p class="test2-election-turnout__note">${escapeHtml(mode?.note || '')}${source}</p>
+        <div class="test2-election-panel__summary">
+          <dl class="test2-election-panel__stats">
+            ${Number.isFinite(overall) ? `<div><dt>Overall turnout</dt><dd>${formatPercent(overall)}</dd></div>` : ''}
+            <div><dt>Constituencies</dt><dd>${formatNumber(results.length)}</dd></div>
+          </dl>
+          <div id="test2ElectionLegend" class="test2-election-panel__legend"></div>
+        </div>
+        <table class="election-count-table election-results-table--fixed">
+          <thead><tr><th>Constituency</th><th class="election-num">Turnout</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+        ${this.renderMapDisplayControls()}
+      </section>
+    `;
+  }
+
+  renderTurnoutConstituencyDetail(result) {
+    const pct = Number(result?.turnoutPct);
+    const mode = this.activeGeographyMode();
+    return `
+      <section class="test2-election-panel test2-election-turnout" aria-label="Constituency turnout">
+        <dl class="test2-election-panel__stats">
+          <div><dt>${escapeHtml(result?.constituency || result?.featureName || 'Constituency')}</dt><dd>${Number.isFinite(pct) ? `${formatPercent(pct)} turnout` : 'Turnout not available'}</dd></div>
+        </dl>
+        <p class="test2-election-turnout__note">${escapeHtml(mode?.note || '')}</p>
+      </section>
     `;
   }
 
@@ -2161,6 +2243,65 @@ export class Test2ElectionManager {
 
   isLocalGovernmentElection() {
     return (this.activeBundle?.bodyGroup || this.activeEntry?.bodyGroup) === 'local-government';
+  }
+
+  geographyModes() {
+    const modes = this.activeBundle?.geographyModes;
+    return Array.isArray(modes) && modes.length > 1 ? modes : [];
+  }
+
+  defaultGeographyModeId() {
+    const modes = this.geographyModes();
+    return modes.length ? modes[0].id : null;
+  }
+
+  activeGeographyMode() {
+    const modes = this.geographyModes();
+    if (!modes.length) return null;
+    return modes.find((mode) => mode.id === this.activeGeographyModeId) || modes[0];
+  }
+
+  isTurnoutGeographyMode() {
+    return this.activeGeographyMode()?.dataKind === 'turnout';
+  }
+
+  async switchGeographyMode(id) {
+    const modes = this.geographyModes();
+    const mode = modes.find((item) => item.id === id) || modes[0];
+    if (!mode) return;
+    const previousSourceMapId = this.getActiveElectionStyleSourceMapId();
+    this.activeGeographyModeId = mode.id;
+    const validModes = mode.stylingModes || [];
+    this.activeMode = validModes.includes(this.activeMode)
+      ? this.activeMode
+      : (mode.defaultMode || validModes[0] || 'winner');
+    this.activeSelectedResultKey = null;
+    if (previousSourceMapId && previousSourceMapId !== mode.sourceMapId) {
+      this.mapController.clearElectionStyle?.(previousSourceMapId);
+    }
+    await this.syncGeographyBackingLayers();
+    this.applyActiveStyle();
+    this.renderPanel(null, 'party');
+    this.renderElectionOverlay().catch((error) => console.warn('[test2 elections] Overlay refresh failed', error));
+    this.app.updateURLState();
+  }
+
+  async syncGeographyBackingLayers() {
+    const modes = this.geographyModes();
+    if (!modes.length) return;
+    const active = this.activeGeographyMode();
+    for (const mode of modes) {
+      if (!mode.sourceMapId) continue;
+      if (mode.id === active?.id) {
+        if (!this.mapController.isLayerLoaded?.(mode.sourceMapId)) {
+          await this.mapController.loadLayer(mode.sourceMapId, { fit: false });
+        }
+        this.mapController.showLayer?.(mode.sourceMapId);
+      } else if (this.mapController.isLayerLoaded?.(mode.sourceMapId)) {
+        this.mapController.clearElectionStyle?.(mode.sourceMapId);
+        this.mapController.hideLayer?.(mode.sourceMapId);
+      }
+    }
   }
 
   localBodyCount() {
@@ -2182,6 +2323,10 @@ export class Test2ElectionManager {
   }
 
   currentResults() {
+    const geographyMode = this.activeGeographyMode();
+    if (geographyMode && geographyMode.dataKind === 'turnout') {
+      return geographyMode.results || [];
+    }
     const current = this.activeBundle?.results || [];
     const previous = this.previousBundle?.results || [];
     return previous.length ? compareResults(current, previous) : current;

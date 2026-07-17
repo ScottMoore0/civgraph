@@ -2904,6 +2904,7 @@ class Test2App {
       params.set('electionOverlay', electionState.overlay);
       params.set('electionView', electionState.view);
       params.set('electionLocalMode', electionState.localMode);
+      if (electionState.geographyMode) params.set('electionGeographyMode', electionState.geographyMode);
       if (electionState.selected) params.set('electionSelected', electionState.selected);
       if (electionState.countDetail) params.set('electionCountDetail', '1');
       if (electionState.entityKind && electionState.entityKey) {

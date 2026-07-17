@@ -523,5 +523,408 @@
       "syntheticRegion": null,
       "matched": true
     }
+  ],
+  "geographyModes": [
+    {
+      "id": "results",
+      "label": "NI",
+      "dataKind": "results",
+      "sourceMapId": "ni-1921",
+      "layerId": "ni-1921-vector-test",
+      "labelProperty": "Name",
+      "geometryType": "polygon",
+      "stylingModes": [
+        "winner",
+        "leadingParty",
+        "voteShare",
+        "turnout",
+        "majority",
+        "seats"
+      ],
+      "defaultMode": "winner"
+    },
+    {
+      "id": "turnout",
+      "label": "Constituency",
+      "dataKind": "turnout",
+      "sourceMapId": "belfast-agreement-1998",
+      "layerId": "belfast-agreement-1998-alias-test",
+      "labelProperty": "Name",
+      "geometryType": "polygon",
+      "stylingModes": [
+        "turnout"
+      ],
+      "defaultMode": "turnout",
+      "note": "Ballots were counted at a single central location, so the Yes/No result is not available by constituency. Turnout, however, was published for each Westminster constituency.",
+      "overallTurnoutPct": 81.1,
+      "sourceUrl": "https://www.ark.ac.uk/elections/fref98.htm",
+      "matchedCount": 18,
+      "totalConstituencies": 18,
+      "mainLikeTotals": {
+        "turnoutPct": 81.1
+      },
+      "results": [
+        {
+          "constituency": "Mid Ulster",
+          "turnoutPct": 87,
+          "matched": true,
+          "featureId": "2141",
+          "featureName": "MID ULSTER",
+          "matchName": "MID ULSTER",
+          "featureAliases": [
+            "MID ULSTER"
+          ],
+          "colour": null,
+          "anchor": {
+            "center": [
+              -6.701544,
+              54.704396
+            ],
+            "method": "feature-index-center",
+            "area": null
+          }
+        },
+        {
+          "constituency": "West Tyrone",
+          "turnoutPct": 83,
+          "matched": true,
+          "featureId": "2142",
+          "featureName": "WEST TYRONE",
+          "matchName": "WEST TYRONE",
+          "featureAliases": [
+            "WEST TYRONE"
+          ],
+          "colour": null,
+          "anchor": {
+            "center": [
+              -7.341602,
+              54.666178
+            ],
+            "method": "feature-index-center",
+            "area": null
+          }
+        },
+        {
+          "constituency": "Newry and Armagh",
+          "turnoutPct": 82,
+          "matched": true,
+          "featureId": "2123",
+          "featureName": "NEWRY AND ARMAGH",
+          "matchName": "NEWRY AND ARMAGH",
+          "featureAliases": [
+            "NEWRY AND ARMAGH"
+          ],
+          "colour": null,
+          "anchor": {
+            "center": [
+              -6.570804,
+              54.255559
+            ],
+            "method": "feature-index-center",
+            "area": null
+          }
+        },
+        {
+          "constituency": "Foyle",
+          "turnoutPct": 79,
+          "matched": true,
+          "featureId": "2143",
+          "featureName": "FOYLE",
+          "matchName": "FOYLE",
+          "featureAliases": [
+            "FOYLE"
+          ],
+          "colour": null,
+          "anchor": {
+            "center": [
+              -7.209243,
+              54.948816
+            ],
+            "method": "feature-index-center",
+            "area": null
+          }
+        },
+        {
+          "constituency": "Fermanagh and South Tyrone",
+          "turnoutPct": 85,
+          "matched": true,
+          "featureId": "2140",
+          "featureName": "FERMANAGH AND SOUTH TYRONE",
+          "matchName": "FERMANAGH AND SOUTH TYRONE",
+          "featureAliases": [
+            "FERMANAGH AND SOUTH TYRONE"
+          ],
+          "colour": null,
+          "anchor": {
+            "center": [
+              -7.473283,
+              54.37363
+            ],
+            "method": "feature-index-center",
+            "area": null
+          }
+        },
+        {
+          "constituency": "Belfast West",
+          "turnoutPct": 76,
+          "matched": true,
+          "featureId": "2104",
+          "featureName": "BELFAST WEST",
+          "matchName": "BELFAST WEST",
+          "featureAliases": [
+            "BELFAST WEST"
+          ],
+          "colour": null,
+          "anchor": {
+            "center": [
+              -6.009813,
+              54.589331
+            ],
+            "method": "feature-index-center",
+            "area": null
+          }
+        },
+        {
+          "constituency": "South Down",
+          "turnoutPct": 84,
+          "matched": true,
+          "featureId": "2122",
+          "featureName": "SOUTH DOWN",
+          "matchName": "SOUTH DOWN",
+          "featureAliases": [
+            "SOUTH DOWN"
+          ],
+          "colour": null,
+          "anchor": {
+            "center": [
+              -5.976715,
+              54.25464
+            ],
+            "method": "feature-index-center",
+            "area": null
+          }
+        },
+        {
+          "constituency": "North Antrim",
+          "turnoutPct": 80,
+          "matched": true,
+          "featureId": "2100",
+          "featureName": "NORTH ANTRIM",
+          "matchName": "NORTH ANTRIM",
+          "featureAliases": [
+            "NORTH ANTRIM"
+          ],
+          "colour": null,
+          "anchor": {
+            "center": [
+              -6.289579,
+              55.016285
+            ],
+            "method": "feature-index-center",
+            "area": null
+          }
+        },
+        {
+          "constituency": "East Londonderry",
+          "turnoutPct": 80,
+          "matched": true,
+          "featureId": "2144",
+          "featureName": "EAST LONDONDERRY",
+          "matchName": "EAST LONDONDERRY",
+          "featureAliases": [
+            "EAST LONDONDERRY"
+          ],
+          "colour": null,
+          "anchor": {
+            "center": [
+              -6.820843,
+              55.024239
+            ],
+            "method": "feature-index-center",
+            "area": null
+          }
+        },
+        {
+          "constituency": "Upper Bann",
+          "turnoutPct": 83,
+          "matched": true,
+          "featureId": "2124",
+          "featureName": "UPPER BANN",
+          "matchName": "UPPER BANN",
+          "featureAliases": [
+            "UPPER BANN"
+          ],
+          "colour": null,
+          "anchor": {
+            "center": [
+              -6.377195,
+              54.450144
+            ],
+            "method": "feature-index-center",
+            "area": null
+          }
+        },
+        {
+          "constituency": "Belfast North",
+          "turnoutPct": 78,
+          "matched": true,
+          "featureId": "2103",
+          "featureName": "BELFAST NORTH",
+          "matchName": "BELFAST NORTH",
+          "featureAliases": [
+            "BELFAST NORTH"
+          ],
+          "colour": null,
+          "anchor": {
+            "center": [
+              -5.942846,
+              54.635678
+            ],
+            "method": "feature-index-center",
+            "area": null
+          }
+        },
+        {
+          "constituency": "Belfast South",
+          "turnoutPct": 80,
+          "matched": true,
+          "featureId": "2106",
+          "featureName": "BELFAST SOUTH",
+          "matchName": "BELFAST SOUTH",
+          "featureAliases": [
+            "BELFAST SOUTH"
+          ],
+          "colour": null,
+          "anchor": {
+            "center": [
+              -5.939368,
+              54.563822
+            ],
+            "method": "feature-index-center",
+            "area": null
+          }
+        },
+        {
+          "constituency": "Lagan Valley",
+          "turnoutPct": 82,
+          "matched": true,
+          "featureId": "2105",
+          "featureName": "LAGAN VALLEY",
+          "matchName": "LAGAN VALLEY",
+          "featureAliases": [
+            "LAGAN VALLEY"
+          ],
+          "colour": null,
+          "anchor": {
+            "center": [
+              -6.09704,
+              54.477087
+            ],
+            "method": "feature-index-center",
+            "area": null
+          }
+        },
+        {
+          "constituency": "South Antrim",
+          "turnoutPct": 80,
+          "matched": true,
+          "featureId": "2102",
+          "featureName": "SOUTH ANTRIM",
+          "matchName": "SOUTH ANTRIM",
+          "featureAliases": [
+            "SOUTH ANTRIM"
+          ],
+          "colour": null,
+          "anchor": {
+            "center": [
+              -6.203614,
+              54.702301
+            ],
+            "method": "feature-index-center",
+            "area": null
+          }
+        },
+        {
+          "constituency": "Belfast East",
+          "turnoutPct": 81,
+          "matched": true,
+          "featureId": "2107",
+          "featureName": "BELFAST EAST",
+          "matchName": "BELFAST EAST",
+          "featureAliases": [
+            "BELFAST EAST"
+          ],
+          "colour": null,
+          "anchor": {
+            "center": [
+              -5.86666,
+              54.597698
+            ],
+            "method": "feature-index-center",
+            "area": null
+          }
+        },
+        {
+          "constituency": "East Antrim",
+          "turnoutPct": 79,
+          "matched": true,
+          "featureId": "2101",
+          "featureName": "EAST ANTRIM",
+          "matchName": "EAST ANTRIM",
+          "featureAliases": [
+            "EAST ANTRIM"
+          ],
+          "colour": null,
+          "anchor": {
+            "center": [
+              -5.891683,
+              54.845506
+            ],
+            "method": "feature-index-center",
+            "area": null
+          }
+        },
+        {
+          "constituency": "Strangford",
+          "turnoutPct": 80,
+          "matched": true,
+          "featureId": "2120",
+          "featureName": "STRANGFORD",
+          "matchName": "STRANGFORD",
+          "featureAliases": [
+            "STRANGFORD"
+          ],
+          "colour": null,
+          "anchor": {
+            "center": [
+              -5.655988,
+              54.50012
+            ],
+            "method": "feature-index-center",
+            "area": null
+          }
+        },
+        {
+          "constituency": "North Down",
+          "turnoutPct": 80,
+          "matched": true,
+          "featureId": "2121",
+          "featureName": "NORTH DOWN",
+          "matchName": "NORTH DOWN",
+          "featureAliases": [
+            "NORTH DOWN"
+          ],
+          "colour": null,
+          "anchor": {
+            "center": [
+              -5.677285,
+              54.640394
+            ],
+            "method": "feature-index-center",
+            "area": null
+          }
+        }
+      ]
+    }
   ]
 }
