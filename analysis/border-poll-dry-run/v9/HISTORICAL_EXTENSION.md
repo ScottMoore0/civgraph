@@ -69,9 +69,16 @@ No 1991 census tables are held (only 2011/2021 are machine-readable here), and N
   nationalist vote *shape*: Westminster 1997 (18-seat) **R² 0.984, corr +0.994**;
   Westminster 1992 (17-seat, 1983 boundaries, name-matched) **R² 0.964, corr +0.982**.
   The geographic relationship holds across a two-decade gap and a boundary change.
-* **Level leg — blocked, not faked.** NILT starts 1998; NISA is the only bridge to the
-  early-mid 1990s and is not in the repo. Building it requires sourcing NISA from the UK
-  Data Service — left as documented future work rather than fabricated.
+* **Level leg — unblocked via ARK SOL (no login).** The UKDS NISA microdata is
+  Safeguarded, but ARK's SOL tabulations publish NISA's `NIRELAND` constitutional-
+  preference question as weighted marginals **by community background** (Catholic /
+  Protestant / None) for all seven years (no 1992 survey). `hist/harvest_nisa.py` scrapes
+  them; `hist/backtest_t3_level.py` poststratifies onto census religion to build a real
+  **1989–1996 unity projection** (NI reunify 26–31%) that meets NILT's 1998 reading
+  continuously. Caveat: 2011 census stands in for 1991 (composition drift → ~3.8 pt
+  over-estimate), SOL gives marginals only, and there is no 1990s referendum to validate
+  the level against. UKDS microdata + 1991 census tables would tighten it, but the era is
+  no longer a blank.
 
 ### Tier 4 — 1973–1989 — **geographic gradient only; no valid level**
 1971/1981 census (1981 religion unreliable per above), **no consistent survey**, so the
