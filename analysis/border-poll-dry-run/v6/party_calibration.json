@@ -1,0 +1,271 @@
+{
+  "schema": "party_calibration/v6",
+  "provenance": "LucidTalk final pre-election polls (Wikipedia opinion-polling tables) vs actual NI first-preference/vote shares (repo partySummary). EU ref actual from repo; LucidTalk EU poll survey-crosstab.",
+  "contests_used": [
+    "2016-assembly",
+    "2017-assembly",
+    "2022-assembly",
+    "2024-westminster"
+  ],
+  "note_2017_westminster": "Excluded: no clean final LucidTalk NI VI poll before the June 2017 Westminster election.",
+  "note_nilt": "NILT is an attitudes survey and does not run a party horse-race VI, so per-party election calibration is LucidTalk-only. NILT enters the pipeline via EU/unity attitudes, not party VI.",
+  "per_contest": {
+    "2016-assembly": {
+      "DUP": {
+        "lt": 26.5,
+        "actual": 29.18,
+        "err": -2.68
+      },
+      "Sinn Féin": {
+        "lt": 25.8,
+        "actual": 24.02,
+        "err": 1.78
+      },
+      "UUP": {
+        "lt": 15.6,
+        "actual": 12.57,
+        "err": 3.03
+      },
+      "SDLP": {
+        "lt": 11.9,
+        "actual": 12.01,
+        "err": -0.11
+      },
+      "Alliance": {
+        "lt": 8.1,
+        "actual": 6.98,
+        "err": 1.12
+      },
+      "TUV": {
+        "lt": 4.1,
+        "actual": 3.42,
+        "err": 0.68
+      },
+      "Green": {
+        "lt": 2.6,
+        "actual": 2.7,
+        "err": -0.1
+      },
+      "PBP": {
+        "lt": null,
+        "actual": 1.98,
+        "err": null
+      },
+      "Aontú": {
+        "lt": null,
+        "actual": 0.0,
+        "err": null
+      },
+      "Others": {
+        "lt": 5.4,
+        "actual": 7.14,
+        "err": -1.74
+      }
+    },
+    "2017-assembly": {
+      "DUP": {
+        "lt": 26.3,
+        "actual": 28.06,
+        "err": -1.76
+      },
+      "Sinn Féin": {
+        "lt": 25.3,
+        "actual": 27.91,
+        "err": -2.61
+      },
+      "UUP": {
+        "lt": 13.9,
+        "actual": 12.86,
+        "err": 1.04
+      },
+      "SDLP": {
+        "lt": 12.2,
+        "actual": 11.95,
+        "err": 0.25
+      },
+      "Alliance": {
+        "lt": 9.5,
+        "actual": 9.05,
+        "err": 0.45
+      },
+      "TUV": {
+        "lt": 4.4,
+        "actual": 2.55,
+        "err": 1.85
+      },
+      "Green": {
+        "lt": 3.4,
+        "actual": 2.31,
+        "err": 1.09
+      },
+      "PBP": {
+        "lt": 2.4,
+        "actual": 1.76,
+        "err": 0.64
+      },
+      "Aontú": {
+        "lt": null,
+        "actual": 0.0,
+        "err": null
+      },
+      "Others": {
+        "lt": 2.7,
+        "actual": 3.55,
+        "err": -0.85
+      }
+    },
+    "2022-assembly": {
+      "DUP": {
+        "lt": 20.0,
+        "actual": 21.33,
+        "err": -1.33
+      },
+      "Sinn Féin": {
+        "lt": 26.0,
+        "actual": 29.02,
+        "err": -3.02
+      },
+      "UUP": {
+        "lt": 14.0,
+        "actual": 11.17,
+        "err": 2.83
+      },
+      "SDLP": {
+        "lt": 10.0,
+        "actual": 9.07,
+        "err": 0.93
+      },
+      "Alliance": {
+        "lt": 14.0,
+        "actual": 13.53,
+        "err": 0.47
+      },
+      "TUV": {
+        "lt": 9.0,
+        "actual": 7.63,
+        "err": 1.37
+      },
+      "Green": {
+        "lt": 3.0,
+        "actual": 1.9,
+        "err": 1.1
+      },
+      "PBP": {
+        "lt": 2.0,
+        "actual": 1.14,
+        "err": 0.86
+      },
+      "Aontú": {
+        "lt": null,
+        "actual": 1.48,
+        "err": null
+      },
+      "Others": {
+        "lt": 2.0,
+        "actual": 3.73,
+        "err": -1.73
+      }
+    },
+    "2024-westminster": {
+      "DUP": {
+        "lt": 21.0,
+        "actual": 22.06,
+        "err": -1.06
+      },
+      "Sinn Féin": {
+        "lt": 23.0,
+        "actual": 27.04,
+        "err": -4.04
+      },
+      "UUP": {
+        "lt": 13.0,
+        "actual": 12.15,
+        "err": 0.85
+      },
+      "SDLP": {
+        "lt": 14.0,
+        "actual": 11.14,
+        "err": 2.86
+      },
+      "Alliance": {
+        "lt": 18.0,
+        "actual": 15.03,
+        "err": 2.97
+      },
+      "TUV": {
+        "lt": 4.0,
+        "actual": 6.24,
+        "err": -2.24
+      },
+      "Green": {
+        "lt": 1.0,
+        "actual": 1.11,
+        "err": -0.11
+      },
+      "PBP": {
+        "lt": 1.0,
+        "actual": 1.08,
+        "err": -0.08
+      },
+      "Aontú": {
+        "lt": 1.0,
+        "actual": 0.96,
+        "err": 0.04
+      },
+      "Others": {
+        "lt": 4.0,
+        "actual": 3.19,
+        "err": 0.81
+      }
+    }
+  },
+  "mean_error_lt_minus_actual": {
+    "DUP": -1.71,
+    "Sinn Féin": -1.97,
+    "UUP": 1.94,
+    "SDLP": 0.98,
+    "Alliance": 1.25,
+    "TUV": 0.42,
+    "Green": 0.5,
+    "PBP": 0.47,
+    "Aontú": 0.04,
+    "Others": -0.88
+  },
+  "n_contests_per_party": {
+    "DUP": 4,
+    "Sinn Féin": 4,
+    "UUP": 4,
+    "SDLP": 4,
+    "Alliance": 4,
+    "TUV": 4,
+    "Green": 4,
+    "PBP": 3,
+    "Aontú": 1,
+    "Others": 4
+  },
+  "eu_referendum": {
+    "actual_remain": 55.78,
+    "actual_leave": 44.22,
+    "lucidtalk_raw_remain": 52.15,
+    "lucidtalk_raw_leave": 38.04,
+    "lucidtalk_decided_remain": 57.82,
+    "remain_overstatement_pts": 2.04,
+    "note": "LucidTalk final NI Brexit poll overstated the decided Remain share by ~2 pts."
+  },
+  "implied_unity_bias": {
+    "party_unity_propensity": {
+      "Sinn Féin": 0.97,
+      "SDLP": 0.88,
+      "Aontú": 0.8,
+      "PBP": 0.7,
+      "Green": 0.55,
+      "Alliance": 0.38,
+      "Others": 0.35,
+      "UUP": 0.1,
+      "DUP": 0.03,
+      "TUV": 0.01
+    },
+    "net_unity_bias_pts": -0.099,
+    "interpretation": "Per-party LucidTalk errors weighted by each party’s unity propensity. DUP is understated (-) and SF understated (-) partly cancel; net effect on the unity metric is near zero."
+  }
+}
