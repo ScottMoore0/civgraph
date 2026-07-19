@@ -1,5 +1,5 @@
 import json
-GEO=open('/tmp/claude-0/-home-user-civgraph/ea760a88-7de6-5e08-940a-d3a6d280325e/scratchpad/dz_geo.json',encoding='utf-8').read()
+GEO=open('/tmp/claude-0/-home-user-civgraph/ea760a88-7de6-5e08-940a-d3a6d280325e/scratchpad/dz_geo_full.json',encoding='utf-8').read()
 STATS={r['date']:r for r in json.load(open('/home/user/civgraph/analysis/border-poll-dry-run/v9/summary_output.json'))['results']}
 LABEL={'2021-01':'Jan 2021','2022-08':'Aug 2022','2024-02':'Feb 2024','2025-02':'Feb 2025'}
 
