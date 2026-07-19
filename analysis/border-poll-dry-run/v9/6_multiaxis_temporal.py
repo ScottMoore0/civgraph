@@ -91,7 +91,7 @@ comp['Gender']={'Male':col('sex__Male'),'Female':col('sex__Female')}
 abc1=[c for c in feat.columns if c.startswith(('nssec__L1,','nssec__L4,','nssec__L7'))]
 c2de=[c for c in feat.columns if c.startswith(('nssec__L8,','nssec__L10','nssec__L12','nssec__L13','nssec__L14'))]
 comp['SocialGrade']={'ABC1':sum(col(c) for c in abc1),'C2DE':sum(col(c) for c in c2de)}
-# region (indicator)
+# region (indicator) - DZ->constituency->LucidTalk region (dz_region.json, PC2008-based)
 comp['Region']={rg:np.array([1.0 if region.get(dz)==rg else 0.0 for dz in S.index]) for rg in ['Belfast','East','North','South','West']}
 # renormalise each dim's shares to sum to 1 per DZ
 for dim in DIMS:
