@@ -1,0 +1,30 @@
+{
+  "learned_gradient_from_real_votes": {
+    "note": "actual constituency result ~ census Catholic-background% (SA->constituency); learned per contest, not assumed",
+    "contests": {
+      "2016 EU ref (Remain)":        {"intercept":37.9,"slope":0.412,"r2":0.68,"n":18},
+      "2016 Assembly (Nationalist)": {"intercept":-7.2,"slope":0.939,"r2":0.98,"n":18},
+      "2017 Assembly (Nationalist)": {"intercept":-7.8,"slope":1.036,"r2":0.99,"n":18},
+      "2022 Assembly (Nationalist)": {"intercept":-7.6,"slope":1.032,"r2":0.99,"n":18},
+      "2017 Westminster (Nationalist)": {"intercept":-11.1,"slope":1.143,"r2":0.99,"n":18},
+      "2019 Westminster (Nationalist)": {"intercept":-12.5,"slope":1.125,"r2":0.93,"n":18},
+      "2024 Westminster (Nationalist)": {"intercept":-11.0,"slope":1.109,"r2":0.97,"n":17}
+    },
+    "interpretation": "Nationalist-bloc vote is predicted by community background at R2~0.99 (slope ~1.0). EU-Remain is far flatter (slope 0.41). The unity gradient is bounded by these; survey unity crosstabs imply ~0.7."
+  },
+  "learned_lucidtalk_calibration": {
+    "note": "LucidTalk party VI vs actual, nationalist as % of Nat+Uni (neutralises Alliance/Other volatility)",
+    "pairs": [
+      {"election":"2017 Westminster","lt":48.1,"actual":46.7,"error":1.5},
+      {"election":"2022 Assembly","lt":48.6,"actual":49.4,"error":-0.8},
+      {"election":"2024 Westminster","lt":49.3,"actual":49.1,"error":0.2}
+    ],
+    "mean_bias":0.3, "sd":0.9, "rmse":1.0,
+    "correction": "LucidTalk is ~unbiased and accurate to ~1pt on the constitutional split; the earlier +2.9 'house effect' was an Alliance-confounded artifact and is removed."
+  },
+  "learned_source_weights": {
+    "method":"inverse-variance; sigma_LT=1.0 (measured vs 4 elections), sigma_NILT=1.8 (sampling n~1000 + annual lag)",
+    "LucidTalk":0.76, "NILT":0.24,
+    "replaces":"the arbitrary 0.50/0.50 blend in v4"
+  }
+}
