@@ -15,21 +15,52 @@ since they are highly collinear). It trains on **real ballots**, and the multi-s
 validation (1 → 80 units) is the strongest available guard against the ecological
 fallacy short of a sub-DEA result (which does not exist — results stop at DEA/constituency).
 
-## Phases
+## Phases (all complete)
 
-1. **Labelled results frame** ✅ `results_frame.csv` — NAT/UNI/OTH first-pref bloc share
-   per area per contest at constituency (18) + DEA (80): 2016/17/22 Assembly, 2017/19/24
-   Westminster, 2014/19/23 locals, + 2016 EU-ref Remain% by constituency (366 rows). NI
-   aggregates reconcile with reality (2016 Assembly nat 37.0%, 2022 40.4%, …).
-2. **Census profiles** (pending) — all/high-value attributes at constituency + DEA + DZ
-   from the FTB corpus (DEA14, DZ21) and DZ→constituency aggregation.
-3. **Regularised census→result model** (pending) — ridge/LASSO/PCA on the collinear
-   census features; fit at constituency, predict DEA out-of-scale.
-4. **Multi-scale validation** (pending) — coefficients/predictions stable NI→region→
-   constituency→DEA; leave-one-contest-out.
-5. **Poll integration + unity projection to DZ/SA + demographic breakdowns** (pending) —
-   poll sets the level for the unity question/date; model sets the shape; 2011 attributes
-   when the poll predates the 2021 Census, 2021 otherwise.
+1. ✅ **Labelled results frame** (`results_frame.csv`) — NAT/UNI/OTH bloc share per area
+   per contest: 18 constituencies × 6 higher contests + 80 DEAs × 3 locals + 18 EU-ref.
+2. ✅ **Census feature matrices** (`dea_features.csv`, `dz_features.csv`) — 88 features
+   (community background, national identity, Irish/UK passports, Irish-language skills,
+   tenure, NS-SEC, qualifications, economic activity, age, sex, health, country of birth)
+   at DEA (80) and Data Zone (3,780), from the NISRA FTB corpus on R2.
+3. ✅ **Regularised census→result model** (`3_fit_validate.py`) — ridge on all 88
+   features, per-contest level removed → geographic shape.
+4. ✅ **Multi-scale validation** — leave-one-contest-out at **DEA (80) R²=0.962** (MAE
+   3.8 pt); scale-stable **DEA→council(11) R²=0.989 → NI(1) R²=0.994** (max err 0.2 pt).
+   The relationship holds across every observable scale — the evidence it holds down at
+   Data Zone. Top predictors: religion **+ national identity + Irish/UK passports +
+   Irish-language skills** (`gradient_coefficients.csv`).
+5. ✅ **Unity projection + breakdowns** (`4_project_unity.py`) — the validated ridge
+   propensity gives the geographic shape; a data-driven 2-point calibration re-maps it to
+   the LucidTalk unity poll (community rates + NI level, no free parameter); poststratified
+   to every Data Zone.
 
-**Irreducible caveat (unchanged):** no unity referendum has ever been held, so the
-poll→ballot mapping is learned on party/EU contests and transferred to the unity question.
+## Results
+
+**(a) Irish-unity referendum projected to Data Zone**, one week after each LucidTalk poll:
+
+| Date | NI unity | DZ p10–med–p90 | maj-unity DZs (pop-wtd) |
+|---|--:|---|--:|
+| 2021-01 | 47.5 | 18.3–42.6–79.1 | 43.6% |
+| 2022-08 | 46.1 | 19.3–41.6–75.1 | 41.8% |
+| 2024-02 | 44.3 | 16.2–39.6–74.7 | 39.8% |
+| 2025-02 | 46.1 | 17.2–41.3–77.4 | 42.2% |
+
+`areas_unity/<date>_DZ21.csv` — projected unity for all 3,780 Data Zones. NI levels track
+the poll toplines; **~40–44% of Data Zones project a unity majority; the NI level does not
+cross 50%.**
+
+**(b) Demographic breakdown** (`breakdowns_unity.json`) — projected unity by every census
+attribute category, e.g. 2024: national identity Irish-only 61.0 / British-only 33.2;
+passport Ireland-only 58.9 / UK-only 36.1; Irish-language speakers ~59 / none 42.1.
+
+## Honest notes
+
+- Breakdowns are **area-compositional** (pop-weighted mean of Data-Zone unity among people
+  of each category), not individual-level rates — we have no individual unity-by-passport.
+- All four poll dates are treated with **2021 attributes** (2021-01 is ~2 months pre-census;
+  composition change negligible).
+- **Irreducible:** no unity referendum has been held, so the poll→ballot mapping is learned
+  on party/EU contests and transferred to the unity question. The multi-scale validation
+  bounds the geographic-downscaling risk; it cannot bound the unobserved unity target.
+
