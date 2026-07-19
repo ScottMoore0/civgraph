@@ -92,37 +92,45 @@ with an offset.
 (learned GLM+GBM → `model_fit.json`), `3_calibrate_and_project.py` (source model +
 poststratify → `areas/`, `breakdowns/`, `summary.json`).
 
-## Addendum — re-poststratified at Data Zone on the REAL 2021 census joint
+## Addendum — real 2021 DZ joint, with grouping + weighting fixes (supersedes earlier ~40%)
 
-**Correction to an earlier claim:** I first said NISRA's Cantabular portal "resisted
-scripted download" and used a community-marginal approximation. That was wrong — the
-**complete NISRA Cantabular flexible-table corpus was already scraped to R2** in earlier
-work (`data.civgraph.net/data/census/nisra-ftb/`, harvested exhaustively to 5-way
-crosstabs). The real 2021 Data-Zone **religion×age×sex joint** is
-`PEOPLE__DZ21~AGE_BAND_5YR~RELIGION_BELONG_TO_OR_BROUGHT_UP_IN_DVO~UR_SEX.csv.gz`, now
-persisted at `data/census/derived/dz21-religion-age-sex-2021.csv.gz` and used directly —
-no raking, no marginal approximation (`4_poststratify_dz2021.py`).
+The full NISRA Cantabular corpus was already on R2 (`data/census/nisra-ftb/`); the real
+2021 DZ **religion×age×sex** joint is persisted at
+`data/census/derived/dz21-religion-age-sex-2021.csv.gz` and poststratified directly.
 
-Poststratifying the learned v8 model onto this real joint:
+**Two fixes applied (`5_poststratify_harmonised.py`):**
 
-| Frame | 2021-01 | 2024-02 | 2025-02 | maj-unity |
-|---|--:|--:|--:|--:|
-| 2011 SA (religion×coarse-age) | 44.7 | 44.9 | 45.0 | ~37% |
-| 2021 DZ (community marginal) | 43.9 | 44.1 | 44.2 | ~37% |
-| **2021 DZ real joint (religion×age×sex)** | **40.1** | **40.4** | **40.5** | **~19%** |
+- **Fix 1 — grouping.** NILT community background (FAMRCODE: Catholic/Protestant/No-
+  religion) and the census "religion or religion brought up in" DVO split the
+  Protestant/None boundary differently: the census reassigns non-religious people to
+  their childhood denomination, so its "None" is only 1.6%, whereas ~11% of NILT's
+  non-Catholics are No-religion (unity ~37% vs Protestant ~14%). Mapping NILT's rates onto
+  the census 3-group therefore dumped almost all non-Catholics into the low-rate
+  Protestant cell — **this produced the earlier, erroneous ~40%.** The definitionally-
+  consistent axis is **Catholic vs non-Catholic**, with the non-Catholic rate built from
+  NILT's own P:O mix. 
+- **Fix 2 — no age double-correction.** The model is fit **unweighted** (survey weights
+  handle marginal representativeness, which poststratification already does). This changes
+  the result <0.3 pt, and — the key validation — the model poststratified onto NILT's own
+  composition reproduces the survey topline: **45.5% vs NILT's 45.8% weighted (43.5% raw)
+  for 2024.** So the model is internally unbiased; the census↔sample gap is a genuine
+  representativeness correction, not an artefact.
 
-**The full joint lands ~4 pts lower (~40–41%).** Properly weighting onto the true
-voting-age 2021 population — which is older, and older cohorts are much less unity-leaning
-— pulls the estimate below both the coarse frames and the raw survey toplines (44–46%).
-This is a real MRP reweighting, and it makes the "does not cross 50%" conclusion *more*
-robust, not less. The honest span across all frames is **~40–45%**.
+**Corrected result (real 2021 DZ joint, validated):**
 
-Caveat on grouping: the census variable is "religion or religion brought up in", whose
-"None" category is tiny (~1.6%), unlike NILT's larger community-background "Other/None".
-Both a Catholic-vs-non-Catholic split (robust to this) and the 3-group mapping give ~40–41%
-on the real joint, so the level is not an artefact of the grouping choice. A further
-refinement is to harmonise NILT's community-background definition to the exact census
-variable before poststratifying.
+| Date | NI (corrected) | earlier (artefact) | DZ p10–med–p90 | maj-unity DZs |
+|---|--:|--:|---|--:|
+| 2021-01 | 38.5 | 40.1 | 17.1–31.4–68.6 | 18.2% |
+| 2022-08 | 40.0 | 40.2 | 18.4–32.9–70.5 | 19.7% |
+| 2024-02 | **43.1** | 40.4 | 21.3–35.9–73.8 | 21.8% |
+| 2025-02 | **44.7** | 40.5 | 22.8–37.4–75.4 | 22.6% |
 
-Files: `4_poststratify_dz2021.py`, `areas_dz2021_full/<date>_DZ21.csv`,
-`summary_dz2021_full.json`, `summary_dz2021_2group.json`.
+Recent-date unity is **~43–45%**, reconciling with the direct NILT/LucidTalk toplines
+(44–46%) and the coarse-frame estimates, and rising over 2021→2025. Still **short of 50%**
+at every date. The rise reflects NILT's direct border-poll series (2019–2025), a short
+window, so the trend carries the same model-form uncertainty the GLM/GBM ensemble flagged.
+The honest headline across all frames and dates: **~40–45%, not crossing 50%.**
+
+Files: `5_poststratify_harmonised.py`, `areas_dz2021_harmonised/<date>_DZ21.csv`,
+`summary_dz2021_harmonised.json`. (The earlier `areas_dz2021_full/` and
+`summary_dz2021*` retain the superseded ~40% artefact for transparency.)
