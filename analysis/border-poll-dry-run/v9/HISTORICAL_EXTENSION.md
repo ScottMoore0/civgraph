@@ -49,24 +49,29 @@ Westminster every contest from 1974; Assembly 1973, 1982, 1998→; local governm
 Full 88-feature gradient + poll level. This is the backtest: geography R² ≈ 0.96–0.98
 out of sample, level poll-limited to ~2 pt house effect, end-to-end MAE ~3.4 pts.
 
-### Tier 2 — 1998–2011 (NILT before LucidTalk) — **very feasible; highest-value**
-No border-poll polling, but **NILT `REFUNIFY` runs from 1998**, so the level comes from
-NILT alone (annual, higher variance, its own house effect). Geography from the 2001 and
-2011 censuses — but drop national-identity/passport features before 2011, so a **reduced
-~40-feature gradient**. Targets: Assembly 1998/2003/2007, local 2001/2005, Westminster
-1997–2010, and the single most valuable backward target of all — the **1998 Good Friday
-Agreement referendum** (81% turnout, 71% Yes, a *genuine* high-participation constitutional
-vote, unlike 1973). Validating "NILT + 2001 census → 1998 GFA Yes vote by constituency"
-would be the strongest possible out-of-era test of the whole approach. **Recommended next
-build.**
+### Tier 2 — 1998–2011 (NILT before LucidTalk) — **BUILT** → `hist/TIER2_3.md`
+Built on the **2011 NISRA census** at the 18 constituencies (ASSEMBLY AREAS geography,
+118 %-features) and the NILT constitutional-preference item (`nireland`/`NIRELAND`/
+`NIRELND2`, weighted — the durable series; `REFUNIFY` proper only arrives 2020). Results:
+* **Geographic gradient** (census → nationalist vote shape), leave-one-contest-out across
+  Assembly 1998/2003/2007 + Westminster 1997/2001/2005/2010: **R² 0.982, MAE 2.39 pts** —
+  as strong as the modern era. End-to-end absolute MAE 2.90 pts.
+* **Level**: the NILT reunify series exists 1998–2010 but runs ~15 pts below the (near-
+  stationary) nationalist vote, doesn't track it, and — the key finding — has **no era
+  outcome to validate against**. The 1998 GFA referendum (71% Yes) turned out to be
+  reported **NI-wide only**, so it is a level reference, not a geographic target. The
+  unity *level* is survey-only and unbacktestable in this era too.
 
-### Tier 3 — 1989–1998 (NISA + 1991 census) — **feasible, thinner, bridged**
-Level from **NISA** constitutional preference, harmonised to the NILT scale via an
-estimated offset (unverifiable — the two surveys never overlap, so this is the weak
-joint). Geography from the **1991 census**: religion + basic demographics only, ward
-level, no small area. Targets: Westminster 1992/1997, local 1993/1997, EP 1989/1994.
-Feasible as a *geographic-gradient* test; the *level* leg rests on the NISA→NILT bridge
-assumption and should be reported with that caveat foregrounded.
+### Tier 3 — 1989–1998 — **BUILT (gradient); level blocked** → `hist/TIER2_3.md`
+No 1991 census tables are held (only 2011/2021 are machine-readable here), and NISA
+(1989–96) microdata is absent, so the plan was adapted honestly:
+* **Gradient stability** — the census gradient trained on 1997–2010 predicts the 1990s
+  nationalist vote *shape*: Westminster 1997 (18-seat) **R² 0.984, corr +0.994**;
+  Westminster 1992 (17-seat, 1983 boundaries, name-matched) **R² 0.964, corr +0.982**.
+  The geographic relationship holds across a two-decade gap and a boundary change.
+* **Level leg — blocked, not faked.** NILT starts 1998; NISA is the only bridge to the
+  early-mid 1990s and is not in the repo. Building it requires sourcing NISA from the UK
+  Data Service — left as documented future work rather than fabricated.
 
 ### Tier 4 — 1973–1989 — **geographic gradient only; no valid level**
 1971/1981 census (1981 religion unreliable per above), **no consistent survey**, so the
