@@ -5,87 +5,99 @@ share of the two constitutional blocs). This was the user's correction: calibrat
 **every party and the "independents & others" group**, plus the EU referendum — not just
 the aggregate bloc — and only then read the implication for the unity metric.
 
-`party_calibration.json` holds the fitted numbers.
+`party_calibration.json` holds the fitted numbers; `lucidtalk_vi_primary.json` snapshots
+the exact primary poll rows used.
+
+## Data source — the persisted LucidTalk corpus (not Wikipedia)
+
+The LucidTalk voting-intention figures come from the project's **own cleaned LucidTalk
+corpus**, extracted from the original LucidTalk Belfast Telegraph reports + poll-table
+spreadsheets and persisted on R2 at
+`data.civgraph.net/data/polling/lucidtalk/cleaned/` (tidy schema: Measure / Response /
+Breakdown / Base Type / Statistic / Value / Extraction Confidence). Each contest's poll
+CSV is cited in `party_calibration.json → lucidtalk_source_urls`. All VI figures are the
+**excl-non-voters** base.
 
 ## What was measured
 
-For every contest that has a clean final **LucidTalk** pre-election poll, LucidTalk's
+For every contest that has a pre-election LucidTalk poll **in the corpus**, LucidTalk's
 party voting-intention is compared to the **actual** NI first-preference / vote share
-(from the repo `partySummary`). Error = LucidTalk − actual.
+(repo `partySummary`). Error = LucidTalk − actual.
 
-| Contest | LucidTalk poll | Actual source |
+| Contest | LucidTalk poll (corpus) | Actual source |
 |---|---|---|
-| 2016 Assembly | 30 Mar–1 Apr 2016 | `northern-ireland-assembly__2016-05-05` |
-| 2017 Assembly | 24–26 Feb 2017 | `northern-ireland-assembly__2017-03-02` |
-| 2022 Assembly | 22–24 Apr 2022 | `northern-ireland-assembly__2022-05-05` |
-| 2024 Westminster | 24–25 Jun 2024 | `house-of-commons-of-the-united-kingdom__2024-07-04` |
+| 2017 Assembly | `2017-02` Feb pre-Assembly tracker | `northern-ireland-assembly__2017-03-02` |
+| 2022 Assembly | `2022-03` pre-Assembly poll | `northern-ireland-assembly__2022-05-05` |
+| 2024 Westminster | `2024-06` pre-Westminster poll (Westminster VI) | `house-of-commons-of-the-united-kingdom__2024-07-04` |
 
-The **2017 Westminster** contest is deliberately excluded: there is no clean final
-LucidTalk NI voting-intention poll before June 2017, so including it would mean
-fabricating a poll row. NILT is an **attitudes** survey and runs no party horse-race, so
-the per-party election calibration is **LucidTalk-only**; NILT enters the pipeline via the
-EU/unity attitude series, not party VI.
+The **2016 Assembly** is excluded: the corpus's VI series begins with the 2017
+pre-election trackers, so there is no LucidTalk VI poll before the May 2016 election. NILT
+is an **attitudes** survey and runs no party horse-race, so the per-party calibration is
+**LucidTalk-only**; NILT enters the pipeline via the EU/unity attitude series.
 
-## Per-party house effect (mean LucidTalk − actual, points)
+## Per-party house effect (LucidTalk − actual, points)
 
-| Party | Mean error | n contests | Reading |
-|---|---:|---:|---|
-| DUP | **−1.71** | 4 | LucidTalk **understates** the largest unionist party |
-| Sinn Féin | **−1.97** | 4 | LucidTalk **understates** the largest nationalist party |
-| UUP | +1.94 | 4 | overstated |
-| SDLP | +0.98 | 4 | overstated |
-| Alliance | +1.25 | 4 | overstated |
-| TUV | +0.42 | 4 | ~accurate |
-| Green | +0.50 | 4 | ~accurate |
-| PBP | +0.47 | 3 | ~accurate (not listed 2016) |
-| Aontú | +0.04 | 1 | only 2024 listed |
-| Others / Independents | −0.88 | 4 | mildly understated |
+| Party | 2017A | 2022A | 2024W | **Mean** | Reading |
+|---|---:|---:|---:|---:|---|
+| DUP | −1.76 | −2.33 | −1.06 | **−1.72** | LucidTalk **understates** the largest unionist party |
+| Sinn Féin | −2.61 | −3.02 | −3.04 | **−2.89** | LucidTalk **understates** the largest nationalist party (every contest) |
+| UUP | +1.04 | +1.83 | −0.15 | +0.91 | mildly overstated |
+| SDLP | +0.25 | +1.93 | +1.86 | +1.35 | overstated |
+| Alliance | +0.35 | +2.47 | +1.97 | +1.60 | overstated |
+| TUV | +1.85 | +1.37 | −1.24 | +0.66 | ~accurate |
+| Green | +1.09 | +0.10 | −0.11 | +0.36 | ~accurate |
+| PBP | +0.64 | +0.86 | −0.08 | +0.47 | ~accurate |
+| Aontú | 0.00 | −0.48 | +0.04 | −0.15 | ~accurate |
+| Others / Independents | −0.85 | −2.73 | +1.81 | −0.59 | ~accurate on average |
 
 **The signature is a "flagship-party understatement".** LucidTalk's online panel
-under-reads the two dominant, highly-mobilised parties (DUP −1.7, SF −2.0) and
-correspondingly over-reads the softer middle (UUP, SDLP, Alliance). This is the *opposite*
-of the "−2.9 nationalist house effect" that v2–v4 wrongly asserted: the error is not
-partisan-directional, it is **turnout/enthusiasm-directional** and it lands on *both* blocs'
-lead parties roughly symmetrically.
+consistently under-reads the two dominant, highly-mobilised parties — **Sinn Féin by
+−2.9 in all three contests, the DUP by −1.7** — and over-reads the softer middle (SDLP
++1.4, Alliance +1.6). This is *not* the "−2.9 nationalist house effect" that v2–v4 wrongly
+asserted: the error is turnout/enthusiasm-directional, landing on **both** blocs' flagship
+parties, not one side of the constitutional divide.
 
 ## EU referendum (the closest real binary anchor)
 
 | | Remain | Leave |
 |---|---:|---:|
 | Actual NI result | **55.78** | 44.22 |
-| LucidTalk final Brexit poll (raw) | 52.15 | 38.04 |
+| LucidTalk June-2016 raw | 52.15 | 38.04 |
 | LucidTalk decided share | **57.82** | 42.18 |
 
-LucidTalk **overstated the decided Remain share by +2.04 pts**. The Remain vote is the
-socially-liberal / pro-EU disposition that most closely tracks the demographic axis of a
-unity vote, so this is the single most relevant calibration point — and it says the panel
-tilts ~2 pts toward the "change" option on a real referendum.
+LucidTalk **overstated the decided Remain share by +2.04 pts**. Remain is the
+socially-liberal disposition closest to the demographic axis of a unity vote, so this is
+the single most relevant calibration point — on a real *referendum* the panel tilted
+~2 pts toward the "change" option.
 
 ## Implication for the unity projection
 
-Weighting each party's house effect by its **unity propensity** (SF 0.97, SDLP 0.88,
+Weighting each party's house effect by a **unity propensity** (SF 0.97, SDLP 0.88,
 Aontú 0.80, PBP 0.70, Green 0.55, Alliance 0.38, Others 0.35, UUP 0.10, DUP 0.03,
 TUV 0.01) gives the net push the per-party errors exert on the unity metric:
 
-**Net implied unity bias = −0.10 pts** — essentially zero.
+**Net implied unity bias = −0.76 pts** — small.
 
-The reason is now explicit rather than assumed: **SF's understatement (pro-unity) and DUP's
-understatement (anti-unity) very nearly cancel** across the constitutional divide. So the
-per-party evidence *confirms* v5's headline conclusion by a completely independent route —
-LucidTalk is not systematically biased on the constitutional question — while the EU-ref
-anchor adds a small, opposite caution: on a *referendum* (not a party election) the panel
-leaned +2 toward the change option. Net, the unity level is left essentially where v5 put
-it (~45–46% decided), with the EU-ref anchor arguing for **not** shading it upward.
+The mechanism is now explicit and not the earlier "SF/DUP cancel" claim: **Sinn Féin's
+−2.9 understatement is the largest single term** (it would understate the pro-unity vote),
+but it is **partly offset by the overstated soft middle** (SDLP +1.4, Alliance +1.6, both
+carrying moderate unity propensity). The residual is a small **negative** (LucidTalk very
+slightly understates the unity-leaning composition), of the order of ¾ of a point. Set
+against the EU-ref anchor's opposite **+2** referendum tilt, the two are within a point of
+each other and roughly wash. Net: the unity level stays essentially where v5 put it
+(~45–46% decided), with **no case for shading it upward**.
 
 ## Honest position
 
-- Per-party calibration rests on **4 contests** (3 for PBP, 1 for Aontú) — directionally
-  clear for the big parties, thin for the minors. The minor-party errors (< 0.5 pt) are
-  within sampling noise and are not acted on.
-- The unity-propensity weights are a modelling choice, not a measurement; the −0.10 result
-  is robust to plausible re-weightings only because the two large cancelling terms dominate.
-- The irreducible caveat is unchanged from v5: no training example's *output* is a unity
+- Per-party calibration rests on **3 contests** — directionally clear and consistent for
+  the flagship parties (SF understated in all three), thinner for the minors (|error| < 0.7
+  pt, within sampling noise; not acted on).
+- 2016 Assembly has no corpus VI poll; the 2024 contest is Westminster VI vs a Westminster
+  result (like-for-like), the other two Assembly vs Assembly.
+- The unity-propensity weights are a modelling choice, not a measurement.
+- Irreducible caveat unchanged from v5: no training example's *output* is a unity
   referendum. The per-party + EU-ref calibration is transferred to the unity question.
 
 Files: `party_calibration.json` (per-contest table, per-party mean errors, EU-ref
-comparison, implied unity bias).
+comparison, implied unity bias, source URLs); `lucidtalk_vi_primary.json` (exact primary
+VI rows used).
