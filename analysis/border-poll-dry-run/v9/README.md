@@ -64,3 +64,39 @@ passport Ireland-only 58.9 / UK-only 36.1; Irish-language speakers ~59 / none 42
   on party/EU contests and transferred to the unity question. The multi-scale validation
   bounds the geographic-downscaling risk; it cannot bound the unobserved unity target.
 
+
+
+## Correction — the NI level is a computed OUTPUT, not the poll topline
+
+An earlier Phase-5 draft (`4_project_unity.py`) re-centred the projection so its NI mean
+*equalled the LucidTalk decided topline* — i.e. it echoed the poll. `5_project_output.py`
+fixes this: the **NI level is now computed from the survey inputs**:
+
+`output = 0.76·LucidTalk_unity + 0.24·NILT_unity + house_effect`
+
+- weights are inverse-variance from measured reliability (σ_LT≈1.0, σ_NILT≈1.8);
+- house_effect is calibrated on real elections/EU-ref (v6): ~0 central on the
+  constitutional metric, with a ±2.0 EU-referendum envelope (sign-ambiguous for unity).
+
+Because NILT and LucidTalk disagree by up to 6 pts, the output differs from either poll
+(2021-01: **46.1** output vs 47.5 LucidTalk / 41.5 NILT). Outputs in `areas_output/`,
+`breakdowns_output.json`, `summary_output.json`.
+
+**What determines what (the honest architecture):**
+- **Level** → the surveys (NILT + LucidTalk), because they are the only sources that
+  measure unity *preference*; the census does not, and no unity election exists. There is
+  no way to derive an independent unity *level* from census/elections alone — they supply
+  the geography and the house-effect calibration, not the level.
+- **Geography (DZ/SA)** → the validated census→result ridge (all 88 attributes; multi-scale
+  R²≥0.96).
+- **Demographics** → the same engine.
+
+| Date | Output NI | band | DZ p10–med–p90 | maj-unity DZs |
+|---|--:|---|---|--:|
+| 2021-01 | 46.1 | 44.1–48.1 | …–41.2–… | 42.2% |
+| 2024-02 | 44.7 | 42.7–46.7 | …–40.0–… | 40.2% |
+| 2025-02 | 45.8 | 43.8–47.8 | …–41.0–… | 41.8% |
+
+Still short of 50%; ~40–42% of Data Zones project a unity majority. The permanent caveat
+stands: no unity referendum has been held, so the survey→ballot house effect is transferred
+from party/EU contests (thin: one real referendum anchor).
