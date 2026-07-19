@@ -91,3 +91,25 @@ with an offset.
 `1_extract_nilt.py` (harmonise NILT → `nilt_individual.csv`), `2_fit_model.py`
 (learned GLM+GBM → `model_fit.json`), `3_calibrate_and_project.py` (source model +
 poststratify → `areas/`, `breakdowns/`, `summary.json`).
+
+## Addendum — re-poststratified at Data Zone on the 2021 frame
+
+Task (a): poststratify the same learned v8 model onto a **2021 Data-Zone** frame
+(`data/census/derived/dz21-community-2021.csv` — DZ population from `ms-a01-dz.csv`
+× 2021 Catholic-background composition, 3,272 Data Zones). Outputs in
+`areas_dz2021/` and `summary_dz2021.json`.
+
+| Date | NI (2011 SA) | NI (2021 DZ) | DZ p10–med–p90 | maj-unity DZs |
+|---|---:|---:|---|---:|
+| 2021-01 | 44.7 | 43.9 | 22.3–38.1–71.3 | 36.7% |
+| 2024-02 | 44.9 | 44.1 | 22.5–38.4–71.6 | 37.0% |
+| 2025-02 | 45.0 | 44.2 | 22.7–38.5–71.7 | 37.1% |
+
+**The level is robust to the frame choice** (~44–45% either way). Caveat: this
+committed DZ frame's pop-weighted Catholic-background is 43.4%, below the official
+2021 headline (45.7%) — it is derived from v4's religion×age DZ subset (3,272 of
+3,780 DZs, community marginal only). At the true 45.7% the level would sit ~1 pt
+higher (≈45%). A clean re-fetch of the full 2021 DZ religion×age joint from NISRA's
+Cantabular builder (which resisted scripted download this session) is the remaining
+refinement; the conclusion — a stable ~44–45%, not crossing 50% on the GLM — is
+unchanged.
