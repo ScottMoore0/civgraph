@@ -65,7 +65,7 @@ svg.drag{cursor:grabbing}
 .legend{left:14px;bottom:14px;padding:11px 13px 12px;width:246px}
 .legend .lt{font-size:9.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--faint);margin-bottom:8px}
 .bar{height:11px;border-radius:3px;position:relative;
-  background:linear-gradient(90deg,#8f3a17,#c65a2b 26%,#e0a877 44%,#e8dcc0 50%,#86c08f 58%,#1f8a4c 76%,#0d5c30)}
+  background:linear-gradient(90deg,#08306b,#2166ac 26%,#7fb0d6 44%,#e8dcc0 50%,#86c08f 58%,#1f8a4c 76%,#0d5c30)}
 .bar .thr{position:absolute;left:50%;top:-3px;bottom:-3px;width:2px;background:var(--ink);transform:translateX(-1px)}
 .ticks{display:flex;justify-content:space-between;margin-top:5px;font-size:10px;color:var(--muted)}
 .thrlab{margin-top:7px;font-size:10.5px;color:var(--muted);display:flex;align-items:center;gap:6px}
@@ -137,7 +137,7 @@ const M=window.MAP, view=document.getElementById('view'), svg=document.getElemen
 let cur=M.dates[M.dates.length-1];
 
 // ---- diverging colour scale centred on 50% ----
-const STOPS=[[15,'#8f3a17'],[30,'#c65a2b'],[42,'#e0a877'],[50,'#e8dcc0'],[58,'#86c08f'],[70,'#1f8a4c'],[85,'#0d5c30']];
+const STOPS=[[15,'#08306b'],[30,'#2166ac'],[42,'#7fb0d6'],[50,'#e8dcc0'],[58,'#86c08f'],[70,'#1f8a4c'],[85,'#0d5c30']];
 function hex(c){return [parseInt(c.slice(1,3),16),parseInt(c.slice(3,5),16),parseInt(c.slice(5,7),16)];}
 const SP=STOPS.map(s=>[s[0],hex(s[1])]);
 function colour(u){
