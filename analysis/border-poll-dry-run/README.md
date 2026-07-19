@@ -60,3 +60,16 @@ paths at the top of the script).
   in 2016 it is a prior. Demographic breakdowns beyond religion use census
   *composition*, not direct poll crosstabs.
 - **DK** reported separately; the headline is decided voters only.
+
+## Version history (each folds in one correction from the previous review)
+
+- **v1** (this file) — SA/DZ + demographic dry run; community background only; NI pinned to poll.
+- **v2** — poll-vs-reality calibration introduced.
+- **v3** — NILT microdata + all four sources integrated; unity rates derived from the LucidTalk corpus.
+- **v4** — individual-level NILT MRP (religion×age), poststratified to Data Zone.
+- **v5** — learned calibration replaces the arbitrary NILT/LucidTalk blend; **current best level (~45–46%)**.
+- **v6** — per-party (and independents/others) LucidTalk↔actual calibration, primary-sourced from the R2 corpus.
+- **v7** — v6's per-party correction folded into the projection (+0.76 pt, ±2 EU-ref envelope); **current best surface**.
+
+The LucidTalk unity rates are now derived live from the persisted R2 corpus via
+`v3/build_unity_rates_from_r2.py` (data.civgraph.net/data/polling/lucidtalk/cleaned/).

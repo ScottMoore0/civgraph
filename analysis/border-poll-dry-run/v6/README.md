@@ -65,10 +65,13 @@ parties, not one side of the constitutional divide.
 | LucidTalk June-2016 raw | 52.15 | 38.04 |
 | LucidTalk decided share | **57.82** | 42.18 |
 
-LucidTalk **overstated the decided Remain share by +2.04 pts**. Remain is the
-socially-liberal disposition closest to the demographic axis of a unity vote, so this is
-the single most relevant calibration point — on a real *referendum* the panel tilted
-~2 pts toward the "change" option.
+LucidTalk **overstated the decided Remain share by +2.04 pts** (equivalently, understated
+Leave by 2 pts) — a ~2 pt house effect on a real binary referendum. Its **direction for a
+unity vote is ambiguous**: Remain is the *status-quo* option (like "stay in the UK"), which
+argues LucidTalk understates the change/unity option (+2); but Remain voters are also
+demographically the pro-EU, nationalist-leaning bloc closest to unity support, which argues
+the opposite (−2). Because the sign is contested, v7 treats this ~2 pt figure as a
+symmetric **uncertainty envelope**, not a point correction.
 
 ## Implication for the unity projection
 
@@ -79,13 +82,19 @@ TUV 0.01) gives the net push the per-party errors exert on the unity metric:
 **Net implied unity bias = −0.76 pts** — small.
 
 The mechanism is now explicit and not the earlier "SF/DUP cancel" claim: **Sinn Féin's
-−2.9 understatement is the largest single term** (it would understate the pro-unity vote),
-but it is **partly offset by the overstated soft middle** (SDLP +1.4, Alliance +1.6, both
-carrying moderate unity propensity). The residual is a small **negative** (LucidTalk very
-slightly understates the unity-leaning composition), of the order of ¾ of a point. Set
-against the EU-ref anchor's opposite **+2** referendum tilt, the two are within a point of
-each other and roughly wash. Net: the unity level stays essentially where v5 put it
-(~45–46% decided), with **no case for shading it upward**.
+−2.9 understatement is the largest single term** (it understates the pro-unity vote), only
+**partly offset by the overstated soft middle** (SDLP +1.4, Alliance +1.6, both carrying
+moderate unity propensity). The residual is a small **negative** (`mean_error = LT−actual`,
+so −0.76 means LucidTalk's party VI implies a unity-leaning composition ~¾ pt **below** the
+actual-election reality — i.e. LucidTalk slightly **understates** unity). The correction to
+the level is therefore **+0.76 (upward)**, small but non-zero.
+
+> Note (v7 correction): an earlier draft of this section said "no case for shading it
+> upward". That understated the sign. The magnitude is small, but the cleanly-signed
+> party-VI evidence points **up** by 0.76, and that is exactly what **v7** applies to the
+> projection. The EU-ref anchor's ~2 pt effect is **direction-ambiguous** for unity
+> (structural analogy → +2, demographic analogy → −2), so it is carried as a symmetric
+> ±2 uncertainty envelope, not a point correction. See `../v7/`.
 
 ## Honest position
 
