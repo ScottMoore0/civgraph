@@ -92,24 +92,37 @@ with an offset.
 (learned GLM+GBM → `model_fit.json`), `3_calibrate_and_project.py` (source model +
 poststratify → `areas/`, `breakdowns/`, `summary.json`).
 
-## Addendum — re-poststratified at Data Zone on the 2021 frame
+## Addendum — re-poststratified at Data Zone on the REAL 2021 census joint
 
-Task (a): poststratify the same learned v8 model onto a **2021 Data-Zone** frame
-(`data/census/derived/dz21-community-2021.csv` — DZ population from `ms-a01-dz.csv`
-× 2021 Catholic-background composition, 3,272 Data Zones). Outputs in
-`areas_dz2021/` and `summary_dz2021.json`.
+**Correction to an earlier claim:** I first said NISRA's Cantabular portal "resisted
+scripted download" and used a community-marginal approximation. That was wrong — the
+**complete NISRA Cantabular flexible-table corpus was already scraped to R2** in earlier
+work (`data.civgraph.net/data/census/nisra-ftb/`, harvested exhaustively to 5-way
+crosstabs). The real 2021 Data-Zone **religion×age×sex joint** is
+`PEOPLE__DZ21~AGE_BAND_5YR~RELIGION_BELONG_TO_OR_BROUGHT_UP_IN_DVO~UR_SEX.csv.gz`, now
+persisted at `data/census/derived/dz21-religion-age-sex-2021.csv.gz` and used directly —
+no raking, no marginal approximation (`4_poststratify_dz2021.py`).
 
-| Date | NI (2011 SA) | NI (2021 DZ) | DZ p10–med–p90 | maj-unity DZs |
-|---|---:|---:|---|---:|
-| 2021-01 | 44.7 | 43.9 | 22.3–38.1–71.3 | 36.7% |
-| 2024-02 | 44.9 | 44.1 | 22.5–38.4–71.6 | 37.0% |
-| 2025-02 | 45.0 | 44.2 | 22.7–38.5–71.7 | 37.1% |
+Poststratifying the learned v8 model onto this real joint:
 
-**The level is robust to the frame choice** (~44–45% either way). Caveat: this
-committed DZ frame's pop-weighted Catholic-background is 43.4%, below the official
-2021 headline (45.7%) — it is derived from v4's religion×age DZ subset (3,272 of
-3,780 DZs, community marginal only). At the true 45.7% the level would sit ~1 pt
-higher (≈45%). A clean re-fetch of the full 2021 DZ religion×age joint from NISRA's
-Cantabular builder (which resisted scripted download this session) is the remaining
-refinement; the conclusion — a stable ~44–45%, not crossing 50% on the GLM — is
-unchanged.
+| Frame | 2021-01 | 2024-02 | 2025-02 | maj-unity |
+|---|--:|--:|--:|--:|
+| 2011 SA (religion×coarse-age) | 44.7 | 44.9 | 45.0 | ~37% |
+| 2021 DZ (community marginal) | 43.9 | 44.1 | 44.2 | ~37% |
+| **2021 DZ real joint (religion×age×sex)** | **40.1** | **40.4** | **40.5** | **~19%** |
+
+**The full joint lands ~4 pts lower (~40–41%).** Properly weighting onto the true
+voting-age 2021 population — which is older, and older cohorts are much less unity-leaning
+— pulls the estimate below both the coarse frames and the raw survey toplines (44–46%).
+This is a real MRP reweighting, and it makes the "does not cross 50%" conclusion *more*
+robust, not less. The honest span across all frames is **~40–45%**.
+
+Caveat on grouping: the census variable is "religion or religion brought up in", whose
+"None" category is tiny (~1.6%), unlike NILT's larger community-background "Other/None".
+Both a Catholic-vs-non-Catholic split (robust to this) and the 3-group mapping give ~40–41%
+on the real joint, so the level is not an artefact of the grouping choice. A further
+refinement is to harmonise NILT's community-background definition to the exact census
+variable before poststratifying.
+
+Files: `4_poststratify_dz2021.py`, `areas_dz2021_full/<date>_DZ21.csv`,
+`summary_dz2021_full.json`, `summary_dz2021_2group.json`.
