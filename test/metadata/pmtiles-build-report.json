@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-06-23T19:45:33.647Z",
+  "generatedAt": "2026-07-20T22:50:13.609Z",
   "mode": "execute",
   "tools": {
     "ogr2ogr": "C:\\Program Files\\GDAL\\ogr2ogr.exe",
@@ -12,18 +12,18 @@
   "outputDirectory": "test/pmtiles/generated",
   "maxGithubBytes": 99614720,
   "totals": {
-    "candidates": 24,
-    "converted": 24,
+    "candidates": 5,
+    "converted": 5,
     "skipped": 0,
     "failed": 0,
-    "metadataPreferred": 24,
+    "metadataPreferred": 5,
     "oversizedArchives": 0
   },
   "converted": [
     {
-      "layerId": "dobih-v18-4-vector-test",
-      "sourceMapId": "dobih-v18-4",
-      "name": "Database of British and Irish Hills",
+      "layerId": "eds-leinster-1946-vector-test",
+      "sourceMapId": "eds-leinster-1946",
+      "name": "Leinster District Electoral Divisions/Wards 1946",
       "sourceType": "pmtiles",
       "status": "converted",
       "profile": {
@@ -33,14 +33,14 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "output": "test/pmtiles/generated/dobih-v18-4-vector-test.pmtiles",
-      "bytes": 96431649,
+      "output": "test/pmtiles/generated/eds-leinster-1946-vector-test.pmtiles",
+      "bytes": 5313143,
       "exceedsGithubBudget": false
     },
     {
-      "layerId": "dobih-v18-4-munros-vector-test",
-      "sourceMapId": "dobih-v18-4-munros",
-      "name": "Munros (18.4)",
+      "layerId": "eds-leinster-1953-vector-test",
+      "sourceMapId": "eds-leinster-1953",
+      "name": "Leinster District Electoral Divisions/Wards 1953",
       "sourceType": "pmtiles",
       "status": "converted",
       "profile": {
@@ -50,14 +50,14 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "output": "test/pmtiles/generated/dobih-v18-4-munros-vector-test.pmtiles",
-      "bytes": 1703424,
+      "output": "test/pmtiles/generated/eds-leinster-1953-vector-test.pmtiles",
+      "bytes": 5328445,
       "exceedsGithubBudget": false
     },
     {
-      "layerId": "dobih-v18-4-munro-tops-vector-test",
-      "sourceMapId": "dobih-v18-4-munro-tops",
-      "name": "Munro Tops (18.4)",
+      "layerId": "eds-leinster-1954-vector-test",
+      "sourceMapId": "eds-leinster-1954",
+      "name": "Leinster District Electoral Divisions/Wards 1954",
       "sourceType": "pmtiles",
       "status": "converted",
       "profile": {
@@ -67,14 +67,14 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "output": "test/pmtiles/generated/dobih-v18-4-munro-tops-vector-test.pmtiles",
-      "bytes": 1323353,
+      "output": "test/pmtiles/generated/eds-leinster-1954-vector-test.pmtiles",
+      "bytes": 5327347,
       "exceedsGithubBudget": false
     },
     {
-      "layerId": "dobih-v18-4-furths-vector-test",
-      "sourceMapId": "dobih-v18-4-furths",
-      "name": "Furths (18.4)",
+      "layerId": "eds-munster-1944-vector-test",
+      "sourceMapId": "eds-munster-1944",
+      "name": "Munster District Electoral Divisions/Wards 1944",
       "sourceType": "pmtiles",
       "status": "converted",
       "profile": {
@@ -84,14 +84,14 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "output": "test/pmtiles/generated/dobih-v18-4-furths-vector-test.pmtiles",
-      "bytes": 231145,
+      "output": "test/pmtiles/generated/eds-munster-1944-vector-test.pmtiles",
+      "bytes": 7161458,
       "exceedsGithubBudget": false
     },
     {
-      "layerId": "dobih-v18-4-corbetts-vector-test",
-      "sourceMapId": "dobih-v18-4-corbetts",
-      "name": "Corbetts (18.4)",
+      "layerId": "eds-munster-1950-vector-test",
+      "sourceMapId": "eds-munster-1950",
+      "name": "Munster District Electoral Divisions/Wards 1950",
       "sourceType": "pmtiles",
       "status": "converted",
       "profile": {
@@ -101,331 +101,8 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "output": "test/pmtiles/generated/dobih-v18-4-corbetts-vector-test.pmtiles",
-      "bytes": 1552343,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "dobih-v18-4-grahams-vector-test",
-      "sourceMapId": "dobih-v18-4-grahams",
-      "name": "Grahams (18.4)",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "test/pmtiles/generated/dobih-v18-4-grahams-vector-test.pmtiles",
-      "bytes": 1647207,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "dobih-v18-4-donalds-vector-test",
-      "sourceMapId": "dobih-v18-4-donalds",
-      "name": "Donalds (18.4)",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "test/pmtiles/generated/dobih-v18-4-donalds-vector-test.pmtiles",
-      "bytes": 588650,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "dobih-v18-4-donald-tops-vector-test",
-      "sourceMapId": "dobih-v18-4-donald-tops",
-      "name": "Donald Tops (18.4)",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "test/pmtiles/generated/dobih-v18-4-donald-tops-vector-test.pmtiles",
-      "bytes": 359539,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "dobih-v18-4-marilyns-vector-test",
-      "sourceMapId": "dobih-v18-4-marilyns",
-      "name": "Marilyns (18.4)",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "test/pmtiles/generated/dobih-v18-4-marilyns-vector-test.pmtiles",
-      "bytes": 12761909,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "dobih-v18-4-humps-vector-test",
-      "sourceMapId": "dobih-v18-4-humps",
-      "name": "HuMPs (18.4)",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "test/pmtiles/generated/dobih-v18-4-humps-vector-test.pmtiles",
-      "bytes": 22627292,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "dobih-v18-4-tumps-vector-test",
-      "sourceMapId": "dobih-v18-4-tumps",
-      "name": "TuMPs (18.4)",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "test/pmtiles/generated/dobih-v18-4-tumps-vector-test.pmtiles",
-      "bytes": 77873851,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "dobih-v18-4-simms-vector-test",
-      "sourceMapId": "dobih-v18-4-simms",
-      "name": "Simms (18.4)",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "test/pmtiles/generated/dobih-v18-4-simms-vector-test.pmtiles",
-      "bytes": 13946521,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "dobih-v18-4-hewitts-vector-test",
-      "sourceMapId": "dobih-v18-4-hewitts",
-      "name": "Hewitts (18.4)",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "test/pmtiles/generated/dobih-v18-4-hewitts-vector-test.pmtiles",
-      "bytes": 3021010,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "dobih-v18-4-nuttalls-vector-test",
-      "sourceMapId": "dobih-v18-4-nuttalls",
-      "name": "Nuttalls (18.4)",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "test/pmtiles/generated/dobih-v18-4-nuttalls-vector-test.pmtiles",
-      "bytes": 2442860,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "dobih-v18-4-wainwrights-vector-test",
-      "sourceMapId": "dobih-v18-4-wainwrights",
-      "name": "Wainwrights (18.4)",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "test/pmtiles/generated/dobih-v18-4-wainwrights-vector-test.pmtiles",
-      "bytes": 1154996,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "dobih-v18-4-birketts-vector-test",
-      "sourceMapId": "dobih-v18-4-birketts",
-      "name": "Birketts (18.4)",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "test/pmtiles/generated/dobih-v18-4-birketts-vector-test.pmtiles",
-      "bytes": 2460209,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "dobih-v18-4-synges-vector-test",
-      "sourceMapId": "dobih-v18-4-synges",
-      "name": "Synges (18.4)",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "test/pmtiles/generated/dobih-v18-4-synges-vector-test.pmtiles",
-      "bytes": 2929767,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "dobih-v18-4-fellrangers-vector-test",
-      "sourceMapId": "dobih-v18-4-fellrangers",
-      "name": "Fellrangers (18.4)",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "test/pmtiles/generated/dobih-v18-4-fellrangers-vector-test.pmtiles",
-      "bytes": 1256210,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "dobih-v18-4-arderins-vector-test",
-      "sourceMapId": "dobih-v18-4-arderins",
-      "name": "Arderins (18.4)",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "test/pmtiles/generated/dobih-v18-4-arderins-vector-test.pmtiles",
-      "bytes": 2086529,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "dobih-v18-4-vandeleur-lynams-vector-test",
-      "sourceMapId": "dobih-v18-4-vandeleur-lynams",
-      "name": "Vandeleur-Lynams (18.4)",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "test/pmtiles/generated/dobih-v18-4-vandeleur-lynams-vector-test.pmtiles",
-      "bytes": 1393472,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "dobih-v18-4-carns-vector-test",
-      "sourceMapId": "dobih-v18-4-carns",
-      "name": "Carns (18.4)",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "test/pmtiles/generated/dobih-v18-4-carns-vector-test.pmtiles",
-      "bytes": 1765731,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "dobih-v18-4-binnions-vector-test",
-      "sourceMapId": "dobih-v18-4-binnions",
-      "name": "Binnions (18.4)",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "test/pmtiles/generated/dobih-v18-4-binnions-vector-test.pmtiles",
-      "bytes": 2757091,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "dobih-v18-4-county-tops-vector-test",
-      "sourceMapId": "dobih-v18-4-county-tops",
-      "name": "County Tops (18.4)",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "test/pmtiles/generated/dobih-v18-4-county-tops-vector-test.pmtiles",
-      "bytes": 5015493,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "dobih-v18-4-significant-islands-vector-test",
-      "sourceMapId": "dobih-v18-4-significant-islands",
-      "name": "Significant Islands of Britain and Ireland (18.4)",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "test/pmtiles/generated/dobih-v18-4-significant-islands-vector-test.pmtiles",
-      "bytes": 4728260,
+      "output": "test/pmtiles/generated/eds-munster-1950-vector-test.pmtiles",
+      "bytes": 7167796,
       "exceedsGithubBudget": false
     }
   ],
