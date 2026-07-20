@@ -116,6 +116,33 @@ identity geography is fairly stable but this is a different frame); **n=51** cap
 identity-within-religion cells; extending these cross-tabs to 2021 DZ needs the 2021 flexible-builder
 multivariate tables (only 2011 LC/DC and the 2021 religion×age×sex 3-way are on disk here).
 
+## Pushing further: (1) a 2021 DZ frame, and (2) adding class & tenure
+
+**(1) Is there a 2021 multivariate frame (no vintage gap)?** Checked directly: **no.** There is no
+2021 directory on disk — 2021 is represented only by the MS single-variable tables plus the one
+religion×age×sex 3-way; the R2 bucket is `boundaries-data` (maps/geospatial, and no credentials in
+this environment anyway). NISRA's **Flexible Table Builder is reachable** (`build.nisra.gov.uk`,
+Cantabular-backed, datasets `PEOPLE`/`HOUSEHOLD`), so a fresh 2021 DZ cross-tab *could* be pulled —
+but only by reverse-engineering the Cantabular variable-code + query API, which is a genuine follow-up
+task, not an instant fetch. **The 2011 LC bridge remains the available multivariate analysis today**;
+closing the vintage gap means scripting the NISRA FTB pull.
+
+**(2) Do class (NS-SeC) and tenure add anything?** NILT has both (`NSSECRESP08`, `TENSHT1`), so we
+tested the decisive question with **nested 5-fold cross-validated** margin models
+(`margin_class_tenure.py`):
+
+| model | CV log-loss | vs base |
+|---|---|---|
+| religion + identity + age + sex | 0.2029 | — |
+| + NS-SeC (class) | 0.2066 | **+0.0037 (worse)** |
+| + NS-SeC + tenure | 0.2060 | **+0.0031 (worse)** |
+
+**Class and tenure add no out-of-sample signal — the fit gets slightly *worse*.** The margin's class
+mix is close to the electorate's (a little more lower-managerial/small-employer/semi-routine, less
+routine) and it is only mildly more owner-occupied (77% vs 72%) — too diffuse to relocate anything.
+So the IPF synthesis needed to poststratify on class/tenure is **not worth doing: it cannot move the
+margin's geography.** The operative axes are confirmed to be **religion + age**, full stop.
+
 ## What we can and cannot attach
 
 - **NILT** — full individual attribute vector (above). ✓ The richest, most direct source.
