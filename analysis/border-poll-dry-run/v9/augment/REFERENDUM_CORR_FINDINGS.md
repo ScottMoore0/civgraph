@@ -40,28 +40,47 @@ from the high-Remain areas; and (2) the **soft-unionist Remain** — Belfast Sou
 Catholic, North Down 52% at 13% Catholic — a liberal-unionist Remain that cross-cuts religion. The
 census gets the broad split but misses that cross-cutting middle. Data: `euref2016_census_corr.csv`.
 
-## 2011 AV referendum — n=8 counting areas, composition approximate (indicative only)
+## 2011 AV referendum — done properly with the real geography
 
-The AV vote is only reported for 8 count centres, and there is no clean census join to them, so the
-Catholic% below is an **indicative estimate per count-centre** — directional, not inferential.
+Using the supplied count-centre→constituency mapping, turnout is taken at **constituency level (n=18,
+real per-constituency figures)** and Yes/No at **counting-area level (n=8)** with each count centre's
+census composition aggregated from its constituent constituencies, electorate-weighted. (The two
+official tables contradict on turnout because the counting-area "turnout %" used mismatched
+denominators; the constituency turnout is the correct one.)
 
-| count area | turnout | Yes | ~Catholic |
-|---|---|---|---|
-| Omagh | 67.1 | 46.7 | ~60 |
-| Ballymena | 60.1 | 42.0 | ~24 |
-| Banbridge 1 | 60.4 | 45.8 | ~42 |
-| Belfast | 55.3 | **59.7** | ~42 |
-| Londonderry | 55.3 | 50.0 | ~55 |
-| Banbridge 2 | 53.7 | 40.4 | ~44 |
-| Newtownabbey | 50.3 | 39.4 | ~22 |
-| Newtownards | 48.7 | **30.6** | ~14 |
+**Turnout (n=18) — higher in the *nationalist* areas, the OPPOSITE sign to EU-2016:**
 
-- corr(Yes, ~Catholic) **+0.65**, corr(turnout, ~Catholic) **+0.65**, corr(turnout, Yes) +0.41.
-- Read cautiously (n=8): AV Yes had a **mild nationalist/urban tilt** — highest in Belfast (urban) and
-  the Catholic west, lowest in the unionist-suburban east (Newtownards 31%) — and turnout was higher in
-  the nationalist west (Omagh 67%). But AV was low-salience and *not* a religion-structured question,
-  so even this weak tilt is mostly the urban/left character of Yes, not community background per se.
-  Data: `avref2011_areas.csv`.
+| census feature | r with turnout |
+|---|---|
+| No religion | **−0.81** |
+| UK-only passport | **−0.79** |
+| Catholic background | **+0.74** |
+| Irish identity | +0.67 |
+
+Highest turnout: **Fermanagh & S. Tyrone 69.8, Mid Ulster 65.6, West Tyrone 64.2**; lowest: North Down
+45.9, East Antrim 47.8, South Antrim 48.6. The reason is decisive and not about AV at all: **AV polling
+day (5 May 2011) was the same day as the NI Assembly election**, so turnout tracked Assembly-election
+mobilisation — structurally higher in the competitive nationalist west. This is the mirror image of the
+2016 EU-ref turnout (deprivation/education-driven, nationalist-*low*) and a clean illustration that
+"turnout" means different things depending on what else is on the ballot.
+
+**Yes vote (n=8, real aggregated composition) — ethnonational AND class:**
+
+| census feature | r with Yes % |
+|---|---|
+| Irish identity | **+0.89** |
+| Higher NS-SeC (ABC1) | **+0.83** |
+| Catholic background | **+0.83** |
+| UK-only passport | **−0.83** |
+| Owner-occupation | −0.76 |
+
+Belfast (South+West, 62% Catholic) highest Yes at **59.7%**; Newtownards (East Belfast+North Down+
+Strangford, 15% Catholic) lowest at **30.6%**. With the real composition Belfast is **not** an "urban
+outlier" (my earlier approximate note) — its high Yes fits the Catholic/Irish axis exactly. So AV Yes
+loaded on **two** axes at once: the ethnonational cleavage (Irish/Catholic → Yes, unionist → No) *and*
+a class/urban one (professional ABC1 and renters → Yes, owner-occupier suburbs → No) — the
+nationalist-plus-liberal-professional reform vote against the unionist-suburban status quo. Data:
+`avref2011_census_corr.csv` (Yes, n=8), `avref2011_turnout_census.csv` (turnout, n=18).
 
 ## 1998 GFA referendum — NI-wide only
 
