@@ -1,9 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-14T17:47:45.485Z",
+  "generatedAt": "2026-07-20T22:25:03.510Z",
   "shard": 33,
   "total": 2500,
   "items": [
+    {
+      "id": "cg:statement:7304953876d0ba4fa382",
+      "subjectId": "cg:candidature:cg-person-name-eoin-o-broin-cg-contest-local-government-local-government-c1d0613a87e3",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:candidature"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:e5225e6b64513246748f",
+      "subjectId": "cg:candidature:cg-person-name-eoin-o-broin-cg-contest-local-government-local-government-c1d0613a87e3",
+      "propertyId": "cg:property:member-of-political-party",
+      "value": {
+        "type": "entity",
+        "id": "cg:party:sinn-fein"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
     {
       "id": "cg:statement:f7cce54968a1932126bd",
       "subjectId": "cg:candidature:cg-person-name-eoin-o-broin-cg-contest-local-government-local-government-c1d0613a87e3",
@@ -39438,33 +39465,6 @@
       "value": {
         "type": "number",
         "value": 832
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:b87a9013a04b1f3f6e8a",
-      "subjectId": "cg:candidature:cg-person-name-eugene-timmons-cg-contest-dail-eireann-1948-02-04-dail-ei-67a99674ce2f",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:candidature"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:db205872f956313cbe55",
-      "subjectId": "cg:candidature:cg-person-name-eugene-timmons-cg-contest-dail-eireann-1948-02-04-dail-ei-67a99674ce2f",
-      "propertyId": "cg:property:member-of-political-party",
-      "value": {
-        "type": "entity",
-        "id": "cg:party:fianna-fail"
       },
       "references": [
         {

@@ -1,10 +1,329 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-17T19:32:11.369Z",
+  "generatedAt": "2026-07-20T22:24:55.819Z",
   "kind": "sources",
   "shard": "sources-194.json",
   "total": 200,
   "items": [
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:nihpi-verified-sales-by-propertytype:01985",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-nihpi-verified-sales-by-propertytype-01985",
+      "type": "approved-medium-priority-source",
+      "title": "NIHPI Verified Sales",
+      "subtitle": "Local authority planning/property/open-data layers / Land & Property Services, Open Data NI / Northern Ireland / CSV / Approved source record",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "provider": [
+        "Land & Property Services",
+        "Open Data NI"
+      ],
+      "description": "NIHPI Verified Sales is published as a medium-priority Civgraph source/provenance record from Land & Property Services, Open Data NI. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://admin.opendatani.gov.uk/dataset/nihpi-verified-sales-by-propertytype",
+      "references": [
+        {
+          "label": "NIHPI Verified Sales provider page",
+          "url": "https://admin.opendatani.gov.uk/dataset/nihpi-verified-sales-by-propertytype",
+          "source": "Open Data NI",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "NIHPI Verified Sales Wayback captures",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/nihpi-verified-sales-by-propertytype",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://admin.opendatani.gov.uk/dataset/nihpi-verified-sales-by-propertytype",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Local authority planning/property/open-data layers",
+        "source-data",
+        "features",
+        "Northern Ireland",
+        "local-authority-batch-review",
+        "CSV"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 1986,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:nihpi-verified-sales-by-propertytype:01985",
+          "title": "NIHPI Verified Sales",
+          "cleanTitle": "NIHPI Verified Sales",
+          "provider": "Open Data NI",
+          "organisation": "Land & Property Services",
+          "category": "tabular",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Northern Ireland",
+          "topic": "source-data",
+          "featureUnit": "features",
+          "formats": [
+            "CSV"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 55,
+          "currentProviderUrl": "https://admin.opendatani.gov.uk/dataset/nihpi-verified-sales-by-propertytype",
+          "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/nihpi-verified-sales-by-propertytype",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Northern Ireland",
+        "source-data",
+        "NIHPI Verified Sales"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text"
+        ],
+        "canonicalDatasetUrl": "https://admin.opendatani.gov.uk/dataset/nihpi-verified-sales-by-propertytype",
+        "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/nihpi-verified-sales-by-propertytype",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Land & Property Services, Open Data NI, NIHPI Verified Sales.",
+      "fullCitation": "Land & Property Services, Open Data NI. NIHPI Verified Sales. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://admin.opendatani.gov.uk/dataset/nihpi-verified-sales-by-propertytype. Wayback capture index: https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/nihpi-verified-sales-by-propertytype.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:nihpi-verified-sales-by-propertytype:01985",
+        "sourceRowNumber": 1986,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+        "proposedAction": "local-authority-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV"
+          ]
+        },
+        "confidence": 55,
+        "resolvedBlockers": [
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+          "needs-provider-context-review: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-nihpi-verified-sales-by-propertytype-01985",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:nihpi-verified-sales-by-propertytype:01985",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-nihpi-verified-sales-by-propertytype-01985",
+        "type": "approved-medium-priority-source",
+        "title": "NIHPI Verified Sales",
+        "subtitle": "Local authority planning/property/open-data layers / Land & Property Services, Open Data NI / Northern Ireland / CSV / Approved source record",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "provider": [
+          "Land & Property Services",
+          "Open Data NI"
+        ],
+        "description": "NIHPI Verified Sales is published as a medium-priority Civgraph source/provenance record from Land & Property Services, Open Data NI. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://admin.opendatani.gov.uk/dataset/nihpi-verified-sales-by-propertytype",
+        "references": [
+          {
+            "label": "NIHPI Verified Sales provider page",
+            "url": "https://admin.opendatani.gov.uk/dataset/nihpi-verified-sales-by-propertytype",
+            "source": "Open Data NI",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "NIHPI Verified Sales Wayback captures",
+            "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/nihpi-verified-sales-by-propertytype",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://admin.opendatani.gov.uk/dataset/nihpi-verified-sales-by-propertytype",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Northern Ireland",
+          "source-data",
+          "NIHPI Verified Sales"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text"
+          ],
+          "canonicalDatasetUrl": "https://admin.opendatani.gov.uk/dataset/nihpi-verified-sales-by-propertytype",
+          "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/nihpi-verified-sales-by-propertytype",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Land & Property Services, Open Data NI, NIHPI Verified Sales.",
+        "fullCitation": "Land & Property Services, Open Data NI. NIHPI Verified Sales. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://admin.opendatani.gov.uk/dataset/nihpi-verified-sales-by-propertytype. Wayback capture index: https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/nihpi-verified-sales-by-propertytype.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 1986,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:nihpi-verified-sales-by-propertytype:01985",
+            "title": "NIHPI Verified Sales",
+            "cleanTitle": "NIHPI Verified Sales",
+            "provider": "Open Data NI",
+            "organisation": "Land & Property Services",
+            "category": "tabular",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Northern Ireland",
+            "topic": "source-data",
+            "featureUnit": "features",
+            "formats": [
+              "CSV"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "local-authority-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 55,
+            "currentProviderUrl": "https://admin.opendatani.gov.uk/dataset/nihpi-verified-sales-by-propertytype",
+            "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/nihpi-verified-sales-by-propertytype",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+              "needs-provider-context-review: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:nihpi-verified-sales-by-propertytype:01985",
+          "sourceRowNumber": 1986,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV"
+            ]
+          },
+          "confidence": 55,
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Local authority planning/property/open-data layers",
+          "source-data",
+          "features",
+          "Northern Ireland",
+          "local-authority-batch-review",
+          "CSV"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-nihpi-verified-sales-by-propertytype-01985"
+      }
+    },
     {
       "id": "medium-priority:5-local-authority-planning-property-open-data-layers:nitrogen-dioxide-no2-level-in-gorey-co-wexford:01853",
       "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-nitrogen-dioxide-no2-level-in-gorey-co-wexford-01853",
@@ -69460,327 +69779,6 @@
           "review:duplicate-or-variant-review-no-existing-match-candidate"
         ],
         "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-remote-working-hubs-fcc-00701"
-      }
-    },
-    {
-      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:repossessions-by-local-authority-2005-to-2013:01614",
-      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-repossessions-by-local-authority-2005-to-2013-01614",
-      "type": "approved-medium-priority-source",
-      "title": "Repossessions by Local Authority 2005 to 2013",
-      "subtitle": "Local authority planning/property/open-data layers / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV / Approved source record",
-      "category": "Medium-priority: Local authority planning/property/open-data layers",
-      "date": "2005",
-      "provider": [
-        "Department of Housing, Local Government and Heritage",
-        "data.gov.ie"
-      ],
-      "description": "Repossessions by Local Authority 2005 to 2013 is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/repossessions-by-local-authority-2005-to-2013",
-      "references": [
-        {
-          "label": "Repossessions by Local Authority 2005 to 2013 provider page",
-          "url": "https://data.gov.ie/dataset/repossessions-by-local-authority-2005-to-2013",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Repossessions by Local Authority 2005 to 2013 Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/repossessions-by-local-authority-2005-to-2013",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/repossessions-by-local-authority-2005-to-2013",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Local authority planning/property/open-data layers",
-        "source-data",
-        "features",
-        "Ireland / unspecified",
-        "local-authority-batch-review",
-        "CSV"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 1615,
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:repossessions-by-local-authority-2005-to-2013:01614",
-          "title": "Repossessions by Local Authority 2005 to 2013",
-          "cleanTitle": "Repossessions by Local Authority 2005 to 2013",
-          "provider": "data.gov.ie",
-          "organisation": "Department of Housing, Local Government and Heritage",
-          "category": "tabular",
-          "roiGroup": "5. Local authority planning/property/open-data layers",
-          "groupTitle": "Local authority planning/property/open-data layers",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "source-data",
-          "featureUnit": "features",
-          "formats": [
-            "CSV"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 55,
-          "currentProviderUrl": "https://data.gov.ie/dataset/repossessions-by-local-authority-2005-to-2013",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/repossessions-by-local-authority-2005-to-2013",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Local authority planning/property/open-data layers",
-        "Ireland / unspecified",
-        "source-data",
-        "Repossessions by Local Authority 2005 to 2013"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/repossessions-by-local-authority-2005-to-2013",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/repossessions-by-local-authority-2005-to-2013",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, Repossessions by Local Authority 2005 to 2013.",
-      "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. Repossessions by Local Authority 2005 to 2013. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/repossessions-by-local-authority-2005-to-2013. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/repossessions-by-local-authority-2005-to-2013.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:repossessions-by-local-authority-2005-to-2013:01614",
-        "sourceRowNumber": 1615,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-        "proposedAction": "local-authority-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "CSV"
-          ]
-        },
-        "confidence": 55,
-        "resolvedBlockers": [
-          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-          "needs-provider-context-review: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-repossessions-by-local-authority-2005-to-2013-01614",
-      "rawMetadata": {
-        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:repossessions-by-local-authority-2005-to-2013:01614",
-        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-repossessions-by-local-authority-2005-to-2013-01614",
-        "type": "approved-medium-priority-source",
-        "title": "Repossessions by Local Authority 2005 to 2013",
-        "subtitle": "Local authority planning/property/open-data layers / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV / Approved source record",
-        "category": "Medium-priority: Local authority planning/property/open-data layers",
-        "date": "2005",
-        "provider": [
-          "Department of Housing, Local Government and Heritage",
-          "data.gov.ie"
-        ],
-        "description": "Repossessions by Local Authority 2005 to 2013 is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/repossessions-by-local-authority-2005-to-2013",
-        "references": [
-          {
-            "label": "Repossessions by Local Authority 2005 to 2013 provider page",
-            "url": "https://data.gov.ie/dataset/repossessions-by-local-authority-2005-to-2013",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Repossessions by Local Authority 2005 to 2013 Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/repossessions-by-local-authority-2005-to-2013",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/repossessions-by-local-authority-2005-to-2013",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Local authority planning/property/open-data layers",
-          "Ireland / unspecified",
-          "source-data",
-          "Repossessions by Local Authority 2005 to 2013"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/repossessions-by-local-authority-2005-to-2013",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/repossessions-by-local-authority-2005-to-2013",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, Repossessions by Local Authority 2005 to 2013.",
-        "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. Repossessions by Local Authority 2005 to 2013. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/repossessions-by-local-authority-2005-to-2013. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/repossessions-by-local-authority-2005-to-2013.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 1615,
-            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:repossessions-by-local-authority-2005-to-2013:01614",
-            "title": "Repossessions by Local Authority 2005 to 2013",
-            "cleanTitle": "Repossessions by Local Authority 2005 to 2013",
-            "provider": "data.gov.ie",
-            "organisation": "Department of Housing, Local Government and Heritage",
-            "category": "tabular",
-            "roiGroup": "5. Local authority planning/property/open-data layers",
-            "groupTitle": "Local authority planning/property/open-data layers",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "source-data",
-            "featureUnit": "features",
-            "formats": [
-              "CSV"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "local-authority-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "CSV"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 55,
-            "currentProviderUrl": "https://data.gov.ie/dataset/repossessions-by-local-authority-2005-to-2013",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/repossessions-by-local-authority-2005-to-2013",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-              "needs-provider-context-review: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:repossessions-by-local-authority-2005-to-2013:01614",
-          "sourceRowNumber": 1615,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV"
-            ]
-          },
-          "confidence": 55,
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Local authority planning/property/open-data layers",
-          "source-data",
-          "features",
-          "Ireland / unspecified",
-          "local-authority-batch-review",
-          "CSV"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-repossessions-by-local-authority-2005-to-2013-01614"
       }
     }
   ]

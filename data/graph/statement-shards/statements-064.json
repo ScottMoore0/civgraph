@@ -1,9 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-14T17:47:45.485Z",
+  "generatedAt": "2026-07-20T22:25:03.510Z",
   "shard": 64,
   "total": 2500,
   "items": [
+    {
+      "id": "cg:statement:2fdb5e2d6346722cfae6",
+      "subjectId": "cg:candidature:cg-person-name-ken-maginnis-cg-contest-house-of-commons-of-the-united-ki-0228ecdc09a1",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:candidature"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:bd4cbd3ea7e10ed48ed8",
+      "subjectId": "cg:candidature:cg-person-name-ken-maginnis-cg-contest-house-of-commons-of-the-united-ki-0228ecdc09a1",
+      "propertyId": "cg:property:member-of-political-party",
+      "value": {
+        "type": "entity",
+        "id": "cg:party:uup"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
     {
       "id": "cg:statement:496a1e24cc4f72635022",
       "subjectId": "cg:candidature:cg-person-name-ken-maginnis-cg-contest-house-of-commons-of-the-united-ki-0228ecdc09a1",
@@ -39440,40 +39467,6 @@
         "type": "entity",
         "id": "cg:date-month:2023-05",
         "label": "2023-05-18"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:f0c66d31facde595fe07",
-      "subjectId": "cg:candidature:cg-person-name-kinley-tenner-cg-contest-local-government-local-governmen-205fec926154",
-      "propertyId": "cg:property:elected",
-      "value": {
-        "type": "boolean",
-        "value": false
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:5b58cfd2f1f62e8ad18f",
-      "subjectId": "cg:candidature:cg-person-name-kinley-tenner-cg-contest-local-government-local-governmen-205fec926154",
-      "propertyId": "cg:property:first-preference-votes",
-      "value": {
-        "type": "number",
-        "value": 299
       },
       "references": [
         {

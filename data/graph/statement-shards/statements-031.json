@@ -1,9 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-14T17:47:45.485Z",
+  "generatedAt": "2026-07-20T22:25:03.510Z",
   "shard": 31,
   "total": 2500,
   "items": [
+    {
+      "id": "cg:statement:cb43db13374afcdd7779",
+      "subjectId": "cg:candidature:cg-person-name-edmond-carey-cg-contest-dail-eireann-1927-06-09-dail-eire-32de421f4b82",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:candidature"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:cceaf8d7bbc7ef2a8e13",
+      "subjectId": "cg:candidature:cg-person-name-edmond-carey-cg-contest-dail-eireann-1927-06-09-dail-eire-32de421f4b82",
+      "propertyId": "cg:property:member-of-political-party",
+      "value": {
+        "type": "entity",
+        "id": "cg:party:independent"
+      },
+      "references": [
+        {
+          "sourceId": "cg:source:civgraph-browse-person-index",
+          "sourceTitle": "Civgraph Browse person index",
+          "sourceKind": "generated-browse-index"
+        }
+      ],
+      "rank": "normal"
+    },
     {
       "id": "cg:statement:e66d0f53d443b8b9fb49",
       "subjectId": "cg:candidature:cg-person-name-edmond-carey-cg-contest-dail-eireann-1927-06-09-dail-eire-32de421f4b82",
@@ -39425,41 +39452,6 @@
       "value": {
         "type": "string",
         "value": "Not Elected"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:89859d8ff6fda818525e",
-      "subjectId": "cg:candidature:cg-person-name-eithne-fitzgerald-cg-contest-dail-eireann-2002-05-17-dail-54c83c0ea99f",
-      "propertyId": "cg:property:contest",
-      "value": {
-        "type": "entity",
-        "id": "cg:contest:dail-eireann-2002-05-17-dail-eireann-2002-05-17-dublin-south"
-      },
-      "references": [
-        {
-          "sourceId": "cg:source:civgraph-browse-person-index",
-          "sourceTitle": "Civgraph Browse person index",
-          "sourceKind": "generated-browse-index"
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:64c2dadccea6b757dcc6",
-      "subjectId": "cg:candidature:cg-person-name-eithne-fitzgerald-cg-contest-dail-eireann-2002-05-17-dail-54c83c0ea99f",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-month:2002-05",
-        "label": "2002-05-17"
       },
       "references": [
         {

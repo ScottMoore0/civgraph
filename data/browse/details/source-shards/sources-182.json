@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-17T19:32:11.369Z",
+  "generatedAt": "2026-07-20T22:24:55.819Z",
   "kind": "sources",
   "shard": "sources-182.json",
   "total": 200,
@@ -12992,6 +12992,69 @@
       }
     },
     {
+      "id": "map-source:dail-1947",
+      "slug": "map-source-dail-1947",
+      "type": "map-source",
+      "title": "Dáil Eireann - 1947 source files",
+      "subtitle": "Dáil Eireann Constituencies / Phelim Birch",
+      "category": "Map sources",
+      "date": 1947,
+      "provider": [
+        "Phelim Birch"
+      ],
+      "description": "Republic of Ireland parliamentary constituencies",
+      "sourceMapId": "dail-1947",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "1",
+        "type": "map"
+      },
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/parliamentary/1947_Dail.fgb"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/parliamentary/1947_Dail.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=dail-1947",
+      "browseUrl": "/browse/sources/map-source-dail-1947",
+      "rawMetadata": {
+        "id": "dail-1947",
+        "name": "1947",
+        "slug": "dail-1947",
+        "category": "dail",
+        "date": 1947,
+        "style": {
+          "color": "#43A047",
+          "weight": 2
+        },
+        "keywords": [
+          "Dáil",
+          "Dáil",
+          "constituency",
+          "1947",
+          "1948",
+          "1951",
+          "1954",
+          "1957",
+          "ROI",
+          "ireland"
+        ],
+        "featured": true,
+        "provider": [
+          "Phelim Birch"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/parliamentary/1947_Dail.fgb"
+        },
+        "labelProperty": "CON_NAME",
+        "useLOD": true
+      }
+    },
+    {
       "id": "map-source:dail-1959",
       "slug": "map-source-dail-1959",
       "type": "map-source",
@@ -22356,252 +22419,6 @@
           }
         ],
         "labelProperty": "Location"
-      }
-    },
-    {
-      "id": "map-source:dcc-record-protected-structures",
-      "slug": "map-source-dcc-record-protected-structures",
-      "type": "map-source",
-      "title": "Record Protected Structures (DCC) source files",
-      "subtitle": "Built Environment / Dublin City Council",
-      "category": "Map sources",
-      "provider": [
-        "Dublin City Council"
-      ],
-      "description": "Record Protected Structures (DCC) — published by Dublin City Council. 1 related provider/source row is staged as provenance for this existing Civgraph record; provider: data.gov.ie; formats: CSV, GEOJSON; 1 provider dataset link preserved as references.",
-      "sourceMapId": "dcc-record-protected-structures",
-      "thumbnail": {
-        "kind": "asset",
-        "id": "dcc-record-protected-structures",
-        "url": "/assets/thumbnails/dcc-record-protected-structures.webp",
-        "smallUrl": "/assets/thumbnails/dcc-record-protected-structures-60.webp",
-        "alt": "Record Protected Structures (DCC)"
-      },
-      "references": [
-        {
-          "label": "Source — data.gov.ie",
-          "url": "https://data.gov.ie/"
-        },
-        {
-          "label": "Existing Civgraph record: Record Protected Structures (DCC) source files",
-          "url": "/browse/maps/dcc-record-protected-structures",
-          "source": "Civgraph",
-          "role": "matched-existing-record"
-        },
-        {
-          "label": "Existing Civgraph source record: map-source:dcc-record-protected-structures",
-          "url": "/browse/sources/map-source-dcc-record-protected-structures",
-          "source": "Civgraph",
-          "role": "matched-source-record"
-        },
-        {
-          "label": "Provider dataset: Record Protected Structures DCC",
-          "url": "https://data.gov.ie/dataset/record-protected-structures-dcc",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-dataset",
-          "type": "CSV"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/roi-dcc/dcc-record-protected-structures.fgb"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/roi-dcc/dcc-record-protected-structures.geojson"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/roi-dcc/dcc-record-protected-structures.geojson"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/roi-dcc/dcc-record-protected-structures.fgb"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/roi-dcc/dcc-record-protected-structures.geojson"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/roi-dcc/dcc-record-protected-structures.geojson"
-        }
-      ],
-      "interactiveUrl": "/#layers=dcc-record-protected-structures",
-      "browseUrl": "/browse/sources/map-source-dcc-record-protected-structures",
-      "alreadyOnSiteEnrichments": [
-        {
-          "sourceTargetId": "map-source:dcc-record-protected-structures",
-          "targetEntityKind": "map",
-          "targetEntityId": "dcc-record-protected-structures",
-          "targetTitle": "Record Protected Structures (DCC) source files",
-          "targetBrowseUrl": "/browse/maps/dcc-record-protected-structures",
-          "sourceItemCount": 1,
-          "confidence": "safe",
-          "safetyClasses": [
-            "safe metadata enrichment candidate"
-          ],
-          "formats": [
-            "CSV",
-            "GEOJSON"
-          ],
-          "providers": [
-            "data.gov.ie"
-          ],
-          "categories": [
-            "spatial"
-          ],
-          "enrichmentTypes": [
-            "alternate-format metadata",
-            "download/source-file metadata",
-            "geometry lineage and boundary-version metadata",
-            "geospatial source-format metadata",
-            "raw-source viewport candidate metadata",
-            "schema/table/attribute metadata",
-            "source/provenance metadata"
-          ],
-          "provenanceSummary": "1 related provider/source row is staged as provenance for this existing Civgraph record; provider: data.gov.ie; formats: CSV, GEOJSON; 1 provider dataset link preserved as references.",
-          "sourceItems": [
-            {
-              "auditRowNumber": 887,
-              "title": "Record Protected Structures DCC",
-              "provider": "data.gov.ie",
-              "category": "spatial",
-              "formats": [
-                "CSV",
-                "GEOJSON"
-              ],
-              "safetyClass": "safe metadata enrichment candidate",
-              "providerDatasetUrl": "https://data.gov.ie/dataset/record-protected-structures-dcc",
-              "recommendedAction": "Do not publish as new; enrich existing record only if source/provenance is missing.",
-              "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
-              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-              "enrichmentTypes": [
-                "alternate-format metadata",
-                "download/source-file metadata",
-                "geometry lineage and boundary-version metadata",
-                "geospatial source-format metadata",
-                "raw-source viewport candidate metadata",
-                "schema/table/attribute metadata",
-                "source/provenance metadata"
-              ],
-              "detectedFamilies": [
-                "habitat-protected-sites"
-              ],
-              "siteFamiliesPresent": [
-                "habitat-protected-sites"
-              ],
-              "refinedStatus": "already represented or very strong exact match"
-            }
-          ],
-          "evidence": [
-            {
-              "kind": "database-map",
-              "id": "dcc-record-protected-structures",
-              "title": "Record Protected Structures (DCC)",
-              "score": 1.78
-            },
-            {
-              "kind": "browse-map",
-              "id": "dcc-record-protected-structures",
-              "title": "Record Protected Structures (DCC)",
-              "score": 1.78
-            },
-            {
-              "kind": "browse-source",
-              "id": "map-source:dcc-record-protected-structures",
-              "title": "Record Protected Structures (DCC) source files",
-              "score": 0.78
-            }
-          ]
-        }
-      ],
-      "sourceItems": [
-        {
-          "auditRowNumber": 887,
-          "title": "Record Protected Structures DCC",
-          "provider": "data.gov.ie",
-          "category": "spatial",
-          "formats": [
-            "CSV",
-            "GEOJSON"
-          ],
-          "safetyClass": "safe metadata enrichment candidate",
-          "providerDatasetUrl": "https://data.gov.ie/dataset/record-protected-structures-dcc",
-          "recommendedAction": "Do not publish as new; enrich existing record only if source/provenance is missing.",
-          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "enrichmentTypes": [
-            "alternate-format metadata",
-            "download/source-file metadata",
-            "geometry lineage and boundary-version metadata",
-            "geospatial source-format metadata",
-            "raw-source viewport candidate metadata",
-            "schema/table/attribute metadata",
-            "source/provenance metadata"
-          ],
-          "detectedFamilies": [
-            "habitat-protected-sites"
-          ],
-          "siteFamiliesPresent": [
-            "habitat-protected-sites"
-          ],
-          "refinedStatus": "already represented or very strong exact match"
-        }
-      ],
-      "keywords": [
-        "already-on-site-enrichment",
-        "duplicate-source-match",
-        "alternate-format metadata",
-        "download/source-file metadata",
-        "geometry lineage and boundary-version metadata",
-        "geospatial source-format metadata",
-        "raw-source viewport candidate metadata",
-        "schema/table/attribute metadata",
-        "source/provenance metadata"
-      ],
-      "publicationStatus": "enriched",
-      "rawMetadata": {
-        "id": "dcc-record-protected-structures",
-        "name": "Record Protected Structures (DCC)",
-        "slug": "dcc-record-protected-structures",
-        "category": "built-environment",
-        "provider": [
-          "Dublin City Council"
-        ],
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/roi-dcc/dcc-record-protected-structures.fgb",
-          "downloads": {
-            "geojson": "https://data.civgraph.net/data/maps/roi-dcc/dcc-record-protected-structures.geojson"
-          },
-          "geojson": "https://data.civgraph.net/data/maps/roi-dcc/dcc-record-protected-structures.geojson"
-        },
-        "style": {
-          "color": "#FF6F00",
-          "weight": 1,
-          "fillOpacity": 0.4
-        },
-        "keywords": [
-          "ROI",
-          "ireland",
-          "dublin",
-          "dcc",
-          "amenity",
-          "council",
-          "record",
-          "protected",
-          "structures"
-        ],
-        "description": "Record Protected Structures (DCC) — published by Dublin City Council.",
-        "references": [
-          {
-            "label": "Source — data.gov.ie",
-            "url": "https://data.gov.ie/",
-            "note": ""
-          }
-        ],
-        "labelProperty": "RPS_ID"
       }
     }
   ]

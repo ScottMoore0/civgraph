@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-14T17:47:45.485Z",
+  "generatedAt": "2026-07-20T22:25:03.510Z",
   "shard": 0,
   "total": 5000,
   "items": [
@@ -112,6 +112,15 @@
     {
       "id": "cg:body:referendum-ireland",
       "label": "Referendum (Ireland)",
+      "kind": "entity",
+      "typeIds": [
+        "cg:entity-type:elected-body"
+      ],
+      "attributes": {}
+    },
+    {
+      "id": "cg:body:referendum-northern-ireland",
+      "label": "Referendum (Northern Ireland)",
       "kind": "entity",
       "typeIds": [
         "cg:entity-type:elected-body"
@@ -107616,28 +107625,6 @@
         "status": "Excluded",
         "elected": false,
         "firstPreferenceVotes": 947,
-        "createdFrom": "person-election-appearance"
-      },
-      "typeIds": [
-        "cg:entity-type:candidature"
-      ]
-    },
-    {
-      "id": "cg:candidature:cg-person-name-cornelius-o-sullivan-cg-contest-dail-eireann-1927-06-09-d-9eee0bf34c95",
-      "label": "Cornelius O'Sullivan - Limerick",
-      "description": "1927 Irish general election / Farmers / Excluded",
-      "kind": "entity",
-      "attributes": {
-        "personId": "cg:person:name-cornelius-o-sullivan",
-        "electionId": "cg:election:dail-eireann-1927-06-09",
-        "contestId": "cg:contest:dail-eireann-1927-06-09-dail-eireann-1927-06-09-limerick",
-        "partyId": "cg:party:farmers",
-        "electionKey": "dail-eireann__1927-06-09",
-        "date": "1927-06-09",
-        "constituency": "Limerick",
-        "status": "Excluded",
-        "elected": false,
-        "firstPreferenceVotes": 2623,
         "createdFrom": "person-election-appearance"
       },
       "typeIds": [

@@ -85306,6 +85306,117 @@
       "featureIdMode": "unique"
     },
     {
+      "id": "dail-1947-vector-test",
+      "sourceMapId": "dail-1947",
+      "name": "1947",
+      "category": "Dáil Eireann Constituencies",
+      "group": "Elections and Government",
+      "provider": [
+        "Phelim Birch"
+      ],
+      "date": 1947,
+      "dateAdded": null,
+      "dateEffective": null,
+      "description": "Republic of Ireland parliamentary constituencies drawn by the Electoral (Amendment) Act 1947 — 40 constituencies returning 147 TDs, used for the Dáil general elections of 1948, 1951, 1954 and 1957.",
+      "notes": "Generated from test/source-cache/vector-intake/dail-1947.fgb with GDAL PMTiles output (minzoom 0, maxzoom 12).",
+      "sourceType": "pmtiles",
+      "geometryType": "polygon",
+      "renderer": "maplibre",
+      "status": "converted",
+      "bounds": [
+        [
+          51.4198973,
+          -10.6629709
+        ],
+        [
+          55.4465803,
+          -5.9962778
+        ]
+      ],
+      "minzoom": 0,
+      "maxzoom": 12,
+      "sourceLayer": "dail_1947",
+      "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dail-1947-vector-test.pmtiles",
+      "tilePackage": {
+        "preferred": true,
+        "localPath": "test/pmtiles/generated/dail-1947-vector-test.pmtiles",
+        "url": "/test/pmtiles/generated/dail-1947-vector-test.pmtiles",
+        "bytes": 6736209,
+        "maxGithubBytes": 99614720,
+        "generatedAt": "2026-07-20T00:00:00.000Z",
+        "serving": "cdn",
+        "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dail-1947-vector-test.pmtiles",
+        "r2Key": "data/maps/test/pmtiles/generated/dail-1947-vector-test.pmtiles",
+        "localUrl": "/test/pmtiles/generated/dail-1947-vector-test.pmtiles"
+      },
+      "style": {
+        "color": "#43A047",
+        "fillColor": "#43A047",
+        "fillOpacity": 0.18,
+        "weight": 2
+      },
+      "labelProperty": "CON_NAME",
+      "labelPropertyFallbacks": [],
+      "labelMinZoom": 0,
+      "labelMaxZoom": null,
+      "labelStyle": {
+        "color": "#43A047",
+        "hoverColor": "#ff7a1a",
+        "selectedColor": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.2,
+        "haloBlur": 0,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "maxWidth": 14,
+        "lineHeight": 1.25
+      },
+      "promoteId": "CON_ID",
+      "idProperty": "CON_ID",
+      "sourceFile": "test/source-cache/vector-intake/dail-1947.fgb",
+      "sourceDatasetLayer": "1947",
+      "featureIndexUrl": "/test/metadata/feature-indexes/dail-1947-vector-test.json",
+      "numericProperties": [
+        "CON_ID",
+        "NO_MEMBERS"
+      ],
+      "categoricalProperties": [
+        "CON_NAME",
+        "CON_NAME_G"
+      ],
+      "popupProperties": [
+        "CON_NAME",
+        "CON_ID",
+        "NO_MEMBERS",
+        "CON_NAME_G"
+      ],
+      "generatedFrom": {
+        "pipeline": "ogr2ogr-pmtiles",
+        "sourceFile": "test/source-cache/vector-intake/dail-1947.fgb",
+        "bytes": 6736209
+      },
+      "keywords": [
+        "Dáil",
+        "Dail",
+        "constituency",
+        "1947",
+        "1948",
+        "1951",
+        "1954",
+        "1957",
+        "ROI",
+        "ireland",
+        "Dáil Eireann Constituencies",
+        "Elections and Government",
+        "maplibre",
+        "vector tiles"
+      ],
+      "detailUrl": "/test/metadata/layer-details-test2/dail-1947-vector-test.json",
+      "duplicateFeatureIdsUrl": "/test/metadata/duplicate-feature-ids/dail-1947-vector-test.json",
+      "duplicateFeatureIdCount": 0,
+      "featureIdMode": "unique"
+    },
+    {
       "id": "dail-1959-vector-test",
       "sourceMapId": "dail-1959",
       "name": "1959",
@@ -108613,5 +108724,5 @@
   ],
   "generatedFrom": "test/metadata/maps-test.json",
   "detailIndex": true,
-  "detailLayerCount": 967
+  "detailLayerCount": 968
 }

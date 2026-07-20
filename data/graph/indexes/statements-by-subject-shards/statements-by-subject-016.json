@@ -1,9 +1,65 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-14T17:47:45.485Z",
+  "generatedAt": "2026-07-20T22:25:03.510Z",
   "shard": 16,
   "totalSubjects": 250,
   "items": {
+    "cg:contest:local-government-local-government-districts-2019-05-02-local-government--dbed25c8d885": [
+      {
+        "id": "cg:statement:ecba8bd2dd0604ae54c1",
+        "propertyId": "cg:property:constituency",
+        "propertyLabel": "constituency",
+        "valueType": "string",
+        "valueLabel": "Bangor Central",
+        "valueText": "Bangor Central",
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:1765f202d8da7089cbaf",
+        "propertyId": "cg:property:contest-in-election",
+        "propertyLabel": "contest in election",
+        "valueType": "entity",
+        "valueId": "cg:election:local-government-local-government-districts-2019-05-02",
+        "valueLabel": "2019 Northern Ireland local elections",
+        "valueText": "2019 Northern Ireland local elections",
+        "valueDescription": "2019-05-02",
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:90f086e713c4a70e4112",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:contest",
+        "valueLabel": "Election contest",
+        "valueText": "Election contest",
+        "valueDescription": "A constituency, ward, DEA, local area, or other result unit within an election.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:4d5857fd2021292622a0",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Bangor Central",
+        "valueText": "Bangor Central",
+        "referenceCount": 0
+      }
+    ],
     "cg:contest:local-government-local-government-districts-2019-05-02-local-government--dd3c96e60c3e": [
       {
         "id": "cg:statement:9000ffe7980073e65f18",
@@ -13945,62 +14001,6 @@
         "valueType": "string",
         "valueLabel": "East Antrim",
         "valueText": "East Antrim",
-        "referenceCount": 0
-      }
-    ],
-    "cg:contest:northern-ireland-assembly-2022-05-05-northern-ireland-assembly-2022-05-05-east-londonderry": [
-      {
-        "id": "cg:statement:c88c38bd8bf2406fce61",
-        "propertyId": "cg:property:constituency",
-        "propertyLabel": "constituency",
-        "valueType": "string",
-        "valueLabel": "East Londonderry",
-        "valueText": "East Londonderry",
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-election-index",
-            "sourceTitle": "Civgraph Browse election index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:3f15533b6f00ebc1e591",
-        "propertyId": "cg:property:contest-in-election",
-        "propertyLabel": "contest in election",
-        "valueType": "entity",
-        "valueId": "cg:election:northern-ireland-assembly-2022-05-05",
-        "valueLabel": "2022 Northern Ireland Assembly election",
-        "valueText": "2022 Northern Ireland Assembly election",
-        "valueDescription": "18 constituencies",
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-election-index",
-            "sourceTitle": "Civgraph Browse election index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:81ae79955c256b0fccda",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:contest",
-        "valueLabel": "Election contest",
-        "valueText": "Election contest",
-        "valueDescription": "A constituency, ward, DEA, local area, or other result unit within an election.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:379017ad72407b99dbc0",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "East Londonderry",
-        "valueText": "East Londonderry",
         "referenceCount": 0
       }
     ]

@@ -1,10 +1,96 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-17T19:32:11.369Z",
+  "generatedAt": "2026-07-20T22:24:55.819Z",
   "kind": "sources",
   "shard": "sources-184.json",
   "total": 200,
   "items": [
+    {
+      "id": "map-source:habitat-maritime-cliff-slope",
+      "slug": "map-source-habitat-maritime-cliff-slope",
+      "type": "map-source",
+      "title": "Habitat Network — Maritime Cliff and Slope source files",
+      "subtitle": "Biodiversity & Habitats / Ulster Wildlife",
+      "category": "Map sources",
+      "provider": [
+        "Ulster Wildlife"
+      ],
+      "description": "Spatial extent of maritime cliff and slope habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "sourceMapId": "habitat-maritime-cliff-slope",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "habitat-maritime-cliff-slope",
+        "url": "/assets/thumbnails/habitat-maritime-cliff-slope.webp",
+        "smallUrl": "/assets/thumbnails/habitat-maritime-cliff-slope-60.webp",
+        "alt": "Habitat Network — Maritime Cliff and Slope"
+      },
+      "references": [
+        {
+          "label": "Open Data NI — Maritime Cliff and Slope Habitat Network",
+          "url": "https://admin.opendatani.gov.uk/dataset/2b89ad59-e650-4eca-b974-19dda42a8572"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/biodiversity/habitat-maritime-cliff-slope.fgb"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/biodiversity/habitat-maritime-cliff-slope.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=habitat-maritime-cliff-slope",
+      "browseUrl": "/browse/sources/map-source-habitat-maritime-cliff-slope",
+      "rawMetadata": {
+        "id": "habitat-maritime-cliff-slope",
+        "name": "Habitat Network — Maritime Cliff and Slope",
+        "slug": "habitat-maritime-cliff-slope",
+        "category": "biodiversity",
+        "provider": [
+          "Ulster Wildlife"
+        ],
+        "description": "Spatial extent of maritime cliff and slope habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-maritime-cliff-slope.fgb"
+        },
+        "style": {
+          "color": "#3a3a3a",
+          "weight": 0.2,
+          "fillColor": "#9E6E54",
+          "fillOpacity": 0.6
+        },
+        "colorMap": {
+          "property": "Class",
+          "palette": {
+            "Associated Habitats": "#666666",
+            "Fragmentation Action Zone": "#D4894C",
+            "Network Enhancement Zone 1": "#E8C85C",
+            "Network Enhancement Zone 2": "#C8A442",
+            "Network Expansion Zone": "#9CCB7C",
+            "Existing Habitat": "#2E7D32"
+          },
+          "default": "#9E6E54"
+        },
+        "labelProperty": "Class",
+        "useLOD": true,
+        "keywords": [
+          "habitat",
+          "biodiversity",
+          "nature recovery",
+          "ulster wildlife",
+          "habitat network",
+          "maritime cliff and slope"
+        ],
+        "references": [
+          {
+            "label": "Open Data NI — Maritime Cliff and Slope Habitat Network",
+            "url": "https://admin.opendatani.gov.uk/dataset/2b89ad59-e650-4eca-b974-19dda42a8572",
+            "note": ""
+          }
+        ]
+      }
+    },
     {
       "id": "map-source:habitat-pond",
       "slug": "map-source-habitat-pond",
@@ -18797,83 +18883,6 @@
           {
             "label": "Wards (1993) — OSNI 50k — Open Data NI",
             "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-boundaries-wards-1993",
-            "note": "OGL v3.0"
-          }
-        ],
-        "useLOD": false
-      }
-    },
-    {
-      "id": "map-source:osni-open-data-50k-transport-text-labelling",
-      "slug": "map-source-osni-open-data-50k-transport-text-labelling",
-      "type": "map-source",
-      "title": "Transport Text Labelling — OSNI 50k source files",
-      "subtitle": "Transport / OSNI",
-      "category": "Map sources",
-      "provider": [
-        "OSNI"
-      ],
-      "description": "Roads, rail, ports, transport-related infrastructure datasets.",
-      "sourceMapId": "osni-open-data-50k-transport-text-labelling",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "TT",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "Transport Text Labelling — OSNI 50k — Open Data NI",
-          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-transport-text-labelling",
-          "note": "OGL v3.0"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/transport/osni-open-data-50k-transport-text-labelling.fgb"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/transport/osni-open-data-50k-transport-text-labelling.fgb"
-        }
-      ],
-      "interactiveUrl": "/#layers=osni-open-data-50k-transport-text-labelling",
-      "browseUrl": "/browse/sources/map-source-osni-open-data-50k-transport-text-labelling",
-      "rawMetadata": {
-        "id": "osni-open-data-50k-transport-text-labelling",
-        "name": "Transport Text Labelling — OSNI 50k",
-        "slug": "osni-open-data-50k-transport-text-labelling",
-        "category": "transport",
-        "provider": [
-          "OSNI"
-        ],
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/transport/osni-open-data-50k-transport-text-labelling.fgb"
-        },
-        "style": {
-          "color": "#34495E",
-          "weight": 2,
-          "radius": 4
-        },
-        "keywords": [
-          "transport",
-          "transport",
-          "text",
-          "labelling",
-          "osni"
-        ],
-        "licence": "OGL v3.0",
-        "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
-        "bounds": [
-          -8.094007,
-          54.047931,
-          -5.453755,
-          55.237404
-        ],
-        "references": [
-          {
-            "label": "Transport Text Labelling — OSNI 50k — Open Data NI",
-            "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-transport-text-labelling",
             "note": "OGL v3.0"
           }
         ],
