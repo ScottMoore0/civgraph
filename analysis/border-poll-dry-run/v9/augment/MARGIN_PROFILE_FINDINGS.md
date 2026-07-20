@@ -60,6 +60,29 @@ share, density, margin rate) in `margin_top20_datazones.csv`.
 (Belfast West, Foyle, Mid Ulster); the *margin* is densest in the unionist-suburban east — the same
 "won in the west, decided in the east" split, now at Data-Zone resolution.
 
+## Upgrade — using the census 3-way properly (MRP), not just religion
+
+`margin_mrp.py` replaces the religion-only bridge with a **multivariate poststratification** over
+every attribute NILT and the census-at-DZ *share*: **religion × age × sex**. A weighted logistic
+model of margin membership is fit in NILT, then its predictions are poststratified onto each DZ's
+census religion×age×sex cell counts (the 3-way table we hold, `dz21-religion-age-sex-2021`).
+
+The model learns a **3× gradient** — margin propensity is highest for **older Protestant males (8.1%)**
+and lowest for **young Catholics (2.6%)** — with age mattering almost as much as religion (a
+65+ Protestant is far more pivotal-margin than a 25-year-old Protestant). Because age was ignored
+before, this **moves the map: only 4 of the top-20 survive** from the religion-only ranking. It
+surfaces the *oldest* Protestant DZs — coastal/retirement wards (Bangor, Donaghadee; some **45–69%
+aged 65+**) plus older Protestant enclaves in Upper Bann, South Antrim, Belfast North/East that the
+religion-only cut missed. Stacking the constituency-identity refinement on top (the fullest estimate)
+pulls back toward North Down, which scores high on *both* age and soft identity. Output:
+`margin_top20_mrp.csv`.
+
+This is the genuine ceiling of the fusion: **the estimate is exactly as multivariate as the
+attributes NILT and the census SHARE at the target geography** — here religion×age×sex. Adding more
+census dimensions (identity, tenure, class) at DZ would require those cross-tabs to be published at DZ
+(they are not — disclosure control limits DZ tables to ~1–2 variables) *and* enough NILT margin cases
+(n≈51) to estimate their effect without overfitting.
+
 ## What we can and cannot attach
 
 - **NILT** — full individual attribute vector (above). ✓ The richest, most direct source.
