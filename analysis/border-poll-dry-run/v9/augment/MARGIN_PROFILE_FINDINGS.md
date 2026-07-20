@@ -143,6 +143,54 @@ routine) and it is only mildly more owner-occupied (77% vs 72%) — too diffuse 
 So the IPF synthesis needed to poststratify on class/tenure is **not worth doing: it cannot move the
 margin's geography.** The operative axes are confirmed to be **religion + age**, full stop.
 
+## CORRECTION — the 2021 Data-Zone cross-tabs exist; here is the definitive map
+
+My earlier "no 2021 multivariate frame" was **wrong.** `agent/nisra-ftb-README.md` documents a
+**147,492-table harvest of NISRA's Cantabular Flexible Table Builder** on R2
+(`data.civgraph.net/data/census/nisra-ftb/`): 3,381 two-way, 24,238 three-way, 68,222 four-way and
+51,431 five-way crosstabs — the exhaustive disclosure-releasable set — including **4,131 tables at
+DZ21 (real 2021 Data Zones)**. I had only searched the census *scrape* index, which doesn't cover
+this separate Cantabular corpus.
+
+So I pulled the exact table needed —
+`PEOPLE__DZ21~AGE_BAND_AGG11~NAT_ID_BASIC~RELIGION_BELONG_TO_OR_BROUGHT_UP_IN_DVO` (2021 DZ,
+religion × national-identity × age) — and redid the margin poststratification on it
+(`margin_dz21_ftb.py`, data persisted at `data/census/derived/dz21-religion-natid-age-2021.csv.gz`).
+**No vintage gap (2021, not 2011), no Small-Area proxy (real DZ21), national identity at the cell
+level.**
+
+**What it confirms** — the learned propensity (now on real 2021 DZ cells): margin propensity rises
+with **age** (Protestant 65+ ≈ 7%, under-25 ≈ 4%) and **Irish identity rules the margin out** (≈2%),
+but **British vs Northern-Irish within Protestants barely differ** (7.4% vs 6.5%). Identity's only
+strong role is exclusion of Irish-identifiers; the operative axes remain **religion + age** — exactly
+what the 2011 Small-Area proxy said, now vindicated on the real 2021 frame.
+
+**The definitive Top-20 Data Zones (2021)** — the older-Protestant Greater-Belfast / North-Down /
+Antrim suburban belt:
+
+| rank sample | Data Zone | seat | % Prot bg | % 65+ | margin rate |
+|---|---|---|---|---|---|
+| 1 | Larne Lough J4 | East Antrim | 68 | 39 | 6.0% |
+| 2 | Bangor Central J1 | North Down | 73 | 39 | 6.0% |
+| 3 | Comber F6 | Strangford | 77 | 34 | 6.0% |
+| 4 | Lisburn South J3 | Lagan Valley | 65 | 43 | 5.9% |
+| — | Ormiston (×4) | Belfast East | 60–79 | 27–45 | 5.6–5.9% |
+| — | Holywood & Clandeboye (×3) | North Down | 65–68 | 34–38 | 5.7% |
+
+Constituency counts in the top-20: **North Down ×6, Belfast East ×4, East Antrim ×3, Lagan Valley
+×2**, then Strangford, North Antrim, South Down, Belfast South, East Londonderry. Full 60 in
+`margin_top_dz21_2021.csv`.
+
+**This reconciles the earlier passes.** The real 2021 DZ frame — *with age in it* — lands between my
+first identity-hunch (North Down/Strangford) and the flat 2011-Small-Area religion-only result
+(Ballymena/Craigavon): it points to the **oldest Protestant suburbs** (Bangor, Holywood, East
+Belfast, Larne, Lisburn), because age tilts the ranking toward elderly-Protestant commuter wards.
+The surface is still fairly flat (DZ margin rate 3.5–6.0%, mean 5.0%) — the margin is *broadly*
+older Protestants — but its ceiling is unambiguously this suburban belt.
+
+The corpus supports far more (up to 5-way crosstabs, and an MRP raking frame per
+`agent/mrp-frame-README.md`); this 3-way is the substantive frame for the margin.
+
 ## What we can and cannot attach
 
 - **NILT** — full individual attribute vector (above). ✓ The richest, most direct source.
