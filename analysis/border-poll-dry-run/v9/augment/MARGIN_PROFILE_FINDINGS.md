@@ -83,6 +83,39 @@ census dimensions (identity, tenure, class) at DZ would require those cross-tabs
 (they are not — disclosure control limits DZ tables to ~1–2 variables) *and* enough NILT margin cases
 (n≈51) to estimate their effect without overfitting.
 
+## Widening the bridge with the multivariate tables (and what it revealed)
+
+The 2-way/3-way NISRA tables *are* on disk: the **2011 Local Characteristics (LC) set at Small-Area
+level**, including **LC2201 National-Identity × Religion** and **LC2101 National-Identity × Age**.
+Crucially, NILT carries **`NINATID` (British / Irish / Northern-Irish / Other)** — the *same*
+question as the census — so we can bridge on **religion × national-identity at the cell level**
+(`margin_bridge_sa.py`), not the constituency multiplier used earlier. This is the correct, wider
+poststratification the data supports.
+
+**What it showed — a correction, not just a sharpening.** Fitting margin ∝ religion × national-
+identity in NILT and poststratifying onto LC2201's 4,537 Small-Area cells:
+
+- **Irish identity cleanly rules the margin OUT** (propensity ~1%): Irish-identifiers are the unity
+  *core*, never the pivotal margin. Solid signal.
+- **But within non-Irish identities the differences are small and noisy** — Protestant-"British only"
+  6.7% vs Protestant-"Northern Irish" 5.0% vs Protestant-"Other" 7.8%, at **n=51 margin cases**. The
+  poststratified Small-Area surface is **religion-driven and nearly flat within Protestant areas**
+  (top-20 all 6.36–6.53%), and the top councils are **Ballymena, Craigavon, Coleraine** — the
+  ordinary Protestant heartland, *not* a soft-identity belt.
+
+**This revises the earlier North Down / Strangford emphasis.** That pointed east because of a
+*constituency-level assumption* — "high Northern-Irish/mixed identity ⇒ softer ⇒ more margin." When
+that hypothesis is actually **tested at the cell level with the multivariate table, it does not
+hold**: fine national identity barely relocates the margin once religion (and age) are controlled.
+The robust, data-supported conclusion is that the margin is **older Protestants broadly** (religion +
+age, from the census 3-way and LC tables) — a *flatter, less east-specific* surface than the
+identity-multiplier suggested. Using the fuller data corrected an overreach.
+
+Output: `margin_top_smallareas.csv`. Caveats: **2011 vintage on 2011 Small Areas** (not 2021 DZ —
+identity geography is fairly stable but this is a different frame); **n=51** caps the precision of
+identity-within-religion cells; extending these cross-tabs to 2021 DZ needs the 2021 flexible-builder
+multivariate tables (only 2011 LC/DC and the 2021 religion×age×sex 3-way are on disk here).
+
 ## What we can and cannot attach
 
 - **NILT** — full individual attribute vector (above). ✓ The richest, most direct source.
