@@ -57,6 +57,23 @@ high-value — *if* extracted honestly.
    B's pile at that stage" — but must **not** claim pure first-preference-voter second choices from
    count sheets. Only where ballot data exists (rare) is full provenance recoverable.
 
+6. **Stage types, and the simultaneous-elimination blind spot.** A count stage is one of:
+   (a) a **single elimination** — the candidate's **entire pile** redistributes (an eliminated
+   candidate has no "surplus"; the whole pile moves at each ballot's current value);
+   (b) a **single election over quota** — only the **surplus** redistributes (last-parcel, fractional);
+   (c) a **simultaneous multiple elimination** — several candidates' votes redistribute **collectively
+   in one operation, with NO per-source breakdown** in the count sheet: you cannot recover which
+   co-eliminated candidate's votes reached which destination. Grounded in the data: the 1998 Assembly
+   has **22 stages with ≥2 simultaneous sources** (Belfast South count 2 bulks 6 candidates; Belfast
+   North 5). Consequence: **only single-source stages (a)/(b) give party-attributable terminal
+   transfers.** A party eliminated *only* inside a bulk stage has its flow fused with the others and is
+   **not individually recoverable** — a granularity loss *on top of* the compound-provenance blending
+   in (5). Bulk eliminations cluster among early no-hopers, so major parties are usually distributed
+   singly (e.g. North Antrim's UUP fell at counts 11 & 12 alone, so it *is* analysable; its minor
+   candidates were bulked at counts 4–5). The pipeline must therefore **classify each stage** and use
+   only single-source stages for party-level terminal-transfer metrics, treating bulk stages as
+   multi-party combined events.
+
 ## What is feasible vs not
 
 **Feasible (and valuable):** a per-constituency / per-DEA **transfer-behaviour covariate layer** —
