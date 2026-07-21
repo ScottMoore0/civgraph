@@ -13,7 +13,7 @@ fall back to the nearest DEA centroid.
 Inputs (WGS84 .fgb, all NI-wide): DEAs_{1972,1984,1993,2012}.fgb, SA2011.fgb, DZ2021.fgb
 Outputs: sa2011_to_deas.csv, dz2021_to_deas.csv
 """
-import sys
+import sys, json
 from pathlib import Path
 import geopandas as gpd
 import pandas as pd
@@ -31,17 +31,53 @@ DEAS = {
 }
 
 PROJ = 29903  # Irish Grid (metres) for accurate nearest-neighbour distances
+FEATURE_INDEX = Path("test/metadata/feature-indexes")
+
+# DEA vintage -> its curated feature-index (authoritative labels + centroids the
+# election data uses). DEAs_1972.fgb has 2 null-NAME polygons and one label
+# duplicated across two polygons; the feature index names all 98 correctly, so we
+# relabel each 1972 polygon by its nearest feature-index centroid.
+FEATURE_IDX = {"dea_1972": "deas-1972-vector-test.json"}
+
+def _repair_from_index(g, key, idx_file):
+    """Keep every valid unique label; repair ONLY the null-label and
+    duplicated-label polygons, assigning each to its nearest *unclaimed* curated
+    feature-index name (greedy by distance -> bijective). This fixes the broken
+    polygons without disturbing the correctly-labelled ones."""
+    g[key] = g[key].astype(str).str.strip()
+    blank = g[key].isin(["", "None", "nan", "NaN"])
+    dup = g[key].duplicated(keep=False) & ~blank
+    problem = blank | dup
+    claimed = set(g.loc[~problem, key])
+    pool = [(it["name"].strip(), it["center"]) for it in
+            json.load(open(FEATURE_INDEX / idx_file))["items"]
+            if it["name"].strip() not in claimed]
+    reps = g.geometry.representative_point()
+    pairs = []  # (dist, polygon_index, name)
+    for pi in g.index[problem]:
+        p = reps.loc[pi]
+        for nm, (cx, cy) in pool:
+            pairs.append(((cx - p.x) ** 2 + (cy - p.y) ** 2, pi, nm))
+    pairs.sort()
+    taken_names, taken_polys = set(), set()
+    for _, pi, nm in pairs:            # greedy nearest, one name per polygon
+        if pi in taken_polys or nm in taken_names:
+            continue
+        g.at[pi, key] = nm
+        taken_polys.add(pi); taken_names.add(nm)
+    print(f"  ({key}: repaired {int(problem.sum())} null/duplicate polygon(s) from feature index)")
+    return g
 
 def load_deas():
     out = {}
     for key, (fn, label) in DEAS.items():
-        g = gpd.read_file(SRC / fn)[[label, "geometry"]]
-        n = len(g)
-        g = g[g[label].notna()]                       # drop true-null labels first
-        g = g.rename(columns={label: key})
-        g[key] = g[key].astype(str).str.strip()
-        g = g[~g[key].isin(["", "None", "nan", "NaN"])].copy()  # then any string blanks
+        g = gpd.read_file(SRC / fn)[[label, "geometry"]].rename(columns={label: key})
         g = g.set_crs(4326, allow_override=True)
+        g[key] = g[key].astype(str).str.strip()
+        if key in FEATURE_IDX:
+            g = _repair_from_index(g, key, FEATURE_IDX[key])
+        n = len(g)
+        g = g[~g[key].isin(["", "None", "nan", "NaN"])].copy()
         if len(g) < n:
             print(f"  ({key}: dropped {n-len(g)} unlabelled source polygon(s))")
         out[key] = g

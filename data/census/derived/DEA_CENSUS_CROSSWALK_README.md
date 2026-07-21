@@ -39,14 +39,23 @@ and DZ is assigned in all four vintages (100% coverage). Spot checks trace sensi
 e.g. Downpatrick DZs: `DOWN AREA B` (1972) → `DOWNPATRICK` (1984/1993) → `Downpatrick` (2012); Botanic
 (Belfast) DZs: `BELFAST AREA F` (1972) → `BALMORAL` (1984/1993) → `Botanic` (2012).
 
-## Caveat
+## 1972 label repair
 
-`DEAs_1972.fgb` has **2 polygons with a null `NAME`** and one duplicated label (`DUNGANNON AREA D`), so
-`dea_1972` resolves to **95 distinct DEAs** rather than the 98 in the election data; SAs/DZs in those
-two unlabelled 1972 polygons are assigned to the nearest labelled 1972 DEA. All other vintages are 1:1
-complete. (Areal-overlap apportionment is the alternative to centroid assignment for units that straddle
-a DEA boundary; given DEAs are large relative to SAs/DZs, representative-point assignment is accurate
-and gives a clean one-DEA-per-unit mapping.)
+`DEAs_1972.fgb` ships with **4 broken polygon labels**, now repaired against the curated
+`deas-1972-vector-test` feature index (which names all 98 correctly) by nearest-unclaimed-centroid,
+leaving every correctly-labelled polygon untouched:
+
+| fgb polygon (rep-point) | shipped label | repaired to |
+|---|---|---|
+| −6.650, 54.353 (Armagh) | *(null)* | **ARMAGH AREA D** |
+| −6.958, 55.043 (Limavady, NW) | *(null)* | **LIMAVADY AREA C** |
+| −6.864, 54.427 (Blackwater) | DUNGANNON AREA D | DUNGANNON AREA D *(kept)* |
+| −6.766, 54.504 (Dungannon Town) | DUNGANNON AREA D | **DUNGANNON AREA C** |
+
+After repair `dea_1972` resolves to **all 98** election DEAs, 1:1 like the other vintages. (Areal-overlap
+apportionment is the alternative to representative-point assignment for units that straddle a DEA
+boundary; given DEAs are large relative to SAs/DZs, point assignment is accurate and gives a clean
+one-DEA-per-unit mapping.)
 
 ## Use
 
