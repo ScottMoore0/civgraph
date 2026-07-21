@@ -10,9 +10,22 @@
 > - `hist/backtest_councils_1989.py` now sources the parsed table (literal kept as fallback); backtest
 >   unchanged (r ≈ +0.96, R² = 0.92).
 >
-> Every DZ and SA now carries a **1991 religion vector at council resolution**. Remaining Tier A extras
-> (economic-activity, Irish-language LGD tables) reuse the same parser; Tier B (ward SAS) is unchanged
-> below.
+> Every DZ and SA now carries a **1991 religion vector at council resolution**.
+>
+> **Economic-activity + Irish-language — blocked in the OCR, not shipped.** Unlike religion (a single
+> clean all-26-district column-major table), these topics appear only as **per-LGD repeated tables** that
+> do **not** parse reliably from this OCR, verified empirically:
+> - *Irish language* — per-LGD "knowledge by age" tables: OCR age-range labels ("10-14") and stray split
+>   ages ("24 1"→241) collide with the count stream, so the 11 columns don't segment into whole rows
+>   (289 clean values, not divisible; the leading value came out 241, not the known NI total 1,502,385).
+> - *Economic activity* — each LGD has several "LGD / Males Females" occupation sub-tables, so anchoring
+>   grabs the wrong block (only 19/26 matched; e.g. Ballymoney read 197/349 vs its true ~9k male 16+).
+>
+> Rather than ship a misparsed secondary dataset, these are deferred. **Marginal value is low anyway:** at
+> 26-LGD resolution both are strongly collinear with the religion layer (already integrated) and NIMDM
+> deprivation. The clean route, if wanted, is the **NINIS/NISRA digital 1991 LGD tables** (the same
+> external-sourcing path as Tier B), which drop straight into the crosswalk already built here. Tier B
+> (ward SAS) is unchanged below.
 
 
 
