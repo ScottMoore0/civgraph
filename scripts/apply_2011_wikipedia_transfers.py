@@ -41,6 +41,7 @@ COUNCIL = {
 def norm(s):
     s = (s or '').lower().strip()
     s = re.sub(r'\blg\d\d[- ]?[a-z]{2,3}[- ]', '', s)  # strip lg11-/lg05- council-code prefixes
+    s = re.sub(r'\bcorrected\b', '', s)                # 'Pottinger corrected' -> pottinger
     s = re.sub(r'\bthe\b', '', s)
     s = re.sub(r'\band\b', '', s)
     s = s.replace('north west','northwest').replace('south east','southeast')
@@ -60,7 +61,10 @@ for f in glob.glob(str(WIKI / '*_bundle.json')):
     council = COUNCIL[key]
     d = json.load(open(f))
     for dea, payload in d['constituencies'].items():
-        for cand in (norm(dea), norm(council + dea), norm(council.split()[0] + dea)):
+        dea_n = norm(dea)
+        cn = norm(council)
+        stripped = dea_n[len(cn):] if dea_n.startswith(cn) and dea_n != cn else dea_n  # 'Craigavon Central' -> central
+        for cand in (dea_n, norm(council + dea), norm(council.split()[0] + dea), stripped):
             if cand in geo:
                 wiki_by_feat[geo[cand]] = (council, dea, payload)
                 break
