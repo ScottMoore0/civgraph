@@ -58,3 +58,39 @@ transfer_softness).
   the natural next pooling); **STV contests only**, so it enriches the referendum/unity estimate
   *indirectly*, through the softness surface.
 - **Mixedness confound** in the composite index (use the bloc-specific openness metrics).
+
+---
+
+## DEA-level covariates (finer geography) — `transfer_covariates_dea.py`
+
+Pooling the post-2014 local-government STV elections (**2014/2019/2023**, current 80-DEA geography)
+gives the openness covariate at **DEA** resolution. With a minimum-transferable-base filter (≥500
+vote-value; ratios on tiny bloc bases are noise and are dropped/clamped), the **hard-unionist end is
+clean and reliable**: Ards Peninsula 0.6% · Three Mile Water 0.6% · Braid 1.1% · Airport 1.4% · Derg
+1.8% · Coast Road 2.0% — the East-Antrim/Ards/Ballymena hard-unionist belt, the same character as
+North Antrim. (The soft end stays noisy in nationalist DEAs where the unionist base is tiny; use the
+covariate for *unionist-majority* DEAs.) Output: `transfer_covariates_dea.csv`. A **DZ→DEA crosswalk**
+(not in-repo) would let this feed the Data-Zone softness directly; until then the v11 wiring below
+uses the clean **constituency** openness via `dz_constituency`.
+
+## Formally wired into v11 uncertainty — `v11c_softness_transfer.py`
+
+v11b treated **all Protestants as maximally hard** (softness 0). v11c replaces that flat assumption
+with a **transfer-derived Protestant softness** per seat, scaled from revealed unionist openness
+(North Antrim 0.20, North Down 0.95), and recomputes the Data-Zone Yes-share uncertainty band. Effect:
+
+| seat | Cath % | v11b band | **v11c band** | change |
+|---|---|---|---|---|
+| North Antrim (tribal) | 27 | 10.8 | 12.9 | **+2.1** |
+| North Down (open) | 14 | 9.6 | **22.4** | **+12.8** |
+| East Antrim | 18 | 9.9 | 20.5 | +10.6 |
+| Strangford | 16 | 9.5 | 18.0 | +8.5 |
+| Belfast East | 15 | 9.7 | 17.2 | +7.4 |
+
+The uncertainty band now reflects **revealed movability, not just religion**: hard-tribal North
+Antrim stays tight/certain, while open North Down's Protestant vote is treated as genuinely
+persuadable — it now carries a *wider* band than North Antrim *despite fewer Catholics*. Two seats the
+religion-only layer flattened into "identical and hard" are correctly separated. (Nationalist seats'
+noisy unionist-openness is harmless — their softness is Catholic-dominated regardless.) Output:
+`v11c_dz_softness_transfer.csv`. This is the transfer covariate doing real work in the uncertainty
+layer, not sitting as a side-file.
