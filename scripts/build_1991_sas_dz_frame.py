@@ -169,6 +169,20 @@ def main():
     sas[ward_cols].to_csv(OUT / "ward1984-census-1991.csv", index=False)
     print(f"\nwrote ward1984-census-1991.csv ({len(sas)} wards)")
 
+    # LGD-level pop-weighted aggregate (26 councils) -- full 1991 SAS covariates
+    # for the historical council backtest (supersedes religion-only Tier A table).
+    agg = {}
+    for lgd, g in sas.groupby("lgd"):
+        w = g["total_pop"]
+        rec = {"lgd": lgd, "total_pop": int(w.sum())}
+        for c in COVARS:
+            d = g[[c]].assign(w=w).dropna()
+            rec[c] = round((d[c] * d["w"]).sum() / d["w"].sum(), 2) if len(d) else np.nan
+        agg[lgd] = rec
+    lgd_full = pd.DataFrame(agg.values()).sort_values("lgd")
+    lgd_full.to_csv(OUT / "census-1991-lgd-full.csv", index=False)
+    print(f"wrote census-1991-lgd-full.csv ({len(lgd_full)} LGDs x {len(COVARS)} covariates)")
+
     key = sas.set_index("ward_key")[list(BASES) + list(COVARS)]
     for cfg, (fgb, ids) in {"dz2021": ("DZ2021.fgb", ["DZ2021_cd", "DZ2021_nm"]),
                              "sa2011": ("SA2011.fgb", ["SA2011"])}.items():
