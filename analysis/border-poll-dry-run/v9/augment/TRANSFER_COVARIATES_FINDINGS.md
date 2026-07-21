@@ -94,3 +94,37 @@ religion-only layer flattened into "identical and hard" are correctly separated.
 noisy unionist-openness is harmless — their softness is Catholic-dominated regardless.) Output:
 `v11c_dz_softness_transfer.csv`. This is the transfer covariate doing real work in the uncertainty
 layer, not sitting as a side-file.
+
+---
+
+## (a) DZ→DEA crosswalk + DEA-resolution wiring — `v11d_softness_dea.py`
+
+The 2021 Data-Zone labels encode their DEA (`Airport_A1` → `Airport`): stripping the `_<L><n>` suffix
+gives a **80/80 exact DZ→DEA crosswalk** for all 3,780 DZs (emitted as `dz_dea.json`). Wiring the
+**DEA-level** openness (finer than the 18 constituencies, constituency-fallback where a DEA's unionist
+base was too small) exposes **within-constituency variation the seat layer flattened**:
+
+| constituency | hardest DEA (band) | softest DEA (band) |
+|---|---|---|
+| North Down | Ards Peninsula 8.9 | Bangor West 22.4 |
+| East Antrim | Three Mile Water 10.1 | The Glens 23.5 |
+| Strangford | Castlereagh East 9.8 | Rowallane 19.1 |
+
+So a hard-unionist ward and an open one *inside the same constituency* now carry different Yes-share
+bands — the softness surface has genuine sub-seat resolution. Output: `v11d_dz_softness_dea.csv`,
+`dz_dea.json`.
+
+## (b) Third independent read — `transfer_triangulate.py`
+
+Pooling the **6 European STV contests (1994–2019, NI-wide)** and comparing NI-level unionist openness
+against the Assembly- and local-pooled reads:
+
+| contest type (pooled) | unionist openness | within-unionist | plumping | base |
+|---|---|---|---|---|
+| European (6) | **6.7%** | 93.3% | 9.0% | 211k |
+| Assembly (7) | **8.4%** | 87.2% | 13.2% | 656k |
+| Local (3) | **7.5%** | 89.2% | 12.8% | 130k |
+
+The three independent contest types **agree to within ~1.7pts (6.7–8.4%)** — NI unionists transfer
+~7–8% openly and ~90% stay in-bloc, consistently. The openness signal is **contest-robust**, not an
+artifact of one election type, which underwrites its use as a covariate in the softness layer.
