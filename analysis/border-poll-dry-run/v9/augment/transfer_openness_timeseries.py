@@ -49,15 +49,15 @@ for pat,typ in [('local-government-local-government-districts__*','local'),
                 ('northern-ireland-assembly__*','Assembly'),('european-parliament__*','European')]:
     for f in sorted(glob.glob(f"{BASE}/{pat}.json")):
         yr=int(os.path.basename(f).split('__')[1][:4])
-        if yr<1981: continue
+        if yr<1977: continue
         uo,no,ub,nb=openness(f)
         rows.append({'year':yr,'contest':typ,'u_openness':uo,'n_openness':no})
 ts=pd.DataFrame(rows).sort_values(['year','contest'])
 ts.to_csv(f"{V}/augment/transfer_openness_timeseries.csv",index=False)
-print("NI-wide transfer OPENNESS by STV election, 1981-2023 (higher = more cross-community/less tribal):")
+print("NI-wide transfer OPENNESS by STV election, 1977-2023 (higher = more cross-community/less tribal):")
 print(ts.to_string(index=False))
 # decade means
-for lo,hi,lab in [(1981,1998,'1981-1998'),(1999,2008,'1999-2008'),(2009,2018,'2009-2018'),(2019,2024,'2019-2024')]:
+for lo,hi,lab in [(1977,1998,'1977-1998'),(1999,2008,'1999-2008'),(2009,2018,'2009-2018'),(2019,2024,'2019-2024')]:
     s=ts[(ts.year>=lo)&(ts.year<=hi)]
     print(f"  {lab}: unionist openness {s['u_openness'].mean():.1f}%  nationalist {s['n_openness'].mean():.1f}%")
 print("wrote transfer_openness_timeseries.csv")
