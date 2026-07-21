@@ -1,50 +1,50 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-29T23:29:07.120Z",
-  "failOnBlocking": true,
+  "generatedAt": "2026-07-21T13:33:35.781Z",
+  "failOnBlocking": false,
   "stats": {
     "manifest": {
       "schemaVersion": 1,
-      "generatedAt": "2026-06-29T23:28:00.431Z",
-      "entries": 276,
+      "generatedAt": "2026-07-21T13:27:23.842Z",
+      "entries": 281,
       "totals": {
-        "elections": 276,
-        "loadable": 257,
+        "elections": 281,
+        "loadable": 262,
         "placeholders": 19,
-        "matchedConstituencies": 3835,
+        "matchedConstituencies": 3855,
         "unmatchedConstituencies": 851
       }
     },
     "browse": {
-      "total": 5238,
-      "parents": 276,
-      "subEntries": 4962,
-      "overallSubEntries": 276,
-      "constituencySubEntries": 4686
+      "total": 5277,
+      "parents": 281,
+      "subEntries": 4996,
+      "overallSubEntries": 281,
+      "constituencySubEntries": 4715
     },
     "sources": {
-      "sourceDetailFiles": 276,
-      "resultBundles": 276,
-      "summaryBundles": 276,
+      "sourceDetailFiles": 281,
+      "resultBundles": 281,
+      "summaryBundles": 281,
       "parentSourceRecordsMissing": 0,
       "sourceRecordsWithNoReferences": 0,
       "sourceRecordsWithOneReference": 0,
-      "sourceRecordsWithMultipleReferences": 276,
+      "sourceRecordsWithMultipleReferences": 281,
       "subEntriesWithNoReferences": 0,
       "subEntriesWithOneReference": 0,
-      "subEntriesWithMultipleReferences": 4962
+      "subEntriesWithMultipleReferences": 4996
     },
     "resultBundles": {
-      "loaded": 276,
+      "loaded": 281,
       "missing": 0,
-      "resultRows": 4686,
-      "matchedRows": 3835,
+      "resultRows": 4706,
+      "matchedRows": 3855,
       "unmatchedRows": 851,
-      "candidateRows": 29867,
-      "electedRows": 14317,
-      "rowsWithCountDetail": 4663,
-      "rowsWithAnimationPayload": 4663,
-      "rowsExpectedTransferData": 2348,
+      "candidateRows": 29693,
+      "electedRows": 14231,
+      "rowsWithCountDetail": 4683,
+      "rowsWithAnimationPayload": 4683,
+      "rowsExpectedTransferData": 2339,
       "rowsMissingExpectedTransferData": 0,
       "candidateRowsWithoutParty": 0
     },
@@ -69,8 +69,219 @@
     }
   },
   "issueSummary": {
-    "bySeverity": {},
-    "byCategory": {}
+    "bySeverity": {
+      "warning": 34
+    },
+    "byCategory": {
+      "browse-constituency-count": 7,
+      "first-pref-sum": 7,
+      "elected-count": 20
+    }
   },
-  "issues": []
+  "issues": [
+    {
+      "severity": "warning",
+      "category": "browse-constituency-count",
+      "key": "local-government-local-government-districts__2011-05-05",
+      "message": "Browse has 102 constituency/DEA sub-entries; manifest expects 101."
+    },
+    {
+      "severity": "warning",
+      "category": "first-pref-sum",
+      "key": "local-government-local-government-districts__2011-05-05",
+      "message": "Castle first-preference sum 10024 exceeds valid poll ceiling 2462."
+    },
+    {
+      "severity": "warning",
+      "category": "browse-constituency-count",
+      "key": "local-government-local-government-districts__2005-05-05",
+      "message": "Browse has 101 constituency/DEA sub-entries; manifest expects 100."
+    },
+    {
+      "severity": "warning",
+      "category": "first-pref-sum",
+      "key": "local-government-local-government-districts__2005-05-05",
+      "message": "Castle first-preference sum 10914 exceeds valid poll ceiling 3009."
+    },
+    {
+      "severity": "warning",
+      "category": "elected-count",
+      "key": "local-government-local-government-districts__2005-05-05",
+      "message": "Castle has 6 elected candidate rows but seatsWon is 5."
+    },
+    {
+      "severity": "warning",
+      "category": "elected-count",
+      "key": "local-government-local-government-districts__2005-05-05",
+      "message": "Coleraine East has 6 elected candidate rows but seatsWon is 5."
+    },
+    {
+      "severity": "warning",
+      "category": "first-pref-sum",
+      "key": "local-government-local-government-districts__2005-05-05",
+      "message": "Cusher first-preference sum 8261 exceeds valid poll ceiling 8061."
+    },
+    {
+      "severity": "warning",
+      "category": "browse-constituency-count",
+      "key": "local-government-local-government-districts__2001-06-07",
+      "message": "Browse has 103 constituency/DEA sub-entries; manifest expects 100."
+    },
+    {
+      "severity": "warning",
+      "category": "first-pref-sum",
+      "key": "local-government-local-government-districts__2001-06-07",
+      "message": "Castle first-preference sum 14132 exceeds valid poll ceiling 3583."
+    },
+    {
+      "severity": "warning",
+      "category": "browse-constituency-count",
+      "key": "local-government-local-government-districts__1997-05-21",
+      "message": "Browse has 102 constituency/DEA sub-entries; manifest expects 101."
+    },
+    {
+      "severity": "warning",
+      "category": "first-pref-sum",
+      "key": "local-government-local-government-districts__1997-05-21",
+      "message": "Castle first-preference sum 11952 exceeds valid poll ceiling 2758."
+    },
+    {
+      "severity": "warning",
+      "category": "elected-count",
+      "key": "local-government-local-government-districts__1997-05-21",
+      "message": "Castle has 6 elected candidate rows but seatsWon is 5."
+    },
+    {
+      "severity": "warning",
+      "category": "browse-constituency-count",
+      "key": "local-government-local-government-districts__1993-05-19",
+      "message": "Browse has 102 constituency/DEA sub-entries; manifest expects 101."
+    },
+    {
+      "severity": "warning",
+      "category": "first-pref-sum",
+      "key": "local-government-local-government-districts__1993-05-19",
+      "message": "Castle first-preference sum 11985 exceeds valid poll ceiling 3052."
+    },
+    {
+      "severity": "warning",
+      "category": "elected-count",
+      "key": "local-government-local-government-districts__1993-05-19",
+      "message": "Castle has 6 elected candidate rows but seatsWon is 5."
+    },
+    {
+      "severity": "warning",
+      "category": "browse-constituency-count",
+      "key": "local-government-local-government-districts__1989-05-17",
+      "message": "Browse has 99 constituency/DEA sub-entries; manifest expects 98."
+    },
+    {
+      "severity": "warning",
+      "category": "elected-count",
+      "key": "local-government-local-government-districts__1989-05-17",
+      "message": "Castle has 6 elected candidate rows but seatsWon is 5."
+    },
+    {
+      "severity": "warning",
+      "category": "browse-constituency-count",
+      "key": "local-government-local-government-districts__1985-05-15",
+      "message": "Browse has 99 constituency/DEA sub-entries; manifest expects 98."
+    },
+    {
+      "severity": "warning",
+      "category": "first-pref-sum",
+      "key": "local-government-local-government-districts__1985-05-15",
+      "message": "Castle first-preference sum 13013 exceeds valid poll ceiling 3359."
+    },
+    {
+      "severity": "warning",
+      "category": "elected-count",
+      "key": "local-government-local-government-districts__1985-05-15",
+      "message": "Castle has 6 elected candidate rows but seatsWon is 5."
+    },
+    {
+      "severity": "warning",
+      "category": "elected-count",
+      "key": "local-government-local-government-districts__1981-05-20",
+      "message": "Armagh Area D has 6 elected candidate rows but seatsWon is 5."
+    },
+    {
+      "severity": "warning",
+      "category": "elected-count",
+      "key": "local-government-local-government-districts__1981-05-20",
+      "message": "Ballymoney Area C has 5 elected candidate rows but seatsWon is 4."
+    },
+    {
+      "severity": "warning",
+      "category": "elected-count",
+      "key": "local-government-local-government-districts__1981-05-20",
+      "message": "Fermanagh Area D has 5 elected candidate rows but seatsWon is 4."
+    },
+    {
+      "severity": "warning",
+      "category": "elected-count",
+      "key": "local-government-local-government-districts__1981-05-20",
+      "message": "Omagh Area D has 7 elected candidate rows but seatsWon is 4."
+    },
+    {
+      "severity": "warning",
+      "category": "elected-count",
+      "key": "local-government-local-government-districts__1977-05-18",
+      "message": "Armagh Area D has 6 elected candidate rows but seatsWon is 5."
+    },
+    {
+      "severity": "warning",
+      "category": "elected-count",
+      "key": "local-government-local-government-districts__1977-05-18",
+      "message": "Ballymoney Area C has 5 elected candidate rows but seatsWon is 4."
+    },
+    {
+      "severity": "warning",
+      "category": "elected-count",
+      "key": "local-government-local-government-districts__1977-05-18",
+      "message": "Fermanagh Area D has 5 elected candidate rows but seatsWon is 4."
+    },
+    {
+      "severity": "warning",
+      "category": "elected-count",
+      "key": "local-government-local-government-districts__1977-05-18",
+      "message": "Moyle Area C has 5 elected candidate rows but seatsWon is 4."
+    },
+    {
+      "severity": "warning",
+      "category": "elected-count",
+      "key": "local-government-local-government-districts__1977-05-18",
+      "message": "Omagh Area D has 7 elected candidate rows but seatsWon is 4."
+    },
+    {
+      "severity": "warning",
+      "category": "elected-count",
+      "key": "local-government-local-government-districts__1973-05-30",
+      "message": "Armagh Area D has 6 elected candidate rows but seatsWon is 5."
+    },
+    {
+      "severity": "warning",
+      "category": "elected-count",
+      "key": "local-government-local-government-districts__1973-05-30",
+      "message": "Ballymoney Area C has 5 elected candidate rows but seatsWon is 4."
+    },
+    {
+      "severity": "warning",
+      "category": "elected-count",
+      "key": "local-government-local-government-districts__1973-05-30",
+      "message": "Moyle Area C has 5 elected candidate rows but seatsWon is 4."
+    },
+    {
+      "severity": "warning",
+      "category": "elected-count",
+      "key": "local-government-local-government-districts__1973-05-30",
+      "message": "Omagh Area C corrected has 7 elected candidate rows but seatsWon is 4."
+    },
+    {
+      "severity": "warning",
+      "category": "elected-count",
+      "key": "local-government-local-government-districts__1973-05-30",
+      "message": "Omagh Area D has 7 elected candidate rows but seatsWon is 4."
+    }
+  ]
 }
