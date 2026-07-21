@@ -63,13 +63,24 @@ reconstructed to full count-by-count transfer detail, wired to the map layer, an
 - **Minor-party labels.** Wikipedia's TUV/PUP/UKIP vs Independent boundary differs slightly from other
   sources; majors and the seat total are exact.
 
-## 1985–2005 — done the same way
+## 1981–2005 — done the same way
 
 The scraper was **year-parameterised** (`python scrape_2011_lgov_wikipedia.py <YEAR>`, default 2011) and
-run for **2005, 2001, 1997, 1993, 1989 and 1985**. **The full 1985–2011 local series is now digitised**
-(plus native 2014–2023). 1993–2011 share the 26-old-council **deas-1993** geography (101 DEAs); **1985
-and 1989 use the earlier deas-1984 boundaries** (98 DEAs) — the apply step selects the feature index by
-year and carries the deas-1984 spelling aliases (Laganbank↔LAGANSIDE, Braid↔BRAID VALLEY).
+run back through **2005, 2001, 1997, 1993, 1989, 1985 and 1981**. **The full 1981–2011 local series is
+now digitised** (plus native 2014–2023). Three boundary vintages, selected by year in the apply step:
+**deas-1972** for 1981 (98 DEAs, "AREA A/B/C" naming), **deas-1984** for 1985/1989 (98 DEAs), **deas-1993**
+for 1993–2011 (101 DEAs); each carries its own spelling aliases.
+
+### 1981
+
+**98/98 DEAs digitised** (hasCountDetail true, 0 unmatched) on the deas-1972 geometry. Added the 1981
+election date and the **"Londonderry City Council"** article variant (the council was Londonderry
+pre-1984) to recover Derry's 5 DEAs; added a Londonderry↔Derry area alias and a `lgNN-<code>-<rest>`
+placeholder-slug expander (council-code map) so bare-"Area X" ward files join in place. Repaired the
+**broken Belfast 1981 index** (it listed only unresolvable bare "Area-F/G/H" and omitted Area A–E) to
+the full eight "Belfast Area A..H". Party seats track the official 1981 result (UUP **158**, DUP **143**,
+SDLP **104**, Alliance **40**; **no Sinn Féin** — they did not contest in 1981). Model datapoint:
+unionist openness **4.0%**, nationalist **9.0%**.
 
 ### 1985
 
@@ -141,6 +152,7 @@ Local unionist / nationalist transfer-openness now digitised from Wikipedia:
 
 | year | unionist | nationalist | geometry |
 |---|---|---|---|
+| 1981 | 4.0 | 9.0 | deas-1972 |
 | 1985 | **3.2** | 9.6 | deas-1984 |
 | 1989 | 4.5 | 5.7 | deas-1984 |
 | 1993 | 5.2 | 6.5 | deas-1993 |
@@ -150,17 +162,19 @@ Local unionist / nationalist transfer-openness now digitised from Wikipedia:
 | 2011 | 11.8 | 15.6 | deas-1993 |
 | 2014–2023 | native | native | deas-2012 |
 
-The unionist series (3.2 → 4.5 → 5.2 → 4.2 → 7.0 → 11.1 → 11.8) is a clean revealed-behaviour
+The unionist series (4.0 → 3.2 → 4.5 → 5.2 → 4.2 → 7.0 → 11.1 → 11.8) is a clean revealed-behaviour
 de-tribalisation progression — the ballot-behaviour analogue of the attitudinal trend the model tracks.
-1985–1997 is the tribal trough (3–5%), with the 1997 local low the Drumcree-era hardening; the rise
-resumes and accelerates through 2005/2011. **Every NI local cycle from 1985 to 2023 now carries transfer
+1981–1997 is the tribal trough (3–5%), with the 1997 local low the Drumcree-era hardening; the rise
+resumes and accelerates through 2005/2011. **Every NI local cycle from 1981 to 2023 now carries transfer
 behaviour, all DEAs per cycle** (bar three genuinely uncontested DEAs — 1989 Ballymoney Town, 2001 Ards
-East, 2005 Ballinderry). `transfer_openness_timeseries.py` runs from 1985.
+East, 2005 Ballinderry). `transfer_openness_timeseries.py` runs from 1981.
 
 ## Status
 
-**The modern NI local transfer series is complete: every cycle 1985 → 2023, digitised or native, at
-full DEA coverage.** Assembly (1998–2022) and European (1994–2019) STV contests already fed the
-covariate layer; the local side now spans four decades. Wikipedia's structured STV templates reach back
-to 1985; **1981 and earlier** would need ARK's `ark_to_election_json.py` XLS route (the templates thin
-out before 1985), which also remains available as an independent cross-check of the 1985–2011 series.
+**The modern NI local transfer series is complete: every cycle 1981 → 2023, digitised or native, at
+full DEA coverage across three boundary vintages.** Assembly (1998–2022) and European (1994–2019) STV
+contests already fed the covariate layer; the local side now spans **five electoral cycles of the
+Troubles era plus the whole peace-process period**. Wikipedia's structured STV templates reach back to
+1981; **1977 and 1973** (also deas-1972) are the remaining local cycles — the templates thin out around
+then, so ARK's `ark_to_election_json.py` XLS route is the more reliable source for them and an
+independent cross-check of the 1981–2011 series.
