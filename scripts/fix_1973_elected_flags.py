@@ -20,8 +20,13 @@ import json, glob, os, math
 from collections import defaultdict
 
 DIR = "election-viewer-package/data/elections/local-government/1973-05-30"
-# target magnitude override (declared is authoritative elsewhere)
-OVERRIDE = {"omagh-area-c-corrected.json": 7}
+# target magnitude override where the declared Number_Of_Seats is itself wrong,
+# each verified against Wikipedia + the Droop quota:
+#   omagh-area-c: declared 4 (Quota 667 copied from Omagh D, impossible for its
+#                 6,208 poll); Wikipedia -> 7 seats.
+#   fermanagh-area-d: declared 5 but Quota 1212 = floor(6058/5)+1 implies 4;
+#                 Wikipedia -> 4 seats.
+OVERRIDE = {"omagh-area-c-corrected.json": 7, "fermanagh-area-d.json": 4}
 
 def final_totals(cg):
     last = defaultdict(dict)
