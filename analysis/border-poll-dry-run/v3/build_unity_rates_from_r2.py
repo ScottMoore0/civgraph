@@ -29,7 +29,11 @@ _opener = urllib.request.build_opener(
     *( [urllib.request.ProxyHandler({"https": _proxy, "http": _proxy})] if _proxy else [] ),
     urllib.request.HTTPSHandler(context=_ctx) if _ctx else urllib.request.HTTPSHandler(),
 )
-# poll date -> corpus CSV basename (spreadsheet-melted crosstab polls)
+# Fallback poll date -> corpus CSV basename, used only if the manifest is
+# unreachable. The live path is poll_index(), which reads all 36 polls from
+# the corpus manifest; the earlier hand-listed 6 dates left five sixths of the
+# corpus unread (and every border-poll reading between 2020-10 and 2025-02
+# that was not one of these six).
 DATES = {
     "2016-09": "2016-09__LTSeptTrackerPollResults-MainReport",
     "2021-01": "2021-01-spreadsheet",
@@ -41,20 +45,55 @@ DATES = {
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 
-def fetch(name):
-    url = f"{BASE}/{name}.csv.gz"
+def poll_index():
+    """All polls in the corpus, as {key: (basename, meta)}.
+
+    Key is the poll's `time` (YYYY-MM); where a month holds more than one poll
+    the second and subsequent get a -b/-c suffix so no reading is silently
+    dropped. Falls back to the hand-listed DATES if the manifest is unreachable.
+    """
+    try:
+        man = json.loads(_get(f"{BASE}/manifest.json").decode("utf-8"))
+    except Exception as e:
+        print(f"  ! manifest unreachable ({e}); falling back to {len(DATES)} hand-listed dates")
+        return {d: (n, {}) for d, n in DATES.items()}
+    out, seen = {}, {}
+    for p in man.get("polls", []):
+        base = p["file"][:-len(".csv.gz")] if p["file"].endswith(".csv.gz") else p["file"]
+        t = p.get("time") or base[:7]
+        seen[t] = seen.get(t, 0) + 1
+        key = t if seen[t] == 1 else f"{t}-{chr(ord('a') + seen[t] - 1)}"
+        out[key] = (base, {k: p.get(k) for k in
+                           ("commissioner", "sample_base_n", "fieldwork_dates", "margin_of_error_ni")})
+    return out
+
+
+def _get(url):
+    """Raw bytes for a corpus URL. urllib first; curl as fallback, which picks
+    up proxy + CA bundle from the environment and is not 403'd by the edge on
+    a default urllib User-Agent."""
     try:
         with _opener.open(url, timeout=60) as resp:
-            raw = resp.read()
+            return resp.read()
     except Exception:
-        # Fallback: curl, which picks up proxy + CA bundle from the environment
         import subprocess
-        raw = subprocess.run(["curl", "-fsSL", url], capture_output=True, check=True).stdout
+        return subprocess.run(["curl", "-fsSL", url], capture_output=True, check=True).stdout
+
+
+def fetch(name):
+    raw = _get(f"{BASE}/{name}.csv.gz")
     return list(csv.DictReader(io.StringIO(gzip.decompress(raw).decode("utf-8"))))
 
 
 def is_ui(s): return "united ireland" in s.lower()
-def is_uk(s): return "united kingdom" in s.lower()
+
+
+def is_uk(s):
+    """The stay-in-the-UK option. Exclusive of United Ireland, because the
+    unity option is often phrased 'LEAVE the UNITED KINGDOM and become part of
+    a UNITED IRELAND' -- it names both countries and must not count as UK."""
+    t = s.lower()
+    return "united kingdom" in t and "united ireland" not in t
 
 
 def border_measure(rows):
@@ -71,6 +110,11 @@ def border_measure(rows):
     resp = defaultdict(set)
     for x in rows:
         resp[x["Measure"]].add(x["Response"])
+    # A vote-intention question offers a United-Ireland option AND a separate
+    # stay-in-the-UK option. Requiring the UK-only option (is_uk is exclusive of
+    # United Ireland) rejects questions ABOUT the poll rather than voting in it:
+    # 2023-10's majority/super-majority question quotes the GFA wording, so its
+    # 50%+1 response names both countries, but it offers no 'remain' option.
     uiuk = [m for m, rs in resp.items()
             if any(is_ui(s) for s in rs) and any(is_uk(s) for s in rs)]
     if uiuk:
@@ -165,20 +209,20 @@ def community_rates(rows, measure, style):
             rate(rows, measure, style, other) if other else None)
 
 
-def build():
-    out = {}
-    for date, name in DATES.items():
+def build(verbose=True):
+    out, skipped = {}, []
+    for date, (name, meta) in sorted(poll_index().items()):
         try:
             rows = fetch(name)
         except Exception as e:
-            print(f"  ! {date}: fetch failed ({e})")
+            skipped.append((date, f"fetch failed ({e})"))
             continue
         m, style = border_measure(rows)
         if not m:
-            print(f"  ! {date}: no border-poll measure found")
+            skipped.append((date, "no border-poll measure"))
             continue
         rc, rp, ro = community_rates(rows, m, style)
-        out[date] = {
+        rec = {
             "rate_C": rc,
             "rate_P": rp,
             "rate_O": ro,
@@ -187,6 +231,11 @@ def build():
             "measure": m,
             "response_style": style,
         }
+        rec.update({k: v for k, v in meta.items() if v is not None})
+        out[date] = rec
+    if verbose and skipped:
+        print(f"  ({len(skipped)} polls carry no border-poll question: "
+              + ", ".join(d for d, _ in skipped) + ")")
     return out
 
 
