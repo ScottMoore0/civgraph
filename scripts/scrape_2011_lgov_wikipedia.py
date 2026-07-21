@@ -70,7 +70,7 @@ COUNCILS = [
     {"key": "craigavon",                  "display": "Craigavon",                   "variants": ["Craigavon Borough Council"]},
     {"key": "derry",                      "display": "Derry",                       "variants": ["Derry City Council"]},
     {"key": "down",                       "display": "Down",                        "variants": ["Down District Council"]},
-    {"key": "dungannon_and_south_tyrone", "display": "Dungannon and South Tyrone",  "variants": ["Dungannon and South Tyrone Borough Council", "Dungannon and South Tyrone District Council"]},
+    {"key": "dungannon_and_south_tyrone", "display": "Dungannon and South Tyrone",  "variants": ["Dungannon and South Tyrone Borough Council", "Dungannon and South Tyrone District Council", "Dungannon District Council"]},
     {"key": "fermanagh",                  "display": "Fermanagh",                   "variants": ["Fermanagh District Council"]},
     {"key": "larne",                      "display": "Larne",                       "variants": ["Larne Borough Council"]},
     {"key": "limavady",                   "display": "Limavady",                    "variants": ["Limavady Borough Council"]},
