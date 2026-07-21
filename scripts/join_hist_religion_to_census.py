@@ -21,8 +21,9 @@ def main():
     rel = pd.read_csv(D / f"religion-{YEAR}-lgd.csv")
     rel = rel[rel["lgd"] != "NORTHERN IRELAND"].copy()
     rel["k"] = rel["lgd"].map(lambda s: norm(str(s).replace("Londonderry", "Derry")))
-    keep = rel.set_index("k")[["catholic_pct", "total_pop"]].rename(
-        columns={"catholic_pct": f"catholic_pct_{YEAR}", "total_pop": f"lgd{YEAR}_pop"})
+    popcol = "total_pop" if "total_pop" in rel.columns else "weight_pop_1981"
+    keep = rel.set_index("k")[["catholic_pct", popcol]].rename(
+        columns={"catholic_pct": f"catholic_pct_{YEAR}", popcol: f"lgd{YEAR}_pop"})
 
     for cfg, xw_file, idcols in [
         ("dz21", "dz2021_to_lgd1993.csv", ["DZ2021_cd", "DZ2021_nm"]),
