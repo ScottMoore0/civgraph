@@ -63,11 +63,18 @@ reconstructed to full count-by-count transfer detail, wired to the map layer, an
 - **Minor-party labels.** Wikipedia's TUV/PUP/UKIP vs Independent boundary differs slightly from other
   sources; majors and the seat total are exact.
 
-## 1997, 2001 & 2005 — done the same way
+## 1993–2005 — done the same way
 
 The scraper was **year-parameterised** (`python scrape_2011_lgov_wikipedia.py <YEAR>`, default 2011) and
-run for **2005**, **2001** and **1997**, which share the 26-old-council geography and the same Wikipedia
-STV templates.
+run for **2005, 2001, 1997 and 1993**, which share the 26-old-council geography and the same Wikipedia
+STV templates. **The full 1993–2011 local series is now digitised.**
+
+### 1993
+
+97/101 DEAs digitised (**hasCountDetail true, 0 unmatched**). Same gap as 1997 — the **Dungannon and
+South Tyrone** council has no 1993 Wikipedia article, so its four DEAs keep first-preferences only.
+Party seats track the official 1993 result (UUP **190**, SDLP **123**, DUP **101**, SF **46**, Alliance
+**44**) bar the missing council. Model datapoint: unionist openness **5.3%**, nationalist **6.0%**.
 
 ### 1997
 
@@ -115,17 +122,21 @@ Local unionist / nationalist transfer-openness now digitised from Wikipedia:
 
 | year | unionist | nationalist |
 |---|---|---|
+| 1993 | 5.3 | 6.0 |
 | 1997 | **4.3** | 10.3 |
 | 2001 | 7.0 | 6.4 |
 | 2005 | 11.1 | 9.8 |
 | 2011 | 11.8 | 15.6 |
 | 2014–2023 | native | native |
 
-The rising unionist series (4.3 → 7.0 → 11.1 → 11.8) is a clean revealed-behaviour de-tribalisation
-progression — the ballot-behaviour analogue of the attitudinal trend the model tracks.
+The unionist series (5.3 → 4.3 → 7.0 → 11.1 → 11.8) is a clean revealed-behaviour de-tribalisation
+progression — the ballot-behaviour analogue of the attitudinal trend the model tracks. The 1997 dip is
+the Drumcree-era hardening; the rise resumes and accelerates through 2005/2011. **Every NI local cycle
+from 1993 to 2023 now carries transfer behaviour** — the local side of the transfer covariate layer is
+complete for the modern era.
 
 ## Natural next step
 
-The same year-parameterised scraper reaches **1993** (same councils, same templates); ARK's
-`ark_to_election_json.py` covers **1985–2005** XLS count sheets — both as the back-extension and as
-the independent cross-check that would also fill the 1997 Dungannon gap.
+ARK's `ark_to_election_json.py` covers **1985–1989** XLS count sheets (Wikipedia's structured
+templates thin out before 1993) — the back-extension — and is the independent cross-check that would
+also fill the 1993/1997 **Dungannon and South Tyrone** gap.
