@@ -32,10 +32,16 @@ separately**, each at its native geography; and (d) flag each target's **domain 
 | **Turnout** | age / deprivation / composition (census) | **always** — turnout is demographically structured everywhere |
 | **Vote choice** | religion × age × identity (ethnonational axes) | the contest **splits on those axes** (elections, unity) |
 
-The referendums differ sharply on the second row: a **cross-cutting** vote (AV; the GFA *Yes*; and
-partly EU *Remain*) does **not** split on religion×age, so the model's vote-choice axes are near-
-orthogonal to the outcome. A fair backtest there will show **low vote-choice skill — and that is the
-finding (the model's boundary), not a bug to fix.** Turnout, by contrast, is testable on all of them.
+The referendums differ on the second row. A genuinely **cross-cutting** vote — the **GFA *Yes*** (won
+a Protestant majority *and* nearly all Catholics) — does **not** split on religion×age, so the model's
+vote-choice axes are near-orthogonal to it; a fair backtest there will (correctly) show **low
+vote-choice skill — the model's boundary, not a bug.** **Correction (established by the
+`REFERENDUM_CORR_FINDINGS` analysis):** the **2011 AV Yes is *not* cross-cutting** — its constituency
+pattern loads on the ethnonational axis about as hard as unity does (Irish-identity r≈0.89, Catholic
+r≈0.83, UK-passport r≈−0.83), plus a class axis. So the census **shape** predicts the AV vote well;
+AV's backtest limit is purely the **absence of contemporaneous AV attitude polling** (the *level*
+input), not the vote being unstructured. EU *Remain* is intermediate — strongly ethnonational
+(r≈0.83) but with a soft-unionist Remain residual the axis misses. Turnout is testable on all of them.
 
 ## 3. Target-by-target feasibility
 
@@ -43,7 +49,7 @@ finding (the model's boundary), not a bug to fix.** Turnout, by contrast, is tes
 |---|---|---|---|---|---|
 | **Elections** (const. + DEA, result+turnout) | ✅ complete 1998–2024 | **HIGH** (nationalist gradient R²~0.97; party-splits harder) | **HIGH** | NILT 1998+, LucidTalk 2012+ (2017 has a constituency seat poll), NISA 1989–96 | **Strong** — the core backtest; refresh onto the new frame + add turnout scoring |
 | **2016 EU ref** (result+turnout, const.) | ✅ `eu-referendum-2016.json` | **MODERATE** — the known stress case: Remain cross-cuts the ethnonational axis, so shape R² drops | HIGH | NILT 2016; **LucidTalk 2016-06/09** carry EU-vote×religion×age | **Feasible & informative** — quantifies *where* the model breaks |
-| **2011 AV ref** (result const., turnout counting-area) | ✅ `av-referendum-2011.json`, `av-turnout-2011` | **LOW / out-of-domain** — AV isn't religion-structured, and no NI survey measured AV vote-intention with crosstabs | **HIGH** (turnout by counting area is demographically structured) | none for choice; census for turnout | **Do turnout only**; report choice as out-of-domain |
+| **2011 AV ref** (result const., turnout counting-area) | ✅ `av-referendum-2011.json`, `av-turnout-2011` | **SHAPE: HIGH** — AV Yes *is* ethnonationally structured (Irish r≈0.89, Catholic r≈0.83); **LEVEL: infeasible** — no NI survey measured AV vote-intention | **HIGH** (turnout tracked the same-day Assembly election → nationalist-high) | none for the *level*; census for shape+turnout | **Census-shape backtest passes; full-pipeline blocked only by missing AV polling, not by the vote being unstructured** |
 | **1998 GFA ref** (turnout const., NI-wide Yes/No) | ✅ `belfast-agreement-1998` overlay | NI-wide Yes = **level check only** (Yes was cross-community, ~71% incl. most Catholics + a Protestant majority — not a religion split, so *constituency* Yes-share is out-of-domain) | **HIGH** (turnout by constituency) | **NILT 1998** (autumn '98, just post-vote) carries Agreement attitudes; NISA ended 1996 | **Feasible**: NI-wide Yes as a level calibration + turnout by constituency; skip constituency Yes-share |
 
 ## 4. Era coverage (the NISA/NILT/LucidTalk point)
@@ -62,19 +68,22 @@ finding (the model's boundary), not a bug to fix.** Turnout, by contrast, is tes
    target geography, truth file}; run shape (frame) × level (survey/LucidTalk-raked); score.
 2. **Score result and turnout separately**, at native geography (DEA / constituency / counting-area /
    NI-wide), leave-one-contest-out for the shape model.
-3. **Emit a skill matrix** with an explicit **domain-of-validity flag** (structured vs cross-cutting)
-   so a low AV/GFA-choice score reads as *boundary*, not *failure*.
+3. **Emit a skill matrix** distinguishing the two half-tests — **census-shape** (backtestable
+   wherever a result exists, incl. AV) versus **full pipeline** (needs a contemporaneous survey for
+   the level) — with a domain-of-validity flag so a low GFA-*choice* score reads as *boundary*.
 4. **Turnout model** on the census age/deprivation composition — the common denominator across all
    four targets and the one that makes AV (counting-area) and GFA (constituency) tractable.
 
 ## 6. Bottom line
 
 - **Feasible and worth doing** for: all elections (rich, 1989–2024), 2016 EU (result+turnout), 2011
-  AV **turnout**, 1998 GFA **turnout + NI-wide Yes**. Truth data is already in-repo; survey anchors
-  exist for every era.
-- **Out-of-domain by construction** (report, don't force): 2011 AV **vote choice** and 1998 GFA
-  **constituency Yes-share** — cross-cutting votes the ethnonational model cannot and should not
-  predict. Surfacing that boundary honestly *is* part of stating the model's current capability.
+  AV **turnout + census-shape-of-Yes**, 1998 GFA **turnout + NI-wide Yes**. Truth data is already
+  in-repo; survey anchors exist for every era.
+- **Genuinely out-of-domain** (report, don't force): only the **1998 GFA constituency Yes-share** —
+  a truly cross-community vote the ethnonational model cannot and should not predict. **2011 AV vote
+  choice is NOT in this category** (its shape *is* ethnonational, r≈0.83–0.89); it is only *level*-
+  blocked by the absence of AV-era attitude polling, which is a data gap, not a domain boundary.
+  Surfacing these distinctions honestly *is* part of stating the model's current capability.
 - **Effort**: refreshing the existing `8_backtest.py` onto the new DZ frame + LucidTalk anchoring is
   moderate; adding AV/GFA turnout + GFA NI-wide Yes is small (truth present). The genuinely hard part
   is not code — it is resisting the temptation to score cross-cutting referendums as if they were
