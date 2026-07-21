@@ -40,6 +40,7 @@ from modern_lgov_wikipedia_common import (
 # The 26 old-council geography and the Wikipedia STV-template structure are shared
 # across the 1993-2011 local elections, so the same scraper serves each year.
 _ELECTION_DATES = {
+    1973: "1973-05-30", 1977: "1977-05-18", 1981: "1981-05-20",
     1985: "1985-05-15", 1989: "1989-05-17", 1993: "1993-05-19",
     1997: "1997-05-21", 2001: "2001-06-07", 2005: "2005-05-05",
     2011: "2011-05-05",
@@ -69,7 +70,7 @@ COUNCILS = [
     {"key": "coleraine",                  "display": "Coleraine",                   "variants": ["Coleraine Borough Council"]},
     {"key": "cookstown",                  "display": "Cookstown",                   "variants": ["Cookstown District Council"]},
     {"key": "craigavon",                  "display": "Craigavon",                   "variants": ["Craigavon Borough Council"]},
-    {"key": "derry",                      "display": "Derry",                       "variants": ["Derry City Council"]},
+    {"key": "derry",                      "display": "Derry",                       "variants": ["Derry City Council", "Londonderry City Council"]},
     {"key": "down",                       "display": "Down",                        "variants": ["Down District Council"]},
     {"key": "dungannon_and_south_tyrone", "display": "Dungannon and South Tyrone",  "variants": ["Dungannon and South Tyrone Borough Council", "Dungannon and South Tyrone District Council", "Dungannon District Council"]},
     {"key": "fermanagh",                  "display": "Fermanagh",                   "variants": ["Fermanagh District Council"]},

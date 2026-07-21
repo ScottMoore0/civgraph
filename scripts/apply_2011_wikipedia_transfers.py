@@ -19,15 +19,16 @@ import json, glob, os, re, sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-_DATES = {1985: "1985-05-15", 1989: "1989-05-17", 1993: "1993-05-19",
+_DATES = {1973: "1973-05-30", 1977: "1977-05-18", 1981: "1981-05-20",
+          1985: "1985-05-15", 1989: "1989-05-17", 1993: "1993-05-19",
           1997: "1997-05-21", 2001: "2001-06-07", 2005: "2005-05-05",
           2011: "2011-05-05"}
 YEAR = int(sys.argv[1]) if len(sys.argv) > 1 else 2011
 DATE = _DATES.get(YEAR, f"{YEAR}-05-05")
 DIR = ROOT / f"election-viewer-package/data/elections/local-government/{DATE}"
 WIKI = ROOT / f"_tmp_{YEAR}_lgov/bundle"
-# 1985/1989 used the deas-1984 boundaries; 1993 onward used deas-1993.
-_GEOM = "deas-1984" if YEAR < 1993 else "deas-1993"
+# boundary vintages: 1973-1981 -> deas-1972; 1985/1989 -> deas-1984; 1993+ -> deas-1993.
+_GEOM = "deas-1972" if YEAR < 1985 else "deas-1984" if YEAR < 1993 else "deas-1993"
 IDX = ROOT / f"test/metadata/feature-indexes/{_GEOM}-vector-test.json"
 
 COUNCIL = {
@@ -63,6 +64,21 @@ for spelling, canonical in (
 ):
     if canonical in _names:  # guard keeps each alias to its own geometry vintage
         geo[norm(spelling)] = canonical
+# deas-1972 (1973-1981): the council was "Londonderry" then, ward files say "Derry".
+for nm in _names:
+    if nm.startswith('LONDONDERRY '):
+        geo[norm(nm.replace('LONDONDERRY', 'Derry'))] = nm
+
+# council-code map (reverse of LOCAL_GOVERNMENT_CODE_PREFIXES) to expand lgNN-<code>-<rest>
+# placeholder ward slugs whose DEA name is bare ("lg81-NaM-Area-A" -> "Newry and Mourne Area A").
+CODE2COUNCIL = {
+    'ant':'Antrim','ard':'Ards','arm':'Armagh','bal':'Ballymena','bly':'Ballymoney',
+    'ban':'Banbridge','bel':'Belfast','car':'Carrickfergus','cas':'Castlereagh','col':'Coleraine',
+    'ckt':'Cookstown','crg':'Craigavon','der':'Derry','dow':'Down','dun':'Dungannon',
+    'fer':'Fermanagh','lar':'Larne','lim':'Limavady','lis':'Lisburn','mag':'Magherafelt',
+    'moy':'Moyle','nam':'Newry and Mourne','new':'Newtownabbey','nod':'North Down',
+    'oma':'Omagh','str':'Strabane',
+}
 
 # 2. Wikipedia DEA -> feature, carrying the constituency payload
 wiki_by_feat = {}
@@ -101,7 +117,11 @@ for f in glob.glob(str(DIR / '*.json')):
         file_by_feat[MANUAL[slug]] = f
         continue
     cn = json.load(open(f))['Constituency']['countInfo'].get('Constituency_Name', '')
-    for cand in (norm(cn), norm(slug), norm(slug.replace('-', ' '))):
+    cands = [norm(cn), norm(slug), norm(slug.replace('-', ' '))]
+    m = re.match(r'lg\d\d-([a-z]{2,3})-(.+)', slug)  # expand lgNN-<code>-<rest> placeholder slugs
+    if m and m.group(1) in CODE2COUNCIL:
+        cands.append(norm(CODE2COUNCIL[m.group(1)] + ' ' + m.group(2).replace('-', ' ')))
+    for cand in cands:
         if cand in geo:
             file_by_feat[geo[cand]] = f
             break
