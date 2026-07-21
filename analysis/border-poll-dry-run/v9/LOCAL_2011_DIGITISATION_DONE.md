@@ -63,7 +63,29 @@ reconstructed to full count-by-count transfer detail, wired to the map layer, an
 - **Minor-party labels.** Wikipedia's TUV/PUP/UKIP vs Independent boundary differs slightly from other
   sources; majors and the seat total are exact.
 
+## 2005 — done the same way
+
+The scraper was **year-parameterised** (`python scrape_2011_lgov_wikipedia.py <YEAR>`, default 2011) and
+run for **2005**, which shares the 26-old-council geography and the same Wikipedia STV templates. All
+26 councils scraped → **101 DEAs, 912 candidates, up to 12 counts**. Outcome after wiring:
+
+- **Map:** 2005 local reports **100/101 constituencies matched, 0 unmatched, `hasCountDetail` true for
+  all 100**. The one gap is **Ballinderry (Cookstown)**, returned **uncontested** — there is no poll
+  table to digitise (and no transfers), so it keeps its existing entry.
+- **Elected-detection hardened.** Bold-only detection missed seats filled at the final narrowing
+  ("elected without reaching quota", not always bolded) and mis-read quota-elected candidates whom
+  Wikipedia blanks. Replaced with **elected = the `seats` candidates with the highest total ever
+  achieved** (bold as a guaranteed-elected signal) — an elected candidate always crosses quota, so
+  tops every excluded one. This fixed all five 2005 seat-count mismatches and, verified as a
+  regression check, **left 2011 identical** (still 101/101, official totals exact).
+- **Validation:** 2005 NI-wide party seats track the official result — DUP **181**, SF **126**, UUP
+  **116**, SDLP **99**, Alliance **30** — bar the uncontested DEA and the usual minor-party label
+  nuance.
+- **Model:** 2005 local now contributes a real datapoint — unionist openness **11.1%**, nationalist
+  **9.8%** — so the **2004–2013** decade now blends both 2005 and 2011 local behaviour.
+
 ## Natural next step
 
-The same `ark_to_election_json.py` route reaches **2001/2005** and **1985–1997** ARK XLS count sheets —
-extending the revealed-behaviour transfer series back another 2–3 electoral cycles on the local side.
+The same year-parameterised scraper reaches **2001/1997/1993** (same councils, same templates); ARK's
+`ark_to_election_json.py` covers **1985–2005** XLS count sheets as an independent cross-check —
+extending the revealed-behaviour transfer series back further on the local side.
