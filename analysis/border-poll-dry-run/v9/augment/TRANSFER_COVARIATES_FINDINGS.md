@@ -128,3 +128,45 @@ against the Assembly- and local-pooled reads:
 The three independent contest types **agree to within ~1.7pts (6.7–8.4%)** — NI unionists transfer
 ~7–8% openly and ~90% stay in-bloc, consistently. The openness signal is **contest-robust**, not an
 artifact of one election type, which underwrites its use as a covariate in the softness layer.
+
+---
+
+## (a) 30-year behavioural time series — `transfer_openness_timeseries.py`
+
+NI-wide unionist & nationalist transfer openness per STV election. **Data limit found:** pre-2014
+local-government transfer detail is **not digitized in the repo** (`hasCountDetail: false`, zero
+transfers in 1993–2011 files), so the intended back-extension to 1993 is impossible; the behavioural
+series rests on **Assembly 1998–2022 (complete)** + **local 2014–2023**. It shows a clear
+**de-tribalisation** trend:
+
+| decade | unionist openness | nationalist openness |
+|---|---|---|
+| 1993–2003 | 8.7% | 8.7% |
+| 2004–2013 | 10.7% | 15.6% |
+| 2014–2024 | **13.0%** | **33.9%** |
+
+Both blocs transfer more cross-community over time, accelerating **post-2016** (the Alliance surge) —
+the revealed-behaviour analogue of the attitudinal unity rise, and independent of it. (Nationalist
+openness is inflated in the late 2010s by Alliance/Green absorbing nationalist transfers; the
+*direction* is robust.) Output: `transfer_openness_timeseries.csv`.
+
+## (b) Bidirectional wiring — `v11e_softness_bidirectional.py`
+
+v11c/v11d corrected only the Protestant softness. v11e corrects **both**: Protestant from unionist
+openness (hard base, raised), **Catholic from nationalist openness** (soft base, *lowered* where
+nationalists plump — a conservative floor of 0.4, since nationalist openness partly reflects
+intra-bloc PBP/left competition rather than unity-doubt). Effect on the DZ Yes-share band:
+
+| seat | Cath % | v11b | **v11e** | Δ | character |
+|---|---|---|---|---|---|
+| Newry & Armagh | 64 | 17.4 | 14.1 | **−3.3** | tribal nationalist → certain Yes |
+| Belfast West | 76 | 20.0 | 16.8 | **−3.2** | solid nationalist → certain Yes |
+| Mid Ulster | 64 | 17.2 | 12.6 | **−4.6** | nationalist → certain |
+| North Down | 14 | 9.6 | 19.3 | +9.6 | open unionist → uncertain |
+| Belfast South | 44 | 15.6 | 21.3 | +5.7 | mixed middle → uncertain |
+| North Antrim | 27 | 10.8 | 14.4 | +3.6 | tribal unionist (small real softness) |
+
+This **fixes the v11b error** of giving solidly-tribal nationalist areas the *widest* bands: Newry &
+Armagh and West Belfast are certainly Yes and now read as such. Uncertainty **concentrates in the
+persuadable middle** (mixed Belfast South, open North Down) from both directions — exactly where a
+referendum is actually decided. Output: `v11e_dz_softness_bidirectional.csv`.
