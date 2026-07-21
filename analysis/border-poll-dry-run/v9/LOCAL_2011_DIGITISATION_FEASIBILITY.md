@@ -1,5 +1,11 @@
 # Feasibility: digitising the 2011 NI local election count sheets (Wikipedia / ARK / EONI)
 
+> **UPDATE — DONE.** This was carried out: all 101 DEAs are digitised to full count-by-count transfer
+> detail from Wikipedia (ARK-cross-checked), rendering on the map (`hasCountDetail` true for 101/101,
+> 0 unmatched) and feeding the model (a real 2011-local transfer-openness datapoint). See
+> `LOCAL_2011_DIGITISATION_DONE.md` for the outcome and verification. The assessment below stands as
+> the original plan.
+
 **Verdict up front: HIGH feasibility, and most of the pipeline already exists in-repo.** The 2011
 local-government transfer detail can be reconstructed to the same schema the 2014+ elections use, wired
 into the map/viewer, and fed to the model's transfer-covariate layer — extending the revealed-behaviour
