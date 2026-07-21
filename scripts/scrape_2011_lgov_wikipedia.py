@@ -58,15 +58,15 @@ OUTDIR = Path(f"_tmp_{YEAR}_lgov")
 # scrape_and_compare_lgov_wikipedia.py.  The "display" value is the
 # council name as it should appear in the election viewer.
 COUNCILS = [
-    {"key": "antrim",                     "display": "Antrim",                      "variants": ["Antrim Borough Council"]},
+    {"key": "antrim",                     "display": "Antrim",                      "variants": ["Antrim Borough Council", "Antrim District Council"]},
     {"key": "ards",                       "display": "Ards",                        "variants": ["Ards Borough Council"]},
     {"key": "armagh",                     "display": "Armagh",                      "variants": ["Armagh City and District Council", "Armagh District Council", "Armagh City Council"]},
     {"key": "ballymena",                  "display": "Ballymena",                   "variants": ["Ballymena Borough Council"]},
-    {"key": "ballymoney",                 "display": "Ballymoney",                  "variants": ["Ballymoney Borough Council"]},
+    {"key": "ballymoney",                 "display": "Ballymoney",                  "variants": ["Ballymoney Borough Council", "Ballymoney District Council"]},
     {"key": "banbridge",                  "display": "Banbridge",                   "variants": ["Banbridge District Council"]},
     {"key": "belfast",                    "display": "Belfast",                     "variants": ["Belfast City Council"]},
     {"key": "carrickfergus",              "display": "Carrickfergus",               "variants": ["Carrickfergus Borough Council"]},
-    {"key": "castlereagh",               "display": "Castlereagh",                "variants": ["Castlereagh Borough Council"]},
+    {"key": "castlereagh",               "display": "Castlereagh",                "variants": ["Castlereagh Borough Council", "Castlereagh District Council"]},
     {"key": "coleraine",                  "display": "Coleraine",                   "variants": ["Coleraine Borough Council"]},
     {"key": "cookstown",                  "display": "Cookstown",                   "variants": ["Cookstown District Council"]},
     {"key": "craigavon",                  "display": "Craigavon",                   "variants": ["Craigavon Borough Council"]},
@@ -80,7 +80,7 @@ COUNCILS = [
     {"key": "magherafelt",                "display": "Magherafelt",                 "variants": ["Magherafelt District Council"]},
     {"key": "moyle",                      "display": "Moyle",                       "variants": ["Moyle District Council"]},
     {"key": "newry_and_mourne",           "display": "Newry and Mourne",            "variants": ["Newry and Mourne District Council"]},
-    {"key": "newtownabbey",               "display": "Newtownabbey",                "variants": ["Newtownabbey Borough Council"]},
+    {"key": "newtownabbey",               "display": "Newtownabbey",                "variants": ["Newtownabbey Borough Council", "Newtownabbey District Council"]},
     {"key": "north_down",                 "display": "North Down",                  "variants": ["North Down Borough Council"]},
     {"key": "omagh",                      "display": "Omagh",                       "variants": ["Omagh District Council"]},
     {"key": "strabane",                   "display": "Strabane",                    "variants": ["Strabane District Council"]},
