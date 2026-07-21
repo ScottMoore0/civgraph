@@ -51,6 +51,12 @@ def norm(s):
 # 1. geometry features: norm -> canonical name
 idx = json.load(open(IDX))['items']
 geo = {norm(it['name']): it['name'] for it in idx}
+# deas-1993 spelling aliases (mirrors SOURCE_NAME_ALIASES in build-test2-election-manifest.mjs):
+# the geometry's canonical spelling differs from the ward-file/Wikipedia spelling.
+_names = {it['name'] for it in idx}
+for spelling, canonical in (('Knockveagh', 'KNOCKIVEAGH'), ('Dunmurray Cross', 'DUNMURRY CROSS')):
+    if canonical in _names:
+        geo[norm(spelling)] = canonical
 
 # 2. Wikipedia DEA -> feature, carrying the constituency payload
 wiki_by_feat = {}
