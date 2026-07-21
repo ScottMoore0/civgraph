@@ -36,14 +36,21 @@ from modern_lgov_wikipedia_common import (
 
 # ── Configuration ──────────────────────────────────────────────────────────
 
-YEAR = 2011
-ELECTION_DATE = "2011-05-05"
+# Year-parameterised: `python scrape_2011_lgov_wikipedia.py [YEAR]` (default 2011).
+# The 26 old-council geography and the Wikipedia STV-template structure are shared
+# across the 1993-2011 local elections, so the same scraper serves each year.
+_ELECTION_DATES = {
+    1993: "1993-05-19", 1997: "1997-05-21", 2001: "2001-06-07",
+    2005: "2005-05-05", 2011: "2011-05-05",
+}
+YEAR = int(sys.argv[1]) if len(sys.argv) > 1 else 2011
+ELECTION_DATE = _ELECTION_DATES.get(YEAR, f"{YEAR}-05-05")
 
-USER_AGENT = "civgraph/1.0 (2011 lgov Wikipedia scraper)"
+USER_AGENT = f"civgraph/1.0 ({YEAR} lgov Wikipedia scraper)"
 REQUEST_DELAY_SECONDS = 0.6
 RETRY_DELAYS = [5, 10, 20, 40]
 
-OUTDIR = Path("_tmp_2011_lgov")
+OUTDIR = Path(f"_tmp_{YEAR}_lgov")
 
 # The 26 old councils, keyed to match the existing COUNCILS list in
 # scrape_and_compare_lgov_wikipedia.py.  The "display" value is the
@@ -433,15 +440,30 @@ def detect_elected_from_bold(wikitext: str, parsed: dict) -> None:
         dea_name = district["dea_name"]
         numcounts = district["numcounts"]
 
-        for cand in district["candidates"]:
-            candidate_raw = cand.get("candidate_raw", "")
-            # Check if the raw candidate value contains bold markers
-            if "'''" in candidate_raw:
-                cand["outcome"] = "Elected"
-            else:
-                # Not elected — either eliminated early (fewer counts) or
-                # survived to the final count without being elected
-                cand["outcome"] = "Excluded"
+        # A candidate whose later count columns are blank may have been either
+        # ELECTED on quota (subsequently blanked) or EXCLUDED — the blank alone is
+        # ambiguous. Wikipedia bolds the elected, but not reliably for seats filled
+        # at the final narrowing ("elected without reaching quota"). The robust rule
+        # is: the winners are the `seats` candidates with the highest total ever
+        # achieved (an elected candidate always crosses quota, so tops every
+        # excluded candidate), with a bold marker as a guaranteed-elected signal.
+        seats = int(district["seats"]) if district.get("seats") else 0
+        cands = district["candidates"]
+
+        def _max_total(c):
+            vals = [v for v in c["counts"] if v is not None]
+            return max(vals) if vals else -1.0
+
+        for c in cands:
+            c["_bold"] = "'''" in c.get("candidate_raw", "")
+        if seats:
+            ranked = sorted(cands, key=lambda c: (c["_bold"], _max_total(c)), reverse=True)
+            elected_ids = {id(c) for c in ranked[:seats]}
+        else:
+            elected_ids = {id(c) for c in cands if c["_bold"]}
+        for c in cands:
+            c["outcome"] = "Elected" if id(c) in elected_ids else "Excluded"
+            c.pop("_bold", None)
 
 
 def main() -> None:

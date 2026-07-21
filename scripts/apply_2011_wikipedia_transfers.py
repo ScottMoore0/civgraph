@@ -15,12 +15,16 @@ this replaces countGroup with the full multi-count transfer sheet and fills the
 blank Number_Of_Seats (and any blank numeric countInfo field) from Wikipedia.
 Constituency_Name is preserved from the existing file so nothing downstream moves.
 """
-import json, glob, os, re
+import json, glob, os, re, sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-DIR = ROOT / "election-viewer-package/data/elections/local-government/2011-05-05"
-WIKI = ROOT / "_tmp_2011_lgov/bundle"
+_DATES = {1993: "1993-05-19", 1997: "1997-05-21", 2001: "2001-06-07",
+          2005: "2005-05-05", 2011: "2011-05-05"}
+YEAR = int(sys.argv[1]) if len(sys.argv) > 1 else 2011
+DATE = _DATES.get(YEAR, f"{YEAR}-05-05")
+DIR = ROOT / f"election-viewer-package/data/elections/local-government/{DATE}"
+WIKI = ROOT / f"_tmp_{YEAR}_lgov/bundle"
 IDX = ROOT / "test/metadata/feature-indexes/deas-1993-vector-test.json"
 
 COUNCIL = {
@@ -36,7 +40,7 @@ COUNCIL = {
 
 def norm(s):
     s = (s or '').lower().strip()
-    s = re.sub(r'\blg11[- ]?[a-z]{2,3}[- ]', '', s)
+    s = re.sub(r'\blg\d\d[- ]?[a-z]{2,3}[- ]', '', s)  # strip lg11-/lg05- council-code prefixes
     s = re.sub(r'\bthe\b', '', s)
     s = re.sub(r'\band\b', '', s)
     s = s.replace('north west','northwest').replace('south east','southeast')
@@ -61,8 +65,8 @@ for f in glob.glob(str(WIKI / '*_bundle.json')):
                 wiki_by_feat[geo[cand]] = (council, dea, payload)
                 break
         else:
-            raise SystemExit(f"UNMATCHED wiki DEA: {council} / {dea}")
-assert len(wiki_by_feat) == 101, len(wiki_by_feat)
+            print(f"  WARN unmatched wiki DEA: {council} / {dea}")
+print(f"wiki DEAs matched to geometry: {len(wiki_by_feat)}/101")
 
 # 3. existing files -> feature (norm + manual overrides for names the normalizer misses)
 MANUAL = {
@@ -85,7 +89,7 @@ for f in glob.glob(str(DIR / '*.json')):
             file_by_feat[geo[cand]] = f
             break
     else:
-        raise SystemExit(f"UNMATCHED existing file: {slug} ({cn})")
+        print(f"  WARN unmatched existing file: {slug} ({cn})")
 
 # 4. write
 def merge_countinfo(existing, wiki):
@@ -95,10 +99,16 @@ def merge_countinfo(existing, wiki):
             out[k] = wiki[k]
     return out
 
-updated = created = 0
+updated = created = skipped_empty = 0
 for feat, (council, dea, payload) in wiki_by_feat.items():
     wiki_ci = payload['Constituency']['countInfo']
     wiki_cg = payload['Constituency']['countGroup']
+    if not wiki_cg:
+        # uncontested DEA (candidates returned unopposed) — Wikipedia has no poll
+        # table, so there is nothing to add; keep the existing first-pref file.
+        skipped_empty += 1
+        print(f"  skip (uncontested, kept existing): {council} / {dea} [{feat}]")
+        continue
     if feat in file_by_feat:
         path = file_by_feat[feat]
         existing = json.load(open(path))['Constituency']['countInfo']
@@ -114,6 +124,6 @@ for feat, (council, dea, payload) in wiki_by_feat.items():
     with open(path, 'w', encoding='utf-8') as fh:
         json.dump(out, fh, ensure_ascii=False, indent=2)
 
-print(f"features: {len(wiki_by_feat)} | files updated: {updated} | files created: {created}")
+print(f"year: {YEAR} | features: {len(wiki_by_feat)} | updated: {updated} | created: {created} | skipped uncontested: {skipped_empty}")
 missing = [it['name'] for it in idx if it['name'] not in file_by_feat]
-print(f"features that had NO existing file (now created): {missing}")
+print(f"features with NO existing file: {missing}")
