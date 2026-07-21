@@ -133,11 +133,18 @@ artifact of one election type, which underwrites its use as a covariate in the s
 
 ## (a) 30-year behavioural time series — `transfer_openness_timeseries.py`
 
-NI-wide unionist & nationalist transfer openness per STV election. **Data limit found:** pre-2014
-local-government transfer detail is **not digitized in the repo** (`hasCountDetail: false`, zero
-transfers in 1993–2011 files), so the intended back-extension to 1993 is impossible; the behavioural
-series rests on **Assembly 1998–2022 (complete)** + **local 2014–2023**. It shows a clear
-**de-tribalisation** trend:
+NI-wide unionist & nationalist transfer openness per STV election. **Data limit found — and pinned
+down precisely:** the pre-2014 local-government *results* **are** digitised (per-ward files back to
+1973 under `election-viewer-package/data/elections/local-government/<date>/`), but they contain
+**first-preference votes + a final elected flag only** — `max Count_Number = 1`, no `Transfers`
+field. The **count-by-count transfer sheets begin in 2014** (that year's ward files jump to
+`Count_Number` up to 15 with signed `Transfers`, e.g. −618.19 eliminations, and gain the derived
+`_bundle.json`/`_aggregates.json` products that only 2014/2018/2019/2023 have). Verified across two
+independent representations — the `test/metadata` snapshot (`hasCountDetail: false`) *and* the live
+election-viewer data feed — so the transfer detail genuinely was never digitised pre-2014, not merely
+absent from one export. The intended back-extension to 1993 is therefore impossible from what exists;
+the behavioural series rests on **Assembly 1998–2022 (complete)** + **local 2014–2023**. It shows a
+clear **de-tribalisation** trend:
 
 | decade | unionist openness | nationalist openness |
 |---|---|---|

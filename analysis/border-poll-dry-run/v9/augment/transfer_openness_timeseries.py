@@ -1,7 +1,10 @@
 """(a) 30-year behavioural time series: NI-wide unionist & nationalist transfer OPENNESS per STV
 election, 1993-2023 (local + Assembly + European), pooling across all sub-geographies (boundary
 changes are irrelevant at NI level). Shows whether cross-community transfer willingness -- the
-tribalism/softening signal -- has moved over three decades."""
+tribalism/softening signal -- has moved over three decades.
+NOTE: pre-2014 local results ARE digitised but carry first-preferences only (Count_Number=1, no
+Transfers); count-by-count transfer detail exists only from 2014 locals + 1998 Assembly onward.
+So the effective transfer coverage is Assembly 1998-2022 + local 2014-2023, not a true 1993 start."""
 import json,glob,os,collections,numpy as np,pandas as pd
 BASE='test/metadata/elections-test2'; V="analysis/border-poll-dry-run/v9"
 def bloc(p):
