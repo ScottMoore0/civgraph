@@ -78,9 +78,12 @@ under the current system**. Added "District Council" article variants for Antrim
 and Newtownabbey (all Districts in 1973, Boroughs later); repaired the broken Belfast 1973 index (bare
 "Area-F/G/H") → the full eight "Belfast Area A..H". Party seats track the first-district result (a large
 undifferentiated unionist bloc **222**, SDLP **94**, Alliance **76**, a small early DUP **21**; no Sinn
-Féin). One source gap: Larne Area B lists only 2 of its candidates in the Wikipedia table. Model
-datapoint: unionist openness **6.0%**, nationalist **23.8%** — the series peak, the moderate
-power-sharing-era SDLP/Alliance electorate before the tribal hardening.
+Féin). Larne Area B — whose Wikipedia table listed only 2 of its 6 candidates (and wrongly marked one
+elected) — was **filled from the ARK Elections count sheet** (`lg73-LAR-Area-B.xls`): the full 4-seat,
+3-stage count (Morrow excluded → Semple surplus), an early instance of the ARK cross-check the plan
+always held in reserve. **1973 is now 98/98 with full count detail.** Model datapoint: unionist openness
+**6.0%**, nationalist **23.8%** — the series peak, the moderate power-sharing-era SDLP/Alliance
+electorate before the tribal hardening.
 
 ### 1977
 
@@ -192,8 +195,8 @@ hardening; the rise resumes and accelerates through 2005/2011. The **nationalist
 striking: it peaks at **23.8% in 1973** (the moderate SDLP/Alliance power-sharing electorate), falls
 steadily through the tribal 1980s as Sinn Féin enters and the Troubles harden (to 5.7% in 1989), then
 recovers post-2000. **Every NI local cycle from 1973 to 2023 now carries transfer behaviour, all DEAs per
-cycle** (bar a handful of genuinely uncontested DEAs, and one Wikipedia source gap at Larne Area B 1973).
-`transfer_openness_timeseries.py` runs from 1973.
+cycle** (bar a handful of genuinely uncontested DEAs; the one Wikipedia source gap, Larne Area B 1973,
+was filled from ARK). `transfer_openness_timeseries.py` runs from 1973.
 
 ## Status — complete
 
