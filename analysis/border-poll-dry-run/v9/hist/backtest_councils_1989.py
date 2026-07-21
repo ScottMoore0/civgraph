@@ -10,12 +10,24 @@ per cent). Nationalist vote share = (SDLP + Sinn Fein first-prefs) / all first-p
 import json, glob, os, re, collections
 import numpy as np
 
-# 1991 Census Religion Report, Table 2 (Roman Catholic %) by the 26 LGDs
-CATH91={'antrim':31.7,'ards':11.3,'armagh':45.4,'ballymena':18.3,'ballymoney':30.2,'banbridge':27.6,
+# 1991 Census Religion Report Table 2 (Roman Catholic %) by the 26 LGDs.
+# Sourced from the parsed structured table (scripts/parse_1991_religion_lgd.py, validated:
+# parsed RC% == this literal, exactly). The literal is retained as a standalone fallback.
+_CATH91_LITERAL={'antrim':31.7,'ards':11.3,'armagh':45.4,'ballymena':18.3,'ballymoney':30.2,'banbridge':27.6,
  'belfast':39.0,'carrickfergus':6.9,'castlereagh':9.4,'coleraine':22.4,'cookstown':53.2,'craigavon':40.1,
  'derry':69.5,'down':56.0,'dungannon':55.7,'fermanagh':54.9,'larne':22.1,'limavady':51.7,'lisburn':26.9,
  'magherafelt':58.9,'moyle':52.2,'newry and mourne':71.8,'newtownabbey':13.0,'north down':9.0,
  'omagh':64.3,'strabane':61.8}
+def _load_cath91():
+    import csv
+    for p in ('data/census/derived/religion-1991-lgd.csv',
+              os.path.join(os.path.dirname(__file__), '../../../../data/census/derived/religion-1991-lgd.csv')):
+        if os.path.exists(p):
+            d={r['lgd'].lower():float(r['catholic_pct']) for r in csv.DictReader(open(p))
+               if r['lgd']!='NORTHERN IRELAND'}
+            if len(d)==26: return d
+    return _CATH91_LITERAL
+CATH91=_load_cath91()
 def norm(s):
     s=str(s).lower().strip()
     s=s.replace('londonderry','derry').replace('city of ','').replace('&','and')
@@ -75,3 +87,52 @@ for _,x in df.reindex(df['resid'].abs().sort_values(ascending=False).index).head
     print(f"    {x['district']:16s} {int(x['year'])}  Cath {x['cath91']:.0f}%  nat {x['nat_pct']:.0f}%  resid {x['resid']:+.0f}")
 df.round(2).to_csv("analysis/border-poll-dry-run/v9/hist/backtest_councils_1989.csv",index=False)
 print("\nwrote backtest_councils_1989.csv")
+
+# ---------------------------------------------------------------------------
+# Does the FULL 1991 SAS (economic activity, tenure, Irish, health, education)
+# add out-of-sample skill over religion ALONE for the council nationalist vote?
+# Honest test: leave-one-council-out, per-year level removed, MAE compared.
+# ---------------------------------------------------------------------------
+def _load_full():
+    import csv as _csv
+    for p in ('data/census/derived/census-1991-lgd-full.csv',
+              os.path.join(os.path.dirname(__file__), '../../../../data/census/derived/census-1991-lgd-full.csv')):
+        if os.path.exists(p):
+            return {norm(r['lgd']): r for r in _csv.DictReader(open(p))}
+    return None
+FULL=_load_full()
+if FULL is not None:
+    EXTRA=['unemployment_pct','social_rent_pct','no_car_pct','llti_pct','degree_pct',
+           'econ_active_pct','irish_speak_pct']
+    d2=df.copy()
+    for c in EXTRA:
+        d2[c]=d2['district'].map(lambda k: float(FULL[norm(k)][c]) if norm(k) in FULL else np.nan)
+    d2=d2.dropna(subset=EXTRA)
+    # demean target and features per year (removes the NI-level swing each cycle)
+    def _demean(frame, cols):
+        out=frame.copy()
+        for yr in out['year'].unique():
+            m=out['year']==yr
+            for c in cols: out.loc[m,c]=out.loc[m,c]-out.loc[m,c].mean()
+        return out
+    def _ridge_fit(X,y,alpha=1.0):
+        # standardise, closed-form ridge (no penalty on intercept); returns predictor fn
+        mu=X.mean(0); sd=X.std(0); sd[sd==0]=1.0; Xs=(X-mu)/sd
+        Xa=np.hstack([np.ones((len(Xs),1)),Xs]); p=Xa.shape[1]
+        R=alpha*np.eye(p); R[0,0]=0.0
+        w=np.linalg.solve(Xa.T@Xa+R, Xa.T@y)
+        return lambda Z: (np.hstack([np.ones((len(Z),1)),(Z-mu)/sd])@w)
+    def loco_mae(feats):
+        dm=_demean(d2,feats+['nat_pct'])
+        X=dm[feats].values.astype(float); y=dm['nat_pct'].values.astype(float); pred=np.empty_like(y)
+        for i in range(len(y)):
+            tr=np.arange(len(y))!=i
+            f=_ridge_fit(X[tr],y[tr],alpha=1.0); pred[i]=f(X[i:i+1])[0]
+        return np.mean(np.abs(y-pred))
+    mae_rel=loco_mae(['cath91'])
+    mae_full=loco_mae(['cath91']+EXTRA)
+    print("\n  --- full 1991 SAS vs religion-only (leave-one-council-out, per-year demeaned) ---")
+    print(f"  religion only (Catholic%%):           LOCO MAE = {mae_rel:.2f} nat-pts")
+    print(f"  + full SAS (econ/tenure/health/edu):  LOCO MAE = {mae_full:.2f} nat-pts")
+    print(f"  skill change from the fuller 1991 layer: {mae_rel-mae_full:+.2f} pts "
+          + ("(improves)" if mae_full<mae_rel else "(no gain -- religion already captures the council signal)"))
