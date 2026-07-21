@@ -19,7 +19,7 @@ import {
   seatPositions
 } from '../../js/election-domain.mjs';
 
-const ELECTION_MANIFEST_URL = '/test/metadata/elections-test2.json?v=test-021';
+const ELECTION_MANIFEST_URL = '/test/metadata/elections-test2.json?v=test-022';
 const DEFAULT_MODE_ORDER = ['winner', 'leadingParty', 'voteShare', 'turnout', 'majority', 'seats', 'quota'];
 const SEAT_SOURCE_ID = 'test2-election-seat-source';
 const SEAT_HALO_LAYER_ID = 'test2-election-seat-halo-layer';
@@ -429,7 +429,7 @@ export class Test2ElectionManager {
 
   async loadBundle(entry) {
     if (this.bundleCache.has(entry.key)) return this.bundleCache.get(entry.key);
-    const response = await fetch(`${entry.resultUrl}?v=test-021`, { cache: 'force-cache' });
+    const response = await fetch(`${entry.resultUrl}?v=test-022`, { cache: 'force-cache' });
     if (!response.ok) throw new Error(`Failed to load election results for ${entry.body} ${entry.date}: ${response.status}`);
     const bundle = await response.json();
     rememberLimitedCache(this.bundleCache, entry.key, bundle, ELECTION_BUNDLE_CACHE_LIMIT);
@@ -447,7 +447,7 @@ export class Test2ElectionManager {
       } else if (this.bundleCache.has(entry.key)) {
         bundle = this.bundleCache.get(entry.key);
       } else {
-        const response = await fetch(`${entry.resultUrl}?v=test-021`, { cache: 'force-cache' });
+        const response = await fetch(`${entry.resultUrl}?v=test-022`, { cache: 'force-cache' });
         if (!response.ok) throw new Error(`Failed to load trend data for ${entry.body} ${entry.date}: ${response.status}`);
         bundle = await response.json();
       }
