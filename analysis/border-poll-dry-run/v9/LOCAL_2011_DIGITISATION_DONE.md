@@ -63,11 +63,26 @@ reconstructed to full count-by-count transfer detail, wired to the map layer, an
 - **Minor-party labels.** Wikipedia's TUV/PUP/UKIP vs Independent boundary differs slightly from other
   sources; majors and the seat total are exact.
 
-## 2005 — done the same way
+## 2001 & 2005 — done the same way
 
 The scraper was **year-parameterised** (`python scrape_2011_lgov_wikipedia.py <YEAR>`, default 2011) and
-run for **2005**, which shares the 26-old-council geography and the same Wikipedia STV templates. All
-26 councils scraped → **101 DEAs, 912 candidates, up to 12 counts**. Outcome after wiring:
+run for **2005** and **2001**, which share the 26-old-council geography and the same Wikipedia STV
+templates.
+
+### 2001
+
+100/101 DEAs digitised (**hasCountDetail true, 0 unmatched**); **Ards East** was uncontested (kept
+as-is). Two extra name-matching cases handled: Wikipedia's council-prefixed DEA names ("Craigavon
+Central" → the `CENTRAL` feature) and "corrected" ward files ("Pottinger corrected", "Rowallane
+corrected"). Resolved a **pre-existing Belfast 2001 duplicate** — both `Pottinger` and
+`Pottinger-corrected` were listed — by dropping the superseded uncorrected copy. Party seats track the
+official 2001 result (UUP **151**, DUP **129**, SDLP **118**, SF **108**, Alliance **27**) bar the
+uncontested DEA. Model datapoint: unionist openness **7.0%**, nationalist **6.4%** — visibly more
+tribal than 2005/2011, the early point of the de-tribalisation trend.
+
+### 2005
+
+All 26 councils scraped → **101 DEAs, 912 candidates, up to 12 counts**. Outcome after wiring:
 
 - **Map:** 2005 local reports **100/101 constituencies matched, 0 unmatched, `hasCountDetail` true for
   all 100**. The one gap is **Ballinderry (Cookstown)**, returned **uncontested** — there is no poll
@@ -84,8 +99,14 @@ run for **2005**, which shares the 26-old-council geography and the same Wikiped
 - **Model:** 2005 local now contributes a real datapoint — unionist openness **11.1%**, nationalist
   **9.8%** — so the **2004–2013** decade now blends both 2005 and 2011 local behaviour.
 
+## Series so far
+
+Local transfer-openness datapoints now digitised from Wikipedia: **2001** (U 7.0 / N 6.4) · **2005**
+(U 11.1 / N 9.8) · **2011** (U 11.8 / N 15.6) · plus the native **2014–2023**. The rising local series
+is the revealed-behaviour analogue of the attitudinal de-tribalisation.
+
 ## Natural next step
 
-The same year-parameterised scraper reaches **2001/1997/1993** (same councils, same templates); ARK's
+The same year-parameterised scraper reaches **1997/1993** (same councils, same templates); ARK's
 `ark_to_election_json.py` covers **1985–2005** XLS count sheets as an independent cross-check —
 extending the revealed-behaviour transfer series back further on the local side.
