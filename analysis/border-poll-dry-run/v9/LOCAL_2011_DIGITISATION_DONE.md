@@ -63,11 +63,21 @@ reconstructed to full count-by-count transfer detail, wired to the map layer, an
 - **Minor-party labels.** Wikipedia's TUV/PUP/UKIP vs Independent boundary differs slightly from other
   sources; majors and the seat total are exact.
 
-## 2001 & 2005 — done the same way
+## 1997, 2001 & 2005 — done the same way
 
 The scraper was **year-parameterised** (`python scrape_2011_lgov_wikipedia.py <YEAR>`, default 2011) and
-run for **2005** and **2001**, which share the 26-old-council geography and the same Wikipedia STV
-templates.
+run for **2005**, **2001** and **1997**, which share the 26-old-council geography and the same Wikipedia
+STV templates.
+
+### 1997
+
+97/101 DEAs digitised (**hasCountDetail true, 0 unmatched**). The gap is the whole **Dungannon and
+South Tyrone** council (Blackwater, Dungannon Town, Torrent, Clogher Valley) — **Wikipedia has no 1997
+article** for it, so those four keep first-preferences only (ARK is the fallback if that gap is later
+filled). Added the `deas-1993` spelling aliases (Knockveagh↔KNOCKIVEAGH, Dunmurray Cross↔DUNMURRY
+CROSS). Party seats track the official 1997 result (UUP **178**, SDLP **116**, DUP **90**, SF **69**,
+Alliance **42**) bar the missing council. Model datapoint: unionist openness **4.3%** (the lowest —
+most tribal), nationalist **10.3%**.
 
 ### 2001
 
@@ -101,12 +111,21 @@ All 26 councils scraped → **101 DEAs, 912 candidates, up to 12 counts**. Outco
 
 ## Series so far
 
-Local transfer-openness datapoints now digitised from Wikipedia: **2001** (U 7.0 / N 6.4) · **2005**
-(U 11.1 / N 9.8) · **2011** (U 11.8 / N 15.6) · plus the native **2014–2023**. The rising local series
-is the revealed-behaviour analogue of the attitudinal de-tribalisation.
+Local unionist / nationalist transfer-openness now digitised from Wikipedia:
+
+| year | unionist | nationalist |
+|---|---|---|
+| 1997 | **4.3** | 10.3 |
+| 2001 | 7.0 | 6.4 |
+| 2005 | 11.1 | 9.8 |
+| 2011 | 11.8 | 15.6 |
+| 2014–2023 | native | native |
+
+The rising unionist series (4.3 → 7.0 → 11.1 → 11.8) is a clean revealed-behaviour de-tribalisation
+progression — the ballot-behaviour analogue of the attitudinal trend the model tracks.
 
 ## Natural next step
 
-The same year-parameterised scraper reaches **1997/1993** (same councils, same templates); ARK's
-`ark_to_election_json.py` covers **1985–2005** XLS count sheets as an independent cross-check —
-extending the revealed-behaviour transfer series back further on the local side.
+The same year-parameterised scraper reaches **1993** (same councils, same templates); ARK's
+`ark_to_election_json.py` covers **1985–2005** XLS count sheets — both as the back-extension and as
+the independent cross-check that would also fill the 1997 Dungannon gap.
