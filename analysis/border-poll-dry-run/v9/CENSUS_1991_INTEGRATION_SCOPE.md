@@ -1,5 +1,21 @@
 # Scope: integrating the 1991 Census into the model
 
+> **UPDATE — TIER A DONE (religion).** The 1991 religion table is parsed, crosswalked and joined:
+> - `scripts/parse_1991_religion_lgd.py` → `data/census/derived/religion-1991-lgd.csv` (26 LGDs × 7
+>   denominations). **Validated**: NI total = 1,577,836 exact; all 27 denomination-sums match the printed
+>   total; all 26 Catholic %s match the independently-keyed `CATH91` exactly.
+> - `scripts/join_1991_religion_to_census.py` → `dz2021_to_lgd1993.csv`, `sa2011_to_lgd1993.csv`,
+>   `dz21-religion-1991-lgd.csv`. **100% coverage** (3,780/3,780 DZs, 4,537/4,537 SAs → 26 LGDs); LGD-pop-
+>   weighted mean 1991 Catholic% over DZs = **38.3 vs NI 38.4**.
+> - `hist/backtest_councils_1989.py` now sources the parsed table (literal kept as fallback); backtest
+>   unchanged (r ≈ +0.96, R² = 0.92).
+>
+> Every DZ and SA now carries a **1991 religion vector at council resolution**. Remaining Tier A extras
+> (economic-activity, Irish-language LGD tables) reuse the same parser; Tier B (ward SAS) is unchanged
+> below.
+
+
+
 ## What 1991 can and cannot add
 
 **Has:** religion (denomination — RC / Presbyterian / Church of Ireland / Methodist / Other / None-or-not-stated,

@@ -10,12 +10,24 @@ per cent). Nationalist vote share = (SDLP + Sinn Fein first-prefs) / all first-p
 import json, glob, os, re, collections
 import numpy as np
 
-# 1991 Census Religion Report, Table 2 (Roman Catholic %) by the 26 LGDs
-CATH91={'antrim':31.7,'ards':11.3,'armagh':45.4,'ballymena':18.3,'ballymoney':30.2,'banbridge':27.6,
+# 1991 Census Religion Report Table 2 (Roman Catholic %) by the 26 LGDs.
+# Sourced from the parsed structured table (scripts/parse_1991_religion_lgd.py, validated:
+# parsed RC% == this literal, exactly). The literal is retained as a standalone fallback.
+_CATH91_LITERAL={'antrim':31.7,'ards':11.3,'armagh':45.4,'ballymena':18.3,'ballymoney':30.2,'banbridge':27.6,
  'belfast':39.0,'carrickfergus':6.9,'castlereagh':9.4,'coleraine':22.4,'cookstown':53.2,'craigavon':40.1,
  'derry':69.5,'down':56.0,'dungannon':55.7,'fermanagh':54.9,'larne':22.1,'limavady':51.7,'lisburn':26.9,
  'magherafelt':58.9,'moyle':52.2,'newry and mourne':71.8,'newtownabbey':13.0,'north down':9.0,
  'omagh':64.3,'strabane':61.8}
+def _load_cath91():
+    import csv
+    for p in ('data/census/derived/religion-1991-lgd.csv',
+              os.path.join(os.path.dirname(__file__), '../../../../data/census/derived/religion-1991-lgd.csv')):
+        if os.path.exists(p):
+            d={r['lgd'].lower():float(r['catholic_pct']) for r in csv.DictReader(open(p))
+               if r['lgd']!='NORTHERN IRELAND'}
+            if len(d)==26: return d
+    return _CATH91_LITERAL
+CATH91=_load_cath91()
 def norm(s):
     s=str(s).lower().strip()
     s=s.replace('londonderry','derry').replace('city of ','').replace('&','and')
