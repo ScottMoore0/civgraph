@@ -74,7 +74,7 @@ COUNCILS = [
     {"key": "dungannon_and_south_tyrone", "display": "Dungannon and South Tyrone",  "variants": ["Dungannon and South Tyrone Borough Council", "Dungannon and South Tyrone District Council", "Dungannon District Council"]},
     {"key": "fermanagh",                  "display": "Fermanagh",                   "variants": ["Fermanagh District Council"]},
     {"key": "larne",                      "display": "Larne",                       "variants": ["Larne Borough Council"]},
-    {"key": "limavady",                   "display": "Limavady",                    "variants": ["Limavady Borough Council"]},
+    {"key": "limavady",                   "display": "Limavady",                    "variants": ["Limavady Borough Council", "Limavady District Council"]},
     {"key": "lisburn",                    "display": "Lisburn",                     "variants": ["Lisburn City Council", "Lisburn Borough Council"]},
     {"key": "magherafelt",                "display": "Magherafelt",                 "variants": ["Magherafelt District Council"]},
     {"key": "moyle",                      "display": "Moyle",                       "variants": ["Moyle District Council"]},
