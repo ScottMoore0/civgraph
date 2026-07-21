@@ -40,8 +40,9 @@ from modern_lgov_wikipedia_common import (
 # The 26 old-council geography and the Wikipedia STV-template structure are shared
 # across the 1993-2011 local elections, so the same scraper serves each year.
 _ELECTION_DATES = {
-    1993: "1993-05-19", 1997: "1997-05-21", 2001: "2001-06-07",
-    2005: "2005-05-05", 2011: "2011-05-05",
+    1985: "1985-05-15", 1989: "1989-05-17", 1993: "1993-05-19",
+    1997: "1997-05-21", 2001: "2001-06-07", 2005: "2005-05-05",
+    2011: "2011-05-05",
 }
 YEAR = int(sys.argv[1]) if len(sys.argv) > 1 else 2011
 ELECTION_DATE = _ELECTION_DATES.get(YEAR, f"{YEAR}-05-05")

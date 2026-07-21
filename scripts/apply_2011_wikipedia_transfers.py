@@ -19,13 +19,16 @@ import json, glob, os, re, sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-_DATES = {1993: "1993-05-19", 1997: "1997-05-21", 2001: "2001-06-07",
-          2005: "2005-05-05", 2011: "2011-05-05"}
+_DATES = {1985: "1985-05-15", 1989: "1989-05-17", 1993: "1993-05-19",
+          1997: "1997-05-21", 2001: "2001-06-07", 2005: "2005-05-05",
+          2011: "2011-05-05"}
 YEAR = int(sys.argv[1]) if len(sys.argv) > 1 else 2011
 DATE = _DATES.get(YEAR, f"{YEAR}-05-05")
 DIR = ROOT / f"election-viewer-package/data/elections/local-government/{DATE}"
 WIKI = ROOT / f"_tmp_{YEAR}_lgov/bundle"
-IDX = ROOT / "test/metadata/feature-indexes/deas-1993-vector-test.json"
+# 1985/1989 used the deas-1984 boundaries; 1993 onward used deas-1993.
+_GEOM = "deas-1984" if YEAR < 1993 else "deas-1993"
+IDX = ROOT / f"test/metadata/feature-indexes/{_GEOM}-vector-test.json"
 
 COUNCIL = {
     'antrim':'Antrim','ards':'Ards','armagh':'Armagh','ballymena':'Ballymena',
@@ -54,8 +57,11 @@ geo = {norm(it['name']): it['name'] for it in idx}
 # deas-1993 spelling aliases (mirrors SOURCE_NAME_ALIASES in build-test2-election-manifest.mjs):
 # the geometry's canonical spelling differs from the ward-file/Wikipedia spelling.
 _names = {it['name'] for it in idx}
-for spelling, canonical in (('Knockveagh', 'KNOCKIVEAGH'), ('Dunmurray Cross', 'DUNMURRY CROSS')):
-    if canonical in _names:
+for spelling, canonical in (
+    ('Knockveagh', 'KNOCKIVEAGH'), ('Dunmurray Cross', 'DUNMURRY CROSS'),  # deas-1993
+    ('Laganbank', 'LAGANSIDE'), ('Braid', 'BRAID VALLEY'),                 # deas-1984
+):
+    if canonical in _names:  # guard keeps each alias to its own geometry vintage
         geo[norm(spelling)] = canonical
 
 # 2. Wikipedia DEA -> feature, carrying the constituency payload
@@ -76,7 +82,7 @@ for f in glob.glob(str(WIKI / '*_bundle.json')):
                 break
         else:
             print(f"  WARN unmatched wiki DEA: {council} / {dea}")
-print(f"wiki DEAs matched to geometry: {len(wiki_by_feat)}/101")
+print(f"wiki DEAs matched to geometry: {len(wiki_by_feat)}/{len(idx)}")
 
 # 3. existing files -> feature (norm + manual overrides for names the normalizer misses)
 MANUAL = {
@@ -84,6 +90,7 @@ MANUAL = {
     'craigavon-central': 'CENTRAL',
     'omagh-west-tyrone': 'WEST TYRONE',
     'peninsula': 'ARDS PENINSULA',
+    'lg89-lim-town': 'LIMAVADY TOWN',  # slug abbreviates the council; DEA name repeats it
 }
 file_by_feat = {}
 for f in glob.glob(str(DIR / '*.json')):
