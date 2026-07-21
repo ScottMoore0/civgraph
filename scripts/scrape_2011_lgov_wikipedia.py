@@ -367,6 +367,42 @@ def parsed_to_bundle_constituency(
             row_id += 1
             prev_total = total_votes
 
+        # Emit the elimination OUTFLOW row for excluded candidates. Wikipedia STV
+        # tables mark an exclusion by blanking the candidate's later count columns
+        # (no explicit negative delta), so the redistribution OUT of the excluded
+        # pile is otherwise invisible. Downstream transfer analysis needs the
+        # signed source parcel: at the count where the candidate disappears, emit
+        # Transfers = -(their last total), Total_Votes = 0, Status = Excluded.
+        # Only for Excluded candidates — an Elected candidate's blanking means
+        # elected-and-surplus-distributed, which is a different (skipped) event.
+        last_idx = -1
+        for i, cv in enumerate(cand["counts"]):
+            if cv is not None:
+                last_idx = i
+        is_excluded = (cand.get("outcome") or "").lower() == "excluded"
+        if is_excluded and 0 <= last_idx < len(cand["counts"]) - 1:
+            parcel = cand["counts"][last_idx]
+            elim_count = last_idx + 2  # 1-based count at which the pile leaves
+            count_group.append({
+                "Constituency_Number": "",
+                "Candidate_Id": temp_id,
+                "Count_Number": str(elim_count),
+                "Firstname": first_name,
+                "Surname": last_name,
+                "Candidate_First_Pref_Votes": f"{first_pref:.2f}",
+                "Transfers": f"{-parcel:.2f}",
+                "Total_Votes": "0.00",
+                "Status": "Excluded",
+                "Occurred_On_Count": str(elim_count),
+                "Party_Name": normalised_party,
+                "Deduplicated Party Name": normalised_party,
+                "Wikipedia Party Name": raw_party,
+                "Party_Colour": colour,
+                "candidateName": display_name,
+                "id": row_id,
+            })
+            row_id += 1
+
     count_info = {
         "Constituency_Name": dea_name,
         "Constituency_Number": "",
