@@ -63,13 +63,22 @@ reconstructed to full count-by-count transfer detail, wired to the map layer, an
 - **Minor-party labels.** Wikipedia's TUV/PUP/UKIP vs Independent boundary differs slightly from other
   sources; majors and the seat total are exact.
 
-## 1989–2005 — done the same way
+## 1985–2005 — done the same way
 
 The scraper was **year-parameterised** (`python scrape_2011_lgov_wikipedia.py <YEAR>`, default 2011) and
-run for **2005, 2001, 1997, 1993 and 1989**. **The full 1989–2011 local series is now digitised.**
-1993–2011 share the 26-old-council **deas-1993** geography (101 DEAs); **1989 uses the earlier
-deas-1984 boundaries** (98 DEAs) — the apply step selects the feature index by year and carries the
-deas-1984 spelling aliases (Laganbank↔LAGANSIDE, Braid↔BRAID VALLEY).
+run for **2005, 2001, 1997, 1993, 1989 and 1985**. **The full 1985–2011 local series is now digitised**
+(plus native 2014–2023). 1993–2011 share the 26-old-council **deas-1993** geography (101 DEAs); **1985
+and 1989 use the earlier deas-1984 boundaries** (98 DEAs) — the apply step selects the feature index by
+year and carries the deas-1984 spelling aliases (Laganbank↔LAGANSIDE, Braid↔BRAID VALLEY).
+
+### 1985
+
+**98/98 DEAs digitised** (hasCountDetail true, 0 unmatched, no uncontested gaps) on the deas-1984
+geometry — up to 14 counts. Added the "Limavady District Council" article variant (Limavady was a
+District Council in 1985, Borough later) to recover its 3 DEAs. Party seats reproduce the official 1985
+result almost exactly (total **566**; UUP **191**, DUP **142**, SDLP **101**, SF **59**, Alliance
+**34**). Model datapoint: unionist openness **3.2%** (the series floor — most tribal), nationalist
+**9.6%**.
 
 ### 1989
 
@@ -132,24 +141,26 @@ Local unionist / nationalist transfer-openness now digitised from Wikipedia:
 
 | year | unionist | nationalist | geometry |
 |---|---|---|---|
+| 1985 | **3.2** | 9.6 | deas-1984 |
 | 1989 | 4.5 | 5.7 | deas-1984 |
 | 1993 | 5.2 | 6.5 | deas-1993 |
-| 1997 | **4.2** | 10.9 | deas-1993 |
+| 1997 | 4.2 | 10.9 | deas-1993 |
 | 2001 | 7.0 | 6.4 | deas-1993 |
 | 2005 | 11.1 | 9.8 | deas-1993 |
 | 2011 | 11.8 | 15.6 | deas-1993 |
 | 2014–2023 | native | native | deas-2012 |
 
-The unionist series (4.5 → 5.2 → 4.2 → 7.0 → 11.1 → 11.8) is a clean revealed-behaviour
+The unionist series (3.2 → 4.5 → 5.2 → 4.2 → 7.0 → 11.1 → 11.8) is a clean revealed-behaviour
 de-tribalisation progression — the ballot-behaviour analogue of the attitudinal trend the model tracks.
-1989–1997 is the tribal trough (4–5%), with the 1997 low the Drumcree-era hardening; the rise resumes
-and accelerates through 2005/2011. **Every NI local cycle from 1989 to 2023 now carries transfer
+1985–1997 is the tribal trough (3–5%), with the 1997 local low the Drumcree-era hardening; the rise
+resumes and accelerates through 2005/2011. **Every NI local cycle from 1985 to 2023 now carries transfer
 behaviour, all DEAs per cycle** (bar three genuinely uncontested DEAs — 1989 Ballymoney Town, 2001 Ards
-East, 2005 Ballinderry) — the local side of the transfer covariate layer is complete for the modern era.
-`transfer_openness_timeseries.py` now runs from 1989.
+East, 2005 Ballinderry). `transfer_openness_timeseries.py` runs from 1985.
 
-## Natural next step
+## Status
 
-The one remaining local cycle is **1985** (also deas-1984); Wikipedia's structured templates thin out
-around then, so ARK's `ark_to_election_json.py` XLS route is the more reliable source for 1985 and an
-independent cross-check of the 1989–2011 series.
+**The modern NI local transfer series is complete: every cycle 1985 → 2023, digitised or native, at
+full DEA coverage.** Assembly (1998–2022) and European (1994–2019) STV contests already fed the
+covariate layer; the local side now spans four decades. Wikipedia's structured STV templates reach back
+to 1985; **1981 and earlier** would need ARK's `ark_to_election_json.py` XLS route (the templates thin
+out before 1985), which also remains available as an independent cross-check of the 1985–2011 series.
