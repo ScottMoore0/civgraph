@@ -1,8 +1,14 @@
 {
- "method": "NI level = inverse-variance combination of LucidTalk + NILT unity (0.76/0.24 measured reliability) + election-calibrated house effect (central ~0, EU-ref +-2 envelope). Output computed from the survey inputs, NOT the poll topline. Geography from validated census->result ridge; demographics follow.",
+ "method": "NI level = inverse-variance combination of LucidTalk + NILT unity (0.76/0.24 measured reliability) + election-calibrated house effect (central ~0, EU-ref +-2 envelope). Output computed from the survey inputs, NOT the poll topline. Poststratified per Data Zone weighted by eligible electorate x census-fitted turnout; output_ni is the adult survey-combination level, result_ni adds the differential-turnout adjustment. Geography from validated census->result ridge; demographics follow.",
  "weights": {
   "LucidTalk": 0.76,
   "NILT": 0.24
+ },
+ "electorate": {
+  "resident_pop": 1903168.0,
+  "voting_age_pop": 1514730.81058,
+  "voting_age_share": 79.6,
+  "turnout_loo_r2": null
  },
  "results": [
   {
@@ -10,48 +16,52 @@
    "input_lucidtalk": 47.5,
    "input_nilt": 41.5,
    "output_ni": 46.1,
+   "result_ni": 47.0,
    "output_low": 44.1,
    "output_high": 48.1,
-   "dz_p10": 16.9,
-   "dz_med": 41.2,
-   "dz_p90": 77.7,
-   "maj": 42.2
+   "dz_p10": 16.5,
+   "dz_med": 40.4,
+   "dz_p90": 80.3,
+   "maj": 43.8
   },
   {
    "date": "2022-08",
    "input_lucidtalk": 46.1,
    "input_nilt": 42.5,
    "output_ni": 45.2,
+   "result_ni": 46.0,
    "output_low": 43.2,
    "output_high": 47.2,
-   "dz_p10": 18.4,
-   "dz_med": 40.7,
-   "dz_p90": 74.2,
-   "maj": 40.6
+   "dz_p10": 18.1,
+   "dz_med": 39.9,
+   "dz_p90": 76.6,
+   "maj": 42.5
   },
   {
    "date": "2024-02",
    "input_lucidtalk": 44.3,
    "input_nilt": 45.9,
    "output_ni": 44.7,
+   "result_ni": 45.6,
    "output_low": 42.7,
    "output_high": 46.7,
-   "dz_p10": 16.6,
-   "dz_med": 40.0,
-   "dz_p90": 75.1,
-   "maj": 40.2
+   "dz_p10": 16.3,
+   "dz_med": 39.2,
+   "dz_p90": 77.6,
+   "maj": 42.3
   },
   {
    "date": "2025-02",
    "input_lucidtalk": 46.1,
    "input_nilt": 44.8,
    "output_ni": 45.8,
+   "result_ni": 46.7,
    "output_low": 43.8,
    "output_high": 47.8,
-   "dz_p10": 16.9,
-   "dz_med": 41.0,
-   "dz_p90": 77.1,
-   "maj": 41.8
+   "dz_p10": 16.6,
+   "dz_med": 40.1,
+   "dz_p90": 79.6,
+   "maj": 43.4
   }
  ]
 }

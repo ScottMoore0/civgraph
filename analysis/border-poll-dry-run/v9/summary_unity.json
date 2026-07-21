@@ -1,37 +1,51 @@
 {
- "method": "v9: validated multi-scale census->result ridge (all 88 attrs) gives geographic shape; 2-point calibration to the LucidTalk unity poll (community rates + NI level); poststratified per Data Zone. Poll dates all post-2021-Census -> 2021 attributes.",
+ "method": "v9: validated multi-scale census->result ridge (all 88 attrs) gives geographic shape; 2-point calibration to the LucidTalk unity poll (community rates + NI level); poststratified per Data Zone weighted by eligible electorate x census-fitted turnout (not resident population). ni_level is the turnout-adjusted result; resident_wtd is the old all-resident read, kept for comparison. Poll dates post-2021-Census -> 2021 attrs.",
+ "electorate": {
+  "resident_pop": 1903168.0,
+  "voting_age_pop": 1514730.81058,
+  "voting_age_share": 79.6,
+  "turnout_loo_r2": null
+ },
  "results": [
   {
    "date": "2021-01",
-   "ni_level": 47.5,
-   "dz_p10": 18.3,
-   "dz_med": 42.6,
-   "dz_p90": 79.1,
-   "maj": 43.6
+   "ni_level": 48.2,
+   "attitude": 47.5,
+   "resident_wtd": 48.2,
+   "dz_p10": 19.0,
+   "dz_med": 43.3,
+   "dz_p90": 79.8,
+   "maj": 44.7
   },
   {
    "date": "2022-08",
-   "ni_level": 46.1,
-   "dz_p10": 19.3,
-   "dz_med": 41.6,
-   "dz_p90": 75.1,
-   "maj": 41.8
+   "ni_level": 46.8,
+   "attitude": 46.1,
+   "resident_wtd": 46.7,
+   "dz_p10": 19.9,
+   "dz_med": 42.2,
+   "dz_p90": 75.7,
+   "maj": 42.9
   },
   {
    "date": "2024-02",
-   "ni_level": 44.3,
-   "dz_p10": 16.2,
-   "dz_med": 39.6,
-   "dz_p90": 74.7,
-   "maj": 39.8
+   "ni_level": 45.0,
+   "attitude": 44.3,
+   "resident_wtd": 44.9,
+   "dz_p10": 16.8,
+   "dz_med": 40.2,
+   "dz_p90": 75.3,
+   "maj": 40.8
   },
   {
    "date": "2025-02",
-   "ni_level": 46.1,
-   "dz_p10": 17.2,
-   "dz_med": 41.3,
-   "dz_p90": 77.4,
-   "maj": 42.2
+   "ni_level": 46.8,
+   "attitude": 46.1,
+   "resident_wtd": 46.7,
+   "dz_p10": 17.9,
+   "dz_med": 41.9,
+   "dz_p90": 78.0,
+   "maj": 43.2
   }
  ]
 }

@@ -28,7 +28,9 @@ from sklearn.preprocessing import StandardScaler
 HERE = os.path.dirname(os.path.abspath(__file__))
 # repo root: analysis/border-poll-dry-run/v9 -> up three
 REPO = os.environ.get("CIVGRAPH_REPO") or os.path.abspath(os.path.join(HERE, "..", "..", ".."))
-ALPHA = 10.0
+# alpha tuned on the leave-one-council-out shape metric below: 50 is the optimum
+# (LOCO MAE 4.94 vs 5.53 at the old hard-coded 10). 4_/5_ use the same value.
+ALPHA = 50.0
 
 feat = pd.read_csv(os.path.join(HERE, 'dea_features.csv')).set_index('area')
 res = pd.read_csv(os.path.join(HERE, 'results_frame.csv'))
