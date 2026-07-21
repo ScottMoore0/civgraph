@@ -1,5 +1,33 @@
 # Scope: integrating the 1991 Census into the model
 
+> **UPDATE — TIER B DONE (full ward SAS, all topics).** The economic-activity and
+> Irish-language gap flagged below (blocked in the *printed-report* OCR) is now
+> closed via the **machine-readable route** anticipated at the end of this doc: the
+> full **NISRA 1991 Small Area Statistics** were sourced from **Nomis (NM_63_1)** as
+> a clean digital export — **566 wards × 8,784 cells**, not an OCR project.
+>
+> - `data/census/1991/sas/sas91ni_wards_full.csv.gz` — the full ward SAS (all 75
+>   standard tables) mirrored into the repo, `+ cell_dictionary.csv`.
+> - `scripts/build_1991_sas_dz_frame.py` derives **14 model covariates per ward**
+>   (religion RC/Protestant/None/not-stated, Irish, economic activity + unemployment,
+>   tenure owner/social/private, no-car, LLTI, qualified/degree) and crosswalks the
+>   566 frozen-1991 wards to the **1984 electoral-ward geometry** (the matching
+>   vintage — exact **566/566** after LGD disambiguation via the Nomis 95A–95Z code
+>   prefix + an NI-wide exact-name fallback), then lands them on **every DZ (100%)
+>   and SA (100%)** by representative-point-in-polygon.
+> - **Validated** vs NI aggregates: RC 38.39 (NI 38.4), Protestant 50.57 (50.6),
+>   total pop 1,577,866 (printed 1,577,836), owner-occ 63%, no-car 34%.
+> - **Wired into the model**: `census-1991-lgd-full.csv` (26-council aggregate) drives
+>   an honest leave-one-council-out test in `hist/backtest_councils_1989.py` — the
+>   fuller SAS cuts nationalist-vote LOCO MAE **4.48 → 4.02 pts (~10%)** over
+>   religion alone. `augment/trajectory_1991_2021.py` adds a 1991→2021 momentum
+>   vector per DZ (Catholic +8.2, secularisation +5.6, social-rent −16.4 pts).
+>
+> Outputs: `dz21-census-1991.csv`, `sa2011-census-1991.csv`, `ward1984-census-1991.csv`,
+> `census-1991-lgd-full.csv`, `dz2021_to_ward1984.csv`, `sa2011_to_ward1984.csv`,
+> `augment/dz21_trajectory_1991_2021.csv`. The Tier-A-only note below is retained
+> for history but is now superseded by the full-SAS integration.
+
 > **UPDATE — TIER A DONE (religion).** The 1991 religion table is parsed, crosswalked and joined:
 > - `scripts/parse_1991_religion_lgd.py` → `data/census/derived/religion-1991-lgd.csv` (26 LGDs × 7
 >   denominations). **Validated**: NI total = 1,577,836 exact; all 27 denomination-sums match the printed
