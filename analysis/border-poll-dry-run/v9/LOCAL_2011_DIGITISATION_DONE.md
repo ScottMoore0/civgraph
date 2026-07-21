@@ -71,20 +71,21 @@ STV templates. **The full 1993–2011 local series is now digitised.**
 
 ### 1993
 
-97/101 DEAs digitised (**hasCountDetail true, 0 unmatched**). Same gap as 1997 — the **Dungannon and
-South Tyrone** council has no 1993 Wikipedia article, so its four DEAs keep first-preferences only.
-Party seats track the official 1993 result (UUP **190**, SDLP **123**, DUP **101**, SF **46**, Alliance
-**44**) bar the missing council. Model datapoint: unionist openness **5.3%**, nationalist **6.0%**.
+**101/101 DEAs digitised** (hasCountDetail true, 0 unmatched). Party seats track the official 1993
+result (UUP **190**, SDLP **123**, DUP **101**, SF **46**, Alliance **44**). Model datapoint: unionist
+openness **5.2%**, nationalist **6.5%**.
 
 ### 1997
 
-97/101 DEAs digitised (**hasCountDetail true, 0 unmatched**). The gap is the whole **Dungannon and
-South Tyrone** council (Blackwater, Dungannon Town, Torrent, Clogher Valley) — **Wikipedia has no 1997
-article** for it, so those four keep first-preferences only (ARK is the fallback if that gap is later
-filled). Added the `deas-1993` spelling aliases (Knockveagh↔KNOCKIVEAGH, Dunmurray Cross↔DUNMURRY
-CROSS). Party seats track the official 1997 result (UUP **178**, SDLP **116**, DUP **90**, SF **69**,
-Alliance **42**) bar the missing council. Model datapoint: unionist openness **4.3%** (the lowest —
-most tribal), nationalist **10.3%**.
+**101/101 DEAs digitised** (hasCountDetail true, 0 unmatched). Added the `deas-1993` spelling aliases
+(Knockveagh↔KNOCKIVEAGH, Dunmurray Cross↔DUNMURRY CROSS). Party seats track the official 1997 result
+(UUP **178**, SDLP **116**, DUP **90**, SF **69**, Alliance **42**). Model datapoint: unionist openness
+**4.2%** (the lowest — most tribal), nationalist **10.9%**.
+
+> **Dungannon note.** In 1993 and 1997 the council was titled **"Dungannon District Council"** (renamed
+> "Dungannon and South Tyrone" from 2001), so its article sat under a name the scraper's variant list
+> initially missed — its four DEAs first came in as first-preferences only, then were backfilled to full
+> transfer detail once the variant was added. Both years are now complete.
 
 ### 2001
 
@@ -122,21 +123,21 @@ Local unionist / nationalist transfer-openness now digitised from Wikipedia:
 
 | year | unionist | nationalist |
 |---|---|---|
-| 1993 | 5.3 | 6.0 |
-| 1997 | **4.3** | 10.3 |
+| 1993 | 5.2 | 6.5 |
+| 1997 | **4.2** | 10.9 |
 | 2001 | 7.0 | 6.4 |
 | 2005 | 11.1 | 9.8 |
 | 2011 | 11.8 | 15.6 |
 | 2014–2023 | native | native |
 
-The unionist series (5.3 → 4.3 → 7.0 → 11.1 → 11.8) is a clean revealed-behaviour de-tribalisation
+The unionist series (5.2 → 4.2 → 7.0 → 11.1 → 11.8) is a clean revealed-behaviour de-tribalisation
 progression — the ballot-behaviour analogue of the attitudinal trend the model tracks. The 1997 dip is
 the Drumcree-era hardening; the rise resumes and accelerates through 2005/2011. **Every NI local cycle
-from 1993 to 2023 now carries transfer behaviour** — the local side of the transfer covariate layer is
-complete for the modern era.
+from 1993 to 2023 now carries transfer behaviour, all 101 DEAs per cycle** (bar two genuinely
+uncontested DEAs — 2001 Ards East, 2005 Ballinderry) — the local side of the transfer covariate layer
+is complete for the modern era.
 
 ## Natural next step
 
-ARK's `ark_to_election_json.py` covers **1985–1989** XLS count sheets (Wikipedia's structured
-templates thin out before 1993) — the back-extension — and is the independent cross-check that would
-also fill the 1993/1997 **Dungannon and South Tyrone** gap.
+ARK's `ark_to_election_json.py` covers **1985–1989** XLS count sheets (Wikipedia's structured templates
+thin out before 1993) — the back-extension, and an independent cross-check of the 1993–2011 series.
