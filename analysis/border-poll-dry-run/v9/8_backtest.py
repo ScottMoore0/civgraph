@@ -113,7 +113,7 @@ report['B_euref']=B
 
 # ---------------- C. NI-wide level from polls ----------------
 print("\n"+"="*70); print("C. NI-WIDE LEVEL — poll nationalist-bloc VI vs actual"); print("="*70)
-vi=json.load(open(f"{HERE}/../v6/lucidtalk_vi_primary.json"))
+vi=json.load(open(f"{HERE}/../v6/lucidtalk_vi_primary.json",encoding="utf-8"))
 def nat_from_vi(d):  # nationalist bloc = SF + SDLP + Aontú
     return round(d.get('Sinn Féin',0)+d.get('SDLP',0)+d.get('Aontú',0),1)
 actual_ni={}
