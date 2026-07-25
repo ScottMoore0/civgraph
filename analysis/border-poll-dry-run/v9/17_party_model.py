@@ -45,6 +45,9 @@ cens_con = pd.read_csv(os.path.join(HERE, 'constituency_features.csv')).set_inde
 # constituency_features keys on uppercase names ('BELFAST EAST'); the results
 # frame uses title case ('Belfast East'). Match case-insensitively.
 cens_con.index = cens_con.index.str.upper().str.strip()
+cens_con23 = pd.read_csv(os.path.join(HERE, 'constituency_features_2023.csv')).set_index('con')
+cens_con23.index = cens_con23.index.str.upper().str.strip()
+cens_con23 = cens_con23[cens_con.columns]  # identical feature order
 lf = json.load(open(f"{REPO}/test/metadata/elections-test2/"
                     "local-government-local-government-districts__2023-05-18.json",
                     encoding='utf-8'))
@@ -58,29 +61,36 @@ def r2(p, a):
 def build(scale):
     """Wide matrices for one scale: shares, stood-mask, census X, fold keys."""
     f = frame[frame.scale == scale].copy()
-    cens = cens_dea if scale == 'dea' else cens_con
     if scale != 'dea':
         f['area'] = f.area.str.upper().str.strip()
-    missing = sorted(set(f.area) - set(cens.index))
+    # Boundary vintage per contest: the 2023 review applies to Westminster from
+    # 2024. Everything earlier (and the 2022 Assembly) ran on the 2008 boundaries.
+    # Matching 2024 against 2008-boundary features would be the wrong geography,
+    # so each row is joined to the feature frame for ITS vintage.
+    def cens_for(contest, year):
+        if scale == 'dea':
+            return cens_dea
+        return cens_con23 if (contest == 'westminster' and year >= 2024) else cens_con
+    keep, Xrows = [], []
+    for idx, row in f.iterrows():
+        c = cens_for(row.contest, row.year)
+        if row.area in c.index:
+            keep.append(idx)
+    missing = sorted({(r.contest, r.year, r.area) for _, r in f.iterrows()
+                      if _ not in keep})
     if missing:
-        # The 2024 Westminster contest ran on the 2023 boundary review, so its
-        # constituencies are not the same units as the 2008-boundary census
-        # features. Those area-contests are dropped rather than silently matched
-        # to the wrong geography.
-        drop = f[f.area.isin(missing)]
-        print(f"  ! {len(missing)} areas have no census features "
-              f"({drop.contest.iloc[0] if len(drop) else '?'}"
-              f"{drop.year.iloc[0] if len(drop) else ''}): {missing[:4]}...")
-        f = f[~f.area.isin(missing)]
+        print(f"  ! {len(missing)} area-contests still unmatched: {missing[:3]}")
+    f = f.loc[keep]
     f['key'] = f.contest + f.year.astype(str) + '||' + f.area
     share = f.pivot(index='key', columns='party', values='share_pct')[PARTIES]
     stood = f.pivot(index='key', columns='party', values='stood')[PARTIES].astype(bool)
     meta = (f[['key', 'contest', 'year', 'area', 'valid_poll']]
             .drop_duplicates('key').set_index('key').loc[share.index])
-    X = cens.loc[meta.area].values.astype(float)
+    X = np.vstack([cens_for(c, y).loc[a].values.astype(float)
+                   for c, y, a in zip(meta.contest, meta.year, meta.area)])
     meta['contest_year'] = meta.contest + meta.year.astype(str)
     meta['council'] = meta.area.map(dea2council) if scale == 'dea' else meta.area
-    return share.values, stood.values, X, meta, cens.columns.tolist()
+    return share.values, stood.values, X, meta, cens_dea.columns.tolist()
 
 
 def clr(S, eps=EPS):

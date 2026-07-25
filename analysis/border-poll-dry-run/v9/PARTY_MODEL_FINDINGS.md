@@ -135,3 +135,86 @@ demographic model can see.
   no counterpart in `constituency_features.csv` (2008 boundaries) and is **dropped**
   rather than silently matched to the wrong geography — 107 rows, not 108.
 - `eps=0.5` is a smoothing choice; sensitivity is exposed via `PARTY_EPS`.
+
+---
+
+# Phases 23–25: 2023 boundaries, Westminster seats, DZ allocation
+
+## Phase 23 — 2023 Westminster boundaries fixed
+
+`constituency_features.csv` is built on the 2008 boundaries, so the 2024 contest
+(2023 review) previously lost "Belfast South and Mid Down" entirely. Rebuilt by
+re-aggregating the DZ census features onto the 2023 constituencies: centroid
+assignment, **3,780/3,780 DZs matched, 0 unmatched**, population-weighted by
+`AllUsualResidents`. All 18 of the 2024 constituencies now have features
+(constituency scale: 107 → **108** area-contests).
+
+Phase 17 now selects the feature vintage per contest — 2023 boundaries for
+Westminster ≥2024, 2008 for everything earlier and for the 2022 Assembly.
+
+**A trap worth recording:** `D:/ConstituencyBoundariesUngeneralised_National_
+Electoral_Boundaries_2023_*.geojson` is the **Republic's Dáil** boundaries (it
+carries `GAELTACHT_AREA` and Irish-language name fields), not NI Westminster. The
+correct source is the OSNI open-data file under `land-property-services-ordnance-
+survey-of-northern-ireland/`.
+
+## Phase 24 — Westminster (FPTP) seats: mechanically trivial, empirically hard
+
+One seat per constituency, winner = highest share. No transfers, no quota, and the
+nomination model is irrelevant. Leave-one-constituency-out:
+
+| year | winner accuracy | seat error | margin MAE |
+|---|--:|--:|--:|
+| 2017 | 77.8% | 6 of 18 | 15.9 |
+| 2019 | 72.2% | 6 of 18 | 12.1 |
+| 2024 | 61.1% | 10 of 18 | 9.6 |
+| **all** | **70.4%** | — | 12.5 |
+
+**This is markedly worse than STV seat prediction** (Assembly 2022 end-to-end was
+6 seats off out of 90), which inverts the naive expectation that FPTP is the easy
+case. The reason is visible in the misses:
+
+- **Foyle 2019 and 2024** — actual SDLP by 36.3 and 10.9 pts, predicted Sinn Féin.
+  A personal/incumbency vote, invisible to census features.
+- **Belfast South 2019** — actual SDLP by 32.5 pts, predicted Alliance. A
+  **nationalist pact**: Sinn Féin stood aside.
+- **North Down 2017 and 2024** — an Independent won; independents are unmodellable.
+- **North Antrim 2024** — TUV by 1.1 pts.
+
+Accuracy on **safe** seats (margin ≥15 pts) is only **77.4%**, barely better than
+on marginals (53.8%). That is the diagnostic: under FPTP a seat is often "safe"
+*because of a pact or a personal vote*, not because of demography, so the model
+misses seats that look uncompetitive. Proportional STV maps demographic share to
+seats far more directly.
+
+**Implication:** Westminster seat projection needs a pact/stand-aside layer as an
+explicit scenario input. Without one, 70% is close to the ceiling.
+
+## Phase 25 (stage 5) — party shares for all 3,780 Data Zones
+
+`areas_party/<contest><year>_DZ21.csv`, one row per DZ, one column per party,
+population-weighted, raked so each DEA's weighted mean reproduces the observed DEA
+result exactly.
+
+| contest | DZ→DEA TVD (unraked) | DZ→DEA (raked) | DZ→NI max party err (raked) |
+|---|--:|--:|--:|
+| local 2014 | 20.73 | 0.00 | 1.47 |
+| local 2019 | 20.98 | 0.00 | 1.42 |
+| local 2023 | 18.54 | 0.00 | 1.64 |
+
+The raked DEA column is 0.00 **by construction** — raking targets DEA, so it is a
+consistency check, not evidence. The honest numbers are the **unraked** column
+(the model's own DZ→DEA accuracy, ~19–21 TVD, in line with the DEA share model)
+and the **NI** column (max party error 1.4–1.6 pts).
+
+Cross-scale: the local-2023 DZ mosaic aggregated to the 18 constituencies sits
+**9.72 median TVD** against the actual 2022 Assembly result — different contests,
+so this measures geographic coherence rather than forecast accuracy.
+
+NI shares recovered from the mosaic (local 2023): SF 29.3, DUP 23.9, Alliance 14.0,
+UUP 11.0, SDLP 8.6.
+
+**Standing caveat:** no party result exists below DEA and none ever will, because
+NI counts centrally rather than by box. These DZ figures are an *allocation
+consistent with observed totals*, not a measurement, and must be labelled as such
+wherever they are displayed.
