@@ -35,6 +35,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.environ.get("CIVGRAPH_REPO") or os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 ALPHA = 50.0
 EPS = float(os.environ.get('PARTY_EPS', '0.5'))
+# competitive-field features (phase 26); set PARTY_FIELD_FEATURES=0 to disable
+FIELD_FEATURES = os.environ.get('PARTY_FIELD_FEATURES', '1') != '0'
 
 PARTIES = ['DUP', 'Sinn Féin', 'UUP', 'SDLP', 'Alliance', 'TUV', 'Green', 'PBP',
            'Aontú', 'Independent', 'Other']
@@ -86,8 +88,26 @@ def build(scale):
     stood = f.pivot(index='key', columns='party', values='stood')[PARTIES].astype(bool)
     meta = (f[['key', 'contest', 'year', 'area', 'valid_poll']]
             .drop_duplicates('key').set_index('key').loc[share.index])
+    stood = stood.loc[share.index]
     X = np.vstack([cens_for(c, y).loc[a].values.astype(float)
                    for c, y, a in zip(meta.contest, meta.year, meta.area)])
+    if FIELD_FEATURES:
+        # The competitive field: which parties are standing, and how many rivals
+        # each bloc is running. Masking the softmax to present parties (below) only
+        # spreads an absent party's vote in proportion to the survivors' own size,
+        # which is the wrong physics for a pact -- when Sinn Fein stands aside the
+        # vote goes to the SDLP, not proportionally to everyone. Supplying the field
+        # as features lets the model ESTIMATE that response instead of assuming it.
+        # Nominations close before polling, so this is known ex ante.
+        st = stood.values if hasattr(stood, 'values') else stood
+        uni = [PARTIES.index(p) for p in ['DUP', 'UUP', 'TUV']]
+        nat = [PARTIES.index(p) for p in ['Sinn Féin', 'SDLP', 'Aontú']]
+        oth = [i for i in range(len(PARTIES)) if i not in uni + nat]
+        X = np.hstack([X, st.astype(float),
+                       st[:, uni].sum(axis=1, keepdims=True).astype(float),
+                       st[:, nat].sum(axis=1, keepdims=True).astype(float),
+                       st[:, oth].sum(axis=1, keepdims=True).astype(float),
+                       st.sum(axis=1, keepdims=True).astype(float)])
     meta['contest_year'] = meta.contest + meta.year.astype(str)
     meta['council'] = meta.area.map(dea2council) if scale == 'dea' else meta.area
     return share.values, stood.values, X, meta, cens_dea.columns.tolist()

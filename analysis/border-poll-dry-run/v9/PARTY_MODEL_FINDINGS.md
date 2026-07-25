@@ -218,3 +218,48 @@ UUP 11.0, SDLP 8.6.
 NI counts centrally rather than by box. These DZ figures are an *allocation
 consistent with observed totals*, not a measurement, and must be labelled as such
 wherever they are displayed.
+
+## Phase 26 — standing-aware shares (adopted)
+
+Phase 17 already masked the softmax to parties that stood. But masking a CLR score
+and renormalising spreads an absent party's vote **in proportion to the survivors'
+own predicted size**, which is the wrong physics for a pact: when Sinn Féin stands
+aside in Belfast South, the vote goes to the SDLP, not proportionally to everyone.
+That is why the model called Belfast South 2019 for Alliance when the SDLP won it
+by 32.5 points.
+
+Three treatments compared:
+
+| method | Westminster winner acc | share TVD | Assembly winner acc |
+|---|--:|--:|--:|
+| A proportional (phase 17 as built) | 70.4% | 14.90 | 83.3% |
+| B affinity via the transfer matrix | **68.5%** | 14.90 | 83.3% |
+| **C competitive field as features** | **74.1%** | **13.62** | **85.2%** |
+
+**B failed.** Reallocating an absent party's vote using the phase-18 transfer matrix
+made things *worse* and broke Fermanagh & South Tyrone 2019. The matrix measures
+lower-preference behaviour within an STV count, which is **not** the same as how a
+vote behaves when the party is absent from the ballot entirely. A reasonable idea
+that the data rejected.
+
+**C works** — supply the field (which parties are standing; how many rivals each
+bloc is running) as *features* and let the model estimate the response rather than
+assume it. Nominations close before polling, so this is known ex ante.
+
+Seats fixed: **Belfast South 2019** (SDLP, was Alliance), Lagan Valley 2019 (DUP,
+was Alliance), Upper Bann 2017 (DUP, was SF). Broken: Lagan Valley 2024. By year
+Westminster goes 77.8→83.3 (2017), 72.2→**83.3** (2019), 61.1→55.6 (2024) — it
+helps most in the pact years, which is the intended effect, and costs a seat in
+2024 when pacts were fewer.
+
+**Adopted into phase 17** (`PARTY_FIELD_FEATURES=0` disables). Effect everywhere:
+
+| scale | LOCO TVD median, before → after | persistence bar |
+|---|--:|--:|
+| DEA | 18.68 → **15.16** | 15.56 |
+| constituency | 14.31 → **13.46** | 15.37 |
+
+**At DEA the census model now beats area persistence for the first time**
+(15.16 vs 15.56). Downstream, end-to-end STV seat error falls 2.26 → **2.18**
+seats/area (exact 20.1% → 22.1%) and the share model's share of the error budget
+drops from +1.16 to +1.08.
