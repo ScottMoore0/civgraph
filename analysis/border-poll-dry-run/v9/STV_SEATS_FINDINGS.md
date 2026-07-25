@@ -116,3 +116,68 @@ projection must treat independents as a scenario input, not a modelled quantity.
 3. **Handle independents explicitly** as a scenario input.
 4. Candidate-level rather than party-level transfers (needs candidate identity
    features; this is where the other project's ML approach is genuinely ahead).
+
+---
+
+# Phase 21–22: nomination model — the pipeline now runs ex ante
+
+Phases 19–20 needed the real candidate list, so they could only score a contest
+*after* nominations closed. Phase 21 predicts it, closing the last open link:
+
+    census -> party share -> NOMINATIONS -> STV count -> seats
+
+**Why it works.** Nominations are not free choices, they are quota arithmetic. A
+party with share *s* in an *M*-seat district expects `s*(M+1)/100` quotas and
+nominates about that many, rounded up. On the repo's own data that rule alone,
+nothing fitted, matches the true count in **78.3%** of party-area cases (r = 0.780);
+restricted to rows with a lagged observation it reaches 87.7%.
+
+## Model
+
+GBM on expected quotas, seats available, the party's candidate count and share in
+the same area at the previous contest of the same type, party identity. Validated
+leave-one-council-out against two baselines it must beat.
+
+| regime | baseline: ceil(quotas) | baseline: lag | **model** | MAE | total-candidate err |
+|---|--:|--:|--:|--:|--:|
+| TRUE share (upper bound) | 87.7% | 70.3% | **90.0%** | 0.105 | 1.0% |
+| **PREDICTED share (ex ante)** | 81.2% | 70.3% | **89.3%** | 0.114 | 1.7% |
+
+**The model barely degrades when share is predicted rather than known** (90.0% →
+89.3%), because it leans on incumbency and the rough quota level, not on precise
+share. That is what makes it usable ex ante.
+
+Per party (predicted-share regime): Aontú 100%, PBP 99.5%, TUV 98.5%, Green 98.0%,
+SDLP 90.8%, Alliance 87.8%, SF 84.7%, UUP 84.2%, DUP 80.1%, **Independent 77.6%**.
+Small parties are near-perfect because they almost always run exactly one or none;
+the difficulty is concentrated in the big parties that run three to six, and in
+independents.
+
+## Cost to the seat projection
+
+| stage | mean party-seat error/area | exact |
+|---|--:|--:|
+| D1 predicted shares + REAL candidate list | 2.21 | 22.4% |
+| D2 predicted shares + PREDICTED nominations | **2.39** | 17.3% |
+
+**Cost of predicting nominations: +0.17 seats/area.** Total candidates projected
+2,056 against 2,092 real (−1.7%). Scored on 196 areas / 1,104 seats — the 2014 and
+2016 contests drop out because the lag feature needs a previous contest.
+
+## Revised error budget
+
+| link | cost (seats/area) |
+|---|--:|
+| count engine + transfers | 0.74 (floor) |
+| nomination assumption (even split) | +0.35 |
+| **share model** | **+1.16** |
+| predicting nominations | +0.17 |
+
+The ordering is now settled: **the share model dominates, by roughly 7× the
+nomination-prediction cost.** My original claim that nomination strategy would be
+the binding constraint was wrong twice over — first because the share model costs
+more, and second because nomination *counts* turn out to be highly predictable.
+
+What remains genuinely irreducible is not how many candidates a party runs, but
+**how it spreads its vote across them** (vote management) — that is the +0.35 in
+stage B, and it is the smaller of the two nomination-related terms.

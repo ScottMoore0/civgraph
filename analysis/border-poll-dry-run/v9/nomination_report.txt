@@ -1,0 +1,38 @@
+NOMINATION MODEL — candidates per party per area
+
+frame: 3234 party-area-contest rows, 2028 with the party standing
+
+  REGIME 1 — TRUE share (upper bound)  (n=2156)
+    baseline: ceil(expected quotas)    exact= 87.7%  MAE=0.131  total-cand err= 0.7%
+    baseline: lag (last time)          exact= 70.3%  MAE=0.340  total-cand err= 6.4%
+    MODEL (GBM, LO-council-out)        exact= 90.0%  MAE=0.105  total-cand err= 1.0%
+    party            exact     MAE  mean n
+    DUP              78.6%   0.214    1.99
+    Sinn Féin        84.7%   0.153    1.97
+    UUP              85.7%   0.143    1.37
+    SDLP             91.3%   0.087    1.09
+    Alliance         89.3%   0.107    1.22
+    TUV              96.9%   0.031    0.57
+    Green           100.0%   0.000    0.51
+    PBP              99.0%   0.010    0.24
+    Aontú           100.0%   0.000    0.24
+    Independent      79.6%   0.260    0.88
+    Other            85.2%   0.153    0.60
+
+REGIME 2 — PREDICTED share  (coverage 100.0% of rows)
+  REGIME 2 — PREDICTED share (ex ante)  (n=2156)
+    baseline: ceil(expected quotas)    exact= 81.2%  MAE=0.233  total-cand err= 4.9%
+    baseline: lag (last time)          exact= 70.3%  MAE=0.340  total-cand err= 6.4%
+    MODEL (GBM, LO-council-out)        exact= 89.3%  MAE=0.114  total-cand err= 1.7%
+    party            exact     MAE  mean n
+    DUP              80.1%   0.199    1.99
+    Sinn Féin        84.7%   0.153    1.97
+    UUP              84.2%   0.158    1.37
+    SDLP             90.8%   0.092    1.09
+    Alliance         87.8%   0.122    1.22
+    TUV              98.5%   0.015    0.57
+    Green            98.0%   0.020    0.51
+    PBP              99.5%   0.005    0.24
+    Aontú           100.0%   0.000    0.24
+    Independent      77.6%   0.276    0.88
+    Other            81.1%   0.214    0.60
