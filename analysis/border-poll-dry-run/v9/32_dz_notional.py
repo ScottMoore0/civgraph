@@ -62,6 +62,7 @@ C23 = json.load(open(os.path.join(HERE, 'dz_constituency_2023.json'), encoding='
 BOUNDARY = {'2008': C08, '2023': C23}
 # which boundary set each contest was actually fought on
 VINTAGE = {'assembly2016': '2008', 'assembly2017': '2008', 'assembly2022': '2008',
+           'westminster2010': '2008', 'westminster2015': '2008',
            'westminster2017': '2008', 'westminster2019': '2008',
            'westminster2024': '2023'}
 

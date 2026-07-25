@@ -31,6 +31,13 @@ CONTESTS = [
     ('assembly', 'constituency', 2016, 'northern-ireland-assembly__2016-05-05.json'),
     ('assembly', 'constituency', 2017, 'northern-ireland-assembly__2017-03-02.json'),
     ('assembly', 'constituency', 2022, 'northern-ireland-assembly__2022-05-05.json'),
+    # 2010 and 2015 ran on the SAME 2008 boundaries as 2017/2019, so they match
+    # constituency_features.csv exactly and need no notional. 1997/2001/2005 also
+    # exist in the repo but ran on the 1995 boundaries AND sit 16-24 years before
+    # the 2021 census, so they need vintage-matched census features (the backcasting
+    # item) rather than being bolted on with 2021 demography.
+    ('westminster', 'constituency', 2010, 'house-of-commons-of-the-united-kingdom__2010-05-06.json'),
+    ('westminster', 'constituency', 2015, 'house-of-commons-of-the-united-kingdom__2015-05-07.json'),
     ('westminster', 'constituency', 2017, 'house-of-commons-of-the-united-kingdom__2017-06-08.json'),
     ('westminster', 'constituency', 2019, 'house-of-commons-of-the-united-kingdom__2019-12-12.json'),
     ('westminster', 'constituency', 2024, 'house-of-commons-of-the-united-kingdom__2024-07-04.json'),
@@ -73,8 +80,16 @@ def main():
         if not os.path.exists(path):
             raise SystemExit(f"missing contest file: {path}")
         d = json.load(open(path, encoding='utf-8'))
+        # Westminster 2010 carries a DUPLICATED "Newry and Armagh" row (identical, 6
+        # candidates, valid poll 44,906). Left in, it double-counts that seat and
+        # skews every NI-wide aggregate. Keep the first occurrence of each area.
+        seen_areas = set()
         for r in d['results']:
             area = r.get('constituency')
+            if area in seen_areas:
+                print(f"  ! duplicate area dropped: {contest}{year} {area}")
+                continue
+            seen_areas.add(area)
             cands = r.get('candidates') or []
             if not cands:
                 continue
