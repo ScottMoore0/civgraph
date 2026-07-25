@@ -82,43 +82,74 @@ def extract_events(path, contest, year):
                 occurred[cid] = oc
                 status[cid] = (x.get('Status') or '').strip()
         counts = sorted({str(x.get('Count_Number')) for x in cg}, key=lambda s: int(s))
+        # first count at which each candidate loses votes: the point they are spent
+        # (excluded outright, or elected and their surplus distributed)
+        spent_at = {}
+        for x in cg:
+            if f(x.get('Transfers')) < 0:
+                cid = str(x.get('Candidate_Id'))
+                n = int(str(x.get('Count_Number')))
+                spent_at[cid] = min(spent_at.get(cid, n), n)
         for ci, c in enumerate(counts):
             if ci == 0:
                 continue  # count 1 is first preferences, no transfers
             rows = [x for x in cg if str(x.get('Count_Number')) == c]
-            # sources: candidates whose status event occurred at the PREVIOUS count
-            # boundary -- i.e. the transfer arriving at count c comes from the
-            # candidate(s) resolved at count c-1... in this data the event is
-            # stamped on the count at which it occurred, and their votes move at
-            # the next count. Use candidates whose Occurred_On_Count == previous.
-            prev = counts[ci - 1]
-            srcs = [cid for cid, oc in occurred.items() if oc == prev]
-            gains = {}
+            # SOURCES = whoever LOSES votes at this count (negative Transfers).
+            #
+            # This replaced an earlier rule that read Occurred_On_Count. That field
+            # is stamped per-count in the Assembly files but is a CONSTANT in the
+            # local-government files (Airport 2023: 35 of 38 rows all say "5", the
+            # count at which the count concluded). The old rule therefore resolved
+            # every Assembly event and NOT ONE local event -- 1,473 events and 49.6%
+            # of all transferred vote went unattributed, and the matrix was estimated
+            # from Assembly contests alone while being used to project local seats.
+            # Negative transfers are populated in both formats, so one rule serves
+            # both and the local data is recovered.
+            srcs, lost = [], 0.0
+            for x in rows:
+                t = f(x.get('Transfers'))
+                if t < 0:
+                    srcs.append(str(x.get('Candidate_Id')))
+                    lost += -t
+            # The local-government files carry a pseudo-candidate row literally named
+            # "Non-transferable" that accumulates spilled votes (the Assembly files
+            # do not). It is NOT a destination party -- counted as one it would
+            # appear in the matrix and simultaneously understate the non-transferable
+            # rate. Its gain is the DIRECTLY MEASURED non-transferable mass, which is
+            # better than inferring it from the lost/moved shortfall.
+            gains, nt_direct = {}, 0.0
             for x in rows:
                 t = f(x.get('Transfers'))
                 cid = str(x.get('Candidate_Id'))
-                if t > 0 and cid not in srcs:
+                if t <= 0 or cid in srcs:
+                    continue
+                if (x.get('Party_Name') or '').strip().lower().startswith('non-transferable'):
+                    nt_direct += t
+                else:
                     gains[cid] = gains.get(cid, 0.0) + t
-            if not gains:
+            if not gains or not srcs:
                 continue
-            # transferable mass leaving the sources at this count
-            lost = 0.0
-            for x in rows:
-                cid = str(x.get('Candidate_Id'))
-                if cid in srcs:
-                    lost += -f(x.get('Transfers'))
             # Parties with a CONTINUING candidate at this count. A transfer cannot
             # go to a party that has no candidate left, so predictions must be
             # renormalised over this set -- without it the matrix sends votes to
             # parties that were already eliminated.
+            #
+            # Continuing = still holds votes at this count and has not already been
+            # spent (excluded, or elected with its surplus distributed -- both show
+            # up as a negative transfer). Derived from the vote table rather than
+            # Occurred_On_Count so it works for both file formats.
             ci_n = int(c)
             avail = set()
-            for cid, pty in party.items():
-                oc = occurred.get(cid)
+            for x in rows:
+                cid = str(x.get('Candidate_Id'))
                 if cid in srcs:
                     continue
-                if oc is None or int(oc) >= ci_n:
-                    avail.add(pty)
+                sp = spent_at.get(cid)
+                if sp is not None and sp <= ci_n:
+                    continue
+                if f(x.get('Total_Votes')) > 0:
+                    avail.add(party.get(cid, ''))
+            avail.discard('')
             yield {
                 'contest': contest, 'year': year, 'area': r.get('constituency'),
                 'count': c,
@@ -126,6 +157,7 @@ def extract_events(path, contest, year):
                 'source_status': [status.get(s, '') for s in srcs],
                 'gains': _by_party(gains, party),
                 'available': sorted(avail),
+                'nt_direct': nt_direct,
                 'moved': sum(gains.values()),
                 'lost': lost,
             }
@@ -175,7 +207,8 @@ def main():
             pair[(s, dp)] += v
         src_mass[s] += moved
         if e['lost'] > 0:
-            nt_num[s] += max(0.0, e['lost'] - moved)
+            direct = e.get('nt_direct', 0.0)
+            nt_num[s] += direct if direct > 0 else max(0.0, e['lost'] - moved)
             nt_den[s] += e['lost']
 
     parties = sorted({p for (p, _) in pair} | {p for (_, p) in pair})

@@ -181,3 +181,78 @@ more, and second because nomination *counts* turn out to be highly predictable.
 What remains genuinely irreducible is not how many candidates a party runs, but
 **how it spreads its vote across them** (vote management) — that is the +0.35 in
 stage B, and it is the smaller of the two nomination-related terms.
+
+---
+
+# Phase 18 revision — local transfer data recovered
+
+## A correction to what this document previously claimed
+
+It said mixed-party bundles were "the single biggest limitation", with "333 events
+usable, 1,533 excluded (17.8% usable)". **That was wrong.** The true breakdown of
+the 1,866 extracted events, by transferred vote:
+
+| bucket | events | votes moved | % of vote |
+|---|--:|--:|--:|
+| **no source identified** | 1,473 | 536,182 | **49.6%** |
+| single source party (used) | 333 | 455,269 | 42.1% |
+| mixed-party bundle | 60 | 88,828 | **8.2%** |
+
+Mixed-party bundles were only **8.2%** of transferred vote — 60 events, not 1,533.
+Fixing them would have gained almost nothing. The 1,533 figure conflated the two
+categories.
+
+## The real defect, and it split perfectly by contest type
+
+| contest | events with a source | with none |
+|---|--:|--:|
+| assembly 2016 / 2017 / 2022 | 156 / 110 / 127 | 0 |
+| local 2014 / 2019 / 2023 | 0 | 542 / 455 / 476 |
+
+The extractor identified the source from `Occurred_On_Count`. The Assembly files
+stamp that per count; **the local-government files do not** — Airport 2023 has 35 of
+38 rows reading `"5"`, the count at which the count concluded. A constant, not an
+event marker.
+
+So **the transfer matrix was estimated from Assembly contests alone** — and then
+used to project *local* seats, the contest type with the worst accuracy. Council
+elections were being modelled on Assembly transfer behaviour with no local evidence.
+
+## The fix
+
+Sources are now identified by **negative `Transfers`**, which both formats populate.
+Airport 2023 resolves cleanly: count 2 Green −134/+134, count 3 DUP −490/+490,
+count 4 Sinn Féin −237/+237.
+
+Also handled: the local files carry a pseudo-candidate row literally named
+**"Non-transferable"** (476 rows in 2023; absent from Assembly files). Counting it as
+a destination party would both pollute the matrix and understate non-transferability.
+It is now read as the *directly measured* non-transferable mass, which is better than
+inferring it from the lost/moved shortfall.
+
+Availability is likewise derived from the vote table (still holds votes, not yet
+spent) rather than `Occurred_On_Count`, so it works for both formats.
+
+## Effect
+
+| | before | after |
+|---|--:|--:|
+| usable events | 333 (17.8%) | **1,723 (92.6%)** |
+| DUP source mass | 69,690 votes | **147,313** |
+| local contests in the matrix | none | all three |
+| STV replay seat accuracy | 92.2% | **93.0%** |
+| replay party-exact | 66.0% | **69.4%** |
+| engine floor (stage A) | 0.74 seats/area | **0.64** |
+| forecaster seats (phase 31) | 2.03 | **2.00** |
+
+Local replay accuracy rose across the board (2014 91.3→92.0, 2019 90.5→91.8,
+2023 93.3→94.2) — the contests that gained their own transfer evidence.
+
+Non-transferable rates are now measured rather than inferred: DUP 10.7%, SDLP 24.8%,
+PBP 32.3%, Aontú 37.3%. Leave-one-contest-out destination TVD is stable at
+0.25–0.31 availability-conditioned, now including local folds (n=430–474 each)
+that previously could not be scored at all.
+
+The end-to-end gain is small (2.03 → 2.00) because the share model still dominates
+the error budget at +1.14 seats/area against the engine's 0.64 floor. But the floor
+itself improved 14%, and the matrix now rests on 5× the evidence.
