@@ -96,9 +96,10 @@ def main():
     cy = meta.contest_year.values
     Y = pm.clr(S)
 
-    dzX = dzf[feats].values.astype(float)
+    dzX_census = dzf[feats].values.astype(float)
     dzids = dzf.index.tolist()
     dzw = pop.reindex(dzids).fillna(0.0).values
+    n_field = X.shape[1] - dzX_census.shape[1]  # 0 if PARTY_FIELD_FEATURES=0
 
     # DZ -> DEA / constituency index maps
     # dz_dea.json / dz_constituency.json key DEA and constituency names in
@@ -117,6 +118,19 @@ def main():
     report = []
     for contest_year in sorted(set(cy)):
         sel = cy == contest_year
+        # A Data Zone has no candidate field of its own -- its voters receive the
+        # ballot of the DEA containing them. So each DZ inherits its parent DEA's
+        # competitive-field features for THIS contest. Without this the DZ matrix
+        # is 88 wide while the fitted model expects 103.
+        if n_field:
+            fld_by_dea = {}
+            for i in np.where(sel)[0]:
+                fld_by_dea[_n(meta.area.values[i])] = X[i, -n_field:]
+            default = np.mean(list(fld_by_dea.values()), axis=0)
+            dzfield = np.vstack([fld_by_dea.get(d, default) for d in dz2dea])
+            dzX = np.hstack([dzX_census, dzfield])
+        else:
+            dzX = dzX_census
         # leave-one-council-out DZ scores: for each council, train on other councils
         dzP = np.zeros((len(dzids), len(PARTIES)))
         for council in sorted(set(groups)):

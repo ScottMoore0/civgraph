@@ -7,8 +7,8 @@ static level but different age/region/social-grade composition now change by dif
 amounts between polls (multi-axis), driven by the polls' measured subgroup movements."""
 import csv, json, glob, os, re
 import pandas as pd, numpy as np
-V="/home/user/civgraph/analysis/border-poll-dry-run/v9"
-SP="/tmp/claude-0/-home-user-civgraph/ea760a88-7de6-5e08-940a-d3a6d280325e/scratchpad"
+V=os.path.dirname(os.path.abspath(__file__))  # was a hardcoded /home/user path from another environment
+SP=os.environ.get("SCRATCHPAD", V)  # dz_region.json etc. live alongside this script
 DATES=['2021-01','2022-08','2024-02','2025-02']
 OUTLVL={r['date']:r['output_ni'] for r in json.load(open(f"{V}/summary_output.json"))['results']}
 
@@ -16,7 +16,7 @@ OUTLVL={r['date']:r['output_ni'] for r in json.load(open(f"{V}/summary_output.js
 areas={d:pd.read_csv(f"{V}/areas_output/{d}_DZ21.csv").set_index('DZ21')['proj_unity_pct'] for d in DATES}
 S=pd.concat(areas,axis=1).mean(axis=1)                      # date-invariant rich geography
 feat=pd.read_csv(f"{V}/dz_features.csv").set_index('area')
-pop=pd.read_csv("/home/user/civgraph/data/census/derived/ms-a01-dz.csv").set_index('GeographyCode')['AllUsualResidents']
+pop=pd.read_csv(os.path.join(V, "..", "..", "..", "data", "census", "derived", "ms-a01-dz.csv")).set_index('GeographyCode')['AllUsualResidents']
 pop=pop.reindex(S.index).fillna(0)
 region=json.load(open(f"{SP}/dz_region.json"))
 
