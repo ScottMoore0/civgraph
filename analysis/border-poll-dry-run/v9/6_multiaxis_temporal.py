@@ -10,7 +10,7 @@ import pandas as pd, numpy as np
 V=os.path.dirname(os.path.abspath(__file__))  # was a hardcoded /home/user path from another environment
 SP=os.environ.get("SCRATCHPAD", V)  # dz_region.json etc. live alongside this script
 DATES=['2021-01','2022-08','2024-02','2025-02']
-OUTLVL={r['date']:r['output_ni'] for r in json.load(open(f"{V}/summary_output.json"))['results']}
+OUTLVL={r['date']:r['output_ni'] for r in json.load(open(f"{V}/summary_output.json",encoding="utf-8"))['results']}
 
 # ---------- 1. static shape S_DZ = mean of v9 per-date projection ----------
 areas={d:pd.read_csv(f"{V}/areas_output/{d}_DZ21.csv").set_index('DZ21')['proj_unity_pct'] for d in DATES}
@@ -18,7 +18,7 @@ S=pd.concat(areas,axis=1).mean(axis=1)                      # date-invariant ric
 feat=pd.read_csv(f"{V}/dz_features.csv").set_index('area')
 pop=pd.read_csv(os.path.join(V, "..", "..", "..", "data", "census", "derived", "ms-a01-dz.csv")).set_index('GeographyCode')['AllUsualResidents']
 pop=pop.reindex(S.index).fillna(0)
-region=json.load(open(f"{SP}/dz_region.json"))
+region=json.load(open(f"{SP}/dz_region.json",encoding="utf-8"))
 
 # ---------- 2. poll rates by (dim,cat,date), harmonised ----------
 def is_ui(s):return 'united ireland' in s.lower()
@@ -33,7 +33,7 @@ def coarse_age(cat):
     if lo<65:return '45-64'
     return '65+'
 def poll_rates(path):
-    r=list(csv.DictReader(open(path)))
+    r=list(csv.DictReader(open(path,encoding="utf-8")))
     from collections import defaultdict
     resp=defaultdict(set)
     for x in r: resp[x['Measure']].add(x['Response'])
@@ -119,7 +119,7 @@ for d in DATES:
 os.makedirs(f"{V}/areas_multiaxis",exist_ok=True)
 cath=col('rel__Catholic')*100
 for d in DATES:
-    with open(f"{V}/areas_multiaxis/{d}_DZ21.csv","w",newline='') as fh:
+    with open(f"{V}/areas_multiaxis/{d}_DZ21.csv","w",newline='',encoding="utf-8") as fh:
         w=csv.writer(fh); w.writerow(['DZ21','catholic_bg_pct','proj_unity_pct','provenance'])
         for a,cc,uu in zip(S.index,cath.round(1),proj[d].round(1)): w.writerow([a,cc,uu,'modelled'])
 M=pd.DataFrame(proj,index=S.index)
@@ -133,4 +133,4 @@ for dim,cats in [('Region',['West','East']),('Age',['18-24'])]:
         s=comp[dim][c]; print(f"  corr(2021->2025 change, {dim}:{c} share) = {np.corrcoef(ch.values,s)[0,1]:+.2f}")
 print("\nNI levels (pop-wtd):",{d:round(float(np.average(proj[d],weights=pop.values)),1) for d in DATES})
 json.dump({'method':'v10 multi-axis temporal: v9 static geography + between-poll delta averaged over religion/age/gender/social-grade/region measured crosstabs','dims':DIMS,
-  'ni':{d:round(float(np.average(proj[d],weights=pop.values)),1) for d in DATES}},open(f"{V}/summary_multiaxis.json","w"),indent=1)
+  'ni':{d:round(float(np.average(proj[d],weights=pop.values)),1) for d in DATES}},open(f"{V}/summary_multiaxis.json","w",encoding="utf-8"),indent=1)
