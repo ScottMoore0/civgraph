@@ -106,3 +106,59 @@ ones. Fine at DEA (80/80); a DZ-level use would need areal interpolation instead
 is an NI-wide time series of unity support by survey wave (1989→) — a *level* series
 for the referendum question, with no per-area values to join to a party-share model.
 It is relevant to the unity model's historical extension, not to this one.
+
+---
+
+# Phase 31 — both wired in, and scored end to end
+
+Phases 28 and 29 measured gains but left them as standalone evaluations. `31_forecast.py`
+wires both into the prediction path and scores the result.
+
+The architecture now matches the unity model's, which solved this problem first:
+
+    LEVEL   calibrated LucidTalk party VI       (28) NEW
+    SHAPE   census ridge + competitive field    (17, 26)
+    BLEND   per-party census/persistence        (29) NEW, DEA only
+    SEATS   nominations -> PR-STV count         (21, 19)
+
+**How the level is imposed.** The share model adds back a per-contest level. That
+level used to be the mean over the *training areas of the same contest*, which
+requires the contest to have happened. It can now be the calibrated poll's
+composition instead, which requires only a poll. That one substitution is what makes
+the model forecast rather than backtest.
+
+## Share accuracy (TVD median, leave-one-contest-out)
+
+| variant | DEA | constituency |
+|---|--:|--:|
+| A train level + census (as it stood) | 15.46 | 13.53 |
+| B train level + blend | 14.22 | 13.53 |
+| C poll level + census | 14.56 | 11.22 |
+| **D poll level + blend — EX ANTE** | **13.97** | **11.22** |
+
+**The ex-ante configuration is the best one.** That is the striking result: replacing
+an observed quantity (the contest's own training-area mean) with a poll *improves*
+accuracy rather than costing it. The poll carries information the training areas do
+not — the national swing since the last election.
+
+Blend is DEA-only by design, so B=A and D=C at constituency.
+
+NI-wide mean |error| per party: DEA 1.98 → **1.84**; constituency 1.82 → **1.02**.
+
+## Seats, end to end, from ex-ante shares
+
+294 areas, 1,674 seats: **mean party-seat error 2.03, exact 24.8%** — against 2.18
+and 22.1% for the previous best (phase 20 stage C). By contest:
+
+| contest | mean party-seat error |
+|---|--:|
+| assembly 2022 | **1.00** |
+| assembly 2016 / 2017 | 1.33 / 1.33 |
+| local 2019 | 1.93 |
+| local 2023 | 2.27 |
+| local 2014 | 2.42 |
+
+**Caveat:** the LucidTalk VI series starts 2017-01, so **local 2014 and local 2019
+have no poll within 12 months** and fall back to the observed level. Those two rows
+are therefore not true ex-ante results, and they are also the two worst — consistent
+with the poll being what carries the level.
