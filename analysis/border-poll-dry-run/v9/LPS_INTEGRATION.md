@@ -36,6 +36,59 @@ selected on the metric it is scored against, so optimistic. Still 3× short of t
 Top single additions: `nd_n_institutional` (−0.04), `lpsf_public_built` (−0.04),
 `lpsf_era_1966_1990` (−0.01).
 
+## Institutional classifier rebuild — and a prediction that was wrong
+
+The first classifier inferred the institutional universe from name text alone. It
+was rebuilt in two stages: **stage 1** takes the universe from the LPS *rating
+taxonomy* (`PrimaryClass` ∈ Churches/Church Halls, Non-Sporting Rec, Schools,
+Sporting Recreational; plus `SubClass` ∈ Place of Worship, Hall, School,
+Relig. Estab., Sports Ground) — **7,070 institutions**, complete and text-free;
+**stage 2** assigns a community from names within that universe.
+
+Fixes made:
+- `"NULL"` is used as a literal string placeholder in the name fields; `fillna()`
+  never caught it.
+- `(C OF I)` — Church of Ireland — appears 209 times and was matched **zero** times
+  before. Added, with `PARISH CHURCH`, `EPISCOPAL`, `NON-SUBSCRIBING`.
+- GAA club naming conventions added (`GAC`, `CLG`, `Naomh`, `Éire Óg`, `Sarsfields`,
+  `Wolfe Tone`, `Emmets`, `Pearses`, `O'Donovan Rossa`).
+- Community flags now require membership of the institutional universe, so a shop
+  named "St James Menswear" no longer counts as a Catholic institution.
+- **School asymmetry removed.** Catholic maintained schools carry `St`/`Our Lady`
+  markers; controlled (de facto Protestant) schools carry none. Counting schools
+  into a signed balance manufactures a Catholic tilt wherever schools exist. The
+  balance is now built from **symmetric categories only** (worship, order/community
+  halls, sports grounds); Catholic schools are kept as a separate, explicitly
+  asymmetric feature.
+
+**The prediction that better classification would "lift coverage well beyond 1,385
+zones" was wrong. Coverage fell.**
+
+| | before | after |
+|---|--:|--:|
+| DZs with ≥1 symmetric institution | 1,385 | **1,227** |
+| DZs with ≥3 | 344 | 196 |
+| mean per DZ | 0.86 | 0.64 |
+| corr(balance, Catholic share) | +0.582 | +0.500 |
+| **nd alone, LOCO R²** | +0.636 | **+0.638** |
+| **census + nd, LOCO MAE** | 5.14 | **5.41** |
+
+The old figures were higher because they were **wrong**, not because recall was
+better: they included non-institutional false positives and the school asymmetry
+that inflated the Catholic side. The corrected correlation of +0.500 is the honest
+one, and standalone predictive power is unchanged (+0.636 → +0.638).
+
+**So recall was not the binding constraint.** Northern Ireland has ~7,070 rateable
+institutions for 3,780 Data Zones, and only a minority carry a machine-readable
+denominational marker in a symmetrically-detectable category. No classifier
+extracts more denominational coverage than the file contains. The institutional
+result is now settled rather than under-powered: it fails for **sparsity and
+redundancy with census religion**, not for want of pattern-matching.
+
+Greedy selection is unchanged at **4.83 (−0.11)**; `nd_n_institutional` enters it,
+but as an urbanity proxy (corr with Catholic share **+0.008**), not as community
+signal.
+
 ## Scripts (13–15)
 
 | script | what it does |

@@ -85,50 +85,95 @@ def download():
 
 
 # --------------------------------------------------------------- classifier ---
-# Community-marked institutions. Matched on the free-text fields (organisation /
-# building name / description), because the LPS SubClass taxonomy is about RATING
-# category (Church, Hall, Recreation) and does not record denomination or code.
+# TWO-STAGE. Stage 1 defines the institutional UNIVERSE from the LPS rating
+# taxonomy (reliable, complete, no text needed). Stage 2 assigns a community to
+# members of that universe from the name text (incomplete by nature).
+#
+# The first version skipped stage 1 and inferred the universe from name text
+# alone, which both under-counted (7,070 institutions exist by rating class) and
+# mixed the two questions together.
+UNIV_PRIMARY = r"(?:Churches|Non Sporting Rec|Schools etc|Sporting Recreational)"
+UNIV_SUB = r"(?:Place of Worship|^Hall$|^School$|Relig\. Estab|Sports Ground)"
+
+# Denominational markers. Expanded after auditing actual names in the file:
+# "(C OF I)" alone appears 209 times and the first version matched none of it.
 CATHOLIC = (r"(?:\bR\.?C\.?\b|ROMAN CATHOLIC|\bST\.?\s+[A-Z]|SAINT\s+[A-Z]|"
             r"CHAPEL|PAROCHIAL|PRESBYTERY|CONVENT|FRIARY|MONASTER|ORATORY|"
             r"OUR LADY|SACRED HEART|MERCY|CHRISTIAN BROTHERS|MARIST|LOURDES|"
-            r"MAYNOOTH|DIOCESAN|PARISH PRIORITY)")
-PROTESTANT = (r"(?:PRESBYTERIAN|METHODIST|CHURCH OF IRELAND|BAPTIST|"
-              r"FREE PRESBYTERIAN|CONGREGATIONAL|ELIM|BRETHREN|GOSPEL HALL|"
+            r"MAYNOOTH|DIOCESAN|\bHOLY (?:FAMILY|CROSS|REDEEMER)|IMMACULATE|"
+            r"\bCBS\b|LORETO|\bSTS?\b\s+[A-Z]|NAOMH)")
+PROTESTANT = (r"(?:PRESBYTERIAN|METHODIST|CHURCH OF IRELAND|\bC\.? ?OF ?I\b|\bCOI\b|"
+              r"BAPTIST|FREE PRESBYTERIAN|CONGREGATIONAL|ELIM|BRETHREN|GOSPEL HALL|"
               r"MISSION HALL|REFORMED|MORAVIAN|PENTECOSTAL|SALVATION ARMY|"
-              r"ORANGE|LOYAL ORDER|APPRENTICE BOYS|\bLOL\b|ROYAL BLACK)")
-GAA = r"(?:\bGAA\b|GAELIC ATHLETIC|\bCLG\b|CUMANN|CAMOGIE|HURLING|\bGFC\b|\bG\.?A\.?C\b)"
+              r"ORANGE|LOYAL ORDER|APPRENTICE BOYS|\bLOL\b|ROYAL BLACK|"
+              r"PARISH CHURCH|\bEPISCOPAL|UNITARIAN|NON.?SUBSCRIBING)")
+GAA = (r"(?:\bGAA\b|GAELIC ATHLETIC|\bCLG\b|\bGAC\b|\bGFC\b|CAMOGIE|HURLING|"
+       r"NAOMH|EIRE OG|\bCUMANN|SARSFIELD|WOLFE TONE|\bEMMET|\bPEARSE|"
+       r"O.?DONOVAN ROSSA|SHAMROCKS?\b|\bGAELS?\b)")
 ORANGE_HALL = r"(?:ORANGE HALL|\bLOL\b|LOYAL ORANGE|APPRENTICE BOYS|BLACK INSTITUTION)"
-IRISH_CULT = r"(?:GAELSCOIL|IRISH LANGUAGE|CULTURLANN|AN CHULTURLANN|CONRADH|\bCLG\b)"
+IRISH_CULT = r"(?:GAELSCOIL|IRISH LANGUAGE|CULTURLANN|CONRADH|\bCLG\b)"
 BAND_HALL = r"(?:FLUTE BAND|ACCORDION BAND|PIPE BAND|BAND HALL|SILVER BAND)"
 
-# rating classes that are plausibly community-marked at all
-INSTITUTIONAL = r"(?:CHURCH|HALL|RECREATION|SPORT|CLUB|SCHOOL|COMMUNITY)"
+# Where BOTH communities are symmetrically detectable. Places of worship and
+# order/community halls qualify: each side names itself. SCHOOLS DO NOT -- Catholic
+# maintained schools carry "St"/"Our Lady" markers while controlled (de facto
+# Protestant) schools carry none, so counting schools into a signed balance would
+# manufacture a Catholic tilt wherever schools exist. Schools are therefore kept
+# as a separate, explicitly asymmetric feature and excluded from the balance.
+SYMMETRIC_SUB = r"(?:Place of Worship|^Hall$|Relig\. Estab|Sports Ground)"
+
+
+def _clean(s):
+    """Uppercase, and treat the literal placeholder 'NULL' as empty -- the extract
+    writes 'NULL' as a string, which fillna() does not catch."""
+    s = s.fillna('').astype(str).str.upper().str.strip()
+    return s.str.replace(r'\bNULL\b', '', regex=True)
 
 
 def classify(gdf):
-    # Names and rating description ONLY. PRIMARY_THORFARE is deliberately excluded:
-    # a street name locates a property, it does not identify the institution, and
-    # including it reintroduces the phase-10 "ST" false-positive problem.
-    txt = (gdf.ORGANISATION_NAME.fillna('') + ' ' + gdf.BUILDING_NAME.fillna('') + ' '
-           + gdf.AOBuildingName.fillna('') + ' ' + gdf.Description.fillna(''))
-    txt = txt.str.upper().str.replace(r'\s+', ' ', regex=True)
+    # Names + rating description ONLY. PRIMARY_THORFARE stays excluded: a street
+    # name locates a property, it does not identify the institution, and including
+    # it reintroduces the phase-10 "ST" false-positive problem.
+    txt = (_clean(gdf.ORGANISATION_NAME) + ' ' + _clean(gdf.BUILDING_NAME) + ' '
+           + _clean(gdf.AOBuildingName) + ' ' + _clean(gdf.SUB_BUILDING_NAME) + ' '
+           + _clean(gdf.Description))
+    txt = txt.str.replace(r'\s+', ' ', regex=True).str.strip()
     gdf['txt'] = txt
-    gdf['nd_catholic'] = txt.str.contains(CATHOLIC, regex=True, na=False)
-    gdf['nd_protestant'] = txt.str.contains(PROTESTANT, regex=True, na=False)
-    gdf['nd_gaa'] = txt.str.contains(GAA, regex=True, na=False)
-    gdf['nd_orange'] = txt.str.contains(ORANGE_HALL, regex=True, na=False)
-    gdf['nd_irishcult'] = txt.str.contains(IRISH_CULT, regex=True, na=False)
-    gdf['nd_band'] = txt.str.contains(BAND_HALL, regex=True, na=False)
-    gdf['nd_institutional'] = txt.str.contains(INSTITUTIONAL, regex=True, na=False)
-    # a property counted for both sides is ambiguous -- drop it from both
+    prim = gdf.PrimaryClass.fillna('').astype(str)
+    sub = gdf.SubClass.fillna('').astype(str)
+
+    # stage 1 — universe from the rating taxonomy
+    gdf['nd_institutional'] = (prim.str.contains(UNIV_PRIMARY, regex=True, na=False)
+                               | sub.str.contains(UNIV_SUB, regex=True, na=False))
+    gdf['nd_worship'] = sub.str.contains(r'Place of Worship|Relig\. Estab',
+                                         regex=True, na=False)
+    gdf['nd_school'] = sub.str.contains(r'^School$', regex=True, na=False)
+    gdf['nd_symmetric'] = (gdf.nd_institutional
+                           & sub.str.contains(SYMMETRIC_SUB, regex=True, na=False))
+
+    # stage 2 — community assignment within the universe
+    inst = gdf.nd_institutional
+    gdf['nd_catholic'] = inst & txt.str.contains(CATHOLIC, regex=True, na=False)
+    gdf['nd_protestant'] = inst & txt.str.contains(PROTESTANT, regex=True, na=False)
+    gdf['nd_gaa'] = inst & txt.str.contains(GAA, regex=True, na=False)
+    gdf['nd_orange'] = inst & txt.str.contains(ORANGE_HALL, regex=True, na=False)
+    gdf['nd_irishcult'] = inst & txt.str.contains(IRISH_CULT, regex=True, na=False)
+    gdf['nd_band'] = inst & txt.str.contains(BAND_HALL, regex=True, na=False)
     both = gdf.nd_catholic & gdf.nd_protestant
     gdf.loc[both, ['nd_catholic', 'nd_protestant']] = False
+    # asymmetric, kept out of the balance
+    gdf['nd_cath_school'] = gdf.nd_school & gdf.nd_catholic
+    # symmetric-only community flags -- these alone feed the signed balance
+    gdf['nd_cath_sym'] = gdf.nd_symmetric & (gdf.nd_catholic | gdf.nd_gaa
+                                             | gdf.nd_irishcult)
+    gdf['nd_prot_sym'] = gdf.nd_symmetric & (gdf.nd_protestant | gdf.nd_orange
+                                             | gdf.nd_band)
     gdf['nav'] = pd.to_numeric(gdf.TotalNAV, errors='coerce').fillna(0)
     return gdf
 
 
 FLAGS = ['nd_catholic', 'nd_protestant', 'nd_gaa', 'nd_orange', 'nd_irishcult',
-         'nd_band', 'nd_institutional']
+         'nd_band', 'nd_institutional', 'nd_worship', 'nd_school', 'nd_cath_school']
 
 
 def aggregate(gdf, key):
@@ -139,11 +184,15 @@ def aggregate(gdf, key):
     out['nd_nav_total'] = g.nav.sum()
     out['nd_nav_mean'] = g.nav.mean()
     out['nd_nav_median'] = g.nav.median()
-    # the signed institutional balance: the feature with no census counterpart
-    cath = out['nd_n_catholic'] + out['nd_n_gaa'] + out['nd_n_irishcult']
-    prot = out['nd_n_protestant'] + out['nd_n_orange'] + out['nd_n_band']
-    out['nd_inst_balance'] = (cath - prot) / (cath + prot).replace(0, np.nan)
+    # The signed institutional balance -- the feature with no census counterpart.
+    # Built from SYMMETRIC categories only (worship, order/community halls, sports
+    # grounds), never schools: see SYMMETRIC_SUB.
+    cath = g.nd_cath_sym.sum()
+    prot = g.nd_prot_sym.sum()
+    out['nd_n_cath_sym'] = cath
+    out['nd_n_prot_sym'] = prot
     out['nd_inst_n'] = cath + prot
+    out['nd_inst_balance'] = (cath - prot) / (cath + prot).replace(0, np.nan)
     return out
 
 
