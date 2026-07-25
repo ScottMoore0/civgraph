@@ -1,4 +1,75 @@
-# LPS/Pointer address dataset — integration and validation (v9 phases 10–12)
+# LPS property data — integration and validation (v9 phases 10–15)
+
+> **Read this first.** Phases 10–12 used the EONI *address gazetteer*, which has no
+> valuation and no build date. Phases 13–15 use the **real LPS valuation extract**
+> (`lps_all_properties_clean.geojson`, 933,609 properties with capital value, era
+> band and built form) and the **non-domestic list** (55,902 with NAV and
+> institution names). The headline verdict is unchanged — none of the three
+> improves the model — but the *reason* differs by source, and the valuation and
+> institutional data are far stronger standalone than the address file. See
+> "Three sources compared" below.
+
+## Three sources compared
+
+Leave-one-council-out SHAPE MAE; census baseline **4.94**, bar was ≥0.30 improvement.
+
+| feature set | n | LOCO R² | MAE | vs census |
+|---|--:|--:|--:|--:|
+| census (incumbent) | 88 | +0.932 | **4.94** | — |
+| census + valuation/era | 106 | +0.929 | 5.11 | +0.17 |
+| census + non-domestic | 101 | +0.922 | 5.14 | +0.19 |
+| census + address | 106 | +0.901 | 5.63 | +0.69 |
+| census + everything | 137 | +0.896 | 5.83 | +0.89 |
+| **valuation/era alone** | 18 | **+0.475** | 15.32 | — |
+| **non-domestic alone** | 13 | **+0.636** | 12.39 | — |
+| address alone | 18 | −0.044 | 21.66 | — |
+
+The standalone column is the interesting one. **Non-domestic institutional/NAV data
+predicts nationalist vote share at R²=0.64 on its own, and valuation/era at R²=0.48**
+— these are real signals, not noise (unlike the address gazetteer at R²=−0.04).
+They still add nothing on top of the census, because they are largely a
+reprojection of tenure / NS-SEC / qualification, which the model already has.
+
+Best greedy subset across all 49 LPS candidate features: **4.83, −0.11** — and
+selected on the metric it is scored against, so optimistic. Still 3× short of the bar.
+
+Top single additions: `nd_n_institutional` (−0.04), `lpsf_public_built` (−0.04),
+`lpsf_era_1966_1990` (−0.01).
+
+## Scripts (13–15)
+
+| script | what it does |
+|---|---|
+| `13_nondom_ingest.py` | non-domestic list (55,902): institution classification from organisation/building names, NAV, join to DZ |
+| `14_lps_full_ingest.py` | **the full LPS valuation extract** (933,609): capital value, era band, built form, floor area, public vs private built, join to DZ |
+| `15_validate_full.py` | validates all three sources against real results, singly and jointly |
+
+### What the valuation extract actually contains
+
+- `CVNonExempt` — domestic capital value; **860,541** properties have one
+- `SubClass` — encodes **era band × built form**: verified bands are
+  **Pre 1919 (12.6%), 1946-1965 (17.7%), 1966-1990 (29.7%), Post 1990 (40.0%)**
+  over the 697,879 domestic properties carrying a band. There is **no 1919-1945
+  band** — checked across all 933,609 records, not assumed.
+- `PrimaryClass` — Privately vs **Public Built Housing** (234,605 public)
+- `PropertySize` (floor area m²), `Garage`, `TotalNonExemptNAV`
+
+### Defects found in the source data
+
+1. **`non_domestic_properties.geojson` declares EPSG:29902 but its coordinates are
+   WGS84 lon/lat.** ArcGIS wrote the service's native SR into the GeoJSON `crs`
+   member while emitting degrees, as the spec requires. Reprojecting from the
+   declared CRS put every point in the Atlantic and matched **0 of 55,902** zones.
+   Now detected by bounds and the label overridden rather than transformed —
+   55,899/55,902 join.
+2. **The valuation extract has no organisation/building-name field**, so
+   institutions cannot be identified from it; only the non-domestic list can do
+   that. Matching institution patterns against `FullAddress` instead would
+   reintroduce the phase-10 "ST = Street" false positive.
+
+---
+
+# Phases 10–12: the EONI address gazetteer
 
 Full official NI address dataset (831,159 points) ingested, joined to the census
 frame, tested against the model, and turned into a property-level and
