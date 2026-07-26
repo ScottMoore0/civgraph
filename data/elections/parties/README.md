@@ -120,7 +120,9 @@ appears after its dissolution is not thereby still alive. Without `status`, a nu
 
 `foundedPrecision` (`day` / `month` / `year`) exists so a party known only to a year can
 be recorded as `YYYY-01-01` with precision `year`, rather than inventing a false exact
-date. Every entry so far is `day`.
+date. **PUP is the first to use it**: founded 1977, day unknown, stored as `1977-01-01`
+with precision `year`. The `01-01` is padding, not a claim — anything reading these
+dates must check `foundedPrecision` before treating one as exact.
 
 ## Current entries
 
@@ -132,6 +134,7 @@ date. Every entry so far is `day`.
 | SDLP | 1970-08-21 | active | — | 2,438 | 1973-05-30 | 2y 9m |
 | DUP | 1971-09-30 | active | — | 2,752 | 1973-05-30 | 1y 8m |
 | Vanguard | 1972-02-09 | dissolved | 1978-02-20 | 92 | 1973-05-30 | 1y 3m |
+| PUP | **1977** *(year only)* | unknown | — | 196 | 1981-05-20 | 4y 4m |
 | Vanguard (1982) | 1982-08-30 | dissolved | 1987-05-27 | 3 | 1982-10-20 | 0y 1m |
 | Ecology (NI) | 1981-05-20 | **dissolved** | 1990-02-12 | 13 | 1981-05-20 | 0y 0m |
 | Green (NI) | 1990-02-12 | active | — | 263 | 1990-05-17 | 0y 3m |
@@ -141,7 +144,7 @@ date. Every entry so far is `day`.
 | TUV | 2007-12-07 | active | — | 264 | 2009-06-04 | 1y 6m |
 | NI21 | 2013-06-06 | dissolved | 2016-11-03 | 49 | 2014-05-22 | 0y 11m |
 
-14,435 of 23,920 party candidacies (60.3%) now belong to a party with a recorded
+14,634 of 23,920 party candidacies (61.2%) now belong to a party with a recorded
 lifespan. A further 5,777 of the 29,697 total are not party candidacies at all —
 independents, referendum Yes/No rows, and the non-party banners.
 
@@ -224,7 +227,7 @@ python scripts/validate_party_lifespans.py --wanted 40
 Four checks:
 
 1. **Contradiction** — the string is claimed for that body, but no party's window covers
-   the date. Currently **3**, all of one kind.
+   the date. Currently **4**, all of one kind.
 
    **Before founding — the label applied retrospectively:**
 
@@ -233,6 +236,7 @@ Four checks:
    | 1987-06-11 | Westminster, East Londonderry | Malcolm Samuel | `Green` | 1990-02-12 | 2y 8m |
    | 1989-06-15 | European, Northern Ireland | Malcolm Samuel | `Green` | 1990-02-12 | 8m |
    | 1995-06-15 | Westminster by-el., North Down | Robert McCartney | `UKUP` | 1996-04-20 | 10m |
+   | 1973-05-30 | Local, Ballymena Area C | Elizabeth Roulton | `PUP` | 1977 | ~4y |
 
    McCartney won North Down in 1995 before the UK Unionist Party existed; Samuel stood
    under the Ecology label before the Green Party was founded. The compiler has applied

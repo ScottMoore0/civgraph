@@ -70,17 +70,15 @@ CURATED = [
          aliases=[{'string': 'Nationalist Party', 'bodies': ROI_BODIES}],
          notes="The 1918-22 dail-eireann candidacies under the bare string 'Nationalist "
                "Party'. A different organisation from the NI Nationalist Party."),
-    dict(id='pup', type='party', name='Progressive Unionist Party', shortName='PUP',
-         aliases=['PUP', 'Progressive Unionist'],
-         notes="ONLY the string 'PUP'. The 1938 Stormont string 'Progressive Unionist' "
-               "is a DIFFERENT party and is entity progressive-unionist-1938; the alias "
-               "here is date-scoped to keep them apart.",
-         alias_overrides={'Progressive Unionist': {'from': '1979-01-01'}}),
+    # pup itself is defined in party_lifespans.json and flows in from there; it claims
+    # only the string 'PUP', which leaves 'Progressive Unionist' entirely to the 1938
+    # party and removes the need for any date bound on either alias.
     dict(id='progressive-unionist-1938', type='party',
          name='Progressive Unionist Party (1938)', shortName='Prog. Unionist 1938',
-         aliases=[{'string': 'Progressive Unionist', 'until': '1979-01-01'}],
-         notes="Ten candidacies at the 1938 Stormont election. Not the PUP founded 1979 "
-               "and not connected to it; the name is a coincidence."),
+         aliases=['Progressive Unionist'],
+         notes="Ten candidacies at the 1938 Stormont election, the only years the string "
+               "appears. Not the PUP founded 1977 and not connected to it; the name is a "
+               "coincidence."),
     dict(id='green-ie', type='party', name='Green Party / Comhaontas Glas',
          shortName='Green (IE)',
          aliases=[{'string': 'Green', 'bodies': ROI_BODIES}],

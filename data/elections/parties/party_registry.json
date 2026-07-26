@@ -270,6 +270,23 @@
       "notes": "The 'Green' string is scoped to NI bodies. The same string carries 264 candidacies in dail-eireann and ireland-european which belong to the Green Party in the Republic, a separate organisation with no dates supplied here; those are deliberately left unattributed rather than folded in. 'Green / Ecology' is a label used only by the local-government dataset, across 1981-2011, and is therefore shared with the predecessor and resolved by date."
     },
     {
+      "id": "pup",
+      "type": "party",
+      "name": "Progressive Unionist Party",
+      "shortName": "PUP",
+      "aliases": [
+        "PUP"
+      ],
+      "founded": "1977-01-01",
+      "foundedPrecision": "year",
+      "dissolved": null,
+      "status": "unknown",
+      "source": "supplied by repository owner, 2026-07-26 (year only)",
+      "confidence": "high",
+      "provisional": false,
+      "notes": "Only the year is known, so the date is recorded as 1977-01-01 with foundedPrecision 'year'. That 01-01 is padding, NOT a claim about the day — the first entry in the registry to use this, and the reason the field exists. Status is 'unknown' rather than 'active': no dissolution date was supplied and none is inferred, though the party's most recent candidacy is 2023. Claims only the string 'PUP'; the ten 1938 Stormont candidacies labelled 'Progressive Unionist' are a different organisation, entity progressive-unionist-1938. One 1973 candidacy (Elizabeth Roulton, Ballymena Area C, 107 votes) falls four years before this founding and is reported as a contradiction."
+    },
+    {
       "id": "ni21",
       "type": "party",
       "name": "NI21",
@@ -335,39 +352,18 @@
       "notes": "The 1918-22 dail-eireann candidacies under the bare string 'Nationalist Party'. A different organisation from the NI Nationalist Party."
     },
     {
-      "id": "pup",
-      "type": "party",
-      "name": "Progressive Unionist Party",
-      "shortName": "PUP",
-      "aliases": [
-        "PUP",
-        {
-          "string": "Progressive Unionist",
-          "from": "1979-01-01"
-        }
-      ],
-      "status": "unknown",
-      "source": "curated 2026-07-26; lifespans supplied by repository owner",
-      "confidence": "high",
-      "provisional": false,
-      "notes": "ONLY the string 'PUP'. The 1938 Stormont string 'Progressive Unionist' is a DIFFERENT party and is entity progressive-unionist-1938; the alias here is date-scoped to keep them apart."
-    },
-    {
       "id": "progressive-unionist-1938",
       "type": "party",
       "name": "Progressive Unionist Party (1938)",
       "shortName": "Prog. Unionist 1938",
       "aliases": [
-        {
-          "string": "Progressive Unionist",
-          "until": "1979-01-01"
-        }
+        "Progressive Unionist"
       ],
       "status": "unknown",
       "source": "curated 2026-07-26; lifespans supplied by repository owner",
       "confidence": "high",
       "provisional": false,
-      "notes": "Ten candidacies at the 1938 Stormont election. Not the PUP founded 1979 and not connected to it; the name is a coincidence."
+      "notes": "Ten candidacies at the 1938 Stormont election, the only years the string appears. Not the PUP founded 1977 and not connected to it; the name is a coincidence."
     },
     {
       "id": "green-ie",
