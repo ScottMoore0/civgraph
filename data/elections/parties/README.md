@@ -55,6 +55,7 @@ date. Every entry so far is `day`.
 | Alliance | 1970-04-21 | active | — | 1,757 | 1973-05-30 | 3y 1m |
 | SDLP | 1970-08-21 | active | — | 2,438 | 1973-05-30 | 2y 9m |
 | DUP | 1971-09-30 | active | — | 2,752 | 1973-05-30 | 1y 8m |
+| Vanguard | 1972-02-09 | dissolved | 1978-02-20 | 92 | 1973-05-30 | 1y 3m |
 | Ecology (NI) | 1981-05-20 | **dissolved** | 1990-02-12 | 13 | 1981-05-20 | 0y 0m |
 | Green (NI) | 1990-02-12 | active | — | 263 | 1990-05-17 | 0y 3m |
 | UKUP | 1996-04-20 | dissolved | 2008-09-04 | 74 | 1996-05-30 | 0y 1m |
@@ -63,7 +64,7 @@ date. Every entry so far is `day`.
 | TUV | 2007-12-07 | active | — | 264 | 2009-06-04 | 1y 6m |
 | NI21 | 2013-06-06 | dissolved | 2016-11-03 | 49 | 2014-05-22 | 0y 11m |
 
-14,343 of 23,920 party candidacies (60.0%) now belong to a party with a recorded
+14,435 of 23,920 party candidacies (60.3%) now belong to a party with a recorded
 lifespan. A further 5,777 of the 29,697 total are not party candidacies at all —
 independents, referendum Yes/No rows, and the non-party banners.
 
@@ -145,25 +146,38 @@ python scripts/validate_party_lifespans.py --wanted 40
 Four checks:
 
 1. **Contradiction** — the string is claimed for that body, but no party's window covers
-   the date. Currently **3**, and they turn out to be one phenomenon:
+   the date. Currently **6**, and they fall into two opposite kinds.
+
+   **Before founding — the label applied retrospectively:**
 
    | date | contest | candidate | string | founded | early by |
    |---|---|---|---|---|---|
    | 1987-06-11 | Westminster, East Londonderry | Malcolm Samuel | `Green` | 1990-02-12 | 2y 8m |
    | 1989-06-15 | European, Northern Ireland | Malcolm Samuel | `Green` | 1990-02-12 | 8m |
-   | 1995-06-15 | Westminster by-election, North Down | Robert McCartney | `UKUP` | 1996-04-20 | 10m |
+   | 1995-06-15 | Westminster by-el., North Down | Robert McCartney | `UKUP` | 1996-04-20 | 10m |
 
-   **The dataset back-labels candidacies with the party a candidate later belonged to.**
-   McCartney won the 1995 North Down by-election before the UK Unionist Party existed;
-   Samuel stood under the Ecology label before the Green Party was founded. In both cases
-   the compiler has applied the later party name retrospectively — the same behaviour
-   already visible in `Green / Ecology`, a merged label spanning two organisations.
+   McCartney won North Down in 1995 before the UK Unionist Party existed; Samuel stood
+   under the Ecology label before the Green Party was founded. The compiler has applied
+   the later party name backwards — the same behaviour visible in `Green / Ecology`, a
+   merged label spanning two organisations.
 
-   This matters beyond these three rows: it means a `party` string is **not** reliable
-   evidence of what a candidate stood as at the time, and any analysis treating it that
-   way will date party activity too early. These contradictions are only visible because
-   the founding dates are explicit; the derived `firstYear` would simply have reported
-   1987 and 1995 as the parties' first years and no one would have noticed.
+   **After dissolution — the label outliving the organisation:**
+
+   | date | contest | candidate | string | dissolved | late by |
+   |---|---|---|---|---|---|
+   | 1982-10-20 | Assembly, Belfast East | William Craig | `Vanguard…` | 1978-02-20 | 4y 8m |
+   | 1982-10-20 | Assembly, Mid Ulster | John Dunlop | `Vanguard…` | 1978-02-20 | 4y 8m |
+   | 1982-10-20 | Assembly, Mid Ulster | Robert Overend | `Vanguard…` | 1978-02-20 | 4y 8m |
+
+   Craig founded Vanguard, so this is not a mis-attribution: three men genuinely stood
+   under a dead party's banner four and a half years after it wound up.
+
+   Taken together: **a `party` string is not reliable evidence of what a candidate stood
+   as at the time**, and it errs in both directions — too early for parties that later
+   formed, too late for parties that had already dissolved. Any analysis treating the
+   string as contemporaneous will overstate a party's active span at both ends. All six
+   are visible only because the dates are explicit; the derived `firstYear`/`lastYear`
+   would have reported 1987–2024 for Green and 1973–1982 for Vanguard without comment.
 
 2. **Ambiguity** — more than one party's window covers a candidacy. A registry bug, not
    a data finding. Currently 0.
