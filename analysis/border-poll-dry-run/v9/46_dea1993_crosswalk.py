@@ -29,9 +29,16 @@ import geopandas as gpd
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.environ.get("CIVGRAPH_REPO") or os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 META = os.path.join(REPO, 'test', 'metadata', 'elections-test2')
-OSNI = ('D:/opendatani/land-property-services-ordnance-survey-of-northern-ireland/'
-        'osni-open-data-largescale-boundaries-district-electoral-areas-1993/'
-        'osni_open_data_largescale_boundaries_district_electoral_areas_1993.geojson')
+# All four DEA vintages are published on the Civgraph R2 bucket; the sourceMapId in
+# each election file says which vintage that contest was fought on:
+#   deas-1972 -> 1973/1977/1981   deas-1984 -> 1985/1989
+#   deas-1993 -> 1993..2011       deas-2012 -> 2014..2023
+R2 = 'https://data.civgraph.net/data/maps/local-government/DEAs_{}.fgb'
+VINTAGE_OF = {'1973': '1972', '1977': '1972', '1981': '1972',
+              '1985': '1984', '1989': '1984',
+              '1993': '1993', '1997': '1993', '2001': '1993',
+              '2005': '1993', '2011': '1993'}
+GEO = os.path.join(HERE, '_geo')
 DZFGB = os.path.join(HERE, 'lps', 'DZ2021.fgb')
 
 LOCAL = ['1973-05-30', '1977-05-18', '1981-05-20', '1985-05-15', '1989-05-17',
@@ -43,6 +50,7 @@ DIRECTIONS = [('NORTHWEST', 'NORTH WEST'), ('NORTHEAST', 'NORTH EAST'),
 def norm(s):
     s = str(s).upper().strip()
     s = re.sub(r'^LG\d+-[A-Z]+-', '', s)      # 2014-era code prefix
+    s = re.sub(r'\s+CORRECTED$', '', s)       # "Antrim Area C corrected"
     s = s.replace('-', ' ').replace('&', 'AND')
     s = re.sub(r'[^A-Z ]', ' ', s)
     return re.sub(r'\s+', ' ', s).strip()
@@ -59,6 +67,12 @@ def variants(name, council):
         if b in n:
             out.append(n.replace(b, a))
     out += ['THE ' + n]
+    # historic council-name aliases seen between the election files and the
+    # boundary sets: Derry/Londonderry, and Newry vs Newry and Mourne
+    for a, b in [('DERRY', 'LONDONDERRY'), ('LONDONDERRY', 'DERRY'),
+                 ('NEWRY', 'NEWRY AND MOURNE')]:
+        if n.startswith(a + ' '):
+            out.append(b + n[len(a):])
     if n.startswith('THE '):
         out.append(n[4:])
     if c:
@@ -75,10 +89,28 @@ def variants(name, council):
     return uniq
 
 
-def build_crosswalk():
-    if not os.path.exists(OSNI):
-        raise SystemExit(f"DEA 1993 boundaries not found: {OSNI}")
-    dea = gpd.read_file(OSNI)[['DEA', 'geometry']]
+def name_col(g):
+    """The DEA name column differs by vintage: NAME in 1972, DEA in 1984/1993."""
+    for c in ['NAME', 'DEA', 'FinalR_DEA']:
+        if c in g.columns and g[c].astype(str).str.contains('[A-Za-z]').any():
+            return c
+    raise SystemExit(f"no name column in {list(g.columns)}")
+
+
+def fetch(vintage):
+    os.makedirs(GEO, exist_ok=True)
+    path = os.path.join(GEO, f'DEAs_{vintage}.fgb')
+    if not os.path.exists(path) or os.path.getsize(path) < 1000:
+        import subprocess
+        subprocess.run(['curl', '-fsSL', '--max-time', '300',
+                        R2.format(vintage), '-o', path], check=True)
+    return path
+
+
+def build_crosswalk(vintage='1993'):
+    dea = gpd.read_file(fetch(vintage))
+    col = name_col(dea)
+    dea = dea[[col, 'geometry']].rename(columns={col: 'DEA'})
     dea['key'] = dea.DEA.map(norm)
     dz = gpd.read_file(DZFGB)[['DZ2021_cd', 'geometry']]
     if dea.crs != dz.crs:
@@ -97,7 +129,7 @@ def build_crosswalk():
         j.loc[un.index, 'key'] = snap.key
         print(f"  after nearest-snap: {j.key.isna().sum()} unmatched")
     mapping = dict(zip(j.DZ2021_cd, j.key))
-    json.dump(mapping, open(os.path.join(HERE, 'dz_dea1993.json'), 'w'),
+    json.dump(mapping, open(os.path.join(HERE, f'dz_dea{vintage}.json'), 'w'),
               ensure_ascii=False, indent=1)
     print(f"  distinct DEA1993 areas covered: {len(set(mapping.values()))}")
     return set(dea.key)
@@ -105,22 +137,27 @@ def build_crosswalk():
 
 def main():
     print("=" * 74)
-    print("DZ2021 -> pre-2014 DEA crosswalk")
-    bkeys = build_crosswalk()
+    print("DZ2021 -> pre-2014 DEA crosswalks (all vintages)")
+    bkeys = {}
+    for v in ['1972', '1984', '1993']:
+        print(f"\n  vintage {v}:")
+        bkeys[v] = build_crosswalk(v)
 
-    print("\n  name matching, election area -> DEA1993 boundary:")
-    print(f"  {'contest':12} {'areas':>6} {'matched':>8} {'rate':>7}  unmatched")
+    print("\n  name matching, election area -> its OWN vintage's boundaries:")
+    print(f"  {'contest':10} {'vint':>5} {'areas':>6} {'matched':>8} {'rate':>7}  unmatched")
     report = []
     for date in LOCAL:
         p = os.path.join(META, f'local-government-local-government-districts__{date}.json')
         if not os.path.exists(p):
             continue
         d = json.load(open(p, encoding='utf-8'))
+        vint = VINTAGE_OF[date[:4]]
+        keys = bkeys[vint]
         matched, unmatched, amap = 0, [], {}
         for r in d['results']:
             hit = None
             for v in variants(r['constituency'], r.get('localBody')):
-                if v in bkeys:
+                if v in keys:
                     hit = v
                     break
             if hit:
@@ -129,9 +166,9 @@ def main():
             else:
                 unmatched.append(r['constituency'])
         n = len(d['results'])
-        report.append({'contest': date[:4], 'areas': n, 'matched': matched,
-                       'rate': 100.0 * matched / n})
-        print(f"  {date[:4]:12} {n:6} {matched:8} {100*matched/n:6.1f}%  "
+        report.append({'contest': date[:4], 'vintage': vint, 'areas': n,
+                       'matched': matched, 'rate': 100.0 * matched / n})
+        print(f"  {date[:4]:10} {vint:>5} {n:6} {matched:8} {100*matched/n:6.1f}%  "
               f"{unmatched[:3] if unmatched else ''}")
         json.dump(amap, open(os.path.join(HERE, f'dea_map_{date[:4]}.json'), 'w'),
                   ensure_ascii=False)

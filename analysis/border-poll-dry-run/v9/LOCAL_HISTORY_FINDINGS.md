@@ -86,3 +86,82 @@ to 0.0% in areas they do not contest.
 - **Reject 2005 and earlier** for the share model — measured, not assumed.
 - **Use 1985–2011 for volatility and floors**, which is what Tier 3 was for and where
   it demonstrably earns its place.
+
+---
+
+# Update — all four DEA vintages found on R2, series extended to 1973
+
+The 1973–1981 contests are **not** unrecoverable. Every election file carries a
+`sourceMapId` naming the DEA vintage it was fought on, and all four vintages are
+published on the Civgraph R2 bucket at
+`data.civgraph.net/data/maps/local-government/DEAs_{1972,1984,1993,2012}.fgb`:
+
+| vintage | contests |
+|---|---|
+| `deas-1972` | 1973, 1977, 1981 |
+| `deas-1984` | 1985, 1989 |
+| `deas-1993` | 1993–2011 |
+| `deas-2012` | 2014–2023 |
+
+Matching each contest to **its own** vintage rather than to 1993 throughout:
+
+| contest | vintage | matched | was |
+|---|---|--:|--:|
+| 1973 / 1977 / 1981 | 1972 | **96.9%** | 0.0% |
+| 1985 / 1989 | 1984 | **98.0%** | 90.8% |
+| 1993 → 2011 | 1993 | 97–100% | unchanged |
+
+Three extra normalisation rules were needed: strip a trailing `" corrected"`, and
+alias Derry↔Londonderry and Newry↔Newry and Mourne. The 1984 file also keys its
+names in a `DEA` column rather than `NAME`.
+
+**All ten pre-2014 contests now have notionals on the modern 80 DEAs — a 13-contest
+series, 1973–2023, on consistent geography.**
+
+## The 50-year NI-wide series
+
+Mean share across the 80 modern DEAs:
+
+| year | DUP | Sinn Féin | UUP | SDLP | Alliance |
+|---|--:|--:|--:|--:|--:|
+| 1973 | 5.2 | 0.3 | **40.1** | 16.0 | 16.1 |
+| 1981 | 27.0 | 0.3 | 27.8 | 17.1 | 8.9 |
+| 1985 | 25.2 | 10.6 | 30.2 | 17.3 | 7.4 |
+| 1997 | 16.7 | 13.8 | 29.2 | 19.4 | 7.9 |
+| 2005 | 31.1 | 21.7 | 18.5 | 16.7 | 5.5 |
+| 2011 | 28.9 | 22.6 | 15.6 | 14.4 | 8.0 |
+| 2023 | 24.0 | **29.0** | **11.6** | 8.4 | 14.1 |
+
+## Volatility over 13 contests
+
+| party | median σ | p10 → p90 |
+|---|--:|---|
+| **UUP** | **10.85** | 6.14 → 14.62 |
+| Sinn Féin | 9.28 | **0.33 → 20.06** |
+| DUP | 8.57 | 3.04 → 12.51 |
+| SDLP | 5.73 | 0.81 → 10.49 |
+| **Alliance** | **4.51** | 2.32 → 7.34 |
+
+## Floors — and the fix they required
+
+A floor computed across contests a party did not exist for is meaningless: Sinn
+Féin's naive "floor" was dragged to zero everywhere by 1973–1981. Floors are now
+computed only over contests the party actually contested (>1% NI-wide):
+
+| party | contested | highest floor |
+|---|---|---|
+| Sinn Féin | 1985–2023 (10) | **Black Mountain 52.6%** |
+| SDLP | 1973–2023 (13) | Foyleside 35.4% |
+| UUP | 1973–2023 (13) | Banbridge 28.8% |
+| DUP | 1973–2023 (13) | Bannside 23.8% |
+| Alliance | 1973–2023 (13) | Holywood and Clandeboye 22.2% |
+
+## And the series settles the "floor" question against itself
+
+**The UUP polled 40.1% in 1973 and 11.6% in 2023** — a 28-point collapse, and it is
+the most volatile party in the system (median σ 10.85). Any floor inferred from its
+1970s performance would have been catastrophically wrong.
+
+That is the strongest available argument for the conclusion already reached: use the
+long series for **volatility**, which is a property of an area, and treat **floors as
+conditional on the party system**, which is not.

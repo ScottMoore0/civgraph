@@ -50,9 +50,16 @@ MAIN = ['DUP', 'Sinn Féin', 'UUP', 'SDLP', 'Alliance', 'TUV', 'Green', 'PBP', '
 
 YEARS = {'2011': '2011-05-05', '2005': '2005-05-05', '2001': '2001-06-07',
          '1997': '1997-05-21', '1993': '1993-05-19', '1989': '1989-05-17',
-         '1985': '1985-05-15'}
+         '1985': '1985-05-15', '1981': '1981-05-20', '1977': '1977-05-18',
+         '1973': '1973-05-30'}
+# each contest was fought on its own DEA vintage; all four are on Civgraph R2
+VINTAGE_OF = {'1973': '1972', '1977': '1972', '1981': '1972',
+              '1985': '1984', '1989': '1984',
+              '1993': '1993', '1997': '1993', '2001': '1993',
+              '2005': '1993', '2011': '1993'}
+DZMAPS = {v: json.load(open(os.path.join(HERE, f'dz_dea{v}.json'), encoding='utf-8'))
+          for v in ['1972', '1984', '1993']}
 
-DZ1993 = json.load(open(os.path.join(HERE, 'dz_dea1993.json'), encoding='utf-8'))
 DZDEA = json.load(open(os.path.join(HERE, 'dz_dea.json'), encoding='utf-8'))
 pop = pd.read_csv(os.path.join(REPO, 'data', 'census', 'derived', 'ms-a01-dz.csv'))
 pop = pop.set_index('GeographyCode').AllUsualResidents.astype(float)
@@ -88,7 +95,8 @@ def notional(year, dzf, feats, Xref, Sref, metaref):
     """Express one pre-2014 contest on the modern 80 DEAs."""
     tgt = contest_shares(year)
     dzids = dzf.index.tolist()
-    old = np.array([str(DZ1993.get(i, '')).upper().strip() for i in dzids])
+    dzmap = DZMAPS[VINTAGE_OF[year]]
+    old = np.array([str(dzmap.get(i, '')).upper().strip() for i in dzids])
     new = np.array([str(DZDEA.get(i, '')).upper().strip() for i in dzids])
     w = pop.reindex(dzids).fillna(0.0).values
     # census shape at DZ, fit on the modern contests (the only labelled data)
@@ -127,7 +135,8 @@ def provenance():
     rows = []
     for dz, new in DZDEA.items():
         rows.append((str(new).upper().strip(),
-                     str(DZ1993.get(dz, '')).upper().strip(), float(pop.get(dz, 0.0))))
+                     str(DZMAPS['1993'].get(dz, '')).upper().strip(),
+                     float(pop.get(dz, 0.0))))
     df = pd.DataFrame(rows, columns=['new', 'old', 'pop'])
     out = []
     for new, g in df.groupby('new'):
@@ -152,7 +161,8 @@ def main():
     dzf = pd.read_csv(os.path.join(HERE, 'dz_features.csv')).set_index('area')
 
     notionals = {}
-    for y in ['2011', '2005', '2001', '1997', '1993', '1989', '1985']:
+    for y in ['2011', '2005', '2001', '1997', '1993', '1989', '1985',
+              '1981', '1977', '1973']:
         try:
             n = notional(y, dzf, feats, X, S, meta)
             notionals[y] = n
