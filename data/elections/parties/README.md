@@ -57,10 +57,11 @@ date. Every entry so far is `day`.
 | DUP | 1971-09-30 | active | — | 2,752 | 1973-05-30 | 1y 8m |
 | Ecology (NI) | 1981-05-20 | **dissolved** | 1990-02-12 | 13 | 1981-05-20 | 0y 0m |
 | Green (NI) | 1990-02-12 | active | — | 263 | 1990-05-17 | 0y 3m |
+| PBP | 2005-10-21 | active | — | 108 | 2007-03-07 | 1y 4m |
 | TUV | 2007-12-07 | active | — | 264 | 2009-06-04 | 1y 6m |
 | NI21 | 2013-06-06 | dissolved | 2016-11-03 | 49 | 2014-05-22 | 0y 11m |
 
-14,149 of 23,920 party candidacies (59.2%) now belong to a party with a recorded
+14,257 of 23,920 party candidacies (59.6%) now belong to a party with a recorded
 lifespan. A further 5,777 of the 29,697 total are not party candidacies at all —
 independents, referendum Yes/No rows, and the non-party banners.
 
@@ -93,6 +94,18 @@ The `Green` string is scoped by body because it carries **264 candidacies in
 `dail-eireann` and `ireland-european`** that belong to the Green Party in the Republic —
 a separate organisation, with no dates supplied here. Those are left unattributed rather
 than silently folded into the NI party.
+
+**`PBP` is deliberately not scoped that way**, and the contrast is the point. Its 108
+candidacies split 75 on NI bodies and 33 in `dail-eireann` / `ireland-european`, but
+People Before Profit organises across both jurisdictions as one party, so both are
+attributed to the single entry. Cross-jurisdiction usage of a string is therefore not by
+itself a reason to split — whether the organisations are the same is. If PBP should in
+fact be two entries, it needs splitting the way Green does.
+
+`Solidarity-PBP` (86 candidacies, 2019–2024, `dail-eireann` and `ireland-european` only)
+is **not** included in the PBP entry: it is the joint ticket registered with Solidarity,
+and a joint ticket is its own registration rather than the component party — the same
+treatment `UCUNF` gets, and consistent with how `endorsed_by` treats joint tickets.
 
 ## Validating
 
