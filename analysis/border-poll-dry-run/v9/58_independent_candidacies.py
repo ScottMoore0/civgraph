@@ -108,6 +108,7 @@ def load():
                 rows.append({
                     'year': year, 'date': date, 'body': NI_BODIES[body],
                     'byelection': byel, 'contest': title, 'area': str(r['constituency']).strip(),
+                    'council': (c.get('district') or '').strip(),
                     'name': (c.get('name') or '?').strip(),
                     'party': (c.get('party') or '').strip(), 'tier': t,
                     'votes': fp, 'valid': tot, 'seats': seats,
@@ -174,6 +175,22 @@ def totals():
                         'indB_pct': 100 * ib / va,
                         'indAB_pct': 100 * (ia + ib) / va})
     return pd.DataFrame(out).sort_values(['year', 'body'])
+
+
+SLUG = re.compile(r'^lg\d\d-([A-Za-z]+)-(.*)$')
+COUNCIL_ABBR = {'NaM': 'Newry and Mourne', 'NoD': 'North Down'}
+
+
+def tidy_area(area, council=''):
+    """Some local DEAs are unmatched source slugs (lg93-NoD-Ballyholme-&-Groomsport,
+    lg73-NaM-Area-C) or carry a trailing 'corrected'. Render them readably; the raw
+    value is preserved in the `area` column."""
+    a = str(area).strip()
+    m = SLUG.match(a)
+    if m:
+        a = m.group(2).replace('-', ' ').replace('&', 'and')
+    a = re.sub(r'\s+corrected$', '', a, flags=re.I)
+    return a
 
 
 def show(df, n, cols, title, by='share'):
