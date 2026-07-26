@@ -10,7 +10,8 @@
     "window": "Membership is the half-open interval [founded, dissolved). A candidacy dated exactly on the dissolution date belongs to the SUCCESSOR, not the dissolved party, so that a same-day handover has no gap and no overlap.",
     "corruptedStrings": "Party strings that are data defects but unambiguously belong to this organisation. Kept separate so the defect stays visible rather than being silently normalised away.",
     "source": "Where the dates came from. Required — an uncited lifespan is not usable.",
-    "predecessor / successor": "Slugs of related organisations, for continuity questions. Absent means not recorded, not that none exists."
+    "predecessor / successor": "A SUCCESSION: the predecessor ends and the successor begins, same lineage. The two dates must match exactly, and the registry enforces that.",
+    "splitFrom": "A SPLIT, which is not a succession: the parent organisation CONTINUES and the child branches off it. No date equality is implied or checked; the registry only requires that the parent existed on the child's founding date. Using predecessor/successor for a split would wrongly assert that the parent ended."
   },
   "parties": [
     {
@@ -91,6 +92,20 @@
       "source": "supplied by repository owner, 2026-07-26",
       "confidence": "high",
       "notes": "Status is 'unknown', not 'active': a founding date was supplied but no dissolution date, and the party's last candidacy in the data is 2007-03-07, so no inference either way is recorded. 'UK Unionist Party' is the same organisation under a second string, used only by the local-government dataset (22 candidacies, 1997-2005). Robert McCartney's 1995-06-15 North Down by-election candidacy carries the string 'UKUP' ten months before this founding date, and is reported as a contradiction; the party was constituted after that by-election, so the label appears to have been applied retrospectively. The Northern Ireland Unionist Party ('NI Unionist Party', 'Northern Ireland Unionist Party', 2001-2003) split from the UKUP in 1999 and is a separate organisation with no dates supplied; it is not attributed here."
+    },
+    {
+      "id": "niup",
+      "name": "Northern Ireland Unionist Party",
+      "shortName": "NIUP",
+      "founded": "1999-01-15",
+      "foundedPrecision": "day",
+      "dissolved": "2008-03-10",
+      "status": "dissolved",
+      "splitFrom": "ukup",
+      "partyStrings": ["NI Unionist Party", "Northern Ireland Unionist Party"],
+      "source": "supplied by repository owner, 2026-07-26",
+      "confidence": "high",
+      "notes": "A SPLIT from the UKUP, not a succession: the UKUP continued and contested until 2007, so predecessor/successor would wrongly assert that it ended in 1999. Two strings, both this organisation: 'NI Unionist Party' (4 candidacies, 2001 Westminster and 2003 Assembly) and 'Northern Ireland Unionist Party' (8, 2001 local government). All 12 fall inside the window. The party's last candidacy is 2003-11-26, more than four years before dissolution — a gap that is invisible to the derived lastYear, which would have reported 2003 as the end."
     },
     {
       "id": "pbp",

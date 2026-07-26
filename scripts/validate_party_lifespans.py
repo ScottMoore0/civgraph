@@ -86,7 +86,7 @@ def load():
             problems.append(f"{p['id']}: dissolved precedes founded")
         if not p.get('source'):
             problems.append(f"{p['id']}: no source")
-        for rel in ('predecessor', 'successor'):
+        for rel in ('predecessor', 'successor', 'splitFrom'):
             if p.get(rel) and p[rel] not in by_id:
                 problems.append(f"{p['id']}: {rel} {p[rel]!r} is not a known party id")
         entries = list(p.get('partyStrings') or []) + \
@@ -102,13 +102,21 @@ def load():
                         f"string {s!r} claimed by {other['id']} and {p['id']} with "
                         f"overlapping windows and bodies")
             index[s].append((p, bodies))
-    # succession consistency
+    # A SUCCESSION must hand over on the day: predecessor ends when successor begins.
     for p in parties:
         s = p.get('successor')
         if s and by_id[s].get('founded') != p.get('dissolved'):
             problems.append(f"{p['id']} -> successor {s}: dissolution "
                             f"{p.get('dissolved')} != successor founding "
                             f"{by_id[s].get('founded')} (gap or overlap in the handover)")
+    # A SPLIT is different: the parent continues, so no date equality is implied. The
+    # only thing that must hold is that the parent existed when the child broke away.
+    for p in parties:
+        par = p.get('splitFrom')
+        if par and not covers(by_id[par], p['founded']):
+            problems.append(f"{p['id']} splitFrom {par}: parent did not exist on "
+                            f"{p['founded']} (parent window "
+                            f"[{by_id[par]['founded']}..{by_id[par].get('dissolved') or '—'}))")
     return parties, index, problems
 
 

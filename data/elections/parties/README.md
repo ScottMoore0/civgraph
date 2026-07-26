@@ -58,18 +58,41 @@ date. Every entry so far is `day`.
 | Ecology (NI) | 1981-05-20 | **dissolved** | 1990-02-12 | 13 | 1981-05-20 | 0y 0m |
 | Green (NI) | 1990-02-12 | active | — | 263 | 1990-05-17 | 0y 3m |
 | UKUP | 1996-04-20 | **unknown** | — | 74 | 1996-05-30 | 0y 1m |
+| NIUP | 1999-01-15 | dissolved | 2008-03-10 | 12 | 2001-06-07 | 2y 4m |
 | PBP | 2005-10-21 | active | — | 108 | 2007-03-07 | 1y 4m |
 | TUV | 2007-12-07 | active | — | 264 | 2009-06-04 | 1y 6m |
 | NI21 | 2013-06-06 | dissolved | 2016-11-03 | 49 | 2014-05-22 | 0y 11m |
 
-14,331 of 23,920 party candidacies (59.9%) now belong to a party with a recorded
+14,343 of 23,920 party candidacies (60.0%) now belong to a party with a recorded
 lifespan. A further 5,777 of the 29,697 total are not party candidacies at all —
 independents, referendum Yes/No rows, and the non-party banners.
 
 The UUP and Sinn Féin gaps are large for ordinary reasons: there was no Northern Ireland
 parliament to contest before 1921, and the dataset's earliest contest is 1918.
 
-## Succession, and strings shared between two parties
+## Succession versus split
+
+These are different relationships and the schema keeps them apart, because conflating
+them asserts something false.
+
+| field | meaning | what the registry enforces |
+|---|---|---|
+| `predecessor` / `successor` | a **succession** — the predecessor ends, the successor begins | the two dates must match **exactly** |
+| `splitFrom` | a **split** — the parent **continues**, the child branches off | only that the parent existed on the child's founding date |
+
+Ecology → Green is a succession: Ecology dissolved on 1990-02-12 and Green was founded
+the same day. NIUP is a **split** from the UKUP: the UKUP carried on and contested until
+2007, so recording it as a succession would wrongly assert the UKUP ended in 1999.
+
+Both checks are live rather than decorative — moving NIUP's founding to 1994 makes the
+validator report *"niup splitFrom ukup: parent did not exist on 1994-01-15 (parent
+window [1996-04-20..—))"*.
+
+NIUP also shows why `status` matters: its last candidacy is 2003-11-26, more than four
+years before it dissolved in 2008. The derived `lastYear` would have reported 2003 as
+the end of the party.
+
+## Strings shared between two parties
 
 Membership is the **half-open interval `[founded, dissolved)`**. A candidacy dated
 exactly on a dissolution date belongs to the **successor**, so a same-day handover —
