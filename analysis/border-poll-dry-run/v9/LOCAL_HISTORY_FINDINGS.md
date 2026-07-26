@@ -165,3 +165,28 @@ the most volatile party in the system (median σ 10.85). Any floor inferred from
 That is the strongest available argument for the conclusion already reached: use the
 long series for **volatility**, which is a property of an area, and treat **floors as
 conditional on the party system**, which is not.
+
+---
+
+# Update 2 — the 2011 gain does not survive the deciding metric
+
+Phase 47 found local 2011 improved the DEA share model (TVD 15.46 → 15.09) under
+**leave-one-contest-out**. Wiring it into `17_` properly — notional rows used for
+training only, never scored, with the scoring filter verified by the persistence
+baseline being identical at 15.56 either way — gives the opposite result under
+**leave-one-COUNCIL-out**, the spatially blocked design this model treats as deciding:
+
+| design | without 2011 | with 2011 |
+|---|--:|--:|
+| leave-one-contest-out (phase 47) | 15.46 | **15.09** |
+| **leave-one-council-out (deciding)** | **15.16** | 16.07 |
+
+The two designs disagree because under council blocking the notional rows for a
+held-out council are held out too, while notional rows for *other* councils remain in
+training as modelled data — adding noise without adding local evidence.
+
+**Default is therefore OFF** (`PARTY_NOTIONAL_2011=1` to reproduce). This is the same
+failure mode recorded twice already in this workstream: **a gain measured under a
+weaker design not surviving the stronger one.** It is the third time, and the pattern
+is now the finding — any historic-contest gain should be established under the
+spatially blocked design before adoption, never under contest blocking alone.

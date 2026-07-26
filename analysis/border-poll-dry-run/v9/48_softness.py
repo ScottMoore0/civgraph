@@ -115,8 +115,11 @@ def main():
         tot = sum(v for (ss, _), v in raw.items() if ss == s)
         print(f"  {s:14} {100*sum(M[s].get(b,0) for b in BLOC):17.1f}% "
               f"{100*M[s].get('DidNotVote',0):16.1f}%   {tot:.0f}")
+    # encoding= is NOT optional here: the party names contain non-ASCII
+    # ("Sinn Fein", "Aontu") and the platform default is cp1252 on Windows. The
+    # same omission broke 6_ and 8_ earlier in this workstream.
     json.dump({k: v for k, v in M.items()},
-              open(os.path.join(HERE, 'switching_matrix.json'), 'w'),
+              open(os.path.join(HERE, 'switching_matrix.json'), 'w', encoding='utf-8'),
               ensure_ascii=False, indent=1)
 
     # ---------------- softness-weighted seat ranking ----------------

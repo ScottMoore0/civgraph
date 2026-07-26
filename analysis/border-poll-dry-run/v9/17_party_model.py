@@ -37,6 +37,13 @@ ALPHA = 50.0
 EPS = float(os.environ.get('PARTY_EPS', '0.5'))
 # competitive-field features (phase 26); set PARTY_FIELD_FEATURES=0 to disable
 FIELD_FEATURES = os.environ.get('PARTY_FIELD_FEATURES', '1') != '0'
+# The local-2011 notional (pre-2014 result expressed on modern DEAs). Phase 47 found
+# it improved the DEA model under leave-one-CONTEST-out (15.46 -> 15.09), but under
+# leave-one-COUNCIL-out -- the spatially blocked design this model treats as
+# DECIDING -- it makes things worse (15.16 -> 16.07), with notional rows used for
+# training only and never scored. The gain was design-dependent, so the default is
+# OFF. Set PARTY_NOTIONAL_2011=1 to enable and reproduce the comparison.
+NOTIONAL_2011 = os.environ.get('PARTY_NOTIONAL_2011', '0') != '0'
 
 PARTIES = ['DUP', 'Sinn Féin', 'UUP', 'SDLP', 'Alliance', 'TUV', 'Green', 'PBP',
            'Aontú', 'Independent', 'Other']
@@ -110,7 +117,29 @@ def build(scale):
                        st.sum(axis=1, keepdims=True).astype(float)])
     meta['contest_year'] = meta.contest + meta.year.astype(str)
     meta['council'] = meta.area.map(dea2council) if scale == 'dea' else meta.area
-    return share.values, stood.values, X, meta, cens_dea.columns.tolist()
+    meta['is_notional'] = False
+    Sv, stv_, Xv = share.values, stood.values, X
+    if scale == 'dea' and NOTIONAL_2011:
+        nf = os.path.join(HERE, 'notional', 'local2011__onDEA2014.csv')
+        if os.path.exists(nf):
+            n = pd.read_csv(nf, index_col=0)
+            lut = {str(a).upper().strip(): a for a in cens_dea.index}
+            keep = [a for a in n.index if a in lut]
+            if keep:
+                Xn = cens_dea.loc[[lut[a] for a in keep]].values.astype(float)
+                if X.shape[1] > Xn.shape[1]:
+                    Xn = np.hstack([Xn, np.tile(X[:, Xn.shape[1]:].mean(axis=0),
+                                                (len(keep), 1))])
+                Sv = np.vstack([Sv, n.loc[keep, PARTIES].values])
+                stv_ = np.vstack([stv_, np.ones((len(keep), len(PARTIES)), bool)])
+                Xv = np.vstack([Xv, Xn])
+                meta = pd.concat([meta, pd.DataFrame(
+                    {'contest': 'local', 'year': 2011, 'area': keep,
+                     'valid_poll': float(meta.valid_poll.median()),
+                     'contest_year': 'local2011', 'is_notional': True,
+                     'council': [dea2council.get(lut[a], 'NOTIONAL') for a in keep]},
+                    index=[f'local2011||{a}' for a in keep])])
+    return Sv, stv_, Xv, meta, cens_dea.columns.tolist()
 
 
 def clr(S, eps=EPS):
@@ -151,6 +180,11 @@ def cv_share(S, stood, X, meta, groups, use_true_presence=True, pres_pred=None):
 
 
 def score(pred, S, meta, label):
+    # Notional rows are TRAINING material only. Scoring them would compare the model
+    # against a mosaic the model itself produced, and drags the average toward rows
+    # that were never observed.
+    keep = ~meta.get('is_notional', pd.Series(False, index=meta.index)).values
+    pred, S = pred[keep], S[keep]
     err = np.abs(pred - S)
     tvd = 0.5 * err.sum(axis=1)
     print(f"  {label:26} TVD med={np.median(tvd):5.2f}  mean={tvd.mean():5.2f} pts")
