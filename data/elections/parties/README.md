@@ -57,7 +57,7 @@ date. Every entry so far is `day`.
 | DUP | 1971-09-30 | active | — | 2,752 | 1973-05-30 | 1y 8m |
 | Ecology (NI) | 1981-05-20 | **dissolved** | 1990-02-12 | 13 | 1981-05-20 | 0y 0m |
 | Green (NI) | 1990-02-12 | active | — | 263 | 1990-05-17 | 0y 3m |
-| UKUP | 1996-04-20 | **unknown** | — | 74 | 1996-05-30 | 0y 1m |
+| UKUP | 1996-04-20 | dissolved | 2008-09-04 | 74 | 1996-05-30 | 0y 1m |
 | NIUP | 1999-01-15 | dissolved | 2008-03-10 | 12 | 2001-06-07 | 2y 4m |
 | PBP | 2005-10-21 | active | — | 108 | 2007-03-07 | 1y 4m |
 | TUV | 2007-12-07 | active | — | 264 | 2009-06-04 | 1y 6m |
@@ -88,9 +88,13 @@ Both checks are live rather than decorative — moving NIUP's founding to 1994 m
 validator report *"niup splitFrom ukup: parent did not exist on 1994-01-15 (parent
 window [1996-04-20..—))"*.
 
-NIUP also shows why `status` matters: its last candidacy is 2003-11-26, more than four
-years before it dissolved in 2008. The derived `lastYear` would have reported 2003 as
-the end of the party.
+The parent and the splinter both wound up in 2008, six months apart — NIUP on 10 March,
+the UKUP on 4 September — which the `splitFrom` link now makes visible as a single
+story rather than two unrelated rows.
+
+Both also show why `status` matters. NIUP's last candidacy is 2003-11-26, more than four
+years before it dissolved; the UKUP's is 2007-03-07, eighteen months before. The derived
+`lastYear` would have reported those parties as ending in 2003 and 2007.
 
 ## Strings shared between two parties
 
