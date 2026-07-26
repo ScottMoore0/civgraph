@@ -31,6 +31,12 @@ That is what separates same-named organisations:
 | `Green / Ecology` | from 1990-02-12 | `green-party-ni` |
 | `Progressive Unionist` | 1938 | `progressive-unionist-1938` |
 | `PUP` | 1979– | `pup` |
+| `Vanguard Unionist Progressive Party` | 1972–78 | `vanguard` |
+| `Vanguard Unionist Progressive Party` | 1982–87 | `vanguard-1982` |
+
+The two Vanguard entities carry an **identical `name`** and differ only by id — the case
+the scheme exists for. They share one alias string and are separated by their lifespans
+alone, which are disjoint.
 
 And it merges what should be merged: `UKUP` with `UK Unionist Party`, `Workers' Party`
 with `Workers Party`, `Protestant Unionist` with `Protestant Unionist Party`.
@@ -126,6 +132,7 @@ date. Every entry so far is `day`.
 | SDLP | 1970-08-21 | active | — | 2,438 | 1973-05-30 | 2y 9m |
 | DUP | 1971-09-30 | active | — | 2,752 | 1973-05-30 | 1y 8m |
 | Vanguard | 1972-02-09 | dissolved | 1978-02-20 | 92 | 1973-05-30 | 1y 3m |
+| Vanguard (1982) | 1982-08-30 | dissolved | 1987-05-27 | 3 | 1982-10-20 | 0y 1m |
 | Ecology (NI) | 1981-05-20 | **dissolved** | 1990-02-12 | 13 | 1981-05-20 | 0y 0m |
 | Green (NI) | 1990-02-12 | active | — | 263 | 1990-05-17 | 0y 3m |
 | UKUP | 1996-04-20 | dissolved | 2008-09-04 | 74 | 1996-05-30 | 0y 1m |
@@ -150,6 +157,7 @@ them asserts something false.
 |---|---|---|
 | `predecessor` / `successor` | a **succession** — the predecessor ends, the successor begins | the two dates must match **exactly** |
 | `splitFrom` | a **split** — the parent **continues**, the child branches off | only that the parent existed on the child's founding date |
+| `revivalOf` | a **revival** — a dissolved name taken up again after a **gap** | the earlier entity must be dissolved on or before this one's founding |
 
 Ecology → Green is a succession: Ecology dissolved on 1990-02-12 and Green was founded
 the same day. NIUP is a **split** from the UKUP: the UKUP carried on and contested until
@@ -216,7 +224,7 @@ python scripts/validate_party_lifespans.py --wanted 40
 Four checks:
 
 1. **Contradiction** — the string is claimed for that body, but no party's window covers
-   the date. Currently **6**, and they fall into two opposite kinds.
+   the date. Currently **3**, all of one kind.
 
    **Before founding — the label applied retrospectively:**
 
@@ -231,23 +239,18 @@ Four checks:
    the later party name backwards — the same behaviour visible in `Green / Ecology`, a
    merged label spanning two organisations.
 
-   **After dissolution — the label outliving the organisation:**
+   **After dissolution — resolved.** The three 1982 Vanguard candidacies (William Craig
+   in Belfast East, John Dunlop and Robert Overend in Mid Ulster) were contradictions
+   until the revived party was recorded as `vanguard-1982` (1982-08-30 – 1987-05-27).
+   They now resolve to it, which is what a second entity under the same name is for.
 
-   | date | contest | candidate | string | dissolved | late by |
-   |---|---|---|---|---|---|
-   | 1982-10-20 | Assembly, Belfast East | William Craig | `Vanguard…` | 1978-02-20 | 4y 8m |
-   | 1982-10-20 | Assembly, Mid Ulster | John Dunlop | `Vanguard…` | 1978-02-20 | 4y 8m |
-   | 1982-10-20 | Assembly, Mid Ulster | Robert Overend | `Vanguard…` | 1978-02-20 | 4y 8m |
-
-   Craig founded Vanguard, so this is not a mis-attribution: three men genuinely stood
-   under a dead party's banner four and a half years after it wound up.
-
-   Taken together: **a `party` string is not reliable evidence of what a candidate stood
-   as at the time**, and it errs in both directions — too early for parties that later
-   formed, too late for parties that had already dissolved. Any analysis treating the
-   string as contemporaneous will overstate a party's active span at both ends. All six
-   are visible only because the dates are explicit; the derived `firstYear`/`lastYear`
-   would have reported 1987–2024 for Green and 1973–1982 for Vanguard without comment.
+   **A `party` string is not reliable evidence of what a candidate stood as at the
+   time.** It has erred in both directions here — too early for parties that later formed
+   (these three), too late for one that had dissolved (Vanguard, until the revival was
+   recorded). Any analysis treating the string as contemporaneous will overstate a
+   party's active span. None of this is visible without explicit dates: the derived
+   `firstYear`/`lastYear` would have reported 1987–2024 for Green and 1973–1982 for
+   Vanguard without comment.
 
 2. **Ambiguity** — more than one party's window covers a candidacy. A registry bug, not
    a data finding. Currently 0.

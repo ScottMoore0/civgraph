@@ -86,7 +86,7 @@ def load():
             problems.append(f"{p['id']}: dissolved precedes founded")
         if not p.get('source'):
             problems.append(f"{p['id']}: no source")
-        for rel in ('predecessor', 'successor', 'splitFrom'):
+        for rel in ('predecessor', 'successor', 'splitFrom', 'revivalOf'):
             if p.get(rel) and p[rel] not in by_id:
                 problems.append(f"{p['id']}: {rel} {p[rel]!r} is not a known party id")
         entries = list(p.get('partyStrings') or []) + \
@@ -117,6 +117,19 @@ def load():
             problems.append(f"{p['id']} splitFrom {par}: parent did not exist on "
                             f"{p['founded']} (parent window "
                             f"[{by_id[par]['founded']}..{by_id[par].get('dissolved') or '—'}))")
+    # A REVIVAL requires a GAP: the earlier organisation must already have ended. If the
+    # dates touch exactly it is a succession, and if they overlap it is neither.
+    for p in parties:
+        par = p.get('revivalOf')
+        if not par:
+            continue
+        prev = by_id[par]
+        if not prev.get('dissolved'):
+            problems.append(f"{p['id']} revivalOf {par}: {par} has no dissolution date, "
+                            f"so there is nothing to revive")
+        elif prev['dissolved'] > p['founded']:
+            problems.append(f"{p['id']} revivalOf {par}: {par} was still alive at "
+                            f"{p['founded']} (dissolved {prev['dissolved']})")
     return parties, index, problems
 
 
