@@ -28,7 +28,24 @@
         "Unionist Party of Northern Ireland",
         "UUUP"
       ],
-      "comment": "'UK Unionist Party' is the same party as 'UKUP'; 'Northern Ireland Unionist Party' is the same party as 'NI Unionist Party'; 'UUUP' is the United Ulster Unionist Party. NOT included: 'Progressive Unionist' (1938 Stormont only, a different party from the PUP founded 1979), 'Protestant Unionist' / 'Protestant Unionist Party' (Paisley's pre-DUP party), 'Unionist' (1918, Irish Unionist Alliance), 'Ind. Unionist Party', 'Unofficial Unionist', 'South Belfast Unionists', 'Labour Unionist', 'Irish Unionist', and three 1989 Ballymoney Town records whose party field contains an occupation ('Shopkeeper, Ulster Unionist', 'Businssman Ulster Unionist', 'DUP Civil Servant (Retired)')."
+      "comment": "'UK Unionist Party' is the same party as 'UKUP'; 'Northern Ireland Unionist Party' is the same party as 'NI Unionist Party'; 'UUUP' is the United Ulster Unionist Party. Still NOT included: 'Progressive Unionist' (1938 Stormont only, a different party from the PUP founded 1979), 'Ind. Unionist Party', 'Unofficial Unionist', 'South Belfast Unionists', 'Labour Unionist', 'Irish Unionist'."
+    },
+    {
+      "id": "unionist-parties-added",
+      "labels": ["unionist", "pro-union"],
+      "partyStrings": ["Protestant Unionist", "Protestant Unionist Party", "Unionist"],
+      "comment": "Added on instruction. 'Protestant Unionist Party' is the same party as 'Protestant Unionist' -- Paisley's pre-DUP party -- and appears on the two 1970 Westminster candidacies of Ian Paisley (North Antrim) and William Beattie (Belfast North), with the shorter string on eight 1969-70 Stormont candidacies. 'Unionist' is 33 candidacies, all at the 1918 general election, i.e. the Irish Unionist Alliance."
+    },
+    {
+      "id": "unionist-corrupted-strings",
+      "labels": ["unionist", "pro-union"],
+      "partyStrings": [
+        "Shopkeeper, Ulster Unionist",
+        "Businssman Ulster Unionist",
+        "DUP Civil Servant (Retired)",
+        "United Loy DUP"
+      ],
+      "comment": "Four records whose party field is corrupted, labelled on instruction. The first three are 1989 Ballymoney Town and carry the candidate's occupation in the party field: James Johnston McKeown and James Simpson are Ulster Unionist ('Businssman' is the source's typo), Samuel McConaghie is DUP. The fourth is Samuel J. Martin, 1977 Larne Area A. Each string occurs exactly once, so this rule affects exactly four candidacies. The underlying party field is left uncorrected -- this rule labels around the defect rather than hiding it."
     },
     {
       "id": "nationalist-parties",

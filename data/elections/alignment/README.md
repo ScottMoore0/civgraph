@@ -19,14 +19,14 @@ Vocabulary: `unionist`, `pro-union`, `nationalist`, `pro-unity`, `republican`, `
 
 | labels | parties |
 |---|---|
-| `unionist`, `pro-union` | DUP, UUP, TUV, PUP, UKUP *(also as `UK Unionist Party`)*, NI Unionist Party *(also as `Northern Ireland Unionist Party`)*, Vanguard Unionist Progressive Party, Ulster Popular Unionist Party, Unionist Party of Northern Ireland, UUUP |
+| `unionist`, `pro-union` | DUP, UUP, TUV, PUP, UKUP *(also as `UK Unionist Party`)*, NI Unionist Party *(also as `Northern Ireland Unionist Party`)*, Vanguard Unionist Progressive Party, Ulster Popular Unionist Party, Unionist Party of Northern Ireland, UUUP, Protestant Unionist *(also as `Protestant Unionist Party`)*, Unionist, and four records with a corrupted party field |
 | `nationalist`, `pro-unity` | SDLP, Nationalist Party *(NI bodies only)* |
 | `nationalist`, `pro-unity`, `republican` | Sinn Féin, Aontú |
 | `pro-unity`, `republican` | PBP |
 | `other` | Alliance, from the 1998 Assembly election (1998-06-25) onward |
 | `pro-union` | Alliance, before 1998-06-25 |
 
-14,730 of 29,697 candidacies are labelled (49.6%). The unlabelled remainder is mostly
+14,777 of 29,697 candidacies are labelled (49.8%). The unlabelled remainder is mostly
 parties in the Republic, referendum Yes/No rows, and independents.
 
 ## Applying it
@@ -63,15 +63,12 @@ northern-ireland-assembly__2022-05-05,North Down,12345,Alex Easton,Independent U
 ## What was deliberately *not* labelled
 
 Party strings are matched **exactly**. Near-misses are never folded in silently —
-`alignment_review.csv` lists all 217 unlabelled strings with candidacy counts, bodies
-and a suggested action, 47 of them flagged as needing a decision. The judgement calls
+`alignment_review.csv` lists all 210 unlabelled strings with candidacy counts, bodies
+and a suggested action, 41 of them flagged as needing a decision. The judgement calls
 worth knowing about:
 
 - **`Progressive Unionist`** (10 candidacies, 1938 Stormont only) is *not* the PUP,
-  which was founded in 1979.
-- **`Protestant Unionist` / `Protestant Unionist Party`** (Paisley and Beattie,
-  1969–70) is the pre-DUP party and was not in the supplied list.
-- **`Unionist`** (33, 1918 Dáil) is the Irish Unionist Alliance.
+  which was founded in 1979, and remains unlabelled.
 - **`Nationalist Party`** on 59 `dail-eireann` candidacies (1918–22) is the Irish
   Parliamentary Party, a different organisation from the NI Nationalist Party — hence
   the NI-body scope on that rule.
@@ -79,11 +76,6 @@ worth knowing about:
   and **`Sinn Féin Workers'`** are distinct parties from Sinn Féin.
 - **`Solidarity-PBP`** (86, 2019–24) is the separate joint ticket registered in the
   Republic, not PBP.
-- **Three 1989 Ballymoney Town records** have an occupation in the party field —
-  `Shopkeeper, Ulster Unionist`, `Businssman Ulster Unionist` *(sic)*,
-  `DUP Civil Servant (Retired)` — plus `United Loy DUP` (1977 Larne Area A). These are
-  almost certainly UUP and DUP candidates behind a corrupted string, but they are left
-  unlabelled rather than guessed; they are one override row each if you want them set.
 - `Ind. Unionist Party`, `Unofficial Unionist`, `South Belfast Unionists`,
   `Labour Unionist`, `Irish Unionist` — minor or one-off labels, not in the list.
 
@@ -95,3 +87,21 @@ worth knowing about:
 | `alignment_overrides.csv` | per-candidacy overrides, for independents and anything else |
 | `alignment_review.csv` | generated — every unlabelled party string, for triage |
 | `alignment_coverage.csv` | generated — what each labelled string received |
+
+## Labelled despite a corrupted source field
+
+Four records carry something other than a party in the `party` field and are labelled
+`unionist` + `pro-union` by the `unionist-corrupted-strings` rule. The underlying field
+is deliberately left uncorrected, so the rule labels around the defect rather than
+hiding it:
+
+| party string | contest | candidate | actual party |
+|---|---|---|---|
+| `Shopkeeper, Ulster Unionist` | 1989 Ballymoney Town | James Johnston McKeown | UUP |
+| `Businssman Ulster Unionist` *(sic)* | 1989 Ballymoney Town | James Simpson | UUP |
+| `DUP Civil Servant (Retired)` | 1989 Ballymoney Town | Samuel McConaghie | DUP |
+| `United Loy DUP` | 1977 Larne Area A | Samuel J. Martin | DUP |
+
+Ian Paisley appears under both `Protestant Unionist` (1969 Stormont, Bannside) and
+`Protestant Unionist Party` (1970 Westminster, North Antrim), which is why both strings
+are treated as the same party.
