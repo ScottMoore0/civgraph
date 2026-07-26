@@ -55,15 +55,44 @@ date. Every entry so far is `day`.
 | Alliance | 1970-04-21 | active | — | 1,757 | 1973-05-30 | 3y 1m |
 | SDLP | 1970-08-21 | active | — | 2,438 | 1973-05-30 | 2y 9m |
 | DUP | 1971-09-30 | active | — | 2,752 | 1973-05-30 | 1y 8m |
+| Ecology (NI) | 1981-05-20 | **dissolved** | 1990-02-12 | 13 | 1981-05-20 | 0y 0m |
+| Green (NI) | 1990-02-12 | active | — | 263 | 1990-05-17 | 0y 3m |
 | TUV | 2007-12-07 | active | — | 264 | 2009-06-04 | 1y 6m |
 | NI21 | 2013-06-06 | dissolved | 2016-11-03 | 49 | 2014-05-22 | 0y 11m |
 
-13,873 of 23,920 party candidacies (58.0%) now belong to a party with a recorded
+14,149 of 23,920 party candidacies (59.2%) now belong to a party with a recorded
 lifespan. A further 5,777 of the 29,697 total are not party candidacies at all —
 independents, referendum Yes/No rows, and the non-party banners.
 
 The UUP and Sinn Féin gaps are large for ordinary reasons: there was no Northern Ireland
 parliament to contest before 1921, and the dataset's earliest contest is 1918.
+
+## Succession, and strings shared between two parties
+
+Membership is the **half-open interval `[founded, dissolved)`**. A candidacy dated
+exactly on a dissolution date belongs to the **successor**, so a same-day handover —
+Ecology dissolving on 1990-02-12, Green founded on 1990-02-12 — has neither a gap nor an
+overlap. The registry checks that `predecessor`/`successor` pairs line up on the day.
+
+A party string **may be claimed by two parties** provided their windows are disjoint.
+That is what makes succession expressible, and the Ecology/Green case needs it:
+
+| string | used by | spans | resolves to |
+|---|---|---|---|
+| `Ecology` | Assembly, Westminster, European | 1982–1984 | Ecology only |
+| `Green / Ecology` | **local-government only** | 1981–2011 | **split by date** — 9 to Ecology, 49 to Green |
+| `Green` | NI bodies | 1987–2024 | Green (NI) |
+| `Green` | `dail-eireann`, `ireland-european` | 1984–2024 | **deliberately unattributed** |
+
+`Green / Ecology` is not a contemporary party name — it appears on 58 candidacies, all
+of them in the local-government dataset, spanning thirty years across both
+organisations, while the same era's Assembly and Westminster contests use `Ecology` and
+then `Green`. It is a compiler's merged label, and only the date can resolve it.
+
+The `Green` string is scoped by body because it carries **264 candidacies in
+`dail-eireann` and `ireland-european`** that belong to the Green Party in the Republic —
+a separate organisation, with no dates supplied here. Those are left unattributed rather
+than silently folded into the NI party.
 
 ## Validating
 
@@ -72,14 +101,28 @@ python scripts/validate_party_lifespans.py
 python scripts/validate_party_lifespans.py --wanted 40
 ```
 
-Three checks:
+Four checks:
 
-1. **Contradiction** — any candidacy dated before its party was founded or after it was
-   dissolved. Either the lifespan is wrong or the party string is being used for
-   something that is not that organisation. Currently **0**.
-2. **Gap** — founding to first recorded contest. A very large gap suggests the string is
+1. **Contradiction** — the string is claimed for that body, but no party's window covers
+   the date. Currently **2**, both real:
+
+   | date | contest | candidate | string |
+   |---|---|---|---|
+   | 1987-06-11 | Westminster, East Londonderry | Malcolm Samuel | `Green` |
+   | 1989-06-15 | European, Northern Ireland | Malcolm Samuel | `Green` |
+
+   Both predate the Green Party's founding on 1990-02-12, by three years and by eight
+   months. The likely explanation is that the dataset normalised Samuel's label to
+   `Green` retrospectively when contemporaneously he stood as Ecology — the same
+   compiler behaviour visible in `Green / Ecology`. The alternative, that the 1990 date
+   marks a renaming rather than a founding, would also fit. Either way the registry is
+   surfacing a real question rather than hiding it.
+
+2. **Ambiguity** — more than one party's window covers a candidacy. A registry bug, not
+   a data finding. Currently 0.
+3. **Gap** — founding to first recorded contest. A very large gap suggests the string is
    matched too broadly, or that early contests are missing.
-3. **Unrecorded** — party strings with candidacies and no entry, ranked by volume, in
+4. **Unrecorded** — party strings with candidacies and no entry, ranked by volume, in
    `lifespan_wanted.csv`. Strings that are not organisations (`Yes`, `No`,
    `Independent*`, `Unity`, `Anti H-Block`) are excluded — asking for a founding date for
    a referendum option would be a category error.

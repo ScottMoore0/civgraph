@@ -6,7 +6,8 @@
     "foundedPrecision": "day | month | year — a party known only to a year is recorded as YYYY-01-01 with precision 'year', never as a false exact date.",
     "dissolved": "ISO date, or null. Null is only meaningful in combination with `status`.",
     "status": "active | dissolved | unknown. This is the field that removes the ambiguity in the derived lastYear: 'active' means the party still exists and a null `dissolved` is a positive fact; 'unknown' means no dissolution date is recorded and none should be inferred; 'dissolved' requires a date. A party that stopped contesting is NOT thereby dissolved, and a party whose label appears after its dissolution is not thereby still alive.",
-    "partyStrings": "Exact `party` values in the election data that belong to this organisation. Used to join the lifespan to candidacies.",
+    "partyStrings": "Exact `party` values in the election data that belong to this organisation. Either a plain string, or an object {string, bodies} restricting it to certain bodySlug values. A string MAY be claimed by more than one party when their date windows are disjoint — that is how a succession is modelled, and the date then decides which organisation a candidacy belongs to.",
+    "window": "Membership is the half-open interval [founded, dissolved). A candidacy dated exactly on the dissolution date belongs to the SUCCESSOR, not the dissolved party, so that a same-day handover has no gap and no overlap.",
     "corruptedStrings": "Party strings that are data defects but unambiguously belong to this organisation. Kept separate so the defect stays visible rather than being silently normalised away.",
     "source": "Where the dates came from. Required — an uncited lifespan is not usable.",
     "predecessor / successor": "Slugs of related organisations, for continuity questions. Absent means not recorded, not that none exists."
@@ -89,6 +90,40 @@
       "partyStrings": ["TUV"],
       "source": "supplied by repository owner, 2026-07-26",
       "confidence": "high"
+    },
+    {
+      "id": "ecology-party-ni",
+      "name": "Ecology Party (Northern Ireland)",
+      "shortName": "Ecology",
+      "founded": "1981-05-20",
+      "foundedPrecision": "day",
+      "dissolved": "1990-02-12",
+      "status": "dissolved",
+      "successor": "green-party-ni",
+      "partyStrings": [
+        "Ecology",
+        {"string": "Green / Ecology", "bodies": ["local-government"]}
+      ],
+      "source": "PROVISIONAL — supplied by repository owner 2026-07-26 as a working value pending confirmation",
+      "confidence": "provisional",
+      "notes": "The founding date is the date of the 1981 local elections, which is when the Ecology label first appears in the data (Malcolm Samuel, Coleraine Area B; Avril McCandless, Coleraine Area C). It is a placeholder for the party's actual founding, not a sourced date, and should be replaced. The dissolution date is the founding of the Green Party, i.e. a same-day handover."
+    },
+    {
+      "id": "green-party-ni",
+      "name": "Green Party (Northern Ireland)",
+      "shortName": "Green (NI)",
+      "founded": "1990-02-12",
+      "foundedPrecision": "day",
+      "dissolved": null,
+      "status": "active",
+      "predecessor": "ecology-party-ni",
+      "partyStrings": [
+        {"string": "Green", "bodies": ["house-of-commons-of-the-united-kingdom", "northern-ireland-assembly", "local-government", "european-parliament", "northern-ireland-forum-for-political-dialogue"]},
+        {"string": "Green / Ecology", "bodies": ["local-government"]}
+      ],
+      "source": "supplied by repository owner, 2026-07-26",
+      "confidence": "high",
+      "notes": "The 'Green' string is scoped to NI bodies. The same string carries 264 candidacies in dail-eireann and ireland-european which belong to the Green Party in the Republic, a separate organisation with no dates supplied here; those are deliberately left unattributed rather than folded in. 'Green / Ecology' is a label used only by the local-government dataset, across 1981-2011, and is therefore shared with the predecessor and resolved by date."
     },
     {
       "id": "ni21",

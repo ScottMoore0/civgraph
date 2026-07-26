@@ -6,28 +6,29 @@ where applicable, dissolved. Those are facts about the organisations, supplied w
 source. This script does the one thing that makes them worth having: it confronts them
 with the contest record and reports where the two disagree.
 
-Three checks:
+RESOLUTION. A candidacy is matched to a party by its `party` string, optionally narrowed
+by `bodySlug`, and then by date. Membership is the HALF-OPEN interval [founded,
+dissolved) — a candidacy dated exactly on a dissolution date belongs to the successor,
+so a same-day handover has neither a gap nor an overlap. A string may legitimately be
+claimed by two parties when their windows are disjoint; that is how succession is
+modelled, and it is why `Green / Ecology` (a label the local-government dataset uses
+across 1981-2011, spanning both organisations) can be attributed correctly.
 
-  1. CONTRADICTION -- a candidacy dated before the party was founded, or after it was
-     dissolved. Either the lifespan is wrong, or the party string is being used for
-     something that is not that organisation. Both are worth knowing; neither can be
-     detected without the explicit dates.
+Checks:
 
-  2. GAP -- the interval between founding and first recorded contest. A large gap is
-     usually mundane (the party was founded between elections) but a very large one
-     suggests the string is being matched too broadly, or that early contests are
-     missing from the data.
+  1. CONTRADICTION -- the string is claimed for this body, but no party's window covers
+     the date. Either a lifespan is wrong, or the string is being used for something
+     that is not that organisation, or the label outlived/preceded the party.
+  2. AMBIGUITY -- more than one party's window covers the same candidacy. A registry
+     bug, not a data finding.
+  3. GAP -- founding to first recorded contest.
+  4. UNRECORDED -- party strings with candidacies and no entry, ranked by volume.
 
-  3. UNRECORDED -- party strings with many candidacies and no lifespan entry, ranked
-     so the next entries to write are obvious.
+It never INFERS a lifespan from the contest record. firstYear/lastYear in
+data/browse/details/parties/ already do that, and the point of the explicit file is that
+a party which stopped contesting has not thereby been dissolved.
 
-Note what this deliberately does NOT do: it never infers a lifespan from the contest
-record. `firstYear`/`lastYear` in data/browse/details/parties/ already do that, and the
-whole point of the explicit file is that a party which stopped contesting has not
-thereby been dissolved.
-
-Usage:  python scripts/validate_party_lifespans.py
-        python scripts/validate_party_lifespans.py --wanted 40
+Usage:  python scripts/validate_party_lifespans.py [--wanted N]
 """
 import os, sys, csv, json, glob, argparse, collections, datetime
 
@@ -39,10 +40,8 @@ OUT = os.path.dirname(LIFE)
 
 VALID_STATUS = {'active', 'dissolved', 'unknown'}
 VALID_PREC = {'day', 'month', 'year'}
-# Strings that are not organisations and so cannot have a lifespan: 'Yes'/'No' are
-# referendum options, 'Independent*' describes a candidate, and Unity / Anti H-Block are
-# non-party banners. Listing them as "wanted" would be asking for a founding date for
-# something that was never founded.
+# Not organisations, so they cannot have a lifespan: Yes/No are referendum options,
+# Independent* describes a candidate, Unity and Anti H-Block are non-party banners.
 NON_PARTY = {'Yes', 'No', 'Unity', 'Unity (Northern Ireland)', 'Anti H-Block', 'Other',
              'Non-party', 'Independent'}
 
@@ -51,135 +50,187 @@ def is_party(s):
     return bool(s) and s not in NON_PARTY and not s.lower().startswith('independent')
 
 
+def covers(p, date):
+    if p.get('founded') and date < p['founded']:
+        return False
+    if p.get('dissolved') and date >= p['dissolved']:   # half-open
+        return False
+    return True
+
+
+def overlap(a, b):
+    """Do two parties' windows overlap at all?"""
+    a_end = a.get('dissolved') or '9999-12-31'
+    b_end = b.get('dissolved') or '9999-12-31'
+    return a['founded'] < b_end and b['founded'] < a_end
+
+
 def load():
     with open(LIFE, encoding='utf-8') as fh:
         spec = json.load(fh)
-    parties, index, problems = spec['parties'], {}, []
+    parties = spec['parties']
+    index = collections.defaultdict(list)   # string -> [(party, bodies|None)]
+    problems = []
+    by_id = {p['id']: p for p in parties}
     for p in parties:
         st, dis = p.get('status'), p.get('dissolved')
         if st not in VALID_STATUS:
-            problems.append(f"{p['id']}: status {st!r} not in {sorted(VALID_STATUS)}")
+            problems.append(f"{p['id']}: status {st!r} invalid")
         if p.get('foundedPrecision') not in VALID_PREC:
-            problems.append(f"{p['id']}: foundedPrecision "
-                            f"{p.get('foundedPrecision')!r} invalid")
+            problems.append(f"{p['id']}: foundedPrecision invalid")
         if st == 'dissolved' and not dis:
             problems.append(f"{p['id']}: status 'dissolved' but no dissolved date")
         if st == 'active' and dis:
             problems.append(f"{p['id']}: status 'active' but dissolved={dis}")
-        if dis and p.get('founded') and dis < p['founded']:
-            problems.append(f"{p['id']}: dissolved {dis} precedes founded {p['founded']}")
+        if dis and dis < p['founded']:
+            problems.append(f"{p['id']}: dissolved precedes founded")
         if not p.get('source'):
             problems.append(f"{p['id']}: no source")
-        for s in list(p.get('partyStrings') or []) + list(p.get('corruptedStrings') or []):
-            if s in index:
-                problems.append(f"party string {s!r} claimed by both "
-                                f"{index[s]['id']} and {p['id']}")
-            index[s] = p
+        for rel in ('predecessor', 'successor'):
+            if p.get(rel) and p[rel] not in by_id:
+                problems.append(f"{p['id']}: {rel} {p[rel]!r} is not a known party id")
+        entries = list(p.get('partyStrings') or []) + \
+            [{'string': s, 'corrupted': True} for s in (p.get('corruptedStrings') or [])]
+        for e in entries:
+            s = e if isinstance(e, str) else e['string']
+            bodies = None if isinstance(e, str) else (
+                set(e['bodies']) if e.get('bodies') else None)
+            for other, obodies in index[s]:
+                shared = (bodies is None or obodies is None or bodies & obodies)
+                if shared and overlap(other, p):
+                    problems.append(
+                        f"string {s!r} claimed by {other['id']} and {p['id']} with "
+                        f"overlapping windows and bodies")
+            index[s].append((p, bodies))
+    # succession consistency
+    for p in parties:
+        s = p.get('successor')
+        if s and by_id[s].get('founded') != p.get('dissolved'):
+            problems.append(f"{p['id']} -> successor {s}: dissolution "
+                            f"{p.get('dissolved')} != successor founding "
+                            f"{by_id[s].get('founded')} (gap or overlap in the handover)")
     return parties, index, problems
 
 
+def resolve(index, s, body, date):
+    """-> ('ok', party) | ('breach', [parties]) | ('ambiguous', [parties]) | None."""
+    cands = [p for p, bodies in index.get(s, []) if bodies is None or body in bodies]
+    if not cands:
+        return None
+    inwin = [p for p in cands if covers(p, date)]
+    if len(inwin) == 1:
+        return ('ok', inwin[0])
+    if len(inwin) > 1:
+        return ('ambiguous', inwin)
+    return ('breach', cands)
+
+
 def scan(index):
-    """Per party string: candidacy count, first and last contest, and any out-of-window."""
     seen = collections.Counter()
+    per_party = collections.Counter()
     first, last = {}, {}
-    breaches = []
+    breaches, ambiguous = [], []
     for f in sorted(glob.glob(os.path.join(META, '*.json'))):
         with open(f, encoding='utf-8') as fh:
             doc = json.load(fh)
         date = str(doc.get('date') or '')
+        body = doc.get('bodySlug') or ''
         for r in doc.get('results') or []:
             for c in (r.get('candidates') or []):
                 s = (c.get('party') or '').strip()
                 seen[s] += 1
-                if s not in index:
+                got = resolve(index, s, body, date)
+                if got is None:
                     continue
-                if s not in first or date < first[s][0]:
-                    first[s] = (date, doc.get('key', ''), r.get('constituency', ''))
-                if s not in last or date > last[s][0]:
-                    last[s] = (date, doc.get('key', ''), r.get('constituency', ''))
-                p = index[s]
-                why = None
-                if p.get('founded') and date < p['founded']:
-                    why = f"before founding {p['founded']}"
-                elif p.get('dissolved') and date > p['dissolved']:
-                    why = f"after dissolution {p['dissolved']}"
-                if why:
-                    breaches.append({
-                        'party_id': p['id'], 'party_string': s, 'date': date,
-                        'election_key': doc.get('key', ''),
-                        'constituency': r.get('constituency', ''),
-                        'candidate': (c.get('name') or '').strip(), 'reason': why})
-    return seen, first, last, breaches
+                kind, who = got
+                rec = {'party_string': s, 'body': body, 'date': date,
+                       'election_key': doc.get('key', ''),
+                       'constituency': r.get('constituency', ''),
+                       'candidate': (c.get('name') or '').strip()}
+                if kind == 'ok':
+                    per_party[who['id']] += 1
+                    k = who['id']
+                    if k not in first or date < first[k]:
+                        first[k] = date
+                    if k not in last or date > last[k]:
+                        last[k] = date
+                elif kind == 'breach':
+                    w = '; '.join(f"{p['id']} [{p['founded']}..{p.get('dissolved') or '—'})"
+                                  for p in who)
+                    breaches.append({**rec, 'claimed_by': w,
+                                     'reason': 'no party window covers this date'})
+                else:
+                    ambiguous.append({**rec,
+                                      'parties': ','.join(p['id'] for p in who)})
+    return seen, per_party, first, last, breaches, ambiguous
 
 
 def days(a, b):
-    fmt = '%Y-%m-%d'
-    return (datetime.datetime.strptime(b, fmt) - datetime.datetime.strptime(a, fmt)).days
+    f = '%Y-%m-%d'
+    return (datetime.datetime.strptime(b, f) - datetime.datetime.strptime(a, f)).days
 
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--wanted', type=int, default=25,
-                    help='how many unrecorded party strings to list')
+    ap.add_argument('--wanted', type=int, default=25)
     args = ap.parse_args()
 
     parties, index, problems = load()
-    print("=" * 78)
-    print(f"party lifespans — {len(parties)} parties, {len(index)} party strings mapped")
+    print("=" * 82)
+    print(f"party lifespans — {len(parties)} parties, {len(index)} distinct party strings")
     if problems:
-        print("\n  SCHEMA PROBLEMS:")
+        print("\n  REGISTRY PROBLEMS:")
         for p in problems:
             print(f"    {p}")
     else:
-        print("  schema: OK (status/precision consistent, no duplicate strings, all sourced)")
+        print("  registry: OK — status/precision consistent, no conflicting string "
+              "claims, successions line up, all sourced")
 
-    seen, first, last, breaches = scan(index)
+    seen, per_party, first, last, breaches, ambiguous = scan(index)
 
-    print(f"\n  {'party':10} {'founded':12} {'status':9} {'dissolved':11} "
-          f"{'cands':>6}  {'first contest':13} {'last contest':13} gap")
+    print(f"\n  {'party':16} {'founded':12} {'status':9} {'dissolved':12} {'cands':>6}  "
+          f"{'first':12} {'last':12} gap")
     for p in sorted(parties, key=lambda x: x['founded']):
-        ss = list(p.get('partyStrings') or []) + list(p.get('corruptedStrings') or [])
-        n = sum(seen.get(s, 0) for s in ss)
-        fs = [first[s][0] for s in ss if s in first]
-        ls = [last[s][0] for s in ss if s in last]
-        f0, l0 = (min(fs) if fs else '—'), (max(ls) if ls else '—')
+        n = per_party.get(p['id'], 0)
+        f0, l0 = first.get(p['id'], '—'), last.get(p['id'], '—')
         gap = ''
-        if fs and p.get('founded'):
+        if f0 != '—':
             d = days(p['founded'], f0)
-            gap = f"{d//365}y {(d%365)//30}m"
-        print(f"  {p['shortName'][:10]:10} {p['founded']:12} {p['status']:9} "
-              f"{str(p.get('dissolved') or '—'):11} {n:6,}  {f0:13} {l0:13} {gap}")
+            gap = f"{d//365}y {(d % 365)//30}m"
+        print(f"  {p['shortName'][:16]:16} {p['founded']:12} {p['status']:9} "
+              f"{str(p.get('dissolved') or '—'):12} {n:6,}  {f0:12} {l0:12} {gap}")
 
     print(f"\n  CONTRADICTIONS: {len(breaches)}")
+    for b in breaches[:25]:
+        print(f"    {b['date']}  {b['party_string']:16} {b['candidate'][:22]:22} "
+              f"{b['constituency'][:20]:20} claimed by {b['claimed_by']}")
     if breaches:
-        for b in breaches[:20]:
-            print(f"    {b['date']}  {b['party_string']:12} {b['candidate'][:24]:24} "
-                  f"{b['constituency'][:22]:22} {b['reason']}")
         with open(os.path.join(OUT, 'lifespan_contradictions.csv'), 'w',
                   encoding='utf-8', newline='') as fh:
             w = csv.DictWriter(fh, fieldnames=list(breaches[0].keys()))
             w.writeheader()
             w.writerows(breaches)
-        print(f"    wrote lifespan_contradictions.csv")
-    else:
-        print("    no candidacy falls outside the declared window of its party")
+        print("    wrote lifespan_contradictions.csv")
+    if ambiguous:
+        print(f"  AMBIGUOUS (registry bug): {len(ambiguous)}")
+        for a in ambiguous[:5]:
+            print(f"    {a['date']}  {a['party_string']}  -> {a['parties']}")
 
     unrecorded = [(s, n) for s, n in seen.most_common()
                   if is_party(s) and s not in index]
-    excluded = sum(n for s, n in seen.items() if not is_party(s))
     with open(os.path.join(OUT, 'lifespan_wanted.csv'), 'w', encoding='utf-8',
               newline='') as fh:
         w = csv.writer(fh)
         w.writerow(['party', 'candidacies'])
         w.writerows(unrecorded)
-    covered = sum(n for s, n in seen.items() if s in index)
-    tot = sum(seen.values())
+    matched = sum(per_party.values())
     party_tot = sum(n for s, n in seen.items() if is_party(s))
-    print(f"\n  COVERAGE: {covered:,}/{party_tot:,} party candidacies "
-          f"({100*covered/party_tot:.1f}%) have a recorded lifespan")
-    print(f"    ({excluded:,} of the {tot:,} total are not party candidacies at all — "
+    tot = sum(seen.values())
+    print(f"\n  COVERAGE: {matched:,}/{party_tot:,} party candidacies "
+          f"({100*matched/party_tot:.1f}%) resolve to a party with a recorded lifespan")
+    print(f"    ({tot-party_tot:,} of the {tot:,} total are not party candidacies — "
           f"independents, referendum Yes/No, non-party banners)")
-    print(f"  {len(unrecorded)} party strings have none — the largest:")
+    print(f"  {len(unrecorded)} party strings have no entry — the largest:")
     for s, n in unrecorded[:args.wanted]:
         print(f"    {n:6,}  {s}")
     print(f"  wrote lifespan_wanted.csv ({len(unrecorded)} rows)")
