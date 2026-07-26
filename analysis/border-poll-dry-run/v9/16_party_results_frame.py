@@ -36,6 +36,13 @@ CONTESTS = [
     # exist in the repo but ran on the 1995 boundaries AND sit 16-24 years before
     # the 2021 census, so they need vintage-matched census features (the backcasting
     # item) rather than being bolted on with 2021 demography.
+    # 2005 adopted per phase 39: on the Westminster-only model it improved both
+    # metrics (TVD 19.72 -> 19.02, winners 72.9 -> 74.1%). It ran on the 1995
+    # boundaries, approximated here by 2008 geography -- all 18 names are shared and
+    # the 2008 review was minor. 2001 was neutral and 1997 clearly harmful (22.2%
+    # winner accuracy: pre-Good-Friday-Agreement, UUP-dominant, a different
+    # census->party mapping), so neither is included.
+    ('westminster', 'constituency', 2005, 'house-of-commons-of-the-united-kingdom__2005-05-05.json'),
     ('westminster', 'constituency', 2010, 'house-of-commons-of-the-united-kingdom__2010-05-06.json'),
     ('westminster', 'constituency', 2015, 'house-of-commons-of-the-united-kingdom__2015-05-07.json'),
     ('westminster', 'constituency', 2017, 'house-of-commons-of-the-united-kingdom__2017-06-08.json'),
