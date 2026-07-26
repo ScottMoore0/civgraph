@@ -41,7 +41,7 @@ Usage:
     python scripts/apply_candidate_attributes.py --check    # report only, write nothing
     python scripts/apply_candidate_attributes.py --leads    # refresh leads only
 """
-import os, sys, csv, json, glob, argparse, collections
+import os, sys, csv, json, glob, argparse, collections, importlib.util
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, '..'))
@@ -53,6 +53,7 @@ ENDORSE = os.path.join(ALIGN, 'endorsements.csv')
 
 F_ALIGN = 'alignment_label'
 F_ENDORSE = 'endorsed_by'
+F_PID = 'party_id'
 
 NI_BODIES = {'house-of-commons-of-the-united-kingdom', 'northern-ireland-assembly',
              'local-government', 'european-parliament', 'parliament-of-northern-ireland',
@@ -64,6 +65,15 @@ NI_BODIES = {'house-of-commons-of-the-united-kingdom', 'northern-ireland-assembl
 CONTEST_RATE = 0.6
 # strings that describe a candidate rather than name an organisation
 NON_PARTY = {'Unity', 'Unity (Northern Ireland)', 'Anti H-Block', 'Other', ''}
+
+
+def _resolver():
+    spec = importlib.util.spec_from_file_location(
+        'party_resolver', os.path.join(HERE, 'party_resolver.py'))
+    m = importlib.util.module_from_spec(spec)
+    sys.modules['party_resolver'] = m
+    spec.loader.exec_module(m)
+    return m
 
 
 def load_rules():
@@ -163,6 +173,10 @@ def main():
     ap.add_argument('--leads', action='store_true', help='regenerate leads only')
     args = ap.parse_args()
 
+    pr = _resolver()
+    _reg, _by_id, pindex = pr.load()
+    pid_kind = collections.Counter()
+
     spec, rules = load_rules()
     overrides = load_csv_map(OVERRIDES, 'alignment_label')
     endorsements = load_csv_map(ENDORSE, 'endorsed_by')
@@ -208,11 +222,17 @@ def main():
         def stamp(cand, con):
             nonlocal dirty
             labels, src, end = resolve(cand, con)
+            kind, pid = pr.resolve(pindex, (cand.get('party') or '').strip(), body, date)
+            pid_kind[kind] += 1
+            pid = pid if isinstance(pid, str) else None
             if cand.get(F_ALIGN) != labels:
                 cand[F_ALIGN] = labels
                 dirty = True
             if cand.get(F_ENDORSE) != end:
                 cand[F_ENDORSE] = end
+                dirty = True
+            if cand.get(F_PID) != pid:
+                cand[F_PID] = pid
                 dirty = True
             return labels, src
 
@@ -258,6 +278,10 @@ def main():
     print(f"\n  {F_ENDORSE}  (external claims, from endorsements.csv)")
     print(f"    {en_hits:7,}  populated   ({len(endorsements)} rows in the file)")
     print(f"    {total-en_hits:7,}  empty — no endorsement recorded")
+    print(f"\n  {F_PID}  (stable entity id from party_registry.json)")
+    print(f"    {pid_kind['ok']:7,}  resolved")
+    print(f"    {pid_kind['outside']:7,}  resolved, but dated outside the entity's lifespan")
+    print(f"    {pid_kind['none']:7,}  unresolved      {pid_kind['ambiguous']:,} ambiguous")
     print(f"\n  files {'that would change' if (args.check or args.leads) else 'written'}:"
           f" {changed}")
 

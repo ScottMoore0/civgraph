@@ -1,4 +1,74 @@
-# Party lifespans
+# Party registry and lifespans
+
+## `party_registry.json` — stable ids
+
+Every party and independent label now has a **curated id, independent of its display
+name**, and every one of the 29,697 candidacies carries `party_id` pointing at it.
+
+```json
+"party": "Green",
+"party_id": "green-ni",
+```
+
+Why it was needed: nothing in the data identified a party. A candidacy carried only a
+free-text string, and the browse registry's `id` is the name slugified — `id ==
+"party:" + slug` in 773/773 entries, `slug == slugify(canonicalName)` in 761/773 — so it
+cannot tell two same-named organisations apart and splits one organisation across
+spelling variants. Hence 773 entries for far fewer real parties, 76% of them linked to
+no election at all.
+
+**224 entities, 38 curated and 186 provisional.** Resolution is by string, optionally
+narrowed by `bodies` and by a half-open date window, plus the entity's own lifespan.
+That is what separates same-named organisations:
+
+| string | scope | id |
+|---|---|---|
+| `Nationalist Party` | NI bodies | `nationalist-party-ni` |
+| `Nationalist Party` | Dáil | `irish-parliamentary-party` |
+| `Green` | NI bodies | `green-ni` |
+| `Green` | Republic | `green-ie` |
+| `Green / Ecology` | before 1990-02-12 | `ecology-party-ni` |
+| `Green / Ecology` | from 1990-02-12 | `green-party-ni` |
+| `Progressive Unionist` | 1938 | `progressive-unionist-1938` |
+| `PUP` | 1979– | `pup` |
+
+And it merges what should be merged: `UKUP` with `UK Unionist Party`, `Workers' Party`
+with `Workers Party`, `Protestant Unionist` with `Protestant Unionist Party`.
+
+**Types matter as much as ids.** Not everything with a `party` string is a party, and
+conflating them is how `Independent` ends up looking like the sixth-largest party in
+Northern Ireland:
+
+| type | n | examples |
+|---|---|---|
+| `party` | 200 | `uup`, `green-ni`, `ecology-party-ni` |
+| `independent-label` | 18 | `ind`, `ind-unionist`, `ind-named` |
+| `banner` | 2 | `unity`, `anti-h-block` |
+| `joint-ticket` | 2 | `ucunf`, `solidarity-pbp` |
+| `referendum-option` | 2 | `ref-yes`, `ref-no` |
+
+**Resolution is complete**: 29,691 of 29,697 candidacies resolve cleanly, 6 resolve to an
+entity but fall outside its lifespan (the back-labelling cases), 0 unresolved, 0
+ambiguous.
+
+`provisional: true` marks the 186 auto-generated entities — one observed string each, id
+slugged from the name, no source, no lifespan. They give complete coverage while staying
+visibly unreviewed. Curating one means confirming its alias set, type, dates and source.
+
+**Ids are permanent.** Renaming an organisation changes `name`, never `id`.
+
+### Two sources of truth, for now
+
+`party_lifespans.json` remains the curated lifespan input and is what
+`validate_party_lifespans.py` checks. `build_party_registry.py` copies those lifespans
+into the registry at bootstrap. **Editing `party_lifespans.json` after bootstrap does not
+propagate** — the registry would need rebuilding with `--force`, which discards hand
+edits. The clean fix is to migrate the validator onto the registry and retire the
+lifespans file; until then, treat lifespan edits as needing both files updated.
+
+---
+
+# Lifespans
 
 Explicit founding and dissolution dates for political parties, asserted as facts about
 the organisations rather than inferred from their presence in election results.

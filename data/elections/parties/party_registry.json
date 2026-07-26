@@ -1,0 +1,5027 @@
+{
+  "schemaVersion": 1,
+  "description": "Stable identifiers for every party and independent label in the election data. The id is curated and independent of the display name, so two organisations with the same name are distinguishable and one organisation with several name spellings is not split.",
+  "idPolicy": "Ids are permanent. Renaming an organisation changes `name`, never `id`. Where two entities would otherwise collide, the id carries a disambiguator (green-ni / green-ie, pup / progressive-unionist-1938).",
+  "types": {
+    "party": "an organisation",
+    "independent-label": "a ballot description, not an organisation",
+    "banner": "an agreed non-party label (Unity, Anti H-Block)",
+    "joint-ticket": "two parties standing jointly (UCUNF, Solidarity-PBP)",
+    "referendum-option": "Yes / No"
+  },
+  "aliasResolution": "An alias is a string, optionally narrowed by `bodies` and by a half-open date window [from, until). The first entity whose alias matches string + body + date wins; a string may be shared by several entities when their scopes are disjoint.",
+  "provisional": "true means auto-generated from a single observed string and not reviewed: the id is a slug of the name, there is no source, and no lifespan. Curating one means confirming the alias set, setting a type, and adding dates and a source.",
+  "entities": [
+    {
+      "id": "uup",
+      "type": "party",
+      "name": "Ulster Unionist Party",
+      "shortName": "UUP",
+      "aliases": [
+        "UUP",
+        {
+          "string": "Shopkeeper, Ulster Unionist",
+          "corrupted": true
+        },
+        {
+          "string": "Businssman Ulster Unionist",
+          "corrupted": true
+        }
+      ],
+      "founded": "1905-03-03",
+      "foundedPrecision": "day",
+      "dissolved": null,
+      "status": "active",
+      "source": "supplied by repository owner, 2026-07-26",
+      "confidence": "high",
+      "provisional": false,
+      "notes": "The two corrupted strings are 1989 Ballymoney Town records carrying the candidate's occupation in the party field ('Businssman' is the source's typo)."
+    },
+    {
+      "id": "sinn-fein",
+      "type": "party",
+      "name": "Sinn Féin",
+      "shortName": "Sinn Féin",
+      "aliases": [
+        "Sinn Féin"
+      ],
+      "founded": "1905-11-28",
+      "foundedPrecision": "day",
+      "dissolved": null,
+      "status": "active",
+      "source": "supplied by repository owner, 2026-07-26",
+      "confidence": "high",
+      "provisional": false,
+      "notes": "Applies to the exact string 'Sinn Féin' only. The distinct strings 'Pro-Treaty Sinn Féin', 'Anti-Treaty Sinn Féin', 'Republican Sinn Féin' and \"Sinn Féin Workers'\" are separate organisations and are not covered by this entry; whether any of them is continuous with this one is a question this file records no view on."
+    },
+    {
+      "id": "alliance",
+      "type": "party",
+      "name": "Alliance Party of Northern Ireland",
+      "shortName": "Alliance",
+      "aliases": [
+        "Alliance"
+      ],
+      "founded": "1970-04-21",
+      "foundedPrecision": "day",
+      "dissolved": null,
+      "status": "active",
+      "source": "supplied by repository owner, 2026-07-26",
+      "confidence": "high",
+      "provisional": false,
+      "notes": "Unrelated strings containing the word Alliance ('Independent Alliance', 'Anti-Austerity Alliance', 'Socialist Environmental Alliance', 'Independent Health Alliance', 'United Left Alliance', 'South Kerry Independent Alliance') are separate organisations and are not matched."
+    },
+    {
+      "id": "sdlp",
+      "type": "party",
+      "name": "Social Democratic and Labour Party",
+      "shortName": "SDLP",
+      "aliases": [
+        "SDLP"
+      ],
+      "founded": "1970-08-21",
+      "foundedPrecision": "day",
+      "dissolved": null,
+      "status": "active",
+      "source": "supplied by repository owner, 2026-07-26",
+      "confidence": "high",
+      "provisional": false
+    },
+    {
+      "id": "dup",
+      "type": "party",
+      "name": "Democratic Unionist Party",
+      "shortName": "DUP",
+      "aliases": [
+        "DUP",
+        {
+          "string": "DUP Civil Servant (Retired)",
+          "corrupted": true
+        }
+      ],
+      "founded": "1971-09-30",
+      "foundedPrecision": "day",
+      "dissolved": null,
+      "status": "active",
+      "source": "supplied by repository owner, 2026-07-26",
+      "confidence": "high",
+      "provisional": false,
+      "notes": "'United Loy DUP' (1977 Larne Area A, Samuel J. Martin) is NOT attributed here. It contains the substring DUP but reads as 'United Loyalist', and no evidence in the data settles which organisation it was; it remains unattributed rather than guessed."
+    },
+    {
+      "id": "ukup",
+      "type": "party",
+      "name": "United Kingdom Unionist Party",
+      "shortName": "UKUP",
+      "aliases": [
+        "UKUP",
+        "UK Unionist Party"
+      ],
+      "founded": "1996-04-20",
+      "foundedPrecision": "day",
+      "dissolved": "2008-09-04",
+      "status": "dissolved",
+      "source": "supplied by repository owner, 2026-07-26",
+      "confidence": "high",
+      "provisional": false,
+      "notes": "'UK Unionist Party' is the same organisation under a second string, used only by the local-government dataset (22 candidacies, 1997-2005). Robert McCartney's 1995-06-15 North Down by-election candidacy carries the string 'UKUP' ten months before this founding date and is reported as a contradiction; the party was constituted after that by-election, so the label appears to have been applied retrospectively. Last candidacy is 2007-03-07, eighteen months before dissolution. The Northern Ireland Unionist Party split from the UKUP in 1999 and is recorded separately as niup, with splitFrom pointing here; note the two organisations wound up within six months of each other in 2008 (NIUP 10 March, UKUP 4 September)."
+    },
+    {
+      "id": "niup",
+      "type": "party",
+      "name": "Northern Ireland Unionist Party",
+      "shortName": "NIUP",
+      "aliases": [
+        "NI Unionist Party",
+        "Northern Ireland Unionist Party"
+      ],
+      "founded": "1999-01-15",
+      "foundedPrecision": "day",
+      "dissolved": "2008-03-10",
+      "status": "dissolved",
+      "source": "supplied by repository owner, 2026-07-26",
+      "confidence": "high",
+      "provisional": false,
+      "splitFrom": "ukup",
+      "notes": "A SPLIT from the UKUP, not a succession: the UKUP continued and contested until 2007, so predecessor/successor would wrongly assert that it ended in 1999. Two strings, both this organisation: 'NI Unionist Party' (4 candidacies, 2001 Westminster and 2003 Assembly) and 'Northern Ireland Unionist Party' (8, 2001 local government). All 12 fall inside the window. The party's last candidacy is 2003-11-26, more than four years before dissolution — a gap that is invisible to the derived lastYear, which would have reported 2003 as the end."
+    },
+    {
+      "id": "pbp",
+      "type": "party",
+      "name": "People Before Profit",
+      "shortName": "PBP",
+      "aliases": [
+        "PBP"
+      ],
+      "founded": "2005-10-21",
+      "foundedPrecision": "day",
+      "dissolved": null,
+      "status": "active",
+      "source": "supplied by repository owner, 2026-07-26",
+      "confidence": "high",
+      "provisional": false,
+      "notes": "Deliberately NOT scoped by body, unlike the Green entry. The 'PBP' string covers 75 candidacies on NI bodies and 33 in dail-eireann and ireland-european, and People Before Profit organises across both jurisdictions as one party, so both are attributed here. If that is wrong and the two should be separate organisations, this entry needs splitting the way Green (NI) is. 'Solidarity-PBP' (86 candidacies, 2019-2024, dail-eireann and ireland-european only) is NOT included: it is the joint ticket registered with Solidarity, and a joint ticket is its own registration rather than the component party — the same treatment given to UCUNF."
+    },
+    {
+      "id": "tuv",
+      "type": "party",
+      "name": "Traditional Unionist Voice",
+      "shortName": "TUV",
+      "aliases": [
+        "TUV"
+      ],
+      "founded": "2007-12-07",
+      "foundedPrecision": "day",
+      "dissolved": null,
+      "status": "active",
+      "source": "supplied by repository owner, 2026-07-26",
+      "confidence": "high",
+      "provisional": false
+    },
+    {
+      "id": "vanguard",
+      "type": "party",
+      "name": "Vanguard Unionist Progressive Party",
+      "shortName": "Vanguard",
+      "aliases": [
+        "Vanguard Unionist Progressive Party"
+      ],
+      "founded": "1972-02-09",
+      "foundedPrecision": "day",
+      "dissolved": "1978-02-20",
+      "status": "dissolved",
+      "source": "supplied by repository owner, 2026-07-26",
+      "confidence": "high",
+      "provisional": false,
+      "notes": "The supplied founding date is that of Ulster Vanguard, the movement, whereas the party string in the data is specifically the Vanguard Unionist Progressive Party, which was constituted in 1973. Recorded as supplied; if the party rather than the movement is meant, this needs the 1973 date. The distinction changes nothing in the results, since the first candidacy is 1973-05-30 either way. Three 1982 candidacies fall four and a half years after dissolution and are reported as contradictions: William Craig (Belfast East), John Dunlop and Robert Overend (Mid Ulster), in the 1982 Assembly election. Craig founded the party, so this is the label outliving the organisation rather than a mis-attribution."
+    },
+    {
+      "id": "ecology-party-ni",
+      "type": "party",
+      "name": "Ecology Party (Northern Ireland)",
+      "shortName": "Ecology",
+      "aliases": [
+        "Ecology",
+        {
+          "string": "Green / Ecology",
+          "bodies": [
+            "local-government"
+          ]
+        }
+      ],
+      "founded": "1981-05-20",
+      "foundedPrecision": "day",
+      "dissolved": "1990-02-12",
+      "status": "dissolved",
+      "source": "PROVISIONAL — supplied by repository owner 2026-07-26 as a working value pending confirmation",
+      "confidence": "provisional",
+      "provisional": false,
+      "successor": "green-party-ni",
+      "notes": "The founding date is the date of the 1981 local elections, which is when the Ecology label first appears in the data (Malcolm Samuel, Coleraine Area B; Avril McCandless, Coleraine Area C). It is a placeholder for the party's actual founding, not a sourced date, and should be replaced. The dissolution date is the founding of the Green Party, i.e. a same-day handover."
+    },
+    {
+      "id": "green-party-ni",
+      "type": "party",
+      "name": "Green Party (Northern Ireland)",
+      "shortName": "Green (NI)",
+      "aliases": [
+        {
+          "string": "Green",
+          "bodies": [
+            "house-of-commons-of-the-united-kingdom",
+            "northern-ireland-assembly",
+            "local-government",
+            "european-parliament",
+            "northern-ireland-forum-for-political-dialogue"
+          ]
+        },
+        {
+          "string": "Green / Ecology",
+          "bodies": [
+            "local-government"
+          ]
+        }
+      ],
+      "founded": "1990-02-12",
+      "foundedPrecision": "day",
+      "dissolved": null,
+      "status": "active",
+      "source": "supplied by repository owner, 2026-07-26",
+      "confidence": "high",
+      "provisional": false,
+      "predecessor": "ecology-party-ni",
+      "notes": "The 'Green' string is scoped to NI bodies. The same string carries 264 candidacies in dail-eireann and ireland-european which belong to the Green Party in the Republic, a separate organisation with no dates supplied here; those are deliberately left unattributed rather than folded in. 'Green / Ecology' is a label used only by the local-government dataset, across 1981-2011, and is therefore shared with the predecessor and resolved by date."
+    },
+    {
+      "id": "ni21",
+      "type": "party",
+      "name": "NI21",
+      "shortName": "NI21",
+      "aliases": [
+        "NI21"
+      ],
+      "founded": "2013-06-06",
+      "foundedPrecision": "day",
+      "dissolved": "2016-11-03",
+      "status": "dissolved",
+      "source": "supplied by repository owner, 2026-07-26",
+      "confidence": "high",
+      "provisional": false,
+      "notes": "The only entry so far with a dissolution date, and therefore the only one where the founded/dissolved window can actually exclude a candidacy."
+    },
+    {
+      "id": "nationalist-party-ni",
+      "type": "party",
+      "name": "Nationalist Party (Northern Ireland)",
+      "shortName": "Nationalist Party",
+      "aliases": [
+        {
+          "string": "Nationalist Party",
+          "bodies": [
+            "house-of-commons-of-the-united-kingdom",
+            "northern-ireland-assembly",
+            "local-government",
+            "european-parliament",
+            "parliament-of-northern-ireland",
+            "northern-ireland-constitutional-convention",
+            "northern-ireland-forum-for-political-dialogue"
+          ]
+        },
+        "Nationalist Party (Northern Ireland)"
+      ],
+      "status": "unknown",
+      "source": "curated 2026-07-26; lifespans supplied by repository owner",
+      "confidence": "high",
+      "provisional": false,
+      "notes": "Shares the bare string 'Nationalist Party' with the Irish Parliamentary Party; separated by body."
+    },
+    {
+      "id": "irish-parliamentary-party",
+      "type": "party",
+      "name": "Irish Parliamentary Party",
+      "shortName": "IPP",
+      "aliases": [
+        {
+          "string": "Nationalist Party",
+          "bodies": [
+            "dail-eireann",
+            "ireland-european",
+            "ireland-president",
+            "ireland-referendum"
+          ]
+        }
+      ],
+      "status": "unknown",
+      "source": "curated 2026-07-26; lifespans supplied by repository owner",
+      "confidence": "high",
+      "provisional": false,
+      "notes": "The 1918-22 dail-eireann candidacies under the bare string 'Nationalist Party'. A different organisation from the NI Nationalist Party."
+    },
+    {
+      "id": "pup",
+      "type": "party",
+      "name": "Progressive Unionist Party",
+      "shortName": "PUP",
+      "aliases": [
+        "PUP",
+        {
+          "string": "Progressive Unionist",
+          "from": "1979-01-01"
+        }
+      ],
+      "status": "unknown",
+      "source": "curated 2026-07-26; lifespans supplied by repository owner",
+      "confidence": "high",
+      "provisional": false,
+      "notes": "ONLY the string 'PUP'. The 1938 Stormont string 'Progressive Unionist' is a DIFFERENT party and is entity progressive-unionist-1938; the alias here is date-scoped to keep them apart."
+    },
+    {
+      "id": "progressive-unionist-1938",
+      "type": "party",
+      "name": "Progressive Unionist Party (1938)",
+      "shortName": "Prog. Unionist 1938",
+      "aliases": [
+        {
+          "string": "Progressive Unionist",
+          "until": "1979-01-01"
+        }
+      ],
+      "status": "unknown",
+      "source": "curated 2026-07-26; lifespans supplied by repository owner",
+      "confidence": "high",
+      "provisional": false,
+      "notes": "Ten candidacies at the 1938 Stormont election. Not the PUP founded 1979 and not connected to it; the name is a coincidence."
+    },
+    {
+      "id": "green-ie",
+      "type": "party",
+      "name": "Green Party / Comhaontas Glas",
+      "shortName": "Green (IE)",
+      "aliases": [
+        {
+          "string": "Green",
+          "bodies": [
+            "dail-eireann",
+            "ireland-european",
+            "ireland-president",
+            "ireland-referendum"
+          ]
+        }
+      ],
+      "status": "unknown",
+      "source": "curated 2026-07-26; lifespans supplied by repository owner",
+      "confidence": "high",
+      "provisional": false,
+      "notes": "The 264 'Green' candidacies in dail-eireann and ireland-european, 1984 onward. A separate organisation from green-ni, which claims the same string on NI bodies; no dates supplied for this one."
+    },
+    {
+      "id": "protestant-unionist",
+      "type": "party",
+      "name": "Protestant Unionist Party",
+      "shortName": "Protestant Unionist",
+      "aliases": [
+        "Protestant Unionist",
+        "Protestant Unionist Party"
+      ],
+      "status": "unknown",
+      "source": "curated 2026-07-26; lifespans supplied by repository owner",
+      "confidence": "high",
+      "provisional": false,
+      "notes": "Paisley's pre-DUP party, 1969-70. Two string variants, one organisation."
+    },
+    {
+      "id": "sinn-fein-pro-treaty",
+      "type": "party",
+      "name": "Pro-Treaty Sinn Féin",
+      "shortName": "SF (Pro-Treaty)",
+      "aliases": [
+        "Pro-Treaty Sinn Féin"
+      ],
+      "status": "unknown",
+      "source": "curated 2026-07-26; lifespans supplied by repository owner",
+      "confidence": "high",
+      "provisional": false
+    },
+    {
+      "id": "sinn-fein-anti-treaty",
+      "type": "party",
+      "name": "Anti-Treaty Sinn Féin",
+      "shortName": "SF (Anti-Treaty)",
+      "aliases": [
+        "Anti-Treaty Sinn Féin"
+      ],
+      "status": "unknown",
+      "source": "curated 2026-07-26; lifespans supplied by repository owner",
+      "confidence": "high",
+      "provisional": false
+    },
+    {
+      "id": "republican-sinn-fein",
+      "type": "party",
+      "name": "Republican Sinn Féin",
+      "shortName": "RSF",
+      "aliases": [
+        "Republican Sinn Féin"
+      ],
+      "status": "unknown",
+      "source": "curated 2026-07-26; lifespans supplied by repository owner",
+      "confidence": "high",
+      "provisional": false,
+      "notes": "Split from Sinn Féin in 1986. A separate organisation."
+    },
+    {
+      "id": "sinn-fein-workers",
+      "type": "party",
+      "name": "Sinn Féin – The Workers' Party",
+      "shortName": "SF Workers'",
+      "aliases": [
+        "Sinn Féin Workers'"
+      ],
+      "status": "unknown",
+      "source": "curated 2026-07-26; lifespans supplied by repository owner",
+      "confidence": "high",
+      "provisional": false
+    },
+    {
+      "id": "workers-party",
+      "type": "party",
+      "name": "Workers' Party",
+      "shortName": "Workers' Party",
+      "aliases": [
+        "Workers' Party",
+        "Workers Party"
+      ],
+      "status": "unknown",
+      "source": "curated 2026-07-26; lifespans supplied by repository owner",
+      "confidence": "high",
+      "provisional": false,
+      "notes": "Two strings differing only by the apostrophe, overlapping in years and both used on NI bodies: treated as one organisation. If they are in fact distinct, split this entry."
+    },
+    {
+      "id": "irish-unionist-alliance",
+      "type": "party",
+      "name": "Irish Unionist Alliance",
+      "shortName": "Unionist (1918)",
+      "aliases": [
+        "Unionist"
+      ],
+      "status": "unknown",
+      "source": "curated 2026-07-26; lifespans supplied by repository owner",
+      "confidence": "high",
+      "provisional": false,
+      "notes": "33 candidacies, all at the 1918 general election."
+    },
+    {
+      "id": "ind",
+      "type": "independent-label",
+      "name": "Independent",
+      "shortName": "Independent",
+      "aliases": [
+        "Independent"
+      ],
+      "status": "unknown",
+      "source": "curated 2026-07-26; lifespans supplied by repository owner",
+      "confidence": "high",
+      "provisional": false,
+      "notes": "A ballot description, not an organisation. Given an id so it can be counted and excluded deliberately rather than by accident."
+    },
+    {
+      "id": "ind-unionist",
+      "type": "independent-label",
+      "name": "Independent Unionist",
+      "shortName": "Ind. Unionist",
+      "aliases": [
+        "Independent Unionist"
+      ],
+      "status": "unknown",
+      "source": "curated 2026-07-26; lifespans supplied by repository owner",
+      "confidence": "high",
+      "provisional": false
+    },
+    {
+      "id": "ind-nationalist",
+      "type": "independent-label",
+      "name": "Independent Nationalist",
+      "shortName": "Ind. Nationalist",
+      "aliases": [
+        "Independent Nationalist"
+      ],
+      "status": "unknown",
+      "source": "curated 2026-07-26; lifespans supplied by repository owner",
+      "confidence": "high",
+      "provisional": false
+    },
+    {
+      "id": "ind-other",
+      "type": "independent-label",
+      "name": "Independent Other",
+      "shortName": "Ind. Other",
+      "aliases": [
+        "Independent Other"
+      ],
+      "status": "unknown",
+      "source": "curated 2026-07-26; lifespans supplied by repository owner",
+      "confidence": "high",
+      "provisional": false
+    },
+    {
+      "id": "ind-labour",
+      "type": "independent-label",
+      "name": "Independent Labour",
+      "shortName": "Ind. Labour",
+      "aliases": [
+        "Independent Labour"
+      ],
+      "status": "unknown",
+      "source": "curated 2026-07-26; lifespans supplied by repository owner",
+      "confidence": "high",
+      "provisional": false
+    },
+    {
+      "id": "ind-republican",
+      "type": "independent-label",
+      "name": "Independent Republican",
+      "shortName": "Ind. Republican",
+      "aliases": [
+        "Independent Republican"
+      ],
+      "status": "unknown",
+      "source": "curated 2026-07-26; lifespans supplied by repository owner",
+      "confidence": "high",
+      "provisional": false
+    },
+    {
+      "id": "ind-named",
+      "type": "independent-label",
+      "name": "Independent (named candidate)",
+      "shortName": "Ind. (named)",
+      "aliases": [
+        "Independent (Alan Chambers)",
+        "Independent (Oliver McMuIlan)",
+        "Independent (Thomas O'Brien)",
+        "Independent (Arthur Templeton)"
+      ],
+      "status": "unknown",
+      "source": "curated 2026-07-26; lifespans supplied by repository owner",
+      "confidence": "high",
+      "provisional": false,
+      "notes": "Four 1996 Forum labels naming the candidate. Grouped because the pattern is one thing, not four organisations; split if per-candidate ids are wanted. Note 'McMuIlan' has a capital I for the l, as in the source."
+    },
+    {
+      "id": "unity",
+      "type": "banner",
+      "name": "Unity",
+      "shortName": "Unity",
+      "aliases": [
+        "Unity",
+        "Unity (Northern Ireland)"
+      ],
+      "status": "unknown",
+      "source": "curated 2026-07-26; lifespans supplied by repository owner",
+      "confidence": "high",
+      "provisional": false,
+      "notes": "Agreed anti-partitionist candidacies, 1966-77. A banner, not a party: no organisation, manifesto or whip."
+    },
+    {
+      "id": "anti-h-block",
+      "type": "banner",
+      "name": "Anti H-Block",
+      "shortName": "Anti H-Block",
+      "aliases": [
+        "Anti H-Block"
+      ],
+      "status": "unknown",
+      "source": "curated 2026-07-26; lifespans supplied by repository owner",
+      "confidence": "high",
+      "provisional": false,
+      "notes": "Sands and Carron, 1981. A banner, not a party."
+    },
+    {
+      "id": "ucunf",
+      "type": "joint-ticket",
+      "name": "Ulster Conservatives and Unionists – New Force",
+      "shortName": "UCUNF",
+      "aliases": [
+        "UCUNF"
+      ],
+      "status": "unknown",
+      "source": "curated 2026-07-26; lifespans supplied by repository owner",
+      "confidence": "high",
+      "provisional": false,
+      "notes": "UUP and Conservative joint ticket, 2010 only. A joint registration, not either component party."
+    },
+    {
+      "id": "solidarity-pbp",
+      "type": "joint-ticket",
+      "name": "Solidarity–People Before Profit",
+      "shortName": "Solidarity-PBP",
+      "aliases": [
+        "Solidarity-PBP"
+      ],
+      "status": "unknown",
+      "source": "curated 2026-07-26; lifespans supplied by repository owner",
+      "confidence": "high",
+      "provisional": false,
+      "notes": "Joint ticket in the Republic, 2019-24. Not the same registration as PBP."
+    },
+    {
+      "id": "ref-yes",
+      "type": "referendum-option",
+      "name": "Yes",
+      "shortName": "Yes",
+      "aliases": [
+        "Yes"
+      ],
+      "status": "unknown",
+      "source": "curated 2026-07-26; lifespans supplied by repository owner",
+      "confidence": "high",
+      "provisional": false
+    },
+    {
+      "id": "ref-no",
+      "type": "referendum-option",
+      "name": "No",
+      "shortName": "No",
+      "aliases": [
+        "No"
+      ],
+      "status": "unknown",
+      "source": "curated 2026-07-26; lifespans supplied by repository owner",
+      "confidence": "high",
+      "provisional": false
+    },
+    {
+      "id": "fianna-fail",
+      "type": "party",
+      "name": "Fianna Fáil",
+      "shortName": "Fianna Fáil",
+      "aliases": [
+        "Fianna Fáil"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 2209,
+        "years": [
+          1927,
+          2024
+        ],
+        "bodies": {
+          "dail-eireann": 2117,
+          "ireland-european": 84,
+          "ireland-president": 7,
+          "parliament-of-northern-ireland": 1
+        }
+      }
+    },
+    {
+      "id": "fine-gael",
+      "type": "party",
+      "name": "Fine Gael",
+      "shortName": "Fine Gael",
+      "aliases": [
+        "Fine Gael"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1594,
+        "years": [
+          1937,
+          2024
+        ],
+        "bodies": {
+          "dail-eireann": 1510,
+          "ireland-european": 77,
+          "ireland-president": 7
+        }
+      }
+    },
+    {
+      "id": "irish-labour",
+      "type": "party",
+      "name": "Irish Labour",
+      "shortName": "Irish Labour",
+      "aliases": [
+        "Irish Labour"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 808,
+        "years": [
+          1918,
+          2024
+        ],
+        "bodies": {
+          "dail-eireann": 753,
+          "ireland-european": 44,
+          "parliament-of-northern-ireland": 10,
+          "ireland-president": 1
+        }
+      }
+    },
+    {
+      "id": "cumann-na-ngaedheal",
+      "type": "party",
+      "name": "Cumann na nGaedheal",
+      "shortName": "Cumann na nGaedheal",
+      "aliases": [
+        "Cumann na nGaedheal"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 477,
+        "years": [
+          1923,
+          1933
+        ],
+        "bodies": {
+          "dail-eireann": 477
+        }
+      }
+    },
+    {
+      "id": "conservative",
+      "type": "party",
+      "name": "Conservative",
+      "shortName": "Conservative",
+      "aliases": [
+        "Conservative"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 231,
+        "years": [
+          1989,
+          2024
+        ],
+        "bodies": {
+          "local-government": 104,
+          "house-of-commons-of-the-united-kingdom": 59,
+          "northern-ireland-assembly": 47,
+          "northern-ireland-forum-for-political-dialogue": 17,
+          "european-parliament": 4
+        }
+      }
+    },
+    {
+      "id": "republican-clubs",
+      "type": "party",
+      "name": "Republican Clubs",
+      "shortName": "Republican Clubs",
+      "aliases": [
+        "Republican Clubs"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 201,
+        "years": [
+          1935,
+          1981
+        ],
+        "bodies": {
+          "local-government": 145,
+          "house-of-commons-of-the-united-kingdom": 29,
+          "northern-ireland-constitutional-convention": 17,
+          "northern-ireland-assembly": 10
+        }
+      }
+    },
+    {
+      "id": "ni-labour",
+      "type": "party",
+      "name": "NI Labour",
+      "shortName": "NI Labour",
+      "aliases": [
+        "NI Labour"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 199,
+        "years": [
+          1924,
+          1979
+        ],
+        "bodies": {
+          "parliament-of-northern-ireland": 120,
+          "house-of-commons-of-the-united-kingdom": 57,
+          "northern-ireland-assembly": 16,
+          "northern-ireland-constitutional-convention": 6
+        }
+      }
+    },
+    {
+      "id": "labour-party-ireland",
+      "type": "party",
+      "name": "Labour Party (Ireland)",
+      "shortName": "Labour Party (Ireland)",
+      "aliases": [
+        "Labour Party (Ireland)"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 178,
+        "years": [
+          1927,
+          1969
+        ],
+        "bodies": {
+          "dail-eireann": 178
+        }
+      }
+    },
+    {
+      "id": "clann-na-poblachta",
+      "type": "party",
+      "name": "Clann na Poblachta",
+      "shortName": "Clann na Poblachta",
+      "aliases": [
+        "Clann na Poblachta"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 160,
+        "years": [
+          1948,
+          1965
+        ],
+        "bodies": {
+          "dail-eireann": 160
+        }
+      }
+    },
+    {
+      "id": "aontu",
+      "type": "party",
+      "name": "Aontú",
+      "shortName": "Aontú",
+      "aliases": [
+        "Aontú"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 136,
+        "years": [
+          2019,
+          2024
+        ],
+        "bodies": {
+          "dail-eireann": 69,
+          "local-government": 35,
+          "house-of-commons-of-the-united-kingdom": 17,
+          "northern-ireland-assembly": 12,
+          "ireland-european": 3
+        }
+      }
+    },
+    {
+      "id": "farmers",
+      "type": "party",
+      "name": "Farmers",
+      "shortName": "Farmers",
+      "aliases": [
+        "Farmers"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 112,
+        "years": [
+          1922,
+          1932
+        ],
+        "bodies": {
+          "dail-eireann": 112
+        }
+      }
+    },
+    {
+      "id": "republican",
+      "type": "party",
+      "name": "Republican",
+      "shortName": "Republican",
+      "aliases": [
+        "Republican"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 90,
+        "years": [
+          1923,
+          1925
+        ],
+        "bodies": {
+          "dail-eireann": 84,
+          "parliament-of-northern-ireland": 6
+        }
+      }
+    },
+    {
+      "id": "clann-na-talmhan",
+      "type": "party",
+      "name": "Clann na Talmhan",
+      "shortName": "Clann na Talmhan",
+      "aliases": [
+        "Clann na Talmhan"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 89,
+        "years": [
+          1943,
+          1961
+        ],
+        "bodies": {
+          "dail-eireann": 89
+        }
+      }
+    },
+    {
+      "id": "northern-ireland-labour-party",
+      "type": "party",
+      "name": "Northern Ireland Labour Party",
+      "shortName": "Northern Ireland Labour ",
+      "aliases": [
+        "Northern Ireland Labour Party"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 89,
+        "years": [
+          1973,
+          1985
+        ],
+        "bodies": {
+          "local-government": 89
+        }
+      }
+    },
+    {
+      "id": "ukip",
+      "type": "party",
+      "name": "UKIP",
+      "shortName": "UKIP",
+      "aliases": [
+        "UKIP"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 81,
+        "years": [
+          2007,
+          2019
+        ],
+        "bodies": {
+          "local-government": 46,
+          "northern-ireland-assembly": 21,
+          "house-of-commons-of-the-united-kingdom": 12,
+          "european-parliament": 2
+        }
+      }
+    },
+    {
+      "id": "natural-law",
+      "type": "party",
+      "name": "Natural Law",
+      "shortName": "Natural Law",
+      "aliases": [
+        "Natural Law"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 78,
+        "years": [
+          1992,
+          2000
+        ],
+        "bodies": {
+          "house-of-commons-of-the-united-kingdom": 29,
+          "northern-ireland-forum-for-political-dialogue": 19,
+          "northern-ireland-assembly": 18,
+          "ireland-european": 8,
+          "european-parliament": 4
+        }
+      }
+    },
+    {
+      "id": "irish-independence-party",
+      "type": "party",
+      "name": "Irish Independence Party",
+      "shortName": "Irish Independence Party",
+      "aliases": [
+        "Irish Independence Party"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 75,
+        "years": [
+          1981,
+          1985
+        ],
+        "bodies": {
+          "local-government": 75
+        }
+      }
+    },
+    {
+      "id": "ulster-democratic-party",
+      "type": "party",
+      "name": "Ulster Democratic Party",
+      "shortName": "Ulster Democratic Party",
+      "aliases": [
+        "Ulster Democratic Party"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 67,
+        "years": [
+          1981,
+          1998
+        ],
+        "bodies": {
+          "local-government": 35,
+          "northern-ireland-forum-for-political-dialogue": 19,
+          "northern-ireland-assembly": 11,
+          "house-of-commons-of-the-united-kingdom": 2
+        }
+      }
+    },
+    {
+      "id": "social-democrats",
+      "type": "party",
+      "name": "Social Democrats",
+      "shortName": "Social Democrats",
+      "aliases": [
+        "Social Democrats"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 66,
+        "years": [
+          2016,
+          2024
+        ],
+        "bodies": {
+          "dail-eireann": 62,
+          "ireland-european": 4
+        }
+      }
+    },
+    {
+      "id": "progressive-democrats",
+      "type": "party",
+      "name": "Progressive Democrats",
+      "shortName": "Progressive Democrats",
+      "aliases": [
+        "Progressive Democrats"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 58,
+        "years": [
+          1989,
+          2007
+        ],
+        "bodies": {
+          "dail-eireann": 50,
+          "ireland-european": 8
+        }
+      }
+    },
+    {
+      "id": "unionist-party-of-northern-ireland",
+      "type": "party",
+      "name": "Unionist Party of Northern Ireland",
+      "shortName": "Unionist Party of Northe",
+      "aliases": [
+        "Unionist Party of Northern Ireland"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 54,
+        "years": [
+          1975,
+          1981
+        ],
+        "bodies": {
+          "local-government": 32,
+          "northern-ireland-constitutional-convention": 18,
+          "house-of-commons-of-the-united-kingdom": 3,
+          "european-parliament": 1
+        }
+      }
+    },
+    {
+      "id": "comhar-criostai-christian-solidarity",
+      "type": "party",
+      "name": "Comhar Criostai / Christian Solidarity",
+      "shortName": "Comhar Criostai / Christ",
+      "aliases": [
+        "Comhar Criostai / Christian Solidarity"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 42,
+        "years": [
+          1999,
+          2011
+        ],
+        "bodies": {
+          "dail-eireann": 40,
+          "ireland-european": 2
+        }
+      }
+    },
+    {
+      "id": "non-party",
+      "type": "party",
+      "name": "Non-party",
+      "shortName": "Non-party",
+      "aliases": [
+        "Non-party"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 41,
+        "years": [
+          2005,
+          2021
+        ],
+        "bodies": {
+          "dail-eireann": 41
+        }
+      }
+    },
+    {
+      "id": "ulster-liberal",
+      "type": "party",
+      "name": "Ulster Liberal",
+      "shortName": "Ulster Liberal",
+      "aliases": [
+        "Ulster Liberal"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 40,
+        "years": [
+          1929,
+          1982
+        ],
+        "bodies": {
+          "house-of-commons-of-the-united-kingdom": 19,
+          "parliament-of-northern-ireland": 17,
+          "northern-ireland-assembly": 3,
+          "european-parliament": 1
+        }
+      }
+    },
+    {
+      "id": "labour-coalition",
+      "type": "party",
+      "name": "Labour Coalition",
+      "shortName": "Labour Coalition",
+      "aliases": [
+        "Labour Coalition"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 39,
+        "years": [
+          1996,
+          1997
+        ],
+        "bodies": {
+          "local-government": 20,
+          "northern-ireland-forum-for-political-dialogue": 19
+        }
+      }
+    },
+    {
+      "id": "renua",
+      "type": "party",
+      "name": "Renua",
+      "shortName": "Renua",
+      "aliases": [
+        "Renua"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 38,
+        "years": [
+          2016,
+          2020
+        ],
+        "bodies": {
+          "dail-eireann": 37,
+          "ireland-european": 1
+        }
+      }
+    },
+    {
+      "id": "ulster-popular-unionist-party",
+      "type": "party",
+      "name": "Ulster Popular Unionist Party",
+      "shortName": "Ulster Popular Unionist ",
+      "aliases": [
+        "Ulster Popular Unionist Party"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 38,
+        "years": [
+          1981,
+          1993
+        ],
+        "bodies": {
+          "local-government": 31,
+          "house-of-commons-of-the-united-kingdom": 4,
+          "northern-ireland-assembly": 2,
+          "european-parliament": 1
+        }
+      }
+    },
+    {
+      "id": "ni-women-s-coalition",
+      "type": "party",
+      "name": "NI Women's Coalition",
+      "shortName": "NI Women's Coalition",
+      "aliases": [
+        "NI Women's Coalition"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 38,
+        "years": [
+          1996,
+          2003
+        ],
+        "bodies": {
+          "northern-ireland-forum-for-political-dialogue": 19,
+          "northern-ireland-assembly": 15,
+          "house-of-commons-of-the-united-kingdom": 4
+        }
+      }
+    },
+    {
+      "id": "independent-ireland",
+      "type": "independent-label",
+      "name": "Independent Ireland",
+      "shortName": "Independent Ireland",
+      "aliases": [
+        "Independent Ireland"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 31,
+        "years": [
+          2024,
+          2024
+        ],
+        "bodies": {
+          "dail-eireann": 28,
+          "ireland-european": 3
+        }
+      }
+    },
+    {
+      "id": "irish-freedom-party",
+      "type": "party",
+      "name": "Irish Freedom Party",
+      "shortName": "Irish Freedom Party",
+      "aliases": [
+        "Irish Freedom Party"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 30,
+        "years": [
+          2020,
+          2024
+        ],
+        "bodies": {
+          "dail-eireann": 27,
+          "ireland-european": 3
+        }
+      }
+    },
+    {
+      "id": "northern-ireland-women-s-coalition",
+      "type": "party",
+      "name": "Northern Ireland Women's Coalition",
+      "shortName": "Northern Ireland Women's",
+      "aliases": [
+        "Northern Ireland Women's Coalition"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 29,
+        "years": [
+          1997,
+          2005
+        ],
+        "bodies": {
+          "local-government": 29
+        }
+      }
+    },
+    {
+      "id": "national-party",
+      "type": "party",
+      "name": "National Party",
+      "shortName": "National Party",
+      "aliases": [
+        "National Party"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 28,
+        "years": [
+          2002,
+          2024
+        ],
+        "bodies": {
+          "dail-eireann": 23,
+          "ireland-european": 5
+        }
+      }
+    },
+    {
+      "id": "ulster-independence-movement",
+      "type": "party",
+      "name": "Ulster Independence Movement",
+      "shortName": "Ulster Independence Move",
+      "aliases": [
+        "Ulster Independence Movement"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 26,
+        "years": [
+          1990,
+          1998
+        ],
+        "bodies": {
+          "northern-ireland-forum-for-political-dialogue": 19,
+          "local-government": 3,
+          "northern-ireland-assembly": 2,
+          "european-parliament": 1,
+          "house-of-commons-of-the-united-kingdom": 1
+        }
+      }
+    },
+    {
+      "id": "farmers-party-ireland",
+      "type": "party",
+      "name": "Farmers' Party (Ireland)",
+      "shortName": "Farmers' Party (Ireland)",
+      "aliases": [
+        "Farmers' Party (Ireland)"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 25,
+        "years": [
+          1927,
+          1932
+        ],
+        "bodies": {
+          "dail-eireann": 25
+        }
+      }
+    },
+    {
+      "id": "direct-democracy-ireland",
+      "type": "party",
+      "name": "Direct Democracy Ireland",
+      "shortName": "Direct Democracy Ireland",
+      "aliases": [
+        "Direct Democracy Ireland"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 24,
+        "years": [
+          2014,
+          2019
+        ],
+        "bodies": {
+          "dail-eireann": 18,
+          "ireland-european": 6
+        }
+      }
+    },
+    {
+      "id": "the-irish-people",
+      "type": "party",
+      "name": "The Irish People",
+      "shortName": "The Irish People",
+      "aliases": [
+        "The Irish People"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 24,
+        "years": [
+          2024,
+          2024
+        ],
+        "bodies": {
+          "dail-eireann": 21,
+          "ireland-european": 3
+        }
+      }
+    },
+    {
+      "id": "socialist-party",
+      "type": "party",
+      "name": "Socialist Party",
+      "shortName": "Socialist Party",
+      "aliases": [
+        "Socialist Party"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 24,
+        "years": [
+          1998,
+          2023
+        ],
+        "bodies": {
+          "local-government": 12,
+          "northern-ireland-assembly": 12
+        }
+      }
+    },
+    {
+      "id": "communist-party-of-ireland",
+      "type": "party",
+      "name": "Communist Party of Ireland",
+      "shortName": "Communist Party of Irela",
+      "aliases": [
+        "Communist Party of Ireland"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 23,
+        "years": [
+          1973,
+          2016
+        ],
+        "bodies": {
+          "local-government": 13,
+          "northern-ireland-assembly": 3,
+          "northern-ireland-constitutional-convention": 3,
+          "northern-ireland-forum-for-political-dialogue": 3,
+          "dail-eireann": 1
+        }
+      }
+    },
+    {
+      "id": "democratic-left",
+      "type": "party",
+      "name": "Democratic Left",
+      "shortName": "Democratic Left",
+      "aliases": [
+        "Democratic Left"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 23,
+        "years": [
+          1992,
+          1996
+        ],
+        "bodies": {
+          "northern-ireland-forum-for-political-dialogue": 19,
+          "house-of-commons-of-the-united-kingdom": 2,
+          "ireland-european": 2
+        }
+      }
+    },
+    {
+      "id": "socialist",
+      "type": "party",
+      "name": "Socialist",
+      "shortName": "Socialist",
+      "aliases": [
+        "Socialist"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 22,
+        "years": [
+          1999,
+          2014
+        ],
+        "bodies": {
+          "dail-eireann": 18,
+          "ireland-european": 4
+        }
+      }
+    },
+    {
+      "id": "independent-new-vision",
+      "type": "independent-label",
+      "name": "Independent/New Vision",
+      "shortName": "Independent/New Vision",
+      "aliases": [
+        "Independent/New Vision"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 20,
+        "years": [
+          2011,
+          2011
+        ],
+        "bodies": {
+          "dail-eireann": 20
+        }
+      }
+    },
+    {
+      "id": "independent-alliance",
+      "type": "independent-label",
+      "name": "Independent Alliance",
+      "shortName": "Independent Alliance",
+      "aliases": [
+        "Independent Alliance"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 20,
+        "years": [
+          2016,
+          2016
+        ],
+        "bodies": {
+          "dail-eireann": 20
+        }
+      }
+    },
+    {
+      "id": "national-centre-party",
+      "type": "party",
+      "name": "National Centre Party",
+      "shortName": "National Centre Party",
+      "aliases": [
+        "National Centre Party"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 18,
+        "years": [
+          1933,
+          1933
+        ],
+        "bodies": {
+          "dail-eireann": 18
+        }
+      }
+    },
+    {
+      "id": "leave",
+      "type": "party",
+      "name": "Leave",
+      "shortName": "Leave",
+      "aliases": [
+        "Leave"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 18,
+        "years": [
+          2016,
+          2016
+        ],
+        "bodies": {
+          "northern-ireland-referendum": 18
+        }
+      }
+    },
+    {
+      "id": "remain",
+      "type": "party",
+      "name": "Remain",
+      "shortName": "Remain",
+      "aliases": [
+        "Remain"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 18,
+        "years": [
+          2016,
+          2016
+        ],
+        "bodies": {
+          "northern-ireland-referendum": 18
+        }
+      }
+    },
+    {
+      "id": "labour-party-of-northern-ireland",
+      "type": "party",
+      "name": "Labour Party of Northern Ireland",
+      "shortName": "Labour Party of Northern",
+      "aliases": [
+        "Labour Party of Northern Ireland"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 17,
+        "years": [
+          1985,
+          2007
+        ],
+        "bodies": {
+          "northern-ireland-assembly": 10,
+          "local-government": 6,
+          "european-parliament": 1
+        }
+      }
+    },
+    {
+      "id": "vote-for-yourself-rainbow-dream-ticket-make-politicians-history",
+      "type": "party",
+      "name": "Vote For Yourself / Rainbow Dream Ticket / Make Politicians History",
+      "shortName": "Vote For Yourself / Rain",
+      "aliases": [
+        "Vote For Yourself / Rainbow Dream Ticket / Make Politicians History"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 17,
+        "years": [
+          2001,
+          2007
+        ],
+        "bodies": {
+          "house-of-commons-of-the-united-kingdom": 10,
+          "northern-ireland-assembly": 7
+        }
+      }
+    },
+    {
+      "id": "independents-4-change",
+      "type": "independent-label",
+      "name": "Independents 4 Change",
+      "shortName": "Independents 4 Change",
+      "aliases": [
+        "Independents 4 Change"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 16,
+        "years": [
+          2016,
+          2024
+        ],
+        "bodies": {
+          "dail-eireann": 12,
+          "ireland-european": 4
+        }
+      }
+    },
+    {
+      "id": "national-league-party",
+      "type": "party",
+      "name": "National League Party",
+      "shortName": "National League Party",
+      "aliases": [
+        "National League Party"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 15,
+        "years": [
+          1927,
+          1927
+        ],
+        "bodies": {
+          "dail-eireann": 15
+        }
+      }
+    },
+    {
+      "id": "irsp",
+      "type": "party",
+      "name": "IRSP",
+      "shortName": "IRSP",
+      "aliases": [
+        "IRSP"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 15,
+        "years": [
+          1981,
+          2023
+        ],
+        "bodies": {
+          "local-government": 13,
+          "northern-ireland-assembly": 2
+        }
+      }
+    },
+    {
+      "id": "anti-austerity-alliance",
+      "type": "party",
+      "name": "Anti-Austerity Alliance",
+      "shortName": "Anti-Austerity Alliance",
+      "aliases": [
+        "Anti-Austerity Alliance"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 13,
+        "years": [
+          2016,
+          2016
+        ],
+        "bodies": {
+          "dail-eireann": 13
+        }
+      }
+    },
+    {
+      "id": "national-democratic-party",
+      "type": "party",
+      "name": "National Democratic Party",
+      "shortName": "National Democratic Part",
+      "aliases": [
+        "National Democratic Party"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 13,
+        "years": [
+          1965,
+          1970
+        ],
+        "bodies": {
+          "parliament-of-northern-ireland": 11,
+          "house-of-commons-of-the-united-kingdom": 2
+        }
+      }
+    },
+    {
+      "id": "uuup",
+      "type": "party",
+      "name": "UUUP",
+      "shortName": "UUUP",
+      "aliases": [
+        "UUUP"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 13,
+        "years": [
+          1979,
+          1982
+        ],
+        "bodies": {
+          "northern-ireland-assembly": 11,
+          "house-of-commons-of-the-united-kingdom": 2
+        }
+      }
+    },
+    {
+      "id": "cista",
+      "type": "party",
+      "name": "CISTA",
+      "shortName": "CISTA",
+      "aliases": [
+        "CISTA"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 13,
+        "years": [
+          2015,
+          2019
+        ],
+        "bodies": {
+          "northern-ireland-assembly": 7,
+          "house-of-commons-of-the-united-kingdom": 5,
+          "local-government": 1
+        }
+      }
+    },
+    {
+      "id": "cross-community-labour-alternative",
+      "type": "party",
+      "name": "Cross-Community Labour Alternative",
+      "shortName": "Cross-Community Labour A",
+      "aliases": [
+        "Cross-Community Labour Alternative"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 13,
+        "years": [
+          2016,
+          2024
+        ],
+        "bodies": {
+          "northern-ireland-assembly": 8,
+          "local-government": 4,
+          "house-of-commons-of-the-united-kingdom": 1
+        }
+      }
+    },
+    {
+      "id": "republican-labour",
+      "type": "party",
+      "name": "Republican Labour",
+      "shortName": "Republican Labour",
+      "aliases": [
+        "Republican Labour"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 12,
+        "years": [
+          1953,
+          1973
+        ],
+        "bodies": {
+          "parliament-of-northern-ireland": 10,
+          "house-of-commons-of-the-united-kingdom": 1,
+          "northern-ireland-assembly": 1
+        }
+      }
+    },
+    {
+      "id": "republican-labour-party",
+      "type": "party",
+      "name": "Republican Labour Party",
+      "shortName": "Republican Labour Party",
+      "aliases": [
+        "Republican Labour Party"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 12,
+        "years": [
+          1973,
+          1973
+        ],
+        "bodies": {
+          "local-government": 12
+        }
+      }
+    },
+    {
+      "id": "democratic-left-ireland",
+      "type": "party",
+      "name": "Democratic Left (Ireland)",
+      "shortName": "Democratic Left (Ireland",
+      "aliases": [
+        "Democratic Left (Ireland)"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 11,
+        "years": [
+          1993,
+          1997
+        ],
+        "bodies": {
+          "local-government": 11
+        }
+      }
+    },
+    {
+      "id": "lab",
+      "type": "party",
+      "name": "Lab.",
+      "shortName": "Lab.",
+      "aliases": [
+        "Lab."
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 10,
+        "years": [
+          2005,
+          2015
+        ],
+        "bodies": {
+          "dail-eireann": 10
+        }
+      }
+    },
+    {
+      "id": "g-p",
+      "type": "party",
+      "name": "G.P.",
+      "shortName": "G.P.",
+      "aliases": [
+        "G.P."
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 10,
+        "years": [
+          2005,
+          2021
+        ],
+        "bodies": {
+          "dail-eireann": 10
+        }
+      }
+    },
+    {
+      "id": "non-party-fis-nua",
+      "type": "party",
+      "name": "Non party/Fis Nua",
+      "shortName": "Non party/Fis Nua",
+      "aliases": [
+        "Non party/Fis Nua"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 10,
+        "years": [
+          2011,
+          2016
+        ],
+        "bodies": {
+          "dail-eireann": 7,
+          "ireland-european": 3
+        }
+      }
+    },
+    {
+      "id": "socialist-environmental-alliance",
+      "type": "party",
+      "name": "Socialist Environmental Alliance",
+      "shortName": "Socialist Environmental ",
+      "aliases": [
+        "Socialist Environmental Alliance"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 10,
+        "years": [
+          2003,
+          2007
+        ],
+        "bodies": {
+          "local-government": 5,
+          "northern-ireland-assembly": 3,
+          "european-parliament": 1,
+          "house-of-commons-of-the-united-kingdom": 1
+        }
+      }
+    },
+    {
+      "id": "democratic-partnership",
+      "type": "party",
+      "name": "Democratic Partnership",
+      "shortName": "Democratic Partnership",
+      "aliases": [
+        "Democratic Partnership"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 10,
+        "years": [
+          1996,
+          1996
+        ],
+        "bodies": {
+          "northern-ireland-forum-for-political-dialogue": 10
+        }
+      }
+    },
+    {
+      "id": "bnp",
+      "type": "party",
+      "name": "BNP",
+      "shortName": "BNP",
+      "aliases": [
+        "BNP"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 9,
+        "years": [
+          2011,
+          2014
+        ],
+        "bodies": {
+          "local-government": 6,
+          "northern-ireland-assembly": 3
+        }
+      }
+    },
+    {
+      "id": "people-s-democracy",
+      "type": "party",
+      "name": "People's Democracy",
+      "shortName": "People's Democracy",
+      "aliases": [
+        "People's Democracy"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 9,
+        "years": [
+          1969,
+          1982
+        ],
+        "bodies": {
+          "parliament-of-northern-ireland": 7,
+          "northern-ireland-assembly": 2
+        }
+      }
+    },
+    {
+      "id": "national-centre-party-ireland",
+      "type": "party",
+      "name": "National Centre Party (Ireland)",
+      "shortName": "National Centre Party (I",
+      "aliases": [
+        "National Centre Party (Ireland)"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 8,
+        "years": [
+          1933,
+          1933
+        ],
+        "bodies": {
+          "dail-eireann": 8
+        }
+      }
+    },
+    {
+      "id": "independent-health-alliance",
+      "type": "independent-label",
+      "name": "Independent Health Alliance",
+      "shortName": "Independent Health Allia",
+      "aliases": [
+        "Independent Health Alliance"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 8,
+        "years": [
+          2002,
+          2002
+        ],
+        "bodies": {
+          "dail-eireann": 8
+        }
+      }
+    },
+    {
+      "id": "non-party-fathers-rights-responsibilities",
+      "type": "party",
+      "name": "Non party/Fathers Rights Responsibilities",
+      "shortName": "Non party/Fathers Rights",
+      "aliases": [
+        "Non party/Fathers Rights Responsibilities"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 8,
+        "years": [
+          2007,
+          2007
+        ],
+        "bodies": {
+          "dail-eireann": 8
+        }
+      }
+    },
+    {
+      "id": "northern-ireland-labour-representation-committee",
+      "type": "party",
+      "name": "Northern Ireland Labour Representation Committee",
+      "shortName": "Northern Ireland Labour ",
+      "aliases": [
+        "Northern Ireland Labour Representation Committee"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 8,
+        "years": [
+          2016,
+          2016
+        ],
+        "bodies": {
+          "northern-ireland-assembly": 8
+        }
+      }
+    },
+    {
+      "id": "socialist-workers",
+      "type": "party",
+      "name": "Socialist Workers",
+      "shortName": "Socialist Workers",
+      "aliases": [
+        "Socialist Workers"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 7,
+        "years": [
+          2002,
+          2002
+        ],
+        "bodies": {
+          "dail-eireann": 7
+        }
+      }
+    },
+    {
+      "id": "labour-and-trade-union-group",
+      "type": "party",
+      "name": "Labour and Trade Union Group",
+      "shortName": "Labour and Trade Union G",
+      "aliases": [
+        "Labour and Trade Union Group"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 7,
+        "years": [
+          1974,
+          1992
+        ],
+        "bodies": {
+          "house-of-commons-of-the-united-kingdom": 4,
+          "local-government": 3
+        }
+      }
+    },
+    {
+      "id": "independent-farmer",
+      "type": "independent-label",
+      "name": "Independent Farmer",
+      "shortName": "Independent Farmer",
+      "aliases": [
+        "Independent Farmer"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 6,
+        "years": [
+          1937,
+          1954
+        ],
+        "bodies": {
+          "dail-eireann": 6
+        }
+      }
+    },
+    {
+      "id": "ailtiri-na-haiseirghe",
+      "type": "party",
+      "name": "Ailtirí na hAiséirghe",
+      "shortName": "Ailtirí na hAiséirghe",
+      "aliases": [
+        "Ailtirí na hAiséirghe"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 6,
+        "years": [
+          1943,
+          1948
+        ],
+        "bodies": {
+          "dail-eireann": 6
+        }
+      }
+    },
+    {
+      "id": "liberty-republic",
+      "type": "party",
+      "name": "Liberty Republic",
+      "shortName": "Liberty Republic",
+      "aliases": [
+        "Liberty Republic"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 6,
+        "years": [
+          2024,
+          2024
+        ],
+        "bodies": {
+          "dail-eireann": 6
+        }
+      }
+    },
+    {
+      "id": "ir-lab",
+      "type": "party",
+      "name": "Ir Lab",
+      "shortName": "Ir Lab",
+      "aliases": [
+        "Ir Lab"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 6,
+        "years": [
+          1945,
+          1955
+        ],
+        "bodies": {
+          "house-of-commons-of-the-united-kingdom": 6
+        }
+      }
+    },
+    {
+      "id": "ulster-s-independent-voice",
+      "type": "party",
+      "name": "Ulster's Independent Voice",
+      "shortName": "Ulster's Independent Voi",
+      "aliases": [
+        "Ulster's Independent Voice"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 6,
+        "years": [
+          1996,
+          1998
+        ],
+        "bodies": {
+          "northern-ireland-forum-for-political-dialogue": 5,
+          "northern-ireland-assembly": 1
+        }
+      }
+    },
+    {
+      "id": "ind-unionist-party",
+      "type": "party",
+      "name": "Ind. Unionist Party",
+      "shortName": "Ind. Unionist Party",
+      "aliases": [
+        "Ind. Unionist Party"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 6,
+        "years": [
+          1938,
+          1938
+        ],
+        "bodies": {
+          "parliament-of-northern-ireland": 6
+        }
+      }
+    },
+    {
+      "id": "commonwealth-labour-party",
+      "type": "party",
+      "name": "Commonwealth Labour Party",
+      "shortName": "Commonwealth Labour Part",
+      "aliases": [
+        "Commonwealth Labour Party"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 6,
+        "years": [
+          1945,
+          1945
+        ],
+        "bodies": {
+          "parliament-of-northern-ireland": 6
+        }
+      }
+    },
+    {
+      "id": "communist-ni",
+      "type": "party",
+      "name": "Communist (NI)",
+      "shortName": "Communist (NI)",
+      "aliases": [
+        "Communist (NI)"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 6,
+        "years": [
+          1945,
+          1965
+        ],
+        "bodies": {
+          "parliament-of-northern-ireland": 6
+        }
+      }
+    },
+    {
+      "id": "national-league",
+      "type": "party",
+      "name": "National League",
+      "shortName": "National League",
+      "aliases": [
+        "National League"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 5,
+        "years": [
+          1927,
+          1933
+        ],
+        "bodies": {
+          "dail-eireann": 4,
+          "parliament-of-northern-ireland": 1
+        }
+      }
+    },
+    {
+      "id": "national-labour-party-ireland",
+      "type": "party",
+      "name": "National Labour Party (Ireland)",
+      "shortName": "National Labour Party (I",
+      "aliases": [
+        "National Labour Party (Ireland)"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 5,
+        "years": [
+          1944,
+          1948
+        ],
+        "bodies": {
+          "dail-eireann": 5
+        }
+      }
+    },
+    {
+      "id": "ireland-first",
+      "type": "party",
+      "name": "Ireland First",
+      "shortName": "Ireland First",
+      "aliases": [
+        "Ireland First"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 5,
+        "years": [
+          2024,
+          2024
+        ],
+        "bodies": {
+          "ireland-european": 3,
+          "dail-eireann": 2
+        }
+      }
+    },
+    {
+      "id": "labour-87",
+      "type": "party",
+      "name": "Labour '87",
+      "shortName": "Labour '87",
+      "aliases": [
+        "Labour '87"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 5,
+        "years": [
+          1989,
+          1989
+        ],
+        "bodies": {
+          "local-government": 4,
+          "european-parliament": 1
+        }
+      }
+    },
+    {
+      "id": "ulster-liberal-party",
+      "type": "party",
+      "name": "Ulster Liberal Party",
+      "shortName": "Ulster Liberal Party",
+      "aliases": [
+        "Ulster Liberal Party"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 5,
+        "years": [
+          1973,
+          1985
+        ],
+        "bodies": {
+          "local-government": 5
+        }
+      }
+    },
+    {
+      "id": "anti-partitionist",
+      "type": "party",
+      "name": "Anti-Partitionist",
+      "shortName": "Anti-Partitionist",
+      "aliases": [
+        "Anti-Partitionist"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 5,
+        "years": [
+          1934,
+          1953
+        ],
+        "bodies": {
+          "parliament-of-northern-ireland": 5
+        }
+      }
+    },
+    {
+      "id": "clann-eireann",
+      "type": "party",
+      "name": "Clann Éireann",
+      "shortName": "Clann Éireann",
+      "aliases": [
+        "Clann Éireann"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 4,
+        "years": [
+          1927,
+          1927
+        ],
+        "bodies": {
+          "dail-eireann": 4
+        }
+      }
+    },
+    {
+      "id": "independent-fianna-fail",
+      "type": "independent-label",
+      "name": "Independent Fianna Fáil",
+      "shortName": "Independent Fianna Fáil",
+      "aliases": [
+        "Independent Fianna Fáil"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 4,
+        "years": [
+          1979,
+          2002
+        ],
+        "bodies": {
+          "ireland-european": 3,
+          "dail-eireann": 1
+        }
+      }
+    },
+    {
+      "id": "non-party-an-chomhdhail-phobail-people-s-convention",
+      "type": "party",
+      "name": "Non party/An Chomhdhail Phobail | People's Convention",
+      "shortName": "Non party/An Chomhdhail ",
+      "aliases": [
+        "Non party/An Chomhdhail Phobail | People's Convention"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 4,
+        "years": [
+          2011,
+          2011
+        ],
+        "bodies": {
+          "dail-eireann": 4
+        }
+      }
+    },
+    {
+      "id": "iip",
+      "type": "party",
+      "name": "IIP",
+      "shortName": "IIP",
+      "aliases": [
+        "IIP"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 4,
+        "years": [
+          1979,
+          1979
+        ],
+        "bodies": {
+          "house-of-commons-of-the-united-kingdom": 4
+        }
+      }
+    },
+    {
+      "id": "d-u-u-u-u-c",
+      "type": "party",
+      "name": "D.U. U.U.U.C.",
+      "shortName": "D.U. U.U.U.C.",
+      "aliases": [
+        "D.U. U.U.U.C."
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 4,
+        "years": [
+          1977,
+          1977
+        ],
+        "bodies": {
+          "local-government": 4
+        }
+      }
+    },
+    {
+      "id": "natural-law-party",
+      "type": "party",
+      "name": "Natural Law Party",
+      "shortName": "Natural Law Party",
+      "aliases": [
+        "Natural Law Party"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 4,
+        "years": [
+          1997,
+          1997
+        ],
+        "bodies": {
+          "local-government": 4
+        }
+      }
+    },
+    {
+      "id": "eirigi",
+      "type": "party",
+      "name": "Éirígí",
+      "shortName": "Éirígí",
+      "aliases": [
+        "Éirígí"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 4,
+        "years": [
+          2011,
+          2014
+        ],
+        "bodies": {
+          "local-government": 4
+        }
+      }
+    },
+    {
+      "id": "democrats-and-veterans",
+      "type": "party",
+      "name": "Democrats and Veterans",
+      "shortName": "Democrats and Veterans",
+      "aliases": [
+        "Democrats and Veterans"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 4,
+        "years": [
+          2018,
+          2019
+        ],
+        "bodies": {
+          "local-government": 4
+        }
+      }
+    },
+    {
+      "id": "socialist-republican-party",
+      "type": "party",
+      "name": "Socialist Republican Party",
+      "shortName": "Socialist Republican Par",
+      "aliases": [
+        "Socialist Republican Party"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 4,
+        "years": [
+          1945,
+          1949
+        ],
+        "bodies": {
+          "parliament-of-northern-ireland": 4
+        }
+      }
+    },
+    {
+      "id": "irish-worker-league",
+      "type": "party",
+      "name": "Irish Worker League",
+      "shortName": "Irish Worker League",
+      "aliases": [
+        "Irish Worker League"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 3,
+        "years": [
+          1927,
+          1969
+        ],
+        "bodies": {
+          "dail-eireann": 3
+        }
+      }
+    },
+    {
+      "id": "lab-2",
+      "type": "party",
+      "name": "LAB.",
+      "shortName": "LAB.",
+      "aliases": [
+        "LAB."
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 3,
+        "years": [
+          2011,
+          2021
+        ],
+        "bodies": {
+          "dail-eireann": 3
+        }
+      }
+    },
+    {
+      "id": "irish-democratic-party",
+      "type": "party",
+      "name": "Irish Democratic Party",
+      "shortName": "Irish Democratic Party",
+      "aliases": [
+        "Irish Democratic Party"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 3,
+        "years": [
+          2016,
+          2020
+        ],
+        "bodies": {
+          "dail-eireann": 3
+        }
+      }
+    },
+    {
+      "id": "rabharta",
+      "type": "party",
+      "name": "Rabharta",
+      "shortName": "Rabharta",
+      "aliases": [
+        "Rabharta"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 3,
+        "years": [
+          2024,
+          2024
+        ],
+        "bodies": {
+          "dail-eireann": 3
+        }
+      }
+    },
+    {
+      "id": "centre-party-of-ireland",
+      "type": "party",
+      "name": "Centre Party of Ireland",
+      "shortName": "Centre Party of Ireland",
+      "aliases": [
+        "Centre Party of Ireland"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 3,
+        "years": [
+          2024,
+          2024
+        ],
+        "bodies": {
+          "dail-eireann": 3
+        }
+      }
+    },
+    {
+      "id": "party-for-animal-welfare",
+      "type": "party",
+      "name": "Party for Animal Welfare",
+      "shortName": "Party for Animal Welfare",
+      "aliases": [
+        "Party for Animal Welfare"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 3,
+        "years": [
+          2024,
+          2024
+        ],
+        "bodies": {
+          "dail-eireann": 3
+        }
+      }
+    },
+    {
+      "id": "united-labour-party",
+      "type": "party",
+      "name": "United Labour Party",
+      "shortName": "United Labour Party",
+      "aliases": [
+        "United Labour Party"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 3,
+        "years": [
+          1979,
+          1982
+        ],
+        "bodies": {
+          "house-of-commons-of-the-united-kingdom": 2,
+          "european-parliament": 1
+        }
+      }
+    },
+    {
+      "id": "ulster-third-way",
+      "type": "party",
+      "name": "Ulster Third Way",
+      "shortName": "Ulster Third Way",
+      "aliases": [
+        "Ulster Third Way"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 3,
+        "years": [
+          1994,
+          2003
+        ],
+        "bodies": {
+          "european-parliament": 1,
+          "house-of-commons-of-the-united-kingdom": 1,
+          "northern-ireland-assembly": 1
+        }
+      }
+    },
+    {
+      "id": "ind-nat",
+      "type": "party",
+      "name": "Ind Nat",
+      "shortName": "Ind Nat",
+      "aliases": [
+        "Ind Nat"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 3,
+        "years": [
+          1922,
+          1951
+        ],
+        "bodies": {
+          "house-of-commons-of-the-united-kingdom": 3
+        }
+      }
+    },
+    {
+      "id": "ind-lab",
+      "type": "party",
+      "name": "Ind Lab",
+      "shortName": "Ind Lab",
+      "aliases": [
+        "Ind Lab"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 3,
+        "years": [
+          1923,
+          1959
+        ],
+        "bodies": {
+          "house-of-commons-of-the-united-kingdom": 3
+        }
+      }
+    },
+    {
+      "id": "communist-party-of-ireland-marxist-leninist",
+      "type": "party",
+      "name": "Communist Party of Ireland (Marxist-Leninist)",
+      "shortName": "Communist Party of Irela",
+      "aliases": [
+        "Communist Party of Ireland (Marxist-Leninist)"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 3,
+        "years": [
+          1974,
+          1974
+        ],
+        "bodies": {
+          "house-of-commons-of-the-united-kingdom": 3
+        }
+      }
+    },
+    {
+      "id": "libertas",
+      "type": "party",
+      "name": "Libertas",
+      "shortName": "Libertas",
+      "aliases": [
+        "Libertas"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 3,
+        "years": [
+          2009,
+          2009
+        ],
+        "bodies": {
+          "ireland-european": 3
+        }
+      }
+    },
+    {
+      "id": "irish-labour-party",
+      "type": "party",
+      "name": "Irish Labour Party",
+      "shortName": "Irish Labour Party",
+      "aliases": [
+        "Irish Labour Party"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 3,
+        "years": [
+          1973,
+          1973
+        ],
+        "bodies": {
+          "local-government": 3
+        }
+      }
+    },
+    {
+      "id": "people-s-democracy-ireland",
+      "type": "party",
+      "name": "People's Democracy (Ireland)",
+      "shortName": "People's Democracy (Irel",
+      "aliases": [
+        "People's Democracy (Ireland)"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 3,
+        "years": [
+          1981,
+          1985
+        ],
+        "bodies": {
+          "local-government": 3
+        }
+      }
+    },
+    {
+      "id": "belfast-labour",
+      "type": "party",
+      "name": "Belfast Labour",
+      "shortName": "Belfast Labour",
+      "aliases": [
+        "Belfast Labour"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 3,
+        "years": [
+          1921,
+          1921
+        ],
+        "bodies": {
+          "parliament-of-northern-ireland": 3
+        }
+      }
+    },
+    {
+      "id": "local-option",
+      "type": "party",
+      "name": "Local Option",
+      "shortName": "Local Option",
+      "aliases": [
+        "Local Option"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 3,
+        "years": [
+          1929,
+          1929
+        ],
+        "bodies": {
+          "parliament-of-northern-ireland": 3
+        }
+      }
+    },
+    {
+      "id": "irish-republican",
+      "type": "party",
+      "name": "Irish Republican",
+      "shortName": "Irish Republican",
+      "aliases": [
+        "Irish Republican"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 3,
+        "years": [
+          1933,
+          1933
+        ],
+        "bodies": {
+          "parliament-of-northern-ireland": 3
+        }
+      }
+    },
+    {
+      "id": "independent-irish-labour",
+      "type": "independent-label",
+      "name": "Independent Irish Labour",
+      "shortName": "Independent Irish Labour",
+      "aliases": [
+        "Independent Irish Labour"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 3,
+        "years": [
+          1953,
+          1958
+        ],
+        "bodies": {
+          "parliament-of-northern-ireland": 3
+        }
+      }
+    },
+    {
+      "id": "ind-labour-group",
+      "type": "party",
+      "name": "Ind. Labour Group",
+      "shortName": "Ind. Labour Group",
+      "aliases": [
+        "Ind. Labour Group"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 3,
+        "years": [
+          1958,
+          1962
+        ],
+        "bodies": {
+          "parliament-of-northern-ireland": 3
+        }
+      }
+    },
+    {
+      "id": "labour-unionist",
+      "type": "party",
+      "name": "Labour Unionist",
+      "shortName": "Labour Unionist",
+      "aliases": [
+        "Labour Unionist"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 2,
+        "years": [
+          1918,
+          1918
+        ],
+        "bodies": {
+          "dail-eireann": 2
+        }
+      }
+    },
+    {
+      "id": "irish-unionist",
+      "type": "party",
+      "name": "Irish Unionist",
+      "shortName": "Irish Unionist",
+      "aliases": [
+        "Irish Unionist"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 2,
+        "years": [
+          1918,
+          1918
+        ],
+        "bodies": {
+          "dail-eireann": 2
+        }
+      }
+    },
+    {
+      "id": "coras-na-poblachta",
+      "type": "party",
+      "name": "Córas na Poblachta",
+      "shortName": "Córas na Poblachta",
+      "aliases": [
+        "Córas na Poblachta"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 2,
+        "years": [
+          1943,
+          1943
+        ],
+        "bodies": {
+          "dail-eireann": 2
+        }
+      }
+    },
+    {
+      "id": "irish-workers-party",
+      "type": "party",
+      "name": "Irish Workers' Party",
+      "shortName": "Irish Workers' Party",
+      "aliases": [
+        "Irish Workers' Party"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 2,
+        "years": [
+          1961,
+          1965
+        ],
+        "bodies": {
+          "dail-eireann": 2
+        }
+      }
+    },
+    {
+      "id": "p-d",
+      "type": "party",
+      "name": "P.D.",
+      "shortName": "P.D.",
+      "aliases": [
+        "P.D."
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 2,
+        "years": [
+          2005,
+          2005
+        ],
+        "bodies": {
+          "dail-eireann": 2
+        }
+      }
+    },
+    {
+      "id": "w-p",
+      "type": "party",
+      "name": "W.P.",
+      "shortName": "W.P.",
+      "aliases": [
+        "W.P."
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 2,
+        "years": [
+          2009,
+          2013
+        ],
+        "bodies": {
+          "dail-eireann": 2
+        }
+      }
+    },
+    {
+      "id": "united-left-alliance",
+      "type": "party",
+      "name": "United Left Alliance",
+      "shortName": "United Left Alliance",
+      "aliases": [
+        "United Left Alliance"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 2,
+        "years": [
+          2011,
+          2011
+        ],
+        "bodies": {
+          "dail-eireann": 2
+        }
+      }
+    },
+    {
+      "id": "s-p",
+      "type": "party",
+      "name": "S.P.",
+      "shortName": "S.P.",
+      "aliases": [
+        "S.P."
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 2,
+        "years": [
+          2011,
+          2014
+        ],
+        "bodies": {
+          "dail-eireann": 2
+        }
+      }
+    },
+    {
+      "id": "a-a-a",
+      "type": "party",
+      "name": "A.A.A.",
+      "shortName": "A.A.A.",
+      "aliases": [
+        "A.A.A."
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 2,
+        "years": [
+          2014,
+          2015
+        ],
+        "bodies": {
+          "dail-eireann": 2
+        }
+      }
+    },
+    {
+      "id": "p-b-p-a",
+      "type": "party",
+      "name": "P.B.P.A.",
+      "shortName": "P.B.P.A.",
+      "aliases": [
+        "P.B.P.A."
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 2,
+        "years": [
+          2014,
+          2015
+        ],
+        "bodies": {
+          "dail-eireann": 2
+        }
+      }
+    },
+    {
+      "id": "independent-northern-ireland-independence",
+      "type": "independent-label",
+      "name": "Independent - Northern Ireland independence",
+      "shortName": "Independent - Northern I",
+      "aliases": [
+        "Independent - Northern Ireland independence"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 2,
+        "years": [
+          1994,
+          1997
+        ],
+        "bodies": {
+          "european-parliament": 1,
+          "house-of-commons-of-the-united-kingdom": 1
+        }
+      }
+    },
+    {
+      "id": "rep-lab",
+      "type": "party",
+      "name": "Rep Lab",
+      "shortName": "Rep Lab",
+      "aliases": [
+        "Rep Lab"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 2,
+        "years": [
+          1964,
+          1966
+        ],
+        "bodies": {
+          "house-of-commons-of-the-united-kingdom": 2
+        }
+      }
+    },
+    {
+      "id": "an-rabharta-glas-green-left",
+      "type": "party",
+      "name": "An Rabharta Glas – Green Left",
+      "shortName": "An Rabharta Glas – Green",
+      "aliases": [
+        "An Rabharta Glas – Green Left"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 2,
+        "years": [
+          2024,
+          2024
+        ],
+        "bodies": {
+          "ireland-european": 2
+        }
+      }
+    },
+    {
+      "id": "national-front-uk",
+      "type": "party",
+      "name": "National Front (UK)",
+      "shortName": "National Front (UK)",
+      "aliases": [
+        "National Front (UK)"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 2,
+        "years": [
+          1989,
+          1989
+        ],
+        "bodies": {
+          "local-government": 2
+        }
+      }
+    },
+    {
+      "id": "republican-network-for-unity",
+      "type": "party",
+      "name": "Republican Network for Unity",
+      "shortName": "Republican Network for U",
+      "aliases": [
+        "Republican Network for Unity"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 2,
+        "years": [
+          2014,
+          2014
+        ],
+        "bodies": {
+          "local-government": 2
+        }
+      }
+    },
+    {
+      "id": "procapitalism",
+      "type": "party",
+      "name": "Procapitalism",
+      "shortName": "Procapitalism",
+      "aliases": [
+        "Procapitalism"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 2,
+        "years": [
+          2007,
+          2011
+        ],
+        "bodies": {
+          "northern-ireland-assembly": 2
+        }
+      }
+    },
+    {
+      "id": "ulster-christian-democratic-party",
+      "type": "party",
+      "name": "Ulster Christian Democratic Party",
+      "shortName": "Ulster Christian Democra",
+      "aliases": [
+        "Ulster Christian Democratic Party"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 2,
+        "years": [
+          1996,
+          1996
+        ],
+        "bodies": {
+          "northern-ireland-forum-for-political-dialogue": 2
+        }
+      }
+    },
+    {
+      "id": "town-tenants-association",
+      "type": "party",
+      "name": "Town Tenants' Association",
+      "shortName": "Town Tenants' Associatio",
+      "aliases": [
+        "Town Tenants' Association"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 2,
+        "years": [
+          1929,
+          1929
+        ],
+        "bodies": {
+          "parliament-of-northern-ireland": 2
+        }
+      }
+    },
+    {
+      "id": "irish-parliamentary",
+      "type": "party",
+      "name": "Irish Parliamentary",
+      "shortName": "Irish Parliamentary",
+      "aliases": [
+        "Irish Parliamentary"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          1918,
+          1918
+        ],
+        "bodies": {
+          "dail-eireann": 1
+        }
+      }
+    },
+    {
+      "id": "joint-panel-nomination-pro-anti-treaty",
+      "type": "party",
+      "name": "Joint Panel Nomination (Pro/Anti Treaty)",
+      "shortName": "Joint Panel Nomination (",
+      "aliases": [
+        "Joint Panel Nomination (Pro/Anti Treaty)"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          1922,
+          1922
+        ],
+        "bodies": {
+          "dail-eireann": 1
+        }
+      }
+    },
+    {
+      "id": "national-labour",
+      "type": "party",
+      "name": "National Labour",
+      "shortName": "National Labour",
+      "aliases": [
+        "National Labour"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          1948,
+          1948
+        ],
+        "bodies": {
+          "dail-eireann": 1
+        }
+      }
+    },
+    {
+      "id": "irish-workers-league",
+      "type": "party",
+      "name": "Irish Workers' League",
+      "shortName": "Irish Workers' League",
+      "aliases": [
+        "Irish Workers' League"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          1954,
+          1954
+        ],
+        "bodies": {
+          "dail-eireann": 1
+        }
+      }
+    },
+    {
+      "id": "independent-fine-gael",
+      "type": "independent-label",
+      "name": "Independent Fine Gael",
+      "shortName": "Independent Fine Gael",
+      "aliases": [
+        "Independent Fine Gael"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          2002,
+          2002
+        ],
+        "bodies": {
+          "dail-eireann": 1
+        }
+      }
+    },
+    {
+      "id": "non-p",
+      "type": "party",
+      "name": "NON-P",
+      "shortName": "NON-P",
+      "aliases": [
+        "NON-P"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          2005,
+          2005
+        ],
+        "bodies": {
+          "dail-eireann": 1
+        }
+      }
+    },
+    {
+      "id": "immigration-control-platform",
+      "type": "party",
+      "name": "Immigration Control Platform",
+      "shortName": "Immigration Control Plat",
+      "aliases": [
+        "Immigration Control Platform"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          2007,
+          2007
+        ],
+        "bodies": {
+          "dail-eireann": 1
+        }
+      }
+    },
+    {
+      "id": "irish-socialist-network",
+      "type": "party",
+      "name": "Irish Socialist Network",
+      "shortName": "Irish Socialist Network",
+      "aliases": [
+        "Irish Socialist Network"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          2007,
+          2007
+        ],
+        "bodies": {
+          "dail-eireann": 1
+        }
+      }
+    },
+    {
+      "id": "c-s-p",
+      "type": "party",
+      "name": "C.S.P.",
+      "shortName": "C.S.P.",
+      "aliases": [
+        "C.S.P."
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          2009,
+          2009
+        ],
+        "bodies": {
+          "dail-eireann": 1
+        }
+      }
+    },
+    {
+      "id": "south-kerry-independent-alliance",
+      "type": "party",
+      "name": "South Kerry Independent Alliance",
+      "shortName": "South Kerry Independent ",
+      "aliases": [
+        "South Kerry Independent Alliance"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          2011,
+          2011
+        ],
+        "bodies": {
+          "dail-eireann": 1
+        }
+      }
+    },
+    {
+      "id": "fis-nua",
+      "type": "party",
+      "name": "Fís Nua",
+      "shortName": "Fís Nua",
+      "aliases": [
+        "Fís Nua"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          2011,
+          2011
+        ],
+        "bodies": {
+          "dail-eireann": 1
+        }
+      }
+    },
+    {
+      "id": "d-d-i",
+      "type": "party",
+      "name": "D.D.I.",
+      "shortName": "D.D.I.",
+      "aliases": [
+        "D.D.I."
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          2013,
+          2013
+        ],
+        "bodies": {
+          "dail-eireann": 1
+        }
+      }
+    },
+    {
+      "id": "f-n",
+      "type": "party",
+      "name": "F.N.",
+      "shortName": "F.N.",
+      "aliases": [
+        "F.N."
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          2014,
+          2014
+        ],
+        "bodies": {
+          "dail-eireann": 1
+        }
+      }
+    },
+    {
+      "id": "non-p-2",
+      "type": "party",
+      "name": "NON-P.",
+      "shortName": "NON-P.",
+      "aliases": [
+        "NON-P."
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          2014,
+          2014
+        ],
+        "bodies": {
+          "dail-eireann": 1
+        }
+      }
+    },
+    {
+      "id": "r-i",
+      "type": "party",
+      "name": "R.I.",
+      "shortName": "R.I.",
+      "aliases": [
+        "R.I."
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          2015,
+          2015
+        ],
+        "bodies": {
+          "dail-eireann": 1
+        }
+      }
+    },
+    {
+      "id": "irish-postmasters-union",
+      "type": "party",
+      "name": "Irish Postmasters' Union",
+      "shortName": "Irish Postmasters' Union",
+      "aliases": [
+        "Irish Postmasters' Union"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          2016,
+          2016
+        ],
+        "bodies": {
+          "dail-eireann": 1
+        }
+      }
+    },
+    {
+      "id": "united-people",
+      "type": "party",
+      "name": "United People",
+      "shortName": "United People",
+      "aliases": [
+        "United People"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          2020,
+          2020
+        ],
+        "bodies": {
+          "dail-eireann": 1
+        }
+      }
+    },
+    {
+      "id": "s-p-b-p",
+      "type": "party",
+      "name": "S.P.B.P.",
+      "shortName": "S.P.B.P.",
+      "aliases": [
+        "S.P.B.P."
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          2021,
+          2021
+        ],
+        "bodies": {
+          "dail-eireann": 1
+        }
+      }
+    },
+    {
+      "id": "a",
+      "type": "party",
+      "name": "A.",
+      "shortName": "A.",
+      "aliases": [
+        "A."
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          2021,
+          2021
+        ],
+        "bodies": {
+          "dail-eireann": 1
+        }
+      }
+    },
+    {
+      "id": "t-n-p-a-p-n",
+      "type": "party",
+      "name": "T.N.P.A.P.N.",
+      "shortName": "T.N.P.A.P.N.",
+      "aliases": [
+        "T.N.P.A.P.N."
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          2021,
+          2021
+        ],
+        "bodies": {
+          "dail-eireann": 1
+        }
+      }
+    },
+    {
+      "id": "r-i-2",
+      "type": "party",
+      "name": "R.I",
+      "shortName": "R.I",
+      "aliases": [
+        "R.I"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          2021,
+          2021
+        ],
+        "bodies": {
+          "dail-eireann": 1
+        }
+      }
+    },
+    {
+      "id": "100-redress",
+      "type": "party",
+      "name": "100% Redress",
+      "shortName": "100% Redress",
+      "aliases": [
+        "100% Redress"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          2024,
+          2024
+        ],
+        "bodies": {
+          "dail-eireann": 1
+        }
+      }
+    },
+    {
+      "id": "right-to-change",
+      "type": "party",
+      "name": "Right to Change",
+      "shortName": "Right to Change",
+      "aliases": [
+        "Right to Change"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          2024,
+          2024
+        ],
+        "bodies": {
+          "dail-eireann": 1
+        }
+      }
+    },
+    {
+      "id": "ind-rep",
+      "type": "party",
+      "name": "Ind Rep",
+      "shortName": "Ind Rep",
+      "aliases": [
+        "Ind Rep"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          1943,
+          1943
+        ],
+        "bodies": {
+          "house-of-commons-of-the-united-kingdom": 1
+        }
+      }
+    },
+    {
+      "id": "cwlp",
+      "type": "party",
+      "name": "CWLP",
+      "shortName": "CWLP",
+      "aliases": [
+        "CWLP"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          1945,
+          1945
+        ],
+        "bodies": {
+          "house-of-commons-of-the-united-kingdom": 1
+        }
+      }
+    },
+    {
+      "id": "volunteer-political-party",
+      "type": "party",
+      "name": "Volunteer Political Party",
+      "shortName": "Volunteer Political Part",
+      "aliases": [
+        "Volunteer Political Party"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          1974,
+          1974
+        ],
+        "bodies": {
+          "house-of-commons-of-the-united-kingdom": 1
+        }
+      }
+    },
+    {
+      "id": "derry-labour-and-trade-union-party",
+      "type": "party",
+      "name": "Derry Labour and Trade Union Party",
+      "shortName": "Derry Labour and Trade U",
+      "aliases": [
+        "Derry Labour and Trade Union Party"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          1979,
+          1979
+        ],
+        "bodies": {
+          "house-of-commons-of-the-united-kingdom": 1
+        }
+      }
+    },
+    {
+      "id": "sdp",
+      "type": "party",
+      "name": "SDP",
+      "shortName": "SDP",
+      "aliases": [
+        "SDP"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          1990,
+          1990
+        ],
+        "bodies": {
+          "house-of-commons-of-the-united-kingdom": 1
+        }
+      }
+    },
+    {
+      "id": "national-democrats-uk",
+      "type": "party",
+      "name": "National Democrats (UK)",
+      "shortName": "National Democrats (UK)",
+      "aliases": [
+        "National Democrats (UK)"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          1997,
+          1997
+        ],
+        "bodies": {
+          "house-of-commons-of-the-united-kingdom": 1
+        }
+      }
+    },
+    {
+      "id": "democratic-socialist",
+      "type": "party",
+      "name": "Democratic Socialist",
+      "shortName": "Democratic Socialist",
+      "aliases": [
+        "Democratic Socialist"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          1984,
+          1984
+        ],
+        "bodies": {
+          "ireland-european": 1
+        }
+      }
+    },
+    {
+      "id": "identity-ireland",
+      "type": "party",
+      "name": "Identity Ireland",
+      "shortName": "Identity Ireland",
+      "aliases": [
+        "Identity Ireland"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          2019,
+          2019
+        ],
+        "bodies": {
+          "ireland-european": 1
+        }
+      }
+    },
+    {
+      "id": "united-loy-dup",
+      "type": "party",
+      "name": "United Loy DUP",
+      "shortName": "United Loy DUP",
+      "aliases": [
+        "United Loy DUP"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          1977,
+          1977
+        ],
+        "bodies": {
+          "local-government": 1
+        }
+      }
+    },
+    {
+      "id": "ul-un-u-u-u-c",
+      "type": "party",
+      "name": "Ul Un U.U.U.C.",
+      "shortName": "Ul Un U.U.U.C.",
+      "aliases": [
+        "Ul Un U.U.U.C."
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          1977,
+          1977
+        ],
+        "bodies": {
+          "local-government": 1
+        }
+      }
+    },
+    {
+      "id": "pensioner",
+      "type": "party",
+      "name": "Pensioner",
+      "shortName": "Pensioner",
+      "aliases": [
+        "Pensioner"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          1989,
+          1989
+        ],
+        "bodies": {
+          "local-government": 1
+        }
+      }
+    },
+    {
+      "id": "third-way-uk-organisation",
+      "type": "party",
+      "name": "Third Way (UK organisation)",
+      "shortName": "Third Way (UK organisati",
+      "aliases": [
+        "Third Way (UK organisation)"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          2001,
+          2001
+        ],
+        "bodies": {
+          "local-government": 1
+        }
+      }
+    },
+    {
+      "id": "ulster-constitution-party",
+      "type": "party",
+      "name": "Ulster Constitution Party",
+      "shortName": "Ulster Constitution Part",
+      "aliases": [
+        "Ulster Constitution Party"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          1973,
+          1973
+        ],
+        "bodies": {
+          "northern-ireland-assembly": 1
+        }
+      }
+    },
+    {
+      "id": "national-front",
+      "type": "party",
+      "name": "National Front",
+      "shortName": "National Front",
+      "aliases": [
+        "National Front"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          1973,
+          1973
+        ],
+        "bodies": {
+          "northern-ireland-assembly": 1
+        }
+      }
+    },
+    {
+      "id": "newtownabbey-labour",
+      "type": "party",
+      "name": "Newtownabbey Labour",
+      "shortName": "Newtownabbey Labour",
+      "aliases": [
+        "Newtownabbey Labour"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          1982,
+          1982
+        ],
+        "bodies": {
+          "northern-ireland-assembly": 1
+        }
+      }
+    },
+    {
+      "id": "northern-ireland-first",
+      "type": "party",
+      "name": "Northern Ireland First",
+      "shortName": "Northern Ireland First",
+      "aliases": [
+        "Northern Ireland First"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          2016,
+          2016
+        ],
+        "bodies": {
+          "northern-ireland-assembly": 1
+        }
+      }
+    },
+    {
+      "id": "south-belfast-unionists",
+      "type": "party",
+      "name": "South Belfast Unionists",
+      "shortName": "South Belfast Unionists",
+      "aliases": [
+        "South Belfast Unionists"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          2016,
+          2016
+        ],
+        "bodies": {
+          "northern-ireland-assembly": 1
+        }
+      }
+    },
+    {
+      "id": "democracy-first",
+      "type": "party",
+      "name": "Democracy First",
+      "shortName": "Democracy First",
+      "aliases": [
+        "Democracy First"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          2016,
+          2016
+        ],
+        "bodies": {
+          "northern-ireland-assembly": 1
+        }
+      }
+    },
+    {
+      "id": "animal-welfare-party",
+      "type": "party",
+      "name": "Animal Welfare Party",
+      "shortName": "Animal Welfare Party",
+      "aliases": [
+        "Animal Welfare Party"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          2016,
+          2016
+        ],
+        "bodies": {
+          "northern-ireland-assembly": 1
+        }
+      }
+    },
+    {
+      "id": "resume-ni",
+      "type": "party",
+      "name": "Resume NI",
+      "shortName": "Resume NI",
+      "aliases": [
+        "Resume NI"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          2022,
+          2022
+        ],
+        "bodies": {
+          "northern-ireland-assembly": 1
+        }
+      }
+    },
+    {
+      "id": "heritage-party",
+      "type": "party",
+      "name": "Heritage Party",
+      "shortName": "Heritage Party",
+      "aliases": [
+        "Heritage Party"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          2022,
+          2022
+        ],
+        "bodies": {
+          "northern-ireland-assembly": 1
+        }
+      }
+    },
+    {
+      "id": "unbought-tenants",
+      "type": "party",
+      "name": "Unbought Tenants",
+      "shortName": "Unbought Tenants",
+      "aliases": [
+        "Unbought Tenants"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          1925,
+          1925
+        ],
+        "bodies": {
+          "parliament-of-northern-ireland": 1
+        }
+      }
+    },
+    {
+      "id": "town-tenants-association-2",
+      "type": "party",
+      "name": "Town Tenants Association",
+      "shortName": "Town Tenants Association",
+      "aliases": [
+        "Town Tenants Association"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          1925,
+          1925
+        ],
+        "bodies": {
+          "parliament-of-northern-ireland": 1
+        }
+      }
+    },
+    {
+      "id": "ulster-democratic",
+      "type": "party",
+      "name": "Ulster Democratic",
+      "shortName": "Ulster Democratic",
+      "aliases": [
+        "Ulster Democratic"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          1934,
+          1934
+        ],
+        "bodies": {
+          "parliament-of-northern-ireland": 1
+        }
+      }
+    },
+    {
+      "id": "ulster-protestant-league",
+      "type": "party",
+      "name": "Ulster Protestant League",
+      "shortName": "Ulster Protestant League",
+      "aliases": [
+        "Ulster Protestant League"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          1938,
+          1938
+        ],
+        "bodies": {
+          "parliament-of-northern-ireland": 1
+        }
+      }
+    },
+    {
+      "id": "independent-progressive-unionist",
+      "type": "independent-label",
+      "name": "Independent Progressive Unionist",
+      "shortName": "Independent Progressive ",
+      "aliases": [
+        "Independent Progressive Unionist"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          1938,
+          1938
+        ],
+        "bodies": {
+          "parliament-of-northern-ireland": 1
+        }
+      }
+    },
+    {
+      "id": "federation-of-labour",
+      "type": "party",
+      "name": "Federation of Labour",
+      "shortName": "Federation of Labour",
+      "aliases": [
+        "Federation of Labour"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          1945,
+          1945
+        ],
+        "bodies": {
+          "parliament-of-northern-ireland": 1
+        }
+      }
+    },
+    {
+      "id": "ulster-protestant-action",
+      "type": "party",
+      "name": "Ulster Protestant Action",
+      "shortName": "Ulster Protestant Action",
+      "aliases": [
+        "Ulster Protestant Action"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          1958,
+          1958
+        ],
+        "bodies": {
+          "parliament-of-northern-ireland": 1
+        }
+      }
+    },
+    {
+      "id": "world-socialist-party",
+      "type": "party",
+      "name": "World Socialist Party",
+      "shortName": "World Socialist Party",
+      "aliases": [
+        "World Socialist Party"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          1962,
+          1962
+        ],
+        "bodies": {
+          "parliament-of-northern-ireland": 1
+        }
+      }
+    },
+    {
+      "id": "new-ireland-movement",
+      "type": "party",
+      "name": "New Ireland Movement",
+      "shortName": "New Ireland Movement",
+      "aliases": [
+        "New Ireland Movement"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          1965,
+          1965
+        ],
+        "bodies": {
+          "parliament-of-northern-ireland": 1
+        }
+      }
+    },
+    {
+      "id": "unofficial-unionist",
+      "type": "party",
+      "name": "Unofficial Unionist",
+      "shortName": "Unofficial Unionist",
+      "aliases": [
+        "Unofficial Unionist"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          1969,
+          1969
+        ],
+        "bodies": {
+          "parliament-of-northern-ireland": 1
+        }
+      }
+    },
+    {
+      "id": "people-s-progressive-party",
+      "type": "party",
+      "name": "People's Progressive Party",
+      "shortName": "People's Progressive Par",
+      "aliases": [
+        "People's Progressive Party"
+      ],
+      "status": "unknown",
+      "source": null,
+      "confidence": "unreviewed",
+      "provisional": true,
+      "observed": {
+        "candidacies": 1,
+        "years": [
+          1969,
+          1969
+        ],
+        "bodies": {
+          "parliament-of-northern-ireland": 1
+        }
+      }
+    }
+  ]
+}
