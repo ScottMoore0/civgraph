@@ -57,11 +57,12 @@ date. Every entry so far is `day`.
 | DUP | 1971-09-30 | active | — | 2,752 | 1973-05-30 | 1y 8m |
 | Ecology (NI) | 1981-05-20 | **dissolved** | 1990-02-12 | 13 | 1981-05-20 | 0y 0m |
 | Green (NI) | 1990-02-12 | active | — | 263 | 1990-05-17 | 0y 3m |
+| UKUP | 1996-04-20 | **unknown** | — | 74 | 1996-05-30 | 0y 1m |
 | PBP | 2005-10-21 | active | — | 108 | 2007-03-07 | 1y 4m |
 | TUV | 2007-12-07 | active | — | 264 | 2009-06-04 | 1y 6m |
 | NI21 | 2013-06-06 | dissolved | 2016-11-03 | 49 | 2014-05-22 | 0y 11m |
 
-14,257 of 23,920 party candidacies (59.6%) now belong to a party with a recorded
+14,331 of 23,920 party candidacies (59.9%) now belong to a party with a recorded
 lifespan. A further 5,777 of the 29,697 total are not party candidacies at all —
 independents, referendum Yes/No rows, and the non-party banners.
 
@@ -117,19 +118,25 @@ python scripts/validate_party_lifespans.py --wanted 40
 Four checks:
 
 1. **Contradiction** — the string is claimed for that body, but no party's window covers
-   the date. Currently **2**, both real:
+   the date. Currently **3**, and they turn out to be one phenomenon:
 
-   | date | contest | candidate | string |
-   |---|---|---|---|
-   | 1987-06-11 | Westminster, East Londonderry | Malcolm Samuel | `Green` |
-   | 1989-06-15 | European, Northern Ireland | Malcolm Samuel | `Green` |
+   | date | contest | candidate | string | founded | early by |
+   |---|---|---|---|---|---|
+   | 1987-06-11 | Westminster, East Londonderry | Malcolm Samuel | `Green` | 1990-02-12 | 2y 8m |
+   | 1989-06-15 | European, Northern Ireland | Malcolm Samuel | `Green` | 1990-02-12 | 8m |
+   | 1995-06-15 | Westminster by-election, North Down | Robert McCartney | `UKUP` | 1996-04-20 | 10m |
 
-   Both predate the Green Party's founding on 1990-02-12, by three years and by eight
-   months. The likely explanation is that the dataset normalised Samuel's label to
-   `Green` retrospectively when contemporaneously he stood as Ecology — the same
-   compiler behaviour visible in `Green / Ecology`. The alternative, that the 1990 date
-   marks a renaming rather than a founding, would also fit. Either way the registry is
-   surfacing a real question rather than hiding it.
+   **The dataset back-labels candidacies with the party a candidate later belonged to.**
+   McCartney won the 1995 North Down by-election before the UK Unionist Party existed;
+   Samuel stood under the Ecology label before the Green Party was founded. In both cases
+   the compiler has applied the later party name retrospectively — the same behaviour
+   already visible in `Green / Ecology`, a merged label spanning two organisations.
+
+   This matters beyond these three rows: it means a `party` string is **not** reliable
+   evidence of what a candidate stood as at the time, and any analysis treating it that
+   way will date party activity too early. These contradictions are only visible because
+   the founding dates are explicit; the derived `firstYear` would simply have reported
+   1987 and 1995 as the parties' first years and no one would have noticed.
 
 2. **Ambiguity** — more than one party's window covers a candidacy. A registry bug, not
    a data finding. Currently 0.
