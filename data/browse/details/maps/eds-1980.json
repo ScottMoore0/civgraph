@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-19T14:02:07.245Z",
+  "generatedAt": "2026-07-26T23:04:54.593Z",
   "item": {
     "id": "eds-1980",
     "slug": "eds-1980",
@@ -10,7 +10,7 @@
     "categoryId": "wards",
     "category": "Electoral Areas",
     "group": "Elections and Government",
-    "description": "Electoral ward boundaries",
+    "description": "Republic of Ireland District Electoral Divisions/Wards as at 1980-01-01, assembled from Connacht (= 1957 boundaries), Leinster (= 1977 boundaries), Munster 1980, Ulster (= 1963 boundaries). Modified version of District Electoral Divisions/Wards 1977 with 3 DEDs split by the Waterford boundary extension (similar to how 14 EDs are split today by the 2019 Cork extension). Also relevant is the renaming of the following DEDs between 1979 Census Reports Volume 1 (published February 1980) and 1981 Census Reports Volume 1 (published September 1982): Bealanagarry to Bealanageary (Dunmanway R.D.) (Cork)",
     "date": "1980-01-01",
     "years": [
       1980
@@ -45,7 +45,7 @@
     "variants": [
       {
         "id": "eds-1980-connacht",
-        "title": "Connacht (= 1919 boundaries)"
+        "title": "Connacht (= 1957 boundaries)"
       },
       {
         "id": "eds-1980-leinster",
@@ -57,7 +57,41 @@
       },
       {
         "id": "eds-1980-ulster",
-        "title": "Ulster (ROI: Cavan/Donegal/Monaghan; 1921 boundaries)"
+        "title": "Ulster (= 1963 boundaries)"
+      }
+    ],
+    "references": [
+      {
+        "label": "District Electoral Divisions/Wards 1980 source notes",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1980.txt",
+        "note": "Sidecar notes supplied in the Irish Digitised Boundaries archive."
+      }
+    ],
+    "downloads": [
+      {
+        "label": "Connacht DEDs/Wards 1957",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1957.fgb",
+        "type": "FlatGeobuf"
+      },
+      {
+        "label": "Leinster DEDs/Wards 1977",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1977.fgb",
+        "type": "FlatGeobuf"
+      },
+      {
+        "label": "Munster DEDs/Wards 1980",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Munster_1980.fgb",
+        "type": "FlatGeobuf"
+      },
+      {
+        "label": "Ulster DEDs/Wards 1963",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1963.fgb",
+        "type": "FlatGeobuf"
+      },
+      {
+        "label": "Source notes 1980",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1980.txt",
+        "type": "Source notes"
       }
     ],
     "interactiveUrl": "/#layers=eds-1980",
@@ -74,7 +108,7 @@
         "Paddy Matthews"
       ],
       "style": {
-        "color": "#247D36",
+        "color": "#1B5E20",
         "weight": 2
       },
       "labelProperty": "ENGLISH",
@@ -105,59 +139,95 @@
       "variants": [
         {
           "id": "eds-1980-connacht",
-          "label": "Connacht (= 1919 boundaries)",
-          "cloneOf": "eds-connacht-1919",
+          "label": "Connacht (= 1957 boundaries)",
+          "cloneOf": "eds-connacht-1957",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1919.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1957.fgb"
           },
           "style": {
-            "color": "#247D36",
+            "color": "#1B5E20",
             "weight": 2
           },
           "labelProperty": "ENGLISH",
-          "useLOD": true
+          "useLOD": false
         },
         {
           "id": "eds-1980-leinster",
           "label": "Leinster (= 1977 boundaries)",
+          "cloneOf": "eds-leinster-1977",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Leinster_1977.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1977.fgb"
           },
           "style": {
-            "color": "#247D36",
+            "color": "#1B5E20",
             "weight": 2
           },
           "labelProperty": "ENGLISH",
-          "useLOD": true,
-          "cloneOf": "eds-leinster-1977"
+          "useLOD": false
         },
         {
           "id": "eds-1980-munster",
           "label": "Munster 1980",
+          "cloneOf": "eds-munster-1980",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Munster_1980.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Munster_1980.fgb"
           },
           "style": {
-            "color": "#247D36",
+            "color": "#1B5E20",
             "weight": 2
           },
           "labelProperty": "ENGLISH",
-          "useLOD": true,
-          "cloneOf": "eds-munster-1980"
+          "useLOD": false
         },
         {
           "id": "eds-1980-ulster",
-          "label": "Ulster (ROI: Cavan/Donegal/Monaghan; 1921 boundaries)",
+          "label": "Ulster (= 1963 boundaries)",
+          "cloneOf": "eds-ulster-1963",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1963.fgb"
           },
           "style": {
-            "color": "#247D36",
+            "color": "#1B5E20",
             "weight": 2
           },
           "labelProperty": "ENGLISH",
-          "useLOD": true,
-          "cloneOf": "eds-ulster-1921"
+          "useLOD": false
+        }
+      ],
+      "description": "Republic of Ireland District Electoral Divisions/Wards as at 1980-01-01, assembled from Connacht (= 1957 boundaries), Leinster (= 1977 boundaries), Munster 1980, Ulster (= 1963 boundaries). Modified version of District Electoral Divisions/Wards 1977 with 3 DEDs split by the Waterford boundary extension (similar to how 14 EDs are split today by the 2019 Cork extension). Also relevant is the renaming of the following DEDs between 1979 Census Reports Volume 1 (published February 1980) and 1981 Census Reports Volume 1 (published September 1982): Bealanagarry to Bealanageary (Dunmanway R.D.) (Cork)",
+      "sourceNotes": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1980.txt",
+      "downloads": [
+        {
+          "label": "Connacht DEDs/Wards 1957",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1957.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Leinster DEDs/Wards 1977",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1977.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Munster DEDs/Wards 1980",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Munster_1980.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Ulster DEDs/Wards 1963",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1963.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Source notes 1980",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1980.txt",
+          "type": "Source notes"
+        }
+      ],
+      "references": [
+        {
+          "label": "District Electoral Divisions/Wards 1980 source notes",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1980.txt",
+          "note": "Sidecar notes supplied in the Irish Digitised Boundaries archive."
         }
       ]
     }

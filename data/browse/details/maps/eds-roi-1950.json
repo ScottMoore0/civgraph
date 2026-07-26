@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-12T22:18:23.317Z",
+  "generatedAt": "2026-07-26T23:04:54.593Z",
   "item": {
     "id": "eds-roi-1950",
     "slug": "eds-roi-1950",
@@ -10,7 +10,7 @@
     "categoryId": "wards",
     "category": "Electoral Areas",
     "group": "Elections and Government",
-    "description": "Republic of Ireland District Electoral Divisions/Wards as at 5 January 1950, assembled from Connacht 1919, Leinster 1946, Munster 1950, and the unchanged Ulster ROI DED component. In 1950 the new DED of Limerick Rural was formed out of parts of Limerick North Rural and Limerick South Rural ahead of the expansion of Limerick county borough.",
+    "description": "Republic of Ireland District Electoral Divisions/Wards as at 1950-01-05, assembled from Connacht (= 1919 boundaries), Leinster (= 1949 boundaries), Munster 1950, Ulster (= 1921 boundaries). Modified version of District Electoral Divisions/Wards 1953. In 1953, Dublin county borough's boundary was expanded into the DEDs of Castleknock, Clondalkin, Coolock, Drumcondra Rural, Finglas, Howth Rural, Palmerstown, Rathfarnham and Terenure.",
     "date": "1950-01-05",
     "years": [
       1950
@@ -46,7 +46,7 @@
       },
       {
         "id": "eds-roi-1950-leinster",
-        "title": "Leinster (= 1946 boundaries)"
+        "title": "Leinster (= 1949 boundaries)"
       },
       {
         "id": "eds-roi-1950-munster",
@@ -54,7 +54,7 @@
       },
       {
         "id": "eds-roi-1950-ulster",
-        "title": "Ulster (ROI: Cavan/Donegal/Monaghan; 1921 boundaries)"
+        "title": "Ulster (= 1921 boundaries)"
       }
     ],
     "references": [
@@ -64,7 +64,7 @@
         "note": "Sidecar notes supplied in the Irish Digitised Boundaries archive."
       },
       {
-        "label": "County Limerick (District Electoral Divisions) Order, 1950"
+        "label": "Local Government Provisional Order Confirmation Act, 1953"
       }
     ],
     "downloads": [
@@ -74,8 +74,8 @@
         "type": "FlatGeobuf"
       },
       {
-        "label": "Leinster DEDs/Wards 1946",
-        "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1946.fgb",
+        "label": "Leinster DEDs/Wards 1949",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1949.fgb",
         "type": "FlatGeobuf"
       },
       {
@@ -130,10 +130,10 @@
         },
         {
           "id": "eds-roi-1950-leinster",
-          "label": "Leinster (= 1946 boundaries)",
-          "cloneOf": "eds-leinster-1946",
+          "label": "Leinster (= 1949 boundaries)",
+          "cloneOf": "eds-leinster-1949",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1946.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1949.fgb"
           },
           "style": {
             "color": "#1B5E20",
@@ -158,8 +158,8 @@
         },
         {
           "id": "eds-roi-1950-ulster",
-          "label": "Ulster (ROI: Cavan/Donegal/Monaghan; 1921 boundaries)",
-          "cloneOf": "eds-ulster-1921",
+          "label": "Ulster (= 1921 boundaries)",
+          "cloneOf": "eds-ulster-1986",
           "files": {
             "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb"
           },
@@ -178,8 +178,8 @@
           "type": "FlatGeobuf"
         },
         {
-          "label": "Leinster DEDs/Wards 1946",
-          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1946.fgb",
+          "label": "Leinster DEDs/Wards 1949",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1949.fgb",
           "type": "FlatGeobuf"
         },
         {
@@ -205,7 +205,7 @@
           "note": "Sidecar notes supplied in the Irish Digitised Boundaries archive."
         },
         {
-          "label": "County Limerick (District Electoral Divisions) Order, 1950"
+          "label": "Local Government Provisional Order Confirmation Act, 1953"
         }
       ],
       "keywords": [
@@ -228,7 +228,8 @@
           -5.4
         ]
       ],
-      "description": "Republic of Ireland District Electoral Divisions/Wards as at 5 January 1950, assembled from Connacht 1919, Leinster 1946, Munster 1950, and the unchanged Ulster ROI DED component. In 1950 the new DED of Limerick Rural was formed out of parts of Limerick North Rural and Limerick South Rural ahead of the expansion of Limerick county borough."
+      "description": "Republic of Ireland District Electoral Divisions/Wards as at 1950-01-05, assembled from Connacht (= 1919 boundaries), Leinster (= 1949 boundaries), Munster 1950, Ulster (= 1921 boundaries). Modified version of District Electoral Divisions/Wards 1953. In 1953, Dublin county borough's boundary was expanded into the DEDs of Castleknock, Clondalkin, Coolock, Drumcondra Rural, Finglas, Howth Rural, Palmerstown, Rathfarnham and Terenure.",
+      "sourceNotes": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1950.txt"
     }
   }
 }

@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-19T14:02:07.245Z",
+  "generatedAt": "2026-07-26T23:04:54.593Z",
   "item": {
     "id": "eds-1994",
     "slug": "district-electoral-divisions-wards-1994",
     "type": "map",
-    "title": "Electoral Divisions/Wards 1994",
+    "title": "District Electoral Divisions/Wards 1994",
     "subtitle": "1994",
     "categoryId": "wards",
     "category": "Electoral Areas",
     "group": "Elections and Government",
-    "description": "Electoral ward boundaries",
-    "date": 1994,
+    "description": "Republic of Ireland District Electoral Divisions/Wards as at 1994, assembled from Connacht (= 1986 boundaries), Leinster 1994, Munster (= 1983 boundaries), Ulster (= 1963 boundaries). Very slightly modified version of Electoral Divisions 1997. The difference between this and that map is that the electoral division of Cherry Orchard B was renamed to Carna (source used - County Borough of Dublin (Wards) (Amendment) Regulations, 1997). District electoral divisions and wards were both renamed to electoral divisions in 1996 via the Local Government Act 1994, hence the new \"WARDORDED\" attribute",
+    "date": "1994",
     "years": [
       1994
     ],
@@ -36,31 +36,65 @@
       "id": "eds-1994",
       "url": "/assets/thumbnails/eds-1994.webp",
       "smallUrl": "/assets/thumbnails/eds-1994-60.webp",
-      "alt": "Electoral Divisions/Wards 1994"
+      "alt": "District Electoral Divisions/Wards 1994"
     },
     "variants": [
       {
-        "id": "eds-connacht-1994",
+        "id": "eds-1994-connacht",
         "title": "Connacht (= 1986 boundaries)"
       },
       {
-        "id": "eds-leinster-1994",
-        "title": "Leinster"
+        "id": "eds-1994-leinster",
+        "title": "District Electoral Divisions/Wards 1994 - Leinster 1994"
       },
       {
-        "id": "eds-munster-1994",
-        "title": "Munster"
+        "id": "eds-1994-munster",
+        "title": "Munster (= 1983 boundaries)"
       },
       {
-        "id": "eds-ulster-1994",
-        "title": "Ulster (ROI: Cavan/Donegal/Monaghan)"
+        "id": "eds-1994-ulster",
+        "title": "Ulster (= 1963 boundaries)"
+      }
+    ],
+    "references": [
+      {
+        "label": "District Electoral Divisions/Wards 1994 source notes",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1994.txt",
+        "note": "Sidecar notes supplied in the Irish Digitised Boundaries archive."
+      }
+    ],
+    "downloads": [
+      {
+        "label": "Connacht DEDs/Wards 1986",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Connacht_1986.fgb",
+        "type": "FlatGeobuf"
+      },
+      {
+        "label": "Leinster DEDs/Wards 1994",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1994.fgb",
+        "type": "FlatGeobuf"
+      },
+      {
+        "label": "Munster DEDs/Wards 1983",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Munster_1983.fgb",
+        "type": "FlatGeobuf"
+      },
+      {
+        "label": "Ulster DEDs/Wards 1963",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1963.fgb",
+        "type": "FlatGeobuf"
+      },
+      {
+        "label": "Source notes 1994",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1994.txt",
+        "type": "Source notes"
       }
     ],
     "interactiveUrl": "/#layers=eds-1994",
     "browseUrl": "/browse/maps/eds-1994",
     "rawMetadata": {
       "id": "eds-1994",
-      "name": "Electoral Divisions/Wards 1994",
+      "name": "District Electoral Divisions/Wards 1994",
       "slug": "district-electoral-divisions-wards-1994",
       "category": "wards",
       "isGroup": true,
@@ -69,7 +103,7 @@
         "Phelim Birch"
       ],
       "style": {
-        "color": "#2B8A3E",
+        "color": "#1B5E20",
         "weight": 2
       },
       "keywords": [
@@ -82,40 +116,100 @@
       ],
       "variants": [
         {
-          "id": "eds-connacht-1994",
+          "id": "eds-1994-connacht",
           "label": "Connacht (= 1986 boundaries)",
+          "cloneOf": "eds-connacht-1986",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Connacht_1986.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Connacht_1986.fgb"
           },
+          "style": {
+            "color": "#1B5E20",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
           "useLOD": false
         },
         {
-          "id": "eds-leinster-1994",
-          "label": "Leinster",
+          "id": "eds-1994-leinster",
+          "label": "Leinster 1994",
+          "cloneOf": "eds-leinster-1994",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Leinster_1994.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1994.fgb"
           },
+          "style": {
+            "color": "#1B5E20",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
           "useLOD": false
         },
         {
-          "id": "eds-munster-1994",
-          "label": "Munster",
+          "id": "eds-1994-munster",
+          "label": "Munster (= 1983 boundaries)",
+          "cloneOf": "eds-munster-1983",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/EDs_Munster_pre_2019.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Munster_1983.fgb"
           },
+          "style": {
+            "color": "#1B5E20",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
           "useLOD": false
         },
         {
-          "id": "eds-ulster-1994",
-          "label": "Ulster (ROI: Cavan/Donegal/Monaghan)",
+          "id": "eds-1994-ulster",
+          "label": "Ulster (= 1963 boundaries)",
+          "cloneOf": "eds-ulster-1963",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1963.fgb"
           },
-          "useLOD": true
+          "style": {
+            "color": "#1B5E20",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
         }
       ],
-      "date": 1994,
-      "labelProperty": "ENGLISH"
+      "date": "1994",
+      "labelProperty": "ENGLISH",
+      "description": "Republic of Ireland District Electoral Divisions/Wards as at 1994, assembled from Connacht (= 1986 boundaries), Leinster 1994, Munster (= 1983 boundaries), Ulster (= 1963 boundaries). Very slightly modified version of Electoral Divisions 1997. The difference between this and that map is that the electoral division of Cherry Orchard B was renamed to Carna (source used - County Borough of Dublin (Wards) (Amendment) Regulations, 1997). District electoral divisions and wards were both renamed to electoral divisions in 1996 via the Local Government Act 1994, hence the new \"WARDORDED\" attribute",
+      "sourceNotes": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1994.txt",
+      "downloads": [
+        {
+          "label": "Connacht DEDs/Wards 1986",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Connacht_1986.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Leinster DEDs/Wards 1994",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1994.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Munster DEDs/Wards 1983",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Munster_1983.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Ulster DEDs/Wards 1963",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1963.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Source notes 1994",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1994.txt",
+          "type": "Source notes"
+        }
+      ],
+      "references": [
+        {
+          "label": "District Electoral Divisions/Wards 1994 source notes",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1994.txt",
+          "note": "Sidecar notes supplied in the Irish Digitised Boundaries archive."
+        }
+      ]
     }
   }
 }

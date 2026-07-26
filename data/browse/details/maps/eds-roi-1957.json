@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-19T14:02:07.245Z",
+  "generatedAt": "2026-07-26T23:04:54.593Z",
   "item": {
     "id": "eds-roi-1957",
     "slug": "eds-roi-1957",
@@ -10,7 +10,7 @@
     "categoryId": "wards",
     "category": "Electoral Areas",
     "group": "Elections and Government",
-    "description": "Republic of Ireland District Electoral Divisions/Wards as at 1 November 1957, assembled from Connacht 1919, Leinster 1957, Munster 1955, and the unchanged Ulster ROI DED component. The source notes describe this as a modified version of the 1965 boundaries before Cork county borough expanded further into Bishopstown, St. Mary's, and Blackrock.",
+    "description": "Republic of Ireland District Electoral Divisions/Wards as at 1957-11-01, assembled from Connacht 1957, Leinster 1957, Munster 1957, Ulster (= 1921 boundaries). Modified version of District Electoral Divisions/Wards 1965. In 1965, Cork county borough's boundary expanded further into the DEDs of Bishopstown, St. Mary's and Blackrock (the last of which it fully absorbed). Also relevant is the renaming of the following DEDs between 1951 Census Reports Volume 1 (published 1952) and 1956 Census Reports Volume 1 (published 1957): Bagenalstown Rural to Muinebeag Rural (Carlow), Bagenalstown Urban to Muinebeag Urban (Carlow), Newbridge Rural to Droichead Nua Rural (Kildare), Newbridge Urban to Droichead Nua Urban (Kildare), Maryborough Rural to Portlaoighise Rural (Laois), Maryborough Urban to Portlaoighise Urban (Laois), Navan Rural to An Uaimh Rural (Meath), Navan Urban to An Uaimh Urban (Meath), WKells Rural to Ceanannas Mór Rural (Meath), Kells Urban to Ceanannas Mór Urban (Meath), Drumconrath to Drumcondra (Meath), Rosbercon to Rosbercon Urban (Wexford), Shanballymore Town to Shanballymore (Cork), Binghamstown North to An Geata Mór Thuaidh (Mayo), Binghamstown South to An Geata Mór Theas (Mayo)",
     "date": "1957-11-01",
     "years": [
       1957
@@ -44,7 +44,7 @@
     "variants": [
       {
         "id": "eds-roi-1957-connacht",
-        "title": "Connacht (= 1919 boundaries)"
+        "title": "District Electoral Divisions/Wards 1957 - Connacht 1957"
       },
       {
         "id": "eds-roi-1957-leinster",
@@ -52,33 +52,39 @@
       },
       {
         "id": "eds-roi-1957-munster",
-        "title": "Munster (= 1955 boundaries)"
+        "title": "District Electoral Divisions/Wards 1957 - Munster 1957"
       },
       {
         "id": "eds-roi-1957-ulster",
-        "title": "Ulster (ROI: Cavan/Donegal/Monaghan; 1921 boundaries)"
+        "title": "Ulster (= 1921 boundaries)"
       }
     ],
     "references": [
       {
         "label": "District Electoral Divisions/Wards 1957 source notes",
-        "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/District Electoral Divisions Wards 1957.txt",
-        "note": "Sidecar notes supplied in Irish Digitised Boundaries archive."
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1957.txt",
+        "note": "Sidecar notes supplied in the Irish Digitised Boundaries archive."
       },
       {
         "label": "Local Government Provisional Orders Confirmation Act, 1955"
       },
       {
-        "label": "Irish Townland and Historical Map Viewer, 6 Inch Last Edition basemap"
+        "label": "Irish Townland and Historical Map Viewer (6 Inch Last Edition basemap)"
       },
       {
         "label": "Cork City Council Boundary Map Viewer"
+      },
+      {
+        "label": "1951 Census Reports Volume 1"
+      },
+      {
+        "label": "1956 Census Reports Volume 1"
       }
     ],
     "downloads": [
       {
-        "label": "Connacht DEDs 1919",
-        "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1919.fgb",
+        "label": "Connacht DEDs/Wards 1957",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1957.fgb",
         "type": "FlatGeobuf"
       },
       {
@@ -87,18 +93,18 @@
         "type": "FlatGeobuf"
       },
       {
-        "label": "Munster DEDs/Wards 1955",
-        "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Munster_1955.fgb",
+        "label": "Munster DEDs/Wards 1957",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1957.fgb",
         "type": "FlatGeobuf"
       },
       {
-        "label": "Ulster DEDs 1921",
+        "label": "Ulster DEDs/Wards 1921",
         "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb",
         "type": "FlatGeobuf"
       },
       {
         "label": "Source notes 1957",
-        "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/District Electoral Divisions Wards 1957.txt",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1957.txt",
         "type": "Source notes"
       }
     ],
@@ -124,10 +130,10 @@
       "variants": [
         {
           "id": "eds-roi-1957-connacht",
-          "label": "Connacht (= 1919 boundaries)",
-          "cloneOf": "eds-connacht-1919",
+          "label": "Connacht 1957",
+          "cloneOf": "eds-connacht-1957",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1919.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1957.fgb"
           },
           "style": {
             "color": "#1B5E20",
@@ -139,34 +145,35 @@
         {
           "id": "eds-roi-1957-leinster",
           "label": "Leinster 1957",
+          "cloneOf": "eds-leinster-1957",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Leinster_1957.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1957.fgb"
           },
           "style": {
             "color": "#1B5E20",
             "weight": 2
           },
           "labelProperty": "ENGLISH",
-          "useLOD": false,
-          "cloneOf": "eds-leinster-1957"
+          "useLOD": false
         },
         {
           "id": "eds-roi-1957-munster",
-          "label": "Munster (= 1955 boundaries)",
+          "label": "Munster 1957",
+          "cloneOf": "eds-munster-1957",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Munster_1955.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1957.fgb"
           },
           "style": {
             "color": "#1B5E20",
             "weight": 2
           },
           "labelProperty": "ENGLISH",
-          "useLOD": false,
-          "cloneOf": "eds-munster-1955"
+          "useLOD": false
         },
         {
           "id": "eds-roi-1957-ulster",
-          "label": "Ulster (ROI: Cavan/Donegal/Monaghan; 1921 boundaries)",
+          "label": "Ulster (= 1921 boundaries)",
+          "cloneOf": "eds-ulster-1986",
           "files": {
             "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb"
           },
@@ -175,14 +182,13 @@
             "weight": 2
           },
           "labelProperty": "ENGLISH",
-          "useLOD": false,
-          "cloneOf": "eds-ulster-1921"
+          "useLOD": false
         }
       ],
       "downloads": [
         {
-          "label": "Connacht DEDs 1919",
-          "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1919.fgb",
+          "label": "Connacht DEDs/Wards 1957",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1957.fgb",
           "type": "FlatGeobuf"
         },
         {
@@ -191,35 +197,41 @@
           "type": "FlatGeobuf"
         },
         {
-          "label": "Munster DEDs/Wards 1955",
-          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Munster_1955.fgb",
+          "label": "Munster DEDs/Wards 1957",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1957.fgb",
           "type": "FlatGeobuf"
         },
         {
-          "label": "Ulster DEDs 1921",
+          "label": "Ulster DEDs/Wards 1921",
           "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb",
           "type": "FlatGeobuf"
         },
         {
           "label": "Source notes 1957",
-          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/District Electoral Divisions Wards 1957.txt",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1957.txt",
           "type": "Source notes"
         }
       ],
       "references": [
         {
           "label": "District Electoral Divisions/Wards 1957 source notes",
-          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/District Electoral Divisions Wards 1957.txt",
-          "note": "Sidecar notes supplied in Irish Digitised Boundaries archive."
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1957.txt",
+          "note": "Sidecar notes supplied in the Irish Digitised Boundaries archive."
         },
         {
           "label": "Local Government Provisional Orders Confirmation Act, 1955"
         },
         {
-          "label": "Irish Townland and Historical Map Viewer, 6 Inch Last Edition basemap"
+          "label": "Irish Townland and Historical Map Viewer (6 Inch Last Edition basemap)"
         },
         {
           "label": "Cork City Council Boundary Map Viewer"
+        },
+        {
+          "label": "1951 Census Reports Volume 1"
+        },
+        {
+          "label": "1956 Census Reports Volume 1"
         }
       ],
       "keywords": [
@@ -242,7 +254,8 @@
           -5.4
         ]
       ],
-      "description": "Republic of Ireland District Electoral Divisions/Wards as at 1 November 1957, assembled from Connacht 1919, Leinster 1957, Munster 1955, and the unchanged Ulster ROI DED component. The source notes describe this as a modified version of the 1965 boundaries before Cork county borough expanded further into Bishopstown, St. Mary's, and Blackrock."
+      "description": "Republic of Ireland District Electoral Divisions/Wards as at 1957-11-01, assembled from Connacht 1957, Leinster 1957, Munster 1957, Ulster (= 1921 boundaries). Modified version of District Electoral Divisions/Wards 1965. In 1965, Cork county borough's boundary expanded further into the DEDs of Bishopstown, St. Mary's and Blackrock (the last of which it fully absorbed). Also relevant is the renaming of the following DEDs between 1951 Census Reports Volume 1 (published 1952) and 1956 Census Reports Volume 1 (published 1957): Bagenalstown Rural to Muinebeag Rural (Carlow), Bagenalstown Urban to Muinebeag Urban (Carlow), Newbridge Rural to Droichead Nua Rural (Kildare), Newbridge Urban to Droichead Nua Urban (Kildare), Maryborough Rural to Portlaoighise Rural (Laois), Maryborough Urban to Portlaoighise Urban (Laois), Navan Rural to An Uaimh Rural (Meath), Navan Urban to An Uaimh Urban (Meath), WKells Rural to Ceanannas Mór Rural (Meath), Kells Urban to Ceanannas Mór Urban (Meath), Drumconrath to Drumcondra (Meath), Rosbercon to Rosbercon Urban (Wexford), Shanballymore Town to Shanballymore (Cork), Binghamstown North to An Geata Mór Thuaidh (Mayo), Binghamstown South to An Geata Mór Theas (Mayo)",
+      "sourceNotes": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1957.txt"
     }
   }
 }

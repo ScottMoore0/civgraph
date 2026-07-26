@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-19T14:02:07.245Z",
+  "generatedAt": "2026-07-26T23:04:54.593Z",
   "item": {
     "id": "eds-roi-1965",
     "slug": "eds-roi-1965",
@@ -10,7 +10,7 @@
     "categoryId": "wards",
     "category": "Electoral Areas",
     "group": "Elections and Government",
-    "description": "Republic of Ireland District Electoral Divisions/Wards as at 1 July 1965, assembled from Connacht 1919, Leinster 1957 (reused; no later Leinster file is present in the supplied archive), Munster 1965, and the unchanged Ulster ROI DED component. The source notes describe this as a modified version of the 1966 boundaries before Waterford county borough expanded further into Waterford Rural.",
+    "description": "Republic of Ireland District Electoral Divisions/Wards as at 1965-07-01, assembled from Connacht (= 1957 boundaries), Leinster (= 1963 boundaries), Munster 1965, Ulster (= 1963 boundaries). Modified version of District Electoral Divisions/Wards 1966. In 1966, Waterford county borough's boundary expanded further into the DED of Waterford Rural. Also relevant is the renaming of the following DEDs between 1956 Census Reports Volume 1 (published 1957) and 1961 Census Reports Volume 1 (published 1963): Frankford to Kilcormac (Offaly), Mountcharles to Tantallon (Donegal)",
     "date": "1965-07-01",
     "years": [
       1965
@@ -42,11 +42,11 @@
     "variants": [
       {
         "id": "eds-roi-1965-connacht",
-        "title": "Connacht (= 1919 boundaries)"
+        "title": "Connacht (= 1957 boundaries)"
       },
       {
         "id": "eds-roi-1965-leinster",
-        "title": "Leinster (= 1957 boundaries)"
+        "title": "Leinster (= 1963 boundaries)"
       },
       {
         "id": "eds-roi-1965-munster",
@@ -54,28 +54,34 @@
       },
       {
         "id": "eds-roi-1965-ulster",
-        "title": "Ulster (ROI: Cavan/Donegal/Monaghan; 1921 boundaries)"
+        "title": "Ulster (= 1963 boundaries)"
       }
     ],
     "references": [
       {
         "label": "District Electoral Divisions/Wards 1965 source notes",
-        "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/District Electoral Divisions Wards 1965.txt",
-        "note": "Sidecar notes supplied in Irish Digitised Boundaries archive."
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1965.txt",
+        "note": "Sidecar notes supplied in the Irish Digitised Boundaries archive."
       },
       {
         "label": "Local Government Provisional Order Confirmation Act, 1966"
+      },
+      {
+        "label": "1956 Census Reports Volume 1"
+      },
+      {
+        "label": "1961 Census Reports Volume 1"
       }
     ],
     "downloads": [
       {
-        "label": "Connacht DEDs 1919",
-        "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1919.fgb",
+        "label": "Connacht DEDs/Wards 1957",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1957.fgb",
         "type": "FlatGeobuf"
       },
       {
-        "label": "Leinster DEDs/Wards 1957 (used for 1965)",
-        "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1957.fgb",
+        "label": "Leinster DEDs/Wards 1963",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1963.fgb",
         "type": "FlatGeobuf"
       },
       {
@@ -84,13 +90,13 @@
         "type": "FlatGeobuf"
       },
       {
-        "label": "Ulster DEDs 1921",
-        "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb",
+        "label": "Ulster DEDs/Wards 1963",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1963.fgb",
         "type": "FlatGeobuf"
       },
       {
         "label": "Source notes 1965",
-        "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/District Electoral Divisions Wards 1965.txt",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1965.txt",
         "type": "Source notes"
       }
     ],
@@ -109,20 +115,20 @@
         "Paddy Matthews"
       ],
       "style": {
-        "color": "#226C32",
+        "color": "#1B5E20",
         "weight": 2
       },
       "labelProperty": "ENGLISH",
       "variants": [
         {
           "id": "eds-roi-1965-connacht",
-          "label": "Connacht (= 1919 boundaries)",
-          "cloneOf": "eds-connacht-1919",
+          "label": "Connacht (= 1957 boundaries)",
+          "cloneOf": "eds-connacht-1957",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1919.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1957.fgb"
           },
           "style": {
-            "color": "#226C32",
+            "color": "#1B5E20",
             "weight": 2
           },
           "labelProperty": "ENGLISH",
@@ -130,56 +136,56 @@
         },
         {
           "id": "eds-roi-1965-leinster",
-          "label": "Leinster (= 1957 boundaries)",
+          "label": "Leinster (= 1963 boundaries)",
+          "cloneOf": "eds-leinster-1963",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Leinster_1957.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1963.fgb"
           },
           "style": {
-            "color": "#226C32",
+            "color": "#1B5E20",
             "weight": 2
           },
           "labelProperty": "ENGLISH",
-          "useLOD": false,
-          "cloneOf": "eds-leinster-1957"
+          "useLOD": false
         },
         {
           "id": "eds-roi-1965-munster",
           "label": "Munster 1965",
+          "cloneOf": "eds-munster-1965",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Munster_1965.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Munster_1965.fgb"
           },
           "style": {
-            "color": "#226C32",
+            "color": "#1B5E20",
             "weight": 2
           },
           "labelProperty": "ENGLISH",
-          "useLOD": false,
-          "cloneOf": "eds-munster-1965"
+          "useLOD": false
         },
         {
           "id": "eds-roi-1965-ulster",
-          "label": "Ulster (ROI: Cavan/Donegal/Monaghan; 1921 boundaries)",
+          "label": "Ulster (= 1963 boundaries)",
+          "cloneOf": "eds-ulster-1963",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1963.fgb"
           },
           "style": {
-            "color": "#226C32",
+            "color": "#1B5E20",
             "weight": 2
           },
           "labelProperty": "ENGLISH",
-          "useLOD": false,
-          "cloneOf": "eds-ulster-1921"
+          "useLOD": false
         }
       ],
       "downloads": [
         {
-          "label": "Connacht DEDs 1919",
-          "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1919.fgb",
+          "label": "Connacht DEDs/Wards 1957",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1957.fgb",
           "type": "FlatGeobuf"
         },
         {
-          "label": "Leinster DEDs/Wards 1957 (used for 1965)",
-          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1957.fgb",
+          "label": "Leinster DEDs/Wards 1963",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1963.fgb",
           "type": "FlatGeobuf"
         },
         {
@@ -188,24 +194,30 @@
           "type": "FlatGeobuf"
         },
         {
-          "label": "Ulster DEDs 1921",
-          "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb",
+          "label": "Ulster DEDs/Wards 1963",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1963.fgb",
           "type": "FlatGeobuf"
         },
         {
           "label": "Source notes 1965",
-          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/District Electoral Divisions Wards 1965.txt",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1965.txt",
           "type": "Source notes"
         }
       ],
       "references": [
         {
           "label": "District Electoral Divisions/Wards 1965 source notes",
-          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/District Electoral Divisions Wards 1965.txt",
-          "note": "Sidecar notes supplied in Irish Digitised Boundaries archive."
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1965.txt",
+          "note": "Sidecar notes supplied in the Irish Digitised Boundaries archive."
         },
         {
           "label": "Local Government Provisional Order Confirmation Act, 1966"
+        },
+        {
+          "label": "1956 Census Reports Volume 1"
+        },
+        {
+          "label": "1961 Census Reports Volume 1"
         }
       ],
       "keywords": [
@@ -228,7 +240,8 @@
           -5.4
         ]
       ],
-      "description": "Republic of Ireland District Electoral Divisions/Wards as at 1 July 1965, assembled from Connacht 1919, Leinster 1957 (reused; no later Leinster file is present in the supplied archive), Munster 1965, and the unchanged Ulster ROI DED component. The source notes describe this as a modified version of the 1966 boundaries before Waterford county borough expanded further into Waterford Rural."
+      "description": "Republic of Ireland District Electoral Divisions/Wards as at 1965-07-01, assembled from Connacht (= 1957 boundaries), Leinster (= 1963 boundaries), Munster 1965, Ulster (= 1963 boundaries). Modified version of District Electoral Divisions/Wards 1966. In 1966, Waterford county borough's boundary expanded further into the DED of Waterford Rural. Also relevant is the renaming of the following DEDs between 1956 Census Reports Volume 1 (published 1957) and 1961 Census Reports Volume 1 (published 1963): Frankford to Kilcormac (Offaly), Mountcharles to Tantallon (Donegal)",
+      "sourceNotes": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1965.txt"
     }
   }
 }

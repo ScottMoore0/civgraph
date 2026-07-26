@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-19T14:02:07.245Z",
+  "generatedAt": "2026-07-26T23:04:54.593Z",
   "item": {
     "id": "eds-1983",
     "slug": "eds-1983",
@@ -10,14 +10,14 @@
     "categoryId": "wards",
     "category": "Electoral Areas",
     "group": "Elections and Government",
-    "description": "Electoral ward boundaries",
-    "date": 1983,
+    "description": "Republic of Ireland District Electoral Divisions/Wards as at 1983, assembled from Connacht (= 1957 boundaries), Leinster (= 1977 boundaries), Munster 1983, Ulster (= 1963 boundaries). Modified version of District Electoral Divisions/Wards 1985. In 1985, the DEDs of Blanchardstown, Coolock, Drumcondra Rural No. 1, Drumcondra Rural No. 2, Dundrum No. 1, Finglas and Palmerstown No. 1 and wards of Kimmage E, Pembroke East D and Rathfarnham D were split by the Dublin city boundary change.",
+    "date": "1983",
     "years": [
       1983
     ],
     "provider": [
       "Phelim Birch",
-      "Paddy Matthews"
+      "Paddy Matthews (Paddy will be credited on all my ED maps from now on as I used his 1926 map for Galway)"
     ],
     "keywords": [
       "electoral division",
@@ -44,7 +44,7 @@
     "variants": [
       {
         "id": "eds-1983-connacht",
-        "title": "Connacht (= 1919 boundaries)"
+        "title": "Connacht (= 1957 boundaries)"
       },
       {
         "id": "eds-1983-leinster",
@@ -56,7 +56,41 @@
       },
       {
         "id": "eds-1983-ulster",
-        "title": "Ulster (ROI: Cavan/Donegal/Monaghan; 1921 boundaries)"
+        "title": "Ulster (= 1963 boundaries)"
+      }
+    ],
+    "references": [
+      {
+        "label": "District Electoral Divisions/Wards 1983 source notes",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1983.txt",
+        "note": "Sidecar notes supplied in the Irish Digitised Boundaries archive."
+      }
+    ],
+    "downloads": [
+      {
+        "label": "Connacht DEDs/Wards 1957",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1957.fgb",
+        "type": "FlatGeobuf"
+      },
+      {
+        "label": "Leinster DEDs/Wards 1977",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1977.fgb",
+        "type": "FlatGeobuf"
+      },
+      {
+        "label": "Munster DEDs/Wards 1983",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Munster_1983.fgb",
+        "type": "FlatGeobuf"
+      },
+      {
+        "label": "Ulster DEDs/Wards 1963",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1963.fgb",
+        "type": "FlatGeobuf"
+      },
+      {
+        "label": "Source notes 1983",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1983.txt",
+        "type": "Source notes"
       }
     ],
     "interactiveUrl": "/#layers=eds-1983",
@@ -67,13 +101,13 @@
       "slug": "eds-1983",
       "category": "wards",
       "featured": true,
-      "date": 1983,
+      "date": "1983",
       "provider": [
         "Phelim Birch",
-        "Paddy Matthews"
+        "Paddy Matthews (Paddy will be credited on all my ED maps from now on as I used his 1926 map for Galway)"
       ],
       "style": {
-        "color": "#288239",
+        "color": "#1B5E20",
         "weight": 2
       },
       "labelProperty": "ENGLISH",
@@ -103,59 +137,95 @@
       "variants": [
         {
           "id": "eds-1983-connacht",
-          "label": "Connacht (= 1919 boundaries)",
-          "cloneOf": "eds-connacht-1919",
+          "label": "Connacht (= 1957 boundaries)",
+          "cloneOf": "eds-connacht-1957",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1919.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1957.fgb"
           },
           "style": {
-            "color": "#288239",
+            "color": "#1B5E20",
             "weight": 2
           },
           "labelProperty": "ENGLISH",
-          "useLOD": true
+          "useLOD": false
         },
         {
           "id": "eds-1983-leinster",
           "label": "Leinster (= 1977 boundaries)",
+          "cloneOf": "eds-leinster-1977",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Leinster_1977.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1977.fgb"
           },
           "style": {
-            "color": "#288239",
+            "color": "#1B5E20",
             "weight": 2
           },
           "labelProperty": "ENGLISH",
-          "useLOD": true,
-          "cloneOf": "eds-leinster-1977"
+          "useLOD": false
         },
         {
           "id": "eds-1983-munster",
           "label": "Munster 1983",
+          "cloneOf": "eds-munster-1983",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Munster_1983.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Munster_1983.fgb"
           },
           "style": {
-            "color": "#288239",
+            "color": "#1B5E20",
             "weight": 2
           },
           "labelProperty": "ENGLISH",
-          "useLOD": true,
-          "cloneOf": "eds-munster-1983"
+          "useLOD": false
         },
         {
           "id": "eds-1983-ulster",
-          "label": "Ulster (ROI: Cavan/Donegal/Monaghan; 1921 boundaries)",
+          "label": "Ulster (= 1963 boundaries)",
+          "cloneOf": "eds-ulster-1963",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1963.fgb"
           },
           "style": {
-            "color": "#288239",
+            "color": "#1B5E20",
             "weight": 2
           },
           "labelProperty": "ENGLISH",
-          "useLOD": true,
-          "cloneOf": "eds-ulster-1921"
+          "useLOD": false
+        }
+      ],
+      "description": "Republic of Ireland District Electoral Divisions/Wards as at 1983, assembled from Connacht (= 1957 boundaries), Leinster (= 1977 boundaries), Munster 1983, Ulster (= 1963 boundaries). Modified version of District Electoral Divisions/Wards 1985. In 1985, the DEDs of Blanchardstown, Coolock, Drumcondra Rural No. 1, Drumcondra Rural No. 2, Dundrum No. 1, Finglas and Palmerstown No. 1 and wards of Kimmage E, Pembroke East D and Rathfarnham D were split by the Dublin city boundary change.",
+      "sourceNotes": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1983.txt",
+      "downloads": [
+        {
+          "label": "Connacht DEDs/Wards 1957",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1957.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Leinster DEDs/Wards 1977",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1977.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Munster DEDs/Wards 1983",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Munster_1983.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Ulster DEDs/Wards 1963",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1963.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Source notes 1983",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1983.txt",
+          "type": "Source notes"
+        }
+      ],
+      "references": [
+        {
+          "label": "District Electoral Divisions/Wards 1983 source notes",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1983.txt",
+          "note": "Sidecar notes supplied in the Irish Digitised Boundaries archive."
         }
       ]
     }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-19T14:02:07.245Z",
+  "generatedAt": "2026-07-26T23:04:54.593Z",
   "item": {
     "id": "eds-1971",
     "slug": "eds-1971",
@@ -10,7 +10,7 @@
     "categoryId": "wards",
     "category": "Electoral Areas",
     "group": "Elections and Government",
-    "description": "Electoral ward boundaries",
+    "description": "Republic of Ireland District Electoral Divisions/Wards as at 1971-04-15, assembled from Connacht (= 1957 boundaries), Leinster 1971, Munster 1971, Ulster (= 1963 boundaries). Modified version of District Electoral Divisions/Wards 1977. In 1977, due to the expansion of Drogheda, part of the DED of St. Mary’s was ceded to County Louth by County Meath. Details on this can be found in the Local Government Provisional Order Confirmation Act, 1976. Also relevant is the renaming of An Uaimh to Navan on 25/06/1971, as its corresponding DEDs were renamed by 1971 Census Reports Volume 1 (published July 1972).",
     "date": "1971-04-15",
     "years": [
       1971
@@ -44,7 +44,7 @@
     "variants": [
       {
         "id": "eds-1971-connacht",
-        "title": "Connacht (= 1919 boundaries)"
+        "title": "Connacht (= 1957 boundaries)"
       },
       {
         "id": "eds-1971-leinster",
@@ -56,7 +56,41 @@
       },
       {
         "id": "eds-1971-ulster",
-        "title": "Ulster (ROI: Cavan/Donegal/Monaghan; 1921 boundaries)"
+        "title": "Ulster (= 1963 boundaries)"
+      }
+    ],
+    "references": [
+      {
+        "label": "District Electoral Divisions/Wards 1971 source notes",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1971.txt",
+        "note": "Sidecar notes supplied in the Irish Digitised Boundaries archive."
+      }
+    ],
+    "downloads": [
+      {
+        "label": "Connacht DEDs/Wards 1957",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1957.fgb",
+        "type": "FlatGeobuf"
+      },
+      {
+        "label": "Leinster DEDs/Wards 1971",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1971.fgb",
+        "type": "FlatGeobuf"
+      },
+      {
+        "label": "Munster DEDs/Wards 1971",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Munster_1971.fgb",
+        "type": "FlatGeobuf"
+      },
+      {
+        "label": "Ulster DEDs/Wards 1963",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1963.fgb",
+        "type": "FlatGeobuf"
+      },
+      {
+        "label": "Source notes 1971",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1971.txt",
+        "type": "Source notes"
       }
     ],
     "interactiveUrl": "/#layers=eds-1971",
@@ -73,7 +107,7 @@
         "Paddy Matthews"
       ],
       "style": {
-        "color": "#155A2B",
+        "color": "#1B5E20",
         "weight": 2
       },
       "labelProperty": "ENGLISH",
@@ -103,59 +137,95 @@
       "variants": [
         {
           "id": "eds-1971-connacht",
-          "label": "Connacht (= 1919 boundaries)",
-          "cloneOf": "eds-connacht-1919",
+          "label": "Connacht (= 1957 boundaries)",
+          "cloneOf": "eds-connacht-1957",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1919.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1957.fgb"
           },
           "style": {
-            "color": "#155A2B",
+            "color": "#1B5E20",
             "weight": 2
           },
           "labelProperty": "ENGLISH",
-          "useLOD": true
+          "useLOD": false
         },
         {
           "id": "eds-1971-leinster",
           "label": "Leinster 1971",
+          "cloneOf": "eds-leinster-1971",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Leinster_1971.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1971.fgb"
           },
           "style": {
-            "color": "#155A2B",
+            "color": "#1B5E20",
             "weight": 2
           },
           "labelProperty": "ENGLISH",
-          "useLOD": true,
-          "cloneOf": "eds-leinster-1971"
+          "useLOD": false
         },
         {
           "id": "eds-1971-munster",
           "label": "Munster 1971",
+          "cloneOf": "eds-munster-1971",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Munster_1971.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Munster_1971.fgb"
           },
           "style": {
-            "color": "#155A2B",
+            "color": "#1B5E20",
             "weight": 2
           },
           "labelProperty": "ENGLISH",
-          "useLOD": true,
-          "cloneOf": "eds-munster-1971"
+          "useLOD": false
         },
         {
           "id": "eds-1971-ulster",
-          "label": "Ulster (ROI: Cavan/Donegal/Monaghan; 1921 boundaries)",
+          "label": "Ulster (= 1963 boundaries)",
+          "cloneOf": "eds-ulster-1963",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1963.fgb"
           },
           "style": {
-            "color": "#155A2B",
+            "color": "#1B5E20",
             "weight": 2
           },
           "labelProperty": "ENGLISH",
-          "useLOD": true,
-          "cloneOf": "eds-ulster-1921"
+          "useLOD": false
+        }
+      ],
+      "description": "Republic of Ireland District Electoral Divisions/Wards as at 1971-04-15, assembled from Connacht (= 1957 boundaries), Leinster 1971, Munster 1971, Ulster (= 1963 boundaries). Modified version of District Electoral Divisions/Wards 1977. In 1977, due to the expansion of Drogheda, part of the DED of St. Mary’s was ceded to County Louth by County Meath. Details on this can be found in the Local Government Provisional Order Confirmation Act, 1976. Also relevant is the renaming of An Uaimh to Navan on 25/06/1971, as its corresponding DEDs were renamed by 1971 Census Reports Volume 1 (published July 1972).",
+      "sourceNotes": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1971.txt",
+      "downloads": [
+        {
+          "label": "Connacht DEDs/Wards 1957",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1957.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Leinster DEDs/Wards 1971",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1971.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Munster DEDs/Wards 1971",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Munster_1971.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Ulster DEDs/Wards 1963",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1963.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Source notes 1971",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1971.txt",
+          "type": "Source notes"
+        }
+      ],
+      "references": [
+        {
+          "label": "District Electoral Divisions/Wards 1971 source notes",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1971.txt",
+          "note": "Sidecar notes supplied in the Irish Digitised Boundaries archive."
         }
       ]
     }

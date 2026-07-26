@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-19T14:02:07.245Z",
+  "generatedAt": "2026-07-26T23:04:54.593Z",
   "item": {
     "id": "eds-1977",
     "slug": "eds-1977",
@@ -10,8 +10,8 @@
     "categoryId": "wards",
     "category": "Electoral Areas",
     "group": "Elections and Government",
-    "description": "Electoral ward boundaries",
-    "date": 1977,
+    "description": "Republic of Ireland District Electoral Divisions/Wards as at 1977-01-01, assembled from Connacht (= 1957 boundaries), Leinster 1977, Munster (= 1971 boundaries), Ulster (= 1963 boundaries). Modified version of District Electoral Divisions/Wards 1983. In 1983 (following the expansion of Waterford county borough in 1980), Waterford's existing 24 wards were replaced by 38 new ones. 1 DED (Waterford Rural) was replaced, and 3 more (Ballinakill, Faithlegg, Kilbarry) were reduced in size. The following sources were used:",
+    "date": "1977-01-01",
     "years": [
       1977
     ],
@@ -44,7 +44,7 @@
     "variants": [
       {
         "id": "eds-1977-connacht",
-        "title": "Connacht (= 1919 boundaries)"
+        "title": "Connacht (= 1957 boundaries)"
       },
       {
         "id": "eds-1977-leinster",
@@ -56,7 +56,41 @@
       },
       {
         "id": "eds-1977-ulster",
-        "title": "Ulster (ROI: Cavan/Donegal/Monaghan; 1921 boundaries)"
+        "title": "Ulster (= 1963 boundaries)"
+      }
+    ],
+    "references": [
+      {
+        "label": "District Electoral Divisions/Wards 1977 source notes",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1977.txt",
+        "note": "Sidecar notes supplied in the Irish Digitised Boundaries archive."
+      }
+    ],
+    "downloads": [
+      {
+        "label": "Connacht DEDs/Wards 1957",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1957.fgb",
+        "type": "FlatGeobuf"
+      },
+      {
+        "label": "Leinster DEDs/Wards 1977",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1977.fgb",
+        "type": "FlatGeobuf"
+      },
+      {
+        "label": "Munster DEDs/Wards 1971",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Munster_1971.fgb",
+        "type": "FlatGeobuf"
+      },
+      {
+        "label": "Ulster DEDs/Wards 1963",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1963.fgb",
+        "type": "FlatGeobuf"
+      },
+      {
+        "label": "Source notes 1977",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1977.txt",
+        "type": "Source notes"
       }
     ],
     "interactiveUrl": "/#layers=eds-1977",
@@ -67,13 +101,13 @@
       "slug": "eds-1977",
       "category": "wards",
       "featured": true,
-      "date": 1977,
+      "date": "1977-01-01",
       "provider": [
         "Phelim Birch",
         "Paddy Matthews"
       ],
       "style": {
-        "color": "#1F7333",
+        "color": "#1B5E20",
         "weight": 2
       },
       "labelProperty": "ENGLISH",
@@ -103,59 +137,95 @@
       "variants": [
         {
           "id": "eds-1977-connacht",
-          "label": "Connacht (= 1919 boundaries)",
-          "cloneOf": "eds-connacht-1919",
+          "label": "Connacht (= 1957 boundaries)",
+          "cloneOf": "eds-connacht-1957",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1919.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1957.fgb"
           },
           "style": {
-            "color": "#1F7333",
+            "color": "#1B5E20",
             "weight": 2
           },
           "labelProperty": "ENGLISH",
-          "useLOD": true
+          "useLOD": false
         },
         {
           "id": "eds-1977-leinster",
           "label": "Leinster 1977",
+          "cloneOf": "eds-leinster-1977",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Leinster_1977.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1977.fgb"
           },
           "style": {
-            "color": "#1F7333",
+            "color": "#1B5E20",
             "weight": 2
           },
           "labelProperty": "ENGLISH",
-          "useLOD": true,
-          "cloneOf": "eds-leinster-1977"
+          "useLOD": false
         },
         {
           "id": "eds-1977-munster",
           "label": "Munster (= 1971 boundaries)",
+          "cloneOf": "eds-munster-1971",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Munster_1971.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Munster_1971.fgb"
           },
           "style": {
-            "color": "#1F7333",
+            "color": "#1B5E20",
             "weight": 2
           },
           "labelProperty": "ENGLISH",
-          "useLOD": true,
-          "cloneOf": "eds-munster-1971"
+          "useLOD": false
         },
         {
           "id": "eds-1977-ulster",
-          "label": "Ulster (ROI: Cavan/Donegal/Monaghan; 1921 boundaries)",
+          "label": "Ulster (= 1963 boundaries)",
+          "cloneOf": "eds-ulster-1963",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1963.fgb"
           },
           "style": {
-            "color": "#1F7333",
+            "color": "#1B5E20",
             "weight": 2
           },
           "labelProperty": "ENGLISH",
-          "useLOD": true,
-          "cloneOf": "eds-ulster-1921"
+          "useLOD": false
+        }
+      ],
+      "description": "Republic of Ireland District Electoral Divisions/Wards as at 1977-01-01, assembled from Connacht (= 1957 boundaries), Leinster 1977, Munster (= 1971 boundaries), Ulster (= 1963 boundaries). Modified version of District Electoral Divisions/Wards 1983. In 1983 (following the expansion of Waterford county borough in 1980), Waterford's existing 24 wards were replaced by 38 new ones. 1 DED (Waterford Rural) was replaced, and 3 more (Ballinakill, Faithlegg, Kilbarry) were reduced in size. The following sources were used:",
+      "sourceNotes": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1977.txt",
+      "downloads": [
+        {
+          "label": "Connacht DEDs/Wards 1957",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1957.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Leinster DEDs/Wards 1977",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1977.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Munster DEDs/Wards 1971",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Munster_1971.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Ulster DEDs/Wards 1963",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1963.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Source notes 1977",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1977.txt",
+          "type": "Source notes"
+        }
+      ],
+      "references": [
+        {
+          "label": "District Electoral Divisions/Wards 1977 source notes",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1977.txt",
+          "note": "Sidecar notes supplied in the Irish Digitised Boundaries archive."
         }
       ]
     }

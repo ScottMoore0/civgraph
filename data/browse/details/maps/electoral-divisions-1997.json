@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-19T14:02:07.245Z",
+  "generatedAt": "2026-07-26T23:04:54.593Z",
   "item": {
     "id": "eds-1997",
     "slug": "electoral-divisions-1997",
@@ -10,8 +10,8 @@
     "categoryId": "wards",
     "category": "Electoral Areas",
     "group": "Elections and Government",
-    "description": "Electoral ward boundaries",
-    "date": 1997,
+    "description": "Republic of Ireland District Electoral Divisions/Wards as at 1997, assembled from Connacht (= 1996 boundaries), Leinster 1997, Munster (= 1996 boundaries), Ulster (= 1996 boundaries). The difference between this and the 2019 map is that 14 EDs were split by the new Cork city boundary, which I combined manually for this map. This is also the first map",
+    "date": "1997",
     "years": [
       1997
     ],
@@ -39,20 +39,54 @@
     },
     "variants": [
       {
-        "id": "eds-connacht-1997",
-        "title": "Connacht (= 1986 boundaries)"
+        "id": "eds-1997-connacht",
+        "title": "Connacht (= 1996 boundaries)"
       },
       {
-        "id": "eds-leinster-1997",
-        "title": "Leinster"
+        "id": "eds-1997-leinster",
+        "title": "Electoral Divisions 1997 - Leinster 1997"
       },
       {
-        "id": "eds-munster-1997",
-        "title": "Munster"
+        "id": "eds-1997-munster",
+        "title": "Munster (= 1996 boundaries)"
       },
       {
-        "id": "eds-ulster-1997",
-        "title": "Ulster (ROI: Cavan/Donegal/Monaghan)"
+        "id": "eds-1997-ulster",
+        "title": "Ulster (= 1996 boundaries)"
+      }
+    ],
+    "references": [
+      {
+        "label": "Electoral Divisions 1997 source notes",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1997.txt",
+        "note": "Sidecar notes supplied in the Irish Digitised Boundaries archive."
+      }
+    ],
+    "downloads": [
+      {
+        "label": "Connacht DEDs/Wards 1996",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/EDs_Connacht_1996.fgb",
+        "type": "FlatGeobuf"
+      },
+      {
+        "label": "Leinster DEDs/Wards 1997",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Leinster_1997.fgb",
+        "type": "FlatGeobuf"
+      },
+      {
+        "label": "Munster DEDs/Wards 1996",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/EDs_Munster_1996.fgb",
+        "type": "FlatGeobuf"
+      },
+      {
+        "label": "Ulster DEDs/Wards 1996",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/EDs_Ulster_1996.fgb",
+        "type": "FlatGeobuf"
+      },
+      {
+        "label": "Source notes 1997",
+        "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1997.txt",
+        "type": "Source notes"
       }
     ],
     "interactiveUrl": "/#layers=eds-1997",
@@ -68,7 +102,7 @@
         "Phelim Birch"
       ],
       "style": {
-        "color": "#2E7D32",
+        "color": "#1B5E20",
         "weight": 2
       },
       "keywords": [
@@ -80,40 +114,100 @@
       ],
       "variants": [
         {
-          "id": "eds-connacht-1997",
-          "label": "Connacht (= 1986 boundaries)",
+          "id": "eds-1997-connacht",
+          "label": "Connacht (= 1996 boundaries)",
+          "cloneOf": "eds-connacht-1996",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Connacht_1986.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/EDs_Connacht_1996.fgb"
           },
+          "style": {
+            "color": "#1B5E20",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
           "useLOD": false
         },
         {
-          "id": "eds-leinster-1997",
-          "label": "Leinster",
+          "id": "eds-1997-leinster",
+          "label": "Leinster 1997",
+          "cloneOf": "eds-leinster-1997",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/EDs_Leinster_1997.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Leinster_1997.fgb"
           },
+          "style": {
+            "color": "#1B5E20",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
           "useLOD": false
         },
         {
-          "id": "eds-munster-1997",
-          "label": "Munster",
+          "id": "eds-1997-munster",
+          "label": "Munster (= 1996 boundaries)",
+          "cloneOf": "eds-munster-1996",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/EDs_Munster_pre_2019.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/EDs_Munster_1996.fgb"
           },
+          "style": {
+            "color": "#1B5E20",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
           "useLOD": false
         },
         {
-          "id": "eds-ulster-1997",
-          "label": "Ulster (ROI: Cavan/Donegal/Monaghan)",
+          "id": "eds-1997-ulster",
+          "label": "Ulster (= 1996 boundaries)",
+          "cloneOf": "eds-ulster-1996",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/EDs_Ulster_1996.fgb"
           },
-          "useLOD": true
+          "style": {
+            "color": "#1B5E20",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
         }
       ],
-      "date": 1997,
-      "labelProperty": "ENGLISH"
+      "date": "1997",
+      "labelProperty": "ENGLISH",
+      "description": "Republic of Ireland District Electoral Divisions/Wards as at 1997, assembled from Connacht (= 1996 boundaries), Leinster 1997, Munster (= 1996 boundaries), Ulster (= 1996 boundaries). The difference between this and the 2019 map is that 14 EDs were split by the new Cork city boundary, which I combined manually for this map. This is also the first map",
+      "sourceNotes": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1997.txt",
+      "downloads": [
+        {
+          "label": "Connacht DEDs/Wards 1996",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/EDs_Connacht_1996.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Leinster DEDs/Wards 1997",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/EDs_Leinster_1997.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Munster DEDs/Wards 1996",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/EDs_Munster_1996.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Ulster DEDs/Wards 1996",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/EDs_Ulster_1996.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Source notes 1997",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1997.txt",
+          "type": "Source notes"
+        }
+      ],
+      "references": [
+        {
+          "label": "Electoral Divisions 1997 source notes",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1997.txt",
+          "note": "Sidecar notes supplied in the Irish Digitised Boundaries archive."
+        }
+      ]
     }
   }
 }
