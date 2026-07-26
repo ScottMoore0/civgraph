@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "field": "alignment_label",
+  "description": "Constitutional-alignment labels attached to each individual candidacy. Value is an ordered array of zero or more strings (a tuple); an empty array means no rule applies and no label has been set.",
+  "labelVocabulary": ["unionist", "pro-union", "nationalist", "pro-unity", "republican", "other"],
+  "notes": [
+    "Party strings are matched EXACTLY against the candidate's `party` field. Near-miss strings are deliberately NOT folded in; see alignment_review.csv for everything left unlabelled.",
+    "Where one party appears in the data under more than one string, every string is listed explicitly under `partyStrings`.",
+    "`bodies` restricts a rule to the listed bodySlug values. Omitted means the rule applies to every body the string appears in.",
+    "`from` / `until` are inclusive/exclusive contest-date bounds (YYYY-MM-DD) used for rules that change over time.",
+    "Independents are intentionally unlabelled here and are set case-by-case in alignment_overrides.csv."
+  ],
+  "rules": [
+    {
+      "id": "unionist-parties",
+      "labels": ["unionist", "pro-union"],
+      "partyStrings": [
+        "DUP",
+        "UUP",
+        "TUV",
+        "PUP",
+        "UKUP",
+        "UK Unionist Party",
+        "NI Unionist Party",
+        "Northern Ireland Unionist Party",
+        "Vanguard Unionist Progressive Party",
+        "Ulster Popular Unionist Party",
+        "Unionist Party of Northern Ireland",
+        "UUUP"
+      ],
+      "comment": "'UK Unionist Party' is the same party as 'UKUP'; 'Northern Ireland Unionist Party' is the same party as 'NI Unionist Party'; 'UUUP' is the United Ulster Unionist Party. NOT included: 'Progressive Unionist' (1938 Stormont only, a different party from the PUP founded 1979), 'Protestant Unionist' / 'Protestant Unionist Party' (Paisley's pre-DUP party), 'Unionist' (1918, Irish Unionist Alliance), 'Ind. Unionist Party', 'Unofficial Unionist', 'South Belfast Unionists', 'Labour Unionist', 'Irish Unionist', and three 1989 Ballymoney Town records whose party field contains an occupation ('Shopkeeper, Ulster Unionist', 'Businssman Ulster Unionist', 'DUP Civil Servant (Retired)')."
+    },
+    {
+      "id": "nationalist-parties",
+      "labels": ["nationalist", "pro-unity"],
+      "partyStrings": ["SDLP"]
+    },
+    {
+      "id": "nationalist-party-ni",
+      "labels": ["nationalist", "pro-unity"],
+      "partyStrings": ["Nationalist Party", "Nationalist Party (Northern Ireland)"],
+      "bodies": [
+        "parliament-of-northern-ireland",
+        "house-of-commons-of-the-united-kingdom",
+        "northern-ireland-assembly",
+        "local-government",
+        "northern-ireland-constitutional-convention",
+        "northern-ireland-forum-for-political-dialogue",
+        "european-parliament"
+      ],
+      "comment": "Scoped to NI bodies. The bare string 'Nationalist Party' also appears on 59 dail-eireann candidacies (1918-1922), which are the Irish Parliamentary Party, a different organisation; those are left unlabelled for review."
+    },
+    {
+      "id": "republican-parties",
+      "labels": ["nationalist", "pro-unity", "republican"],
+      "partyStrings": ["Sinn Féin", "Aontú"],
+      "comment": "Exact match only, which excludes the distinct parties 'Pro-Treaty Sinn Féin', 'Anti-Treaty Sinn Féin', 'Republican Sinn Féin' and \"Sinn Féin Workers'\"."
+    },
+    {
+      "id": "pbp",
+      "labels": ["pro-unity", "republican"],
+      "partyStrings": ["PBP"],
+      "comment": "NOT included: 'Solidarity-PBP', the separate joint ticket registered in the Republic (79 dail-eireann and 7 ireland-european candidacies, 2019-2024)."
+    },
+    {
+      "id": "alliance-post-1998",
+      "labels": ["other"],
+      "partyStrings": ["Alliance"],
+      "bodies": [
+        "parliament-of-northern-ireland",
+        "house-of-commons-of-the-united-kingdom",
+        "northern-ireland-assembly",
+        "local-government",
+        "northern-ireland-constitutional-convention",
+        "northern-ireland-forum-for-political-dialogue",
+        "european-parliament"
+      ],
+      "from": "1998-06-25",
+      "comment": "The 1998 Northern Ireland Assembly election was held on 1998-06-25; this rule applies to that contest and everything after it."
+    },
+    {
+      "id": "alliance-pre-1998",
+      "labels": ["pro-union"],
+      "partyStrings": ["Alliance"],
+      "bodies": [
+        "parliament-of-northern-ireland",
+        "house-of-commons-of-the-united-kingdom",
+        "northern-ireland-assembly",
+        "local-government",
+        "northern-ireland-constitutional-convention",
+        "northern-ireland-forum-for-political-dialogue",
+        "european-parliament"
+      ],
+      "until": "1998-06-25",
+      "comment": "Every Alliance candidacy before the 1998 Assembly election. Scoped to NI bodies so that unrelated strings are never caught; 'Independent Alliance', 'Anti-Austerity Alliance', 'Socialist Environmental Alliance', 'Independent Health Alliance', 'United Left Alliance' and 'South Kerry Independent Alliance' are separate strings and are not matched in any case."
+    }
+  ]
+}
