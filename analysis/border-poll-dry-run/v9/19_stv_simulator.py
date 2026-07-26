@@ -45,6 +45,10 @@ CONTESTS = [
     ('local', 2023, 'local-government-local-government-districts__2023-05-18.json'),
 ]
 
+# within-party transfer split exponent; 1.0 = proportional to current votes.
+# Fitted from the count data in phase 43 and set by callers.
+SPLIT_ALPHA = 1.0
+
 TM = json.load(open(os.path.join(HERE, 'transfer_matrix.json'), encoding='utf-8'))
 MATRIX, NONTRANS = TM['matrix'], TM['nontransferable']
 BLOCM = TM['bloc_matrix']
@@ -130,7 +134,11 @@ def run_stv(names, parties, first_prefs, seats, valid=None):
             if not members or frac <= 0:
                 continue
             pot = transferable * frac
+            # Within-party split across continuing candidates. SPLIT_ALPHA=1 is the
+            # proportional-to-current-votes assumption; phase 43 fits it from the
+            # observed count data instead of assuming it.
             base = np.array([max(votes[j], 1e-9) for j in members], dtype=float)
+            base = base ** SPLIT_ALPHA
             base = base / base.sum()
             for j, b in zip(members, base):
                 votes[j] += pot * b
