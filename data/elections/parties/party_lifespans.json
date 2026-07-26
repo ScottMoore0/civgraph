@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "description": "Explicit founding and dissolution dates for political parties. These are asserted facts about the organisations, NOT inferred from their presence or absence in election results. The party registry at data/browse/details/parties/ carries firstYear/lastYear, but those are exactly the min and max year of each party's linked elections (verified 185/185) and are therefore a summary of contest history, not a lifespan.",
+  "conventions": {
+    "founded": "ISO date. Use `foundedPrecision` to say how much of it is real.",
+    "foundedPrecision": "day | month | year — a party known only to a year is recorded as YYYY-01-01 with precision 'year', never as a false exact date.",
+    "dissolved": "ISO date, or null. Null is only meaningful in combination with `status`.",
+    "status": "active | dissolved | unknown. This is the field that removes the ambiguity in the derived lastYear: 'active' means the party still exists and a null `dissolved` is a positive fact; 'unknown' means no dissolution date is recorded and none should be inferred; 'dissolved' requires a date. A party that stopped contesting is NOT thereby dissolved, and a party whose label appears after its dissolution is not thereby still alive.",
+    "partyStrings": "Exact `party` values in the election data that belong to this organisation. Used to join the lifespan to candidacies.",
+    "corruptedStrings": "Party strings that are data defects but unambiguously belong to this organisation. Kept separate so the defect stays visible rather than being silently normalised away.",
+    "source": "Where the dates came from. Required — an uncited lifespan is not usable.",
+    "predecessor / successor": "Slugs of related organisations, for continuity questions. Absent means not recorded, not that none exists."
+  },
+  "parties": [
+    {
+      "id": "uup",
+      "name": "Ulster Unionist Party",
+      "shortName": "UUP",
+      "founded": "1905-03-03",
+      "foundedPrecision": "day",
+      "dissolved": null,
+      "status": "active",
+      "partyStrings": ["UUP"],
+      "corruptedStrings": ["Shopkeeper, Ulster Unionist", "Businssman Ulster Unionist"],
+      "source": "supplied by repository owner, 2026-07-26",
+      "confidence": "high",
+      "notes": "The two corrupted strings are 1989 Ballymoney Town records carrying the candidate's occupation in the party field ('Businssman' is the source's typo)."
+    },
+    {
+      "id": "sinn-fein",
+      "name": "Sinn Féin",
+      "shortName": "Sinn Féin",
+      "founded": "1905-11-28",
+      "foundedPrecision": "day",
+      "dissolved": null,
+      "status": "active",
+      "partyStrings": ["Sinn Féin"],
+      "source": "supplied by repository owner, 2026-07-26",
+      "confidence": "high",
+      "notes": "Applies to the exact string 'Sinn Féin' only. The distinct strings 'Pro-Treaty Sinn Féin', 'Anti-Treaty Sinn Féin', 'Republican Sinn Féin' and \"Sinn Féin Workers'\" are separate organisations and are not covered by this entry; whether any of them is continuous with this one is a question this file records no view on."
+    },
+    {
+      "id": "alliance",
+      "name": "Alliance Party of Northern Ireland",
+      "shortName": "Alliance",
+      "founded": "1970-04-21",
+      "foundedPrecision": "day",
+      "dissolved": null,
+      "status": "active",
+      "partyStrings": ["Alliance"],
+      "source": "supplied by repository owner, 2026-07-26",
+      "confidence": "high",
+      "notes": "Unrelated strings containing the word Alliance ('Independent Alliance', 'Anti-Austerity Alliance', 'Socialist Environmental Alliance', 'Independent Health Alliance', 'United Left Alliance', 'South Kerry Independent Alliance') are separate organisations and are not matched."
+    },
+    {
+      "id": "sdlp",
+      "name": "Social Democratic and Labour Party",
+      "shortName": "SDLP",
+      "founded": "1970-08-21",
+      "foundedPrecision": "day",
+      "dissolved": null,
+      "status": "active",
+      "partyStrings": ["SDLP"],
+      "source": "supplied by repository owner, 2026-07-26",
+      "confidence": "high"
+    },
+    {
+      "id": "dup",
+      "name": "Democratic Unionist Party",
+      "shortName": "DUP",
+      "founded": "1971-09-30",
+      "foundedPrecision": "day",
+      "dissolved": null,
+      "status": "active",
+      "partyStrings": ["DUP"],
+      "corruptedStrings": ["DUP Civil Servant (Retired)"],
+      "source": "supplied by repository owner, 2026-07-26",
+      "confidence": "high",
+      "notes": "'United Loy DUP' (1977 Larne Area A, Samuel J. Martin) is NOT attributed here. It contains the substring DUP but reads as 'United Loyalist', and no evidence in the data settles which organisation it was; it remains unattributed rather than guessed."
+    },
+    {
+      "id": "tuv",
+      "name": "Traditional Unionist Voice",
+      "shortName": "TUV",
+      "founded": "2007-12-07",
+      "foundedPrecision": "day",
+      "dissolved": null,
+      "status": "active",
+      "partyStrings": ["TUV"],
+      "source": "supplied by repository owner, 2026-07-26",
+      "confidence": "high"
+    },
+    {
+      "id": "ni21",
+      "name": "NI21",
+      "shortName": "NI21",
+      "founded": "2013-06-06",
+      "foundedPrecision": "day",
+      "dissolved": "2016-11-03",
+      "status": "dissolved",
+      "partyStrings": ["NI21"],
+      "source": "supplied by repository owner, 2026-07-26",
+      "confidence": "high",
+      "notes": "The only entry so far with a dissolution date, and therefore the only one where the founded/dissolved window can actually exclude a candidacy."
+    }
+  ]
+}
