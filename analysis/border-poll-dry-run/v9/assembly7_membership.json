@@ -1,0 +1,208 @@
+{
+ "schemaVersion": 1,
+ "description": "Changes to the 7th Northern Ireland Assembly since the 2022 election: co-options replacing MLAs elected in 2022, and sitting MLAs who have said they will not seek re-election in 2027. Compiled 2026-07-27 for the phase-60/61 projection, on the instruction to treat co-optees as the candidates.",
+ "sources": [
+  "https://en.wikipedia.org/wiki/7th_Northern_Ireland_Assembly (co-options, fetched directly)",
+  "https://nielects.com/election/ae27/ (retirements, fetched directly)",
+  "Derry Journal, ITV/UTV, Irish News, RTE, Irish Times (corroborating headlines)"
+ ],
+ "caveats": [
+  "Constituencies for co-options are as given by Wikipedia. Retirement rows carry an explicit confidence field; not all are equally corroborated.",
+  "TWO SEATS HAVE CHANGED PARTY MID-TERM and neither is reflected in the 2022 notional the projection swings from. See partyChanges."
+ ],
+ "coOptions": [
+  {
+   "date": "2022-05-12",
+   "constituency": "LAGAN VALLEY",
+   "party": "DUP",
+   "departed": "Jeffrey Donaldson",
+   "coOptee": "Emma Little Pengelly",
+   "reason": "remained as MP"
+  },
+  {
+   "date": "2023-04-04",
+   "constituency": "NORTH ANTRIM",
+   "party": "Alliance",
+   "departed": "Patricia O'Lynn",
+   "coOptee": "Sian Mulholland",
+   "reason": "resigned"
+  },
+  {
+   "date": "2023-09-15",
+   "constituency": "EAST ANTRIM",
+   "party": "DUP",
+   "departed": "David Hilditch",
+   "coOptee": "Cheryl Brownlee",
+   "reason": "resigned"
+  },
+  {
+   "date": "2024-04-29",
+   "constituency": "SOUTH DOWN",
+   "party": "Alliance",
+   "departed": "Patrick Brown",
+   "coOptee": "Andrew McMurray",
+   "reason": "resigned"
+  },
+  {
+   "date": "2024-07-10",
+   "constituency": "LAGAN VALLEY",
+   "party": "Alliance",
+   "departed": "Sorcha Eastwood",
+   "coOptee": "Michelle Guy",
+   "reason": "elected MP 2024"
+  },
+  {
+   "date": "2024-07-10",
+   "constituency": "NORTH ANTRIM",
+   "party": "UUP",
+   "departed": "Robin Swann",
+   "coOptee": "Colin Crawford",
+   "reason": "elected MP 2024"
+  },
+  {
+   "date": "2024-07-10",
+   "constituency": "NORTH DOWN",
+   "party": "Independent Unionist",
+   "departed": "Alex Easton",
+   "coOptee": "Peter Martin",
+   "coOpteeParty": "DUP",
+   "reason": "elected MP 2024",
+   "partyChanged": true
+  },
+  {
+   "date": "2024-07-16",
+   "constituency": "NORTH ANTRIM",
+   "party": "TUV",
+   "departed": "Jim Allister",
+   "coOptee": "Timothy Gaston",
+   "reason": "elected MP 2024"
+  },
+  {
+   "date": "2024-09-27",
+   "constituency": "FERMANAGH AND SOUTH TYRONE",
+   "party": "UUP",
+   "departed": "Tom Elliott",
+   "coOptee": "Diana Armstrong",
+   "reason": "peerage"
+  },
+  {
+   "date": "2025-02-09",
+   "constituency": "NEWRY AND ARMAGH",
+   "party": "Sinn Féin",
+   "departed": "Conor Murphy",
+   "coOptee": "Aoife Finnegan",
+   "reason": "elected to Seanad Éireann"
+  },
+  {
+   "date": "2025-08-04",
+   "constituency": "NORTH ANTRIM",
+   "party": "UUP",
+   "departed": "Colin Crawford",
+   "coOptee": "Jon Burrows",
+   "reason": "resigned",
+   "note": "Burrows is now UUP leader"
+  },
+  {
+   "date": "2026-01-05",
+   "constituency": "NEWRY AND ARMAGH",
+   "party": "DUP",
+   "departed": "William Irwin",
+   "coOptee": "Gareth Wilson",
+   "reason": "resigned"
+  },
+  {
+   "date": "2026-04-13",
+   "constituency": "FOYLE",
+   "party": "DUP",
+   "departed": "Gary Middleton",
+   "coOptee": "Julie Middleton",
+   "reason": "resigned"
+  }
+ ],
+ "partyChanges": [
+  {
+   "date": "2024-07-10",
+   "constituency": "NORTH DOWN",
+   "from": "Independent Unionist",
+   "to": "DUP",
+   "via": "co-option of Peter Martin for Alex Easton"
+  },
+  {
+   "date": "2026-05-31",
+   "constituency": "UPPER BANN",
+   "from": "UUP",
+   "to": "Independent Unionist",
+   "member": "Doug Beattie",
+   "via": "resigned from the UUP citing a 'toxic atmosphere'; sits as an independent unionist"
+  }
+ ],
+ "notSeekingReElection2027": [
+  {
+   "member": "Gerry Kelly",
+   "party": "Sinn Féin",
+   "constituency": "BELFAST NORTH",
+   "announced": "2026-07-22",
+   "confidence": "high",
+   "note": "first elected 1998; ITV/UTV and Irish News both report it"
+  },
+  {
+   "member": "Patsy McGlone",
+   "party": "SDLP",
+   "constituency": "MID ULSTER",
+   "announced": "2026-05-29",
+   "confidence": "high",
+   "note": "MLA since 2003; retiring at end of mandate"
+  },
+  {
+   "member": "Kellie Armstrong",
+   "party": "Alliance",
+   "constituency": "STRANGFORD",
+   "announced": "2026-04-24",
+   "confidence": "high",
+   "note": "first Alliance MLA to announce; elected 2016"
+  },
+  {
+   "member": "Pádraig Delargy",
+   "party": "Sinn Féin",
+   "constituency": "FOYLE",
+   "announced": null,
+   "confidence": "high",
+   "note": "Derry Journal headline confirms; leaving the city with family"
+  },
+  {
+   "member": "Maolíosa McHugh",
+   "party": "Sinn Féin",
+   "constituency": "WEST TYRONE",
+   "announced": null,
+   "confidence": "low",
+   "note": "appears only in search summaries; no headline or page fetched names him. TREAT AS UNCONFIRMED."
+  },
+  {
+   "member": "Mike Nesbitt",
+   "party": "UUP",
+   "constituency": "STRANGFORD",
+   "announced": "2026-01-02",
+   "confidence": "high",
+   "note": "Stood down as UUP leader on 2026-01-02. Retirement as an MLA in 2027 confirmed by the repository owner 2026-07-27; press reporting alone had only \"signalled\" it, and leader-vs-MLA is a distinction worth keeping."
+  }
+ ],
+ "candidateAssumptions": {
+  "instruction": "Supplied by the repository owner 2026-07-27.",
+  "coOpteesStand": true,
+  "coOpteesStandNote": "All 13 co-optees are treated as the incumbent candidate for their seat.",
+  "beattie": {
+   "member": "Doug Beattie",
+   "constituency": "UPPER BANN",
+   "standsAs": "Independent Unionist",
+   "note": "Stands as an Independent Unionist, not UUP. Upper Bann therefore has an incumbent independent unionist that the 2022 notional does not, and one fewer UUP incumbent."
+  },
+  "retiringSeats": [
+   "BELFAST NORTH",
+   "MID ULSTER",
+   "STRANGFORD",
+   "FOYLE",
+   "WEST TYRONE"
+  ],
+  "retiringSeatsNote": "Strangford loses TWO sitting MLAs (Armstrong, Alliance; Nesbitt, UUP). West Tyrone rests on the unconfirmed McHugh row."
+ }
+}
