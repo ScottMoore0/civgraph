@@ -10,9 +10,8 @@ number is fact. This is a PROJECTION with the same visual grammar, and that gram
 signals certainty the model does not have -- per-constituency seat error in the
 forward-only holdout is 0.89-1.89 seats. Two things are therefore drawn differently:
 
-  * the FIFTH seat in each constituency (the last elected, i.e. the one that flips) is
-    drawn with a dashed outline rather than solid;
-  * the header says PROJECTION and carries the poll and date it rests on.
+  * the header says PROJECTION and carries the poll and date it rests on, and the
+    footnote states the measured per-constituency seat error.
 
 Blocs come from alignment_label (data/elections/alignment/alignment_rules.json): a party
 is unionist if labelled `unionist`, nationalist if labelled `nationalist`, otherwise
@@ -48,7 +47,8 @@ BLOC = {'Unionist': ['DUP', 'UUP', 'TUV'],
         'Other': ['Alliance', 'Green', 'PBP', 'Independent', 'Other']}
 BLOC_COL = {'Unionist': '#48a5ee', 'Nationalist': '#2aa82c', 'Other': '#f6cb2f'}
 BELFAST = ['BELFAST EAST', 'BELFAST NORTH', 'BELFAST SOUTH AND MID DOWN', 'BELFAST WEST']
-BG, FG, MUTED = '#000000', '#ffffff', '#9aa0a6'
+BG, FG, MUTED = '#ffffff', '#111111', '#5f6368'
+EDGE = '#3a3a3a'      # polygon outline; on white a white edge loses the coastline
 
 
 def _ink(hexcol):
@@ -84,8 +84,8 @@ def draw_map(ax, g, df, r, skip_markers=()):
         polys = geom.geoms if geom.geom_type == 'MultiPolygon' else [geom]
         for poly in polys:
             xs, ys = poly.exterior.xy
-            ax.fill(xs, ys, facecolor=COL[lead], edgecolor='#ffffff', linewidth=0.8,
-                    alpha=0.85, zorder=1)
+            ax.fill(xs, ys, facecolor=COL[lead], edgecolor=EDGE, linewidth=0.6,
+                    alpha=0.88, zorder=1)
     for _, row in g.iterrows():
         name = row['PC_NAME']
         if name in skip_markers:
@@ -99,12 +99,8 @@ def draw_map(ax, g, df, r, skip_markers=()):
         for i, (ox, oy) in enumerate(seat_offsets(r)):
             if i >= len(won):
                 break
-            last = (i == len(won) - 1)
             ax.add_patch(Circle((pt.x + ox, pt.y + oy), r, facecolor=COL[won[i]],
-                                edgecolor='#0d1b1a' if not last else '#ffffff',
-                                linewidth=1.0 if not last else 1.4,
-                                linestyle='solid' if not last else (0, (2, 1.6)),
-                                zorder=3))
+                                edgecolor='#1b1b1b', linewidth=1.0, zorder=3))
 
 
 def main():
@@ -135,10 +131,12 @@ def main():
     draw_map(axb, gb, df, r=1500)
     axb.set_aspect('equal')
     minx, miny, maxx, maxy = gb.total_bounds
-    # Belfast South and Mid Down runs far south under the 2023 review, so the inset is
-    # clipped to the city rather than to that constituency's full extent.
-    axb.set_xlim(minx - 1500, maxx + 1500)
-    axb.set_ylim(maxy - (maxx - minx) * 1.05, maxy + 2500)
+    # Belfast South and Mid Down runs far south under the 2023 review. Fit the FULL
+    # extent of all four seats -- an earlier square crop anchored on the north cut that
+    # constituency in half.
+    padx, pady = (maxx - minx) * 0.06, (maxy - miny) * 0.06
+    axb.set_xlim(minx - padx, maxx + padx)
+    axb.set_ylim(miny - pady, maxy + pady)
     axb.set_title('Belfast', color=FG, fontsize=10, pad=2)
 
     # ---------------- left panel ----------------
@@ -155,7 +153,15 @@ def main():
         fig.patches.append(Rectangle((0.015, y - 0.004), 0.098 * share[p] / mx, 0.019,
                                      transform=fig.transFigure, facecolor=COL[p],
                                      edgecolor='none'))
-        fig.text(0.020, y + 0.001, p, color=_ink(COL[p]), fontsize=8.5, weight='bold')
+        # A short bar cannot carry its own label: on a white page the light ink chosen
+        # for a dark bar would be white-on-white past the bar's end. Below ~30% of the
+        # longest bar the label moves outside it and takes the page's ink instead.
+        bw = 0.098 * share[p] / mx
+        if share[p] / mx < 0.30:
+            fig.text(0.015 + bw + 0.006, y + 0.001, p, color=FG, fontsize=8.5,
+                     weight='bold')
+        else:
+            fig.text(0.020, y + 0.001, p, color=_ink(COL[p]), fontsize=8.5, weight='bold')
         fig.text(0.163, y + 0.001, f'{share[p]:.2f}%', color=COL[p], fontsize=8.5,
                  weight='bold', ha='right')
         fig.text(0.205, y + 0.001, f'{seats[p]}', color=COL[p], fontsize=9.5,
@@ -201,8 +207,8 @@ def main():
     axh.set_title(f'{sum(seats.values())} seats', color=MUTED, fontsize=8, pad=0)
 
     fig.text(0.985, 0.015,
-             'Projection, not a result. Per-constituency seat error 0.89–1.89 (forward-only holdout).\n'
-             'Dashed marker = last seat elected in that constituency, the one most likely to flip.',
+             'Projection, not a result. Per-constituency seat error 0.89–1.89 seats '
+             '(forward-only holdout).',
              color=MUTED, fontsize=7.5, ha='right', va='bottom')
 
     for ext in ('svg', 'png'):
