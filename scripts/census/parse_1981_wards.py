@@ -1,236 +1,324 @@
 #!/usr/bin/env python3
 """Parse ward-level population from the 1981 NI Census Preliminary Report OCR.
 
-Source: data/census/census-1981.md, Table 4 ("Population 1971 and 1981"), which is the
-most granular published geography of that census -- wards under the 26 District
-Councils created in 1973. Enumeration districts (~3,000) existed as a collection unit
-but are not a publication geography.
+Source: data/census/census-1981.md, Table 4 ("Population 1971 and 1981"), the most
+granular published geography of that census -- wards under the 26 District Councils
+created in 1973. Enumeration districts (~3,000) were a collection unit, not a
+publication geography.
 
-WHY THIS IS PARSEABLE AT ALL. The OCR read the page column-wise, so every ward NAME
-appears in one block and the six numeric columns follow as separate blocks:
+WHY THIS IS PARSEABLE. The OCR read each page COLUMN-WISE, so every name appears in one
+block and the six numeric columns follow as six more blocks:
 
-    NORTHERN IRELAND / Antrim District Council / Wards / Aldergrove / Balloo / ...
-    1,536,065 / 33,998 / 2,186 / 2,471 / ...        <- 1971 Persons
-    754,676 / 17,224 / 1,267 / 1,240 / ...          <- 1971 Males
-    ...
+    NORTHERN IRELAND / Antrim District Council / Wards / Aldergrove / Baiioo / ...
+    Persons / 1,536,065 / 33,998 / 2,186 / ...      <- 1971 Persons
+    754,676 / 17,224 / 1,267 / ...                  <- 1971 Males, and so on
 
-Names and numbers are therefore aligned by POSITION, not by proximity, which means OCR
-damage to a ward's spelling ('Baiioo', 'BaJlyrobin', 'The Mali') does not affect its
-numbers. What would corrupt the result is a dropped or spurious numeric token shifting
-the column, so every district is checksummed:
+Names and numbers align by POSITION, not proximity, so OCR damage to a ward's spelling
+('Baiioo', 'BaJlyrobin', 'The Mali') does not affect its numbers. What DOES corrupt the
+result is a dropped or spurious numeric token shifting a column -- which happens
+constantly. Everything below exists to defeat that.
 
-    sum(ward values) == district total     and     sum(district totals) == NI total
+THREE ORACLES, used at different stages:
+  (a) sum(ward values) == the district's own printed total
+  (b) PERSONS == MALES + FEMALES on every row, in both year-halves
+  (c) the number of NAMES on a page == the number of ROWS on that page
 
-A district whose wards do not sum to its own printed total is REJECTED rather than
-emitted. That is the whole safety argument for trusting this parse.
+(b) is the workhorse: it scores a candidate alignment per row, so it can drive a search
+rather than merely validate a finished parse. (c) supplies the row count, because names
+survive OCR far better than digits. (a) is the final gate.
+
+HOW IT WORKS, and each step was forced by a measured failure of the previous one:
+
+ 1. DISCARD FOREIGN TOKENS. A second table ("Households not enumerated", "Estimated
+    population effect") is interleaved on the same pages. Its values are tiny; ward,
+    male and female counts are all comfortably >= 100, so that threshold removes 1,214
+    of 5,732 tokens safely.
+
+ 2. SPLIT INTO PAGE RUNS, requiring >= 20 accumulated numbers before a name block may
+    end a run. Without that guard a stray '195' on the very first line splits the run
+    early and silently eats 'NORTHERN IRELAND' and 'Antrim District Council'.
+    ONLY RUNS 0-9 ARE THIS TABLE -- together 3,377 tokens, about 553 rows of six.
+    Runs 10-19 score 0% at every alignment; they are a different table.
+
+ 3. FIND THE COLUMN BOUNDARIES. Oracle (b) DECOUPLES into two independent triples
+    (1971 P,M,F and 1981 P,M,F), so the five unknown boundaries are a 3-dim then 2-dim
+    exhaustive search, not a 5-dim one. Cheap, and it alone lifts agreement 0% -> 64%.
+
+ 4. ALIGN WITHIN COLUMNS BY DP. Boundaries are not enough: drift accumulates INSIDE a
+    column, one dropped token shifting every row after it. A banded Needleman-Wunsch
+    over the three sequences -- match scored by A[i]==B[j]+C[k], gaps penalised -- takes
+    it to 94%. A greedy repair was tried first and REJECTED: it helped some runs but
+    drove run 5 from 92% to 5%, because a single wrong skip poisons everything after it
+    and greedy cannot revise. Do not retry greedy.
+
+ 5. PIN THE ROW COUNT with oracle (c). The gap penalty is searched for the alignment
+    whose row count comes closest to the page's name count.
+    THIS STEP IS NOT YET WORKING, and it is the only thing left. Names still exceed
+    rows by 2-5 on every page (e.g. run 0: 62 names, 62 rows in the 1971 half but 59 in
+    the 1981 half). Two separate causes, and they need separate fixes:
+      - the NAME side is still admitting junk on runs 3-8, where 63-65 names appear
+        against ~60 real rows. Run 0 and run 1 are clean at 62, so the cleaner is close;
+        what remains is page-header debris that JUNK does not yet match.
+      - the 1981 half systematically recovers 1-3 fewer rows than the 1971 half of the
+        same page, which cannot be right -- both halves describe the SAME entities. That
+        asymmetry is a bug in how the tail slice run[b1[2]:] is cut, not OCR damage.
+    Constraining the boundary search by the name count was tried as a fix and made
+    things WORSE (90% -> 70%), because the name count is itself unreliable. Fix the two
+    causes above first; do not re-couple the searches.
+
+ 6. GATE ON ORACLE (a). Districts whose wards do not sum to their printed total are
+    REJECTED, not emitted. Because step 5 is unfinished, every run is currently rejected
+    before reaching this gate and NO OUTPUT IS WRITTEN. That is the intended behaviour.
+
+DO NOT ship partial output. A ward table right for Antrim and wrong for Belfast is worse
+than none, because nothing downstream would reveal the difference.
 
 Output: data/census/derived/ward1972-census-1981.csv
-
-STATUS: NOT FINISHED, but the method is now established and measured.
-
-TWO CHECKSUMS ARE AVAILABLE, and the second is the one that unlocks it:
-  (a) ward values sum to their printed district total
-  (b) PERSONS == MALES + FEMALES on every single row, in both year-halves
-
-(b) is a per-row oracle, so it can score a candidate column alignment directly rather
-than only validating a finished parse. That is what to build on.
-
-WHAT WAS WRONG, in the order the obstacles appeared.
-
-1. A line filter cannot find the ward names. It admitted OCR noise and produced 1,324
-   ward entries against a real 1973 set of about 526. Abandoned.
-
-2. A greedy checksum walk over the raw number stream recovers the first three districts
-   EXACTLY -- Antrim 33,998/15, Ards 46,778/17, Armagh 46,449/20 -- then derails,
-   because districts SPLIT ACROSS PAGES and the walk runs off the Persons column into
-   that page's Males column, matching Antrim's male total 17,224 as a district.
-
-3. So pages must be reassembled first. Each page should give 6*N numbers, but only 3 of
-   20 runs divided by six. Cause found: a SECOND TABLE ("Households not enumerated",
-   "Estimated population effect") is interleaved on the same pages, injecting small
-   foreign tokens. Filtering to values >= 100 removes 1,214 of 5,732 tokens and takes
-   the divisible runs from 3 to 6. Ward, male and female counts are all comfortably
-   above 100, so the filter is safe.
-
-4. Even filtered, a clean 6-way split scores 0% on oracle (b): the columns drift.
-
-5. The drift is per-column, and oracle (b) DECOUPLES into two independent triples --
-   (1971 P,M,F) and (1981 P,M,F) -- so the five column boundaries can be searched
-   exhaustively as a 3-dim then 2-dim problem, which is cheap. Doing that lifts
-   agreement from 0% to 64% overall, and runs 1, 2, 3, 5 and 6 to 89-94%.
-
-6. ONLY RUNS 0-9 ARE THIS TABLE. Runs 0-9 hold 3,377 tokens = about 553 rows of six,
-   which matches ~526 wards + 26 districts + the NI row. Runs 10-19 (~113 tokens each)
-   score 0% at every alignment and are a DIFFERENT table. Restrict to runs 0-9.
-
-7. A greedy per-position repair -- three pointers, skip a token in one column on
-   mismatch, choose by 4-row lookahead -- DOES NOT WORK. It helped runs 0 and 6 (to 73%
-   and 95%) but derailed run 5 from 92% to 5%, taking overall DOWN to 63%. Once it
-   accepts a wrong skip it never recovers. Do not retry greedy; this needs a proper
-   alignment.
-
-WHAT REMAINS. Replace the greedy walk with a real dynamic-programming alignment over the
-three sequences of a triple -- Needleman-Wunsch style, match scored by A[i]==B[j]+C[k],
-gaps penalised -- so a bad local choice can be revised instead of poisoning everything
-after it. Runs 4, 7 and 8 hold most of the damage. Then apply oracle (a), the district
-checksums, to validate the finished blocks, and only emit districts that pass.
-
-DO NOT ship partial output. A ward table that is right for Antrim and wrong for Belfast
-is worse than none, because nothing downstream would reveal the difference.
 """
-import os, re, sys, csv, json, collections
+import os, re, csv
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, '..', '..'))
 SRC = os.path.join(REPO, 'data', 'census', 'census-1981.md')
 OUT = os.path.join(REPO, 'data', 'census', 'derived')
-
-# The NI-wide ward table lives in the Preliminary Report, the first of three reports
-# concatenated in this file (Summary Report starts ~9822, Belfast LGD report ~68908).
 LO, HI = 1500, 9820
-
 COLS = ['pop_1971_persons', 'pop_1971_males', 'pop_1971_females',
         'pop_1981_persons', 'pop_1981_males', 'pop_1981_females']
+# published controls, used as an independent end-to-end check
+CTRL = {'pop_1971_persons': 1536065, 'pop_1971_males': 754676, 'pop_1971_females': 781389,
+        'pop_1981_persons': 1490228, 'pop_1981_males': 730174, 'pop_1981_females': 760054}
 
-NUMRE = re.compile(r'^[^0-9]{0,4}?([0-9][0-9,]*)[^0-9]{0,4}$')
-DISTRICT = re.compile(r'^(.+?)\s+District\s+Council\s*$', re.I)
-DROP = re.compile(r'^(wards?|northern ireland|table\s*\d*|persons|males|females|'
-                  r'page\s*\d+|##.*|and\s*19\d\d|.?19\d\d.?|[^a-z0-9]*)$', re.I)
-
-
-def numval(s):
-    m = NUMRE.match(s.strip())
-    if not m:
-        return None
-    try:
-        return int(m.group(1).replace(',', ''))
-    except ValueError:
-        return None
+NUM = re.compile(r'^[^0-9]{0,4}?([0-9][0-9,]*)[^0-9]{0,4}$')
+DC = re.compile(r'^(.*?)\s+District\s+Council\b', re.I)
+JUNK = re.compile(r'(table\s*\d|population|^\s*wards?\s*$|^\s*persons\s*$|^\s*males\s*$|'
+                  r'^\s*fema|^\s*total|page\s*\d|19\d\d|^\s*#|contd|continued|^\s*and\s|'
+                  r'census|^\s*district\s+council\s*$|local government|enumerat|household|'
+                  r'estimated|^\s*number\s*$|^\s*effect\s*$|^\s*at\s*ion|row/|'
+                  r'^\s*are.\s*$|^\s*area\s*$)', re.I)
 
 
 def is_name(s):
     s = s.strip()
-    return bool(s) and numval(s) is None and re.search(r'[A-Za-z]{3}', s)
+    return bool(s) and not NUM.match(s) and re.search(r'[A-Za-z]{3}', s)
 
 
-def clean_name(s):
-    s = re.sub(r'[.\s]+$', '', s.strip())
-    s = re.sub(r'\s{2,}', ' ', s)
-    return s.strip(" .,'^|!�_-")
+def clean(s):
+    c = re.sub(r'\s{2,}', ' ', re.sub(r'[.\s]+$', '', s.strip()))
+    c = c.strip(" .,^|!_-—'")
+    if not c or JUNK.search(c):
+        return None
+    return c if len(re.sub(r'[^A-Za-z]', '', c)) >= 3 else None
 
 
-def parse():
-    lines = open(SRC, encoding='utf-8').read().split('\n')
-    region = lines[LO:HI]
-
-    # Page boundaries: a names block begins each page. Detect a run of >=6 name lines
-    # after at least one number, and treat that as the start of a new page.
-    pages, cur, seen_num = [], [], False
-    run = 0
-    for i, raw in enumerate(region):
-        s = raw.strip()
+def page_runs():
+    L = open(SRC, encoding='utf-8').read().split('\n')
+    out, names, cur, gap = [], [], [], 0
+    for i in range(LO, HI):
+        s = L[i].strip()
         if not s:
             continue
+        m = NUM.match(s)
+        if m:
+            try:
+                v = int(m.group(1).replace(',', ''))
+                if v >= 100:
+                    cur.append(v)
+                    gap = 0
+            except ValueError:
+                pass
+            continue
         if is_name(s):
-            run += 1
-            if run >= 6 and seen_num:
-                pages.append(cur)
-                cur, seen_num, run = [], False, 1
-        else:
-            if numval(s) is not None:
-                seen_num = True
-            run = 0
-        cur.append(s)
+            gap += 1
+            if gap >= 6 and len(cur) >= 20:      # >=20 guards against a stray token
+                out.append((names, cur))
+                names, cur, gap = [], [], 1
+            names.append(s)
     if cur:
-        pages.append(cur)
+        out.append((names, cur))
+    return [(n, r) for n, r in out if len(r) > 20][:10]
 
-    rows, rejected, ni_totals = [], [], collections.Counter()
-    for pno, page in enumerate(pages):
-        # split into the leading names block and everything after
-        names, nums, in_names = [], [], True
-        for s in page:
-            v = numval(s)
-            if in_names:
-                if v is not None and len(names) >= 3:
-                    in_names = False
-                    nums.append(v)
-                elif is_name(s):
-                    names.append(s)
-            else:
-                if v is not None:
-                    nums.append(v)
-        # the ordered entity sequence: NI (first page only), districts, wards
-        ents = []
-        for s in names:
-            c = clean_name(s)
-            if not c or DROP.match(c):
-                continue
-            d = DISTRICT.match(c)
-            ents.append(('district', clean_name(d.group(1))) if d else ('ward', c))
-        if len(ents) < 2 or not nums:
+
+def entities(names):
+    ents = []
+    for s in names:
+        c = clean(s)
+        if not c:
             continue
-        n = len(ents) + (1 if pno == 0 else 0)   # page 1 leads with the NI row
-        if len(nums) != n * len(COLS):
-            rejected.append((pno, len(ents), len(nums), n * len(COLS), 'column count'))
-            continue
-        cols = [nums[k * n:(k + 1) * n] for k in range(len(COLS))]
-        off = 0
-        if pno == 0:
-            for ci, c in enumerate(COLS):
-                ni_totals[c] = cols[ci][0]
-            off = 1
-        # group into districts and checksum
-        groups, gi = [], None
-        for idx, (kind, name) in enumerate(ents):
-            if kind == 'district':
-                gi = {'district': name, 'idx': idx + off, 'wards': []}
-                groups.append(gi)
-            elif gi is not None:
-                gi['wards'].append((idx + off, name))
-        for g in groups:
-            ok = True
-            vals = {}
-            for ci, c in enumerate(COLS):
-                tot = cols[ci][g['idx']]
-                wsum = sum(cols[ci][w] for w, _ in g['wards'])
-                if g['wards'] and wsum != tot:
-                    ok = False
-                vals[c] = (tot, [cols[ci][w] for w, _ in g['wards']])
-            if not ok or not g['wards']:
-                rejected.append((pno, g['district'], len(g['wards']), 'checksum'))
-                continue
-            for j, (w, wname) in enumerate(g['wards']):
-                rows.append({'district': g['district'], 'ward': wname,
-                             **{c: vals[c][1][j] for c in COLS}})
-    return rows, rejected, ni_totals, len(pages)
+        m = DC.match(c)
+        if re.match(r'^northern\s+ireland$', c, re.I):
+            ents.append(('ni', 'NORTHERN IRELAND'))
+        elif m:
+            ents.append(('district', m.group(1).strip()))
+        else:
+            ents.append(('ward', c))
+    return ents
+
+
+def bounds(seq, ncol):
+    """Find the three column boundaries of the NEXT triple in seq.
+
+    The window comes from the TOKEN COUNT, not from the name count: ncol is how many
+    columns seq still holds (6 for a whole run, 3 for its second half). Deriving it from
+    the name count instead was tried and is WORSE -- junk names inflate R on runs 3-8,
+    which puts the window in the wrong place and collapses those runs to ~1 hit.
+    """
+    n, best = len(seq), (-1, None)
+    N = max(2, len(seq) // ncol)
+    lo, hi = max(2, N - 9), N + 10
+    for b1 in range(lo, hi):
+        for b2 in range(b1 + lo, b1 + hi):
+            for b3 in range(b2 + lo, min(b2 + hi, n + 1)):
+                A, B, C = seq[0:b1], seq[b1:b2], seq[b2:b3]
+                k = min(len(A), len(B), len(C))
+                sc = sum(1 for i in range(k) if A[i] == B[i] + C[i])
+                if sc > best[0]:
+                    best = (sc, (b1, b2, b3))
+    return best[1]
+
+
+NEG = float('-inf')
+
+
+def dp(A, B, C, W=10, GAP=-0.7, NM=-0.25):
+    """banded Needleman-Wunsch over three sequences, match = A[i]==B[j]+C[k]"""
+    la, lb, lc = len(A), len(B), len(C)
+    S, BK = {(0, 0, 0): 0.0}, {}
+    for i in range(la + 1):
+        for j in range(max(0, i - W), min(lb, i + W) + 1):
+            for k in range(max(0, i - W), min(lc, i + W) + 1):
+                st = (i, j, k)
+                cu = S.get(st)
+                if cu is None:
+                    continue
+                mv = []
+                if i < la and j < lb and k < lc:
+                    mv.append((1, 1, 1, 1.0 if A[i] == B[j] + C[k] else NM))
+                if i < la:
+                    mv.append((1, 0, 0, GAP))
+                if j < lb:
+                    mv.append((0, 1, 0, GAP))
+                if k < lc:
+                    mv.append((0, 0, 1, GAP))
+                for di, dj, dk, w in mv:
+                    nx = (i + di, j + dj, k + dk)
+                    if abs(nx[1] - nx[0]) > W or abs(nx[2] - nx[0]) > W:
+                        continue
+                    v = cu + w
+                    if v > S.get(nx, NEG):
+                        S[nx] = v
+                        BK[nx] = (st, di, dj, dk)
+    best = None
+    for st, v in S.items():
+        if st[0] == la and (best is None or v > best[1]):
+            best = (st, v)
+    if best is None:
+        return []
+    st, rows = best[0], []
+    while st in BK:
+        pr, di, dj, dk = BK[st]
+        if di == dj == dk == 1:
+            i, j, k = pr
+            rows.append((A[i], B[j], C[k]))
+        st = pr
+    rows.reverse()
+    return rows
+
+
+def fit(seq, R, ncol, W=10):
+    """align one 3-column half so EXACTLY R rows come out; the gap penalty is searched
+    because a harsher penalty means fewer skips and therefore more rows."""
+    b = bounds(seq, ncol)
+    if not b:
+        return [], None
+    A = seq[0:b[0]]
+    B = seq[b[0]:min(len(seq), b[1] + W)]
+    C = seq[b[1]:min(len(seq), b[2] + W)]
+    best = None
+    for g in (-0.2, -0.3, -0.45, -0.6, -0.7, -0.85, -1.0, -1.2, -1.5, -2.0, -3.0):
+        rows = dp(A, B, C, W=W, GAP=g)
+        ok = sum(1 for x in rows if x[0] == x[1] + x[2])
+        cand = (abs(len(rows) - R), -ok, rows)
+        if best is None or cand[:2] < best[:2]:
+            best = cand
+    return best[2], b
 
 
 def main():
-    rows, rejected, ni, npages = parse()
-    print("=" * 76)
-    print(f"1981 Census Table 4 (Preliminary Report) — ward-level population")
-    print(f"  {npages} page blocks scanned")
-    print(f"  {len(rows)} wards parsed and checksummed across "
-          f"{len({r['district'] for r in rows})} districts")
-    print(f"  {len(rejected)} rejections")
-    for r in rejected[:12]:
-        print(f"      {r}")
+    print("=" * 84)
+    print("1981 Census Table 4 - ward population under the 1973 District Councils")
+    all_rows, rejected, agree, total = [], [], 0, 0
+    for ri, (names, run) in enumerate(page_runs()):
+        ents = entities(names)
+        R = len(ents)
+        a1, b1 = fit(run, R, 6)
+        if not b1:
+            rejected.append((ri, 'no column boundaries'))
+            continue
+        a2, _ = fit(run[b1[2]:], R, 3)
+        o1 = sum(1 for x in a1 if x[0] == x[1] + x[2])
+        o2 = sum(1 for x in a2 if x[0] == x[1] + x[2])
+        agree += o1 + o2
+        total += len(a1) + len(a2)
+        status = 'ok' if len(a1) == len(a2) == R else 'ROWS != NAMES'
+        print(f"  run {ri}: names {R:3}  1971 {len(a1):3} ({o1} ok)  "
+              f"1981 {len(a2):3} ({o2} ok)  {status}")
+        if len(a1) != R or len(a2) != R:
+            rejected.append((ri, f'row/name mismatch {len(a1)}/{len(a2)} vs {R}'))
+            continue
+        for i, (kind, nm) in enumerate(ents):
+            all_rows.append({'kind': kind, 'name': nm, 'run': ri,
+                             **dict(zip(COLS, list(a1[i]) + list(a2[i])))})
+    print(f"\n  oracle (b) agreement: {agree}/{total} = {100*agree/max(1,total):.1f}%")
+    print(f"  runs rejected: {len(rejected)}")
+    for r in rejected:
+        print(f"      run {r[0]}: {r[1]}")
+
+    # --- oracle (a): a district's wards must sum to its printed total
+    groups, cur = [], None
+    for r in all_rows:
+        if r['kind'] == 'district':
+            cur = {'district': r['name'], 'total': r, 'wards': []}
+            groups.append(cur)
+        elif r['kind'] == 'ward' and cur is not None:
+            cur['wards'].append(r)
+    kept, failed = [], []
+    for g in groups:
+        if not g['wards']:
+            continue
+        bad = [c for c in COLS if sum(w[c] for w in g['wards']) != g['total'][c]]
+        if bad:
+            failed.append((g['district'], len(g['wards']), len(bad)))
+        else:
+            kept.append(g)
+    print(f"\n  districts checksummed: {len(groups)}   PASS {len(kept)}   FAIL {len(failed)}")
+    for d, n, b in failed[:14]:
+        print(f"      FAIL {d:24} {n:3} wards, {b}/6 columns off")
+    if kept:
+        print("\n  PASSING districts:")
+        for g in kept:
+            print(f"      {g['district']:24} {len(g['wards']):3} wards  "
+                  f"1971 {g['total']['pop_1971_persons']:>9,}")
+    ni = [r for r in all_rows if r['kind'] == 'ni']
     if ni:
-        print(f"\n  printed NI controls: " +
-              "  ".join(f"{c.split('_',1)[1]} {ni[c]:,}" for c in COLS if ni[c]))
-    if rows:
+        n = ni[0]
+        good = all(n[c] == CTRL[c] for c in COLS)
+        print(f"\n  NI control row: {'MATCHES published totals' if good else 'MISMATCH'}")
         for c in COLS:
-            s = sum(r[c] for r in rows)
-            ctl = ni.get(c)
-            flag = '' if not ctl else (' MATCH' if s == ctl else f'  vs control {ctl:,}')
-            print(f"    parsed sum {c:20} {s:10,}{flag}")
+            print(f"      {c:20} {n[c]:>10,}  published {CTRL[c]:>10,}"
+                  f"  {'ok' if n[c] == CTRL[c] else 'X'}")
+    if not failed and kept:
         os.makedirs(OUT, exist_ok=True)
         p = os.path.join(OUT, 'ward1972-census-1981.csv')
         with open(p, 'w', encoding='utf-8', newline='') as fh:
             w = csv.DictWriter(fh, fieldnames=['district', 'ward'] + COLS)
             w.writeheader()
-            w.writerows(rows)
+            for g in kept:
+                for wd in g['wards']:
+                    w.writerow({'district': g['district'], 'ward': wd['name'],
+                                **{c: wd[c] for c in COLS}})
         print(f"\n  wrote {p}")
+    else:
+        print(f"\n  NOT WRITING OUTPUT - {len(failed)} districts fail their checksum.")
 
 
 if __name__ == '__main__':
