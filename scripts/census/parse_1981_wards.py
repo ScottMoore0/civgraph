@@ -53,16 +53,27 @@ WHAT WAS WRONG, in the order the obstacles appeared.
    above 100, so the filter is safe.
 
 4. Even filtered, a clean 6-way split scores 0% on oracle (b): the columns drift.
-   Allowing each column a small independent start offset and choosing N and the offsets
-   to maximise (b) lifts agreement from 0% to 76% overall, and runs 0 and 2 reach 97%
-   and 100%. That is the current state.
 
-WHAT REMAINS. Drift also accumulates WITHIN a column -- one dropped token shifts every
-row after it -- so a per-column start offset is not enough. The fix is a per-position
-alignment: walk the rows and, wherever P != M + F, try inserting or deleting a single
-token in the offending column and keep whichever repair restores agreement for the rows
-that follow. Oracle (b) scores each candidate repair, and oracle (a) validates the
-finished district blocks. Runs 4, 6, 7 and 8 (38-62%) are where the damage is.
+5. The drift is per-column, and oracle (b) DECOUPLES into two independent triples --
+   (1971 P,M,F) and (1981 P,M,F) -- so the five column boundaries can be searched
+   exhaustively as a 3-dim then 2-dim problem, which is cheap. Doing that lifts
+   agreement from 0% to 64% overall, and runs 1, 2, 3, 5 and 6 to 89-94%.
+
+6. ONLY RUNS 0-9 ARE THIS TABLE. Runs 0-9 hold 3,377 tokens = about 553 rows of six,
+   which matches ~526 wards + 26 districts + the NI row. Runs 10-19 (~113 tokens each)
+   score 0% at every alignment and are a DIFFERENT table. Restrict to runs 0-9.
+
+7. A greedy per-position repair -- three pointers, skip a token in one column on
+   mismatch, choose by 4-row lookahead -- DOES NOT WORK. It helped runs 0 and 6 (to 73%
+   and 95%) but derailed run 5 from 92% to 5%, taking overall DOWN to 63%. Once it
+   accepts a wrong skip it never recovers. Do not retry greedy; this needs a proper
+   alignment.
+
+WHAT REMAINS. Replace the greedy walk with a real dynamic-programming alignment over the
+three sequences of a triple -- Needleman-Wunsch style, match scored by A[i]==B[j]+C[k],
+gaps penalised -- so a bad local choice can be revised instead of poisoning everything
+after it. Runs 4, 7 and 8 hold most of the damage. Then apply oracle (a), the district
+checksums, to validate the finished blocks, and only emit districts that pass.
 
 DO NOT ship partial output. A ward table that is right for Antrim and wrong for Belfast
 is worse than none, because nothing downstream would reveal the difference.
