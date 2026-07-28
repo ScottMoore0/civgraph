@@ -77,28 +77,34 @@ HOW IT WORKS, and each step was forced by a measured failure of the previous one
     REJECTED, not emitted, and output is written only if EVERY district passes.
 
 WHERE IT STANDS. Both NI control rows are recovered exactly, 1971 and 1981; oracle (b)
-holds on all 1,058 verified rows; 9 of the 26 districts pass all six column checksums.
-Output is still withheld, correctly, because 17 do not. Those 17 fail for two reasons
-and only one of them is a bug in this script:
+holds on all 1,060 verified rows; 18 of the 26 districts pass all six column checksums,
+covering roughly 400 wards. Output is still withheld because 8 do not.
 
-  - SINGLE BAD DIGITS, which no amount of alignment can fix. Armagh's 1971 males sum
-    1,000 high and its females 1,000 low, with persons exact; Antrim's 1981 males are
-    58 low and females 58 high. The row satisfies P == M + F, so (b) cannot see it and
-    (a) correctly rejects the district. Repairing these needs a source (a) can check
-    against, not a better parse.
-  - LOST WARD NAMES, which shift a whole page. The scanner rendered some ward names as
-    bare leader dots -- 'Hillfoot / . / Lisnasharragh' on Castlereagh's continuation
-    page -- so run 3 offers 61 names for 63 rows, and because R comes from the name
-    count every row below the gap is labelled with its neighbour's figures. Coleraine
-    and Cookstown sit +2 out of position, Carrickfergus, Fermanagh, Larne and Limavady
-    +1, Magherafelt -1. The fix is to stop deriving R from the name count -- choose it
-    by alignment score -- and then attach names to rows anchored on the district totals,
-    which are locatable numerically (a district total equals the sum of the rows that
-    follow it, and that alone finds 20 of the 26). Table 5 of the same report lists the
-    same wards and lost different names, so it is available as a second witness.
+The 8 are no longer alignment failures. Searching offset AND ward count together, over
++-3 in each, finds NO arrangement that makes any of them sum -- so the structure is
+right and individual FIGURES are wrong. Five are a single bad digit, and the delta says
+so exactly:
 
-DO NOT ship partial output. A ward table right for Antrim and wrong for Belfast is worse
-than none, because nothing downstream would reveal the difference.
+    Armagh      1971 males +1,000, females -1,000, persons exact
+    Antrim      1981 males -58, females +58, persons exact
+    Lisburn     1981 persons and females both -1,335
+    Strabane    1971 persons and females both -116
+    Craigavon   1971 persons and males -588; 1981 persons and females -4,892
+
+Each keeps P == M + F, so oracle (b) is blind to them, and (a) correctly rejects the
+district. WHICH ward carries the bad digit is not determinable from this data: adding
+the delta back to any ward in the block satisfies (a) equally, so the checksum stops
+being evidence the moment it is used to choose. Repairing these needs a second source,
+not a better parse. Londonderry, Moyle and Newtownabbey are off by more (24,000-29,000)
+and are not yet diagnosed.
+
+The same search is what makes the offset tolerance safe: every one of the 18 passing
+districts has EXACTLY ONE (offset, count) solution. Nothing is passing by coincidence.
+
+DO NOT ship a silent mixture. A ward table right for Antrim and wrong for Belfast is
+worse than none, because nothing downstream would reveal the difference. Emitting only
+the checksum-verified districts, with the 8 omissions named in the file, would not be
+that -- but it is a coverage decision to be taken deliberately, not a default.
 
 Output: data/census/derived/ward1972-census-1981.csv
 """
