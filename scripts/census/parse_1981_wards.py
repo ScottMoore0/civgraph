@@ -77,7 +77,7 @@ than none, because nothing downstream would reveal the difference.
 
 Output: data/census/derived/ward1972-census-1981.csv
 """
-import os, re, csv
+import os, re, csv, difflib
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, '..', '..'))
@@ -104,12 +104,40 @@ def is_name(s):
     return bool(s) and not NUM.match(s) and re.search(r'[A-Za-z]{3}', s)
 
 
+# Column headers survive OCR badly and then read as ward names: 'hemales',
+# 'heniaies', 'Fi'mak's', '• Maks', 'Estibiated', '\9H\~confinued', '(at ion',
+# 'Arf^u'. Exact patterns cannot catch these, so headers are matched FUZZILY on the
+# alpha-only form. A real ward name that lands within 0.72 of one of these would be
+# dropped, but the district checksum is the backstop -- a wrongly dropped ward makes
+# its district fail and be rejected, never silently mis-stated.
+HEADERS = ('males', 'females', 'persons', 'total', 'population', 'estimated',
+           'continued', 'enumerated', 'households', 'number', 'effect', 'area',
+           'wards')
+# NOT in HEADERS: 'northernireland', 'district', 'council'. NI is a REAL row and the
+# district lines are real entities; listing them here dropped run 0 from a correct 62
+# names to 61.
+
+
+def is_header(c):
+    if re.match(r'^northern\s+ireland$', c, re.I) or DC.match(c):
+        return False
+    a = re.sub(r'[^a-z]', '', c.lower())
+    if len(a) < 3:
+        return False
+    return bool(difflib.get_close_matches(a, HEADERS, n=1, cutoff=0.72))
+
+
 def clean(s):
     c = re.sub(r'\s{2,}', ' ', re.sub(r'[.\s]+$', '', s.strip()))
     c = c.strip(" .,^|!_-—'")
     if not c or JUNK.search(c):
         return None
-    return c if len(re.sub(r'[^A-Za-z]', '', c)) >= 3 else None
+    if len(re.sub(r'[^A-Za-z]', '', c)) < 3:
+        return None
+    # heavy OCR debris: backslashes, bullets, carets rarely occur in place names
+    if re.search(r'[\•^~]', c):
+        return None
+    return None if is_header(c) else c
 
 
 def page_runs():
