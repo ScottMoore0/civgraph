@@ -25,6 +25,34 @@ A district whose wards do not sum to its own printed total is REJECTED rather th
 emitted. That is the whole safety argument for trusting this parse.
 
 Output: data/census/derived/ward1972-census-1981.csv
+
+STATUS: NOT WORKING. Diagnosis so far, so the next attempt does not repeat it.
+
+WHAT IS PROVEN. The table is self-validating and the numbers are clean enough. A greedy
+checksum walk over the number stream -- take a district total, then consume wards until
+they sum to it -- recovers the first three districts EXACTLY: Antrim 33,998/15 wards,
+Ards 46,778/17, Armagh 46,449/20. So checksum-driven alignment is the right approach and
+beats any line filter.
+
+WHY IT THEN FAILS. Districts SPLIT ACROSS PAGES. Page one carries NI + Antrim + Ards +
+Armagh + the first six Ballymena wards, and is then interrupted by that page's Males and
+Females columns. The walk runs off the end of the Persons column and starts matching
+Antrim's MALES total (17,224) as if it were a district. So the six columns must be
+reassembled across pages BEFORE any checksum is applied.
+
+WHY REASSEMBLY IS NOT TRIVIAL EITHER. Each page should contribute 6*N numbers for N
+entities, so run length ought to divide by six. Measured over the 20 numeric runs, only
+3 do -- run lengths are 465, 437, 472, 458 ... against expectations of 462, 438, 468.
+The OCR both drops and invents tokens, so runs are near-misses rather than exact.
+
+WHAT TO TRY NEXT. Per-run error-tolerant alignment: for each run, search N in a small
+window around len(run)/6, split into six candidate columns, and accept the N whose
+column-one district blocks satisfy the ward-sum checksum. The checksum is the oracle;
+use it to choose N rather than trusting the run length. Carry any unconsumed remainder
+into the next run rather than discarding it.
+
+DO NOT ship partial output. A ward table that is right for Antrim and wrong for Belfast
+is worse than none, because nothing downstream would reveal the difference.
 """
 import os, re, sys, csv, json, collections
 
