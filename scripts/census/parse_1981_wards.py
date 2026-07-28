@@ -39,9 +39,16 @@ come out perfect in 1971 and shifted in 1981, Londonderry and Magherafelt the re
 HOW IT WORKS, and each step was forced by a measured failure of the previous one:
 
  1. DISCARD FOREIGN TOKENS. A second table ("Households not enumerated", "Estimated
-    population effect") is interleaved on the same pages. Its values are tiny; ward,
-    male and female counts are all comfortably >= 100, so that threshold removes 1,214
-    of 5,732 tokens safely.
+    population effect") is interleaved on the same pages, and its values are small.
+    The obvious threshold of 100 was WRONG, though it looked safe: the smallest wards
+    reach into the same range. Rathlin Island held 109 people in 1971, so its males and
+    females sit near 55, and cutting at 100 destroyed them -- the island's row could not
+    be built, Moyle came out one row short, and its last ward absorbed Newry and
+    Mourne's district total of 72,368. The two tables cannot be separated by magnitude,
+    so the cut is set low enough to keep real figures (SMALL) and the foreign table is
+    left for the column search to step over. That in turn means the token count no
+    longer implies the column width, so the column search is centred on the known row
+    count instead.
 
  2. SPLIT INTO PAGE RUNS, requiring >= 20 accumulated numbers before a name block may
     end a run. Without that guard a stray '195' on the very first line splits the run
@@ -77,13 +84,13 @@ HOW IT WORKS, and each step was forced by a measured failure of the previous one
     REJECTED, not emitted, and output is written only if EVERY district passes.
 
 WHERE IT STANDS. Both NI control rows are recovered exactly, 1971 and 1981; oracle (b)
-holds on all 1,060 verified rows; 18 of the 26 districts pass all six column checksums,
-covering roughly 400 wards. Output is still withheld because 8 do not.
+holds on all 1,064 verified rows; 19 of the 26 districts pass all six column checksums,
+covering roughly 420 wards. Output is still withheld because 7 do not.
 
-The 8 are no longer alignment failures. Searching offset AND ward count together, over
-+-3 in each, finds NO arrangement that makes any of them sum -- so the structure is
-right and individual FIGURES are wrong. Five are a single bad digit, and the delta says
-so exactly:
+Those 7 are no longer alignment failures. Searching offset AND ward count together,
+over +-3 in each, finds NO arrangement that makes any of them sum, so the structure is
+right and individual FIGURES are wrong. Six are off in exactly two of the six columns
+and the delta names the damage:
 
     Armagh      1971 males +1,000, females -1,000, persons exact
     Antrim      1981 males -58, females +58, persons exact
@@ -95,10 +102,9 @@ Each keeps P == M + F, so oracle (b) is blind to them, and (a) correctly rejects
 district. WHICH ward carries the bad digit is not determinable from this data: adding
 the delta back to any ward in the block satisfies (a) equally, so the checksum stops
 being evidence the moment it is used to choose. Repairing these needs a second source,
-not a better parse. Londonderry, Moyle and Newtownabbey are off by more (24,000-29,000)
-and are not yet diagnosed.
+not a better parse.
 
-The same search is what makes the offset tolerance safe: every one of the 18 passing
+The same search is what makes the offset tolerance safe: every one of the 19 passing
 districts has EXACTLY ONE (offset, count) solution. Nothing is passing by coincidence.
 
 DO NOT ship a silent mixture. A ward table right for Antrim and wrong for Belfast is
@@ -210,7 +216,7 @@ def page_runs():
         if m:
             try:
                 v = int(m.group(1).replace(',', ''))
-                if v >= 100:
+                if v >= SMALL:
                     cur.append(v)
                     gap = 0
             except ValueError:
@@ -279,9 +285,17 @@ def entities(names):
 
 
 V = 4          # how far the shortlister lets a column drift before it stops looking
+# Tokens below this are the interleaved 'Households not enumerated' table, NOT ward
+# figures -- except that the smallest wards reach down into the same range. Rathlin
+# Island held 109 people in 1971, so its males and females are near 55, and a threshold
+# of 100 discarded them: the island's row could not be built, Moyle came out one row
+# short, and its last ward absorbed Newry and Mourne's district total of 72,368. The
+# two tables cannot be told apart by size, so the cut is set low enough to keep the
+# real figures and the extra table is left for the column search to step over.
+SMALL = 40
 
 
-def bounds(seq, ncol, S0=6, topn=5):
+def bounds(seq, ncol, S0=6, topn=5, hint=None):
     """Rank candidate cut points for the NEXT triple in seq, as ABSOLUTE indices.
 
     Returns up to topn candidates (p0, p1, p2, p3), best first, meaning
@@ -321,7 +335,10 @@ def bounds(seq, ncol, S0=6, topn=5):
     with B and then corrected by the alignment, which measures it properly.
     """
     n, out = len(seq), []
-    N = max(2, n // ncol)
+    # The window is centred on the KNOWN row count when there is one. Deriving it from
+    # the token count alone breaks once the interleaved households table is admitted,
+    # since those tokens inflate n without belonging to any of the six columns.
+    N = hint if hint else max(2, n // ncol)
     lo, hi = max(2, N - 9), N + 10
     for p0 in range(0, S0):
         sub = seq[p0:]
@@ -517,7 +534,7 @@ def fit(seq, R, ncol, W=7, ref=None):
     once. Correcting C's end this way was worth 90% -> 93% on its own; correcting B's
     end is what lets the second half of a page start in the right place at all.
     """
-    cands = bounds(seq, ncol)
+    cands = bounds(seq, ncol, hint=R)
     if not cands:
         return None
     best = None
