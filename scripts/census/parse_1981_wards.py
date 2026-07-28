@@ -18,14 +18,23 @@ Names and numbers align by POSITION, not proximity, so OCR damage to a ward's sp
 result is a dropped or spurious numeric token shifting a column -- which happens
 constantly. Everything below exists to defeat that.
 
-THREE ORACLES, used at different stages:
+FOUR ORACLES, used at different stages:
   (a) sum(ward values) == the district's own printed total
   (b) PERSONS == MALES + FEMALES on every row, in both year-halves
   (c) the number of NAMES on a page == the number of ROWS on that page
+  (d) a ward's 1981 population is of the same order as its 1971 one
 
 (b) is the workhorse: it scores a candidate alignment per row, so it can drive a search
 rather than merely validate a finished parse. (c) supplies the row count, because names
 survive OCR far better than digits. (a) is the final gate.
+
+(d) exists because (b) HAS A BLIND SPOT, and it is the one that mattered most. When the
+scanner drops a token from all three columns of a half, every row below shifts together
+and P == M + F still holds on every one of them, so (b) sees a flawless parse while
+Toome has been handed Ards's district total of 57,598. Only the other year-half can see
+that: Toome held 2,058 people in 1971. The two halves are therefore aligned AGAINST EACH
+OTHER, in both directions, since neither is reliably the sounder one -- Antrim and Ards
+come out perfect in 1971 and shifted in 1981, Londonderry and Magherafelt the reverse.
 
 HOW IT WORKS, and each step was forced by a measured failure of the previous one:
 
@@ -51,26 +60,42 @@ HOW IT WORKS, and each step was forced by a measured failure of the previous one
     drove run 5 from 92% to 5%, because a single wrong skip poisons everything after it
     and greedy cannot revise. Do not retry greedy.
 
- 5. PIN THE ROW COUNT with oracle (c). The gap penalty is searched for the alignment
-    whose row count comes closest to the page's name count.
-    THIS STEP IS NOT YET WORKING, and it is the only thing left. Names still exceed
-    rows by 2-5 on every page (e.g. run 0: 62 names, 62 rows in the 1971 half but 59 in
-    the 1981 half). Two separate causes, and they need separate fixes:
-      - the NAME side is still admitting junk on runs 3-8, where 63-65 names appear
-        against ~60 real rows. Run 0 and run 1 are clean at 62, so the cleaner is close;
-        what remains is page-header debris that JUNK does not yet match.
-      - the 1981 half still recovers 1-3 fewer rows than the 1971 half of the same
-        page, though it is much better than it was: cutting the tail at the DP's ACTUAL
-        consumption point (b[1] + term[2]) instead of the search's estimate b[2] took
-        overall agreement 90% -> 93% and fixed the 1981 halves of runs 6, 7 and 8
-        (53->60, 52->59, 48->57 hits). The residue is a real remaining gap.
-    Constraining the boundary search by the name count was tried as a fix and made
-    things WORSE (90% -> 70%), because the name count is itself unreliable. Fix the two
-    causes above first; do not re-couple the searches.
+ 5. PIN THE ROW COUNT with oracle (c), as a DIMENSION of the alignment rather than a
+    hope. The state carries d = (rows emitted) - (tokens of A consumed) and only
+    d == R - len(A) is terminal, so exactly R rows come out or none do. The gap-penalty
+    search this replaces merely hoped the count would land near R, and it never did.
 
- 6. GATE ON ORACLE (a). Districts whose wards do not sum to their printed total are
-    REJECTED, not emitted. Because step 5 is unfinished, every run is currently rejected
-    before reaching this gate and NO OUTPUT IS WRITTEN. That is the intended behaviour.
+ 6. RECOVER DROPPED VALUES BY ARITHMETIC. A row whose token the scanner lost cannot be
+    aligned back into existence, which is why row counts came up short rather than
+    merely misaligned. But any two of P, M, F give the third, so a row may consume two
+    columns and derive the third. 60 of 3,378 values are recovered this way.
+    This cannot launder a bad parse: an imputed row satisfies (b) BY CONSTRUCTION, so
+    (b) is reported over verified rows only, and (a) is unaffected -- a wrongly imputed
+    ward breaks its district's sum exactly as a wrongly aligned one does.
+
+ 7. GATE ON ORACLE (a). Districts whose wards do not sum to their printed total are
+    REJECTED, not emitted, and output is written only if EVERY district passes.
+
+WHERE IT STANDS. Both NI control rows are recovered exactly, 1971 and 1981; oracle (b)
+holds on all 1,058 verified rows; 9 of the 26 districts pass all six column checksums.
+Output is still withheld, correctly, because 17 do not. Those 17 fail for two reasons
+and only one of them is a bug in this script:
+
+  - SINGLE BAD DIGITS, which no amount of alignment can fix. Armagh's 1971 males sum
+    1,000 high and its females 1,000 low, with persons exact; Antrim's 1981 males are
+    58 low and females 58 high. The row satisfies P == M + F, so (b) cannot see it and
+    (a) correctly rejects the district. Repairing these needs a source (a) can check
+    against, not a better parse.
+  - LOST WARD NAMES, which shift a whole page. The scanner rendered some ward names as
+    bare leader dots -- 'Hillfoot / . / Lisnasharragh' on Castlereagh's continuation
+    page -- so run 3 offers 61 names for 63 rows, and because R comes from the name
+    count every row below the gap is labelled with its neighbour's figures. Coleraine
+    and Cookstown sit +2 out of position, Carrickfergus, Fermanagh, Larne and Limavady
+    +1, Magherafelt -1. The fix is to stop deriving R from the name count -- choose it
+    by alignment score -- and then attach names to rows anchored on the district totals,
+    which are locatable numerically (a district total equals the sum of the rows that
+    follow it, and that alone finds 20 of the 26). Table 5 of the same report lists the
+    same wards and lost different names, so it is available as a second witness.
 
 DO NOT ship partial output. A ward table right for Antrim and wrong for Belfast is worse
 than none, because nothing downstream would reveal the difference.
@@ -91,7 +116,35 @@ CTRL = {'pop_1971_persons': 1536065, 'pop_1971_males': 754676, 'pop_1971_females
         'pop_1981_persons': 1490228, 'pop_1981_males': 730174, 'pop_1981_females': 760054}
 
 NUM = re.compile(r'^[^0-9]{0,4}?([0-9][0-9,]*)[^0-9]{0,4}$')
-DC = re.compile(r'^(.*?)\s+District\s+Council\b', re.I)
+
+# A district header may be a ROW (its printed total) or a mere CAPTION repeated at the
+# top of a continuation page, and the two are told apart only by this marker. Getting it
+# wrong costs a whole district either way: a caption counted as a row inserts a phantom
+# entity, and a row dropped as a caption loses the total everything is checked against.
+# 'continued' was already handled; "cont'd" was not, and that alone put a second
+# Castlereagh, Craigavon, Lisburn and Strabane into the table.
+CONT = re.compile(r"con[t1l][’']?\s*(?:d|inued|mued)?\b|row\s*/", re.I)
+DCX = re.compile(r'^(.*?\S)\s+(D[i1l]s[t1l]\S*.*)$', re.I)
+
+
+def district_of(c):
+    """The district name if c is a District Council header line, else None.
+
+    The WHOLE tail is matched fuzzily against 'districtcouncil' after stripping
+    non-letters, rather than testing 'District' and 'Council' as tokens, because the
+    scanner damaged both words and in different ways: 'CcJuncil', 'Councii', 'CourvcW',
+    and -- the one that hid an entire district -- 'Carrickfergus Distr ict Council',
+    where the space fell inside 'District'. Ignoring the spacing costs nothing, since a
+    ward name has no reason to resemble 'districtcouncil' at all, while missing a header
+    files that district's wards under whichever district came before it.
+    """
+    m = DCX.match(c)
+    if not m:
+        return None
+    tail = re.sub(r'[^a-z]', '', m.group(2).lower())
+    if difflib.SequenceMatcher(None, tail, 'districtcouncil').ratio() < 0.72:
+        return None
+    return m.group(1).strip()
 JUNK = re.compile(r'(table\s*\d|population|^\s*wards?\s*$|^\s*persons\s*$|^\s*males\s*$|'
                   r'^\s*fema|^\s*total|page\s*\d|19\d\d|^\s*#|contd|continued|^\s*and\s|'
                   r'census|^\s*district\s+council\s*$|local government|enumerat|household|'
@@ -119,7 +172,7 @@ HEADERS = ('males', 'females', 'persons', 'total', 'population', 'estimated',
 
 
 def is_header(c):
-    if re.match(r'^northern\s+ireland$', c, re.I) or DC.match(c):
+    if re.match(r'^northern\s+ireland$', c, re.I) or district_of(c):
         return False
     a = re.sub(r'[^a-z]', '', c.lower())
     if len(a) < 3:
@@ -130,7 +183,7 @@ def is_header(c):
 def clean(s):
     c = re.sub(r'\s{2,}', ' ', re.sub(r'[.\s]+$', '', s.strip()))
     c = c.strip(" .,^|!_-—'")
-    if not c or JUNK.search(c):
+    if not c or JUNK.search(c) or CONT.search(c):
         return None
     if len(re.sub(r'[^A-Za-z]', '', c)) < 3:
         return None
@@ -174,135 +227,339 @@ def entities(names):
         c = clean(s)
         if not c:
             continue
-        m = DC.match(c)
+        d = district_of(c)
         if re.match(r'^northern\s+ireland$', c, re.I):
             ents.append(('ni', 'NORTHERN IRELAND'))
-        elif m:
-            ents.append(('district', m.group(1).strip()))
+        elif d:
+            ents.append(('district', d))
         else:
             ents.append(('ward', c))
     return ents
 
 
-def bounds(seq, ncol):
-    """Find the three column boundaries of the NEXT triple in seq.
+V = 4          # how far the shortlister lets a column drift before it stops looking
+
+
+def bounds(seq, ncol, S0=6, topn=5):
+    """Rank candidate cut points for the NEXT triple in seq, as ABSOLUTE indices.
+
+    Returns up to topn candidates (p0, p1, p2, p3), best first, meaning
+    A = seq[p0:p1], B = seq[p1:p2], C = seq[p2:p3].
+
+    THE SCORE IS DRIFT-TOLERANT, which the obvious one is not. Comparing A[i] with
+    B[i]+C[i] at a FIXED offset means one dropped token part-way down a column
+    invalidates every comparison below it, so the true split can score below a false
+    one: on run 0's 1981 half the true (0,60,121) scored 15 against 22 for (0,59,120),
+    one token early in both cuts. That cost the entire page, because the aligner then
+    opened by imputing a row out of the two stray tokens -- cheaper than skipping them --
+    and every entity shifted down by one. Here A[i] may instead pair with any B[j] and
+    C[k] within V positions of i, which a value->positions index makes cheap enough to
+    run over every candidate rather than a sample.
+
+    SEVERAL CANDIDATES, NOT ONE, because even this is only a shortlister; it accepts a
+    pairing anywhere in the window without requiring the choices to be consistent down
+    the column. The alignment is the only scorer that enforces that, so the shortlist is
+    handed to it and it makes the final choice.
+
+    p0 IS SEARCHED. It used to be pinned at 0, and that quietly cost the single most
+    valuable row in the table: run 0 opens with a stray '195' before the first real
+    figure, so every candidate column A carried that token and the whole triple shifted
+    by one. The search then settled on a CONSISTENTLY shifted alignment -- internally
+    coherent, scoring 61 of 62 -- under which Northern Ireland's control row read
+    3,145 = 2,104 + 1,041 instead of 1,536,065. A wrong answer that satisfies oracle (b)
+    is exactly what this parser has to avoid, and one extra loop removes the class.
 
     The window comes from the TOKEN COUNT, not from the name count: ncol is how many
     columns seq still holds (6 for a whole run, 3 for its second half). Deriving it from
     the name count instead was tried and is WORSE -- junk names inflate R on runs 3-8,
     which puts the window in the wrong place and collapses those runs to ~1 hit.
+
+    C's end is not searched. Score counts hits over i < min(column lengths) and so is
+    monotone in that length, which makes the widest C always at least as good -- the
+    third loop only ever confirmed its own upper bound. C's end is estimated by symmetry
+    with B and then corrected by the alignment, which measures it properly.
     """
-    n, best = len(seq), (-1, None)
-    N = max(2, len(seq) // ncol)
+    n, out = len(seq), []
+    N = max(2, n // ncol)
     lo, hi = max(2, N - 9), N + 10
-    for b1 in range(lo, hi):
-        for b2 in range(b1 + lo, b1 + hi):
-            for b3 in range(b2 + lo, min(b2 + hi, n + 1)):
-                A, B, C = seq[0:b1], seq[b1:b2], seq[b2:b3]
-                k = min(len(A), len(B), len(C))
-                sc = sum(1 for i in range(k) if A[i] == B[i] + C[i])
-                if sc > best[0]:
-                    best = (sc, (b1, b2, b3))
-    return best[1]
+    for p0 in range(0, S0):
+        sub = seq[p0:]
+        m = len(sub)
+        pos = {}
+        for idx, v in enumerate(sub):
+            pos.setdefault(v, []).append(idx)
+        for b1 in range(lo, min(hi, m)):
+            for b2 in range(b1 + lo, min(b1 + hi, m)):
+                lb, lc = b2 - b1, m - b2
+                k = min(b1, lb, lc)
+                if k < 2:
+                    continue
+                sc = 0
+                for i in range(k):
+                    a = sub[i]
+                    for j in range(max(0, i - V), min(lb, i + V + 1)):
+                        want = a - sub[b1 + j]
+                        if want <= 0:
+                            continue
+                        for q in pos.get(want, ()):
+                            kk = q - b2
+                            if 0 <= kk < lc and abs(kk - i) <= V:
+                                sc += 1
+                                break
+                        else:
+                            continue
+                        break
+                b3 = min(m, b2 + (b2 - b1))
+                out.append((sc, (p0, p0 + b1, p0 + b2, p0 + b3)))
+    out.sort(key=lambda t: -t[0])
+    seen, cand = set(), []
+    for _, c in out:
+        if c[:3] in seen:
+            continue
+        seen.add(c[:3])
+        cand.append(c)
+        if len(cand) >= topn:
+            break
+    return cand
 
 
 NEG = float('-inf')
 
 
-def dp(A, B, C, W=10, GAP=-0.7, NM=-0.25):
-    """banded Needleman-Wunsch over three sequences, match = A[i]==B[j]+C[k]"""
+RLO, RHI = 0.45, 2.40      # a ward's 1981 population over its 1971 one, generously
+REF = 0.45                 # weight on that agreement, per row
+
+
+def dp(A, B, C, R, ref=None, W=7, D=6, GAP=-0.5, NM=-0.5, IMP=0.25):
+    """Align three columns into EXACTLY R rows, deriving values the OCR lost.
+
+    Two changes from the plain three-way Needleman-Wunsch this replaces, and both were
+    forced by the same measured failure -- the 1981 half of a page returning 1-3 fewer
+    rows than the 1971 half, which cannot be right when the two halves describe the same
+    wards in the same order.
+
+    IMPUTED ROWS. When the scanner drops a numeric token the row it belonged to is gone,
+    and no alignment can put it back: that is why row counts came up short rather than
+    merely misaligned. But PERSONS == MALES + FEMALES means any TWO of the three columns
+    determine the third, so a row may consume two tokens and DERIVE the missing one.
+    This is arithmetic, not a guess.
+
+      row     one token from each column                match scored, or NM if it fails
+      imputeC one from A and B, F  := P - M             IMP
+      imputeB one from A and C, M  := P - F             IMP
+      imputeA one from B and C, P  := M + F             IMP
+      skip    one token, no row                         GAP
+
+    Imputation cannot be allowed to launder a bad alignment, because an imputed row
+    satisfies oracle (b) BY CONSTRUCTION -- so (b) is reported over verified rows only.
+    Oracle (a), the district checksum, stays honest: a wrongly imputed ward breaks its
+    district's sum exactly as a wrongly aligned one does. That is what makes this safe.
+
+    ROW COUNT AS A DIMENSION. The old code searched the gap penalty hoping the emitted
+    row count would land near the name count. It is pinned instead: the state carries
+    d = (rows emitted) - (tokens of A consumed), which every move shifts by a known
+    amount, and only d == R - len(A) is accepted as terminal. Exactly R rows come out or
+    nothing does. d stays within a narrow band, so this costs one dimension of size 2D+1
+    rather than one of size R.
+    """
     la, lb, lc = len(A), len(B), len(C)
-    S, BK = {(0, 0, 0): 0.0}, {}
+    target = R - la
+    if abs(target) > D:
+        return None
+    layers = [dict() for _ in range(la + 1)]
+    layers[0][(0, 0, 0)] = 0.0
+    BK = {}
     for i in range(la + 1):
-        for j in range(max(0, i - W), min(lb, i + W) + 1):
-            for k in range(max(0, i - W), min(lc, i + W) + 1):
-                st = (i, j, k)
-                cu = S.get(st)
-                if cu is None:
-                    continue
+        cur = layers[i]
+        if not cur:
+            continue
+        nxt = layers[i + 1] if i < la else None
+        buckets = {}
+        for key in cur:
+            buckets.setdefault(key[0] + key[1], []).append(key)
+        for s in range(0, lb + lc + 1):
+            q = buckets.get(s)
+            if not q:
+                continue
+            qi = 0
+            while qi < len(q):
+                j, k, d = q[qi]
+                qi += 1
+                cu = cur[(j, k, d)]
                 mv = []
                 if i < la and j < lb and k < lc:
-                    mv.append((1, 1, 1, 1.0 if A[i] == B[j] + C[k] else NM))
+                    mv.append((1, 1, 1, 0, 1.0 if A[i] == B[j] + C[k] else NM, 'M'))
+                if i < la and j < lb and A[i] - B[j] > 0:
+                    mv.append((1, 1, 0, 0, IMP, 'C'))
+                if i < la and k < lc and A[i] - C[k] > 0:
+                    mv.append((1, 0, 1, 0, IMP, 'B'))
+                if j < lb and k < lc:
+                    mv.append((0, 1, 1, 1, IMP, 'A'))
                 if i < la:
-                    mv.append((1, 0, 0, GAP))
+                    mv.append((1, 0, 0, -1, GAP, None))
                 if j < lb:
-                    mv.append((0, 1, 0, GAP))
+                    mv.append((0, 1, 0, 0, GAP, None))
                 if k < lc:
-                    mv.append((0, 0, 1, GAP))
-                for di, dj, dk, w in mv:
-                    nx = (i + di, j + dj, k + dk)
-                    if abs(nx[1] - nx[0]) > W or abs(nx[2] - nx[0]) > W:
+                    mv.append((0, 0, 1, 0, GAP, None))
+                for di, dj, dk, dd, w, tag in mv:
+                    ni, nj, nk, nd = i + di, j + dj, k + dk, d + dd
+                    if abs(nj - ni) > W or abs(nk - ni) > W or abs(nd) > D:
+                        continue
+                    # Agreement with the OTHER year-half, which is the only evidence
+                    # that can place a dropped row. A block shifted by one satisfies
+                    # PERSONS == MALES + FEMALES perfectly -- all three columns move
+                    # together -- so oracle (b) is blind to exactly this failure. Ward
+                    # populations between the two censuses are not: Toome held 2,058
+                    # people in 1971, so the 57,598 the shift handed it (Ards's district
+                    # total) is impossible and the correct placement is not.
+                    if ref is not None and tag:
+                        r = i + d
+                        if 0 <= r < len(ref) and ref[r] > 0:
+                            got = (B[j] + C[k]) if tag == 'A' else A[i]
+                            w += REF if RLO <= got / ref[r] <= RHI else -REF
+                    tgt = nxt if di else cur
+                    if tgt is None:
                         continue
                     v = cu + w
-                    if v > S.get(nx, NEG):
-                        S[nx] = v
-                        BK[nx] = (st, di, dj, dk)
+                    nkey = (nj, nk, nd)
+                    if v > tgt.get(nkey, NEG):
+                        fresh = nkey not in tgt
+                        tgt[nkey] = v
+                        BK[(ni, nj, nk, nd)] = ((i, j, k, d), tag,
+                                                A[i] if di else None,
+                                                B[j] if dj else None,
+                                                C[k] if dk else None)
+                        if di == 0 and fresh:
+                            buckets.setdefault(nj + nk, []).append(nkey)
+    end = layers[la]
     best = None
-    for st, v in S.items():
-        if st[0] == la and (best is None or v > best[1]):
-            best = (st, v)
+    for (j, k, d), v in end.items():
+        if d == target and (best is None or v > best[1]):
+            best = ((la, j, k, d), v)
     if best is None:
-        return [], (0, 0, 0)
-    term = best[0]
-    st, rows = best[0], []
+        return None
+    term, score = best
+    st, rows = term, []
     while st in BK:
-        pr, di, dj, dk = BK[st]
-        if di == dj == dk == 1:
-            i, j, k = pr
-            rows.append((A[i], B[j], C[k]))
+        pr, tag, a, b, c = BK[st]
+        if tag == 'M':
+            rows.append((a, b, c, ''))
+        elif tag == 'C':
+            rows.append((a, b, a - b, 'C'))
+        elif tag == 'B':
+            rows.append((a, a - c, c, 'B'))
+        elif tag == 'A':
+            rows.append((b + c, b, c, 'A'))
         st = pr
     rows.reverse()
-    return rows, term
+    return rows, score, (term[1], term[2])
 
 
-def fit(seq, R, ncol, W=10):
-    """align one 3-column half so EXACTLY R rows come out; the gap penalty is searched
-    because a harsher penalty means fewer skips and therefore more rows."""
-    b = bounds(seq, ncol)
-    if not b:
-        return [], None
-    A = seq[0:b[0]]
-    B = seq[b[0]:min(len(seq), b[1] + W)]
-    C = seq[b[1]:min(len(seq), b[2] + W)]
+def _try(seq, R, p, W, ref):
+    p0, p1, p2, p3 = p
+    A = seq[p0:p1]
+    B = seq[p1:min(len(seq), p2 + W)]
+    C = seq[p2:min(len(seq), p3 + W)]
+    return dp(A, B, C, R, ref=ref, W=W)
+
+
+def fit(seq, R, ncol, W=7, ref=None):
+    """Align one 3-column half into exactly R rows.
+
+    Two stages. First the shortlist from bounds() is scored BY THE ALIGNMENT -- the
+    cheap fixed-offset scorer that produced the shortlist cannot rank it, since a single
+    dropped token invalidates every comparison below it.
+
+    Then the winner is refined. B's end and C's start are the SAME cut, but bounds only
+    estimates it; the alignment measures it, as term[0], the tokens of B it actually
+    consumed. The cut moves there and the fit re-runs until it stops moving, usually
+    once. Correcting C's end this way was worth 90% -> 93% on its own; correcting B's
+    end is what lets the second half of a page start in the right place at all.
+    """
+    cands = bounds(seq, ncol)
+    if not cands:
+        return None
     best = None
-    for g in (-0.2, -0.3, -0.45, -0.6, -0.7, -0.85, -1.0, -1.2, -1.5, -2.0, -3.0):
-        rows, term = dp(A, B, C, W=W, GAP=g)
-        ok = sum(1 for x in rows if x[0] == x[1] + x[2])
-        cand = (abs(len(rows) - R), -ok, rows, term)
-        if best is None or cand[:2] < best[:2]:
-            best = cand
-    # where the third column ACTUALLY ended, not where the search guessed it would.
-    # b[2] is an estimate; term[2] is how many tokens of C the alignment consumed.
-    end = b[1] + best[3][2]
-    return best[2], b, end
+    for c in cands:
+        got = _try(seq, R, c, W, ref)
+        if got and (best is None or got[1] > best[0][1]):
+            best = (got, c)
+    if best is None:
+        return None
+    (rows, score, term), b = best
+    p0, p1, p2, p3 = b
+    out, seen = (rows, score, p2 + term[1]), {p2}
+    for _ in range(3):
+        np2 = p1 + term[0]
+        if np2 in seen:
+            break
+        seen.add(np2)
+        p3 += np2 - p2
+        p2 = np2
+        got = _try(seq, R, (p0, p1, p2, p3), W, ref)
+        if not got:
+            break
+        rows, score, term = got
+        if score > out[1]:
+            out = (rows, score, p2 + term[1])
+    return out[0], b, out[2]
+
+
+def align_run(names, run):
+    """Align one page run into (entities, 1971 rows, 1981 rows), or None.
+
+    Each half is aligned, then re-aligned against the other. Neither half is reliably
+    the better one -- Antrim and Ards come out perfect in 1971 and shifted in 1981,
+    Londonderry and Magherafelt the other way round -- so the pass runs in both
+    directions rather than trusting a fixed order.
+    """
+    ents = entities(names)
+    R = len(ents)
+    f1 = fit(run, R, 6)
+    if not f1:
+        return ents, None, None
+    a1, _, end1 = f1
+    f2 = fit(run[end1:], R, 3, ref=[x[0] for x in a1])
+    if not f2:
+        return ents, a1, None
+    a2 = f2[0]
+    f1b = fit(run, R, 6, ref=[x[0] for x in a2])
+    if f1b:
+        a1, _, e1b = f1b
+        f2b = fit(run[e1b:], R, 3, ref=[x[0] for x in a1])
+        if f2b:
+            a2 = f2b[0]
+    return ents, a1, a2
 
 
 def main():
     print("=" * 84)
     print("1981 Census Table 4 - ward population under the 1973 District Councils")
-    all_rows, rejected, agree, total = [], [], 0, 0
+    all_rows, rejected, agree, total, imp = [], [], 0, 0, 0
     for ri, (names, run) in enumerate(page_runs()):
-        ents = entities(names)
+        ents, a1, a2 = align_run(names, run)
         R = len(ents)
-        a1, b1, end1 = fit(run, R, 6)
-        if not b1:
-            rejected.append((ri, 'no column boundaries'))
+        if a1 is None or a2 is None:
+            rejected.append((ri, f'no alignment into {R} rows'))
             continue
-        a2, _, _ = fit(run[end1:], R, 3)
-        o1 = sum(1 for x in a1 if x[0] == x[1] + x[2])
-        o2 = sum(1 for x in a2 if x[0] == x[1] + x[2])
+        # oracle (b) counts VERIFIED rows only -- an imputed row satisfies it by
+        # construction, so counting those would make the number self-congratulatory.
+        v1 = [x for x in a1 if not x[3]]
+        v2 = [x for x in a2 if not x[3]]
+        o1 = sum(1 for x in v1 if x[0] == x[1] + x[2])
+        o2 = sum(1 for x in v2 if x[0] == x[1] + x[2])
+        n_imp = sum(1 for x in a1 + a2 if x[3])
+        imp += n_imp
         agree += o1 + o2
-        total += len(a1) + len(a2)
-        status = 'ok' if len(a1) == len(a2) == R else 'ROWS != NAMES'
-        print(f"  run {ri}: names {R:3}  1971 {len(a1):3} ({o1} ok)  "
-              f"1981 {len(a2):3} ({o2} ok)  {status}")
-        if len(a1) != R or len(a2) != R:
-            rejected.append((ri, f'row/name mismatch {len(a1)}/{len(a2)} vs {R}'))
-            continue
+        total += len(v1) + len(v2)
+        print(f"  run {ri}: names {R:3}  1971 {o1:3}/{len(v1):<3} 1981 {o2:3}/{len(v2):<3}"
+              f"  verified {o1+o2:3}/{2*R:<3}  imputed {n_imp}")
         for i, (kind, nm) in enumerate(ents):
             all_rows.append({'kind': kind, 'name': nm, 'run': ri,
-                             **dict(zip(COLS, list(a1[i]) + list(a2[i])))})
-    print(f"\n  oracle (b) agreement: {agree}/{total} = {100*agree/max(1,total):.1f}%")
+                             'imputed': (a1[i][3] or '') + (a2[i][3] or ''),
+                             **dict(zip(COLS, list(a1[i][:3]) + list(a2[i][:3])))})
+    print(f"\n  oracle (b) on verified rows: {agree}/{total} = "
+          f"{100*agree/max(1,total):.1f}%   ({imp} values imputed)")
     print(f"  runs rejected: {len(rejected)}")
     for r in rejected:
         print(f"      run {r[0]}: {r[1]}")
