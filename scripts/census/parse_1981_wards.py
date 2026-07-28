@@ -84,32 +84,32 @@ HOW IT WORKS, and each step was forced by a measured failure of the previous one
     REJECTED, not emitted, and output is written only if EVERY district passes.
 
 WHERE IT STANDS. Both NI control rows are recovered exactly, 1971 and 1981; oracle (b)
-holds on all 1,064 verified rows; 19 of the 26 districts pass all six column checksums,
-covering roughly 420 wards. Output is still withheld because 7 do not.
+holds on all 1,064 verified rows; 22 of the 26 districts pass all six column checksums,
+covering roughly 480 wards. Output is still withheld because 4 do not.
 
-Those 7 are no longer alignment failures. Searching offset AND ward count together,
-over +-3 in each, finds NO arrangement that makes any of them sum, so the structure is
-right and individual FIGURES are wrong. Six are off in exactly two of the six columns
-and the delta names the damage:
+Those 4 are not alignment failures. Searching offset AND ward count together, over +-3
+in each, finds NO arrangement that makes any of them sum, so the structure is right and
+individual FIGURES are wrong. Each is off in two columns of one year-half, or in
+Craigavon's case two columns of each, and the delta names the damage:
 
-    Armagh      1971 males +1,000, females -1,000, persons exact
     Antrim      1981 males -58, females +58, persons exact
-    Lisburn     1981 persons and females both -1,335
+    Lisburn     1981 persons and females both -1,569
     Strabane    1971 persons and females both -116
-    Craigavon   1971 persons and males -588; 1981 persons and females -4,892
+    Craigavon   1971 persons and males -588; 1981 persons and females -4,989
 
-Each keeps P == M + F, so oracle (b) is blind to them, and (a) correctly rejects the
-district. WHICH ward carries the bad digit is not determinable from this data: adding
-the delta back to any ward in the block satisfies (a) equally, so the checksum stops
-being evidence the moment it is used to choose. Repairing these needs a second source,
-not a better parse.
+Each keeps P == M + F, so oracle (b) is blind to them. Where the damaged row can be
+identified INDEPENDENTLY of the checksum -- see repair() -- it is corrected and the
+cell is labelled as inference in the output; that recovered Armagh, Cookstown and
+Londonderry. The four above are refused because two or more rows in the district could
+equally explain the shortfall, and choosing between them by the checksum would be
+choosing by the thing that is supposed to be checking.
 
-The same search is what makes the offset tolerance safe: every one of the 19 passing
-districts has EXACTLY ONE (offset, count) solution. Nothing is passing by coincidence.
+The same search is what makes the offset tolerance safe: every passing district has
+EXACTLY ONE (offset, count) solution. Nothing is passing by coincidence.
 
 DO NOT ship a silent mixture. A ward table right for Antrim and wrong for Belfast is
 worse than none, because nothing downstream would reveal the difference. Emitting only
-the checksum-verified districts, with the 8 omissions named in the file, would not be
+the checksum-verified districts, with the 4 omissions named in the file, would not be
 that -- but it is a coverage decision to be taken deliberately, not a default.
 
 Output: data/census/derived/ward1972-census-1981.csv
@@ -590,6 +590,56 @@ def align_run(names, run):
     return ents, a1, a2
 
 
+def repair(tot, blk):
+    """Correct the single misread figure a district's shortfall points to, or None.
+
+    A row with one bad figure does not survive as a bad row. The aligner scores a
+    mismatch worse than an imputation, so it drops the value it cannot reconcile and
+    derives that column instead -- and the derived value then inherits the error. The
+    damage therefore lands on an IMPUTED row, and which column was imputed determines
+    the shape the district's shortfall takes:
+
+        males imputed    M and F wrong by equal and opposite amounts, P exact
+        females imputed  the same shape, from the other side
+        persons imputed  P and one of M/F short by the SAME amount, the other exact
+
+    So the shortfall is matched against the imputations, and a row is only corrected
+    when EXACTLY ONE row in the district was imputed in a way that explains it. Three
+    of the seven failing districts have two such rows and are left alone.
+
+    This is inference and it is labelled as such in the output. The identification does
+    not come from the checksum -- it comes from which row was derived and which columns
+    are wrong, which agree independently -- but the SIZE of the correction does, so the
+    checksum stops being evidence for this one row. The correction is then forced: it
+    is the only value that restores both the district total and P == M + F.
+    """
+    d = [sum(w[c] for w in blk) - tot[c] for c in COLS]
+    off = [x for x in range(6) if d[x]]
+    if not off or len({x // 3 for x in off}) != 1:
+        return None
+    base = (off[0] // 3) * 3
+    fld = 'imp1' if base == 0 else 'imp2'
+    rel = sorted(x - base for x in off)
+    if rel == [1, 2] and d[base + 1] == -d[base + 2]:
+        want = {'B', 'C'}
+    elif rel in ([0, 1], [0, 2]) and d[base] == d[base + rel[1]]:
+        want = {'A'}
+    else:
+        return None
+    cand = [w for w in blk if w[fld] in want]
+    if len(cand) != 1:
+        return None
+    fixed = dict(cand[0])
+    for x in off:
+        fixed[COLS[x]] = fixed[COLS[x]] - d[x]
+    if fixed[COLS[base]] != fixed[COLS[base + 1]] + fixed[COLS[base + 2]]:
+        return None
+    out = [fixed if w is cand[0] else w for w in blk]
+    if not all(sum(w[c] for w in out) == tot[c] for c in COLS):
+        return None
+    return out, fixed['name'], [COLS[x] for x in off]
+
+
 def main():
     print("=" * 84)
     print("1981 Census Table 4 - ward population under the 1973 District Councils")
@@ -614,7 +664,7 @@ def main():
               f"  verified {o1+o2:3}/{2*R:<3}  imputed {n_imp}")
         for i, (kind, nm) in enumerate(ents):
             all_rows.append({'kind': kind, 'name': nm, 'run': ri,
-                             'imputed': (a1[i][3] or '') + (a2[i][3] or ''),
+                             'imp1': a1[i][3] or '', 'imp2': a2[i][3] or '',
                              **dict(zip(COLS, list(a1[i][:3]) + list(a2[i][:3])))})
     print(f"\n  oracle (b) on verified rows: {agree}/{total} = "
           f"{100*agree/max(1,total):.1f}%   ({imp} values imputed)")
@@ -640,7 +690,7 @@ def main():
         k = len(wname)
         if not k:
             continue
-        hit = None
+        hit, fix = None, None
         for o in (0, 1, -1, 2, -2, 3, -3):
             j = i + o
             if j < 0 or j + k >= len(all_rows):
@@ -649,6 +699,15 @@ def main():
             if all(sum(w[c] for w in blk) == tot[c] for c in COLS):
                 hit = (o, tot, blk)
                 break
+        for o in (0, 1, -1, 2, -2, 3, -3):
+            if hit:
+                break
+            j = i + o
+            if j < 0 or j + k >= len(all_rows):
+                continue
+            r = repair(all_rows[j], all_rows[j + 1:j + 1 + k])
+            if r:
+                hit, fix = (o, all_rows[j], r[0]), (r[1], r[2])
         g = {'district': all_rows[i]['name'], 'wards': k}
         groups.append(g)
         if hit is None:
@@ -657,7 +716,7 @@ def main():
                 if sum(w[c] for w in all_rows[i + 1:i + 1 + k]) != all_rows[i][c])))
             continue
         o, tot, blk = hit
-        g.update({'offset': o, 'total': tot,
+        g.update({'offset': o, 'total': tot, 'fix': fix,
                   'rows': [dict(v, name=nm) for nm, v in zip(wname, blk)]})
         kept.append(g)
     print(f"\n  districts checksummed: {len(groups)}   PASS {len(kept)}   FAIL {len(failed)}")
@@ -667,6 +726,8 @@ def main():
         print("\n  PASSING districts:")
         for g in kept:
             sh = '' if not g['offset'] else f"  names shifted {g['offset']:+d}"
+            if g['fix']:
+                sh += f"  CORRECTED {g['fix'][0]}: {', '.join(c[4:] for c in g['fix'][1])}"
             print(f"      {g['district']:24} {g['wards']:3} wards  "
                   f"1971 {g['total']['pop_1971_persons']:>9,}{sh}")
     ni = [r for r in all_rows if r['kind'] == 'ni']
@@ -681,11 +742,14 @@ def main():
         os.makedirs(OUT, exist_ok=True)
         p = os.path.join(OUT, 'ward1972-census-1981.csv')
         with open(p, 'w', encoding='utf-8', newline='') as fh:
-            w = csv.DictWriter(fh, fieldnames=['district', 'ward'] + COLS)
+            w = csv.DictWriter(fh, fieldnames=['district', 'ward'] + COLS + ['corrected'])
             w.writeheader()
             for g in kept:
                 for wd in g['rows']:
+                    # a corrected cell is inference, not a reading, and says so
+                    fx = g['fix'][1] if g['fix'] and g['fix'][0] == wd['name'] else []
                     w.writerow({'district': g['district'], 'ward': wd['name'],
+                                'corrected': ' '.join(fx),
                                 **{c: wd[c] for c in COLS}})
         print(f"\n  wrote {p}")
     else:
