@@ -1145,6 +1145,9 @@ function buildPersons(electionDetails) {
             parties: new Map(),
             constituencies: new Map(),
             genders: new Map(),
+            // Names a person stood under. A person is many-to-many with names, so this
+            // is a list, not a field: see data/elections/persons/name_registry.json.
+            names: new Map(),
             elections: [],
             totals: { stood: 0, elected: 0, firstPrefs: 0 },
             firstYear: null,
@@ -1153,6 +1156,12 @@ function buildPersons(electionDetails) {
           });
         }
         const person = byId.get(personId);
+        const nameId = cleanText(candidate.name_id || '');
+        if (nameId) {
+          const seen = person.names.get(nameId) || { nameId, name, count: 0 };
+          seen.count += 1;
+          person.names.set(nameId, seen);
+        }
         const party = cleanText(candidate.party || candidate.Party || result.party || '');
         const constituency = cleanText(candidate.constituency || result.constituency || '');
         const gender = cleanText(candidate.gender || candidate.Gender || candidate.genderId || candidate.Gender_Id || '');
@@ -1187,11 +1196,15 @@ function buildPersons(electionDetails) {
     const parties = mapToSortedArray(person.parties);
     const constituencies = mapToSortedArray(person.constituencies);
     const genders = mapToSortedArray(person.genders);
+    const names = [...person.names.values()].sort((a, b) => b.count - a.count);
     const detail = {
       ...person,
       parties,
       constituencies,
       genders,
+      names,
+      nameCount: names.length,
+      alsoStoodAs: names.slice(1).map((n) => n.name),
       gender: genders[0]?.name || null,
       subtitle: compactJoin([parties[0]?.name, formatYearRange(person.firstYear, person.lastYear), `${person.totals.stood} contests`]),
       interactiveUrl: person.elections[0]?.interactiveUrl || null
