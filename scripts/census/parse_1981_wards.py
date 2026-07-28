@@ -212,10 +212,18 @@ def page_runs():
             continue
         if is_name(s):
             gap += 1
-            if gap >= 6 and len(cur) >= 20:      # >=20 guards against a stray token
-                out.append((names, cur))
-                names, cur, gap = [], [], 1
             names.append(s)
+            # The page break is retroactive: EVERY name since the last figure belongs to
+            # the next page, because the scanner reads a page's names before any of its
+            # six number columns. Splitting at the sixth consecutive name instead left
+            # the first few names of each page attached to the page before it, and how
+            # many depended on how many caption lines that page happened to carry --
+            # five on page 21, four on page 22, which is how Carrowreagh ended up filed
+            # under Belfast's page and every row below it on page 22 was labelled with
+            # its neighbour's figures.
+            if gap >= 6 and len(cur) >= 20:      # >=20 guards against a stray token
+                out.append((names[:-gap], cur))
+                names, cur = names[-gap:], []
     if cur:
         out.append((names, cur))
     return [(n, r) for n, r in out if len(r) > 20][:10]
@@ -564,31 +572,53 @@ def main():
     for r in rejected:
         print(f"      run {r[0]}: {r[1]}")
 
-    # --- oracle (a): a district's wards must sum to its printed total
-    groups, cur = [], None
-    for r in all_rows:
-        if r['kind'] == 'district':
-            cur = {'district': r['name'], 'total': r, 'wards': []}
-            groups.append(cur)
-        elif r['kind'] == 'ward' and cur is not None:
-            cur['wards'].append(r)
-    kept, failed = [], []
-    for g in groups:
-        if not g['wards']:
+    # --- oracle (a): a district's wards must sum to its printed total.
+    #
+    # The names and the figures are allowed to sit at DIFFERENT OFFSETS. A page whose
+    # name stream lost an entry -- a ward the scanner rendered as bare leader dots --
+    # or gained one from a mangled column header labels every row below it with its
+    # neighbour's figures, and the shift is cumulative down the page. Rather than
+    # assume no shift, each district is looked for at a small range of offsets and
+    # kept at whichever one makes all six columns sum. That cannot launder a bad
+    # parse: six exact equalities over 15 to 51 wards do not come out right by
+    # coincidence, so the checksum is still deciding, not the search.
+    di = [i for i, r in enumerate(all_rows) if r['kind'] == 'district']
+    groups, kept, failed = [], [], []
+    for n, i in enumerate(di):
+        end = di[n + 1] if n + 1 < len(di) else len(all_rows)
+        wname = [r['name'] for r in all_rows[i + 1:end] if r['kind'] == 'ward']
+        k = len(wname)
+        if not k:
             continue
-        bad = [c for c in COLS if sum(w[c] for w in g['wards']) != g['total'][c]]
-        if bad:
-            failed.append((g['district'], len(g['wards']), len(bad)))
-        else:
-            kept.append(g)
+        hit = None
+        for o in (0, 1, -1, 2, -2, 3, -3):
+            j = i + o
+            if j < 0 or j + k >= len(all_rows):
+                continue
+            tot, blk = all_rows[j], all_rows[j + 1:j + 1 + k]
+            if all(sum(w[c] for w in blk) == tot[c] for c in COLS):
+                hit = (o, tot, blk)
+                break
+        g = {'district': all_rows[i]['name'], 'wards': k}
+        groups.append(g)
+        if hit is None:
+            failed.append((g['district'], k, sum(
+                1 for c in COLS
+                if sum(w[c] for w in all_rows[i + 1:i + 1 + k]) != all_rows[i][c])))
+            continue
+        o, tot, blk = hit
+        g.update({'offset': o, 'total': tot,
+                  'rows': [dict(v, name=nm) for nm, v in zip(wname, blk)]})
+        kept.append(g)
     print(f"\n  districts checksummed: {len(groups)}   PASS {len(kept)}   FAIL {len(failed)}")
     for d, n, b in failed[:14]:
         print(f"      FAIL {d:24} {n:3} wards, {b}/6 columns off")
     if kept:
         print("\n  PASSING districts:")
         for g in kept:
-            print(f"      {g['district']:24} {len(g['wards']):3} wards  "
-                  f"1971 {g['total']['pop_1971_persons']:>9,}")
+            sh = '' if not g['offset'] else f"  names shifted {g['offset']:+d}"
+            print(f"      {g['district']:24} {g['wards']:3} wards  "
+                  f"1971 {g['total']['pop_1971_persons']:>9,}{sh}")
     ni = [r for r in all_rows if r['kind'] == 'ni']
     if ni:
         n = ni[0]
@@ -604,7 +634,7 @@ def main():
             w = csv.DictWriter(fh, fieldnames=['district', 'ward'] + COLS)
             w.writeheader()
             for g in kept:
-                for wd in g['wards']:
+                for wd in g['rows']:
                     w.writerow({'district': g['district'], 'ward': wd['name'],
                                 **{c: wd[c] for c in COLS}})
         print(f"\n  wrote {p}")
