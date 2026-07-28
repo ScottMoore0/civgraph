@@ -84,32 +84,33 @@ HOW IT WORKS, and each step was forced by a measured failure of the previous one
     REJECTED, not emitted, and output is written only if EVERY district passes.
 
 WHERE IT STANDS. Both NI control rows are recovered exactly, 1971 and 1981; oracle (b)
-holds on all 1,064 verified rows; 22 of the 26 districts pass all six column checksums,
-covering roughly 480 wards. Output is still withheld because 4 do not.
+holds on all 1,064 verified rows; 23 of the 26 districts pass all six column checksums,
+covering roughly 500 wards. Output is still withheld because 3 do not.
 
-Those 4 are not alignment failures. Searching offset AND ward count together, over +-3
+Those 3 are not alignment failures. Searching offset AND ward count together, over +-3
 in each, finds NO arrangement that makes any of them sum, so the structure is right and
 individual FIGURES are wrong. Each is off in two columns of one year-half, or in
 Craigavon's case two columns of each, and the delta names the damage:
 
     Antrim      1981 males -58, females +58, persons exact
-    Lisburn     1981 persons and females both -1,569
     Strabane    1971 persons and females both -116
     Craigavon   1971 persons and males -588; 1981 persons and females -4,989
 
 Each keeps P == M + F, so oracle (b) is blind to them. Where the damaged row can be
 identified INDEPENDENTLY of the checksum -- see repair() -- it is corrected and the
-cell is labelled as inference in the output; that recovered Armagh, Cookstown and
-Londonderry. The four above are refused because two or more rows in the district could
-equally explain the shortfall, and choosing between them by the checksum would be
-choosing by the thing that is supposed to be checking.
+cell is labelled as inference in the output; that recovered Armagh, Cookstown, Lisburn
+and Londonderry. The three above are refused because two or more rows could equally
+explain the shortfall and nothing independent separates them: Antrim's 58 and Strabane's
+116 are too small to make any candidate look broken, and Craigavon is damaged in both
+year-halves at once. Choosing between them by the checksum would be choosing by the
+thing that is supposed to be checking.
 
 The same search is what makes the offset tolerance safe: every passing district has
 EXACTLY ONE (offset, count) solution. Nothing is passing by coincidence.
 
 DO NOT ship a silent mixture. A ward table right for Antrim and wrong for Belfast is
 worse than none, because nothing downstream would reveal the difference. Emitting only
-the checksum-verified districts, with the 4 omissions named in the file, would not be
+the checksum-verified districts, with the 3 omissions named in the file, would not be
 that -- but it is a coverage decision to be taken deliberately, not a default.
 
 Output: data/census/derived/ward1972-census-1981.csv
@@ -590,6 +591,19 @@ def align_run(names, run):
     return ents, a1, a2
 
 
+SEXLO, SEXHI = 0.42, 0.58     # a ward's males as a share of its people
+
+
+def sane(w):
+    """Does this row look like a ward at all? Oracle (d), applied to one row."""
+    v = [w[c] for c in COLS]
+    if any(x <= 0 for x in v):
+        return False
+    if not (SEXLO <= v[1] / v[0] <= SEXHI and SEXLO <= v[4] / v[3] <= SEXHI):
+        return False
+    return RLO <= v[3] / v[0] <= RHI
+
+
 def repair(tot, blk):
     """Correct the single misread figure a district's shortfall points to, or None.
 
@@ -626,13 +640,27 @@ def repair(tot, blk):
         want = {'A'}
     else:
         return None
+    def mend(w):
+        f = dict(w)
+        for x in off:
+            f[COLS[x]] = f[COLS[x]] - d[x]
+        return f if f[COLS[base]] == f[COLS[base + 1]] + f[COLS[base + 2]] else None
+
     cand = [w for w in blk if w[fld] in want]
+    if len(cand) > 1:
+        # Two rows could explain the shortfall equally, so the checksum can no longer
+        # choose -- but oracle (d) can, and it is independent of it. A figure wrong by
+        # 1,569 leaves a ward that does not look like a ward: its sexes do not divide
+        # near half and half, or its 1981 population bears no relation to its 1971 one.
+        # The damaged row must therefore look BROKEN before the correction and NORMAL
+        # after, and the innocent candidates must already look normal. Anything less
+        # decisive than one survivor is refused.
+        cand = [w for w in cand
+                if not sane(w) and (mend(w) is not None) and sane(mend(w))]
     if len(cand) != 1:
         return None
-    fixed = dict(cand[0])
-    for x in off:
-        fixed[COLS[x]] = fixed[COLS[x]] - d[x]
-    if fixed[COLS[base]] != fixed[COLS[base + 1]] + fixed[COLS[base + 2]]:
+    fixed = mend(cand[0])
+    if fixed is None:
         return None
     out = [fixed if w is cand[0] else w for w in blk]
     if not all(sum(w[c] for w in out) == tot[c] for c in COLS):
