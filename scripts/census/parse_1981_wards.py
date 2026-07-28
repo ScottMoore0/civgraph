@@ -59,9 +59,11 @@ HOW IT WORKS, and each step was forced by a measured failure of the previous one
       - the NAME side is still admitting junk on runs 3-8, where 63-65 names appear
         against ~60 real rows. Run 0 and run 1 are clean at 62, so the cleaner is close;
         what remains is page-header debris that JUNK does not yet match.
-      - the 1981 half systematically recovers 1-3 fewer rows than the 1971 half of the
-        same page, which cannot be right -- both halves describe the SAME entities. That
-        asymmetry is a bug in how the tail slice run[b1[2]:] is cut, not OCR damage.
+      - the 1981 half still recovers 1-3 fewer rows than the 1971 half of the same
+        page, though it is much better than it was: cutting the tail at the DP's ACTUAL
+        consumption point (b[1] + term[2]) instead of the search's estimate b[2] took
+        overall agreement 90% -> 93% and fixed the 1981 halves of runs 6, 7 and 8
+        (53->60, 52->59, 48->57 hits). The residue is a real remaining gap.
     Constraining the boundary search by the name count was tried as a fix and made
     things WORSE (90% -> 70%), because the name count is itself unreliable. Fix the two
     causes above first; do not re-couple the searches.
@@ -212,7 +214,8 @@ def dp(A, B, C, W=10, GAP=-0.7, NM=-0.25):
         if st[0] == la and (best is None or v > best[1]):
             best = (st, v)
     if best is None:
-        return []
+        return [], (0, 0, 0)
+    term = best[0]
     st, rows = best[0], []
     while st in BK:
         pr, di, dj, dk = BK[st]
@@ -221,7 +224,7 @@ def dp(A, B, C, W=10, GAP=-0.7, NM=-0.25):
             rows.append((A[i], B[j], C[k]))
         st = pr
     rows.reverse()
-    return rows
+    return rows, term
 
 
 def fit(seq, R, ncol, W=10):
@@ -235,12 +238,15 @@ def fit(seq, R, ncol, W=10):
     C = seq[b[1]:min(len(seq), b[2] + W)]
     best = None
     for g in (-0.2, -0.3, -0.45, -0.6, -0.7, -0.85, -1.0, -1.2, -1.5, -2.0, -3.0):
-        rows = dp(A, B, C, W=W, GAP=g)
+        rows, term = dp(A, B, C, W=W, GAP=g)
         ok = sum(1 for x in rows if x[0] == x[1] + x[2])
-        cand = (abs(len(rows) - R), -ok, rows)
+        cand = (abs(len(rows) - R), -ok, rows, term)
         if best is None or cand[:2] < best[:2]:
             best = cand
-    return best[2], b
+    # where the third column ACTUALLY ended, not where the search guessed it would.
+    # b[2] is an estimate; term[2] is how many tokens of C the alignment consumed.
+    end = b[1] + best[3][2]
+    return best[2], b, end
 
 
 def main():
@@ -250,11 +256,11 @@ def main():
     for ri, (names, run) in enumerate(page_runs()):
         ents = entities(names)
         R = len(ents)
-        a1, b1 = fit(run, R, 6)
+        a1, b1, end1 = fit(run, R, 6)
         if not b1:
             rejected.append((ri, 'no column boundaries'))
             continue
-        a2, _ = fit(run[b1[2]:], R, 3)
+        a2, _, _ = fit(run[end1:], R, 3)
         o1 = sum(1 for x in a1 if x[0] == x[1] + x[2])
         o2 = sum(1 for x in a2 if x[0] == x[1] + x[2])
         agree += o1 + o2
