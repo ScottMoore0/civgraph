@@ -212,7 +212,7 @@ def page_runs():
             continue
         if is_name(s):
             gap += 1
-            names.append(s)
+            names.append((s, len(cur)))
             # The page break is retroactive: EVERY name since the last figure belongs to
             # the next page, because the scanner reads a page's names before any of its
             # six number columns. Splitting at the sixth consecutive name instead left
@@ -223,17 +223,44 @@ def page_runs():
             # its neighbour's figures.
             if gap >= 6 and len(cur) >= 20:      # >=20 guards against a stray token
                 out.append((names[:-gap], cur))
-                names, cur = names[-gap:], []
+                # the moved names open the next page, so their figure count restarts
+                names, cur = [(t, 0) for t, _ in names[-gap:]], []
     if cur:
         out.append((names, cur))
     return [(n, r) for n, r in out if len(r) > 20][:10]
 
 
+COLCAP = 5      # figures that mean a number column is under way, not a stray token
+
+
 def entities(names):
+    """Entity rows for one page, from (name, figures already read) pairs.
+
+    WHERE a name sits decides more than what it says. The scanner reads every ward name
+    on a page before the first figure of that page's leading column, so a name arriving
+    once a column is under way cannot be a ward -- it is one of the six column captions,
+    which the scanner damaged past any hope of recognising by spelling: 'heniaies',
+    "Fi'mak's", '(at ion', 'Nation'. Similarity cannot be used here, because real ward
+    names score exactly as high: Maze, Mallusk, Falls and Clare all sit at 0.667 against
+    the caption vocabulary, level with the worst of the junk.
+
+    The one caption that precedes the figures is the leading 'Persons', so the last name
+    before a page's first column is dropped too -- but only on a weak spelling signal as
+    well, since a page might not have emitted that caption and the name would be a real
+    ward. Dropping a real ward is not silent: its district then fails oracle (a) and is
+    rejected rather than mis-stated.
+    """
+    pre = [i for i, (s, n) in enumerate(names) if n < COLCAP]
+    cap = pre[-1] if pre else -1
     ents = []
-    for s in names:
+    for idx, (s, nfig) in enumerate(names):
+        if nfig >= COLCAP:
+            continue
         c = clean(s)
         if not c:
+            continue
+        if idx == cap and not district_of(c) and difflib.SequenceMatcher(
+                None, re.sub(r'[^a-z]', '', c.lower()), 'persons').ratio() >= 0.40:
             continue
         d = district_of(c)
         if re.match(r'^northern\s+ireland$', c, re.I):
