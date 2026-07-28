@@ -26,30 +26,43 @@ emitted. That is the whole safety argument for trusting this parse.
 
 Output: data/census/derived/ward1972-census-1981.csv
 
-STATUS: NOT WORKING. Diagnosis so far, so the next attempt does not repeat it.
+STATUS: NOT FINISHED, but the method is now established and measured.
 
-WHAT IS PROVEN. The table is self-validating and the numbers are clean enough. A greedy
-checksum walk over the number stream -- take a district total, then consume wards until
-they sum to it -- recovers the first three districts EXACTLY: Antrim 33,998/15 wards,
-Ards 46,778/17, Armagh 46,449/20. So checksum-driven alignment is the right approach and
-beats any line filter.
+TWO CHECKSUMS ARE AVAILABLE, and the second is the one that unlocks it:
+  (a) ward values sum to their printed district total
+  (b) PERSONS == MALES + FEMALES on every single row, in both year-halves
 
-WHY IT THEN FAILS. Districts SPLIT ACROSS PAGES. Page one carries NI + Antrim + Ards +
-Armagh + the first six Ballymena wards, and is then interrupted by that page's Males and
-Females columns. The walk runs off the end of the Persons column and starts matching
-Antrim's MALES total (17,224) as if it were a district. So the six columns must be
-reassembled across pages BEFORE any checksum is applied.
+(b) is a per-row oracle, so it can score a candidate column alignment directly rather
+than only validating a finished parse. That is what to build on.
 
-WHY REASSEMBLY IS NOT TRIVIAL EITHER. Each page should contribute 6*N numbers for N
-entities, so run length ought to divide by six. Measured over the 20 numeric runs, only
-3 do -- run lengths are 465, 437, 472, 458 ... against expectations of 462, 438, 468.
-The OCR both drops and invents tokens, so runs are near-misses rather than exact.
+WHAT WAS WRONG, in the order the obstacles appeared.
 
-WHAT TO TRY NEXT. Per-run error-tolerant alignment: for each run, search N in a small
-window around len(run)/6, split into six candidate columns, and accept the N whose
-column-one district blocks satisfy the ward-sum checksum. The checksum is the oracle;
-use it to choose N rather than trusting the run length. Carry any unconsumed remainder
-into the next run rather than discarding it.
+1. A line filter cannot find the ward names. It admitted OCR noise and produced 1,324
+   ward entries against a real 1973 set of about 526. Abandoned.
+
+2. A greedy checksum walk over the raw number stream recovers the first three districts
+   EXACTLY -- Antrim 33,998/15, Ards 46,778/17, Armagh 46,449/20 -- then derails,
+   because districts SPLIT ACROSS PAGES and the walk runs off the Persons column into
+   that page's Males column, matching Antrim's male total 17,224 as a district.
+
+3. So pages must be reassembled first. Each page should give 6*N numbers, but only 3 of
+   20 runs divided by six. Cause found: a SECOND TABLE ("Households not enumerated",
+   "Estimated population effect") is interleaved on the same pages, injecting small
+   foreign tokens. Filtering to values >= 100 removes 1,214 of 5,732 tokens and takes
+   the divisible runs from 3 to 6. Ward, male and female counts are all comfortably
+   above 100, so the filter is safe.
+
+4. Even filtered, a clean 6-way split scores 0% on oracle (b): the columns drift.
+   Allowing each column a small independent start offset and choosing N and the offsets
+   to maximise (b) lifts agreement from 0% to 76% overall, and runs 0 and 2 reach 97%
+   and 100%. That is the current state.
+
+WHAT REMAINS. Drift also accumulates WITHIN a column -- one dropped token shifts every
+row after it -- so a per-column start offset is not enough. The fix is a per-position
+alignment: walk the rows and, wherever P != M + F, try inserting or deleting a single
+token in the offending column and keep whichever repair restores agreement for the rows
+that follow. Oracle (b) scores each candidate repair, and oracle (a) validates the
+finished district blocks. Runs 4, 6, 7 and 8 (38-62%) are where the damage is.
 
 DO NOT ship partial output. A ward table that is right for Antrim and wrong for Belfast
 is worse than none, because nothing downstream would reveal the difference.
