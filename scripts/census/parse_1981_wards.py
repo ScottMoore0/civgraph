@@ -622,6 +622,46 @@ READ = {
         'set': {'pop_1981_males': 979, 'pop_1981_females': 1032},
         'src': 'p19',
     },
+    # Strabane: BOTH rows are damaged across the whole 1971 half, which is why no
+    # single-row repair could account for the district and why the tiebreak refused --
+    # each candidate looked broken because each WAS. Their 1981 halves came through
+    # intact and are used as the guard.
+    ('Strabane', 'Sion Mills'): {
+        'guard': {'pop_1981_persons': 2404, 'pop_1981_males': 1226},
+        'set': {'pop_1971_persons': 2136, 'pop_1971_males': 1044,
+                'pop_1971_females': 1092},
+        'src': 'p28',
+    },
+    ('Strabane', 'Victoria Bridge'): {
+        'guard': {'pop_1981_persons': 1751, 'pop_1981_males': 918},
+        'set': {'pop_1971_persons': 2014, 'pop_1971_males': 1051,
+                'pop_1971_females': 963},
+        'src': 'p28',
+    },
+    # Strabane's 1971 column is SHIFTED from Sion Mills down, each ward carrying the
+    # figures of the one above it -- the parser's South held Slievekirk's row exactly.
+    # So the whole tail has to be read, not just the two rows whose damage showed.
+    # The five readings reconcile independently: they close the district's shortfall of
+    # 918 persons, 363 males and 555 females to the digit, and each row satisfies
+    # P == M + F on its own. Two separate checks the readings were not chosen to pass.
+    ('Strabane', 'Slievekirk'): {
+        'guard': {'pop_1981_persons': 2078},
+        'set': {'pop_1971_persons': 2245, 'pop_1971_males': 1188,
+                'pop_1971_females': 1057},
+        'src': 'p28',
+    },
+    ('Strabane', 'South'): {
+        'guard': {'pop_1981_persons': 3925},
+        'set': {'pop_1971_persons': 3010, 'pop_1971_males': 1487,
+                'pop_1971_females': 1523},
+        'src': 'p28',
+    },
+    ('Strabane', 'West'): {
+        'guard': {'pop_1981_persons': 2898},
+        'set': {'pop_1971_persons': 2058, 'pop_1971_males': 971,
+                'pop_1971_females': 1087},
+        'src': 'p28',
+    },
 }
 
 
