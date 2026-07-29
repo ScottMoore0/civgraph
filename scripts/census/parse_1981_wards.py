@@ -667,6 +667,22 @@ READ = {
         'set': {'pop_1981_persons': 9904, 'pop_1981_females': 5042},
         'src': 'p22',
     },
+    # Woodside's 1971 persons was misread as 2,483 -- Waringstown's figure on the line
+    # above -- and its males, derived from persons, inherited the error. Both rows are
+    # recorded, the one that was damaged and the one that was not, because the parser
+    # had corrected the wrong one of the two and the guard should hold that in place.
+    ('Craigavon', 'Woodsidc'): {
+        'name': 'Woodside',
+        'guard': {'pop_1971_females': 1557, 'pop_1981_persons': 3747},
+        'set': {'pop_1971_persons': 3071, 'pop_1971_males': 1514},
+        'src': 'p23',
+    },
+    ('Craigavon', 'Waringstown'): {
+        'guard': {'pop_1981_persons': 2968},
+        'set': {'pop_1971_persons': 2483, 'pop_1971_males': 1218,
+                'pop_1971_females': 1265},
+        'src': 'p23',
+    },
     ('Strabane', 'West'): {
         'guard': {'pop_1981_persons': 2898},
         'set': {'pop_1971_persons': 2058, 'pop_1971_males': 971,
@@ -728,10 +744,21 @@ def repair(tot, blk):
     rel = sorted(x - base for x in off)
     if rel == [1, 2] and d[base + 1] == -d[base + 2]:
         want = {'B', 'C'}
-    elif rel in ([0, 1], [0, 2]) and d[base] == d[base + rel[1]]:
-        want = {'A'}
+    elif rel == [0, 1] and d[base] == d[base + 1]:
+        want = {'A', 'B'}
+    elif rel == [0, 2] and d[base] == d[base + 2]:
+        want = {'A', 'C'}
     else:
         return None
+    # Both routes to the same shape must be admitted, and originally only the first
+    # was. Persons and males short by one amount happens when persons was DERIVED and
+    # males misread -- or when males was derived and PERSONS misread, the error passing
+    # into the derived figure. Craigavon showed the cost: Waringstown and Woodside both
+    # read 2,483 persons, only Waringstown was considered because only its persons was
+    # derived, and it was corrected to a ward 58.8% male. Woodside was the damaged row.
+    # Admitting both routes also lets the tiebreak below actually run, and it would have
+    # rejected Waringstown -- its figures look normal BEFORE correction, which a damaged
+    # row does not.
     def mend(w):
         f = dict(w)
         for x in off:
