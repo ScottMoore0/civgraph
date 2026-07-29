@@ -604,6 +604,47 @@ def sane(w):
     return RLO <= v[3] / v[0] <= RHI
 
 
+# Figures READ OFF THE PRINTED PAGE where the scan defeated the parser. These are not
+# inferences and are not marked as such: somebody looked at the cell. Each carries the
+# page it came from so it can be re-checked, and a guard value that must still match --
+# if the alignment ever shifts under it, the reading is refused rather than written to
+# the wrong ward.
+#
+# Balloo: the scan gave its 1981 females as 1,090, which is Aldergrove's figure on the
+# line above, duplicated. That left the row inconsistent, so the aligner derived males
+# as 2,011 - 1,090 = 921 instead of reading them, and one bad token produced two wrong
+# figures. Either Balloo or Aldergrove could have explained Antrim's shortfall on
+# internal evidence, which is why repair() refused it.
+READ = {
+    ('Antrim', 'Baiioo'): {
+        'name': 'Balloo',
+        'guard': {'pop_1981_persons': 2011},
+        'set': {'pop_1981_males': 979, 'pop_1981_females': 1032},
+        'src': 'p19',
+    },
+}
+
+
+def apply_readings(rows):
+    """Substitute figures read off the page, refusing any whose guard no longer holds."""
+    cur, done, refused = None, [], []
+    for r in rows:
+        if r['kind'] == 'district':
+            cur = r['name']
+            continue
+        e = READ.get((cur, r['name']))
+        if not e or r['kind'] != 'ward':
+            continue
+        if any(r[c] != v for c, v in e['guard'].items()):
+            refused.append(f"{cur}/{r['name']}")
+            continue
+        r.update(e['set'])
+        r['read'] = e['src']
+        r['name'] = e.get('name', r['name'])
+        done.append(f"{cur}/{r['name']} ({e['src']})")
+    return done, refused
+
+
 def repair(tot, blk):
     """Correct the single misread figure a district's shortfall points to, or None.
 
@@ -710,6 +751,12 @@ def main():
     # kept at whichever one makes all six columns sum. That cannot launder a bad
     # parse: six exact equalities over 15 to 51 wards do not come out right by
     # coincidence, so the checksum is still deciding, not the search.
+    got, refused = apply_readings(all_rows)
+    if got:
+        print(f"\n  figures read from the printed page: {', '.join(got)}")
+    for k in refused:
+        print(f"  WARNING reading for {k} no longer matches its guard - NOT applied")
+
     di = [i for i, r in enumerate(all_rows) if r['kind'] == 'district']
     groups, kept, failed = [], [], []
     for n, i in enumerate(di):
@@ -774,10 +821,14 @@ def main():
             w.writeheader()
             for g in kept:
                 for wd in g['rows']:
-                    # a corrected cell is inference, not a reading, and says so
+                    # an altered cell says WHICH kind it is: read off the page, or
+                    # inferred from the district total. They are not the same fact.
                     fx = g['fix'][1] if g['fix'] and g['fix'][0] == wd['name'] else []
+                    note = (f"read {wd['read']}" if wd.get('read')
+                            else ('inferred ' + ' '.join(c[4:] for c in fx)) if fx
+                            else '')
                     w.writerow({'district': g['district'], 'ward': wd['name'],
-                                'corrected': ' '.join(fx),
+                                'corrected': note,
                                 **{c: wd[c] for c in COLS}})
         print(f"\n  wrote {p}")
     else:
