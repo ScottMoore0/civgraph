@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-29T22:09:35.048Z",
+  "item": {
+    "id": "data-population-1981-ward1972",
+    "slug": "data-population-1981-ward1972",
+    "type": "data-entry",
+    "title": "Usual resident population (Census 1981, by 1972 Ward)",
+    "subtitle": "wards-1972",
+    "categoryId": "data-population",
+    "category": "data-population",
+    "group": "Tables and data",
+    "description": "Population of each 1972 ward at the 1981 Census. Ward populations were transcribed from the printed report by OCR and recovered column-wise; the 526 ward figures sum to the published Northern Ireland totals of 1,536,065 (1971) and 1,490,228 (1981) exactly. Twelve cells were corrected, nine of them read directly off the page scan. At the coarsest zoom the layer draws a 500-feature simplified copy, so the 26 smallest wards are uncoloured until you zoom in.",
+    "keywords": [
+      "census",
+      "historic",
+      "nisra",
+      "data",
+      "1981",
+      "population",
+      "ward",
+      "1972"
+    ],
+    "status": "available",
+    "loadable": false,
+    "thumbnail": {
+      "kind": "asset",
+      "id": "wards-1972",
+      "url": "/assets/thumbnails/wards-1972.webp",
+      "smallUrl": "/assets/thumbnails/wards-1972-60.webp",
+      "alt": "Usual resident population (Census 1981, by 1972 Ward)"
+    },
+    "sourceFiles": [
+      {
+        "label": "ward1972-pop-1981.csv",
+        "url": "data/census/derived/ward1972-pop-1981.csv"
+      }
+    ],
+    "references": [
+      {
+        "label": "The Northern Ireland Census 1981, Preliminary Report, Tables 4 and 5 (Registrar General Northern Ireland, HMSO)"
+      }
+    ],
+    "downloads": [
+      {
+        "label": "ward1972-pop-1981.csv",
+        "url": "data/census/derived/ward1972-pop-1981.csv"
+      }
+    ],
+    "interactiveUrl": "/#layers=data-population-1981-ward1972",
+    "browseUrl": "/browse/maps/data-population-1981-ward1972",
+    "rawMetadata": {
+      "id": "data-population-1981-ward1972",
+      "type": "data-entry",
+      "name": "Usual resident population (Census 1981, by 1972 Ward)",
+      "slug": "data-population-1981-ward1972",
+      "category": "data-population",
+      "description": "Population of each 1972 ward at the 1981 Census. Ward populations were transcribed from the printed report by OCR and recovered column-wise; the 526 ward figures sum to the published Northern Ireland totals of 1,536,065 (1971) and 1,490,228 (1981) exactly. Twelve cells were corrected, nine of them read directly off the page scan. At the coarsest zoom the layer draws a 500-feature simplified copy, so the 26 smallest wards are uncoloured until you zoom in.",
+      "geography": "wards-1972",
+      "csv": "data/census/derived/ward1972-pop-1981.csv",
+      "joinKey": "W72_ID",
+      "csvKeyColumn": "W72_ID",
+      "valueColumn": "pop_1981_persons",
+      "ramp": "viridis",
+      "domain": [
+        500,
+        10000
+      ],
+      "logarithmic": true,
+      "tableColumns": [
+        "Geography",
+        "District",
+        "pop_1971_persons",
+        "pop_1981_persons",
+        "pop_change_pct"
+      ],
+      "keywords": [
+        "census",
+        "historic",
+        "nisra",
+        "data",
+        "1981",
+        "population",
+        "ward",
+        "1972"
+      ],
+      "source": {
+        "title": "The Northern Ireland Census 1981, Preliminary Report, Tables 4 and 5 (Registrar General Northern Ireland, HMSO)"
+      }
+    }
+  }
+}
