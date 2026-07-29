@@ -656,6 +656,17 @@ READ = {
                 'pop_1971_females': 1523},
         'src': 'p28',
     },
+    # Brownlow's 1981 females came through as 53 against 4,862 males, so persons was
+    # derived from it as 4,915. Read: 5,042 females and 9,904 persons. The figure looks
+    # wrong for a ward and is not -- Brownlow held 2,720 in 1971, and the 3.6x increase
+    # is the Craigavon new town programme, built on land that was rural when the 1972
+    # ward boundaries were drawn. Worth stating, because a plausibility check would
+    # reject this row and oracle (d) is used elsewhere to break ties.
+    ('Craigavon', 'Brownlow'): {
+        'guard': {'pop_1971_persons': 2720, 'pop_1981_males': 4862},
+        'set': {'pop_1981_persons': 9904, 'pop_1981_females': 5042},
+        'src': 'p22',
+    },
     ('Strabane', 'West'): {
         'guard': {'pop_1981_persons': 2898},
         'set': {'pop_1971_persons': 2058, 'pop_1971_males': 971,
