@@ -1,10 +1,369 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-30T20:58:42.107Z",
+  "generatedAt": "2026-07-30T21:17:00.109Z",
   "kind": "sources",
   "shard": "sources-189.json",
   "total": 200,
   "items": [
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:aca-2014:00444",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-aca-2014-00444",
+      "type": "approved-medium-priority-source",
+      "title": "CDP2014 Architectural Conservation Areas",
+      "subtitle": "Local authority planning/property/open-data layers / Cork County Council, data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, GEOJSON, HTML, KML / Source record; runtime review pending",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "provider": [
+        "Cork County Council",
+        "data.gov.ie"
+      ],
+      "description": "CDP2014 Architectural Conservation Areas is published as a medium-priority Civgraph source/provenance record from Cork County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
+      "url": "https://data.gov.ie/dataset/aca_2014",
+      "references": [
+        {
+          "label": "CDP2014 Architectural Conservation Areas provider page",
+          "url": "https://data.gov.ie/dataset/aca_2014",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "CDP2014 Architectural Conservation Areas Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/aca_2014",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/aca_2014",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "source-record-with-runtime-review",
+        "Local authority planning/property/open-data layers",
+        "source-data",
+        "features",
+        "Republic of Ireland",
+        "local-authority-batch-review",
+        "ARCGIS GEOSERVICES REST API",
+        "GEOJSON",
+        "HTML",
+        "KML",
+        "review:duplicate-or-variant-review-no-existing-match-candidate"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 445,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:aca-2014:00444",
+          "title": "CDP2014 Architectural Conservation Areas",
+          "cleanTitle": "CDP2014 Architectural Conservation Areas",
+          "provider": "data.gov.ie",
+          "organisation": "Cork County Council",
+          "category": "spatial",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Republic of Ireland",
+          "topic": "source-data",
+          "featureUnit": "features",
+          "formats": [
+            "ARCGIS GEOSERVICES REST API",
+            "GEOJSON",
+            "HTML",
+            "KML"
+          ],
+          "isSpatial": true,
+          "isLargeOrSpecial": false,
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "ARCGIS GEOSERVICES REST API",
+              "GEOJSON",
+              "HTML",
+              "KML"
+            ]
+          },
+          "approvalState": "ready-with-residual-review",
+          "sourcePublicationState": "public source record with runtime/semantic review still pending",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/aca_2014",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/aca_2014",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
+        }
+      ],
+      "status": "Source only",
+      "statusChips": [
+        "Source record",
+        "Runtime review pending",
+        "Spatial source",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Republic of Ireland",
+        "source-data",
+        "CDP2014 Architectural Conservation Areas"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/aca_2014",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/aca_2014",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Cork County Council, data.gov.ie, CDP2014 Architectural Conservation Areas.",
+      "fullCitation": "Cork County Council, data.gov.ie. CDP2014 Architectural Conservation Areas. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/aca_2014. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/aca_2014.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:aca-2014:00444",
+        "sourceRowNumber": 445,
+        "approvalState": "ready-with-residual-review",
+        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+        "proposedAction": "local-authority-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "ARCGIS GEOSERVICES REST API",
+            "GEOJSON",
+            "HTML",
+            "KML"
+          ]
+        },
+        "confidence": 60,
+        "residualBlockers": [
+          "duplicate-or-variant-review: no existing match candidate"
+        ],
+        "resolvedBlockers": [
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+        ],
+        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
+      },
+      "publicationStatus": "source-record-with-runtime-review",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-aca-2014-00444",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:aca-2014:00444",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-aca-2014-00444",
+        "type": "approved-medium-priority-source",
+        "title": "CDP2014 Architectural Conservation Areas",
+        "subtitle": "Local authority planning/property/open-data layers / Cork County Council, data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, GEOJSON, HTML, KML / Source record; runtime review pending",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "provider": [
+          "Cork County Council",
+          "data.gov.ie"
+        ],
+        "description": "CDP2014 Architectural Conservation Areas is published as a medium-priority Civgraph source/provenance record from Cork County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
+        "url": "https://data.gov.ie/dataset/aca_2014",
+        "references": [
+          {
+            "label": "CDP2014 Architectural Conservation Areas provider page",
+            "url": "https://data.gov.ie/dataset/aca_2014",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "CDP2014 Architectural Conservation Areas Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/aca_2014",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/aca_2014",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source only",
+        "statusChips": [
+          "Source record",
+          "Runtime review pending",
+          "Spatial source",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Republic of Ireland",
+          "source-data",
+          "CDP2014 Architectural Conservation Areas"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/aca_2014",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/aca_2014",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Cork County Council, data.gov.ie, CDP2014 Architectural Conservation Areas.",
+        "fullCitation": "Cork County Council, data.gov.ie. CDP2014 Architectural Conservation Areas. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/aca_2014. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/aca_2014.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 445,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:aca-2014:00444",
+            "title": "CDP2014 Architectural Conservation Areas",
+            "cleanTitle": "CDP2014 Architectural Conservation Areas",
+            "provider": "data.gov.ie",
+            "organisation": "Cork County Council",
+            "category": "spatial",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Republic of Ireland",
+            "topic": "source-data",
+            "featureUnit": "features",
+            "formats": [
+              "ARCGIS GEOSERVICES REST API",
+              "GEOJSON",
+              "HTML",
+              "KML"
+            ],
+            "isSpatial": true,
+            "isLargeOrSpecial": false,
+            "proposedAction": "local-authority-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "ARCGIS GEOSERVICES REST API",
+                "GEOJSON",
+                "HTML",
+                "KML"
+              ]
+            },
+            "approvalState": "ready-with-residual-review",
+            "sourcePublicationState": "public source record with runtime/semantic review still pending",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/aca_2014",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/aca_2014",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+            ],
+            "residualBlockers": [
+              "duplicate-or-variant-review: no existing match candidate"
+            ],
+            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:aca-2014:00444",
+          "sourceRowNumber": 445,
+          "approvalState": "ready-with-residual-review",
+          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "ARCGIS GEOSERVICES REST API",
+              "GEOJSON",
+              "HTML",
+              "KML"
+            ]
+          },
+          "confidence": 60,
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate"
+          ],
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
+        },
+        "publicationStatus": "source-record-with-runtime-review",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "source-record-with-runtime-review",
+          "Local authority planning/property/open-data layers",
+          "source-data",
+          "features",
+          "Republic of Ireland",
+          "local-authority-batch-review",
+          "ARCGIS GEOSERVICES REST API",
+          "GEOJSON",
+          "HTML",
+          "KML",
+          "review:duplicate-or-variant-review-no-existing-match-candidate"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-aca-2014-00444"
+      }
+    },
     {
       "id": "medium-priority:5-local-authority-planning-property-open-data-layers:access-points-to-main-parks-dlr:00360",
       "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-access-points-to-main-parks-dlr-00360",
@@ -72116,333 +72475,6 @@
           "ESRI REST SERVICE"
         ],
         "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-bme-humidity-gorey-01774"
-      }
-    },
-    {
-      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:bme-pressure-gorey:01775",
-      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-bme-pressure-gorey-01775",
-      "type": "approved-medium-priority-source",
-      "title": "BME - Pressure in Gorey, Co. Wexford",
-      "subtitle": "Local authority planning/property/open-data layers / Wexford County Council, data.gov.ie / Ireland / unspecified / CSV, ESRI REST SERVICE / Approved source record",
-      "category": "Medium-priority: Local authority planning/property/open-data layers",
-      "provider": [
-        "Wexford County Council",
-        "data.gov.ie"
-      ],
-      "description": "BME - Pressure in Gorey, Co. Wexford is published as a medium-priority Civgraph source/provenance record from Wexford County Council, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/bme-pressure-gorey",
-      "references": [
-        {
-          "label": "BME - Pressure in Gorey, Co. Wexford provider page",
-          "url": "https://data.gov.ie/dataset/bme-pressure-gorey",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "BME - Pressure in Gorey, Co. Wexford Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/bme-pressure-gorey",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/bme-pressure-gorey",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Local authority planning/property/open-data layers",
-        "source-data",
-        "features",
-        "Ireland / unspecified",
-        "local-authority-batch-review",
-        "CSV",
-        "ESRI REST SERVICE"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 1776,
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:bme-pressure-gorey:01775",
-          "title": "BME - Pressure in Gorey, Co. Wexford",
-          "cleanTitle": "BME - Pressure in Gorey, Co. Wexford",
-          "provider": "data.gov.ie",
-          "organisation": "Wexford County Council",
-          "category": "tabular",
-          "roiGroup": "5. Local authority planning/property/open-data layers",
-          "groupTitle": "Local authority planning/property/open-data layers",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "source-data",
-          "featureUnit": "features",
-          "formats": [
-            "CSV",
-            "ESRI REST SERVICE"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "ESRI REST SERVICE"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 55,
-          "currentProviderUrl": "https://data.gov.ie/dataset/bme-pressure-gorey",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/bme-pressure-gorey",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Local authority planning/property/open-data layers",
-        "Ireland / unspecified",
-        "source-data",
-        "BME - Pressure in Gorey, Co. Wexford"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/bme-pressure-gorey",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/bme-pressure-gorey",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Wexford County Council, data.gov.ie, BME - Pressure in Gorey, Co. Wexford.",
-      "fullCitation": "Wexford County Council, data.gov.ie. BME - Pressure in Gorey, Co. Wexford. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/bme-pressure-gorey. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/bme-pressure-gorey.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:bme-pressure-gorey:01775",
-        "sourceRowNumber": 1776,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-        "proposedAction": "local-authority-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "CSV",
-            "ESRI REST SERVICE"
-          ]
-        },
-        "confidence": 55,
-        "resolvedBlockers": [
-          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-          "needs-provider-context-review: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-bme-pressure-gorey-01775",
-      "rawMetadata": {
-        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:bme-pressure-gorey:01775",
-        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-bme-pressure-gorey-01775",
-        "type": "approved-medium-priority-source",
-        "title": "BME - Pressure in Gorey, Co. Wexford",
-        "subtitle": "Local authority planning/property/open-data layers / Wexford County Council, data.gov.ie / Ireland / unspecified / CSV, ESRI REST SERVICE / Approved source record",
-        "category": "Medium-priority: Local authority planning/property/open-data layers",
-        "provider": [
-          "Wexford County Council",
-          "data.gov.ie"
-        ],
-        "description": "BME - Pressure in Gorey, Co. Wexford is published as a medium-priority Civgraph source/provenance record from Wexford County Council, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/bme-pressure-gorey",
-        "references": [
-          {
-            "label": "BME - Pressure in Gorey, Co. Wexford provider page",
-            "url": "https://data.gov.ie/dataset/bme-pressure-gorey",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "BME - Pressure in Gorey, Co. Wexford Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/bme-pressure-gorey",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/bme-pressure-gorey",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Local authority planning/property/open-data layers",
-          "Ireland / unspecified",
-          "source-data",
-          "BME - Pressure in Gorey, Co. Wexford"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/bme-pressure-gorey",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/bme-pressure-gorey",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Wexford County Council, data.gov.ie, BME - Pressure in Gorey, Co. Wexford.",
-        "fullCitation": "Wexford County Council, data.gov.ie. BME - Pressure in Gorey, Co. Wexford. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/bme-pressure-gorey. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/bme-pressure-gorey.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 1776,
-            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:bme-pressure-gorey:01775",
-            "title": "BME - Pressure in Gorey, Co. Wexford",
-            "cleanTitle": "BME - Pressure in Gorey, Co. Wexford",
-            "provider": "data.gov.ie",
-            "organisation": "Wexford County Council",
-            "category": "tabular",
-            "roiGroup": "5. Local authority planning/property/open-data layers",
-            "groupTitle": "Local authority planning/property/open-data layers",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "source-data",
-            "featureUnit": "features",
-            "formats": [
-              "CSV",
-              "ESRI REST SERVICE"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "local-authority-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "CSV",
-                "ESRI REST SERVICE"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 55,
-            "currentProviderUrl": "https://data.gov.ie/dataset/bme-pressure-gorey",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/bme-pressure-gorey",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-              "needs-provider-context-review: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:bme-pressure-gorey:01775",
-          "sourceRowNumber": 1776,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "ESRI REST SERVICE"
-            ]
-          },
-          "confidence": 55,
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Local authority planning/property/open-data layers",
-          "source-data",
-          "features",
-          "Ireland / unspecified",
-          "local-authority-batch-review",
-          "CSV",
-          "ESRI REST SERVICE"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-bme-pressure-gorey-01775"
       }
     }
   ]

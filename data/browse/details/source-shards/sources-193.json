@@ -1,10 +1,391 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-30T20:58:42.107Z",
+  "generatedAt": "2026-07-30T21:17:00.109Z",
   "kind": "sources",
   "shard": "sources-193.json",
   "total": 200,
   "items": [
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:junctions-and-pedestrian-crossings-sdcc1:00594",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-junctions-and-pedestrian-crossings-sdcc1-00594",
+      "type": "approved-medium-priority-source",
+      "title": "Junctions and Pedestrian Crossings SDCC",
+      "subtitle": "Local authority planning/property/open-data layers / South Dublin County Council, data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, GEOJSON, HTML, KML, ZIP / Source record; runtime review pending",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "provider": [
+        "South Dublin County Council",
+        "data.gov.ie"
+      ],
+      "description": "Junctions and Pedestrian Crossings SDCC is published as a medium-priority Civgraph source/provenance record from South Dublin County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
+      "url": "https://data.gov.ie/dataset/junctions-and-pedestrian-crossings-sdcc1",
+      "references": [
+        {
+          "label": "Junctions and Pedestrian Crossings SDCC provider page",
+          "url": "https://data.gov.ie/dataset/junctions-and-pedestrian-crossings-sdcc1",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "Junctions and Pedestrian Crossings SDCC Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/junctions-and-pedestrian-crossings-sdcc1",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/junctions-and-pedestrian-crossings-sdcc1",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "source-record-with-runtime-review",
+        "Local authority planning/property/open-data layers",
+        "transport-public-asset",
+        "road features",
+        "Republic of Ireland",
+        "local-authority-batch-review",
+        "ARCGIS GEOSERVICES REST API",
+        "CSV",
+        "GEOJSON",
+        "HTML",
+        "KML",
+        "ZIP",
+        "review:duplicate-or-variant-review-no-existing-match-candidate"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 595,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:junctions-and-pedestrian-crossings-sdcc1:00594",
+          "title": "Junctions and Pedestrian Crossings SDCC",
+          "cleanTitle": "Junctions and Pedestrian Crossings SDCC",
+          "provider": "data.gov.ie",
+          "organisation": "South Dublin County Council",
+          "category": "spatial",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Republic of Ireland",
+          "topic": "transport-public-asset",
+          "featureUnit": "road features",
+          "formats": [
+            "ARCGIS GEOSERVICES REST API",
+            "CSV",
+            "GEOJSON",
+            "HTML",
+            "KML",
+            "ZIP"
+          ],
+          "isSpatial": true,
+          "isLargeOrSpecial": false,
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GEOJSON",
+              "HTML",
+              "KML",
+              "ZIP"
+            ]
+          },
+          "approvalState": "ready-with-residual-review",
+          "sourcePublicationState": "public source record with runtime/semantic review still pending",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/junctions-and-pedestrian-crossings-sdcc1",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/junctions-and-pedestrian-crossings-sdcc1",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "large-or-special-format-review: normal source package; no special-format hold",
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        }
+      ],
+      "status": "Source only",
+      "statusChips": [
+        "Source record",
+        "Runtime review pending",
+        "Spatial source",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Republic of Ireland",
+        "transport-public-asset",
+        "Junctions and Pedestrian Crossings SDCC"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "download-only"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/junctions-and-pedestrian-crossings-sdcc1",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/junctions-and-pedestrian-crossings-sdcc1",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "South Dublin County Council, data.gov.ie, Junctions and Pedestrian Crossings SDCC.",
+      "fullCitation": "South Dublin County Council, data.gov.ie. Junctions and Pedestrian Crossings SDCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/junctions-and-pedestrian-crossings-sdcc1. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/junctions-and-pedestrian-crossings-sdcc1.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:junctions-and-pedestrian-crossings-sdcc1:00594",
+        "sourceRowNumber": 595,
+        "approvalState": "ready-with-residual-review",
+        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+        "proposedAction": "local-authority-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "ARCGIS GEOSERVICES REST API",
+            "CSV",
+            "GEOJSON",
+            "HTML",
+            "KML",
+            "ZIP"
+          ]
+        },
+        "confidence": 60,
+        "residualBlockers": [
+          "duplicate-or-variant-review: no existing match candidate"
+        ],
+        "resolvedBlockers": [
+          "large-or-special-format-review: normal source package; no special-format hold",
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+        ],
+        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+      },
+      "publicationStatus": "source-record-with-runtime-review",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-junctions-and-pedestrian-crossings-sdcc1-00594",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:junctions-and-pedestrian-crossings-sdcc1:00594",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-junctions-and-pedestrian-crossings-sdcc1-00594",
+        "type": "approved-medium-priority-source",
+        "title": "Junctions and Pedestrian Crossings SDCC",
+        "subtitle": "Local authority planning/property/open-data layers / South Dublin County Council, data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, GEOJSON, HTML, KML, ZIP / Source record; runtime review pending",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "provider": [
+          "South Dublin County Council",
+          "data.gov.ie"
+        ],
+        "description": "Junctions and Pedestrian Crossings SDCC is published as a medium-priority Civgraph source/provenance record from South Dublin County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
+        "url": "https://data.gov.ie/dataset/junctions-and-pedestrian-crossings-sdcc1",
+        "references": [
+          {
+            "label": "Junctions and Pedestrian Crossings SDCC provider page",
+            "url": "https://data.gov.ie/dataset/junctions-and-pedestrian-crossings-sdcc1",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "Junctions and Pedestrian Crossings SDCC Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/junctions-and-pedestrian-crossings-sdcc1",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/junctions-and-pedestrian-crossings-sdcc1",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source only",
+        "statusChips": [
+          "Source record",
+          "Runtime review pending",
+          "Spatial source",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Republic of Ireland",
+          "transport-public-asset",
+          "Junctions and Pedestrian Crossings SDCC"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "download-only"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/junctions-and-pedestrian-crossings-sdcc1",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/junctions-and-pedestrian-crossings-sdcc1",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "South Dublin County Council, data.gov.ie, Junctions and Pedestrian Crossings SDCC.",
+        "fullCitation": "South Dublin County Council, data.gov.ie. Junctions and Pedestrian Crossings SDCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/junctions-and-pedestrian-crossings-sdcc1. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/junctions-and-pedestrian-crossings-sdcc1.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 595,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:junctions-and-pedestrian-crossings-sdcc1:00594",
+            "title": "Junctions and Pedestrian Crossings SDCC",
+            "cleanTitle": "Junctions and Pedestrian Crossings SDCC",
+            "provider": "data.gov.ie",
+            "organisation": "South Dublin County Council",
+            "category": "spatial",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Republic of Ireland",
+            "topic": "transport-public-asset",
+            "featureUnit": "road features",
+            "formats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GEOJSON",
+              "HTML",
+              "KML",
+              "ZIP"
+            ],
+            "isSpatial": true,
+            "isLargeOrSpecial": false,
+            "proposedAction": "local-authority-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "ARCGIS GEOSERVICES REST API",
+                "CSV",
+                "GEOJSON",
+                "HTML",
+                "KML",
+                "ZIP"
+              ]
+            },
+            "approvalState": "ready-with-residual-review",
+            "sourcePublicationState": "public source record with runtime/semantic review still pending",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/junctions-and-pedestrian-crossings-sdcc1",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/junctions-and-pedestrian-crossings-sdcc1",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "large-or-special-format-review: normal source package; no special-format hold",
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+            ],
+            "residualBlockers": [
+              "duplicate-or-variant-review: no existing match candidate"
+            ],
+            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:junctions-and-pedestrian-crossings-sdcc1:00594",
+          "sourceRowNumber": 595,
+          "approvalState": "ready-with-residual-review",
+          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GEOJSON",
+              "HTML",
+              "KML",
+              "ZIP"
+            ]
+          },
+          "confidence": 60,
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate"
+          ],
+          "resolvedBlockers": [
+            "large-or-special-format-review: normal source package; no special-format hold",
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        },
+        "publicationStatus": "source-record-with-runtime-review",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "source-record-with-runtime-review",
+          "Local authority planning/property/open-data layers",
+          "transport-public-asset",
+          "road features",
+          "Republic of Ireland",
+          "local-authority-batch-review",
+          "ARCGIS GEOSERVICES REST API",
+          "CSV",
+          "GEOJSON",
+          "HTML",
+          "KML",
+          "ZIP",
+          "review:duplicate-or-variant-review-no-existing-match-candidate"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-junctions-and-pedestrian-crossings-sdcc1-00594"
+      }
+    },
     {
       "id": "medium-priority:5-local-authority-planning-property-open-data-layers:key-growth-centres1:00240",
       "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-key-growth-centres1-00240",
@@ -68112,339 +68493,6 @@
           "review:duplicate-or-variant-review-no-existing-match-candidate"
         ],
         "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-national-planning-applications-00113"
-      }
-    },
-    {
-      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:national-survey-and-assessment-of-the-conservation-status-of-irish-sea-cliffs:00254",
-      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-national-survey-and-assessment-of-the-conservation-status-of-irish-sea-cliffs-00254",
-      "type": "approved-medium-priority-source",
-      "title": "National survey and assessment of the conservation status of Irish sea cliffs",
-      "subtitle": "Local authority planning/property/open-data layers / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / SHP / ZIP / Source record; runtime review pending",
-      "category": "Medium-priority: Local authority planning/property/open-data layers",
-      "provider": [
-        "Department of Housing, Local Government and Heritage",
-        "data.gov.ie"
-      ],
-      "description": "National survey and assessment of the conservation status of Irish sea cliffs is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-      "url": "https://data.gov.ie/dataset/national-survey-and-assessment-of-the-conservation-status-of-irish-sea-cliffs",
-      "references": [
-        {
-          "label": "National survey and assessment of the conservation status of Irish sea cliffs provider page",
-          "url": "https://data.gov.ie/dataset/national-survey-and-assessment-of-the-conservation-status-of-irish-sea-cliffs",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "National survey and assessment of the conservation status of Irish sea cliffs Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-survey-and-assessment-of-the-conservation-status-of-irish-sea-cliffs",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/national-survey-and-assessment-of-the-conservation-status-of-irish-sea-cliffs",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "source-record-with-runtime-review",
-        "Local authority planning/property/open-data layers",
-        "source-data",
-        "features",
-        "Ireland / unspecified",
-        "local-authority-batch-review",
-        "SHP / ZIP",
-        "review:duplicate-or-variant-review-no-existing-match-candidate"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 255,
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:national-survey-and-assessment-of-the-conservation-status-of-irish-sea-cliffs:00254",
-          "title": "National survey and assessment of the conservation status of Irish sea cliffs",
-          "cleanTitle": "National survey and assessment of the conservation status of Irish sea cliffs",
-          "provider": "data.gov.ie",
-          "organisation": "Department of Housing, Local Government and Heritage",
-          "category": "spatial",
-          "roiGroup": "5. Local authority planning/property/open-data layers",
-          "groupTitle": "Local authority planning/property/open-data layers",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "source-data",
-          "featureUnit": "features",
-          "formats": [
-            "SHP / ZIP"
-          ],
-          "isSpatial": true,
-          "isLargeOrSpecial": false,
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "SHP / ZIP"
-            ]
-          },
-          "approvalState": "ready-with-residual-review",
-          "sourcePublicationState": "public source record with runtime/semantic review still pending",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/national-survey-and-assessment-of-the-conservation-status-of-irish-sea-cliffs",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-survey-and-assessment-of-the-conservation-status-of-irish-sea-cliffs",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source record",
-        "Runtime review pending",
-        "Spatial source",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Local authority planning/property/open-data layers",
-        "Ireland / unspecified",
-        "source-data",
-        "National survey and assessment of the conservation status of Irish sea cliffs"
-      ],
-      "viewport": {
-        "status": "source-page-only",
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/national-survey-and-assessment-of-the-conservation-status-of-irish-sea-cliffs",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-survey-and-assessment-of-the-conservation-status-of-irish-sea-cliffs",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, National survey and assessment of the conservation status of Irish sea cliffs.",
-      "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. National survey and assessment of the conservation status of Irish sea cliffs. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/national-survey-and-assessment-of-the-conservation-status-of-irish-sea-cliffs. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/national-survey-and-assessment-of-the-conservation-status-of-irish-sea-cliffs.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:national-survey-and-assessment-of-the-conservation-status-of-irish-sea-cliffs:00254",
-        "sourceRowNumber": 255,
-        "approvalState": "ready-with-residual-review",
-        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-        "proposedAction": "local-authority-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "SHP / ZIP"
-          ]
-        },
-        "confidence": 60,
-        "residualBlockers": [
-          "duplicate-or-variant-review: no existing match candidate"
-        ],
-        "resolvedBlockers": [
-          "large-or-special-format-review: normal source package; no special-format hold",
-          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-        ],
-        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-      },
-      "publicationStatus": "source-record-with-runtime-review",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-national-survey-and-assessment-of-the-conservation-status-of-irish-sea-cliffs-00254",
-      "rawMetadata": {
-        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:national-survey-and-assessment-of-the-conservation-status-of-irish-sea-cliffs:00254",
-        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-national-survey-and-assessment-of-the-conservation-status-of-irish-sea-cliffs-00254",
-        "type": "approved-medium-priority-source",
-        "title": "National survey and assessment of the conservation status of Irish sea cliffs",
-        "subtitle": "Local authority planning/property/open-data layers / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / SHP / ZIP / Source record; runtime review pending",
-        "category": "Medium-priority: Local authority planning/property/open-data layers",
-        "provider": [
-          "Department of Housing, Local Government and Heritage",
-          "data.gov.ie"
-        ],
-        "description": "National survey and assessment of the conservation status of Irish sea cliffs is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-        "url": "https://data.gov.ie/dataset/national-survey-and-assessment-of-the-conservation-status-of-irish-sea-cliffs",
-        "references": [
-          {
-            "label": "National survey and assessment of the conservation status of Irish sea cliffs provider page",
-            "url": "https://data.gov.ie/dataset/national-survey-and-assessment-of-the-conservation-status-of-irish-sea-cliffs",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "National survey and assessment of the conservation status of Irish sea cliffs Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-survey-and-assessment-of-the-conservation-status-of-irish-sea-cliffs",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/national-survey-and-assessment-of-the-conservation-status-of-irish-sea-cliffs",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source record",
-          "Runtime review pending",
-          "Spatial source",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Local authority planning/property/open-data layers",
-          "Ireland / unspecified",
-          "source-data",
-          "National survey and assessment of the conservation status of Irish sea cliffs"
-        ],
-        "viewport": {
-          "status": "source-page-only",
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/national-survey-and-assessment-of-the-conservation-status-of-irish-sea-cliffs",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-survey-and-assessment-of-the-conservation-status-of-irish-sea-cliffs",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, National survey and assessment of the conservation status of Irish sea cliffs.",
-        "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. National survey and assessment of the conservation status of Irish sea cliffs. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/national-survey-and-assessment-of-the-conservation-status-of-irish-sea-cliffs. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/national-survey-and-assessment-of-the-conservation-status-of-irish-sea-cliffs.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 255,
-            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:national-survey-and-assessment-of-the-conservation-status-of-irish-sea-cliffs:00254",
-            "title": "National survey and assessment of the conservation status of Irish sea cliffs",
-            "cleanTitle": "National survey and assessment of the conservation status of Irish sea cliffs",
-            "provider": "data.gov.ie",
-            "organisation": "Department of Housing, Local Government and Heritage",
-            "category": "spatial",
-            "roiGroup": "5. Local authority planning/property/open-data layers",
-            "groupTitle": "Local authority planning/property/open-data layers",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "source-data",
-            "featureUnit": "features",
-            "formats": [
-              "SHP / ZIP"
-            ],
-            "isSpatial": true,
-            "isLargeOrSpecial": false,
-            "proposedAction": "local-authority-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "SHP / ZIP"
-              ]
-            },
-            "approvalState": "ready-with-residual-review",
-            "sourcePublicationState": "public source record with runtime/semantic review still pending",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/national-survey-and-assessment-of-the-conservation-status-of-irish-sea-cliffs",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-survey-and-assessment-of-the-conservation-status-of-irish-sea-cliffs",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "large-or-special-format-review: normal source package; no special-format hold",
-              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-            ],
-            "residualBlockers": [
-              "duplicate-or-variant-review: no existing match candidate"
-            ],
-            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:national-survey-and-assessment-of-the-conservation-status-of-irish-sea-cliffs:00254",
-          "sourceRowNumber": 255,
-          "approvalState": "ready-with-residual-review",
-          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "SHP / ZIP"
-            ]
-          },
-          "confidence": 60,
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate"
-          ],
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        },
-        "publicationStatus": "source-record-with-runtime-review",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "source-record-with-runtime-review",
-          "Local authority planning/property/open-data layers",
-          "source-data",
-          "features",
-          "Ireland / unspecified",
-          "local-authority-batch-review",
-          "SHP / ZIP",
-          "review:duplicate-or-variant-review-no-existing-match-candidate"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-national-survey-and-assessment-of-the-conservation-status-of-irish-sea-cliffs-00254"
       }
     }
   ]

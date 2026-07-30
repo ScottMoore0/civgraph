@@ -1,10 +1,329 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-30T20:58:42.107Z",
+  "generatedAt": "2026-07-30T21:17:00.109Z",
   "kind": "sources",
   "shard": "sources-195.json",
   "total": 200,
   "items": [
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:rating-income:02000",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-rating-income-02000",
+      "type": "approved-medium-priority-source",
+      "title": "Rating Income",
+      "subtitle": "Local authority planning/property/open-data layers / Land & Property Services, Open Data NI / Northern Ireland / CSV / Approved source record",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "provider": [
+        "Land & Property Services",
+        "Open Data NI"
+      ],
+      "description": "Rating Income is published as a medium-priority Civgraph source/provenance record from Land & Property Services, Open Data NI. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://admin.opendatani.gov.uk/dataset/rating-income",
+      "references": [
+        {
+          "label": "Rating Income provider page",
+          "url": "https://admin.opendatani.gov.uk/dataset/rating-income",
+          "source": "Open Data NI",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "Rating Income Wayback captures",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/rating-income",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://admin.opendatani.gov.uk/dataset/rating-income",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Local authority planning/property/open-data layers",
+        "source-data",
+        "features",
+        "Northern Ireland",
+        "local-authority-batch-review",
+        "CSV"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 2001,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:rating-income:02000",
+          "title": "Rating Income",
+          "cleanTitle": "Rating Income",
+          "provider": "Open Data NI",
+          "organisation": "Land & Property Services",
+          "category": "tabular",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Northern Ireland",
+          "topic": "source-data",
+          "featureUnit": "features",
+          "formats": [
+            "CSV"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 60,
+          "currentProviderUrl": "https://admin.opendatani.gov.uk/dataset/rating-income",
+          "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/rating-income",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Northern Ireland",
+        "source-data",
+        "Rating Income"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text"
+        ],
+        "canonicalDatasetUrl": "https://admin.opendatani.gov.uk/dataset/rating-income",
+        "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/rating-income",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Land & Property Services, Open Data NI, Rating Income.",
+      "fullCitation": "Land & Property Services, Open Data NI. Rating Income. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://admin.opendatani.gov.uk/dataset/rating-income. Wayback capture index: https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/rating-income.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:rating-income:02000",
+        "sourceRowNumber": 2001,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+        "proposedAction": "local-authority-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV"
+          ]
+        },
+        "confidence": 60,
+        "resolvedBlockers": [
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+          "source-page-and-ia-viewport-decision: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-rating-income-02000",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:rating-income:02000",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-rating-income-02000",
+        "type": "approved-medium-priority-source",
+        "title": "Rating Income",
+        "subtitle": "Local authority planning/property/open-data layers / Land & Property Services, Open Data NI / Northern Ireland / CSV / Approved source record",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "provider": [
+          "Land & Property Services",
+          "Open Data NI"
+        ],
+        "description": "Rating Income is published as a medium-priority Civgraph source/provenance record from Land & Property Services, Open Data NI. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://admin.opendatani.gov.uk/dataset/rating-income",
+        "references": [
+          {
+            "label": "Rating Income provider page",
+            "url": "https://admin.opendatani.gov.uk/dataset/rating-income",
+            "source": "Open Data NI",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "Rating Income Wayback captures",
+            "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/rating-income",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://admin.opendatani.gov.uk/dataset/rating-income",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Northern Ireland",
+          "source-data",
+          "Rating Income"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text"
+          ],
+          "canonicalDatasetUrl": "https://admin.opendatani.gov.uk/dataset/rating-income",
+          "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/rating-income",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Land & Property Services, Open Data NI, Rating Income.",
+        "fullCitation": "Land & Property Services, Open Data NI. Rating Income. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://admin.opendatani.gov.uk/dataset/rating-income. Wayback capture index: https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/rating-income.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 2001,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:rating-income:02000",
+            "title": "Rating Income",
+            "cleanTitle": "Rating Income",
+            "provider": "Open Data NI",
+            "organisation": "Land & Property Services",
+            "category": "tabular",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Northern Ireland",
+            "topic": "source-data",
+            "featureUnit": "features",
+            "formats": [
+              "CSV"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "local-authority-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 60,
+            "currentProviderUrl": "https://admin.opendatani.gov.uk/dataset/rating-income",
+            "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/rating-income",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+              "source-page-and-ia-viewport-decision: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:rating-income:02000",
+          "sourceRowNumber": 2001,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV"
+            ]
+          },
+          "confidence": 60,
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Local authority planning/property/open-data layers",
+          "source-data",
+          "features",
+          "Northern Ireland",
+          "local-authority-batch-review",
+          "CSV"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-rating-income-02000"
+      }
+    },
     {
       "id": "medium-priority:5-local-authority-planning-property-open-data-layers:record-of-protected-structure:01121",
       "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-record-of-protected-structure-01121",
@@ -71248,333 +71567,6 @@
           "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
         ],
         "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-strokestown-lap-2014-2020-expired-roscommon6-00758"
-      }
-    },
-    {
-      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:sulfur-dioxide-so2-level-in-gorey-co-wexford:01877",
-      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-sulfur-dioxide-so2-level-in-gorey-co-wexford-01877",
-      "type": "approved-medium-priority-source",
-      "title": "Sulfur Dioxide - SO2 Level in Gorey, Co. Wexford",
-      "subtitle": "Local authority planning/property/open-data layers / Wexford County Council, data.gov.ie / Ireland / unspecified / CSV, ESRI REST SERVICE / Approved source record",
-      "category": "Medium-priority: Local authority planning/property/open-data layers",
-      "provider": [
-        "Wexford County Council",
-        "data.gov.ie"
-      ],
-      "description": "Sulfur Dioxide - SO2 Level in Gorey, Co. Wexford is published as a medium-priority Civgraph source/provenance record from Wexford County Council, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/sulfur-dioxide-so2-level-in-gorey-co-wexford",
-      "references": [
-        {
-          "label": "Sulfur Dioxide - SO2 Level in Gorey, Co. Wexford provider page",
-          "url": "https://data.gov.ie/dataset/sulfur-dioxide-so2-level-in-gorey-co-wexford",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Sulfur Dioxide - SO2 Level in Gorey, Co. Wexford Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/sulfur-dioxide-so2-level-in-gorey-co-wexford",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/sulfur-dioxide-so2-level-in-gorey-co-wexford",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Local authority planning/property/open-data layers",
-        "source-data",
-        "features",
-        "Ireland / unspecified",
-        "local-authority-batch-review",
-        "CSV",
-        "ESRI REST SERVICE"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 1878,
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:sulfur-dioxide-so2-level-in-gorey-co-wexford:01877",
-          "title": "Sulfur Dioxide - SO2 Level in Gorey, Co. Wexford",
-          "cleanTitle": "Sulfur Dioxide - SO2 Level in Gorey, Co. Wexford",
-          "provider": "data.gov.ie",
-          "organisation": "Wexford County Council",
-          "category": "tabular",
-          "roiGroup": "5. Local authority planning/property/open-data layers",
-          "groupTitle": "Local authority planning/property/open-data layers",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "source-data",
-          "featureUnit": "features",
-          "formats": [
-            "CSV",
-            "ESRI REST SERVICE"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "ESRI REST SERVICE"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 55,
-          "currentProviderUrl": "https://data.gov.ie/dataset/sulfur-dioxide-so2-level-in-gorey-co-wexford",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/sulfur-dioxide-so2-level-in-gorey-co-wexford",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Local authority planning/property/open-data layers",
-        "Ireland / unspecified",
-        "source-data",
-        "Sulfur Dioxide - SO2 Level in Gorey, Co. Wexford"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/sulfur-dioxide-so2-level-in-gorey-co-wexford",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/sulfur-dioxide-so2-level-in-gorey-co-wexford",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Wexford County Council, data.gov.ie, Sulfur Dioxide - SO2 Level in Gorey, Co. Wexford.",
-      "fullCitation": "Wexford County Council, data.gov.ie. Sulfur Dioxide - SO2 Level in Gorey, Co. Wexford. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/sulfur-dioxide-so2-level-in-gorey-co-wexford. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/sulfur-dioxide-so2-level-in-gorey-co-wexford.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:sulfur-dioxide-so2-level-in-gorey-co-wexford:01877",
-        "sourceRowNumber": 1878,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-        "proposedAction": "local-authority-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "CSV",
-            "ESRI REST SERVICE"
-          ]
-        },
-        "confidence": 55,
-        "resolvedBlockers": [
-          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-          "needs-provider-context-review: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-sulfur-dioxide-so2-level-in-gorey-co-wexford-01877",
-      "rawMetadata": {
-        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:sulfur-dioxide-so2-level-in-gorey-co-wexford:01877",
-        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-sulfur-dioxide-so2-level-in-gorey-co-wexford-01877",
-        "type": "approved-medium-priority-source",
-        "title": "Sulfur Dioxide - SO2 Level in Gorey, Co. Wexford",
-        "subtitle": "Local authority planning/property/open-data layers / Wexford County Council, data.gov.ie / Ireland / unspecified / CSV, ESRI REST SERVICE / Approved source record",
-        "category": "Medium-priority: Local authority planning/property/open-data layers",
-        "provider": [
-          "Wexford County Council",
-          "data.gov.ie"
-        ],
-        "description": "Sulfur Dioxide - SO2 Level in Gorey, Co. Wexford is published as a medium-priority Civgraph source/provenance record from Wexford County Council, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/sulfur-dioxide-so2-level-in-gorey-co-wexford",
-        "references": [
-          {
-            "label": "Sulfur Dioxide - SO2 Level in Gorey, Co. Wexford provider page",
-            "url": "https://data.gov.ie/dataset/sulfur-dioxide-so2-level-in-gorey-co-wexford",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Sulfur Dioxide - SO2 Level in Gorey, Co. Wexford Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/sulfur-dioxide-so2-level-in-gorey-co-wexford",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/sulfur-dioxide-so2-level-in-gorey-co-wexford",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Local authority planning/property/open-data layers",
-          "Ireland / unspecified",
-          "source-data",
-          "Sulfur Dioxide - SO2 Level in Gorey, Co. Wexford"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/sulfur-dioxide-so2-level-in-gorey-co-wexford",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/sulfur-dioxide-so2-level-in-gorey-co-wexford",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Wexford County Council, data.gov.ie, Sulfur Dioxide - SO2 Level in Gorey, Co. Wexford.",
-        "fullCitation": "Wexford County Council, data.gov.ie. Sulfur Dioxide - SO2 Level in Gorey, Co. Wexford. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/sulfur-dioxide-so2-level-in-gorey-co-wexford. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/sulfur-dioxide-so2-level-in-gorey-co-wexford.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 1878,
-            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:sulfur-dioxide-so2-level-in-gorey-co-wexford:01877",
-            "title": "Sulfur Dioxide - SO2 Level in Gorey, Co. Wexford",
-            "cleanTitle": "Sulfur Dioxide - SO2 Level in Gorey, Co. Wexford",
-            "provider": "data.gov.ie",
-            "organisation": "Wexford County Council",
-            "category": "tabular",
-            "roiGroup": "5. Local authority planning/property/open-data layers",
-            "groupTitle": "Local authority planning/property/open-data layers",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "source-data",
-            "featureUnit": "features",
-            "formats": [
-              "CSV",
-              "ESRI REST SERVICE"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "local-authority-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "CSV",
-                "ESRI REST SERVICE"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 55,
-            "currentProviderUrl": "https://data.gov.ie/dataset/sulfur-dioxide-so2-level-in-gorey-co-wexford",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/sulfur-dioxide-so2-level-in-gorey-co-wexford",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-              "needs-provider-context-review: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:sulfur-dioxide-so2-level-in-gorey-co-wexford:01877",
-          "sourceRowNumber": 1878,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "ESRI REST SERVICE"
-            ]
-          },
-          "confidence": 55,
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Local authority planning/property/open-data layers",
-          "source-data",
-          "features",
-          "Ireland / unspecified",
-          "local-authority-batch-review",
-          "CSV",
-          "ESRI REST SERVICE"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-sulfur-dioxide-so2-level-in-gorey-co-wexford-01877"
       }
     }
   ]
