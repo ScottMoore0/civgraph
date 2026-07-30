@@ -36,6 +36,8 @@ const REGISTER_INTEREST_INDEX_SHARD_DIR = 'register-interest-shards';
 const REGISTER_INTEREST_INDEX_SHARD_SIZE = 5000;
 const SOURCE_INDEX_SHARD_DIR = 'source-index-shards';
 const SOURCE_INDEX_SHARD_SIZE = 5000;
+const PERSON_INDEX_SHARD_DIR = 'person-shards';
+const PERSON_INDEX_SHARD_SIZE = 5000;
 const RAW_ELECTION_SOURCE_CACHE = new Map();
 
 const ENTITY_GROUPS = [
@@ -135,7 +137,22 @@ function main() {
     items: featureGroups
   });
   writeJson('parties.json', { schemaVersion: 1, generatedAt: GENERATED_AT, total: parties.length, items: parties });
-  writeJson('persons.json', { schemaVersion: 1, generatedAt: GENERATED_AT, total: persons.length, items: persons });
+  // Sharded for the same reason as the source index: a single persons.json reached
+  // 25.18 MB across 13,113 people and breached Cloudflare Pages' 25 MB per-file limit,
+  // failing the deploy gate. The runtime loader (browse.js loadIndex) and the graph
+  // build/validators resolve shards generically via indexLayout === 'sharded', so no
+  // consumer needed changing.
+  const personIndexShards = writePersonIndexShards(persons);
+  writeJson('persons.json', {
+    schemaVersion: 1,
+    generatedAt: GENERATED_AT,
+    total: persons.length,
+    indexLayout: 'sharded',
+    indexShardStrategy: 'fixed-size',
+    indexShardSize: PERSON_INDEX_SHARD_SIZE,
+    indexShardDir: `/data/browse/${PERSON_INDEX_SHARD_DIR}`,
+    shards: personIndexShards
+  });
   writeJson('register-interests.json', {
     schemaVersion: 1,
     generatedAt: GENERATED_AT,
@@ -1872,6 +1889,32 @@ function writeSourceDetailShards(records, enhance = null, assignments = null) {
       items
     });
   }
+}
+
+function writePersonIndexShards(records) {
+  const shardDir = path.join(OUT_DIR, PERSON_INDEX_SHARD_DIR);
+  rmSync(shardDir, { recursive: true, force: true });
+  mkdirSync(shardDir, { recursive: true });
+  const shards = [];
+  for (let index = 0; index < records.length; index += PERSON_INDEX_SHARD_SIZE) {
+    const shardIndex = Math.floor(index / PERSON_INDEX_SHARD_SIZE);
+    const shardName = `persons-${String(shardIndex).padStart(3, '0')}.json`;
+    const items = records.slice(index, index + PERSON_INDEX_SHARD_SIZE);
+    writeJson(path.join(PERSON_INDEX_SHARD_DIR, shardName), {
+      schemaVersion: 1,
+      generatedAt: GENERATED_AT,
+      kind: 'person-index',
+      shard: shardName,
+      total: items.length,
+      items
+    });
+    shards.push({
+      name: shardName,
+      url: `/data/browse/${PERSON_INDEX_SHARD_DIR}/${shardName}`,
+      count: items.length
+    });
+  }
+  return shards;
 }
 
 function writeRegisterInterestIndexShards(records) {

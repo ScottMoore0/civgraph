@@ -1,527 +1,10 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-29T22:09:35.048Z",
+  "generatedAt": "2026-07-30T20:12:41.046Z",
   "kind": "sources",
   "shard": "sources-185.json",
   "total": 200,
   "items": [
-    {
-      "id": "map-source:osni-1m-parliamentary",
-      "slug": "map-source-osni-1m-parliamentary",
-      "type": "map-source",
-      "title": "OSNI 1:1M Thematic — Parliamentary Boundaries source files",
-      "subtitle": "OSNI Raster Maps / OSNI",
-      "category": "Map sources",
-      "provider": [
-        "OSNI"
-      ],
-      "description": "Small-scale (1:1,000,000) thematic map showing Northern Ireland’s Westminster parliamentary constituency boundaries. Re-tiled as an interactive overlay at zoom 6–11.",
-      "sourceMapId": "osni-1m-parliamentary",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "O1",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "OSNI Open Data — 1:1M Parliamentary",
-          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-1-1million-raster-parliamentary-boundaries"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "label",
-          "url": "Georeferenced JPEG (ZIP)"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/064c9b69-16d0-47d0-b418-ef065289f669/resource/ee78bcca-cd51-4a3e-ad73-9ebbc86c66bc/download/osniopendata_1million_parliamentary.zip"
-        },
-        {
-          "label": "Internet Archive: osniopendata_1million_parliamentary.zip",
-          "url": "https://archive.org/download/civgraph-osni-maps/osni-1m-parliamentary/osniopendata_1million_parliamentary.zip"
-        },
-        {
-          "label": "xyz",
-          "url": "https://data.civgraph.net/data/maps/osni-raster/1m-parliamentary/{z}/{x}/{y}.png"
-        }
-      ],
-      "interactiveUrl": "/#layers=osni-1m-parliamentary",
-      "browseUrl": "/browse/sources/map-source-osni-1m-parliamentary",
-      "rawMetadata": {
-        "id": "osni-1m-parliamentary",
-        "name": "OSNI 1:1M Thematic — Parliamentary Boundaries",
-        "slug": "osni-1m-parliamentary",
-        "category": "osni-raster",
-        "provider": [
-          "OSNI"
-        ],
-        "description": "Small-scale (1:1,000,000) thematic map showing Northern Ireland’s Westminster parliamentary constituency boundaries. Re-tiled as an interactive overlay at zoom 6–11.",
-        "files": {
-          "xyz": "https://data.civgraph.net/data/maps/osni-raster/1m-parliamentary/{z}/{x}/{y}.png"
-        },
-        "rasterStyle": {
-          "opacity": 0.8,
-          "minZoom": 4,
-          "maxZoom": 14,
-          "maxNativeZoom": 11
-        },
-        "bounds": [
-          [
-            54,
-            -8.87
-          ],
-          [
-            55.45,
-            -5.41
-          ]
-        ],
-        "keywords": [
-          "osni",
-          "1:1m",
-          "1 million",
-          "thematic",
-          "parliamentary",
-          "constituencies",
-          "westminster"
-        ],
-        "references": [
-          {
-            "label": "OSNI Open Data — 1:1M Parliamentary",
-            "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-1-1million-raster-parliamentary-boundaries",
-            "note": ""
-          }
-        ],
-        "sourceDownloads": [
-          {
-            "label": "Georeferenced JPEG (ZIP)",
-            "file": "https://admin.opendatani.gov.uk/dataset/064c9b69-16d0-47d0-b418-ef065289f669/resource/ee78bcca-cd51-4a3e-ad73-9ebbc86c66bc/download/osniopendata_1million_parliamentary.zip"
-          }
-        ]
-      }
-    },
-    {
-      "id": "map-source:osni-benchmarks",
-      "slug": "map-source-osni-benchmarks",
-      "type": "map-source",
-      "title": "OSNI Benchmarks (Height Reference Points) source files",
-      "subtitle": "OSNI Reference Layers / OSNI",
-      "category": "Map sources",
-      "provider": [
-        "OSNI"
-      ],
-      "description": "Historic OSNI benchmarks — small brass plates or chiselled grooves set into permanent features (bridges, walls, milestones) whose heights above Ordnance Datum were precisely determined by levelling surveys. Used by surveyors as known reference points before GPS. ~10,000 points across Northern Ireland, each attributed with its height in metres.",
-      "sourceMapId": "osni-benchmarks",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "OB",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "OSNI Open Data - BenchMarks - Height",
-          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-benchmarks-height"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "label",
-          "url": "GeoJSON"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/d2353369-da97-473d-9a10-9ecb7b598f40/resource/3c5df17a-e28d-439b-9164-c2e6e0830b31/download/osni_open_data_benchmarks_height.geojson"
-        },
-        {
-          "label": "label",
-          "url": "ESRI Shapefile (ZIP)"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/d2353369-da97-473d-9a10-9ecb7b598f40/resource/4214da40-17a5-4af7-8f22-3d84706f774a/download/osni_open_data_benchmarks_height.zip"
-        },
-        {
-          "label": "label",
-          "url": "KML"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/d2353369-da97-473d-9a10-9ecb7b598f40/resource/1f593808-f938-43dc-8f82-f6391905a79f/download/osni_open_data_benchmarks_height.kml"
-        },
-        {
-          "label": "label",
-          "url": "CSV"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/d2353369-da97-473d-9a10-9ecb7b598f40/resource/5f6a8d59-cef0-4d48-9f5a-79c8dfc000f5/download/osni_open_data_benchmarks_height.csv"
-        },
-        {
-          "label": "Internet Archive: benchmarks.fgb",
-          "url": "https://archive.org/download/civgraph-osni-maps/osni-benchmarks/benchmarks.fgb"
-        },
-        {
-          "label": "Internet Archive: osni_open_data_benchmarks_height.geojson",
-          "url": "https://archive.org/download/civgraph-osni-maps/osni-benchmarks/osni_open_data_benchmarks_height.geojson"
-        },
-        {
-          "label": "Internet Archive: osni_open_data_benchmarks_height.zip",
-          "url": "https://archive.org/download/civgraph-osni-maps/osni-benchmarks/osni_open_data_benchmarks_height.zip"
-        },
-        {
-          "label": "Internet Archive: osni_open_data_benchmarks_height.kml",
-          "url": "https://archive.org/download/civgraph-osni-maps/osni-benchmarks/osni_open_data_benchmarks_height.kml"
-        },
-        {
-          "label": "Internet Archive: osni_open_data_benchmarks_height.csv",
-          "url": "https://archive.org/download/civgraph-osni-maps/osni-benchmarks/osni_open_data_benchmarks_height.csv"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/osni-reference/benchmarks.fgb"
-        }
-      ],
-      "interactiveUrl": "/#layers=osni-benchmarks",
-      "browseUrl": "/browse/sources/map-source-osni-benchmarks",
-      "rawMetadata": {
-        "id": "osni-benchmarks",
-        "name": "OSNI Benchmarks (Height Reference Points)",
-        "slug": "osni-benchmarks",
-        "category": "osni-reference",
-        "provider": [
-          "OSNI"
-        ],
-        "description": "Historic OSNI benchmarks — small brass plates or chiselled grooves set into permanent features (bridges, walls, milestones) whose heights above Ordnance Datum were precisely determined by levelling surveys. Used by surveyors as known reference points before GPS. ~10,000 points across Northern Ireland, each attributed with its height in metres.",
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/osni-reference/benchmarks.fgb"
-        },
-        "style": {
-          "color": "#b87333",
-          "weight": 1,
-          "radius": 3,
-          "fillOpacity": 0.8
-        },
-        "labelProperty": "BM_Height",
-        "keywords": [
-          "osni",
-          "benchmark",
-          "bench mark",
-          "height",
-          "datum",
-          "levelling",
-          "survey",
-          "trigonometric"
-        ],
-        "useLOD": false,
-        "references": [
-          {
-            "label": "OSNI Open Data - BenchMarks - Height",
-            "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-benchmarks-height",
-            "note": ""
-          }
-        ],
-        "sourceDownloads": [
-          {
-            "label": "GeoJSON",
-            "file": "https://admin.opendatani.gov.uk/dataset/d2353369-da97-473d-9a10-9ecb7b598f40/resource/3c5df17a-e28d-439b-9164-c2e6e0830b31/download/osni_open_data_benchmarks_height.geojson"
-          },
-          {
-            "label": "ESRI Shapefile (ZIP)",
-            "file": "https://admin.opendatani.gov.uk/dataset/d2353369-da97-473d-9a10-9ecb7b598f40/resource/4214da40-17a5-4af7-8f22-3d84706f774a/download/osni_open_data_benchmarks_height.zip"
-          },
-          {
-            "label": "KML",
-            "file": "https://admin.opendatani.gov.uk/dataset/d2353369-da97-473d-9a10-9ecb7b598f40/resource/1f593808-f938-43dc-8f82-f6391905a79f/download/osni_open_data_benchmarks_height.kml"
-          },
-          {
-            "label": "CSV",
-            "file": "https://admin.opendatani.gov.uk/dataset/d2353369-da97-473d-9a10-9ecb7b598f40/resource/5f6a8d59-cef0-4d48-9f5a-79c8dfc000f5/download/osni_open_data_benchmarks_height.csv"
-          }
-        ]
-      }
-    },
-    {
-      "id": "map-source:osni-coverage-grid-10k",
-      "slug": "map-source-osni-coverage-grid-10k",
-      "type": "map-source",
-      "title": "OSNI Map Sheet Coverage Grid — 1:10,000 source files",
-      "subtitle": "OSNI Reference Layers / OSNI",
-      "category": "Map sources",
-      "provider": [
-        "OSNI"
-      ],
-      "description": "Polygonal overlay of Ordnance Survey of Northern Ireland 1:10,000-scale printed-map tile footprints, labelled by sheet name. Useful for locating which historic / current OSNI sheet covers a site.",
-      "sourceMapId": "osni-coverage-grid-10k",
-      "thumbnail": {
-        "kind": "asset",
-        "id": "osni-coverage-grid-10k",
-        "url": "/assets/thumbnails/osni-coverage-grid-10k.webp",
-        "smallUrl": "/assets/thumbnails/osni-coverage-grid-10k-60.webp",
-        "alt": "OSNI Map Sheet Coverage Grid — 1:10,000"
-      },
-      "references": [
-        {
-          "label": "OSNI Open Data - Coverage Grid - 10K",
-          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-coverage-grid-10k"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "label",
-          "url": "GeoJSON"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/18a0c1f3-0e2a-406f-9d5f-ce190a166895/resource/3400824a-ae20-483d-b633-a936d8f45f8b/download/osni_open_data_coverage_grid_10k.geojson"
-        },
-        {
-          "label": "label",
-          "url": "ESRI Shapefile (ZIP)"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/18a0c1f3-0e2a-406f-9d5f-ce190a166895/resource/6fdf1a41-1f4a-4905-88f5-57c06a7cd5fb/download/osni_open_data_coverage_grid_10k.zip"
-        },
-        {
-          "label": "label",
-          "url": "KML"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/18a0c1f3-0e2a-406f-9d5f-ce190a166895/resource/19fa57b5-5f62-4e0a-a40b-5f6fc3485f6f/download/osni_open_data_coverage_grid_10k.kml"
-        },
-        {
-          "label": "label",
-          "url": "CSV"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/18a0c1f3-0e2a-406f-9d5f-ce190a166895/resource/cdfe704d-8281-400c-a06d-d50f9fe43fc3/download/osni_open_data_coverage_grid_10k.csv"
-        },
-        {
-          "label": "Internet Archive: coverage-grid-10k.fgb",
-          "url": "https://archive.org/download/civgraph-osni-maps/osni-coverage-grid-10k/coverage-grid-10k.fgb"
-        },
-        {
-          "label": "Internet Archive: osni_open_data_coverage_grid_10k.geojson",
-          "url": "https://archive.org/download/civgraph-osni-maps/osni-coverage-grid-10k/osni_open_data_coverage_grid_10k.geojson"
-        },
-        {
-          "label": "Internet Archive: osni_open_data_coverage_grid_10k.zip",
-          "url": "https://archive.org/download/civgraph-osni-maps/osni-coverage-grid-10k/osni_open_data_coverage_grid_10k.zip"
-        },
-        {
-          "label": "Internet Archive: osni_open_data_coverage_grid_10k.kml",
-          "url": "https://archive.org/download/civgraph-osni-maps/osni-coverage-grid-10k/osni_open_data_coverage_grid_10k.kml"
-        },
-        {
-          "label": "Internet Archive: osni_open_data_coverage_grid_10k.csv",
-          "url": "https://archive.org/download/civgraph-osni-maps/osni-coverage-grid-10k/osni_open_data_coverage_grid_10k.csv"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/osni-reference/coverage-grid-10k.fgb"
-        }
-      ],
-      "interactiveUrl": "/#layers=osni-coverage-grid-10k",
-      "browseUrl": "/browse/sources/map-source-osni-coverage-grid-10k",
-      "rawMetadata": {
-        "id": "osni-coverage-grid-10k",
-        "name": "OSNI Map Sheet Coverage Grid — 1:10,000",
-        "slug": "osni-coverage-grid-10k",
-        "category": "osni-reference",
-        "provider": [
-          "OSNI"
-        ],
-        "description": "Polygonal overlay of Ordnance Survey of Northern Ireland 1:10,000-scale printed-map tile footprints, labelled by sheet name. Useful for locating which historic / current OSNI sheet covers a site.",
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/osni-reference/coverage-grid-10k.fgb"
-        },
-        "style": {
-          "color": "#888888",
-          "weight": 1,
-          "fillOpacity": 0
-        },
-        "labelProperty": "NAME",
-        "keywords": [
-          "osni",
-          "coverage",
-          "grid",
-          "sheet",
-          "index",
-          "1:10000",
-          "10k",
-          "tile"
-        ],
-        "useLOD": true,
-        "references": [
-          {
-            "label": "OSNI Open Data - Coverage Grid - 10K",
-            "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-coverage-grid-10k",
-            "note": ""
-          }
-        ],
-        "sourceDownloads": [
-          {
-            "label": "GeoJSON",
-            "file": "https://admin.opendatani.gov.uk/dataset/18a0c1f3-0e2a-406f-9d5f-ce190a166895/resource/3400824a-ae20-483d-b633-a936d8f45f8b/download/osni_open_data_coverage_grid_10k.geojson"
-          },
-          {
-            "label": "ESRI Shapefile (ZIP)",
-            "file": "https://admin.opendatani.gov.uk/dataset/18a0c1f3-0e2a-406f-9d5f-ce190a166895/resource/6fdf1a41-1f4a-4905-88f5-57c06a7cd5fb/download/osni_open_data_coverage_grid_10k.zip"
-          },
-          {
-            "label": "KML",
-            "file": "https://admin.opendatani.gov.uk/dataset/18a0c1f3-0e2a-406f-9d5f-ce190a166895/resource/19fa57b5-5f62-4e0a-a40b-5f6fc3485f6f/download/osni_open_data_coverage_grid_10k.kml"
-          },
-          {
-            "label": "CSV",
-            "file": "https://admin.opendatani.gov.uk/dataset/18a0c1f3-0e2a-406f-9d5f-ce190a166895/resource/cdfe704d-8281-400c-a06d-d50f9fe43fc3/download/osni_open_data_coverage_grid_10k.csv"
-          }
-        ]
-      }
-    },
-    {
-      "id": "map-source:osni-coverage-grid-50k",
-      "slug": "map-source-osni-coverage-grid-50k",
-      "type": "map-source",
-      "title": "OSNI Map Sheet Coverage Grid — 1:50,000 source files",
-      "subtitle": "OSNI Reference Layers / OSNI",
-      "category": "Map sources",
-      "provider": [
-        "OSNI"
-      ],
-      "description": "Polygonal overlay of OSNI 1:50,000-scale printed-map tile footprints, labelled by tile identifier — the coarser complement to the 1:10K coverage grid.",
-      "sourceMapId": "osni-coverage-grid-50k",
-      "thumbnail": {
-        "kind": "asset",
-        "id": "osni-coverage-grid-50k",
-        "url": "/assets/thumbnails/osni-coverage-grid-50k.webp",
-        "smallUrl": "/assets/thumbnails/osni-coverage-grid-50k-60.webp",
-        "alt": "OSNI Map Sheet Coverage Grid — 1:50,000"
-      },
-      "references": [
-        {
-          "label": "OSNI Open Data - Coverage Grid - 50K",
-          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-coverage-grid-50k"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "label",
-          "url": "GeoJSON"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/672cefe4-1c1b-4789-822d-6a5bcb875f45/resource/f55e4028-f24b-454f-807e-073b284396f6/download/osni_open_data_coverage_grid_50k.geojson"
-        },
-        {
-          "label": "label",
-          "url": "ESRI Shapefile (ZIP)"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/672cefe4-1c1b-4789-822d-6a5bcb875f45/resource/c9ed17bd-02cb-4b48-954e-1196908bced0/download/osni_open_data_coverage_grid_50k.zip"
-        },
-        {
-          "label": "label",
-          "url": "KML"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/672cefe4-1c1b-4789-822d-6a5bcb875f45/resource/793ad260-7414-4925-80aa-00a3affb1531/download/osni_open_data_coverage_grid_50k.kml"
-        },
-        {
-          "label": "label",
-          "url": "CSV"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/672cefe4-1c1b-4789-822d-6a5bcb875f45/resource/dec2d495-4119-460a-9795-dd02ee6a3b2a/download/osni_open_data_coverage_grid_50k.csv"
-        },
-        {
-          "label": "Internet Archive: coverage-grid-50k.fgb",
-          "url": "https://archive.org/download/civgraph-osni-maps/osni-coverage-grid-50k/coverage-grid-50k.fgb"
-        },
-        {
-          "label": "Internet Archive: osni_open_data_coverage_grid_50k.geojson",
-          "url": "https://archive.org/download/civgraph-osni-maps/osni-coverage-grid-50k/osni_open_data_coverage_grid_50k.geojson"
-        },
-        {
-          "label": "Internet Archive: osni_open_data_coverage_grid_50k.zip",
-          "url": "https://archive.org/download/civgraph-osni-maps/osni-coverage-grid-50k/osni_open_data_coverage_grid_50k.zip"
-        },
-        {
-          "label": "Internet Archive: osni_open_data_coverage_grid_50k.kml",
-          "url": "https://archive.org/download/civgraph-osni-maps/osni-coverage-grid-50k/osni_open_data_coverage_grid_50k.kml"
-        },
-        {
-          "label": "Internet Archive: osni_open_data_coverage_grid_50k.csv",
-          "url": "https://archive.org/download/civgraph-osni-maps/osni-coverage-grid-50k/osni_open_data_coverage_grid_50k.csv"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/osni-reference/coverage-grid-50k.fgb"
-        }
-      ],
-      "interactiveUrl": "/#layers=osni-coverage-grid-50k",
-      "browseUrl": "/browse/sources/map-source-osni-coverage-grid-50k",
-      "rawMetadata": {
-        "id": "osni-coverage-grid-50k",
-        "name": "OSNI Map Sheet Coverage Grid — 1:50,000",
-        "slug": "osni-coverage-grid-50k",
-        "category": "osni-reference",
-        "provider": [
-          "OSNI"
-        ],
-        "description": "Polygonal overlay of OSNI 1:50,000-scale printed-map tile footprints, labelled by tile identifier — the coarser complement to the 1:10K coverage grid.",
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/osni-reference/coverage-grid-50k.fgb"
-        },
-        "style": {
-          "color": "#555555",
-          "weight": 1.5,
-          "fillOpacity": 0
-        },
-        "labelProperty": "TILE",
-        "keywords": [
-          "osni",
-          "coverage",
-          "grid",
-          "sheet",
-          "index",
-          "1:50000",
-          "50k",
-          "tile"
-        ],
-        "useLOD": true,
-        "references": [
-          {
-            "label": "OSNI Open Data - Coverage Grid - 50K",
-            "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-coverage-grid-50k",
-            "note": ""
-          }
-        ],
-        "sourceDownloads": [
-          {
-            "label": "GeoJSON",
-            "file": "https://admin.opendatani.gov.uk/dataset/672cefe4-1c1b-4789-822d-6a5bcb875f45/resource/f55e4028-f24b-454f-807e-073b284396f6/download/osni_open_data_coverage_grid_50k.geojson"
-          },
-          {
-            "label": "ESRI Shapefile (ZIP)",
-            "file": "https://admin.opendatani.gov.uk/dataset/672cefe4-1c1b-4789-822d-6a5bcb875f45/resource/c9ed17bd-02cb-4b48-954e-1196908bced0/download/osni_open_data_coverage_grid_50k.zip"
-          },
-          {
-            "label": "KML",
-            "file": "https://admin.opendatani.gov.uk/dataset/672cefe4-1c1b-4789-822d-6a5bcb875f45/resource/793ad260-7414-4925-80aa-00a3affb1531/download/osni_open_data_coverage_grid_50k.kml"
-          },
-          {
-            "label": "CSV",
-            "file": "https://admin.opendatani.gov.uk/dataset/672cefe4-1c1b-4789-822d-6a5bcb875f45/resource/dec2d495-4119-460a-9795-dd02ee6a3b2a/download/osni_open_data_coverage_grid_50k.csv"
-          }
-        ]
-      }
-    },
     {
       "id": "map-source:osni-eire-thuaidh",
       "slug": "map-source-osni-eire-thuaidh",
@@ -22286,6 +21769,541 @@
           }
         ],
         "labelProperty": "Station"
+      }
+    },
+    {
+      "id": "map-source:translink-ulsterbus-goldliner-routes",
+      "slug": "map-source-translink-ulsterbus-goldliner-routes",
+      "type": "map-source",
+      "title": "Ulsterbus & Goldliner Bus Routes source files",
+      "subtitle": "Transport / Translink",
+      "category": "Map sources",
+      "date": "2025-09-23",
+      "provider": [
+        "Translink"
+      ],
+      "description": "Ulsterbus and Goldliner inter-urban bus route geometries — Translink network data converted to FGB.",
+      "sourceMapId": "translink-ulsterbus-goldliner-routes",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "translink-ulsterbus-goldliner-routes",
+        "url": "/assets/thumbnails/translink-ulsterbus-goldliner-routes.webp",
+        "smallUrl": "/assets/thumbnails/translink-ulsterbus-goldliner-routes-60.webp",
+        "alt": "Ulsterbus & Goldliner Bus Routes"
+      },
+      "references": [
+        {
+          "label": "Source — admin.opendatani.gov.uk",
+          "url": "https://admin.opendatani.gov.uk/"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/transport-translink/translink-ulsterbus-goldliner-routes.fgb"
+        },
+        {
+          "label": "zip",
+          "url": "https://data.civgraph.net/data/maps/transport-translink/translink-ulsterbus-goldliner-routes.zip"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/transport-translink/translink-ulsterbus-goldliner-routes.fgb"
+        },
+        {
+          "label": "zip",
+          "url": "https://data.civgraph.net/data/maps/transport-translink/translink-ulsterbus-goldliner-routes.zip"
+        }
+      ],
+      "interactiveUrl": "/#layers=translink-ulsterbus-goldliner-routes",
+      "browseUrl": "/browse/sources/map-source-translink-ulsterbus-goldliner-routes",
+      "rawMetadata": {
+        "id": "translink-ulsterbus-goldliner-routes",
+        "name": "Ulsterbus & Goldliner Bus Routes",
+        "slug": "translink-ulsterbus-goldliner-routes",
+        "category": "transport",
+        "provider": [
+          "Translink"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/transport-translink/translink-ulsterbus-goldliner-routes.fgb",
+          "downloads": {
+            "zip": "https://data.civgraph.net/data/maps/transport-translink/translink-ulsterbus-goldliner-routes.zip"
+          }
+        },
+        "style": {
+          "color": "#FFA000",
+          "weight": 1,
+          "fillOpacity": 0.4
+        },
+        "keywords": [
+          "translink",
+          "bus",
+          "ulsterbus",
+          "goldliner",
+          "transit",
+          "routes",
+          "NI"
+        ],
+        "description": "Ulsterbus and Goldliner inter-urban bus route geometries — Translink network data converted to FGB.",
+        "references": [
+          {
+            "label": "Source — admin.opendatani.gov.uk",
+            "url": "https://admin.opendatani.gov.uk/",
+            "note": ""
+          }
+        ],
+        "date": "2025-09-23",
+        "useLOD": true
+      }
+    },
+    {
+      "id": "map-source:transport-carriageway-defects-2021",
+      "slug": "map-source-transport-carriageway-defects-2021",
+      "type": "map-source",
+      "title": "Carriageway and Footway Surface Defects 2021 source files",
+      "subtitle": "Transport / DfI, Roads NI",
+      "category": "Map sources",
+      "provider": [
+        "DfI",
+        "Roads NI"
+      ],
+      "description": "Every recorded surface defect (potholes, cracks, ruts, surface damage) on Northern Ireland's public roads and footways during 2021, with division/section/response-time attributes. ~124 K point records — DfI's authoritative road-condition survey for that year.",
+      "sourceMapId": "transport-carriageway-defects-2021",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "transport-carriageway-defects-2021",
+        "url": "/assets/thumbnails/transport-carriageway-defects-2021.webp",
+        "smallUrl": "/assets/thumbnails/transport-carriageway-defects-2021-60.webp",
+        "alt": "Carriageway and Footway Surface Defects 2021"
+      },
+      "references": [
+        {
+          "label": "OSNI Open Data — Carriageway and Footway Surface Defects",
+          "url": "https://admin.opendatani.gov.uk/dataset/carriageway-and-footway-surface-defects"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/transport/carriageway-footway-defects-2021.fgb"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/transport/carriageway-footway-defects-2021.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=transport-carriageway-defects-2021",
+      "browseUrl": "/browse/sources/map-source-transport-carriageway-defects-2021",
+      "rawMetadata": {
+        "id": "transport-carriageway-defects-2021",
+        "name": "Carriageway and Footway Surface Defects 2021",
+        "slug": "transport-carriageway-defects-2021",
+        "category": "transport",
+        "provider": [
+          "DfI",
+          "Roads NI"
+        ],
+        "description": "Every recorded surface defect (potholes, cracks, ruts, surface damage) on Northern Ireland's public roads and footways during 2021, with division/section/response-time attributes. ~124 K point records — DfI's authoritative road-condition survey for that year.",
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/transport/carriageway-footway-defects-2021.fgb"
+        },
+        "style": {
+          "color": "#cf4e00",
+          "radius": 2,
+          "weight": 0.5,
+          "fillOpacity": 0.85
+        },
+        "keywords": [
+          "roads",
+          "defects",
+          "potholes",
+          "dfi",
+          "road condition",
+          "footway",
+          "carriageway"
+        ],
+        "useLOD": true,
+        "references": [
+          {
+            "label": "OSNI Open Data — Carriageway and Footway Surface Defects",
+            "url": "https://admin.opendatani.gov.uk/dataset/carriageway-and-footway-surface-defects",
+            "note": ""
+          }
+        ],
+        "chunked": true,
+        "bounds": [
+          [
+            54,
+            -8.3
+          ],
+          [
+            55.5,
+            -5.3
+          ]
+        ]
+      }
+    },
+    {
+      "id": "map-source:transport-lines-road-rail",
+      "slug": "map-source-transport-lines-road-rail",
+      "type": "map-source",
+      "title": "Transport Lines (Roads and Railways) source files",
+      "subtitle": "Built Environment / OSNI",
+      "category": "Map sources",
+      "provider": [
+        "OSNI"
+      ],
+      "description": "Man-made structures and infrastructure",
+      "sourceMapId": "transport-lines-road-rail",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "transport-lines-road-rail",
+        "url": "/assets/thumbnails/transport-lines-road-rail.webp",
+        "smallUrl": "/assets/thumbnails/transport-lines-road-rail-60.webp",
+        "alt": "Transport Lines (Roads and Railways)"
+      },
+      "references": [
+        {
+          "label": "OSNI Open Data - 50K Transport - Transport lines - Open Data NI (admin.opendatani.gov.uk)",
+          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-transport-transport-lines"
+        },
+        {
+          "label": "OSNI Open Data - 50K Transport - Transport lines (www.data.gov.uk)",
+          "url": "https://www.data.gov.uk/dataset/092bebf4-97c9-45a9-957d-2bf6822c32d8/osni-open-data-50k-transport-transport-lines5"
+        },
+        {
+          "label": "Transport Lines (Roads and Railways) — ZIP download",
+          "url": "https://admin.opendatani.gov.uk/dataset/bdcc2953-ed72-4f21-b012-43cbd5bbc395/resource/c576a4c4-67d1-45cc-89bf-0f6025ad133e/download/osni_open_data_50k_transport_transport_lines.zip"
+        },
+        {
+          "label": "Transport Lines (Roads and Railways) — CSV download",
+          "url": "https://admin.opendatani.gov.uk/dataset/bdcc2953-ed72-4f21-b012-43cbd5bbc395/resource/8ed2007e-fe65-4ae7-84de-ba837aae4fee/download/osni_open_data_50k_transport_transport_lines.csv"
+        },
+        {
+          "label": "Transport Lines (Roads and Railways) — GeoJSON download",
+          "url": "https://admin.opendatani.gov.uk/dataset/bdcc2953-ed72-4f21-b012-43cbd5bbc395/resource/d09e7052-6390-4953-92da-ec3479100a7b/download/osni_open_data_50k_transport_transport_lines.geojson"
+        },
+        {
+          "label": "Transport Lines (Roads and Railways) — KML download",
+          "url": "https://admin.opendatani.gov.uk/dataset/bdcc2953-ed72-4f21-b012-43cbd5bbc395/resource/4bc8f9d9-d5b8-450e-9af6-2f6ba8044586/download/osni_open_data_-_50k_transport_-_transport_lines.kml"
+        },
+        {
+          "label": "Transport Lines (Roads and Railways) — CSV download",
+          "url": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/476bb4e6f8e64f60a08ae84888733bd4/csv?layers=2"
+        },
+        {
+          "label": "Transport Lines (Roads and Railways) — GeoJSON download",
+          "url": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/476bb4e6f8e64f60a08ae84888733bd4/geojson?layers=2"
+        },
+        {
+          "label": "Transport Lines (Roads and Railways) — HTML download",
+          "url": "https://osni-spatialni.opendata.arcgis.com/maps/spatialni::osni-open-data-50k-transport-transport-lines"
+        },
+        {
+          "label": "Transport Lines (Roads and Railways) — KML download",
+          "url": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/476bb4e6f8e64f60a08ae84888733bd4/kml?layers=2"
+        },
+        {
+          "label": "Transport Lines (Roads and Railways) — Shapefile (ZIP) download",
+          "url": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/476bb4e6f8e64f60a08ae84888733bd4/shapefile?layers=2"
+        },
+        {
+          "label": "Transport Lines (Roads and Railways) — JSON download",
+          "url": "https://services.spatialni.gov.uk/opendata/rest/services/OSNIVector/OSNIOpenData_Transport_50K/MapServer/2"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "label",
+          "url": "ZIP"
+        },
+        {
+          "label": "file",
+          "url": "https://admin.opendatani.gov.uk/dataset/bdcc2953-ed72-4f21-b012-43cbd5bbc395/resource/c576a4c4-67d1-45cc-89bf-0f6025ad133e/download/osni_open_data_50k_transport_transport_lines.zip"
+        },
+        {
+          "label": "label",
+          "url": "CSV"
+        },
+        {
+          "label": "file",
+          "url": "https://admin.opendatani.gov.uk/dataset/bdcc2953-ed72-4f21-b012-43cbd5bbc395/resource/8ed2007e-fe65-4ae7-84de-ba837aae4fee/download/osni_open_data_50k_transport_transport_lines.csv"
+        },
+        {
+          "label": "label",
+          "url": "GeoJSON"
+        },
+        {
+          "label": "file",
+          "url": "https://admin.opendatani.gov.uk/dataset/bdcc2953-ed72-4f21-b012-43cbd5bbc395/resource/d09e7052-6390-4953-92da-ec3479100a7b/download/osni_open_data_50k_transport_transport_lines.geojson"
+        },
+        {
+          "label": "label",
+          "url": "KML"
+        },
+        {
+          "label": "file",
+          "url": "https://admin.opendatani.gov.uk/dataset/bdcc2953-ed72-4f21-b012-43cbd5bbc395/resource/4bc8f9d9-d5b8-450e-9af6-2f6ba8044586/download/osni_open_data_-_50k_transport_-_transport_lines.kml"
+        },
+        {
+          "label": "label",
+          "url": "CSV"
+        },
+        {
+          "label": "file",
+          "url": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/476bb4e6f8e64f60a08ae84888733bd4/csv?layers=2"
+        },
+        {
+          "label": "label",
+          "url": "GeoJSON"
+        },
+        {
+          "label": "file",
+          "url": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/476bb4e6f8e64f60a08ae84888733bd4/geojson?layers=2"
+        },
+        {
+          "label": "label",
+          "url": "KML"
+        },
+        {
+          "label": "file",
+          "url": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/476bb4e6f8e64f60a08ae84888733bd4/kml?layers=2"
+        },
+        {
+          "label": "label",
+          "url": "Shapefile (ZIP)"
+        },
+        {
+          "label": "file",
+          "url": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/476bb4e6f8e64f60a08ae84888733bd4/shapefile?layers=2"
+        },
+        {
+          "label": "Internet Archive: Transport_Lines_Road_Rail.fgb",
+          "url": "https://archive.org/download/civgraph-osni-maps/transport-lines-road-rail/Transport_Lines_Road_Rail.fgb"
+        },
+        {
+          "label": "Internet Archive: osni_open_data_50k_transport_transport_lines.zip",
+          "url": "https://archive.org/download/civgraph-osni-maps/transport-lines-road-rail/osni_open_data_50k_transport_transport_lines.zip"
+        },
+        {
+          "label": "Internet Archive: osni_open_data_50k_transport_transport_lines.csv",
+          "url": "https://archive.org/download/civgraph-osni-maps/transport-lines-road-rail/osni_open_data_50k_transport_transport_lines.csv"
+        },
+        {
+          "label": "Internet Archive: osni_open_data_50k_transport_transport_lines.geojson",
+          "url": "https://archive.org/download/civgraph-osni-maps/transport-lines-road-rail/osni_open_data_50k_transport_transport_lines.geojson"
+        },
+        {
+          "label": "Internet Archive: osni_open_data_-_50k_transport_-_transport_lines.kml",
+          "url": "https://archive.org/download/civgraph-osni-maps/transport-lines-road-rail/osni_open_data_-_50k_transport_-_transport_lines.kml"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/transport/Transport_Lines_Road_Rail.fgb"
+        },
+        {
+          "label": "geojson",
+          "url": "https://data.civgraph.net/data/maps/transport/Transport_Lines_Road_Rail.geojson"
+        }
+      ],
+      "interactiveUrl": "/#layers=transport-lines-road-rail",
+      "browseUrl": "/browse/sources/map-source-transport-lines-road-rail",
+      "rawMetadata": {
+        "id": "transport-lines-road-rail",
+        "name": "Transport Lines (Roads and Railways)",
+        "slug": "transport-lines-road-rail",
+        "category": "built-environment",
+        "provider": [
+          "OSNI"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/transport/Transport_Lines_Road_Rail.fgb",
+          "geojson": "https://data.civgraph.net/data/maps/transport/Transport_Lines_Road_Rail.geojson"
+        },
+        "style": {
+          "color": "#4a5568",
+          "weight": 1.5
+        },
+        "keywords": [
+          "transport",
+          "roads",
+          "railways",
+          "lines"
+        ],
+        "references": [
+          {
+            "label": "OSNI Open Data - 50K Transport - Transport lines - Open Data NI (admin.opendatani.gov.uk)",
+            "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-transport-transport-lines",
+            "note": ""
+          },
+          {
+            "label": "OSNI Open Data - 50K Transport - Transport lines (www.data.gov.uk)",
+            "url": "https://www.data.gov.uk/dataset/092bebf4-97c9-45a9-957d-2bf6822c32d8/osni-open-data-50k-transport-transport-lines5",
+            "note": ""
+          },
+          {
+            "label": "Transport Lines (Roads and Railways) — ZIP download",
+            "url": "https://admin.opendatani.gov.uk/dataset/bdcc2953-ed72-4f21-b012-43cbd5bbc395/resource/c576a4c4-67d1-45cc-89bf-0f6025ad133e/download/osni_open_data_50k_transport_transport_lines.zip",
+            "note": ""
+          },
+          {
+            "label": "Transport Lines (Roads and Railways) — CSV download",
+            "url": "https://admin.opendatani.gov.uk/dataset/bdcc2953-ed72-4f21-b012-43cbd5bbc395/resource/8ed2007e-fe65-4ae7-84de-ba837aae4fee/download/osni_open_data_50k_transport_transport_lines.csv",
+            "note": ""
+          },
+          {
+            "label": "Transport Lines (Roads and Railways) — GeoJSON download",
+            "url": "https://admin.opendatani.gov.uk/dataset/bdcc2953-ed72-4f21-b012-43cbd5bbc395/resource/d09e7052-6390-4953-92da-ec3479100a7b/download/osni_open_data_50k_transport_transport_lines.geojson",
+            "note": ""
+          },
+          {
+            "label": "Transport Lines (Roads and Railways) — KML download",
+            "url": "https://admin.opendatani.gov.uk/dataset/bdcc2953-ed72-4f21-b012-43cbd5bbc395/resource/4bc8f9d9-d5b8-450e-9af6-2f6ba8044586/download/osni_open_data_-_50k_transport_-_transport_lines.kml",
+            "note": ""
+          },
+          {
+            "label": "Transport Lines (Roads and Railways) — CSV download",
+            "url": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/476bb4e6f8e64f60a08ae84888733bd4/csv?layers=2",
+            "note": ""
+          },
+          {
+            "label": "Transport Lines (Roads and Railways) — GeoJSON download",
+            "url": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/476bb4e6f8e64f60a08ae84888733bd4/geojson?layers=2",
+            "note": ""
+          },
+          {
+            "label": "Transport Lines (Roads and Railways) — HTML download",
+            "url": "https://osni-spatialni.opendata.arcgis.com/maps/spatialni::osni-open-data-50k-transport-transport-lines",
+            "note": ""
+          },
+          {
+            "label": "Transport Lines (Roads and Railways) — KML download",
+            "url": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/476bb4e6f8e64f60a08ae84888733bd4/kml?layers=2",
+            "note": ""
+          },
+          {
+            "label": "Transport Lines (Roads and Railways) — Shapefile (ZIP) download",
+            "url": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/476bb4e6f8e64f60a08ae84888733bd4/shapefile?layers=2",
+            "note": ""
+          },
+          {
+            "label": "Transport Lines (Roads and Railways) — JSON download",
+            "url": "https://services.spatialni.gov.uk/opendata/rest/services/OSNIVector/OSNIOpenData_Transport_50K/MapServer/2",
+            "note": ""
+          }
+        ],
+        "sourceDownloads": [
+          {
+            "label": "ZIP",
+            "file": "https://admin.opendatani.gov.uk/dataset/bdcc2953-ed72-4f21-b012-43cbd5bbc395/resource/c576a4c4-67d1-45cc-89bf-0f6025ad133e/download/osni_open_data_50k_transport_transport_lines.zip"
+          },
+          {
+            "label": "CSV",
+            "file": "https://admin.opendatani.gov.uk/dataset/bdcc2953-ed72-4f21-b012-43cbd5bbc395/resource/8ed2007e-fe65-4ae7-84de-ba837aae4fee/download/osni_open_data_50k_transport_transport_lines.csv"
+          },
+          {
+            "label": "GeoJSON",
+            "file": "https://admin.opendatani.gov.uk/dataset/bdcc2953-ed72-4f21-b012-43cbd5bbc395/resource/d09e7052-6390-4953-92da-ec3479100a7b/download/osni_open_data_50k_transport_transport_lines.geojson"
+          },
+          {
+            "label": "KML",
+            "file": "https://admin.opendatani.gov.uk/dataset/bdcc2953-ed72-4f21-b012-43cbd5bbc395/resource/4bc8f9d9-d5b8-450e-9af6-2f6ba8044586/download/osni_open_data_-_50k_transport_-_transport_lines.kml"
+          },
+          {
+            "label": "CSV",
+            "file": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/476bb4e6f8e64f60a08ae84888733bd4/csv?layers=2"
+          },
+          {
+            "label": "GeoJSON",
+            "file": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/476bb4e6f8e64f60a08ae84888733bd4/geojson?layers=2"
+          },
+          {
+            "label": "KML",
+            "file": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/476bb4e6f8e64f60a08ae84888733bd4/kml?layers=2"
+          },
+          {
+            "label": "Shapefile (ZIP)",
+            "file": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/476bb4e6f8e64f60a08ae84888733bd4/shapefile?layers=2"
+          }
+        ],
+        "useLOD": true
+      }
+    },
+    {
+      "id": "map-source:ttwa-2007",
+      "slug": "map-source-ttwa-2007",
+      "type": "map-source",
+      "title": "Travel To Work Areas - 2007 source files",
+      "subtitle": "Census Statistical Areas / NISRA",
+      "category": "Map sources",
+      "date": 2007,
+      "provider": [
+        "NISRA"
+      ],
+      "description": "Statistical geography for census data",
+      "sourceMapId": "ttwa-2007",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "ttwa-2007",
+        "url": "/assets/thumbnails/ttwa-2007.webp",
+        "smallUrl": "/assets/thumbnails/ttwa-2007-60.webp",
+        "alt": "Travel To Work Areas 2007"
+      },
+      "references": [
+        {
+          "label": "Northern Ireland Travel to Work Areas (TTWAs) | Northern Ireland Statistics and Research Agency (www.nisra.gov.uk)",
+          "url": "https://www.nisra.gov.uk/support/geography/northern-ireland-travel-work-areas-ttwas"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/census-areas/NI_TTWA_07.fgb"
+        },
+        {
+          "label": "Internet Archive: NI_TTWA_07.fgb",
+          "url": "https://archive.org/download/civgraph-nisra-maps/ttwa-2007/NI_TTWA_07.fgb"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/census-areas/NI_TTWA_07.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=ttwa-2007",
+      "browseUrl": "/browse/sources/map-source-ttwa-2007",
+      "rawMetadata": {
+        "id": "ttwa-2007",
+        "name": "Travel To Work Areas 2007",
+        "slug": "ttwa-2007",
+        "category": "census",
+        "featured": true,
+        "provider": [
+          "NISRA"
+        ],
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/census-areas/NI_TTWA_07.fgb"
+        },
+        "style": {
+          "color": "#A38841",
+          "weight": 2
+        },
+        "labelProperty": "TTWA_NAME",
+        "keywords": [
+          "TTWA",
+          "travel to work",
+          "commuting",
+          "2007"
+        ],
+        "date": 2007,
+        "useLOD": true,
+        "references": [
+          {
+            "label": "Northern Ireland Travel to Work Areas (TTWAs) | Northern Ireland Statistics and Research Agency (www.nisra.gov.uk)",
+            "url": "https://www.nisra.gov.uk/support/geography/northern-ireland-travel-work-areas-ttwas",
+            "note": ""
+          }
+        ]
       }
     }
   ]

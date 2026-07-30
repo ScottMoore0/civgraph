@@ -1,2 +1,7 @@
 # LPS/EONI-derived property data: LOCAL ONLY, never publish
 lps/
+
+# Cached boundary copies fetched from R2 (see 10_lps_ingest.py for the curl line).
+# Duplicates of data/maps/census-areas/*.fgb; SA2011.fgb alone is 68 MB and breaches
+# Cloudflare Pages' 25 MB per-file limit, so it must never be committed.
+_geo/

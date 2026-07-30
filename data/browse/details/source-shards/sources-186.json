@@ -1,545 +1,10 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-29T22:09:35.048Z",
+  "generatedAt": "2026-07-30T20:12:41.046Z",
   "kind": "sources",
   "shard": "sources-186.json",
   "total": 200,
   "items": [
-    {
-      "id": "map-source:translink-ulsterbus-goldliner-routes",
-      "slug": "map-source-translink-ulsterbus-goldliner-routes",
-      "type": "map-source",
-      "title": "Ulsterbus & Goldliner Bus Routes source files",
-      "subtitle": "Transport / Translink",
-      "category": "Map sources",
-      "date": "2025-09-23",
-      "provider": [
-        "Translink"
-      ],
-      "description": "Ulsterbus and Goldliner inter-urban bus route geometries — Translink network data converted to FGB.",
-      "sourceMapId": "translink-ulsterbus-goldliner-routes",
-      "thumbnail": {
-        "kind": "asset",
-        "id": "translink-ulsterbus-goldliner-routes",
-        "url": "/assets/thumbnails/translink-ulsterbus-goldliner-routes.webp",
-        "smallUrl": "/assets/thumbnails/translink-ulsterbus-goldliner-routes-60.webp",
-        "alt": "Ulsterbus & Goldliner Bus Routes"
-      },
-      "references": [
-        {
-          "label": "Source — admin.opendatani.gov.uk",
-          "url": "https://admin.opendatani.gov.uk/"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/transport-translink/translink-ulsterbus-goldliner-routes.fgb"
-        },
-        {
-          "label": "zip",
-          "url": "https://data.civgraph.net/data/maps/transport-translink/translink-ulsterbus-goldliner-routes.zip"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/transport-translink/translink-ulsterbus-goldliner-routes.fgb"
-        },
-        {
-          "label": "zip",
-          "url": "https://data.civgraph.net/data/maps/transport-translink/translink-ulsterbus-goldliner-routes.zip"
-        }
-      ],
-      "interactiveUrl": "/#layers=translink-ulsterbus-goldliner-routes",
-      "browseUrl": "/browse/sources/map-source-translink-ulsterbus-goldliner-routes",
-      "rawMetadata": {
-        "id": "translink-ulsterbus-goldliner-routes",
-        "name": "Ulsterbus & Goldliner Bus Routes",
-        "slug": "translink-ulsterbus-goldliner-routes",
-        "category": "transport",
-        "provider": [
-          "Translink"
-        ],
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/transport-translink/translink-ulsterbus-goldliner-routes.fgb",
-          "downloads": {
-            "zip": "https://data.civgraph.net/data/maps/transport-translink/translink-ulsterbus-goldliner-routes.zip"
-          }
-        },
-        "style": {
-          "color": "#FFA000",
-          "weight": 1,
-          "fillOpacity": 0.4
-        },
-        "keywords": [
-          "translink",
-          "bus",
-          "ulsterbus",
-          "goldliner",
-          "transit",
-          "routes",
-          "NI"
-        ],
-        "description": "Ulsterbus and Goldliner inter-urban bus route geometries — Translink network data converted to FGB.",
-        "references": [
-          {
-            "label": "Source — admin.opendatani.gov.uk",
-            "url": "https://admin.opendatani.gov.uk/",
-            "note": ""
-          }
-        ],
-        "date": "2025-09-23",
-        "useLOD": true
-      }
-    },
-    {
-      "id": "map-source:transport-carriageway-defects-2021",
-      "slug": "map-source-transport-carriageway-defects-2021",
-      "type": "map-source",
-      "title": "Carriageway and Footway Surface Defects 2021 source files",
-      "subtitle": "Transport / DfI, Roads NI",
-      "category": "Map sources",
-      "provider": [
-        "DfI",
-        "Roads NI"
-      ],
-      "description": "Every recorded surface defect (potholes, cracks, ruts, surface damage) on Northern Ireland's public roads and footways during 2021, with division/section/response-time attributes. ~124 K point records — DfI's authoritative road-condition survey for that year.",
-      "sourceMapId": "transport-carriageway-defects-2021",
-      "thumbnail": {
-        "kind": "asset",
-        "id": "transport-carriageway-defects-2021",
-        "url": "/assets/thumbnails/transport-carriageway-defects-2021.webp",
-        "smallUrl": "/assets/thumbnails/transport-carriageway-defects-2021-60.webp",
-        "alt": "Carriageway and Footway Surface Defects 2021"
-      },
-      "references": [
-        {
-          "label": "OSNI Open Data — Carriageway and Footway Surface Defects",
-          "url": "https://admin.opendatani.gov.uk/dataset/carriageway-and-footway-surface-defects"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/transport/carriageway-footway-defects-2021.fgb"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/transport/carriageway-footway-defects-2021.fgb"
-        }
-      ],
-      "interactiveUrl": "/#layers=transport-carriageway-defects-2021",
-      "browseUrl": "/browse/sources/map-source-transport-carriageway-defects-2021",
-      "rawMetadata": {
-        "id": "transport-carriageway-defects-2021",
-        "name": "Carriageway and Footway Surface Defects 2021",
-        "slug": "transport-carriageway-defects-2021",
-        "category": "transport",
-        "provider": [
-          "DfI",
-          "Roads NI"
-        ],
-        "description": "Every recorded surface defect (potholes, cracks, ruts, surface damage) on Northern Ireland's public roads and footways during 2021, with division/section/response-time attributes. ~124 K point records — DfI's authoritative road-condition survey for that year.",
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/transport/carriageway-footway-defects-2021.fgb"
-        },
-        "style": {
-          "color": "#cf4e00",
-          "radius": 2,
-          "weight": 0.5,
-          "fillOpacity": 0.85
-        },
-        "keywords": [
-          "roads",
-          "defects",
-          "potholes",
-          "dfi",
-          "road condition",
-          "footway",
-          "carriageway"
-        ],
-        "useLOD": true,
-        "references": [
-          {
-            "label": "OSNI Open Data — Carriageway and Footway Surface Defects",
-            "url": "https://admin.opendatani.gov.uk/dataset/carriageway-and-footway-surface-defects",
-            "note": ""
-          }
-        ],
-        "chunked": true,
-        "bounds": [
-          [
-            54,
-            -8.3
-          ],
-          [
-            55.5,
-            -5.3
-          ]
-        ]
-      }
-    },
-    {
-      "id": "map-source:transport-lines-road-rail",
-      "slug": "map-source-transport-lines-road-rail",
-      "type": "map-source",
-      "title": "Transport Lines (Roads and Railways) source files",
-      "subtitle": "Built Environment / OSNI",
-      "category": "Map sources",
-      "provider": [
-        "OSNI"
-      ],
-      "description": "Man-made structures and infrastructure",
-      "sourceMapId": "transport-lines-road-rail",
-      "thumbnail": {
-        "kind": "asset",
-        "id": "transport-lines-road-rail",
-        "url": "/assets/thumbnails/transport-lines-road-rail.webp",
-        "smallUrl": "/assets/thumbnails/transport-lines-road-rail-60.webp",
-        "alt": "Transport Lines (Roads and Railways)"
-      },
-      "references": [
-        {
-          "label": "OSNI Open Data - 50K Transport - Transport lines - Open Data NI (admin.opendatani.gov.uk)",
-          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-transport-transport-lines"
-        },
-        {
-          "label": "OSNI Open Data - 50K Transport - Transport lines (www.data.gov.uk)",
-          "url": "https://www.data.gov.uk/dataset/092bebf4-97c9-45a9-957d-2bf6822c32d8/osni-open-data-50k-transport-transport-lines5"
-        },
-        {
-          "label": "Transport Lines (Roads and Railways) — ZIP download",
-          "url": "https://admin.opendatani.gov.uk/dataset/bdcc2953-ed72-4f21-b012-43cbd5bbc395/resource/c576a4c4-67d1-45cc-89bf-0f6025ad133e/download/osni_open_data_50k_transport_transport_lines.zip"
-        },
-        {
-          "label": "Transport Lines (Roads and Railways) — CSV download",
-          "url": "https://admin.opendatani.gov.uk/dataset/bdcc2953-ed72-4f21-b012-43cbd5bbc395/resource/8ed2007e-fe65-4ae7-84de-ba837aae4fee/download/osni_open_data_50k_transport_transport_lines.csv"
-        },
-        {
-          "label": "Transport Lines (Roads and Railways) — GeoJSON download",
-          "url": "https://admin.opendatani.gov.uk/dataset/bdcc2953-ed72-4f21-b012-43cbd5bbc395/resource/d09e7052-6390-4953-92da-ec3479100a7b/download/osni_open_data_50k_transport_transport_lines.geojson"
-        },
-        {
-          "label": "Transport Lines (Roads and Railways) — KML download",
-          "url": "https://admin.opendatani.gov.uk/dataset/bdcc2953-ed72-4f21-b012-43cbd5bbc395/resource/4bc8f9d9-d5b8-450e-9af6-2f6ba8044586/download/osni_open_data_-_50k_transport_-_transport_lines.kml"
-        },
-        {
-          "label": "Transport Lines (Roads and Railways) — CSV download",
-          "url": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/476bb4e6f8e64f60a08ae84888733bd4/csv?layers=2"
-        },
-        {
-          "label": "Transport Lines (Roads and Railways) — GeoJSON download",
-          "url": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/476bb4e6f8e64f60a08ae84888733bd4/geojson?layers=2"
-        },
-        {
-          "label": "Transport Lines (Roads and Railways) — HTML download",
-          "url": "https://osni-spatialni.opendata.arcgis.com/maps/spatialni::osni-open-data-50k-transport-transport-lines"
-        },
-        {
-          "label": "Transport Lines (Roads and Railways) — KML download",
-          "url": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/476bb4e6f8e64f60a08ae84888733bd4/kml?layers=2"
-        },
-        {
-          "label": "Transport Lines (Roads and Railways) — Shapefile (ZIP) download",
-          "url": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/476bb4e6f8e64f60a08ae84888733bd4/shapefile?layers=2"
-        },
-        {
-          "label": "Transport Lines (Roads and Railways) — JSON download",
-          "url": "https://services.spatialni.gov.uk/opendata/rest/services/OSNIVector/OSNIOpenData_Transport_50K/MapServer/2"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "label",
-          "url": "ZIP"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/bdcc2953-ed72-4f21-b012-43cbd5bbc395/resource/c576a4c4-67d1-45cc-89bf-0f6025ad133e/download/osni_open_data_50k_transport_transport_lines.zip"
-        },
-        {
-          "label": "label",
-          "url": "CSV"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/bdcc2953-ed72-4f21-b012-43cbd5bbc395/resource/8ed2007e-fe65-4ae7-84de-ba837aae4fee/download/osni_open_data_50k_transport_transport_lines.csv"
-        },
-        {
-          "label": "label",
-          "url": "GeoJSON"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/bdcc2953-ed72-4f21-b012-43cbd5bbc395/resource/d09e7052-6390-4953-92da-ec3479100a7b/download/osni_open_data_50k_transport_transport_lines.geojson"
-        },
-        {
-          "label": "label",
-          "url": "KML"
-        },
-        {
-          "label": "file",
-          "url": "https://admin.opendatani.gov.uk/dataset/bdcc2953-ed72-4f21-b012-43cbd5bbc395/resource/4bc8f9d9-d5b8-450e-9af6-2f6ba8044586/download/osni_open_data_-_50k_transport_-_transport_lines.kml"
-        },
-        {
-          "label": "label",
-          "url": "CSV"
-        },
-        {
-          "label": "file",
-          "url": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/476bb4e6f8e64f60a08ae84888733bd4/csv?layers=2"
-        },
-        {
-          "label": "label",
-          "url": "GeoJSON"
-        },
-        {
-          "label": "file",
-          "url": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/476bb4e6f8e64f60a08ae84888733bd4/geojson?layers=2"
-        },
-        {
-          "label": "label",
-          "url": "KML"
-        },
-        {
-          "label": "file",
-          "url": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/476bb4e6f8e64f60a08ae84888733bd4/kml?layers=2"
-        },
-        {
-          "label": "label",
-          "url": "Shapefile (ZIP)"
-        },
-        {
-          "label": "file",
-          "url": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/476bb4e6f8e64f60a08ae84888733bd4/shapefile?layers=2"
-        },
-        {
-          "label": "Internet Archive: Transport_Lines_Road_Rail.fgb",
-          "url": "https://archive.org/download/civgraph-osni-maps/transport-lines-road-rail/Transport_Lines_Road_Rail.fgb"
-        },
-        {
-          "label": "Internet Archive: osni_open_data_50k_transport_transport_lines.zip",
-          "url": "https://archive.org/download/civgraph-osni-maps/transport-lines-road-rail/osni_open_data_50k_transport_transport_lines.zip"
-        },
-        {
-          "label": "Internet Archive: osni_open_data_50k_transport_transport_lines.csv",
-          "url": "https://archive.org/download/civgraph-osni-maps/transport-lines-road-rail/osni_open_data_50k_transport_transport_lines.csv"
-        },
-        {
-          "label": "Internet Archive: osni_open_data_50k_transport_transport_lines.geojson",
-          "url": "https://archive.org/download/civgraph-osni-maps/transport-lines-road-rail/osni_open_data_50k_transport_transport_lines.geojson"
-        },
-        {
-          "label": "Internet Archive: osni_open_data_-_50k_transport_-_transport_lines.kml",
-          "url": "https://archive.org/download/civgraph-osni-maps/transport-lines-road-rail/osni_open_data_-_50k_transport_-_transport_lines.kml"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/transport/Transport_Lines_Road_Rail.fgb"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/transport/Transport_Lines_Road_Rail.geojson"
-        }
-      ],
-      "interactiveUrl": "/#layers=transport-lines-road-rail",
-      "browseUrl": "/browse/sources/map-source-transport-lines-road-rail",
-      "rawMetadata": {
-        "id": "transport-lines-road-rail",
-        "name": "Transport Lines (Roads and Railways)",
-        "slug": "transport-lines-road-rail",
-        "category": "built-environment",
-        "provider": [
-          "OSNI"
-        ],
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/transport/Transport_Lines_Road_Rail.fgb",
-          "geojson": "https://data.civgraph.net/data/maps/transport/Transport_Lines_Road_Rail.geojson"
-        },
-        "style": {
-          "color": "#4a5568",
-          "weight": 1.5
-        },
-        "keywords": [
-          "transport",
-          "roads",
-          "railways",
-          "lines"
-        ],
-        "references": [
-          {
-            "label": "OSNI Open Data - 50K Transport - Transport lines - Open Data NI (admin.opendatani.gov.uk)",
-            "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-transport-transport-lines",
-            "note": ""
-          },
-          {
-            "label": "OSNI Open Data - 50K Transport - Transport lines (www.data.gov.uk)",
-            "url": "https://www.data.gov.uk/dataset/092bebf4-97c9-45a9-957d-2bf6822c32d8/osni-open-data-50k-transport-transport-lines5",
-            "note": ""
-          },
-          {
-            "label": "Transport Lines (Roads and Railways) — ZIP download",
-            "url": "https://admin.opendatani.gov.uk/dataset/bdcc2953-ed72-4f21-b012-43cbd5bbc395/resource/c576a4c4-67d1-45cc-89bf-0f6025ad133e/download/osni_open_data_50k_transport_transport_lines.zip",
-            "note": ""
-          },
-          {
-            "label": "Transport Lines (Roads and Railways) — CSV download",
-            "url": "https://admin.opendatani.gov.uk/dataset/bdcc2953-ed72-4f21-b012-43cbd5bbc395/resource/8ed2007e-fe65-4ae7-84de-ba837aae4fee/download/osni_open_data_50k_transport_transport_lines.csv",
-            "note": ""
-          },
-          {
-            "label": "Transport Lines (Roads and Railways) — GeoJSON download",
-            "url": "https://admin.opendatani.gov.uk/dataset/bdcc2953-ed72-4f21-b012-43cbd5bbc395/resource/d09e7052-6390-4953-92da-ec3479100a7b/download/osni_open_data_50k_transport_transport_lines.geojson",
-            "note": ""
-          },
-          {
-            "label": "Transport Lines (Roads and Railways) — KML download",
-            "url": "https://admin.opendatani.gov.uk/dataset/bdcc2953-ed72-4f21-b012-43cbd5bbc395/resource/4bc8f9d9-d5b8-450e-9af6-2f6ba8044586/download/osni_open_data_-_50k_transport_-_transport_lines.kml",
-            "note": ""
-          },
-          {
-            "label": "Transport Lines (Roads and Railways) — CSV download",
-            "url": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/476bb4e6f8e64f60a08ae84888733bd4/csv?layers=2",
-            "note": ""
-          },
-          {
-            "label": "Transport Lines (Roads and Railways) — GeoJSON download",
-            "url": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/476bb4e6f8e64f60a08ae84888733bd4/geojson?layers=2",
-            "note": ""
-          },
-          {
-            "label": "Transport Lines (Roads and Railways) — HTML download",
-            "url": "https://osni-spatialni.opendata.arcgis.com/maps/spatialni::osni-open-data-50k-transport-transport-lines",
-            "note": ""
-          },
-          {
-            "label": "Transport Lines (Roads and Railways) — KML download",
-            "url": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/476bb4e6f8e64f60a08ae84888733bd4/kml?layers=2",
-            "note": ""
-          },
-          {
-            "label": "Transport Lines (Roads and Railways) — Shapefile (ZIP) download",
-            "url": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/476bb4e6f8e64f60a08ae84888733bd4/shapefile?layers=2",
-            "note": ""
-          },
-          {
-            "label": "Transport Lines (Roads and Railways) — JSON download",
-            "url": "https://services.spatialni.gov.uk/opendata/rest/services/OSNIVector/OSNIOpenData_Transport_50K/MapServer/2",
-            "note": ""
-          }
-        ],
-        "sourceDownloads": [
-          {
-            "label": "ZIP",
-            "file": "https://admin.opendatani.gov.uk/dataset/bdcc2953-ed72-4f21-b012-43cbd5bbc395/resource/c576a4c4-67d1-45cc-89bf-0f6025ad133e/download/osni_open_data_50k_transport_transport_lines.zip"
-          },
-          {
-            "label": "CSV",
-            "file": "https://admin.opendatani.gov.uk/dataset/bdcc2953-ed72-4f21-b012-43cbd5bbc395/resource/8ed2007e-fe65-4ae7-84de-ba837aae4fee/download/osni_open_data_50k_transport_transport_lines.csv"
-          },
-          {
-            "label": "GeoJSON",
-            "file": "https://admin.opendatani.gov.uk/dataset/bdcc2953-ed72-4f21-b012-43cbd5bbc395/resource/d09e7052-6390-4953-92da-ec3479100a7b/download/osni_open_data_50k_transport_transport_lines.geojson"
-          },
-          {
-            "label": "KML",
-            "file": "https://admin.opendatani.gov.uk/dataset/bdcc2953-ed72-4f21-b012-43cbd5bbc395/resource/4bc8f9d9-d5b8-450e-9af6-2f6ba8044586/download/osni_open_data_-_50k_transport_-_transport_lines.kml"
-          },
-          {
-            "label": "CSV",
-            "file": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/476bb4e6f8e64f60a08ae84888733bd4/csv?layers=2"
-          },
-          {
-            "label": "GeoJSON",
-            "file": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/476bb4e6f8e64f60a08ae84888733bd4/geojson?layers=2"
-          },
-          {
-            "label": "KML",
-            "file": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/476bb4e6f8e64f60a08ae84888733bd4/kml?layers=2"
-          },
-          {
-            "label": "Shapefile (ZIP)",
-            "file": "https://osni-spatialni.opendata.arcgis.com/api/download/v1/items/476bb4e6f8e64f60a08ae84888733bd4/shapefile?layers=2"
-          }
-        ],
-        "useLOD": true
-      }
-    },
-    {
-      "id": "map-source:ttwa-2007",
-      "slug": "map-source-ttwa-2007",
-      "type": "map-source",
-      "title": "Travel To Work Areas - 2007 source files",
-      "subtitle": "Census Statistical Areas / NISRA",
-      "category": "Map sources",
-      "date": 2007,
-      "provider": [
-        "NISRA"
-      ],
-      "description": "Statistical geography for census data",
-      "sourceMapId": "ttwa-2007",
-      "thumbnail": {
-        "kind": "asset",
-        "id": "ttwa-2007",
-        "url": "/assets/thumbnails/ttwa-2007.webp",
-        "smallUrl": "/assets/thumbnails/ttwa-2007-60.webp",
-        "alt": "Travel To Work Areas 2007"
-      },
-      "references": [
-        {
-          "label": "Northern Ireland Travel to Work Areas (TTWAs) | Northern Ireland Statistics and Research Agency (www.nisra.gov.uk)",
-          "url": "https://www.nisra.gov.uk/support/geography/northern-ireland-travel-work-areas-ttwas"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/census-areas/NI_TTWA_07.fgb"
-        },
-        {
-          "label": "Internet Archive: NI_TTWA_07.fgb",
-          "url": "https://archive.org/download/civgraph-nisra-maps/ttwa-2007/NI_TTWA_07.fgb"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/census-areas/NI_TTWA_07.fgb"
-        }
-      ],
-      "interactiveUrl": "/#layers=ttwa-2007",
-      "browseUrl": "/browse/sources/map-source-ttwa-2007",
-      "rawMetadata": {
-        "id": "ttwa-2007",
-        "name": "Travel To Work Areas 2007",
-        "slug": "ttwa-2007",
-        "category": "census",
-        "featured": true,
-        "provider": [
-          "NISRA"
-        ],
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/census-areas/NI_TTWA_07.fgb"
-        },
-        "style": {
-          "color": "#A38841",
-          "weight": 2
-        },
-        "labelProperty": "TTWA_NAME",
-        "keywords": [
-          "TTWA",
-          "travel to work",
-          "commuting",
-          "2007"
-        ],
-        "date": 2007,
-        "useLOD": true,
-        "references": [
-          {
-            "label": "Northern Ireland Travel to Work Areas (TTWAs) | Northern Ireland Statistics and Research Agency (www.nisra.gov.uk)",
-            "url": "https://www.nisra.gov.uk/support/geography/northern-ireland-travel-work-areas-ttwas",
-            "note": ""
-          }
-        ]
-      }
-    },
     {
       "id": "map-source:ttwa-2011",
       "slug": "map-source-ttwa-2011",
@@ -61043,6 +60508,1310 @@
           "HTML"
         ],
         "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-sentinel-vessel-programme-svp-daily-fishing-operations-02346"
+      }
+    },
+    {
+      "id": "medium-priority:2-irish-election-source-enrichment-data:shannon-airport-daily-data:02299",
+      "slug": "medium-priority-2-irish-election-source-enrichment-data-shannon-airport-daily-data-02299",
+      "type": "approved-medium-priority-source",
+      "title": "Shannon Airport Daily Data",
+      "subtitle": "Irish election source/enrichment data / Met Éireann, data.gov.ie / Republic of Ireland / CSV, TXT / Approved source record",
+      "category": "Medium-priority: Irish election source/enrichment data",
+      "provider": [
+        "Met Éireann",
+        "data.gov.ie"
+      ],
+      "description": "Shannon Airport Daily Data is published as a medium-priority Civgraph source/provenance record from Met Éireann, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/shannon-airport-daily-data",
+      "references": [
+        {
+          "label": "Shannon Airport Daily Data provider page",
+          "url": "https://data.gov.ie/dataset/shannon-airport-daily-data",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "Shannon Airport Daily Data Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/shannon-airport-daily-data",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/shannon-airport-daily-data",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Irish election source/enrichment data",
+        "election",
+        "features",
+        "Republic of Ireland",
+        "enrich-existing-election",
+        "CSV",
+        "TXT"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 2300,
+          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:shannon-airport-daily-data:02299",
+          "title": "Shannon Airport Daily Data",
+          "cleanTitle": "Shannon Airport Daily Data",
+          "provider": "data.gov.ie",
+          "organisation": "Met Éireann",
+          "category": "tabular",
+          "roiGroup": "2. Irish election source/enrichment data",
+          "groupTitle": "Irish election source/enrichment data",
+          "jurisdiction": "Republic of Ireland",
+          "topic": "election",
+          "featureUnit": "features",
+          "formats": [
+            "CSV",
+            "TXT"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "enrich-existing-election",
+          "proposedPlacement": "Elections/source provenance",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "TXT"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/shannon-airport-daily-data",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/shannon-airport-daily-data",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "election-model-merge-and-provenance-review: election staging action assigned",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link",
+        "Election provenance"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Irish election source/enrichment data",
+        "Republic of Ireland",
+        "election",
+        "Shannon Airport Daily Data"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/shannon-airport-daily-data",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/shannon-airport-daily-data",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Met Éireann, data.gov.ie, Shannon Airport Daily Data.",
+      "fullCitation": "Met Éireann, data.gov.ie. Shannon Airport Daily Data. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/shannon-airport-daily-data. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/shannon-airport-daily-data.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:2-irish-election-source-enrichment-data:shannon-airport-daily-data:02299",
+        "sourceRowNumber": 2300,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish election source/provenance enrichment",
+        "proposedAction": "enrich-existing-election",
+        "proposedPlacement": "Elections/source provenance",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV",
+            "TXT"
+          ]
+        },
+        "confidence": 60,
+        "resolvedBlockers": [
+          "election-model-merge-and-provenance-review: election staging action assigned",
+          "needs-provider-context-review: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Elections/source provenance",
+      "relationship": "election-source-enrichment",
+      "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-shannon-airport-daily-data-02299",
+      "rawMetadata": {
+        "id": "medium-priority:2-irish-election-source-enrichment-data:shannon-airport-daily-data:02299",
+        "slug": "medium-priority-2-irish-election-source-enrichment-data-shannon-airport-daily-data-02299",
+        "type": "approved-medium-priority-source",
+        "title": "Shannon Airport Daily Data",
+        "subtitle": "Irish election source/enrichment data / Met Éireann, data.gov.ie / Republic of Ireland / CSV, TXT / Approved source record",
+        "category": "Medium-priority: Irish election source/enrichment data",
+        "provider": [
+          "Met Éireann",
+          "data.gov.ie"
+        ],
+        "description": "Shannon Airport Daily Data is published as a medium-priority Civgraph source/provenance record from Met Éireann, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/shannon-airport-daily-data",
+        "references": [
+          {
+            "label": "Shannon Airport Daily Data provider page",
+            "url": "https://data.gov.ie/dataset/shannon-airport-daily-data",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "Shannon Airport Daily Data Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/shannon-airport-daily-data",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/shannon-airport-daily-data",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link",
+          "Election provenance"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Irish election source/enrichment data",
+          "Republic of Ireland",
+          "election",
+          "Shannon Airport Daily Data"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/shannon-airport-daily-data",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/shannon-airport-daily-data",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Met Éireann, data.gov.ie, Shannon Airport Daily Data.",
+        "fullCitation": "Met Éireann, data.gov.ie. Shannon Airport Daily Data. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/shannon-airport-daily-data. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/shannon-airport-daily-data.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 2300,
+            "stagingId": "medium-prep:2-irish-election-source-enrichment-data:shannon-airport-daily-data:02299",
+            "title": "Shannon Airport Daily Data",
+            "cleanTitle": "Shannon Airport Daily Data",
+            "provider": "data.gov.ie",
+            "organisation": "Met Éireann",
+            "category": "tabular",
+            "roiGroup": "2. Irish election source/enrichment data",
+            "groupTitle": "Irish election source/enrichment data",
+            "jurisdiction": "Republic of Ireland",
+            "topic": "election",
+            "featureUnit": "features",
+            "formats": [
+              "CSV",
+              "TXT"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "enrich-existing-election",
+            "proposedPlacement": "Elections/source provenance",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV",
+                "TXT"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/shannon-airport-daily-data",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/shannon-airport-daily-data",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "election-model-merge-and-provenance-review: election staging action assigned",
+              "needs-provider-context-review: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:shannon-airport-daily-data:02299",
+          "sourceRowNumber": 2300,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish election source/provenance enrichment",
+          "proposedAction": "enrich-existing-election",
+          "proposedPlacement": "Elections/source provenance",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "TXT"
+            ]
+          },
+          "confidence": 60,
+          "resolvedBlockers": [
+            "election-model-merge-and-provenance-review: election staging action assigned",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Elections/source provenance",
+        "relationship": "election-source-enrichment",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Irish election source/enrichment data",
+          "election",
+          "features",
+          "Republic of Ireland",
+          "enrich-existing-election",
+          "CSV",
+          "TXT"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-shannon-airport-daily-data-02299"
+      }
+    },
+    {
+      "id": "medium-priority:2-irish-election-source-enrichment-data:sherkin-island-daily-data:02301",
+      "slug": "medium-priority-2-irish-election-source-enrichment-data-sherkin-island-daily-data-02301",
+      "type": "approved-medium-priority-source",
+      "title": "Sherkin Island Daily Data",
+      "subtitle": "Irish election source/enrichment data / Met Éireann, data.gov.ie / Republic of Ireland / CSV, TXT / Approved source record",
+      "category": "Medium-priority: Irish election source/enrichment data",
+      "provider": [
+        "Met Éireann",
+        "data.gov.ie"
+      ],
+      "description": "Sherkin Island Daily Data is published as a medium-priority Civgraph source/provenance record from Met Éireann, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/sherkin-island-daily-data",
+      "references": [
+        {
+          "label": "Sherkin Island Daily Data provider page",
+          "url": "https://data.gov.ie/dataset/sherkin-island-daily-data",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "Sherkin Island Daily Data Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/sherkin-island-daily-data",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/sherkin-island-daily-data",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Irish election source/enrichment data",
+        "election",
+        "features",
+        "Republic of Ireland",
+        "enrich-existing-election",
+        "CSV",
+        "TXT"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 2302,
+          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:sherkin-island-daily-data:02301",
+          "title": "Sherkin Island Daily Data",
+          "cleanTitle": "Sherkin Island Daily Data",
+          "provider": "data.gov.ie",
+          "organisation": "Met Éireann",
+          "category": "tabular",
+          "roiGroup": "2. Irish election source/enrichment data",
+          "groupTitle": "Irish election source/enrichment data",
+          "jurisdiction": "Republic of Ireland",
+          "topic": "election",
+          "featureUnit": "features",
+          "formats": [
+            "CSV",
+            "TXT"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "enrich-existing-election",
+          "proposedPlacement": "Elections/source provenance",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "TXT"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/sherkin-island-daily-data",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/sherkin-island-daily-data",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "election-model-merge-and-provenance-review: election staging action assigned",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link",
+        "Election provenance"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Irish election source/enrichment data",
+        "Republic of Ireland",
+        "election",
+        "Sherkin Island Daily Data"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/sherkin-island-daily-data",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/sherkin-island-daily-data",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Met Éireann, data.gov.ie, Sherkin Island Daily Data.",
+      "fullCitation": "Met Éireann, data.gov.ie. Sherkin Island Daily Data. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/sherkin-island-daily-data. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/sherkin-island-daily-data.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:2-irish-election-source-enrichment-data:sherkin-island-daily-data:02301",
+        "sourceRowNumber": 2302,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish election source/provenance enrichment",
+        "proposedAction": "enrich-existing-election",
+        "proposedPlacement": "Elections/source provenance",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV",
+            "TXT"
+          ]
+        },
+        "confidence": 60,
+        "resolvedBlockers": [
+          "election-model-merge-and-provenance-review: election staging action assigned",
+          "needs-provider-context-review: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Elections/source provenance",
+      "relationship": "election-source-enrichment",
+      "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-sherkin-island-daily-data-02301",
+      "rawMetadata": {
+        "id": "medium-priority:2-irish-election-source-enrichment-data:sherkin-island-daily-data:02301",
+        "slug": "medium-priority-2-irish-election-source-enrichment-data-sherkin-island-daily-data-02301",
+        "type": "approved-medium-priority-source",
+        "title": "Sherkin Island Daily Data",
+        "subtitle": "Irish election source/enrichment data / Met Éireann, data.gov.ie / Republic of Ireland / CSV, TXT / Approved source record",
+        "category": "Medium-priority: Irish election source/enrichment data",
+        "provider": [
+          "Met Éireann",
+          "data.gov.ie"
+        ],
+        "description": "Sherkin Island Daily Data is published as a medium-priority Civgraph source/provenance record from Met Éireann, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/sherkin-island-daily-data",
+        "references": [
+          {
+            "label": "Sherkin Island Daily Data provider page",
+            "url": "https://data.gov.ie/dataset/sherkin-island-daily-data",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "Sherkin Island Daily Data Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/sherkin-island-daily-data",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/sherkin-island-daily-data",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link",
+          "Election provenance"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Irish election source/enrichment data",
+          "Republic of Ireland",
+          "election",
+          "Sherkin Island Daily Data"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/sherkin-island-daily-data",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/sherkin-island-daily-data",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Met Éireann, data.gov.ie, Sherkin Island Daily Data.",
+        "fullCitation": "Met Éireann, data.gov.ie. Sherkin Island Daily Data. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/sherkin-island-daily-data. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/sherkin-island-daily-data.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 2302,
+            "stagingId": "medium-prep:2-irish-election-source-enrichment-data:sherkin-island-daily-data:02301",
+            "title": "Sherkin Island Daily Data",
+            "cleanTitle": "Sherkin Island Daily Data",
+            "provider": "data.gov.ie",
+            "organisation": "Met Éireann",
+            "category": "tabular",
+            "roiGroup": "2. Irish election source/enrichment data",
+            "groupTitle": "Irish election source/enrichment data",
+            "jurisdiction": "Republic of Ireland",
+            "topic": "election",
+            "featureUnit": "features",
+            "formats": [
+              "CSV",
+              "TXT"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "enrich-existing-election",
+            "proposedPlacement": "Elections/source provenance",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV",
+                "TXT"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/sherkin-island-daily-data",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/sherkin-island-daily-data",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "election-model-merge-and-provenance-review: election staging action assigned",
+              "needs-provider-context-review: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:sherkin-island-daily-data:02301",
+          "sourceRowNumber": 2302,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish election source/provenance enrichment",
+          "proposedAction": "enrich-existing-election",
+          "proposedPlacement": "Elections/source provenance",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "TXT"
+            ]
+          },
+          "confidence": 60,
+          "resolvedBlockers": [
+            "election-model-merge-and-provenance-review: election staging action assigned",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Elections/source provenance",
+        "relationship": "election-source-enrichment",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Irish election source/enrichment data",
+          "election",
+          "features",
+          "Republic of Ireland",
+          "enrich-existing-election",
+          "CSV",
+          "TXT"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-sherkin-island-daily-data-02301"
+      }
+    },
+    {
+      "id": "medium-priority:2-irish-election-source-enrichment-data:the-first-count-of-the-presidential-election-of-1945:00981",
+      "slug": "medium-priority-2-irish-election-source-enrichment-data-the-first-count-of-the-presidential-election-of-1945-00981",
+      "type": "approved-medium-priority-source",
+      "title": "The first count of the presidential election of 1945",
+      "subtitle": "Irish election source/enrichment data / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV / Approved source record",
+      "category": "Medium-priority: Irish election source/enrichment data",
+      "date": "1945",
+      "provider": [
+        "Department of Housing, Local Government and Heritage",
+        "data.gov.ie"
+      ],
+      "description": "The first count of the presidential election of 1945 is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1945",
+      "references": [
+        {
+          "label": "The first count of the presidential election of 1945 provider page",
+          "url": "https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1945",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "The first count of the presidential election of 1945 Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1945",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1945",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Irish election source/enrichment data",
+        "election",
+        "features",
+        "Ireland / unspecified",
+        "enrich-existing-election",
+        "CSV"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 982,
+          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:the-first-count-of-the-presidential-election-of-1945:00981",
+          "title": "The first count of the presidential election of 1945",
+          "cleanTitle": "The first count of the presidential election of 1945",
+          "provider": "data.gov.ie",
+          "organisation": "Department of Housing, Local Government and Heritage",
+          "category": "tabular",
+          "roiGroup": "2. Irish election source/enrichment data",
+          "groupTitle": "Irish election source/enrichment data",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "election",
+          "featureUnit": "features",
+          "formats": [
+            "CSV"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "enrich-existing-election",
+          "proposedPlacement": "Elections/source provenance",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1945",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1945",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "election-model-merge-and-provenance-review: election staging action assigned",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link",
+        "Election provenance"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Irish election source/enrichment data",
+        "Ireland / unspecified",
+        "election",
+        "The first count of the presidential election of 1945"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1945",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1945",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, The first count of the presidential election of 1945.",
+      "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. The first count of the presidential election of 1945. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1945. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1945.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:2-irish-election-source-enrichment-data:the-first-count-of-the-presidential-election-of-1945:00981",
+        "sourceRowNumber": 982,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish election source/provenance enrichment",
+        "proposedAction": "enrich-existing-election",
+        "proposedPlacement": "Elections/source provenance",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV"
+          ]
+        },
+        "confidence": 60,
+        "resolvedBlockers": [
+          "election-model-merge-and-provenance-review: election staging action assigned",
+          "needs-provider-context-review: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Elections/source provenance",
+      "relationship": "election-source-enrichment",
+      "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-the-first-count-of-the-presidential-election-of-1945-00981",
+      "rawMetadata": {
+        "id": "medium-priority:2-irish-election-source-enrichment-data:the-first-count-of-the-presidential-election-of-1945:00981",
+        "slug": "medium-priority-2-irish-election-source-enrichment-data-the-first-count-of-the-presidential-election-of-1945-00981",
+        "type": "approved-medium-priority-source",
+        "title": "The first count of the presidential election of 1945",
+        "subtitle": "Irish election source/enrichment data / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV / Approved source record",
+        "category": "Medium-priority: Irish election source/enrichment data",
+        "date": "1945",
+        "provider": [
+          "Department of Housing, Local Government and Heritage",
+          "data.gov.ie"
+        ],
+        "description": "The first count of the presidential election of 1945 is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1945",
+        "references": [
+          {
+            "label": "The first count of the presidential election of 1945 provider page",
+            "url": "https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1945",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "The first count of the presidential election of 1945 Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1945",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1945",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link",
+          "Election provenance"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Irish election source/enrichment data",
+          "Ireland / unspecified",
+          "election",
+          "The first count of the presidential election of 1945"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1945",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1945",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, The first count of the presidential election of 1945.",
+        "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. The first count of the presidential election of 1945. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1945. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1945.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 982,
+            "stagingId": "medium-prep:2-irish-election-source-enrichment-data:the-first-count-of-the-presidential-election-of-1945:00981",
+            "title": "The first count of the presidential election of 1945",
+            "cleanTitle": "The first count of the presidential election of 1945",
+            "provider": "data.gov.ie",
+            "organisation": "Department of Housing, Local Government and Heritage",
+            "category": "tabular",
+            "roiGroup": "2. Irish election source/enrichment data",
+            "groupTitle": "Irish election source/enrichment data",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "election",
+            "featureUnit": "features",
+            "formats": [
+              "CSV"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "enrich-existing-election",
+            "proposedPlacement": "Elections/source provenance",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1945",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1945",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "election-model-merge-and-provenance-review: election staging action assigned",
+              "needs-provider-context-review: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:the-first-count-of-the-presidential-election-of-1945:00981",
+          "sourceRowNumber": 982,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish election source/provenance enrichment",
+          "proposedAction": "enrich-existing-election",
+          "proposedPlacement": "Elections/source provenance",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV"
+            ]
+          },
+          "confidence": 60,
+          "resolvedBlockers": [
+            "election-model-merge-and-provenance-review: election staging action assigned",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Elections/source provenance",
+        "relationship": "election-source-enrichment",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Irish election source/enrichment data",
+          "election",
+          "features",
+          "Ireland / unspecified",
+          "enrich-existing-election",
+          "CSV"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-the-first-count-of-the-presidential-election-of-1945-00981"
+      }
+    },
+    {
+      "id": "medium-priority:2-irish-election-source-enrichment-data:the-first-count-of-the-presidential-election-of-1990:00982",
+      "slug": "medium-priority-2-irish-election-source-enrichment-data-the-first-count-of-the-presidential-election-of-1990-00982",
+      "type": "approved-medium-priority-source",
+      "title": "The first count of the presidential election of 1990",
+      "subtitle": "Irish election source/enrichment data / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV / Approved source record",
+      "category": "Medium-priority: Irish election source/enrichment data",
+      "date": "1990",
+      "provider": [
+        "Department of Housing, Local Government and Heritage",
+        "data.gov.ie"
+      ],
+      "description": "The first count of the presidential election of 1990 is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1990",
+      "references": [
+        {
+          "label": "The first count of the presidential election of 1990 provider page",
+          "url": "https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1990",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "The first count of the presidential election of 1990 Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1990",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1990",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Irish election source/enrichment data",
+        "election",
+        "features",
+        "Ireland / unspecified",
+        "enrich-existing-election",
+        "CSV"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 983,
+          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:the-first-count-of-the-presidential-election-of-1990:00982",
+          "title": "The first count of the presidential election of 1990",
+          "cleanTitle": "The first count of the presidential election of 1990",
+          "provider": "data.gov.ie",
+          "organisation": "Department of Housing, Local Government and Heritage",
+          "category": "tabular",
+          "roiGroup": "2. Irish election source/enrichment data",
+          "groupTitle": "Irish election source/enrichment data",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "election",
+          "featureUnit": "features",
+          "formats": [
+            "CSV"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "enrich-existing-election",
+          "proposedPlacement": "Elections/source provenance",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1990",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1990",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "election-model-merge-and-provenance-review: election staging action assigned",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link",
+        "Election provenance"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Irish election source/enrichment data",
+        "Ireland / unspecified",
+        "election",
+        "The first count of the presidential election of 1990"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1990",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1990",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, The first count of the presidential election of 1990.",
+      "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. The first count of the presidential election of 1990. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1990. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1990.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:2-irish-election-source-enrichment-data:the-first-count-of-the-presidential-election-of-1990:00982",
+        "sourceRowNumber": 983,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish election source/provenance enrichment",
+        "proposedAction": "enrich-existing-election",
+        "proposedPlacement": "Elections/source provenance",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV"
+          ]
+        },
+        "confidence": 60,
+        "resolvedBlockers": [
+          "election-model-merge-and-provenance-review: election staging action assigned",
+          "needs-provider-context-review: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Elections/source provenance",
+      "relationship": "election-source-enrichment",
+      "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-the-first-count-of-the-presidential-election-of-1990-00982",
+      "rawMetadata": {
+        "id": "medium-priority:2-irish-election-source-enrichment-data:the-first-count-of-the-presidential-election-of-1990:00982",
+        "slug": "medium-priority-2-irish-election-source-enrichment-data-the-first-count-of-the-presidential-election-of-1990-00982",
+        "type": "approved-medium-priority-source",
+        "title": "The first count of the presidential election of 1990",
+        "subtitle": "Irish election source/enrichment data / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV / Approved source record",
+        "category": "Medium-priority: Irish election source/enrichment data",
+        "date": "1990",
+        "provider": [
+          "Department of Housing, Local Government and Heritage",
+          "data.gov.ie"
+        ],
+        "description": "The first count of the presidential election of 1990 is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1990",
+        "references": [
+          {
+            "label": "The first count of the presidential election of 1990 provider page",
+            "url": "https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1990",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "The first count of the presidential election of 1990 Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1990",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1990",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link",
+          "Election provenance"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Irish election source/enrichment data",
+          "Ireland / unspecified",
+          "election",
+          "The first count of the presidential election of 1990"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1990",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1990",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, The first count of the presidential election of 1990.",
+        "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. The first count of the presidential election of 1990. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1990. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1990.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 983,
+            "stagingId": "medium-prep:2-irish-election-source-enrichment-data:the-first-count-of-the-presidential-election-of-1990:00982",
+            "title": "The first count of the presidential election of 1990",
+            "cleanTitle": "The first count of the presidential election of 1990",
+            "provider": "data.gov.ie",
+            "organisation": "Department of Housing, Local Government and Heritage",
+            "category": "tabular",
+            "roiGroup": "2. Irish election source/enrichment data",
+            "groupTitle": "Irish election source/enrichment data",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "election",
+            "featureUnit": "features",
+            "formats": [
+              "CSV"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "enrich-existing-election",
+            "proposedPlacement": "Elections/source provenance",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1990",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1990",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "election-model-merge-and-provenance-review: election staging action assigned",
+              "needs-provider-context-review: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:the-first-count-of-the-presidential-election-of-1990:00982",
+          "sourceRowNumber": 983,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish election source/provenance enrichment",
+          "proposedAction": "enrich-existing-election",
+          "proposedPlacement": "Elections/source provenance",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV"
+            ]
+          },
+          "confidence": 60,
+          "resolvedBlockers": [
+            "election-model-merge-and-provenance-review: election staging action assigned",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Elections/source provenance",
+        "relationship": "election-source-enrichment",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Irish election source/enrichment data",
+          "election",
+          "features",
+          "Ireland / unspecified",
+          "enrich-existing-election",
+          "CSV"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-the-first-count-of-the-presidential-election-of-1990-00982"
       }
     }
   ]

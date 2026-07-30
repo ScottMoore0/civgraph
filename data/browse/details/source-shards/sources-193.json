@@ -1,1352 +1,10 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-29T22:09:35.048Z",
+  "generatedAt": "2026-07-30T20:12:41.046Z",
   "kind": "sources",
   "shard": "sources-193.json",
   "total": 200,
   "items": [
-    {
-      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:key-growth-centres1:00240",
-      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-key-growth-centres1-00240",
-      "type": "approved-medium-priority-source",
-      "title": "Key Growth Centres",
-      "subtitle": "Local authority planning/property/open-data layers / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / ARCGIS GEOSERVICES REST API, CSV, GEOJSON, HTML, KML, ZIP / Source record; runtime review pending",
-      "category": "Medium-priority: Local authority planning/property/open-data layers",
-      "provider": [
-        "Department of Housing, Local Government and Heritage",
-        "data.gov.ie"
-      ],
-      "description": "Key Growth Centres is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-      "url": "https://data.gov.ie/dataset/key-growth-centres1",
-      "references": [
-        {
-          "label": "Key Growth Centres provider page",
-          "url": "https://data.gov.ie/dataset/key-growth-centres1",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Key Growth Centres Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/key-growth-centres1",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/key-growth-centres1",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "source-record-with-runtime-review",
-        "Local authority planning/property/open-data layers",
-        "source-data",
-        "features",
-        "Ireland / unspecified",
-        "local-authority-batch-review",
-        "ARCGIS GEOSERVICES REST API",
-        "CSV",
-        "GEOJSON",
-        "HTML",
-        "KML",
-        "ZIP",
-        "review:duplicate-or-variant-review-no-existing-match-candidate"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 241,
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:key-growth-centres1:00240",
-          "title": "Key Growth Centres",
-          "cleanTitle": "Key Growth Centres",
-          "provider": "data.gov.ie",
-          "organisation": "Department of Housing, Local Government and Heritage",
-          "category": "spatial",
-          "roiGroup": "5. Local authority planning/property/open-data layers",
-          "groupTitle": "Local authority planning/property/open-data layers",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "source-data",
-          "featureUnit": "features",
-          "formats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "GEOJSON",
-            "HTML",
-            "KML",
-            "ZIP"
-          ],
-          "isSpatial": true,
-          "isLargeOrSpecial": false,
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GEOJSON",
-              "HTML",
-              "KML",
-              "ZIP"
-            ]
-          },
-          "approvalState": "ready-with-residual-review",
-          "sourcePublicationState": "public source record with runtime/semantic review still pending",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/key-growth-centres1",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/key-growth-centres1",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source record",
-        "Runtime review pending",
-        "Spatial source",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Local authority planning/property/open-data layers",
-        "Ireland / unspecified",
-        "source-data",
-        "Key Growth Centres"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text",
-          "download-only"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/key-growth-centres1",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/key-growth-centres1",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, Key Growth Centres.",
-      "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. Key Growth Centres. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/key-growth-centres1. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/key-growth-centres1.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:key-growth-centres1:00240",
-        "sourceRowNumber": 241,
-        "approvalState": "ready-with-residual-review",
-        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-        "proposedAction": "local-authority-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "GEOJSON",
-            "HTML",
-            "KML",
-            "ZIP"
-          ]
-        },
-        "confidence": 60,
-        "residualBlockers": [
-          "duplicate-or-variant-review: no existing match candidate"
-        ],
-        "resolvedBlockers": [
-          "large-or-special-format-review: normal source package; no special-format hold",
-          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-        ],
-        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-      },
-      "publicationStatus": "source-record-with-runtime-review",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-key-growth-centres1-00240",
-      "rawMetadata": {
-        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:key-growth-centres1:00240",
-        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-key-growth-centres1-00240",
-        "type": "approved-medium-priority-source",
-        "title": "Key Growth Centres",
-        "subtitle": "Local authority planning/property/open-data layers / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / ARCGIS GEOSERVICES REST API, CSV, GEOJSON, HTML, KML, ZIP / Source record; runtime review pending",
-        "category": "Medium-priority: Local authority planning/property/open-data layers",
-        "provider": [
-          "Department of Housing, Local Government and Heritage",
-          "data.gov.ie"
-        ],
-        "description": "Key Growth Centres is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-        "url": "https://data.gov.ie/dataset/key-growth-centres1",
-        "references": [
-          {
-            "label": "Key Growth Centres provider page",
-            "url": "https://data.gov.ie/dataset/key-growth-centres1",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Key Growth Centres Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/key-growth-centres1",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/key-growth-centres1",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source record",
-          "Runtime review pending",
-          "Spatial source",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Local authority planning/property/open-data layers",
-          "Ireland / unspecified",
-          "source-data",
-          "Key Growth Centres"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text",
-            "download-only"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/key-growth-centres1",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/key-growth-centres1",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, Key Growth Centres.",
-        "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. Key Growth Centres. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/key-growth-centres1. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/key-growth-centres1.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 241,
-            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:key-growth-centres1:00240",
-            "title": "Key Growth Centres",
-            "cleanTitle": "Key Growth Centres",
-            "provider": "data.gov.ie",
-            "organisation": "Department of Housing, Local Government and Heritage",
-            "category": "spatial",
-            "roiGroup": "5. Local authority planning/property/open-data layers",
-            "groupTitle": "Local authority planning/property/open-data layers",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "source-data",
-            "featureUnit": "features",
-            "formats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GEOJSON",
-              "HTML",
-              "KML",
-              "ZIP"
-            ],
-            "isSpatial": true,
-            "isLargeOrSpecial": false,
-            "proposedAction": "local-authority-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "ARCGIS GEOSERVICES REST API",
-                "CSV",
-                "GEOJSON",
-                "HTML",
-                "KML",
-                "ZIP"
-              ]
-            },
-            "approvalState": "ready-with-residual-review",
-            "sourcePublicationState": "public source record with runtime/semantic review still pending",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/key-growth-centres1",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/key-growth-centres1",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "large-or-special-format-review: normal source package; no special-format hold",
-              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-            ],
-            "residualBlockers": [
-              "duplicate-or-variant-review: no existing match candidate"
-            ],
-            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:key-growth-centres1:00240",
-          "sourceRowNumber": 241,
-          "approvalState": "ready-with-residual-review",
-          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GEOJSON",
-              "HTML",
-              "KML",
-              "ZIP"
-            ]
-          },
-          "confidence": 60,
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate"
-          ],
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        },
-        "publicationStatus": "source-record-with-runtime-review",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "source-record-with-runtime-review",
-          "Local authority planning/property/open-data layers",
-          "source-data",
-          "features",
-          "Ireland / unspecified",
-          "local-authority-batch-review",
-          "ARCGIS GEOSERVICES REST API",
-          "CSV",
-          "GEOJSON",
-          "HTML",
-          "KML",
-          "ZIP",
-          "review:duplicate-or-variant-review-no-existing-match-candidate"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-key-growth-centres1-00240"
-      }
-    },
-    {
-      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:kilcock-parking-bye-laws-2017-maps:01816",
-      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-kilcock-parking-bye-laws-2017-maps-01816",
-      "type": "approved-medium-priority-source",
-      "title": "Kilcock Parking Bye-Laws 2017 - Maps",
-      "subtitle": "Local authority planning/property/open-data layers / Kildare County Council, data.gov.ie / Ireland / unspecified / PDF / Approved source record",
-      "category": "Medium-priority: Local authority planning/property/open-data layers",
-      "date": "2017",
-      "provider": [
-        "Kildare County Council",
-        "data.gov.ie"
-      ],
-      "description": "Kilcock Parking Bye-Laws 2017 - Maps is published as a medium-priority Civgraph source/provenance record from Kildare County Council, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/kilcock-parking-bye-laws-2017-maps",
-      "references": [
-        {
-          "label": "Kilcock Parking Bye-Laws 2017 - Maps provider page",
-          "url": "https://data.gov.ie/dataset/kilcock-parking-bye-laws-2017-maps",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Kilcock Parking Bye-Laws 2017 - Maps Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/kilcock-parking-bye-laws-2017-maps",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/kilcock-parking-bye-laws-2017-maps",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Local authority planning/property/open-data layers",
-        "transport-public-asset",
-        "parking assets",
-        "Ireland / unspecified",
-        "local-authority-batch-review",
-        "PDF"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 1817,
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:kilcock-parking-bye-laws-2017-maps:01816",
-          "title": "Kilcock Parking Bye-Laws 2017 - Maps",
-          "cleanTitle": "Kilcock Parking Bye-Laws 2017 - Maps",
-          "provider": "data.gov.ie",
-          "organisation": "Kildare County Council",
-          "category": "tabular",
-          "roiGroup": "5. Local authority planning/property/open-data layers",
-          "groupTitle": "Local authority planning/property/open-data layers",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "transport-public-asset",
-          "featureUnit": "parking assets",
-          "formats": [
-            "PDF"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "PDF"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/kilcock-parking-bye-laws-2017-maps",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/kilcock-parking-bye-laws-2017-maps",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "source-page-and-ia-viewport-decision: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Local authority planning/property/open-data layers",
-        "Ireland / unspecified",
-        "transport-public-asset",
-        "Kilcock Parking Bye-Laws 2017 - Maps"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "pdf"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/kilcock-parking-bye-laws-2017-maps",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/kilcock-parking-bye-laws-2017-maps",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Kildare County Council, data.gov.ie, Kilcock Parking Bye-Laws 2017 - Maps.",
-      "fullCitation": "Kildare County Council, data.gov.ie. Kilcock Parking Bye-Laws 2017 - Maps. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/kilcock-parking-bye-laws-2017-maps. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/kilcock-parking-bye-laws-2017-maps.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:kilcock-parking-bye-laws-2017-maps:01816",
-        "sourceRowNumber": 1817,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-        "proposedAction": "local-authority-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "PDF"
-          ]
-        },
-        "confidence": 60,
-        "resolvedBlockers": [
-          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-          "source-page-and-ia-viewport-decision: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-kilcock-parking-bye-laws-2017-maps-01816",
-      "rawMetadata": {
-        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:kilcock-parking-bye-laws-2017-maps:01816",
-        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-kilcock-parking-bye-laws-2017-maps-01816",
-        "type": "approved-medium-priority-source",
-        "title": "Kilcock Parking Bye-Laws 2017 - Maps",
-        "subtitle": "Local authority planning/property/open-data layers / Kildare County Council, data.gov.ie / Ireland / unspecified / PDF / Approved source record",
-        "category": "Medium-priority: Local authority planning/property/open-data layers",
-        "date": "2017",
-        "provider": [
-          "Kildare County Council",
-          "data.gov.ie"
-        ],
-        "description": "Kilcock Parking Bye-Laws 2017 - Maps is published as a medium-priority Civgraph source/provenance record from Kildare County Council, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/kilcock-parking-bye-laws-2017-maps",
-        "references": [
-          {
-            "label": "Kilcock Parking Bye-Laws 2017 - Maps provider page",
-            "url": "https://data.gov.ie/dataset/kilcock-parking-bye-laws-2017-maps",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Kilcock Parking Bye-Laws 2017 - Maps Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/kilcock-parking-bye-laws-2017-maps",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/kilcock-parking-bye-laws-2017-maps",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Local authority planning/property/open-data layers",
-          "Ireland / unspecified",
-          "transport-public-asset",
-          "Kilcock Parking Bye-Laws 2017 - Maps"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "pdf"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/kilcock-parking-bye-laws-2017-maps",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/kilcock-parking-bye-laws-2017-maps",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Kildare County Council, data.gov.ie, Kilcock Parking Bye-Laws 2017 - Maps.",
-        "fullCitation": "Kildare County Council, data.gov.ie. Kilcock Parking Bye-Laws 2017 - Maps. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/kilcock-parking-bye-laws-2017-maps. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/kilcock-parking-bye-laws-2017-maps.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 1817,
-            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:kilcock-parking-bye-laws-2017-maps:01816",
-            "title": "Kilcock Parking Bye-Laws 2017 - Maps",
-            "cleanTitle": "Kilcock Parking Bye-Laws 2017 - Maps",
-            "provider": "data.gov.ie",
-            "organisation": "Kildare County Council",
-            "category": "tabular",
-            "roiGroup": "5. Local authority planning/property/open-data layers",
-            "groupTitle": "Local authority planning/property/open-data layers",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "transport-public-asset",
-            "featureUnit": "parking assets",
-            "formats": [
-              "PDF"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "local-authority-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "PDF"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/kilcock-parking-bye-laws-2017-maps",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/kilcock-parking-bye-laws-2017-maps",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-              "source-page-and-ia-viewport-decision: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:kilcock-parking-bye-laws-2017-maps:01816",
-          "sourceRowNumber": 1817,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "PDF"
-            ]
-          },
-          "confidence": 60,
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "source-page-and-ia-viewport-decision: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Local authority planning/property/open-data layers",
-          "transport-public-asset",
-          "parking assets",
-          "Ireland / unspecified",
-          "local-authority-batch-review",
-          "PDF"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-kilcock-parking-bye-laws-2017-maps-01816"
-      }
-    },
-    {
-      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:kilcock-parking-bye-laws-2017-text:01817",
-      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-kilcock-parking-bye-laws-2017-text-01817",
-      "type": "approved-medium-priority-source",
-      "title": "Kilcock Parking Bye-Laws 2017 - Text",
-      "subtitle": "Local authority planning/property/open-data layers / Kildare County Council, data.gov.ie / Ireland / unspecified / PDF / Approved source record",
-      "category": "Medium-priority: Local authority planning/property/open-data layers",
-      "date": "2017",
-      "provider": [
-        "Kildare County Council",
-        "data.gov.ie"
-      ],
-      "description": "Kilcock Parking Bye-Laws 2017 - Text is published as a medium-priority Civgraph source/provenance record from Kildare County Council, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/kilcock-parking-bye-laws-2017-text",
-      "references": [
-        {
-          "label": "Kilcock Parking Bye-Laws 2017 - Text provider page",
-          "url": "https://data.gov.ie/dataset/kilcock-parking-bye-laws-2017-text",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Kilcock Parking Bye-Laws 2017 - Text Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/kilcock-parking-bye-laws-2017-text",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/kilcock-parking-bye-laws-2017-text",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Local authority planning/property/open-data layers",
-        "transport-public-asset",
-        "parking assets",
-        "Ireland / unspecified",
-        "local-authority-batch-review",
-        "PDF"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 1818,
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:kilcock-parking-bye-laws-2017-text:01817",
-          "title": "Kilcock Parking Bye-Laws 2017 - Text",
-          "cleanTitle": "Kilcock Parking Bye-Laws 2017 - Text",
-          "provider": "data.gov.ie",
-          "organisation": "Kildare County Council",
-          "category": "tabular",
-          "roiGroup": "5. Local authority planning/property/open-data layers",
-          "groupTitle": "Local authority planning/property/open-data layers",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "transport-public-asset",
-          "featureUnit": "parking assets",
-          "formats": [
-            "PDF"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "PDF"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/kilcock-parking-bye-laws-2017-text",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/kilcock-parking-bye-laws-2017-text",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "source-page-and-ia-viewport-decision: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Local authority planning/property/open-data layers",
-        "Ireland / unspecified",
-        "transport-public-asset",
-        "Kilcock Parking Bye-Laws 2017 - Text"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "pdf"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/kilcock-parking-bye-laws-2017-text",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/kilcock-parking-bye-laws-2017-text",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Kildare County Council, data.gov.ie, Kilcock Parking Bye-Laws 2017 - Text.",
-      "fullCitation": "Kildare County Council, data.gov.ie. Kilcock Parking Bye-Laws 2017 - Text. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/kilcock-parking-bye-laws-2017-text. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/kilcock-parking-bye-laws-2017-text.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:kilcock-parking-bye-laws-2017-text:01817",
-        "sourceRowNumber": 1818,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-        "proposedAction": "local-authority-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "PDF"
-          ]
-        },
-        "confidence": 60,
-        "resolvedBlockers": [
-          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-          "source-page-and-ia-viewport-decision: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-kilcock-parking-bye-laws-2017-text-01817",
-      "rawMetadata": {
-        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:kilcock-parking-bye-laws-2017-text:01817",
-        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-kilcock-parking-bye-laws-2017-text-01817",
-        "type": "approved-medium-priority-source",
-        "title": "Kilcock Parking Bye-Laws 2017 - Text",
-        "subtitle": "Local authority planning/property/open-data layers / Kildare County Council, data.gov.ie / Ireland / unspecified / PDF / Approved source record",
-        "category": "Medium-priority: Local authority planning/property/open-data layers",
-        "date": "2017",
-        "provider": [
-          "Kildare County Council",
-          "data.gov.ie"
-        ],
-        "description": "Kilcock Parking Bye-Laws 2017 - Text is published as a medium-priority Civgraph source/provenance record from Kildare County Council, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/kilcock-parking-bye-laws-2017-text",
-        "references": [
-          {
-            "label": "Kilcock Parking Bye-Laws 2017 - Text provider page",
-            "url": "https://data.gov.ie/dataset/kilcock-parking-bye-laws-2017-text",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Kilcock Parking Bye-Laws 2017 - Text Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/kilcock-parking-bye-laws-2017-text",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/kilcock-parking-bye-laws-2017-text",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Local authority planning/property/open-data layers",
-          "Ireland / unspecified",
-          "transport-public-asset",
-          "Kilcock Parking Bye-Laws 2017 - Text"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "pdf"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/kilcock-parking-bye-laws-2017-text",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/kilcock-parking-bye-laws-2017-text",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Kildare County Council, data.gov.ie, Kilcock Parking Bye-Laws 2017 - Text.",
-        "fullCitation": "Kildare County Council, data.gov.ie. Kilcock Parking Bye-Laws 2017 - Text. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/kilcock-parking-bye-laws-2017-text. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/kilcock-parking-bye-laws-2017-text.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 1818,
-            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:kilcock-parking-bye-laws-2017-text:01817",
-            "title": "Kilcock Parking Bye-Laws 2017 - Text",
-            "cleanTitle": "Kilcock Parking Bye-Laws 2017 - Text",
-            "provider": "data.gov.ie",
-            "organisation": "Kildare County Council",
-            "category": "tabular",
-            "roiGroup": "5. Local authority planning/property/open-data layers",
-            "groupTitle": "Local authority planning/property/open-data layers",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "transport-public-asset",
-            "featureUnit": "parking assets",
-            "formats": [
-              "PDF"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "local-authority-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "PDF"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/kilcock-parking-bye-laws-2017-text",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/kilcock-parking-bye-laws-2017-text",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-              "source-page-and-ia-viewport-decision: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:kilcock-parking-bye-laws-2017-text:01817",
-          "sourceRowNumber": 1818,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "PDF"
-            ]
-          },
-          "confidence": 60,
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "source-page-and-ia-viewport-decision: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Local authority planning/property/open-data layers",
-          "transport-public-asset",
-          "parking assets",
-          "Ireland / unspecified",
-          "local-authority-batch-review",
-          "PDF"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-kilcock-parking-bye-laws-2017-text-01817"
-      }
-    },
-    {
-      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:kilcock-proposed-town-gateway:01818",
-      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-kilcock-proposed-town-gateway-01818",
-      "type": "approved-medium-priority-source",
-      "title": "Kilcock Proposed Town Gateway",
-      "subtitle": "Local authority planning/property/open-data layers / Kildare County Council, data.gov.ie / Ireland / unspecified / PDF / Approved source record",
-      "category": "Medium-priority: Local authority planning/property/open-data layers",
-      "provider": [
-        "Kildare County Council",
-        "data.gov.ie"
-      ],
-      "description": "Kilcock Proposed Town Gateway is published as a medium-priority Civgraph source/provenance record from Kildare County Council, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/kilcock-proposed-town-gateway",
-      "references": [
-        {
-          "label": "Kilcock Proposed Town Gateway provider page",
-          "url": "https://data.gov.ie/dataset/kilcock-proposed-town-gateway",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Kilcock Proposed Town Gateway Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/kilcock-proposed-town-gateway",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/kilcock-proposed-town-gateway",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Local authority planning/property/open-data layers",
-        "source-data",
-        "features",
-        "Ireland / unspecified",
-        "local-authority-batch-review",
-        "PDF"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 1819,
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:kilcock-proposed-town-gateway:01818",
-          "title": "Kilcock Proposed Town Gateway",
-          "cleanTitle": "Kilcock Proposed Town Gateway",
-          "provider": "data.gov.ie",
-          "organisation": "Kildare County Council",
-          "category": "tabular",
-          "roiGroup": "5. Local authority planning/property/open-data layers",
-          "groupTitle": "Local authority planning/property/open-data layers",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "source-data",
-          "featureUnit": "features",
-          "formats": [
-            "PDF"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "PDF"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/kilcock-proposed-town-gateway",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/kilcock-proposed-town-gateway",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "source-page-and-ia-viewport-decision: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Local authority planning/property/open-data layers",
-        "Ireland / unspecified",
-        "source-data",
-        "Kilcock Proposed Town Gateway"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "pdf"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/kilcock-proposed-town-gateway",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/kilcock-proposed-town-gateway",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Kildare County Council, data.gov.ie, Kilcock Proposed Town Gateway.",
-      "fullCitation": "Kildare County Council, data.gov.ie. Kilcock Proposed Town Gateway. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/kilcock-proposed-town-gateway. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/kilcock-proposed-town-gateway.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:kilcock-proposed-town-gateway:01818",
-        "sourceRowNumber": 1819,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-        "proposedAction": "local-authority-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "PDF"
-          ]
-        },
-        "confidence": 60,
-        "resolvedBlockers": [
-          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-          "source-page-and-ia-viewport-decision: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-kilcock-proposed-town-gateway-01818",
-      "rawMetadata": {
-        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:kilcock-proposed-town-gateway:01818",
-        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-kilcock-proposed-town-gateway-01818",
-        "type": "approved-medium-priority-source",
-        "title": "Kilcock Proposed Town Gateway",
-        "subtitle": "Local authority planning/property/open-data layers / Kildare County Council, data.gov.ie / Ireland / unspecified / PDF / Approved source record",
-        "category": "Medium-priority: Local authority planning/property/open-data layers",
-        "provider": [
-          "Kildare County Council",
-          "data.gov.ie"
-        ],
-        "description": "Kilcock Proposed Town Gateway is published as a medium-priority Civgraph source/provenance record from Kildare County Council, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/kilcock-proposed-town-gateway",
-        "references": [
-          {
-            "label": "Kilcock Proposed Town Gateway provider page",
-            "url": "https://data.gov.ie/dataset/kilcock-proposed-town-gateway",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Kilcock Proposed Town Gateway Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/kilcock-proposed-town-gateway",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/kilcock-proposed-town-gateway",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Local authority planning/property/open-data layers",
-          "Ireland / unspecified",
-          "source-data",
-          "Kilcock Proposed Town Gateway"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "pdf"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/kilcock-proposed-town-gateway",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/kilcock-proposed-town-gateway",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Kildare County Council, data.gov.ie, Kilcock Proposed Town Gateway.",
-        "fullCitation": "Kildare County Council, data.gov.ie. Kilcock Proposed Town Gateway. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/kilcock-proposed-town-gateway. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/kilcock-proposed-town-gateway.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 1819,
-            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:kilcock-proposed-town-gateway:01818",
-            "title": "Kilcock Proposed Town Gateway",
-            "cleanTitle": "Kilcock Proposed Town Gateway",
-            "provider": "data.gov.ie",
-            "organisation": "Kildare County Council",
-            "category": "tabular",
-            "roiGroup": "5. Local authority planning/property/open-data layers",
-            "groupTitle": "Local authority planning/property/open-data layers",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "source-data",
-            "featureUnit": "features",
-            "formats": [
-              "PDF"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "local-authority-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "PDF"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/kilcock-proposed-town-gateway",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/kilcock-proposed-town-gateway",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-              "source-page-and-ia-viewport-decision: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:kilcock-proposed-town-gateway:01818",
-          "sourceRowNumber": 1819,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "PDF"
-            ]
-          },
-          "confidence": 60,
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "source-page-and-ia-viewport-decision: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Local authority planning/property/open-data layers",
-          "source-data",
-          "features",
-          "Ireland / unspecified",
-          "local-authority-batch-review",
-          "PDF"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-kilcock-proposed-town-gateway-01818"
-      }
-    },
     {
       "id": "medium-priority:5-local-authority-planning-property-open-data-layers:kildare-accessible-parking:01819",
       "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-kildare-accessible-parking-01819",
@@ -68445,6 +67103,1402 @@
           "review:duplicate-or-variant-review-no-existing-match-candidate"
         ],
         "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-national-survey-and-assessment-of-the-conservation-status-of-irish-sea-cliffs-00254"
+      }
+    },
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:national-survey-of-limestone-pavement-and-associated-habitats-in-ireland:00114",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-national-survey-of-limestone-pavement-and-associated-habitats-in-ireland-00114",
+      "type": "approved-medium-priority-source",
+      "title": "National Survey of Limestone Pavement and Associated Habitats in Ireland",
+      "subtitle": "Local authority planning/property/open-data layers / Department of Housing, Local Government and Heritage, data.gov.ie / Republic of Ireland / SHP / ZIP / Source record; runtime review pending",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "provider": [
+        "Department of Housing, Local Government and Heritage",
+        "data.gov.ie"
+      ],
+      "description": "National Survey of Limestone Pavement and Associated Habitats in Ireland is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
+      "url": "https://data.gov.ie/dataset/national-survey-of-limestone-pavement-and-associated-habitats-in-ireland",
+      "references": [
+        {
+          "label": "National Survey of Limestone Pavement and Associated Habitats in Ireland provider page",
+          "url": "https://data.gov.ie/dataset/national-survey-of-limestone-pavement-and-associated-habitats-in-ireland",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "National Survey of Limestone Pavement and Associated Habitats in Ireland Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-survey-of-limestone-pavement-and-associated-habitats-in-ireland",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/national-survey-of-limestone-pavement-and-associated-habitats-in-ireland",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "source-record-with-runtime-review",
+        "Local authority planning/property/open-data layers",
+        "source-data",
+        "features",
+        "Republic of Ireland",
+        "local-authority-batch-review",
+        "SHP / ZIP",
+        "review:duplicate-or-variant-review-no-existing-match-candidate"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 115,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:national-survey-of-limestone-pavement-and-associated-habitats-in-ireland:00114",
+          "title": "National Survey of Limestone Pavement and Associated Habitats in Ireland",
+          "cleanTitle": "National Survey of Limestone Pavement and Associated Habitats in Ireland",
+          "provider": "data.gov.ie",
+          "organisation": "Department of Housing, Local Government and Heritage",
+          "category": "spatial",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Republic of Ireland",
+          "topic": "source-data",
+          "featureUnit": "features",
+          "formats": [
+            "SHP / ZIP"
+          ],
+          "isSpatial": true,
+          "isLargeOrSpecial": false,
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "SHP / ZIP"
+            ]
+          },
+          "approvalState": "ready-with-residual-review",
+          "sourcePublicationState": "public source record with runtime/semantic review still pending",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/national-survey-of-limestone-pavement-and-associated-habitats-in-ireland",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-survey-of-limestone-pavement-and-associated-habitats-in-ireland",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "large-or-special-format-review: normal source package; no special-format hold",
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        }
+      ],
+      "status": "Source only",
+      "statusChips": [
+        "Source record",
+        "Runtime review pending",
+        "Spatial source",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Republic of Ireland",
+        "source-data",
+        "National Survey of Limestone Pavement and Associated Habitats in Ireland"
+      ],
+      "viewport": {
+        "status": "source-page-only",
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/national-survey-of-limestone-pavement-and-associated-habitats-in-ireland",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-survey-of-limestone-pavement-and-associated-habitats-in-ireland",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, National Survey of Limestone Pavement and Associated Habitats in Ireland.",
+      "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. National Survey of Limestone Pavement and Associated Habitats in Ireland. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/national-survey-of-limestone-pavement-and-associated-habitats-in-ireland. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/national-survey-of-limestone-pavement-and-associated-habitats-in-ireland.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:national-survey-of-limestone-pavement-and-associated-habitats-in-ireland:00114",
+        "sourceRowNumber": 115,
+        "approvalState": "ready-with-residual-review",
+        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+        "proposedAction": "local-authority-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "SHP / ZIP"
+          ]
+        },
+        "confidence": 60,
+        "residualBlockers": [
+          "duplicate-or-variant-review: no existing match candidate"
+        ],
+        "resolvedBlockers": [
+          "large-or-special-format-review: normal source package; no special-format hold",
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+        ],
+        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+      },
+      "publicationStatus": "source-record-with-runtime-review",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-national-survey-of-limestone-pavement-and-associated-habitats-in-ireland-00114",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:national-survey-of-limestone-pavement-and-associated-habitats-in-ireland:00114",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-national-survey-of-limestone-pavement-and-associated-habitats-in-ireland-00114",
+        "type": "approved-medium-priority-source",
+        "title": "National Survey of Limestone Pavement and Associated Habitats in Ireland",
+        "subtitle": "Local authority planning/property/open-data layers / Department of Housing, Local Government and Heritage, data.gov.ie / Republic of Ireland / SHP / ZIP / Source record; runtime review pending",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "provider": [
+          "Department of Housing, Local Government and Heritage",
+          "data.gov.ie"
+        ],
+        "description": "National Survey of Limestone Pavement and Associated Habitats in Ireland is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
+        "url": "https://data.gov.ie/dataset/national-survey-of-limestone-pavement-and-associated-habitats-in-ireland",
+        "references": [
+          {
+            "label": "National Survey of Limestone Pavement and Associated Habitats in Ireland provider page",
+            "url": "https://data.gov.ie/dataset/national-survey-of-limestone-pavement-and-associated-habitats-in-ireland",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "National Survey of Limestone Pavement and Associated Habitats in Ireland Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-survey-of-limestone-pavement-and-associated-habitats-in-ireland",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/national-survey-of-limestone-pavement-and-associated-habitats-in-ireland",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source only",
+        "statusChips": [
+          "Source record",
+          "Runtime review pending",
+          "Spatial source",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Republic of Ireland",
+          "source-data",
+          "National Survey of Limestone Pavement and Associated Habitats in Ireland"
+        ],
+        "viewport": {
+          "status": "source-page-only",
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/national-survey-of-limestone-pavement-and-associated-habitats-in-ireland",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-survey-of-limestone-pavement-and-associated-habitats-in-ireland",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, National Survey of Limestone Pavement and Associated Habitats in Ireland.",
+        "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. National Survey of Limestone Pavement and Associated Habitats in Ireland. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/national-survey-of-limestone-pavement-and-associated-habitats-in-ireland. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/national-survey-of-limestone-pavement-and-associated-habitats-in-ireland.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 115,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:national-survey-of-limestone-pavement-and-associated-habitats-in-ireland:00114",
+            "title": "National Survey of Limestone Pavement and Associated Habitats in Ireland",
+            "cleanTitle": "National Survey of Limestone Pavement and Associated Habitats in Ireland",
+            "provider": "data.gov.ie",
+            "organisation": "Department of Housing, Local Government and Heritage",
+            "category": "spatial",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Republic of Ireland",
+            "topic": "source-data",
+            "featureUnit": "features",
+            "formats": [
+              "SHP / ZIP"
+            ],
+            "isSpatial": true,
+            "isLargeOrSpecial": false,
+            "proposedAction": "local-authority-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "SHP / ZIP"
+              ]
+            },
+            "approvalState": "ready-with-residual-review",
+            "sourcePublicationState": "public source record with runtime/semantic review still pending",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/national-survey-of-limestone-pavement-and-associated-habitats-in-ireland",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-survey-of-limestone-pavement-and-associated-habitats-in-ireland",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "large-or-special-format-review: normal source package; no special-format hold",
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+            ],
+            "residualBlockers": [
+              "duplicate-or-variant-review: no existing match candidate"
+            ],
+            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:national-survey-of-limestone-pavement-and-associated-habitats-in-ireland:00114",
+          "sourceRowNumber": 115,
+          "approvalState": "ready-with-residual-review",
+          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "SHP / ZIP"
+            ]
+          },
+          "confidence": 60,
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate"
+          ],
+          "resolvedBlockers": [
+            "large-or-special-format-review: normal source package; no special-format hold",
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        },
+        "publicationStatus": "source-record-with-runtime-review",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "source-record-with-runtime-review",
+          "Local authority planning/property/open-data layers",
+          "source-data",
+          "features",
+          "Republic of Ireland",
+          "local-authority-batch-review",
+          "SHP / ZIP",
+          "review:duplicate-or-variant-review-no-existing-match-candidate"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-national-survey-of-limestone-pavement-and-associated-habitats-in-ireland-00114"
+      }
+    },
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:national-survey-of-native-woodlands-2003-2008:00255",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-national-survey-of-native-woodlands-2003-2008-00255",
+      "type": "approved-medium-priority-source",
+      "title": "National Survey of Native Woodlands 2003-2008",
+      "subtitle": "Local authority planning/property/open-data layers / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / HTML, PDF, SHP / ZIP / Source record; runtime review pending",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "date": "2003",
+      "provider": [
+        "Department of Housing, Local Government and Heritage",
+        "data.gov.ie"
+      ],
+      "description": "National Survey of Native Woodlands 2003-2008 is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
+      "url": "https://data.gov.ie/dataset/national-survey-of-native-woodlands-2003-2008",
+      "references": [
+        {
+          "label": "National Survey of Native Woodlands 2003-2008 provider page",
+          "url": "https://data.gov.ie/dataset/national-survey-of-native-woodlands-2003-2008",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "National Survey of Native Woodlands 2003-2008 Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-survey-of-native-woodlands-2003-2008",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/national-survey-of-native-woodlands-2003-2008",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "source-record-with-runtime-review",
+        "Local authority planning/property/open-data layers",
+        "source-data",
+        "features",
+        "Ireland / unspecified",
+        "local-authority-batch-review",
+        "HTML",
+        "PDF",
+        "SHP / ZIP",
+        "review:duplicate-or-variant-review-no-existing-match-candidate"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 256,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:national-survey-of-native-woodlands-2003-2008:00255",
+          "title": "National Survey of Native Woodlands 2003-2008",
+          "cleanTitle": "National Survey of Native Woodlands 2003-2008",
+          "provider": "data.gov.ie",
+          "organisation": "Department of Housing, Local Government and Heritage",
+          "category": "spatial",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "source-data",
+          "featureUnit": "features",
+          "formats": [
+            "HTML",
+            "PDF",
+            "SHP / ZIP"
+          ],
+          "isSpatial": true,
+          "isLargeOrSpecial": false,
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "HTML",
+              "PDF",
+              "SHP / ZIP"
+            ]
+          },
+          "approvalState": "ready-with-residual-review",
+          "sourcePublicationState": "public source record with runtime/semantic review still pending",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/national-survey-of-native-woodlands-2003-2008",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-survey-of-native-woodlands-2003-2008",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "large-or-special-format-review: normal source package; no special-format hold",
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        }
+      ],
+      "status": "Source only",
+      "statusChips": [
+        "Source record",
+        "Runtime review pending",
+        "Spatial source",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Ireland / unspecified",
+        "source-data",
+        "National Survey of Native Woodlands 2003-2008"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "pdf",
+          "table-or-text"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/national-survey-of-native-woodlands-2003-2008",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-survey-of-native-woodlands-2003-2008",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, National Survey of Native Woodlands 2003-2008.",
+      "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. National Survey of Native Woodlands 2003-2008. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/national-survey-of-native-woodlands-2003-2008. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/national-survey-of-native-woodlands-2003-2008.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:national-survey-of-native-woodlands-2003-2008:00255",
+        "sourceRowNumber": 256,
+        "approvalState": "ready-with-residual-review",
+        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+        "proposedAction": "local-authority-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "HTML",
+            "PDF",
+            "SHP / ZIP"
+          ]
+        },
+        "confidence": 60,
+        "residualBlockers": [
+          "duplicate-or-variant-review: no existing match candidate"
+        ],
+        "resolvedBlockers": [
+          "large-or-special-format-review: normal source package; no special-format hold",
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+        ],
+        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+      },
+      "publicationStatus": "source-record-with-runtime-review",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-national-survey-of-native-woodlands-2003-2008-00255",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:national-survey-of-native-woodlands-2003-2008:00255",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-national-survey-of-native-woodlands-2003-2008-00255",
+        "type": "approved-medium-priority-source",
+        "title": "National Survey of Native Woodlands 2003-2008",
+        "subtitle": "Local authority planning/property/open-data layers / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / HTML, PDF, SHP / ZIP / Source record; runtime review pending",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "date": "2003",
+        "provider": [
+          "Department of Housing, Local Government and Heritage",
+          "data.gov.ie"
+        ],
+        "description": "National Survey of Native Woodlands 2003-2008 is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
+        "url": "https://data.gov.ie/dataset/national-survey-of-native-woodlands-2003-2008",
+        "references": [
+          {
+            "label": "National Survey of Native Woodlands 2003-2008 provider page",
+            "url": "https://data.gov.ie/dataset/national-survey-of-native-woodlands-2003-2008",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "National Survey of Native Woodlands 2003-2008 Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-survey-of-native-woodlands-2003-2008",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/national-survey-of-native-woodlands-2003-2008",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source only",
+        "statusChips": [
+          "Source record",
+          "Runtime review pending",
+          "Spatial source",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Ireland / unspecified",
+          "source-data",
+          "National Survey of Native Woodlands 2003-2008"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "pdf",
+            "table-or-text"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/national-survey-of-native-woodlands-2003-2008",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-survey-of-native-woodlands-2003-2008",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, National Survey of Native Woodlands 2003-2008.",
+        "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. National Survey of Native Woodlands 2003-2008. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/national-survey-of-native-woodlands-2003-2008. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/national-survey-of-native-woodlands-2003-2008.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 256,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:national-survey-of-native-woodlands-2003-2008:00255",
+            "title": "National Survey of Native Woodlands 2003-2008",
+            "cleanTitle": "National Survey of Native Woodlands 2003-2008",
+            "provider": "data.gov.ie",
+            "organisation": "Department of Housing, Local Government and Heritage",
+            "category": "spatial",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "source-data",
+            "featureUnit": "features",
+            "formats": [
+              "HTML",
+              "PDF",
+              "SHP / ZIP"
+            ],
+            "isSpatial": true,
+            "isLargeOrSpecial": false,
+            "proposedAction": "local-authority-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "HTML",
+                "PDF",
+                "SHP / ZIP"
+              ]
+            },
+            "approvalState": "ready-with-residual-review",
+            "sourcePublicationState": "public source record with runtime/semantic review still pending",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/national-survey-of-native-woodlands-2003-2008",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-survey-of-native-woodlands-2003-2008",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "large-or-special-format-review: normal source package; no special-format hold",
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+            ],
+            "residualBlockers": [
+              "duplicate-or-variant-review: no existing match candidate"
+            ],
+            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:national-survey-of-native-woodlands-2003-2008:00255",
+          "sourceRowNumber": 256,
+          "approvalState": "ready-with-residual-review",
+          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "HTML",
+              "PDF",
+              "SHP / ZIP"
+            ]
+          },
+          "confidence": 60,
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate"
+          ],
+          "resolvedBlockers": [
+            "large-or-special-format-review: normal source package; no special-format hold",
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        },
+        "publicationStatus": "source-record-with-runtime-review",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "source-record-with-runtime-review",
+          "Local authority planning/property/open-data layers",
+          "source-data",
+          "features",
+          "Ireland / unspecified",
+          "local-authority-batch-review",
+          "HTML",
+          "PDF",
+          "SHP / ZIP",
+          "review:duplicate-or-variant-review-no-existing-match-candidate"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-national-survey-of-native-woodlands-2003-2008-00255"
+      }
+    },
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:national-waste-management-hazardous-and-transfrontier-licensed-companies:02243",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-national-waste-management-hazardous-and-transfrontier-licensed-companies-02243",
+      "type": "approved-medium-priority-source",
+      "title": "National Waste Management (Hazardous and Transfrontier) Licensed Companies DCC",
+      "subtitle": "Local authority planning/property/open-data layers / Dublin City Council, data.gov.ie / Republic of Ireland / CSV / Approved source record",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "provider": [
+        "Dublin City Council",
+        "data.gov.ie"
+      ],
+      "description": "National Waste Management (Hazardous and Transfrontier) Licensed Companies DCC is published as a medium-priority Civgraph source/provenance record from Dublin City Council, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/national-waste-management-hazardous-and-transfrontier-licensed-companies",
+      "references": [
+        {
+          "label": "National Waste Management (Hazardous and Transfrontier) Licensed Companies DCC provider page",
+          "url": "https://data.gov.ie/dataset/national-waste-management-hazardous-and-transfrontier-licensed-companies",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "National Waste Management (Hazardous and Transfrontier) Licensed Companies DCC Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-waste-management-hazardous-and-transfrontier-licensed-companies",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/national-waste-management-hazardous-and-transfrontier-licensed-companies",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Local authority planning/property/open-data layers",
+        "source-data",
+        "features",
+        "Republic of Ireland",
+        "local-authority-batch-review",
+        "CSV"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 2244,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:national-waste-management-hazardous-and-transfrontier-licensed-companies:02243",
+          "title": "National Waste Management (Hazardous and Transfrontier) Licensed Companies DCC",
+          "cleanTitle": "National Waste Management (Hazardous and Transfrontier) Licensed Companies DCC",
+          "provider": "data.gov.ie",
+          "organisation": "Dublin City Council",
+          "category": "tabular",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Republic of Ireland",
+          "topic": "source-data",
+          "featureUnit": "features",
+          "formats": [
+            "CSV"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 55,
+          "currentProviderUrl": "https://data.gov.ie/dataset/national-waste-management-hazardous-and-transfrontier-licensed-companies",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-waste-management-hazardous-and-transfrontier-licensed-companies",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Republic of Ireland",
+        "source-data",
+        "National Waste Management (Hazardous and Transfrontier) Licensed Companies DCC"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/national-waste-management-hazardous-and-transfrontier-licensed-companies",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-waste-management-hazardous-and-transfrontier-licensed-companies",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Dublin City Council, data.gov.ie, National Waste Management (Hazardous and Transfrontier) Licensed Companies DCC.",
+      "fullCitation": "Dublin City Council, data.gov.ie. National Waste Management (Hazardous and Transfrontier) Licensed Companies DCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/national-waste-management-hazardous-and-transfrontier-licensed-companies. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/national-waste-management-hazardous-and-transfrontier-licensed-companies.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:national-waste-management-hazardous-and-transfrontier-licensed-companies:02243",
+        "sourceRowNumber": 2244,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+        "proposedAction": "local-authority-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV"
+          ]
+        },
+        "confidence": 55,
+        "resolvedBlockers": [
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+          "needs-provider-context-review: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-national-waste-management-hazardous-and-transfrontier-licensed-companies-02243",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:national-waste-management-hazardous-and-transfrontier-licensed-companies:02243",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-national-waste-management-hazardous-and-transfrontier-licensed-companies-02243",
+        "type": "approved-medium-priority-source",
+        "title": "National Waste Management (Hazardous and Transfrontier) Licensed Companies DCC",
+        "subtitle": "Local authority planning/property/open-data layers / Dublin City Council, data.gov.ie / Republic of Ireland / CSV / Approved source record",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "provider": [
+          "Dublin City Council",
+          "data.gov.ie"
+        ],
+        "description": "National Waste Management (Hazardous and Transfrontier) Licensed Companies DCC is published as a medium-priority Civgraph source/provenance record from Dublin City Council, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/national-waste-management-hazardous-and-transfrontier-licensed-companies",
+        "references": [
+          {
+            "label": "National Waste Management (Hazardous and Transfrontier) Licensed Companies DCC provider page",
+            "url": "https://data.gov.ie/dataset/national-waste-management-hazardous-and-transfrontier-licensed-companies",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "National Waste Management (Hazardous and Transfrontier) Licensed Companies DCC Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-waste-management-hazardous-and-transfrontier-licensed-companies",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/national-waste-management-hazardous-and-transfrontier-licensed-companies",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Republic of Ireland",
+          "source-data",
+          "National Waste Management (Hazardous and Transfrontier) Licensed Companies DCC"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/national-waste-management-hazardous-and-transfrontier-licensed-companies",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-waste-management-hazardous-and-transfrontier-licensed-companies",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Dublin City Council, data.gov.ie, National Waste Management (Hazardous and Transfrontier) Licensed Companies DCC.",
+        "fullCitation": "Dublin City Council, data.gov.ie. National Waste Management (Hazardous and Transfrontier) Licensed Companies DCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/national-waste-management-hazardous-and-transfrontier-licensed-companies. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/national-waste-management-hazardous-and-transfrontier-licensed-companies.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 2244,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:national-waste-management-hazardous-and-transfrontier-licensed-companies:02243",
+            "title": "National Waste Management (Hazardous and Transfrontier) Licensed Companies DCC",
+            "cleanTitle": "National Waste Management (Hazardous and Transfrontier) Licensed Companies DCC",
+            "provider": "data.gov.ie",
+            "organisation": "Dublin City Council",
+            "category": "tabular",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Republic of Ireland",
+            "topic": "source-data",
+            "featureUnit": "features",
+            "formats": [
+              "CSV"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "local-authority-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 55,
+            "currentProviderUrl": "https://data.gov.ie/dataset/national-waste-management-hazardous-and-transfrontier-licensed-companies",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-waste-management-hazardous-and-transfrontier-licensed-companies",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+              "needs-provider-context-review: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:national-waste-management-hazardous-and-transfrontier-licensed-companies:02243",
+          "sourceRowNumber": 2244,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV"
+            ]
+          },
+          "confidence": 55,
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Local authority planning/property/open-data layers",
+          "source-data",
+          "features",
+          "Republic of Ireland",
+          "local-authority-batch-review",
+          "CSV"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-national-waste-management-hazardous-and-transfrontier-licensed-companies-02243"
+      }
+    },
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:nature-reserves-cdp-2022-2028:00641",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-nature-reserves-cdp-2022-2028-00641",
+      "type": "approved-medium-priority-source",
+      "title": "Nature Reserves (CDP 2022 - 2028)",
+      "subtitle": "Local authority planning/property/open-data layers / Wicklow County Council, data.gov.ie / Ireland / unspecified / CSV, CSV, SHAPEFILE, FILE GEODATABASE, GEOJSON AND KML, ESRI REST SERVICE, GEOJSON, KMZ, SHP / Source record; runtime review pending",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "date": "2022",
+      "provider": [
+        "Wicklow County Council",
+        "data.gov.ie"
+      ],
+      "description": "Nature Reserves (CDP 2022 - 2028) is published as a medium-priority Civgraph source/provenance record from Wicklow County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; Large/special format: requires download-only vs derived-runtime decision..",
+      "url": "https://data.gov.ie/dataset/nature-reserves-cdp-2022-2028",
+      "references": [
+        {
+          "label": "Nature Reserves (CDP 2022 - 2028) provider page",
+          "url": "https://data.gov.ie/dataset/nature-reserves-cdp-2022-2028",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "Nature Reserves (CDP 2022 - 2028) Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/nature-reserves-cdp-2022-2028",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/nature-reserves-cdp-2022-2028",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "source-record-with-runtime-review",
+        "Local authority planning/property/open-data layers",
+        "source-data",
+        "features",
+        "Ireland / unspecified",
+        "hold-special-format",
+        "CSV",
+        "CSV, SHAPEFILE, FILE GEODATABASE, GEOJSON AND KML",
+        "ESRI REST SERVICE",
+        "GEOJSON",
+        "KMZ",
+        "SHP",
+        "review:duplicate-or-variant-review-no-existing-match-candidate",
+        "review:large-special-format-requires-download-only-vs-derived-runtime-decision"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 642,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:nature-reserves-cdp-2022-2028:00641",
+          "title": "Nature Reserves (CDP 2022 - 2028)",
+          "cleanTitle": "Nature Reserves (CDP 2022 - 2028)",
+          "provider": "data.gov.ie",
+          "organisation": "Wicklow County Council",
+          "category": "spatial",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "source-data",
+          "featureUnit": "features",
+          "formats": [
+            "CSV",
+            "CSV, SHAPEFILE, FILE GEODATABASE, GEOJSON AND KML",
+            "ESRI REST SERVICE",
+            "GEOJSON",
+            "KMZ",
+            "SHP"
+          ],
+          "isSpatial": true,
+          "isLargeOrSpecial": true,
+          "proposedAction": "hold-special-format",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "download/source viewport first",
+            "conversion": "Do not convert until size/format review approves an interactive derivative.",
+            "sourceFormats": [
+              "CSV",
+              "CSV, SHAPEFILE, FILE GEODATABASE, GEOJSON AND KML",
+              "ESRI REST SERVICE",
+              "GEOJSON",
+              "KMZ",
+              "SHP"
+            ]
+          },
+          "approvalState": "ready-with-residual-review",
+          "sourcePublicationState": "public source record with runtime/semantic review still pending",
+          "confidence": 45,
+          "currentProviderUrl": "https://data.gov.ie/dataset/nature-reserves-cdp-2022-2028",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/nature-reserves-cdp-2022-2028",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate",
+            "Large/special format: requires download-only vs derived-runtime decision."
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
+        }
+      ],
+      "status": "Source only",
+      "statusChips": [
+        "Source record",
+        "Runtime review pending",
+        "Spatial source",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Ireland / unspecified",
+        "source-data",
+        "Nature Reserves (CDP 2022 - 2028)"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "download-only"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/nature-reserves-cdp-2022-2028",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/nature-reserves-cdp-2022-2028",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "Do not convert until size/format review approves an interactive derivative."
+      },
+      "shortCitation": "Wicklow County Council, data.gov.ie, Nature Reserves (CDP 2022 - 2028).",
+      "fullCitation": "Wicklow County Council, data.gov.ie. Nature Reserves (CDP 2022 - 2028). Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/nature-reserves-cdp-2022-2028. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/nature-reserves-cdp-2022-2028.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:nature-reserves-cdp-2022-2028:00641",
+        "sourceRowNumber": 642,
+        "approvalState": "ready-with-residual-review",
+        "recommendedAction": "publish source record; hold runtime conversion pending size/format review",
+        "proposedAction": "hold-special-format",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "download/source viewport first",
+          "conversion": "Do not convert until size/format review approves an interactive derivative.",
+          "sourceFormats": [
+            "CSV",
+            "CSV, SHAPEFILE, FILE GEODATABASE, GEOJSON AND KML",
+            "ESRI REST SERVICE",
+            "GEOJSON",
+            "KMZ",
+            "SHP"
+          ]
+        },
+        "confidence": 45,
+        "residualBlockers": [
+          "duplicate-or-variant-review: no existing match candidate",
+          "Large/special format: requires download-only vs derived-runtime decision."
+        ],
+        "resolvedBlockers": [
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+        ],
+        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
+      },
+      "publicationStatus": "source-record-with-runtime-review",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-nature-reserves-cdp-2022-2028-00641",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:nature-reserves-cdp-2022-2028:00641",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-nature-reserves-cdp-2022-2028-00641",
+        "type": "approved-medium-priority-source",
+        "title": "Nature Reserves (CDP 2022 - 2028)",
+        "subtitle": "Local authority planning/property/open-data layers / Wicklow County Council, data.gov.ie / Ireland / unspecified / CSV, CSV, SHAPEFILE, FILE GEODATABASE, GEOJSON AND KML, ESRI REST SERVICE, GEOJSON, KMZ, SHP / Source record; runtime review pending",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "date": "2022",
+        "provider": [
+          "Wicklow County Council",
+          "data.gov.ie"
+        ],
+        "description": "Nature Reserves (CDP 2022 - 2028) is published as a medium-priority Civgraph source/provenance record from Wicklow County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; Large/special format: requires download-only vs derived-runtime decision..",
+        "url": "https://data.gov.ie/dataset/nature-reserves-cdp-2022-2028",
+        "references": [
+          {
+            "label": "Nature Reserves (CDP 2022 - 2028) provider page",
+            "url": "https://data.gov.ie/dataset/nature-reserves-cdp-2022-2028",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "Nature Reserves (CDP 2022 - 2028) Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/nature-reserves-cdp-2022-2028",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/nature-reserves-cdp-2022-2028",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source only",
+        "statusChips": [
+          "Source record",
+          "Runtime review pending",
+          "Spatial source",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Ireland / unspecified",
+          "source-data",
+          "Nature Reserves (CDP 2022 - 2028)"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "download-only"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/nature-reserves-cdp-2022-2028",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/nature-reserves-cdp-2022-2028",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "Do not convert until size/format review approves an interactive derivative."
+        },
+        "shortCitation": "Wicklow County Council, data.gov.ie, Nature Reserves (CDP 2022 - 2028).",
+        "fullCitation": "Wicklow County Council, data.gov.ie. Nature Reserves (CDP 2022 - 2028). Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/nature-reserves-cdp-2022-2028. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/nature-reserves-cdp-2022-2028.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 642,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:nature-reserves-cdp-2022-2028:00641",
+            "title": "Nature Reserves (CDP 2022 - 2028)",
+            "cleanTitle": "Nature Reserves (CDP 2022 - 2028)",
+            "provider": "data.gov.ie",
+            "organisation": "Wicklow County Council",
+            "category": "spatial",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "source-data",
+            "featureUnit": "features",
+            "formats": [
+              "CSV",
+              "CSV, SHAPEFILE, FILE GEODATABASE, GEOJSON AND KML",
+              "ESRI REST SERVICE",
+              "GEOJSON",
+              "KMZ",
+              "SHP"
+            ],
+            "isSpatial": true,
+            "isLargeOrSpecial": true,
+            "proposedAction": "hold-special-format",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "download/source viewport first",
+              "conversion": "Do not convert until size/format review approves an interactive derivative.",
+              "sourceFormats": [
+                "CSV",
+                "CSV, SHAPEFILE, FILE GEODATABASE, GEOJSON AND KML",
+                "ESRI REST SERVICE",
+                "GEOJSON",
+                "KMZ",
+                "SHP"
+              ]
+            },
+            "approvalState": "ready-with-residual-review",
+            "sourcePublicationState": "public source record with runtime/semantic review still pending",
+            "confidence": 45,
+            "currentProviderUrl": "https://data.gov.ie/dataset/nature-reserves-cdp-2022-2028",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/nature-reserves-cdp-2022-2028",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+            ],
+            "residualBlockers": [
+              "duplicate-or-variant-review: no existing match candidate",
+              "Large/special format: requires download-only vs derived-runtime decision."
+            ],
+            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:nature-reserves-cdp-2022-2028:00641",
+          "sourceRowNumber": 642,
+          "approvalState": "ready-with-residual-review",
+          "recommendedAction": "publish source record; hold runtime conversion pending size/format review",
+          "proposedAction": "hold-special-format",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "download/source viewport first",
+            "conversion": "Do not convert until size/format review approves an interactive derivative.",
+            "sourceFormats": [
+              "CSV",
+              "CSV, SHAPEFILE, FILE GEODATABASE, GEOJSON AND KML",
+              "ESRI REST SERVICE",
+              "GEOJSON",
+              "KMZ",
+              "SHP"
+            ]
+          },
+          "confidence": 45,
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate",
+            "Large/special format: requires download-only vs derived-runtime decision."
+          ],
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
+        },
+        "publicationStatus": "source-record-with-runtime-review",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "source-record-with-runtime-review",
+          "Local authority planning/property/open-data layers",
+          "source-data",
+          "features",
+          "Ireland / unspecified",
+          "hold-special-format",
+          "CSV",
+          "CSV, SHAPEFILE, FILE GEODATABASE, GEOJSON AND KML",
+          "ESRI REST SERVICE",
+          "GEOJSON",
+          "KMZ",
+          "SHP",
+          "review:duplicate-or-variant-review-no-existing-match-candidate",
+          "review:large-special-format-requires-download-only-vs-derived-runtime-decision"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-nature-reserves-cdp-2022-2028-00641"
       }
     }
   ]

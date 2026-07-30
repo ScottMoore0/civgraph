@@ -1,1542 +1,10 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-29T22:09:35.048Z",
+  "generatedAt": "2026-07-30T20:12:41.046Z",
   "kind": "sources",
   "shard": "sources-191.json",
   "total": 200,
   "items": [
-    {
-      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:dev-plan-2017-2023-landscape-character-areas-fcc2:00505",
-      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-dev-plan-2017-2023-landscape-character-areas-fcc2-00505",
-      "type": "approved-medium-priority-source",
-      "title": "Dev Plan 2017 2023 Landscape Character Areas FCC",
-      "subtitle": "Local authority planning/property/open-data layers / Fingal County Council, data.gov.ie / Ireland / unspecified / ARCGIS GEOSERVICES REST API, CSV, GEOJSON, HTML, KML, ZIP / Source record; runtime review pending",
-      "category": "Medium-priority: Local authority planning/property/open-data layers",
-      "date": "2017",
-      "provider": [
-        "Fingal County Council",
-        "data.gov.ie"
-      ],
-      "description": "Dev Plan 2017 2023 Landscape Character Areas FCC is published as a medium-priority Civgraph source/provenance record from Fingal County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-      "url": "https://data.gov.ie/dataset/dev-plan-2017-2023-landscape-character-areas-fcc2",
-      "references": [
-        {
-          "label": "Dev Plan 2017 2023 Landscape Character Areas FCC provider page",
-          "url": "https://data.gov.ie/dataset/dev-plan-2017-2023-landscape-character-areas-fcc2",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Dev Plan 2017 2023 Landscape Character Areas FCC Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dev-plan-2017-2023-landscape-character-areas-fcc2",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/dev-plan-2017-2023-landscape-character-areas-fcc2",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "source-record-with-runtime-review",
-        "Local authority planning/property/open-data layers",
-        "source-data",
-        "features",
-        "Ireland / unspecified",
-        "local-authority-batch-review",
-        "ARCGIS GEOSERVICES REST API",
-        "CSV",
-        "GEOJSON",
-        "HTML",
-        "KML",
-        "ZIP",
-        "review:duplicate-or-variant-review-no-existing-match-candidate"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 506,
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:dev-plan-2017-2023-landscape-character-areas-fcc2:00505",
-          "title": "Dev Plan 2017 2023 Landscape Character Areas FCC",
-          "cleanTitle": "Dev Plan 2017 2023 Landscape Character Areas FCC",
-          "provider": "data.gov.ie",
-          "organisation": "Fingal County Council",
-          "category": "spatial",
-          "roiGroup": "5. Local authority planning/property/open-data layers",
-          "groupTitle": "Local authority planning/property/open-data layers",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "source-data",
-          "featureUnit": "features",
-          "formats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "GEOJSON",
-            "HTML",
-            "KML",
-            "ZIP"
-          ],
-          "isSpatial": true,
-          "isLargeOrSpecial": false,
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GEOJSON",
-              "HTML",
-              "KML",
-              "ZIP"
-            ]
-          },
-          "approvalState": "ready-with-residual-review",
-          "sourcePublicationState": "public source record with runtime/semantic review still pending",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/dev-plan-2017-2023-landscape-character-areas-fcc2",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dev-plan-2017-2023-landscape-character-areas-fcc2",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source record",
-        "Runtime review pending",
-        "Spatial source",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Local authority planning/property/open-data layers",
-        "Ireland / unspecified",
-        "source-data",
-        "Dev Plan 2017 2023 Landscape Character Areas FCC"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text",
-          "download-only"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/dev-plan-2017-2023-landscape-character-areas-fcc2",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dev-plan-2017-2023-landscape-character-areas-fcc2",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Fingal County Council, data.gov.ie, Dev Plan 2017 2023 Landscape Character Areas FCC.",
-      "fullCitation": "Fingal County Council, data.gov.ie. Dev Plan 2017 2023 Landscape Character Areas FCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dev-plan-2017-2023-landscape-character-areas-fcc2. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dev-plan-2017-2023-landscape-character-areas-fcc2.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:dev-plan-2017-2023-landscape-character-areas-fcc2:00505",
-        "sourceRowNumber": 506,
-        "approvalState": "ready-with-residual-review",
-        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-        "proposedAction": "local-authority-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "GEOJSON",
-            "HTML",
-            "KML",
-            "ZIP"
-          ]
-        },
-        "confidence": 60,
-        "residualBlockers": [
-          "duplicate-or-variant-review: no existing match candidate"
-        ],
-        "resolvedBlockers": [
-          "large-or-special-format-review: normal source package; no special-format hold",
-          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-        ],
-        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-      },
-      "publicationStatus": "source-record-with-runtime-review",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-dev-plan-2017-2023-landscape-character-areas-fcc2-00505",
-      "rawMetadata": {
-        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:dev-plan-2017-2023-landscape-character-areas-fcc2:00505",
-        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-dev-plan-2017-2023-landscape-character-areas-fcc2-00505",
-        "type": "approved-medium-priority-source",
-        "title": "Dev Plan 2017 2023 Landscape Character Areas FCC",
-        "subtitle": "Local authority planning/property/open-data layers / Fingal County Council, data.gov.ie / Ireland / unspecified / ARCGIS GEOSERVICES REST API, CSV, GEOJSON, HTML, KML, ZIP / Source record; runtime review pending",
-        "category": "Medium-priority: Local authority planning/property/open-data layers",
-        "date": "2017",
-        "provider": [
-          "Fingal County Council",
-          "data.gov.ie"
-        ],
-        "description": "Dev Plan 2017 2023 Landscape Character Areas FCC is published as a medium-priority Civgraph source/provenance record from Fingal County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-        "url": "https://data.gov.ie/dataset/dev-plan-2017-2023-landscape-character-areas-fcc2",
-        "references": [
-          {
-            "label": "Dev Plan 2017 2023 Landscape Character Areas FCC provider page",
-            "url": "https://data.gov.ie/dataset/dev-plan-2017-2023-landscape-character-areas-fcc2",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Dev Plan 2017 2023 Landscape Character Areas FCC Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dev-plan-2017-2023-landscape-character-areas-fcc2",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/dev-plan-2017-2023-landscape-character-areas-fcc2",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source record",
-          "Runtime review pending",
-          "Spatial source",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Local authority planning/property/open-data layers",
-          "Ireland / unspecified",
-          "source-data",
-          "Dev Plan 2017 2023 Landscape Character Areas FCC"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text",
-            "download-only"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/dev-plan-2017-2023-landscape-character-areas-fcc2",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dev-plan-2017-2023-landscape-character-areas-fcc2",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Fingal County Council, data.gov.ie, Dev Plan 2017 2023 Landscape Character Areas FCC.",
-        "fullCitation": "Fingal County Council, data.gov.ie. Dev Plan 2017 2023 Landscape Character Areas FCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/dev-plan-2017-2023-landscape-character-areas-fcc2. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/dev-plan-2017-2023-landscape-character-areas-fcc2.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 506,
-            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:dev-plan-2017-2023-landscape-character-areas-fcc2:00505",
-            "title": "Dev Plan 2017 2023 Landscape Character Areas FCC",
-            "cleanTitle": "Dev Plan 2017 2023 Landscape Character Areas FCC",
-            "provider": "data.gov.ie",
-            "organisation": "Fingal County Council",
-            "category": "spatial",
-            "roiGroup": "5. Local authority planning/property/open-data layers",
-            "groupTitle": "Local authority planning/property/open-data layers",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "source-data",
-            "featureUnit": "features",
-            "formats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GEOJSON",
-              "HTML",
-              "KML",
-              "ZIP"
-            ],
-            "isSpatial": true,
-            "isLargeOrSpecial": false,
-            "proposedAction": "local-authority-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "ARCGIS GEOSERVICES REST API",
-                "CSV",
-                "GEOJSON",
-                "HTML",
-                "KML",
-                "ZIP"
-              ]
-            },
-            "approvalState": "ready-with-residual-review",
-            "sourcePublicationState": "public source record with runtime/semantic review still pending",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/dev-plan-2017-2023-landscape-character-areas-fcc2",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/dev-plan-2017-2023-landscape-character-areas-fcc2",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "large-or-special-format-review: normal source package; no special-format hold",
-              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-            ],
-            "residualBlockers": [
-              "duplicate-or-variant-review: no existing match candidate"
-            ],
-            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:dev-plan-2017-2023-landscape-character-areas-fcc2:00505",
-          "sourceRowNumber": 506,
-          "approvalState": "ready-with-residual-review",
-          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GEOJSON",
-              "HTML",
-              "KML",
-              "ZIP"
-            ]
-          },
-          "confidence": 60,
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate"
-          ],
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        },
-        "publicationStatus": "source-record-with-runtime-review",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "source-record-with-runtime-review",
-          "Local authority planning/property/open-data layers",
-          "source-data",
-          "features",
-          "Ireland / unspecified",
-          "local-authority-batch-review",
-          "ARCGIS GEOSERVICES REST API",
-          "CSV",
-          "GEOJSON",
-          "HTML",
-          "KML",
-          "ZIP",
-          "review:duplicate-or-variant-review-no-existing-match-candidate"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-dev-plan-2017-2023-landscape-character-areas-fcc2-00505"
-      }
-    },
-    {
-      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:development-plan-2017-2023-aca-architectural-conservation-area-fcc2:00514",
-      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-development-plan-2017-2023-aca-architectural-conservation-area-fcc2-00514",
-      "type": "approved-medium-priority-source",
-      "title": "Development Plan 2017/2023 ACA Architectural Conservation Area FCC",
-      "subtitle": "Local authority planning/property/open-data layers / Fingal County Council, data.gov.ie / Ireland / unspecified / ARCGIS GEOSERVICES REST API, CSV, GEOJSON, HTML, KML, ZIP / Source record; runtime review pending",
-      "category": "Medium-priority: Local authority planning/property/open-data layers",
-      "date": "2017",
-      "provider": [
-        "Fingal County Council",
-        "data.gov.ie"
-      ],
-      "description": "Development Plan 2017/2023 ACA Architectural Conservation Area FCC is published as a medium-priority Civgraph source/provenance record from Fingal County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-      "url": "https://data.gov.ie/dataset/development-plan-2017-2023-aca-architectural-conservation-area-fcc2",
-      "references": [
-        {
-          "label": "Development Plan 2017/2023 ACA Architectural Conservation Area FCC provider page",
-          "url": "https://data.gov.ie/dataset/development-plan-2017-2023-aca-architectural-conservation-area-fcc2",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Development Plan 2017/2023 ACA Architectural Conservation Area FCC Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/development-plan-2017-2023-aca-architectural-conservation-area-fcc2",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/development-plan-2017-2023-aca-architectural-conservation-area-fcc2",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "source-record-with-runtime-review",
-        "Local authority planning/property/open-data layers",
-        "planning-property",
-        "features",
-        "Ireland / unspecified",
-        "local-authority-batch-review",
-        "ARCGIS GEOSERVICES REST API",
-        "CSV",
-        "GEOJSON",
-        "HTML",
-        "KML",
-        "ZIP",
-        "review:duplicate-or-variant-review-no-existing-match-candidate"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 515,
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:development-plan-2017-2023-aca-architectural-conservation-area-fcc2:00514",
-          "title": "Development Plan 2017/2023 ACA Architectural Conservation Area FCC",
-          "cleanTitle": "Development Plan 2017/2023 ACA Architectural Conservation Area FCC",
-          "provider": "data.gov.ie",
-          "organisation": "Fingal County Council",
-          "category": "spatial",
-          "roiGroup": "5. Local authority planning/property/open-data layers",
-          "groupTitle": "Local authority planning/property/open-data layers",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "planning-property",
-          "featureUnit": "features",
-          "formats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "GEOJSON",
-            "HTML",
-            "KML",
-            "ZIP"
-          ],
-          "isSpatial": true,
-          "isLargeOrSpecial": false,
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GEOJSON",
-              "HTML",
-              "KML",
-              "ZIP"
-            ]
-          },
-          "approvalState": "ready-with-residual-review",
-          "sourcePublicationState": "public source record with runtime/semantic review still pending",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/development-plan-2017-2023-aca-architectural-conservation-area-fcc2",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/development-plan-2017-2023-aca-architectural-conservation-area-fcc2",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source record",
-        "Runtime review pending",
-        "Spatial source",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Local authority planning/property/open-data layers",
-        "Ireland / unspecified",
-        "planning-property",
-        "Development Plan 2017/2023 ACA Architectural Conservation Area FCC"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text",
-          "download-only"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/development-plan-2017-2023-aca-architectural-conservation-area-fcc2",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/development-plan-2017-2023-aca-architectural-conservation-area-fcc2",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Fingal County Council, data.gov.ie, Development Plan 2017/2023 ACA Architectural Conservation Area FCC.",
-      "fullCitation": "Fingal County Council, data.gov.ie. Development Plan 2017/2023 ACA Architectural Conservation Area FCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/development-plan-2017-2023-aca-architectural-conservation-area-fcc2. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/development-plan-2017-2023-aca-architectural-conservation-area-fcc2.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:development-plan-2017-2023-aca-architectural-conservation-area-fcc2:00514",
-        "sourceRowNumber": 515,
-        "approvalState": "ready-with-residual-review",
-        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-        "proposedAction": "local-authority-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "GEOJSON",
-            "HTML",
-            "KML",
-            "ZIP"
-          ]
-        },
-        "confidence": 60,
-        "residualBlockers": [
-          "duplicate-or-variant-review: no existing match candidate"
-        ],
-        "resolvedBlockers": [
-          "large-or-special-format-review: normal source package; no special-format hold",
-          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-        ],
-        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-      },
-      "publicationStatus": "source-record-with-runtime-review",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-development-plan-2017-2023-aca-architectural-conservation-area-fcc2-00514",
-      "rawMetadata": {
-        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:development-plan-2017-2023-aca-architectural-conservation-area-fcc2:00514",
-        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-development-plan-2017-2023-aca-architectural-conservation-area-fcc2-00514",
-        "type": "approved-medium-priority-source",
-        "title": "Development Plan 2017/2023 ACA Architectural Conservation Area FCC",
-        "subtitle": "Local authority planning/property/open-data layers / Fingal County Council, data.gov.ie / Ireland / unspecified / ARCGIS GEOSERVICES REST API, CSV, GEOJSON, HTML, KML, ZIP / Source record; runtime review pending",
-        "category": "Medium-priority: Local authority planning/property/open-data layers",
-        "date": "2017",
-        "provider": [
-          "Fingal County Council",
-          "data.gov.ie"
-        ],
-        "description": "Development Plan 2017/2023 ACA Architectural Conservation Area FCC is published as a medium-priority Civgraph source/provenance record from Fingal County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-        "url": "https://data.gov.ie/dataset/development-plan-2017-2023-aca-architectural-conservation-area-fcc2",
-        "references": [
-          {
-            "label": "Development Plan 2017/2023 ACA Architectural Conservation Area FCC provider page",
-            "url": "https://data.gov.ie/dataset/development-plan-2017-2023-aca-architectural-conservation-area-fcc2",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Development Plan 2017/2023 ACA Architectural Conservation Area FCC Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/development-plan-2017-2023-aca-architectural-conservation-area-fcc2",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/development-plan-2017-2023-aca-architectural-conservation-area-fcc2",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source record",
-          "Runtime review pending",
-          "Spatial source",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Local authority planning/property/open-data layers",
-          "Ireland / unspecified",
-          "planning-property",
-          "Development Plan 2017/2023 ACA Architectural Conservation Area FCC"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text",
-            "download-only"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/development-plan-2017-2023-aca-architectural-conservation-area-fcc2",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/development-plan-2017-2023-aca-architectural-conservation-area-fcc2",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Fingal County Council, data.gov.ie, Development Plan 2017/2023 ACA Architectural Conservation Area FCC.",
-        "fullCitation": "Fingal County Council, data.gov.ie. Development Plan 2017/2023 ACA Architectural Conservation Area FCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/development-plan-2017-2023-aca-architectural-conservation-area-fcc2. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/development-plan-2017-2023-aca-architectural-conservation-area-fcc2.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 515,
-            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:development-plan-2017-2023-aca-architectural-conservation-area-fcc2:00514",
-            "title": "Development Plan 2017/2023 ACA Architectural Conservation Area FCC",
-            "cleanTitle": "Development Plan 2017/2023 ACA Architectural Conservation Area FCC",
-            "provider": "data.gov.ie",
-            "organisation": "Fingal County Council",
-            "category": "spatial",
-            "roiGroup": "5. Local authority planning/property/open-data layers",
-            "groupTitle": "Local authority planning/property/open-data layers",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "planning-property",
-            "featureUnit": "features",
-            "formats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GEOJSON",
-              "HTML",
-              "KML",
-              "ZIP"
-            ],
-            "isSpatial": true,
-            "isLargeOrSpecial": false,
-            "proposedAction": "local-authority-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "ARCGIS GEOSERVICES REST API",
-                "CSV",
-                "GEOJSON",
-                "HTML",
-                "KML",
-                "ZIP"
-              ]
-            },
-            "approvalState": "ready-with-residual-review",
-            "sourcePublicationState": "public source record with runtime/semantic review still pending",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/development-plan-2017-2023-aca-architectural-conservation-area-fcc2",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/development-plan-2017-2023-aca-architectural-conservation-area-fcc2",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "large-or-special-format-review: normal source package; no special-format hold",
-              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-            ],
-            "residualBlockers": [
-              "duplicate-or-variant-review: no existing match candidate"
-            ],
-            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:development-plan-2017-2023-aca-architectural-conservation-area-fcc2:00514",
-          "sourceRowNumber": 515,
-          "approvalState": "ready-with-residual-review",
-          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GEOJSON",
-              "HTML",
-              "KML",
-              "ZIP"
-            ]
-          },
-          "confidence": 60,
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate"
-          ],
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        },
-        "publicationStatus": "source-record-with-runtime-review",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "source-record-with-runtime-review",
-          "Local authority planning/property/open-data layers",
-          "planning-property",
-          "features",
-          "Ireland / unspecified",
-          "local-authority-batch-review",
-          "ARCGIS GEOSERVICES REST API",
-          "CSV",
-          "GEOJSON",
-          "HTML",
-          "KML",
-          "ZIP",
-          "review:duplicate-or-variant-review-no-existing-match-candidate"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-development-plan-2017-2023-aca-architectural-conservation-area-fcc2-00514"
-      }
-    },
-    {
-      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:development-plan-2017-2023-highly-sensitive-landscape-fcc2:00509",
-      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-development-plan-2017-2023-highly-sensitive-landscape-fcc2-00509",
-      "type": "approved-medium-priority-source",
-      "title": "Development Plan 2017 2023 Highly Sensitive Landscape FCC",
-      "subtitle": "Local authority planning/property/open-data layers / Fingal County Council, data.gov.ie / Ireland / unspecified / ARCGIS GEOSERVICES REST API, CSV, GEOJSON, HTML, KML, ZIP / Source record; runtime review pending",
-      "category": "Medium-priority: Local authority planning/property/open-data layers",
-      "date": "2017",
-      "provider": [
-        "Fingal County Council",
-        "data.gov.ie"
-      ],
-      "description": "Development Plan 2017 2023 Highly Sensitive Landscape FCC is published as a medium-priority Civgraph source/provenance record from Fingal County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-      "url": "https://data.gov.ie/dataset/development-plan-2017-2023-highly-sensitive-landscape-fcc2",
-      "references": [
-        {
-          "label": "Development Plan 2017 2023 Highly Sensitive Landscape FCC provider page",
-          "url": "https://data.gov.ie/dataset/development-plan-2017-2023-highly-sensitive-landscape-fcc2",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Development Plan 2017 2023 Highly Sensitive Landscape FCC Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/development-plan-2017-2023-highly-sensitive-landscape-fcc2",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/development-plan-2017-2023-highly-sensitive-landscape-fcc2",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "source-record-with-runtime-review",
-        "Local authority planning/property/open-data layers",
-        "planning-property",
-        "features",
-        "Ireland / unspecified",
-        "local-authority-batch-review",
-        "ARCGIS GEOSERVICES REST API",
-        "CSV",
-        "GEOJSON",
-        "HTML",
-        "KML",
-        "ZIP",
-        "review:duplicate-or-variant-review-no-existing-match-candidate"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 510,
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:development-plan-2017-2023-highly-sensitive-landscape-fcc2:00509",
-          "title": "Development Plan 2017 2023 Highly Sensitive Landscape FCC",
-          "cleanTitle": "Development Plan 2017 2023 Highly Sensitive Landscape FCC",
-          "provider": "data.gov.ie",
-          "organisation": "Fingal County Council",
-          "category": "spatial",
-          "roiGroup": "5. Local authority planning/property/open-data layers",
-          "groupTitle": "Local authority planning/property/open-data layers",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "planning-property",
-          "featureUnit": "features",
-          "formats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "GEOJSON",
-            "HTML",
-            "KML",
-            "ZIP"
-          ],
-          "isSpatial": true,
-          "isLargeOrSpecial": false,
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GEOJSON",
-              "HTML",
-              "KML",
-              "ZIP"
-            ]
-          },
-          "approvalState": "ready-with-residual-review",
-          "sourcePublicationState": "public source record with runtime/semantic review still pending",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/development-plan-2017-2023-highly-sensitive-landscape-fcc2",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/development-plan-2017-2023-highly-sensitive-landscape-fcc2",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source record",
-        "Runtime review pending",
-        "Spatial source",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Local authority planning/property/open-data layers",
-        "Ireland / unspecified",
-        "planning-property",
-        "Development Plan 2017 2023 Highly Sensitive Landscape FCC"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text",
-          "download-only"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/development-plan-2017-2023-highly-sensitive-landscape-fcc2",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/development-plan-2017-2023-highly-sensitive-landscape-fcc2",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Fingal County Council, data.gov.ie, Development Plan 2017 2023 Highly Sensitive Landscape FCC.",
-      "fullCitation": "Fingal County Council, data.gov.ie. Development Plan 2017 2023 Highly Sensitive Landscape FCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/development-plan-2017-2023-highly-sensitive-landscape-fcc2. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/development-plan-2017-2023-highly-sensitive-landscape-fcc2.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:development-plan-2017-2023-highly-sensitive-landscape-fcc2:00509",
-        "sourceRowNumber": 510,
-        "approvalState": "ready-with-residual-review",
-        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-        "proposedAction": "local-authority-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "GEOJSON",
-            "HTML",
-            "KML",
-            "ZIP"
-          ]
-        },
-        "confidence": 60,
-        "residualBlockers": [
-          "duplicate-or-variant-review: no existing match candidate"
-        ],
-        "resolvedBlockers": [
-          "large-or-special-format-review: normal source package; no special-format hold",
-          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-        ],
-        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-      },
-      "publicationStatus": "source-record-with-runtime-review",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-development-plan-2017-2023-highly-sensitive-landscape-fcc2-00509",
-      "rawMetadata": {
-        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:development-plan-2017-2023-highly-sensitive-landscape-fcc2:00509",
-        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-development-plan-2017-2023-highly-sensitive-landscape-fcc2-00509",
-        "type": "approved-medium-priority-source",
-        "title": "Development Plan 2017 2023 Highly Sensitive Landscape FCC",
-        "subtitle": "Local authority planning/property/open-data layers / Fingal County Council, data.gov.ie / Ireland / unspecified / ARCGIS GEOSERVICES REST API, CSV, GEOJSON, HTML, KML, ZIP / Source record; runtime review pending",
-        "category": "Medium-priority: Local authority planning/property/open-data layers",
-        "date": "2017",
-        "provider": [
-          "Fingal County Council",
-          "data.gov.ie"
-        ],
-        "description": "Development Plan 2017 2023 Highly Sensitive Landscape FCC is published as a medium-priority Civgraph source/provenance record from Fingal County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-        "url": "https://data.gov.ie/dataset/development-plan-2017-2023-highly-sensitive-landscape-fcc2",
-        "references": [
-          {
-            "label": "Development Plan 2017 2023 Highly Sensitive Landscape FCC provider page",
-            "url": "https://data.gov.ie/dataset/development-plan-2017-2023-highly-sensitive-landscape-fcc2",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Development Plan 2017 2023 Highly Sensitive Landscape FCC Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/development-plan-2017-2023-highly-sensitive-landscape-fcc2",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/development-plan-2017-2023-highly-sensitive-landscape-fcc2",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source record",
-          "Runtime review pending",
-          "Spatial source",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Local authority planning/property/open-data layers",
-          "Ireland / unspecified",
-          "planning-property",
-          "Development Plan 2017 2023 Highly Sensitive Landscape FCC"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text",
-            "download-only"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/development-plan-2017-2023-highly-sensitive-landscape-fcc2",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/development-plan-2017-2023-highly-sensitive-landscape-fcc2",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Fingal County Council, data.gov.ie, Development Plan 2017 2023 Highly Sensitive Landscape FCC.",
-        "fullCitation": "Fingal County Council, data.gov.ie. Development Plan 2017 2023 Highly Sensitive Landscape FCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/development-plan-2017-2023-highly-sensitive-landscape-fcc2. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/development-plan-2017-2023-highly-sensitive-landscape-fcc2.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 510,
-            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:development-plan-2017-2023-highly-sensitive-landscape-fcc2:00509",
-            "title": "Development Plan 2017 2023 Highly Sensitive Landscape FCC",
-            "cleanTitle": "Development Plan 2017 2023 Highly Sensitive Landscape FCC",
-            "provider": "data.gov.ie",
-            "organisation": "Fingal County Council",
-            "category": "spatial",
-            "roiGroup": "5. Local authority planning/property/open-data layers",
-            "groupTitle": "Local authority planning/property/open-data layers",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "planning-property",
-            "featureUnit": "features",
-            "formats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GEOJSON",
-              "HTML",
-              "KML",
-              "ZIP"
-            ],
-            "isSpatial": true,
-            "isLargeOrSpecial": false,
-            "proposedAction": "local-authority-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "ARCGIS GEOSERVICES REST API",
-                "CSV",
-                "GEOJSON",
-                "HTML",
-                "KML",
-                "ZIP"
-              ]
-            },
-            "approvalState": "ready-with-residual-review",
-            "sourcePublicationState": "public source record with runtime/semantic review still pending",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/development-plan-2017-2023-highly-sensitive-landscape-fcc2",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/development-plan-2017-2023-highly-sensitive-landscape-fcc2",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "large-or-special-format-review: normal source package; no special-format hold",
-              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-            ],
-            "residualBlockers": [
-              "duplicate-or-variant-review: no existing match candidate"
-            ],
-            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:development-plan-2017-2023-highly-sensitive-landscape-fcc2:00509",
-          "sourceRowNumber": 510,
-          "approvalState": "ready-with-residual-review",
-          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GEOJSON",
-              "HTML",
-              "KML",
-              "ZIP"
-            ]
-          },
-          "confidence": 60,
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate"
-          ],
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        },
-        "publicationStatus": "source-record-with-runtime-review",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "source-record-with-runtime-review",
-          "Local authority planning/property/open-data layers",
-          "planning-property",
-          "features",
-          "Ireland / unspecified",
-          "local-authority-batch-review",
-          "ARCGIS GEOSERVICES REST API",
-          "CSV",
-          "GEOJSON",
-          "HTML",
-          "KML",
-          "ZIP",
-          "review:duplicate-or-variant-review-no-existing-match-candidate"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-development-plan-2017-2023-highly-sensitive-landscape-fcc2-00509"
-      }
-    },
-    {
-      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:development-plan-2017-2023-local-objective-points-fcc2:00510",
-      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-development-plan-2017-2023-local-objective-points-fcc2-00510",
-      "type": "approved-medium-priority-source",
-      "title": "Development Plan 2017 2023 Local Objective Points FCC",
-      "subtitle": "Local authority planning/property/open-data layers / Fingal County Council, data.gov.ie / Ireland / unspecified / ARCGIS GEOSERVICES REST API, CSV, GEOJSON, HTML, KML, ZIP / Source record; runtime review pending",
-      "category": "Medium-priority: Local authority planning/property/open-data layers",
-      "date": "2017",
-      "provider": [
-        "Fingal County Council",
-        "data.gov.ie"
-      ],
-      "description": "Development Plan 2017 2023 Local Objective Points FCC is published as a medium-priority Civgraph source/provenance record from Fingal County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-      "url": "https://data.gov.ie/dataset/development-plan-2017-2023-local-objective-points-fcc2",
-      "references": [
-        {
-          "label": "Development Plan 2017 2023 Local Objective Points FCC provider page",
-          "url": "https://data.gov.ie/dataset/development-plan-2017-2023-local-objective-points-fcc2",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Development Plan 2017 2023 Local Objective Points FCC Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/development-plan-2017-2023-local-objective-points-fcc2",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/development-plan-2017-2023-local-objective-points-fcc2",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "source-record-with-runtime-review",
-        "Local authority planning/property/open-data layers",
-        "planning-property",
-        "features",
-        "Ireland / unspecified",
-        "local-authority-batch-review",
-        "ARCGIS GEOSERVICES REST API",
-        "CSV",
-        "GEOJSON",
-        "HTML",
-        "KML",
-        "ZIP",
-        "review:duplicate-or-variant-review-no-existing-match-candidate"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 511,
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:development-plan-2017-2023-local-objective-points-fcc2:00510",
-          "title": "Development Plan 2017 2023 Local Objective Points FCC",
-          "cleanTitle": "Development Plan 2017 2023 Local Objective Points FCC",
-          "provider": "data.gov.ie",
-          "organisation": "Fingal County Council",
-          "category": "spatial",
-          "roiGroup": "5. Local authority planning/property/open-data layers",
-          "groupTitle": "Local authority planning/property/open-data layers",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "planning-property",
-          "featureUnit": "features",
-          "formats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "GEOJSON",
-            "HTML",
-            "KML",
-            "ZIP"
-          ],
-          "isSpatial": true,
-          "isLargeOrSpecial": false,
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GEOJSON",
-              "HTML",
-              "KML",
-              "ZIP"
-            ]
-          },
-          "approvalState": "ready-with-residual-review",
-          "sourcePublicationState": "public source record with runtime/semantic review still pending",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/development-plan-2017-2023-local-objective-points-fcc2",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/development-plan-2017-2023-local-objective-points-fcc2",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source record",
-        "Runtime review pending",
-        "Spatial source",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Local authority planning/property/open-data layers",
-        "Ireland / unspecified",
-        "planning-property",
-        "Development Plan 2017 2023 Local Objective Points FCC"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text",
-          "download-only"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/development-plan-2017-2023-local-objective-points-fcc2",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/development-plan-2017-2023-local-objective-points-fcc2",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Fingal County Council, data.gov.ie, Development Plan 2017 2023 Local Objective Points FCC.",
-      "fullCitation": "Fingal County Council, data.gov.ie. Development Plan 2017 2023 Local Objective Points FCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/development-plan-2017-2023-local-objective-points-fcc2. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/development-plan-2017-2023-local-objective-points-fcc2.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:development-plan-2017-2023-local-objective-points-fcc2:00510",
-        "sourceRowNumber": 511,
-        "approvalState": "ready-with-residual-review",
-        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-        "proposedAction": "local-authority-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "GEOJSON",
-            "HTML",
-            "KML",
-            "ZIP"
-          ]
-        },
-        "confidence": 60,
-        "residualBlockers": [
-          "duplicate-or-variant-review: no existing match candidate"
-        ],
-        "resolvedBlockers": [
-          "large-or-special-format-review: normal source package; no special-format hold",
-          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-        ],
-        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-      },
-      "publicationStatus": "source-record-with-runtime-review",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-development-plan-2017-2023-local-objective-points-fcc2-00510",
-      "rawMetadata": {
-        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:development-plan-2017-2023-local-objective-points-fcc2:00510",
-        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-development-plan-2017-2023-local-objective-points-fcc2-00510",
-        "type": "approved-medium-priority-source",
-        "title": "Development Plan 2017 2023 Local Objective Points FCC",
-        "subtitle": "Local authority planning/property/open-data layers / Fingal County Council, data.gov.ie / Ireland / unspecified / ARCGIS GEOSERVICES REST API, CSV, GEOJSON, HTML, KML, ZIP / Source record; runtime review pending",
-        "category": "Medium-priority: Local authority planning/property/open-data layers",
-        "date": "2017",
-        "provider": [
-          "Fingal County Council",
-          "data.gov.ie"
-        ],
-        "description": "Development Plan 2017 2023 Local Objective Points FCC is published as a medium-priority Civgraph source/provenance record from Fingal County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-        "url": "https://data.gov.ie/dataset/development-plan-2017-2023-local-objective-points-fcc2",
-        "references": [
-          {
-            "label": "Development Plan 2017 2023 Local Objective Points FCC provider page",
-            "url": "https://data.gov.ie/dataset/development-plan-2017-2023-local-objective-points-fcc2",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Development Plan 2017 2023 Local Objective Points FCC Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/development-plan-2017-2023-local-objective-points-fcc2",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/development-plan-2017-2023-local-objective-points-fcc2",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source record",
-          "Runtime review pending",
-          "Spatial source",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Local authority planning/property/open-data layers",
-          "Ireland / unspecified",
-          "planning-property",
-          "Development Plan 2017 2023 Local Objective Points FCC"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text",
-            "download-only"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/development-plan-2017-2023-local-objective-points-fcc2",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/development-plan-2017-2023-local-objective-points-fcc2",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Fingal County Council, data.gov.ie, Development Plan 2017 2023 Local Objective Points FCC.",
-        "fullCitation": "Fingal County Council, data.gov.ie. Development Plan 2017 2023 Local Objective Points FCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/development-plan-2017-2023-local-objective-points-fcc2. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/development-plan-2017-2023-local-objective-points-fcc2.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 511,
-            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:development-plan-2017-2023-local-objective-points-fcc2:00510",
-            "title": "Development Plan 2017 2023 Local Objective Points FCC",
-            "cleanTitle": "Development Plan 2017 2023 Local Objective Points FCC",
-            "provider": "data.gov.ie",
-            "organisation": "Fingal County Council",
-            "category": "spatial",
-            "roiGroup": "5. Local authority planning/property/open-data layers",
-            "groupTitle": "Local authority planning/property/open-data layers",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "planning-property",
-            "featureUnit": "features",
-            "formats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GEOJSON",
-              "HTML",
-              "KML",
-              "ZIP"
-            ],
-            "isSpatial": true,
-            "isLargeOrSpecial": false,
-            "proposedAction": "local-authority-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "ARCGIS GEOSERVICES REST API",
-                "CSV",
-                "GEOJSON",
-                "HTML",
-                "KML",
-                "ZIP"
-              ]
-            },
-            "approvalState": "ready-with-residual-review",
-            "sourcePublicationState": "public source record with runtime/semantic review still pending",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/development-plan-2017-2023-local-objective-points-fcc2",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/development-plan-2017-2023-local-objective-points-fcc2",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "large-or-special-format-review: normal source package; no special-format hold",
-              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-            ],
-            "residualBlockers": [
-              "duplicate-or-variant-review: no existing match candidate"
-            ],
-            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:development-plan-2017-2023-local-objective-points-fcc2:00510",
-          "sourceRowNumber": 511,
-          "approvalState": "ready-with-residual-review",
-          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GEOJSON",
-              "HTML",
-              "KML",
-              "ZIP"
-            ]
-          },
-          "confidence": 60,
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate"
-          ],
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        },
-        "publicationStatus": "source-record-with-runtime-review",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "source-record-with-runtime-review",
-          "Local authority planning/property/open-data layers",
-          "planning-property",
-          "features",
-          "Ireland / unspecified",
-          "local-authority-batch-review",
-          "ARCGIS GEOSERVICES REST API",
-          "CSV",
-          "GEOJSON",
-          "HTML",
-          "KML",
-          "ZIP",
-          "review:duplicate-or-variant-review-no-existing-match-candidate"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-development-plan-2017-2023-local-objective-points-fcc2-00510"
-      }
-    },
     {
       "id": "medium-priority:5-local-authority-planning-property-open-data-layers:development-plan-2017-2023-nature-development-areas-fcc2:00515",
       "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-development-plan-2017-2023-nature-development-areas-fcc2-00515",
@@ -70811,6 +69279,1510 @@
           "GEOJSON"
         ],
         "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-garda-station-dcc-01087"
+      }
+    },
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:garda-stations-dlr:00577",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-garda-stations-dlr-00577",
+      "type": "approved-medium-priority-source",
+      "title": "Garda Stations DLR",
+      "subtitle": "Local authority planning/property/open-data layers / Dún Laoghaire-Rathdown County Council, data.gov.ie / Northern Ireland / CSV, GEOJSON, SHP / Source record; runtime review pending",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "provider": [
+        "Dún Laoghaire-Rathdown County Council",
+        "data.gov.ie"
+      ],
+      "description": "Garda Stations DLR is published as a medium-priority Civgraph source/provenance record from Dún Laoghaire-Rathdown County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
+      "url": "https://data.gov.ie/dataset/garda-stations-dlr",
+      "references": [
+        {
+          "label": "Garda Stations DLR provider page",
+          "url": "https://data.gov.ie/dataset/garda-stations-dlr",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "Garda Stations DLR Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/garda-stations-dlr",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/garda-stations-dlr",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "source-record-with-runtime-review",
+        "Local authority planning/property/open-data layers",
+        "source-data",
+        "features",
+        "Northern Ireland",
+        "local-authority-batch-review",
+        "CSV",
+        "GEOJSON",
+        "SHP",
+        "review:duplicate-or-variant-review-no-existing-match-candidate"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 578,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:garda-stations-dlr:00577",
+          "title": "Garda Stations DLR",
+          "cleanTitle": "Garda Stations DLR",
+          "provider": "data.gov.ie",
+          "organisation": "Dún Laoghaire-Rathdown County Council",
+          "category": "spatial",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Northern Ireland",
+          "topic": "source-data",
+          "featureUnit": "features",
+          "formats": [
+            "CSV",
+            "GEOJSON",
+            "SHP"
+          ],
+          "isSpatial": true,
+          "isLargeOrSpecial": false,
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "GEOJSON",
+              "SHP"
+            ]
+          },
+          "approvalState": "ready-with-residual-review",
+          "sourcePublicationState": "public source record with runtime/semantic review still pending",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/garda-stations-dlr",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/garda-stations-dlr",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
+        }
+      ],
+      "status": "Source only",
+      "statusChips": [
+        "Source record",
+        "Runtime review pending",
+        "Spatial source",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Northern Ireland",
+        "source-data",
+        "Garda Stations DLR"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "download-only"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/garda-stations-dlr",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/garda-stations-dlr",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Dún Laoghaire-Rathdown County Council, data.gov.ie, Garda Stations DLR.",
+      "fullCitation": "Dún Laoghaire-Rathdown County Council, data.gov.ie. Garda Stations DLR. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/garda-stations-dlr. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/garda-stations-dlr.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:garda-stations-dlr:00577",
+        "sourceRowNumber": 578,
+        "approvalState": "ready-with-residual-review",
+        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+        "proposedAction": "local-authority-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV",
+            "GEOJSON",
+            "SHP"
+          ]
+        },
+        "confidence": 60,
+        "residualBlockers": [
+          "duplicate-or-variant-review: no existing match candidate"
+        ],
+        "resolvedBlockers": [
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+        ],
+        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
+      },
+      "publicationStatus": "source-record-with-runtime-review",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-garda-stations-dlr-00577",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:garda-stations-dlr:00577",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-garda-stations-dlr-00577",
+        "type": "approved-medium-priority-source",
+        "title": "Garda Stations DLR",
+        "subtitle": "Local authority planning/property/open-data layers / Dún Laoghaire-Rathdown County Council, data.gov.ie / Northern Ireland / CSV, GEOJSON, SHP / Source record; runtime review pending",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "provider": [
+          "Dún Laoghaire-Rathdown County Council",
+          "data.gov.ie"
+        ],
+        "description": "Garda Stations DLR is published as a medium-priority Civgraph source/provenance record from Dún Laoghaire-Rathdown County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
+        "url": "https://data.gov.ie/dataset/garda-stations-dlr",
+        "references": [
+          {
+            "label": "Garda Stations DLR provider page",
+            "url": "https://data.gov.ie/dataset/garda-stations-dlr",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "Garda Stations DLR Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/garda-stations-dlr",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/garda-stations-dlr",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source only",
+        "statusChips": [
+          "Source record",
+          "Runtime review pending",
+          "Spatial source",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Northern Ireland",
+          "source-data",
+          "Garda Stations DLR"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "download-only"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/garda-stations-dlr",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/garda-stations-dlr",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Dún Laoghaire-Rathdown County Council, data.gov.ie, Garda Stations DLR.",
+        "fullCitation": "Dún Laoghaire-Rathdown County Council, data.gov.ie. Garda Stations DLR. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/garda-stations-dlr. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/garda-stations-dlr.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 578,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:garda-stations-dlr:00577",
+            "title": "Garda Stations DLR",
+            "cleanTitle": "Garda Stations DLR",
+            "provider": "data.gov.ie",
+            "organisation": "Dún Laoghaire-Rathdown County Council",
+            "category": "spatial",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Northern Ireland",
+            "topic": "source-data",
+            "featureUnit": "features",
+            "formats": [
+              "CSV",
+              "GEOJSON",
+              "SHP"
+            ],
+            "isSpatial": true,
+            "isLargeOrSpecial": false,
+            "proposedAction": "local-authority-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV",
+                "GEOJSON",
+                "SHP"
+              ]
+            },
+            "approvalState": "ready-with-residual-review",
+            "sourcePublicationState": "public source record with runtime/semantic review still pending",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/garda-stations-dlr",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/garda-stations-dlr",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+            ],
+            "residualBlockers": [
+              "duplicate-or-variant-review: no existing match candidate"
+            ],
+            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:garda-stations-dlr:00577",
+          "sourceRowNumber": 578,
+          "approvalState": "ready-with-residual-review",
+          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "GEOJSON",
+              "SHP"
+            ]
+          },
+          "confidence": 60,
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate"
+          ],
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
+        },
+        "publicationStatus": "source-record-with-runtime-review",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "source-record-with-runtime-review",
+          "Local authority planning/property/open-data layers",
+          "source-data",
+          "features",
+          "Northern Ireland",
+          "local-authority-batch-review",
+          "CSV",
+          "GEOJSON",
+          "SHP",
+          "review:duplicate-or-variant-review-no-existing-match-candidate"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-garda-stations-dlr-00577"
+      }
+    },
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:garda-stations-fcc2:00578",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-garda-stations-fcc2-00578",
+      "type": "approved-medium-priority-source",
+      "title": "Garda Stations FCC",
+      "subtitle": "Local authority planning/property/open-data layers / Fingal County Council, data.gov.ie / Ireland / unspecified / ARCGIS GEOSERVICES REST API, CSV, GEOJSON, HTML, KML, ZIP / Source record; runtime review pending",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "provider": [
+        "Fingal County Council",
+        "data.gov.ie"
+      ],
+      "description": "Garda Stations FCC is published as a medium-priority Civgraph source/provenance record from Fingal County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
+      "url": "https://data.gov.ie/dataset/garda-stations-fcc2",
+      "references": [
+        {
+          "label": "Garda Stations FCC provider page",
+          "url": "https://data.gov.ie/dataset/garda-stations-fcc2",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "Garda Stations FCC Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/garda-stations-fcc2",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/garda-stations-fcc2",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "source-record-with-runtime-review",
+        "Local authority planning/property/open-data layers",
+        "source-data",
+        "features",
+        "Ireland / unspecified",
+        "local-authority-batch-review",
+        "ARCGIS GEOSERVICES REST API",
+        "CSV",
+        "GEOJSON",
+        "HTML",
+        "KML",
+        "ZIP",
+        "review:duplicate-or-variant-review-no-existing-match-candidate"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 579,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:garda-stations-fcc2:00578",
+          "title": "Garda Stations FCC",
+          "cleanTitle": "Garda Stations FCC",
+          "provider": "data.gov.ie",
+          "organisation": "Fingal County Council",
+          "category": "spatial",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "source-data",
+          "featureUnit": "features",
+          "formats": [
+            "ARCGIS GEOSERVICES REST API",
+            "CSV",
+            "GEOJSON",
+            "HTML",
+            "KML",
+            "ZIP"
+          ],
+          "isSpatial": true,
+          "isLargeOrSpecial": false,
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GEOJSON",
+              "HTML",
+              "KML",
+              "ZIP"
+            ]
+          },
+          "approvalState": "ready-with-residual-review",
+          "sourcePublicationState": "public source record with runtime/semantic review still pending",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/garda-stations-fcc2",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/garda-stations-fcc2",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "large-or-special-format-review: normal source package; no special-format hold",
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        }
+      ],
+      "status": "Source only",
+      "statusChips": [
+        "Source record",
+        "Runtime review pending",
+        "Spatial source",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Ireland / unspecified",
+        "source-data",
+        "Garda Stations FCC"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "download-only"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/garda-stations-fcc2",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/garda-stations-fcc2",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Fingal County Council, data.gov.ie, Garda Stations FCC.",
+      "fullCitation": "Fingal County Council, data.gov.ie. Garda Stations FCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/garda-stations-fcc2. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/garda-stations-fcc2.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:garda-stations-fcc2:00578",
+        "sourceRowNumber": 579,
+        "approvalState": "ready-with-residual-review",
+        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+        "proposedAction": "local-authority-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "ARCGIS GEOSERVICES REST API",
+            "CSV",
+            "GEOJSON",
+            "HTML",
+            "KML",
+            "ZIP"
+          ]
+        },
+        "confidence": 60,
+        "residualBlockers": [
+          "duplicate-or-variant-review: no existing match candidate"
+        ],
+        "resolvedBlockers": [
+          "large-or-special-format-review: normal source package; no special-format hold",
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+        ],
+        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+      },
+      "publicationStatus": "source-record-with-runtime-review",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-garda-stations-fcc2-00578",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:garda-stations-fcc2:00578",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-garda-stations-fcc2-00578",
+        "type": "approved-medium-priority-source",
+        "title": "Garda Stations FCC",
+        "subtitle": "Local authority planning/property/open-data layers / Fingal County Council, data.gov.ie / Ireland / unspecified / ARCGIS GEOSERVICES REST API, CSV, GEOJSON, HTML, KML, ZIP / Source record; runtime review pending",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "provider": [
+          "Fingal County Council",
+          "data.gov.ie"
+        ],
+        "description": "Garda Stations FCC is published as a medium-priority Civgraph source/provenance record from Fingal County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
+        "url": "https://data.gov.ie/dataset/garda-stations-fcc2",
+        "references": [
+          {
+            "label": "Garda Stations FCC provider page",
+            "url": "https://data.gov.ie/dataset/garda-stations-fcc2",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "Garda Stations FCC Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/garda-stations-fcc2",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/garda-stations-fcc2",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source only",
+        "statusChips": [
+          "Source record",
+          "Runtime review pending",
+          "Spatial source",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Ireland / unspecified",
+          "source-data",
+          "Garda Stations FCC"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "download-only"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/garda-stations-fcc2",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/garda-stations-fcc2",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Fingal County Council, data.gov.ie, Garda Stations FCC.",
+        "fullCitation": "Fingal County Council, data.gov.ie. Garda Stations FCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/garda-stations-fcc2. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/garda-stations-fcc2.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 579,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:garda-stations-fcc2:00578",
+            "title": "Garda Stations FCC",
+            "cleanTitle": "Garda Stations FCC",
+            "provider": "data.gov.ie",
+            "organisation": "Fingal County Council",
+            "category": "spatial",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "source-data",
+            "featureUnit": "features",
+            "formats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GEOJSON",
+              "HTML",
+              "KML",
+              "ZIP"
+            ],
+            "isSpatial": true,
+            "isLargeOrSpecial": false,
+            "proposedAction": "local-authority-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "ARCGIS GEOSERVICES REST API",
+                "CSV",
+                "GEOJSON",
+                "HTML",
+                "KML",
+                "ZIP"
+              ]
+            },
+            "approvalState": "ready-with-residual-review",
+            "sourcePublicationState": "public source record with runtime/semantic review still pending",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/garda-stations-fcc2",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/garda-stations-fcc2",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "large-or-special-format-review: normal source package; no special-format hold",
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+            ],
+            "residualBlockers": [
+              "duplicate-or-variant-review: no existing match candidate"
+            ],
+            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:garda-stations-fcc2:00578",
+          "sourceRowNumber": 579,
+          "approvalState": "ready-with-residual-review",
+          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GEOJSON",
+              "HTML",
+              "KML",
+              "ZIP"
+            ]
+          },
+          "confidence": 60,
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate"
+          ],
+          "resolvedBlockers": [
+            "large-or-special-format-review: normal source package; no special-format hold",
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        },
+        "publicationStatus": "source-record-with-runtime-review",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "source-record-with-runtime-review",
+          "Local authority planning/property/open-data layers",
+          "source-data",
+          "features",
+          "Ireland / unspecified",
+          "local-authority-batch-review",
+          "ARCGIS GEOSERVICES REST API",
+          "CSV",
+          "GEOJSON",
+          "HTML",
+          "KML",
+          "ZIP",
+          "review:duplicate-or-variant-review-no-existing-match-candidate"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-garda-stations-fcc2-00578"
+      }
+    },
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:gas-consumption:01088",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-gas-consumption-01088",
+      "type": "approved-medium-priority-source",
+      "title": "Gas Consumption DCC",
+      "subtitle": "Local authority planning/property/open-data layers / Dublin City Council, data.gov.ie / Republic of Ireland / CSV, GEOJSON, XLS / Source record; runtime review pending",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "provider": [
+        "Dublin City Council",
+        "data.gov.ie"
+      ],
+      "description": "Gas Consumption DCC is published as a medium-priority Civgraph source/provenance record from Dublin City Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
+      "url": "https://data.gov.ie/dataset/gas-consumption",
+      "references": [
+        {
+          "label": "Gas Consumption DCC provider page",
+          "url": "https://data.gov.ie/dataset/gas-consumption",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "Gas Consumption DCC Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/gas-consumption",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/gas-consumption",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "source-record-with-runtime-review",
+        "Local authority planning/property/open-data layers",
+        "source-data",
+        "features",
+        "Republic of Ireland",
+        "local-authority-batch-review",
+        "CSV",
+        "GEOJSON",
+        "XLS",
+        "review:duplicate-or-variant-review-no-existing-match-candidate"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 1089,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:gas-consumption:01088",
+          "title": "Gas Consumption DCC",
+          "cleanTitle": "Gas Consumption DCC",
+          "provider": "data.gov.ie",
+          "organisation": "Dublin City Council",
+          "category": "spatial",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Republic of Ireland",
+          "topic": "source-data",
+          "featureUnit": "features",
+          "formats": [
+            "CSV",
+            "GEOJSON",
+            "XLS"
+          ],
+          "isSpatial": true,
+          "isLargeOrSpecial": false,
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "GEOJSON",
+              "XLS"
+            ]
+          },
+          "approvalState": "ready-with-residual-review",
+          "sourcePublicationState": "public source record with runtime/semantic review still pending",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/gas-consumption",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/gas-consumption",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
+        }
+      ],
+      "status": "Source only",
+      "statusChips": [
+        "Source record",
+        "Runtime review pending",
+        "Spatial source",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Republic of Ireland",
+        "source-data",
+        "Gas Consumption DCC"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "spreadsheet"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/gas-consumption",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/gas-consumption",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Dublin City Council, data.gov.ie, Gas Consumption DCC.",
+      "fullCitation": "Dublin City Council, data.gov.ie. Gas Consumption DCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/gas-consumption. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/gas-consumption.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:gas-consumption:01088",
+        "sourceRowNumber": 1089,
+        "approvalState": "ready-with-residual-review",
+        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+        "proposedAction": "local-authority-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV",
+            "GEOJSON",
+            "XLS"
+          ]
+        },
+        "confidence": 60,
+        "residualBlockers": [
+          "duplicate-or-variant-review: no existing match candidate"
+        ],
+        "resolvedBlockers": [
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+        ],
+        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
+      },
+      "publicationStatus": "source-record-with-runtime-review",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-gas-consumption-01088",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:gas-consumption:01088",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-gas-consumption-01088",
+        "type": "approved-medium-priority-source",
+        "title": "Gas Consumption DCC",
+        "subtitle": "Local authority planning/property/open-data layers / Dublin City Council, data.gov.ie / Republic of Ireland / CSV, GEOJSON, XLS / Source record; runtime review pending",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "provider": [
+          "Dublin City Council",
+          "data.gov.ie"
+        ],
+        "description": "Gas Consumption DCC is published as a medium-priority Civgraph source/provenance record from Dublin City Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
+        "url": "https://data.gov.ie/dataset/gas-consumption",
+        "references": [
+          {
+            "label": "Gas Consumption DCC provider page",
+            "url": "https://data.gov.ie/dataset/gas-consumption",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "Gas Consumption DCC Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/gas-consumption",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/gas-consumption",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source only",
+        "statusChips": [
+          "Source record",
+          "Runtime review pending",
+          "Spatial source",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Republic of Ireland",
+          "source-data",
+          "Gas Consumption DCC"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "spreadsheet"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/gas-consumption",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/gas-consumption",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Dublin City Council, data.gov.ie, Gas Consumption DCC.",
+        "fullCitation": "Dublin City Council, data.gov.ie. Gas Consumption DCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/gas-consumption. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/gas-consumption.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 1089,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:gas-consumption:01088",
+            "title": "Gas Consumption DCC",
+            "cleanTitle": "Gas Consumption DCC",
+            "provider": "data.gov.ie",
+            "organisation": "Dublin City Council",
+            "category": "spatial",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Republic of Ireland",
+            "topic": "source-data",
+            "featureUnit": "features",
+            "formats": [
+              "CSV",
+              "GEOJSON",
+              "XLS"
+            ],
+            "isSpatial": true,
+            "isLargeOrSpecial": false,
+            "proposedAction": "local-authority-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV",
+                "GEOJSON",
+                "XLS"
+              ]
+            },
+            "approvalState": "ready-with-residual-review",
+            "sourcePublicationState": "public source record with runtime/semantic review still pending",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/gas-consumption",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/gas-consumption",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+            ],
+            "residualBlockers": [
+              "duplicate-or-variant-review: no existing match candidate"
+            ],
+            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:gas-consumption:01088",
+          "sourceRowNumber": 1089,
+          "approvalState": "ready-with-residual-review",
+          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "GEOJSON",
+              "XLS"
+            ]
+          },
+          "confidence": 60,
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate"
+          ],
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
+        },
+        "publicationStatus": "source-record-with-runtime-review",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "source-record-with-runtime-review",
+          "Local authority planning/property/open-data layers",
+          "source-data",
+          "features",
+          "Republic of Ireland",
+          "local-authority-batch-review",
+          "CSV",
+          "GEOJSON",
+          "XLS",
+          "review:duplicate-or-variant-review-no-existing-match-candidate"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-gas-consumption-01088"
+      }
+    },
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:gcc-burials-download-view1:00579",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-gcc-burials-download-view1-00579",
+      "type": "approved-medium-priority-source",
+      "title": "GCC Burials Download View",
+      "subtitle": "Local authority planning/property/open-data layers / Galway County Council, data.gov.ie / Northern Ireland / ARCGIS GEOSERVICES REST API, CSV, GDB, GEOJSON, GPKG, HTML, KML, TXT, XLSX, ZIP / Source record; runtime review pending",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "provider": [
+        "Galway County Council",
+        "data.gov.ie"
+      ],
+      "description": "GCC Burials Download View is published as a medium-priority Civgraph source/provenance record from Galway County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; large-or-special-format-review: size/format decision remains before runtime publication.",
+      "url": "https://data.gov.ie/dataset/gcc-burials-download-view1",
+      "references": [
+        {
+          "label": "GCC Burials Download View provider page",
+          "url": "https://data.gov.ie/dataset/gcc-burials-download-view1",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "GCC Burials Download View Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/gcc-burials-download-view1",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/gcc-burials-download-view1",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "source-record-with-runtime-review",
+        "Local authority planning/property/open-data layers",
+        "source-data",
+        "features",
+        "Northern Ireland",
+        "hold-special-format",
+        "ARCGIS GEOSERVICES REST API",
+        "CSV",
+        "GDB",
+        "GEOJSON",
+        "GPKG",
+        "HTML",
+        "KML",
+        "TXT",
+        "XLSX",
+        "ZIP",
+        "review:duplicate-or-variant-review-no-existing-match-candidate",
+        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 580,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:gcc-burials-download-view1:00579",
+          "title": "GCC Burials Download View",
+          "cleanTitle": "GCC Burials Download View",
+          "provider": "data.gov.ie",
+          "organisation": "Galway County Council",
+          "category": "spatial",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Northern Ireland",
+          "topic": "source-data",
+          "featureUnit": "features",
+          "formats": [
+            "ARCGIS GEOSERVICES REST API",
+            "CSV",
+            "GDB",
+            "GEOJSON",
+            "GPKG",
+            "HTML",
+            "KML",
+            "TXT",
+            "XLSX",
+            "ZIP"
+          ],
+          "isSpatial": true,
+          "isLargeOrSpecial": true,
+          "proposedAction": "hold-special-format",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "download/source viewport first",
+            "conversion": "Do not convert until size/format review approves an interactive derivative.",
+            "sourceFormats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GDB",
+              "GEOJSON",
+              "GPKG",
+              "HTML",
+              "KML",
+              "TXT",
+              "XLSX",
+              "ZIP"
+            ]
+          },
+          "approvalState": "ready-with-residual-review",
+          "sourcePublicationState": "public source record with runtime/semantic review still pending",
+          "confidence": 45,
+          "currentProviderUrl": "https://data.gov.ie/dataset/gcc-burials-download-view1",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/gcc-burials-download-view1",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate",
+            "large-or-special-format-review: size/format decision remains before runtime publication"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        }
+      ],
+      "status": "Source only",
+      "statusChips": [
+        "Source record",
+        "Runtime review pending",
+        "Spatial source",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Northern Ireland",
+        "source-data",
+        "GCC Burials Download View"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "spreadsheet",
+          "download-only"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/gcc-burials-download-view1",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/gcc-burials-download-view1",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "Do not convert until size/format review approves an interactive derivative."
+      },
+      "shortCitation": "Galway County Council, data.gov.ie, GCC Burials Download View.",
+      "fullCitation": "Galway County Council, data.gov.ie. GCC Burials Download View. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/gcc-burials-download-view1. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/gcc-burials-download-view1.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:gcc-burials-download-view1:00579",
+        "sourceRowNumber": 580,
+        "approvalState": "ready-with-residual-review",
+        "recommendedAction": "publish source record; hold runtime conversion pending size/format review",
+        "proposedAction": "hold-special-format",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "download/source viewport first",
+          "conversion": "Do not convert until size/format review approves an interactive derivative.",
+          "sourceFormats": [
+            "ARCGIS GEOSERVICES REST API",
+            "CSV",
+            "GDB",
+            "GEOJSON",
+            "GPKG",
+            "HTML",
+            "KML",
+            "TXT",
+            "XLSX",
+            "ZIP"
+          ]
+        },
+        "confidence": 45,
+        "residualBlockers": [
+          "duplicate-or-variant-review: no existing match candidate",
+          "large-or-special-format-review: size/format decision remains before runtime publication"
+        ],
+        "resolvedBlockers": [
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+        ],
+        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+      },
+      "publicationStatus": "source-record-with-runtime-review",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-gcc-burials-download-view1-00579",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:gcc-burials-download-view1:00579",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-gcc-burials-download-view1-00579",
+        "type": "approved-medium-priority-source",
+        "title": "GCC Burials Download View",
+        "subtitle": "Local authority planning/property/open-data layers / Galway County Council, data.gov.ie / Northern Ireland / ARCGIS GEOSERVICES REST API, CSV, GDB, GEOJSON, GPKG, HTML, KML, TXT, XLSX, ZIP / Source record; runtime review pending",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "provider": [
+          "Galway County Council",
+          "data.gov.ie"
+        ],
+        "description": "GCC Burials Download View is published as a medium-priority Civgraph source/provenance record from Galway County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; large-or-special-format-review: size/format decision remains before runtime publication.",
+        "url": "https://data.gov.ie/dataset/gcc-burials-download-view1",
+        "references": [
+          {
+            "label": "GCC Burials Download View provider page",
+            "url": "https://data.gov.ie/dataset/gcc-burials-download-view1",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "GCC Burials Download View Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/gcc-burials-download-view1",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/gcc-burials-download-view1",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source only",
+        "statusChips": [
+          "Source record",
+          "Runtime review pending",
+          "Spatial source",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Northern Ireland",
+          "source-data",
+          "GCC Burials Download View"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "spreadsheet",
+            "download-only"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/gcc-burials-download-view1",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/gcc-burials-download-view1",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "Do not convert until size/format review approves an interactive derivative."
+        },
+        "shortCitation": "Galway County Council, data.gov.ie, GCC Burials Download View.",
+        "fullCitation": "Galway County Council, data.gov.ie. GCC Burials Download View. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/gcc-burials-download-view1. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/gcc-burials-download-view1.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 580,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:gcc-burials-download-view1:00579",
+            "title": "GCC Burials Download View",
+            "cleanTitle": "GCC Burials Download View",
+            "provider": "data.gov.ie",
+            "organisation": "Galway County Council",
+            "category": "spatial",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Northern Ireland",
+            "topic": "source-data",
+            "featureUnit": "features",
+            "formats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GDB",
+              "GEOJSON",
+              "GPKG",
+              "HTML",
+              "KML",
+              "TXT",
+              "XLSX",
+              "ZIP"
+            ],
+            "isSpatial": true,
+            "isLargeOrSpecial": true,
+            "proposedAction": "hold-special-format",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "download/source viewport first",
+              "conversion": "Do not convert until size/format review approves an interactive derivative.",
+              "sourceFormats": [
+                "ARCGIS GEOSERVICES REST API",
+                "CSV",
+                "GDB",
+                "GEOJSON",
+                "GPKG",
+                "HTML",
+                "KML",
+                "TXT",
+                "XLSX",
+                "ZIP"
+              ]
+            },
+            "approvalState": "ready-with-residual-review",
+            "sourcePublicationState": "public source record with runtime/semantic review still pending",
+            "confidence": 45,
+            "currentProviderUrl": "https://data.gov.ie/dataset/gcc-burials-download-view1",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/gcc-burials-download-view1",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+            ],
+            "residualBlockers": [
+              "duplicate-or-variant-review: no existing match candidate",
+              "large-or-special-format-review: size/format decision remains before runtime publication"
+            ],
+            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:gcc-burials-download-view1:00579",
+          "sourceRowNumber": 580,
+          "approvalState": "ready-with-residual-review",
+          "recommendedAction": "publish source record; hold runtime conversion pending size/format review",
+          "proposedAction": "hold-special-format",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "download/source viewport first",
+            "conversion": "Do not convert until size/format review approves an interactive derivative.",
+            "sourceFormats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GDB",
+              "GEOJSON",
+              "GPKG",
+              "HTML",
+              "KML",
+              "TXT",
+              "XLSX",
+              "ZIP"
+            ]
+          },
+          "confidence": 45,
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate",
+            "large-or-special-format-review: size/format decision remains before runtime publication"
+          ],
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        },
+        "publicationStatus": "source-record-with-runtime-review",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "source-record-with-runtime-review",
+          "Local authority planning/property/open-data layers",
+          "source-data",
+          "features",
+          "Northern Ireland",
+          "hold-special-format",
+          "ARCGIS GEOSERVICES REST API",
+          "CSV",
+          "GDB",
+          "GEOJSON",
+          "GPKG",
+          "HTML",
+          "KML",
+          "TXT",
+          "XLSX",
+          "ZIP",
+          "review:duplicate-or-variant-review-no-existing-match-candidate",
+          "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-gcc-burials-download-view1-00579"
       }
     }
   ]

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-29T22:09:35.048Z",
+  "generatedAt": "2026-07-30T20:12:41.046Z",
   "kind": "sources",
   "shard": "sources-183.json",
   "total": 200,
@@ -30092,558 +30092,6 @@
       }
     },
     {
-      "id": "map-source:eds-roi-1941",
-      "slug": "map-source-eds-roi-1941",
-      "type": "map-source",
-      "title": "District Electoral Divisions/Wards 1941 source files",
-      "subtitle": "Electoral Areas / Phelim Birch, Paddy Matthews",
-      "category": "Map sources",
-      "date": "1941-04-17",
-      "provider": [
-        "Phelim Birch",
-        "Paddy Matthews"
-      ],
-      "description": "Republic of Ireland District Electoral Divisions/Wards as at 1941-04-17, assembled from Connacht (= 1919 boundaries), Leinster 1941, Munster (= 1921 boundaries), Ulster (= 1921 boundaries). Modified version of District Electoral Divisions/Wards 1942. In 1942, following the expansion of Dublin county borough, its new territory was transferred from Terenure DED to Crumlin ward.",
-      "sourceMapId": "eds-roi-1941",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "DE",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "District Electoral Divisions/Wards 1941 source notes",
-          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1941.txt",
-          "note": "Sidecar notes supplied in the Irish Digitised Boundaries archive."
-        },
-        {
-          "label": "Dublin City Council 1942 minutes item 123"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Connacht DEDs/Wards 1919",
-          "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1919.fgb",
-          "type": "FlatGeobuf"
-        },
-        {
-          "label": "Leinster DEDs/Wards 1941",
-          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1941.fgb",
-          "type": "FlatGeobuf"
-        },
-        {
-          "label": "Munster DEDs/Wards 1921",
-          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1921.fgb",
-          "type": "FlatGeobuf"
-        },
-        {
-          "label": "Ulster DEDs/Wards 1921",
-          "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb",
-          "type": "FlatGeobuf"
-        },
-        {
-          "label": "Source notes 1941",
-          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1941.txt",
-          "type": "Source notes"
-        }
-      ],
-      "interactiveUrl": "/#layers=eds-roi-1941",
-      "browseUrl": "/browse/sources/map-source-eds-roi-1941",
-      "rawMetadata": {
-        "id": "eds-roi-1941",
-        "slug": "eds-roi-1941",
-        "category": "wards",
-        "isGroup": true,
-        "featured": true,
-        "name": "District Electoral Divisions/Wards 1941",
-        "date": "1941-04-17",
-        "provider": [
-          "Phelim Birch",
-          "Paddy Matthews"
-        ],
-        "style": {
-          "color": "#1B5E20",
-          "weight": 2
-        },
-        "labelProperty": "ENGLISH",
-        "variants": [
-          {
-            "id": "eds-roi-1941-connacht",
-            "label": "Connacht (= 1919 boundaries)",
-            "cloneOf": "eds-connacht-1919",
-            "files": {
-              "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1919.fgb"
-            },
-            "style": {
-              "color": "#1B5E20",
-              "weight": 2
-            },
-            "labelProperty": "ENGLISH",
-            "useLOD": false
-          },
-          {
-            "id": "eds-roi-1941-leinster",
-            "label": "Leinster 1941",
-            "cloneOf": "eds-leinster-1941",
-            "files": {
-              "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1941.fgb"
-            },
-            "style": {
-              "color": "#1B5E20",
-              "weight": 2
-            },
-            "labelProperty": "ENGLISH",
-            "useLOD": false
-          },
-          {
-            "id": "eds-roi-1941-munster",
-            "label": "Munster (= 1921 boundaries)",
-            "cloneOf": "eds-munster-1921",
-            "files": {
-              "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1921.fgb"
-            },
-            "style": {
-              "color": "#1B5E20",
-              "weight": 2
-            },
-            "labelProperty": "ENGLISH",
-            "useLOD": false
-          },
-          {
-            "id": "eds-roi-1941-ulster",
-            "label": "Ulster (= 1921 boundaries)",
-            "cloneOf": "eds-ulster-1986",
-            "files": {
-              "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb"
-            },
-            "style": {
-              "color": "#1B5E20",
-              "weight": 2
-            },
-            "labelProperty": "ENGLISH",
-            "useLOD": false
-          }
-        ],
-        "description": "Republic of Ireland District Electoral Divisions/Wards as at 1941-04-17, assembled from Connacht (= 1919 boundaries), Leinster 1941, Munster (= 1921 boundaries), Ulster (= 1921 boundaries). Modified version of District Electoral Divisions/Wards 1942. In 1942, following the expansion of Dublin county borough, its new territory was transferred from Terenure DED to Crumlin ward.",
-        "keywords": [
-          "electoral division",
-          "district electoral division",
-          "DED",
-          "ward",
-          "1941",
-          "republic of ireland",
-          "historic",
-          "small electoral units"
-        ],
-        "sourceNotes": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1941.txt",
-        "downloads": [
-          {
-            "label": "Connacht DEDs/Wards 1919",
-            "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1919.fgb",
-            "type": "FlatGeobuf"
-          },
-          {
-            "label": "Leinster DEDs/Wards 1941",
-            "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1941.fgb",
-            "type": "FlatGeobuf"
-          },
-          {
-            "label": "Munster DEDs/Wards 1921",
-            "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1921.fgb",
-            "type": "FlatGeobuf"
-          },
-          {
-            "label": "Ulster DEDs/Wards 1921",
-            "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb",
-            "type": "FlatGeobuf"
-          },
-          {
-            "label": "Source notes 1941",
-            "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1941.txt",
-            "type": "Source notes"
-          }
-        ],
-        "references": [
-          {
-            "label": "District Electoral Divisions/Wards 1941 source notes",
-            "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1941.txt",
-            "note": "Sidecar notes supplied in the Irish Digitised Boundaries archive."
-          },
-          {
-            "label": "Dublin City Council 1942 minutes item 123"
-          }
-        ]
-      }
-    },
-    {
-      "id": "map-source:eds-roi-1942",
-      "slug": "map-source-eds-roi-1942",
-      "type": "map-source",
-      "title": "District Electoral Divisions/Wards 1942 source files",
-      "subtitle": "Electoral Areas / Phelim Birch, Paddy Matthews",
-      "category": "Map sources",
-      "date": "1942-04-23",
-      "provider": [
-        "Phelim Birch",
-        "Paddy Matthews"
-      ],
-      "description": "Republic of Ireland District Electoral Divisions/Wards as at 1942-04-23, assembled from Connacht (= 1919 boundaries), Leinster 1942, Munster (= 1921 boundaries), Ulster (= 1921 boundaries). Modified version of District Electoral Divisions/Wards 1943. In 1943, following the addition of Howth Urban District to Dublin county borough, its territory was designated as a new 34th ward called Beann Eadair.",
-      "sourceMapId": "eds-roi-1942",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "DE",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "District Electoral Divisions/Wards 1942 source notes",
-          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1942.txt",
-          "note": "Sidecar notes supplied in the Irish Digitised Boundaries archive."
-        },
-        {
-          "label": "Dublin City Council 1943 minutes item 273"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Connacht DEDs/Wards 1919",
-          "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1919.fgb",
-          "type": "FlatGeobuf"
-        },
-        {
-          "label": "Leinster DEDs/Wards 1942",
-          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1942.fgb",
-          "type": "FlatGeobuf"
-        },
-        {
-          "label": "Munster DEDs/Wards 1921",
-          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1921.fgb",
-          "type": "FlatGeobuf"
-        },
-        {
-          "label": "Ulster DEDs/Wards 1921",
-          "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb",
-          "type": "FlatGeobuf"
-        },
-        {
-          "label": "Source notes 1942",
-          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1942.txt",
-          "type": "Source notes"
-        }
-      ],
-      "interactiveUrl": "/#layers=eds-roi-1942",
-      "browseUrl": "/browse/sources/map-source-eds-roi-1942",
-      "rawMetadata": {
-        "id": "eds-roi-1942",
-        "slug": "eds-roi-1942",
-        "category": "wards",
-        "isGroup": true,
-        "featured": true,
-        "name": "District Electoral Divisions/Wards 1942",
-        "date": "1942-04-23",
-        "provider": [
-          "Phelim Birch",
-          "Paddy Matthews"
-        ],
-        "style": {
-          "color": "#1B5E20",
-          "weight": 2
-        },
-        "labelProperty": "ENGLISH",
-        "variants": [
-          {
-            "id": "eds-roi-1942-connacht",
-            "label": "Connacht (= 1919 boundaries)",
-            "cloneOf": "eds-connacht-1919",
-            "files": {
-              "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1919.fgb"
-            },
-            "style": {
-              "color": "#1B5E20",
-              "weight": 2
-            },
-            "labelProperty": "ENGLISH",
-            "useLOD": false
-          },
-          {
-            "id": "eds-roi-1942-leinster",
-            "label": "Leinster 1942",
-            "cloneOf": "eds-leinster-1942",
-            "files": {
-              "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1942.fgb"
-            },
-            "style": {
-              "color": "#1B5E20",
-              "weight": 2
-            },
-            "labelProperty": "ENGLISH",
-            "useLOD": false
-          },
-          {
-            "id": "eds-roi-1942-munster",
-            "label": "Munster (= 1921 boundaries)",
-            "cloneOf": "eds-munster-1921",
-            "files": {
-              "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1921.fgb"
-            },
-            "style": {
-              "color": "#1B5E20",
-              "weight": 2
-            },
-            "labelProperty": "ENGLISH",
-            "useLOD": false
-          },
-          {
-            "id": "eds-roi-1942-ulster",
-            "label": "Ulster (= 1921 boundaries)",
-            "cloneOf": "eds-ulster-1986",
-            "files": {
-              "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb"
-            },
-            "style": {
-              "color": "#1B5E20",
-              "weight": 2
-            },
-            "labelProperty": "ENGLISH",
-            "useLOD": false
-          }
-        ],
-        "description": "Republic of Ireland District Electoral Divisions/Wards as at 1942-04-23, assembled from Connacht (= 1919 boundaries), Leinster 1942, Munster (= 1921 boundaries), Ulster (= 1921 boundaries). Modified version of District Electoral Divisions/Wards 1943. In 1943, following the addition of Howth Urban District to Dublin county borough, its territory was designated as a new 34th ward called Beann Eadair.",
-        "keywords": [
-          "electoral division",
-          "district electoral division",
-          "DED",
-          "ward",
-          "1942",
-          "republic of ireland",
-          "historic",
-          "small electoral units"
-        ],
-        "sourceNotes": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1942.txt",
-        "downloads": [
-          {
-            "label": "Connacht DEDs/Wards 1919",
-            "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1919.fgb",
-            "type": "FlatGeobuf"
-          },
-          {
-            "label": "Leinster DEDs/Wards 1942",
-            "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1942.fgb",
-            "type": "FlatGeobuf"
-          },
-          {
-            "label": "Munster DEDs/Wards 1921",
-            "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1921.fgb",
-            "type": "FlatGeobuf"
-          },
-          {
-            "label": "Ulster DEDs/Wards 1921",
-            "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb",
-            "type": "FlatGeobuf"
-          },
-          {
-            "label": "Source notes 1942",
-            "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1942.txt",
-            "type": "Source notes"
-          }
-        ],
-        "references": [
-          {
-            "label": "District Electoral Divisions/Wards 1942 source notes",
-            "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1942.txt",
-            "note": "Sidecar notes supplied in the Irish Digitised Boundaries archive."
-          },
-          {
-            "label": "Dublin City Council 1943 minutes item 273"
-          }
-        ]
-      }
-    },
-    {
-      "id": "map-source:eds-roi-1943",
-      "slug": "map-source-eds-roi-1943",
-      "type": "map-source",
-      "title": "District Electoral Divisions/Wards 1943 source files",
-      "subtitle": "Electoral Areas / Phelim Birch, Paddy Matthews",
-      "category": "Map sources",
-      "date": "1943-10-13",
-      "provider": [
-        "Phelim Birch",
-        "Paddy Matthews"
-      ],
-      "description": "Republic of Ireland District Electoral Divisions/Wards as at 1943-10-13, assembled from Connacht (= 1919 boundaries), Leinster 1943, Munster (= 1921 boundaries), Ulster (= 1921 boundaries). Modified version of District Electoral Divisions/Wards 1944. In 1944, Waterford county borough’s boundary was expanded into the DEDs of Ballynakill, Kilbarry and Waterford Rural.",
-      "sourceMapId": "eds-roi-1943",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "DE",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "District Electoral Divisions/Wards 1943 source notes",
-          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1943.txt",
-          "note": "Sidecar notes supplied in the Irish Digitised Boundaries archive."
-        },
-        {
-          "label": "Local Government and Public Health Provisional Orders Confirmation Act, 1944"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Connacht DEDs/Wards 1919",
-          "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1919.fgb",
-          "type": "FlatGeobuf"
-        },
-        {
-          "label": "Leinster DEDs/Wards 1943",
-          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1943.fgb",
-          "type": "FlatGeobuf"
-        },
-        {
-          "label": "Munster DEDs/Wards 1921",
-          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1921.fgb",
-          "type": "FlatGeobuf"
-        },
-        {
-          "label": "Ulster DEDs/Wards 1921",
-          "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb",
-          "type": "FlatGeobuf"
-        },
-        {
-          "label": "Source notes 1943",
-          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1943.txt",
-          "type": "Source notes"
-        }
-      ],
-      "interactiveUrl": "/#layers=eds-roi-1943",
-      "browseUrl": "/browse/sources/map-source-eds-roi-1943",
-      "rawMetadata": {
-        "id": "eds-roi-1943",
-        "slug": "eds-roi-1943",
-        "category": "wards",
-        "isGroup": true,
-        "featured": true,
-        "name": "District Electoral Divisions/Wards 1943",
-        "date": "1943-10-13",
-        "provider": [
-          "Phelim Birch",
-          "Paddy Matthews"
-        ],
-        "style": {
-          "color": "#1B5E20",
-          "weight": 2
-        },
-        "labelProperty": "ENGLISH",
-        "variants": [
-          {
-            "id": "eds-roi-1943-connacht",
-            "label": "Connacht (= 1919 boundaries)",
-            "cloneOf": "eds-connacht-1919",
-            "files": {
-              "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1919.fgb"
-            },
-            "style": {
-              "color": "#1B5E20",
-              "weight": 2
-            },
-            "labelProperty": "ENGLISH",
-            "useLOD": false
-          },
-          {
-            "id": "eds-roi-1943-leinster",
-            "label": "Leinster 1943",
-            "cloneOf": "eds-leinster-1943",
-            "files": {
-              "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1943.fgb"
-            },
-            "style": {
-              "color": "#1B5E20",
-              "weight": 2
-            },
-            "labelProperty": "ENGLISH",
-            "useLOD": false
-          },
-          {
-            "id": "eds-roi-1943-munster",
-            "label": "Munster (= 1921 boundaries)",
-            "cloneOf": "eds-munster-1921",
-            "files": {
-              "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1921.fgb"
-            },
-            "style": {
-              "color": "#1B5E20",
-              "weight": 2
-            },
-            "labelProperty": "ENGLISH",
-            "useLOD": false
-          },
-          {
-            "id": "eds-roi-1943-ulster",
-            "label": "Ulster (= 1921 boundaries)",
-            "cloneOf": "eds-ulster-1986",
-            "files": {
-              "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb"
-            },
-            "style": {
-              "color": "#1B5E20",
-              "weight": 2
-            },
-            "labelProperty": "ENGLISH",
-            "useLOD": false
-          }
-        ],
-        "description": "Republic of Ireland District Electoral Divisions/Wards as at 1943-10-13, assembled from Connacht (= 1919 boundaries), Leinster 1943, Munster (= 1921 boundaries), Ulster (= 1921 boundaries). Modified version of District Electoral Divisions/Wards 1944. In 1944, Waterford county borough’s boundary was expanded into the DEDs of Ballynakill, Kilbarry and Waterford Rural.",
-        "keywords": [
-          "electoral division",
-          "district electoral division",
-          "DED",
-          "ward",
-          "1943",
-          "republic of ireland",
-          "historic",
-          "small electoral units"
-        ],
-        "sourceNotes": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1943.txt",
-        "downloads": [
-          {
-            "label": "Connacht DEDs/Wards 1919",
-            "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1919.fgb",
-            "type": "FlatGeobuf"
-          },
-          {
-            "label": "Leinster DEDs/Wards 1943",
-            "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1943.fgb",
-            "type": "FlatGeobuf"
-          },
-          {
-            "label": "Munster DEDs/Wards 1921",
-            "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1921.fgb",
-            "type": "FlatGeobuf"
-          },
-          {
-            "label": "Ulster DEDs/Wards 1921",
-            "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb",
-            "type": "FlatGeobuf"
-          },
-          {
-            "label": "Source notes 1943",
-            "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1943.txt",
-            "type": "Source notes"
-          }
-        ],
-        "references": [
-          {
-            "label": "District Electoral Divisions/Wards 1943 source notes",
-            "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1943.txt",
-            "note": "Sidecar notes supplied in the Irish Digitised Boundaries archive."
-          },
-          {
-            "label": "Local Government and Public Health Provisional Orders Confirmation Act, 1944"
-          }
-        ]
-      }
-    },
-    {
       "id": "map-source:eds-roi-1944",
       "slug": "map-source-eds-roi-1944",
       "type": "map-source",
@@ -32807,184 +32255,6 @@
         ],
         "description": "Republic of Ireland District Electoral Divisions/Wards as at 1970-01-05, assembled from Connacht (= 1957 boundaries), Leinster (= 1963 boundaries), Munster 1970, Ulster (= 1963 boundaries). Modified version of District Electoral Divisions/Wards 1971. On April 15th 1971, the following changes came into effect:",
         "sourceNotes": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1970.txt"
-      }
-    },
-    {
-      "id": "map-source:eds-roi-1985",
-      "slug": "map-source-eds-roi-1985",
-      "type": "map-source",
-      "title": "District Electoral Divisions/Wards 1985 source files",
-      "subtitle": "Electoral Areas / Phelim Birch, Paddy Matthews (Paddy will be credited on all my ED maps from now on as I used his 1926 map for Galway)",
-      "category": "Map sources",
-      "date": "1985",
-      "provider": [
-        "Phelim Birch",
-        "Paddy Matthews (Paddy will be credited on all my ED maps from now on as I used his 1926 map for Galway)"
-      ],
-      "description": "Republic of Ireland District Electoral Divisions/Wards as at 1985, assembled from Connacht (= 1957 boundaries), Leinster 1985, Munster (= 1983 boundaries), Ulster (= 1963 boundaries). Modified version of District Electoral Divisions/Wards 1986. In 1986 (following the expansion of Dublin county borough a year prior), Dublin’s existing 141 wards were replaced by 162 new ones and County Dublin’s existing 80 DEDs were replaced by 159 new ones. The new county borough of Galway was given 22 wards, replacing 4 of the existing County Galway DEDs (Galway West Urban, Galway East Urban, Galway North Urban, Galway South Urban) and reducing the size of 4 other County Galway DEDs (Barna, Galway Rural, Carrowbrowne, Ballintemple). The following sources were used to get boundaries for Dublin:",
-      "sourceMapId": "eds-roi-1985",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "DE",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "District Electoral Divisions/Wards 1985 source notes",
-          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1985.txt",
-          "note": "Sidecar notes supplied in the Irish Digitised Boundaries archive."
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Connacht DEDs/Wards 1957",
-          "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1957.fgb",
-          "type": "FlatGeobuf"
-        },
-        {
-          "label": "Leinster DEDs/Wards 1985",
-          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1985.fgb",
-          "type": "FlatGeobuf"
-        },
-        {
-          "label": "Munster DEDs/Wards 1983",
-          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Munster_1983.fgb",
-          "type": "FlatGeobuf"
-        },
-        {
-          "label": "Ulster DEDs/Wards 1963",
-          "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1963.fgb",
-          "type": "FlatGeobuf"
-        },
-        {
-          "label": "Source notes 1985",
-          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1985.txt",
-          "type": "Source notes"
-        }
-      ],
-      "interactiveUrl": "/#layers=eds-roi-1985",
-      "browseUrl": "/browse/sources/map-source-eds-roi-1985",
-      "rawMetadata": {
-        "id": "eds-roi-1985",
-        "slug": "eds-roi-1985",
-        "category": "wards",
-        "isGroup": true,
-        "featured": true,
-        "name": "District Electoral Divisions/Wards 1985",
-        "date": "1985",
-        "provider": [
-          "Phelim Birch",
-          "Paddy Matthews (Paddy will be credited on all my ED maps from now on as I used his 1926 map for Galway)"
-        ],
-        "style": {
-          "color": "#1B5E20",
-          "weight": 2
-        },
-        "labelProperty": "ENGLISH",
-        "variants": [
-          {
-            "id": "eds-roi-1985-connacht",
-            "label": "Connacht (= 1957 boundaries)",
-            "cloneOf": "eds-connacht-1957",
-            "files": {
-              "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1957.fgb"
-            },
-            "style": {
-              "color": "#1B5E20",
-              "weight": 2
-            },
-            "labelProperty": "ENGLISH",
-            "useLOD": false
-          },
-          {
-            "id": "eds-roi-1985-leinster",
-            "label": "Leinster 1985",
-            "cloneOf": "eds-leinster-1985",
-            "files": {
-              "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1985.fgb"
-            },
-            "style": {
-              "color": "#1B5E20",
-              "weight": 2
-            },
-            "labelProperty": "ENGLISH",
-            "useLOD": false
-          },
-          {
-            "id": "eds-roi-1985-munster",
-            "label": "Munster (= 1983 boundaries)",
-            "cloneOf": "eds-munster-1983",
-            "files": {
-              "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Munster_1983.fgb"
-            },
-            "style": {
-              "color": "#1B5E20",
-              "weight": 2
-            },
-            "labelProperty": "ENGLISH",
-            "useLOD": false
-          },
-          {
-            "id": "eds-roi-1985-ulster",
-            "label": "Ulster (= 1963 boundaries)",
-            "cloneOf": "eds-ulster-1963",
-            "files": {
-              "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1963.fgb"
-            },
-            "style": {
-              "color": "#1B5E20",
-              "weight": 2
-            },
-            "labelProperty": "ENGLISH",
-            "useLOD": false
-          }
-        ],
-        "description": "Republic of Ireland District Electoral Divisions/Wards as at 1985, assembled from Connacht (= 1957 boundaries), Leinster 1985, Munster (= 1983 boundaries), Ulster (= 1963 boundaries). Modified version of District Electoral Divisions/Wards 1986. In 1986 (following the expansion of Dublin county borough a year prior), Dublin’s existing 141 wards were replaced by 162 new ones and County Dublin’s existing 80 DEDs were replaced by 159 new ones. The new county borough of Galway was given 22 wards, replacing 4 of the existing County Galway DEDs (Galway West Urban, Galway East Urban, Galway North Urban, Galway South Urban) and reducing the size of 4 other County Galway DEDs (Barna, Galway Rural, Carrowbrowne, Ballintemple). The following sources were used to get boundaries for Dublin:",
-        "keywords": [
-          "electoral division",
-          "district electoral division",
-          "DED",
-          "ward",
-          "1985",
-          "republic of ireland",
-          "historic",
-          "small electoral units"
-        ],
-        "sourceNotes": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1985.txt",
-        "downloads": [
-          {
-            "label": "Connacht DEDs/Wards 1957",
-            "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1957.fgb",
-            "type": "FlatGeobuf"
-          },
-          {
-            "label": "Leinster DEDs/Wards 1985",
-            "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1985.fgb",
-            "type": "FlatGeobuf"
-          },
-          {
-            "label": "Munster DEDs/Wards 1983",
-            "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Munster_1983.fgb",
-            "type": "FlatGeobuf"
-          },
-          {
-            "label": "Ulster DEDs/Wards 1963",
-            "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1963.fgb",
-            "type": "FlatGeobuf"
-          },
-          {
-            "label": "Source notes 1985",
-            "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1985.txt",
-            "type": "Source notes"
-          }
-        ],
-        "references": [
-          {
-            "label": "District Electoral Divisions/Wards 1985 source notes",
-            "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1985.txt",
-            "note": "Sidecar notes supplied in the Irish Digitised Boundaries archive."
-          }
-        ]
       }
     },
     {
@@ -37457,6 +36727,953 @@
           {
             "label": "Open Data NI — Ancient Semi-Natural Woodland Habitat Network",
             "url": "https://admin.opendatani.gov.uk/dataset/0602c59a-2e65-40e7-88cf-4335afed4e09",
+            "note": ""
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-source:habitat-bog",
+      "slug": "map-source-habitat-bog",
+      "type": "map-source",
+      "title": "Habitat Network — Bog source files",
+      "subtitle": "Biodiversity & Habitats / Ulster Wildlife",
+      "category": "Map sources",
+      "provider": [
+        "Ulster Wildlife"
+      ],
+      "description": "Spatial extent of bog habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI. 1 ArcGIS metadata item staged as provenance for this existing Civgraph record; owner/provider: edelaney05_QueensUB; ArcGIS item ID: 0b0f7c2f3b1d4a879b5c81f2c0d57b11; modified: 2025-11-14; access: public; 1 service link preserved as references; 1 related ArcGIS sibling/context item preserved as references; licence note: Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion.",
+      "sourceMapId": "habitat-bog",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "habitat-bog",
+        "url": "/assets/thumbnails/habitat-bog.webp",
+        "smallUrl": "/assets/thumbnails/habitat-bog-60.webp",
+        "alt": "Habitat Network — Bog"
+      },
+      "references": [
+        {
+          "label": "Open Data NI — Bog Habitat Network",
+          "url": "https://admin.opendatani.gov.uk/dataset/846c30d0-2d1d-441e-99dc-43c4741e77f6"
+        },
+        {
+          "label": "Existing Civgraph record: Habitat Network — Bog",
+          "url": "/browse/maps/habitat-bog",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:habitat-bog",
+          "url": "/browse/sources/map-source-habitat-bog",
+          "source": "Civgraph",
+          "role": "matched-source-record"
+        },
+        {
+          "label": "ArcGIS item: Bog Habitat Network",
+          "url": "https://www.arcgis.com/home/item.html?id=0b0f7c2f3b1d4a879b5c81f2c0d57b11",
+          "source": "edelaney05_QueensUB",
+          "role": "arcgis-item-page",
+          "type": "Feature Service",
+          "note": "Item ID 0b0f7c2f3b1d4a879b5c81f2c0d57b11 / modified 2025-11-14 / access public"
+        },
+        {
+          "label": "ArcGIS service: Bog Habitat Network",
+          "url": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Bog_Habitat_Network/FeatureServer",
+          "source": "edelaney05_QueensUB",
+          "role": "arcgis-service-url",
+          "type": "ArcGIS service",
+          "note": "geometry: esriGeometryPolygon / capabilities: Query / 1 layers"
+        },
+        {
+          "label": "Related ArcGIS Service Definition: 490da191a80a48cb857e247b5cbb0f78",
+          "url": "https://www.arcgis.com/home/item.html?id=490da191a80a48cb857e247b5cbb0f78",
+          "source": "ArcGIS Online",
+          "role": "arcgis-related-item",
+          "type": "Service Definition",
+          "note": "Item ID 490da191a80a48cb857e247b5cbb0f78"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/biodiversity/habitat-bog.fgb"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/biodiversity/habitat-bog.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=habitat-bog",
+      "browseUrl": "/browse/sources/map-source-habitat-bog",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:habitat-bog",
+          "targetEntityKind": "map",
+          "targetEntityId": "habitat-bog",
+          "targetTitle": "Habitat Network — Bog",
+          "targetBrowseUrl": "/browse/maps/habitat-bog",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "edelaney05_QueensUB"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "arcgisItemIds": [
+            "0b0f7c2f3b1d4a879b5c81f2c0d57b11"
+          ],
+          "arcgisItemPages": [
+            "https://www.arcgis.com/home/item.html?id=0b0f7c2f3b1d4a879b5c81f2c0d57b11"
+          ],
+          "serviceUrls": [
+            "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Bog_Habitat_Network/FeatureServer"
+          ],
+          "modifiedDates": [
+            "2025-11-14T15:58:45.000Z"
+          ],
+          "accessStates": [
+            "public"
+          ],
+          "licenseNotes": [
+            "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+          ],
+          "provenanceSummary": "1 ArcGIS metadata item staged as provenance for this existing Civgraph record; owner/provider: edelaney05_QueensUB; ArcGIS item ID: 0b0f7c2f3b1d4a879b5c81f2c0d57b11; modified: 2025-11-14; access: public; 1 service link preserved as references; 1 related ArcGIS sibling/context item preserved as references; licence note: Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion.",
+          "sourceItems": [
+            {
+              "auditRowNumber": 59,
+              "title": "Bog Habitat Network",
+              "provider": "edelaney05_QueensUB",
+              "category": "peatland-direct",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "0b0f7c2f3b1d4a879b5c81f2c0d57b11",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=0b0f7c2f3b1d4a879b5c81f2c0d57b11",
+              "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Bog_Habitat_Network/FeatureServer",
+              "modified": "2025-11-14T15:58:45.000Z",
+              "access": "public",
+              "tags": [
+                "Ulster Wildlife",
+                "Bog Habitats",
+                "OpenDataNI",
+                "National Trust NI",
+                "RSPB NI",
+                "Woodland Trust NI",
+                "Nature Recovery Networks",
+                "Biodiversity",
+                "Wetland."
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query"
+              ],
+              "siblingItems": [
+                {
+                  "type": "Service Definition",
+                  "itemId": "490da191a80a48cb857e247b5cbb0f78",
+                  "itemPage": "https://www.arcgis.com/home/item.html?id=490da191a80a48cb857e247b5cbb0f78"
+                }
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — Bog",
+              "civgraphMatchId": "habitat-bog",
+              "civgraphMatchTitle": "Habitat Network — Bog",
+              "civgraphMatchKind": "map",
+              "civgraphMatchScore": 1,
+              "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "map",
+              "id": "habitat-bog",
+              "title": "Habitat Network — Bog",
+              "score": 1
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 59,
+          "title": "Bog Habitat Network",
+          "provider": "edelaney05_QueensUB",
+          "category": "peatland-direct",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "0b0f7c2f3b1d4a879b5c81f2c0d57b11",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=0b0f7c2f3b1d4a879b5c81f2c0d57b11",
+          "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Bog_Habitat_Network/FeatureServer",
+          "modified": "2025-11-14T15:58:45.000Z",
+          "access": "public",
+          "tags": [
+            "Ulster Wildlife",
+            "Bog Habitats",
+            "OpenDataNI",
+            "National Trust NI",
+            "RSPB NI",
+            "Woodland Trust NI",
+            "Nature Recovery Networks",
+            "Biodiversity",
+            "Wetland."
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query"
+          ],
+          "siblingItems": [
+            {
+              "type": "Service Definition",
+              "itemId": "490da191a80a48cb857e247b5cbb0f78",
+              "itemPage": "https://www.arcgis.com/home/item.html?id=490da191a80a48cb857e247b5cbb0f78"
+            }
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — Bog",
+          "civgraphMatchId": "habitat-bog",
+          "civgraphMatchTitle": "Habitat Network — Bog",
+          "civgraphMatchKind": "map",
+          "civgraphMatchScore": 1,
+          "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
+      ],
+      "publicationStatus": "enriched",
+      "rawMetadata": {
+        "id": "habitat-bog",
+        "name": "Habitat Network — Bog",
+        "slug": "habitat-bog",
+        "category": "biodiversity",
+        "provider": [
+          "Ulster Wildlife"
+        ],
+        "description": "Spatial extent of bog habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-bog.fgb"
+        },
+        "style": {
+          "color": "#3a3a3a",
+          "weight": 0.2,
+          "fillColor": "#7E5A4F",
+          "fillOpacity": 0.6
+        },
+        "colorMap": {
+          "property": "Class",
+          "palette": {
+            "Associated Habitats": "#666666",
+            "Fragmentation Action Zone": "#D4894C",
+            "Network Enhancement Zone 1": "#E8C85C",
+            "Network Enhancement Zone 2": "#C8A442",
+            "Network Expansion Zone": "#9CCB7C",
+            "Existing Habitat": "#2E7D32"
+          },
+          "default": "#7E5A4F"
+        },
+        "labelProperty": "Class",
+        "useLOD": true,
+        "keywords": [
+          "habitat",
+          "biodiversity",
+          "nature recovery",
+          "ulster wildlife",
+          "habitat network",
+          "bog"
+        ],
+        "references": [
+          {
+            "label": "Open Data NI — Bog Habitat Network",
+            "url": "https://admin.opendatani.gov.uk/dataset/846c30d0-2d1d-441e-99dc-43c4741e77f6",
+            "note": ""
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-source:habitat-calcareous-grassland",
+      "slug": "map-source-habitat-calcareous-grassland",
+      "type": "map-source",
+      "title": "Habitat Network — Calcareous Grassland source files",
+      "subtitle": "Biodiversity & Habitats / Ulster Wildlife",
+      "category": "Map sources",
+      "provider": [
+        "Ulster Wildlife"
+      ],
+      "description": "Spatial extent of calcareous grassland habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI. 1 ArcGIS metadata item staged as provenance for this existing Civgraph record; owner/provider: edelaney05_QueensUB; ArcGIS item ID: 373127951a0e4355abe0bcd5d243d9af; modified: 2025-11-14; access: public; 1 service link preserved as references; 1 related ArcGIS sibling/context item preserved as references; licence note: Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion.",
+      "sourceMapId": "habitat-calcareous-grassland",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "habitat-calcareous-grassland",
+        "url": "/assets/thumbnails/habitat-calcareous-grassland.webp",
+        "smallUrl": "/assets/thumbnails/habitat-calcareous-grassland-60.webp",
+        "alt": "Habitat Network — Calcareous Grassland"
+      },
+      "references": [
+        {
+          "label": "Open Data NI — Calcareous Grassland Habitat Network",
+          "url": "https://admin.opendatani.gov.uk/dataset/ddc941ea-51ce-4bb5-be8c-1daabca0a9b1"
+        },
+        {
+          "label": "Existing Civgraph record: Habitat Network — Calcareous Grassland",
+          "url": "/browse/maps/habitat-calcareous-grassland",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:habitat-calcareous-grassland",
+          "url": "/browse/sources/map-source-habitat-calcareous-grassland",
+          "source": "Civgraph",
+          "role": "matched-source-record"
+        },
+        {
+          "label": "ArcGIS item: Calcareous Grassland Habitat Network",
+          "url": "https://www.arcgis.com/home/item.html?id=373127951a0e4355abe0bcd5d243d9af",
+          "source": "edelaney05_QueensUB",
+          "role": "arcgis-item-page",
+          "type": "Feature Service",
+          "note": "Item ID 373127951a0e4355abe0bcd5d243d9af / modified 2025-11-14 / access public"
+        },
+        {
+          "label": "ArcGIS service: Calcareous Grassland Habitat Network",
+          "url": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Calcareous_Grassland_Habitat_Network/FeatureServer",
+          "source": "edelaney05_QueensUB",
+          "role": "arcgis-service-url",
+          "type": "ArcGIS service",
+          "note": "geometry: esriGeometryPolygon / capabilities: Query / 1 layers"
+        },
+        {
+          "label": "Related ArcGIS Service Definition: c5f01a6677d948d88be28835606aa747",
+          "url": "https://www.arcgis.com/home/item.html?id=c5f01a6677d948d88be28835606aa747",
+          "source": "ArcGIS Online",
+          "role": "arcgis-related-item",
+          "type": "Service Definition",
+          "note": "Item ID c5f01a6677d948d88be28835606aa747"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/biodiversity/habitat-calcareous-grassland.fgb"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/biodiversity/habitat-calcareous-grassland.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=habitat-calcareous-grassland",
+      "browseUrl": "/browse/sources/map-source-habitat-calcareous-grassland",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:habitat-calcareous-grassland",
+          "targetEntityKind": "map",
+          "targetEntityId": "habitat-calcareous-grassland",
+          "targetTitle": "Habitat Network — Calcareous Grassland",
+          "targetBrowseUrl": "/browse/maps/habitat-calcareous-grassland",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "edelaney05_QueensUB"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "arcgisItemIds": [
+            "373127951a0e4355abe0bcd5d243d9af"
+          ],
+          "arcgisItemPages": [
+            "https://www.arcgis.com/home/item.html?id=373127951a0e4355abe0bcd5d243d9af"
+          ],
+          "serviceUrls": [
+            "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Calcareous_Grassland_Habitat_Network/FeatureServer"
+          ],
+          "modifiedDates": [
+            "2025-11-14T16:08:47.000Z"
+          ],
+          "accessStates": [
+            "public"
+          ],
+          "licenseNotes": [
+            "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+          ],
+          "provenanceSummary": "1 ArcGIS metadata item staged as provenance for this existing Civgraph record; owner/provider: edelaney05_QueensUB; ArcGIS item ID: 373127951a0e4355abe0bcd5d243d9af; modified: 2025-11-14; access: public; 1 service link preserved as references; 1 related ArcGIS sibling/context item preserved as references; licence note: Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion.",
+          "sourceItems": [
+            {
+              "auditRowNumber": 72,
+              "title": "Calcareous Grassland Habitat Network",
+              "provider": "edelaney05_QueensUB",
+              "category": "peatland-direct",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "373127951a0e4355abe0bcd5d243d9af",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=373127951a0e4355abe0bcd5d243d9af",
+              "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Calcareous_Grassland_Habitat_Network/FeatureServer",
+              "modified": "2025-11-14T16:08:47.000Z",
+              "access": "public",
+              "tags": [
+                "Ulster Wildlife",
+                "Calcareous Grassland Habitats",
+                "OpenDataNI",
+                "National Trust NI",
+                "RSPB NI",
+                "Woodland Trust NI",
+                "Nature Recovery Networks",
+                "Biodiversity",
+                "Grassland."
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query"
+              ],
+              "siblingItems": [
+                {
+                  "type": "Service Definition",
+                  "itemId": "c5f01a6677d948d88be28835606aa747",
+                  "itemPage": "https://www.arcgis.com/home/item.html?id=c5f01a6677d948d88be28835606aa747"
+                }
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — Calcareous Grassland",
+              "civgraphMatchId": "habitat-calcareous-grassland",
+              "civgraphMatchTitle": "Habitat Network — Calcareous Grassland",
+              "civgraphMatchKind": "map",
+              "civgraphMatchScore": 1,
+              "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "map",
+              "id": "habitat-calcareous-grassland",
+              "title": "Habitat Network — Calcareous Grassland",
+              "score": 1
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 72,
+          "title": "Calcareous Grassland Habitat Network",
+          "provider": "edelaney05_QueensUB",
+          "category": "peatland-direct",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "373127951a0e4355abe0bcd5d243d9af",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=373127951a0e4355abe0bcd5d243d9af",
+          "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Calcareous_Grassland_Habitat_Network/FeatureServer",
+          "modified": "2025-11-14T16:08:47.000Z",
+          "access": "public",
+          "tags": [
+            "Ulster Wildlife",
+            "Calcareous Grassland Habitats",
+            "OpenDataNI",
+            "National Trust NI",
+            "RSPB NI",
+            "Woodland Trust NI",
+            "Nature Recovery Networks",
+            "Biodiversity",
+            "Grassland."
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query"
+          ],
+          "siblingItems": [
+            {
+              "type": "Service Definition",
+              "itemId": "c5f01a6677d948d88be28835606aa747",
+              "itemPage": "https://www.arcgis.com/home/item.html?id=c5f01a6677d948d88be28835606aa747"
+            }
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — Calcareous Grassland",
+          "civgraphMatchId": "habitat-calcareous-grassland",
+          "civgraphMatchTitle": "Habitat Network — Calcareous Grassland",
+          "civgraphMatchKind": "map",
+          "civgraphMatchScore": 1,
+          "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
+      ],
+      "publicationStatus": "enriched",
+      "rawMetadata": {
+        "id": "habitat-calcareous-grassland",
+        "name": "Habitat Network — Calcareous Grassland",
+        "slug": "habitat-calcareous-grassland",
+        "category": "biodiversity",
+        "provider": [
+          "Ulster Wildlife"
+        ],
+        "description": "Spatial extent of calcareous grassland habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-calcareous-grassland.fgb"
+        },
+        "style": {
+          "color": "#3a3a3a",
+          "weight": 0.2,
+          "fillColor": "#D4D278",
+          "fillOpacity": 0.6
+        },
+        "colorMap": {
+          "property": "Class",
+          "palette": {
+            "Associated Habitats": "#666666",
+            "Fragmentation Action Zone": "#D4894C",
+            "Network Enhancement Zone 1": "#E8C85C",
+            "Network Enhancement Zone 2": "#C8A442",
+            "Network Expansion Zone": "#9CCB7C",
+            "Existing Habitat": "#2E7D32"
+          },
+          "default": "#D4D278"
+        },
+        "labelProperty": "Class",
+        "useLOD": true,
+        "keywords": [
+          "habitat",
+          "biodiversity",
+          "nature recovery",
+          "ulster wildlife",
+          "habitat network",
+          "calcareous grassland"
+        ],
+        "references": [
+          {
+            "label": "Open Data NI — Calcareous Grassland Habitat Network",
+            "url": "https://admin.opendatani.gov.uk/dataset/ddc941ea-51ce-4bb5-be8c-1daabca0a9b1",
+            "note": ""
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-source:habitat-coastal-grouped",
+      "slug": "map-source-habitat-coastal-grouped",
+      "type": "map-source",
+      "title": "Habitat Network — Coastal Habitat Networks (grouped) source files",
+      "subtitle": "Biodiversity & Habitats / Ulster Wildlife",
+      "category": "Map sources",
+      "provider": [
+        "Ulster Wildlife"
+      ],
+      "description": "Spatial extent of coastal habitat networks (grouped) habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+      "sourceMapId": "habitat-coastal-grouped",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "habitat-coastal-grouped",
+        "url": "/assets/thumbnails/habitat-coastal-grouped.webp",
+        "smallUrl": "/assets/thumbnails/habitat-coastal-grouped-60.webp",
+        "alt": "Habitat Network — Coastal Habitat Networks (grouped)"
+      },
+      "references": [
+        {
+          "label": "Open Data NI — Coastal Habitat Networks (grouped) Habitat Network",
+          "url": "https://admin.opendatani.gov.uk/dataset/db9a4622-7b79-4bbe-94b6-ff54c9fafd2f"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/biodiversity/habitat-coastal-grouped.fgb"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/biodiversity/habitat-coastal-grouped.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=habitat-coastal-grouped",
+      "browseUrl": "/browse/sources/map-source-habitat-coastal-grouped",
+      "rawMetadata": {
+        "id": "habitat-coastal-grouped",
+        "name": "Habitat Network — Coastal Habitat Networks (grouped)",
+        "slug": "habitat-coastal-grouped",
+        "category": "biodiversity",
+        "provider": [
+          "Ulster Wildlife"
+        ],
+        "description": "Spatial extent of coastal habitat networks (grouped) habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-coastal-grouped.fgb"
+        },
+        "style": {
+          "color": "#3a3a3a",
+          "weight": 0.2,
+          "fillColor": "#C6A876",
+          "fillOpacity": 0.6
+        },
+        "colorMap": {
+          "property": "Class",
+          "palette": {
+            "Associated Habitats": "#666666",
+            "Fragmentation Action Zone": "#D4894C",
+            "Network Enhancement Zone 1": "#E8C85C",
+            "Network Enhancement Zone 2": "#C8A442",
+            "Network Expansion Zone": "#9CCB7C",
+            "Existing Habitat": "#2E7D32"
+          },
+          "default": "#C6A876"
+        },
+        "labelProperty": "Class",
+        "useLOD": true,
+        "keywords": [
+          "habitat",
+          "biodiversity",
+          "nature recovery",
+          "ulster wildlife",
+          "habitat network",
+          "coastal habitat networks (grouped)"
+        ],
+        "references": [
+          {
+            "label": "Open Data NI — Coastal Habitat Networks (grouped) Habitat Network",
+            "url": "https://admin.opendatani.gov.uk/dataset/db9a4622-7b79-4bbe-94b6-ff54c9fafd2f",
+            "note": ""
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-source:habitat-coastal-saltmarsh",
+      "slug": "map-source-habitat-coastal-saltmarsh",
+      "type": "map-source",
+      "title": "Habitat Network — Coastal Saltmarsh source files",
+      "subtitle": "Biodiversity & Habitats / Ulster Wildlife",
+      "category": "Map sources",
+      "provider": [
+        "Ulster Wildlife"
+      ],
+      "description": "Spatial extent of coastal saltmarsh habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI. 1 ArcGIS metadata item staged as provenance for this existing Civgraph record; owner/provider: edelaney05_QueensUB; ArcGIS item ID: 0245a92fedc1411f9188effa9b4540b4; modified: 2025-11-14; access: public; 1 service link preserved as references; 1 related ArcGIS sibling/context item preserved as references; licence note: Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion.",
+      "sourceMapId": "habitat-coastal-saltmarsh",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "habitat-coastal-saltmarsh",
+        "url": "/assets/thumbnails/habitat-coastal-saltmarsh.webp",
+        "smallUrl": "/assets/thumbnails/habitat-coastal-saltmarsh-60.webp",
+        "alt": "Habitat Network — Coastal Saltmarsh"
+      },
+      "references": [
+        {
+          "label": "Open Data NI — Coastal Saltmarsh Habitat Network",
+          "url": "https://admin.opendatani.gov.uk/dataset/05953343-682e-4ae7-87c3-801a092f0587"
+        },
+        {
+          "label": "Existing Civgraph record: Habitat Network — Coastal Saltmarsh",
+          "url": "/browse/maps/habitat-coastal-saltmarsh",
+          "source": "Civgraph",
+          "role": "matched-existing-record"
+        },
+        {
+          "label": "Existing Civgraph source record: map-source:habitat-coastal-saltmarsh",
+          "url": "/browse/sources/map-source-habitat-coastal-saltmarsh",
+          "source": "Civgraph",
+          "role": "matched-source-record"
+        },
+        {
+          "label": "ArcGIS item: Coastal Saltmarsh Habitat Network",
+          "url": "https://www.arcgis.com/home/item.html?id=0245a92fedc1411f9188effa9b4540b4",
+          "source": "edelaney05_QueensUB",
+          "role": "arcgis-item-page",
+          "type": "Feature Service",
+          "note": "Item ID 0245a92fedc1411f9188effa9b4540b4 / modified 2025-11-14 / access public"
+        },
+        {
+          "label": "ArcGIS service: Coastal Saltmarsh Habitat Network",
+          "url": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Coastal_Saltmarsh_Habitat_Network/FeatureServer",
+          "source": "edelaney05_QueensUB",
+          "role": "arcgis-service-url",
+          "type": "ArcGIS service",
+          "note": "geometry: esriGeometryPolygon / capabilities: Query / 1 layers"
+        },
+        {
+          "label": "Related ArcGIS Service Definition: f9549f11ab2c4f2189216a34ecd81abd",
+          "url": "https://www.arcgis.com/home/item.html?id=f9549f11ab2c4f2189216a34ecd81abd",
+          "source": "ArcGIS Online",
+          "role": "arcgis-related-item",
+          "type": "Service Definition",
+          "note": "Item ID f9549f11ab2c4f2189216a34ecd81abd"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/biodiversity/habitat-coastal-saltmarsh.fgb"
+        },
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/biodiversity/habitat-coastal-saltmarsh.fgb"
+        }
+      ],
+      "interactiveUrl": "/#layers=habitat-coastal-saltmarsh",
+      "browseUrl": "/browse/sources/map-source-habitat-coastal-saltmarsh",
+      "alreadyOnSiteEnrichments": [
+        {
+          "sourceTargetId": "map-source:habitat-coastal-saltmarsh",
+          "targetEntityKind": "map",
+          "targetEntityId": "habitat-coastal-saltmarsh",
+          "targetTitle": "Habitat Network — Coastal Saltmarsh",
+          "targetBrowseUrl": "/browse/maps/habitat-coastal-saltmarsh",
+          "sourceItemCount": 1,
+          "confidence": "safe",
+          "safetyClasses": [
+            "safe metadata enrichment candidate"
+          ],
+          "formats": [
+            "Feature Service"
+          ],
+          "providers": [
+            "edelaney05_QueensUB"
+          ],
+          "categories": [
+            "Peatland Geoportal duplicate-match enrichment"
+          ],
+          "enrichmentTypes": [
+            "ArcGIS item provenance",
+            "provider metadata",
+            "source URL",
+            "service URL",
+            "alternative service link"
+          ],
+          "arcgisItemIds": [
+            "0245a92fedc1411f9188effa9b4540b4"
+          ],
+          "arcgisItemPages": [
+            "https://www.arcgis.com/home/item.html?id=0245a92fedc1411f9188effa9b4540b4"
+          ],
+          "serviceUrls": [
+            "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Coastal_Saltmarsh_Habitat_Network/FeatureServer"
+          ],
+          "modifiedDates": [
+            "2025-11-14T16:25:41.000Z"
+          ],
+          "accessStates": [
+            "public"
+          ],
+          "licenseNotes": [
+            "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+          ],
+          "provenanceSummary": "1 ArcGIS metadata item staged as provenance for this existing Civgraph record; owner/provider: edelaney05_QueensUB; ArcGIS item ID: 0245a92fedc1411f9188effa9b4540b4; modified: 2025-11-14; access: public; 1 service link preserved as references; 1 related ArcGIS sibling/context item preserved as references; licence note: Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion.",
+          "sourceItems": [
+            {
+              "auditRowNumber": 84,
+              "title": "Coastal Saltmarsh Habitat Network",
+              "provider": "edelaney05_QueensUB",
+              "category": "peatland-direct",
+              "formats": [
+                "Feature Service"
+              ],
+              "arcgisItemId": "0245a92fedc1411f9188effa9b4540b4",
+              "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=0245a92fedc1411f9188effa9b4540b4",
+              "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Coastal_Saltmarsh_Habitat_Network/FeatureServer",
+              "modified": "2025-11-14T16:25:41.000Z",
+              "access": "public",
+              "tags": [
+                "Ulster Wildlife",
+                "Coastal Saltmarsh Habitats",
+                "OpenDataNI",
+                "National Trust NI",
+                "RSPB NI",
+                "Woodland Trust NI",
+                "Nature Recovery Networks",
+                "Biodiversity",
+                "Coastal."
+              ],
+              "serviceLayerCount": 1,
+              "serviceTableCount": 0,
+              "geometryTypes": [
+                "esriGeometryPolygon"
+              ],
+              "capabilities": [
+                "Query"
+              ],
+              "siblingItems": [
+                {
+                  "type": "Service Definition",
+                  "itemId": "f9549f11ab2c4f2189216a34ecd81abd",
+                  "itemPage": "https://www.arcgis.com/home/item.html?id=f9549f11ab2c4f2189216a34ecd81abd"
+                }
+              ],
+              "recommendedAction": "likely-duplicate-enrich-existing",
+              "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — Coastal Saltmarsh",
+              "civgraphMatchId": "habitat-coastal-saltmarsh",
+              "civgraphMatchTitle": "Habitat Network — Coastal Saltmarsh",
+              "civgraphMatchKind": "map",
+              "civgraphMatchScore": 1,
+              "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "map",
+              "id": "habitat-coastal-saltmarsh",
+              "title": "Habitat Network — Coastal Saltmarsh",
+              "score": 1
+            }
+          ]
+        }
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 84,
+          "title": "Coastal Saltmarsh Habitat Network",
+          "provider": "edelaney05_QueensUB",
+          "category": "peatland-direct",
+          "formats": [
+            "Feature Service"
+          ],
+          "arcgisItemId": "0245a92fedc1411f9188effa9b4540b4",
+          "arcgisItemPage": "https://www.arcgis.com/home/item.html?id=0245a92fedc1411f9188effa9b4540b4",
+          "serviceUrl": "https://services3.arcgis.com/HRuPlEcokYlz4mdz/arcgis/rest/services/Coastal_Saltmarsh_Habitat_Network/FeatureServer",
+          "modified": "2025-11-14T16:25:41.000Z",
+          "access": "public",
+          "tags": [
+            "Ulster Wildlife",
+            "Coastal Saltmarsh Habitats",
+            "OpenDataNI",
+            "National Trust NI",
+            "RSPB NI",
+            "Woodland Trust NI",
+            "Nature Recovery Networks",
+            "Biodiversity",
+            "Coastal."
+          ],
+          "serviceLayerCount": 1,
+          "serviceTableCount": 0,
+          "geometryTypes": [
+            "esriGeometryPolygon"
+          ],
+          "capabilities": [
+            "Query"
+          ],
+          "siblingItems": [
+            {
+              "type": "Service Definition",
+              "itemId": "f9549f11ab2c4f2189216a34ecd81abd",
+              "itemPage": "https://www.arcgis.com/home/item.html?id=f9549f11ab2c4f2189216a34ecd81abd"
+            }
+          ],
+          "recommendedAction": "likely-duplicate-enrich-existing",
+          "duplicateReason": "Very close Civgraph title/provider match: Habitat Network — Coastal Saltmarsh",
+          "civgraphMatchId": "habitat-coastal-saltmarsh",
+          "civgraphMatchTitle": "Habitat Network — Coastal Saltmarsh",
+          "civgraphMatchKind": "map",
+          "civgraphMatchScore": 1,
+          "licenseNote": "Metadata tags indicate open-data context, but the exact reuse licence must be confirmed before geometry conversion."
+        }
+      ],
+      "keywords": [
+        "already-on-site-enrichment",
+        "duplicate-source-match",
+        "ArcGIS item provenance",
+        "provider metadata",
+        "source URL",
+        "service URL",
+        "alternative service link"
+      ],
+      "publicationStatus": "enriched",
+      "rawMetadata": {
+        "id": "habitat-coastal-saltmarsh",
+        "name": "Habitat Network — Coastal Saltmarsh",
+        "slug": "habitat-coastal-saltmarsh",
+        "category": "biodiversity",
+        "provider": [
+          "Ulster Wildlife"
+        ],
+        "description": "Spatial extent of coastal saltmarsh habitat across Northern Ireland, classified into Existing Habitat, Associated Habitats, Network Enhancement Zones, Fragmentation Action Zones and Network Expansion Zones. Part of the Nature Recovery NI habitat-network mapping project published by Ulster Wildlife on Open Data NI.",
+        "files": {
+          "fgb": "https://data.civgraph.net/data/maps/biodiversity/habitat-coastal-saltmarsh.fgb"
+        },
+        "style": {
+          "color": "#3a3a3a",
+          "weight": 0.2,
+          "fillColor": "#88A07A",
+          "fillOpacity": 0.6
+        },
+        "colorMap": {
+          "property": "Class",
+          "palette": {
+            "Associated Habitats": "#666666",
+            "Fragmentation Action Zone": "#D4894C",
+            "Network Enhancement Zone 1": "#E8C85C",
+            "Network Enhancement Zone 2": "#C8A442",
+            "Network Expansion Zone": "#9CCB7C",
+            "Existing Habitat": "#2E7D32"
+          },
+          "default": "#88A07A"
+        },
+        "labelProperty": "Class",
+        "useLOD": true,
+        "keywords": [
+          "habitat",
+          "biodiversity",
+          "nature recovery",
+          "ulster wildlife",
+          "habitat network",
+          "coastal saltmarsh"
+        ],
+        "references": [
+          {
+            "label": "Open Data NI — Coastal Saltmarsh Habitat Network",
+            "url": "https://admin.opendatani.gov.uk/dataset/05953343-682e-4ae7-87c3-801a092f0587",
             "note": ""
           }
         ]
