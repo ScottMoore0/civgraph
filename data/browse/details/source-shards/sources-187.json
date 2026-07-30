@@ -1,10 +1,1314 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-30T20:12:41.046Z",
+  "generatedAt": "2026-07-30T20:58:42.107Z",
   "kind": "sources",
   "shard": "sources-187.json",
   "total": 200,
   "items": [
+    {
+      "id": "medium-priority:2-irish-election-source-enrichment-data:shannon-airport-daily-data:02299",
+      "slug": "medium-priority-2-irish-election-source-enrichment-data-shannon-airport-daily-data-02299",
+      "type": "approved-medium-priority-source",
+      "title": "Shannon Airport Daily Data",
+      "subtitle": "Irish election source/enrichment data / Met Éireann, data.gov.ie / Republic of Ireland / CSV, TXT / Approved source record",
+      "category": "Medium-priority: Irish election source/enrichment data",
+      "provider": [
+        "Met Éireann",
+        "data.gov.ie"
+      ],
+      "description": "Shannon Airport Daily Data is published as a medium-priority Civgraph source/provenance record from Met Éireann, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/shannon-airport-daily-data",
+      "references": [
+        {
+          "label": "Shannon Airport Daily Data provider page",
+          "url": "https://data.gov.ie/dataset/shannon-airport-daily-data",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "Shannon Airport Daily Data Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/shannon-airport-daily-data",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/shannon-airport-daily-data",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Irish election source/enrichment data",
+        "election",
+        "features",
+        "Republic of Ireland",
+        "enrich-existing-election",
+        "CSV",
+        "TXT"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 2300,
+          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:shannon-airport-daily-data:02299",
+          "title": "Shannon Airport Daily Data",
+          "cleanTitle": "Shannon Airport Daily Data",
+          "provider": "data.gov.ie",
+          "organisation": "Met Éireann",
+          "category": "tabular",
+          "roiGroup": "2. Irish election source/enrichment data",
+          "groupTitle": "Irish election source/enrichment data",
+          "jurisdiction": "Republic of Ireland",
+          "topic": "election",
+          "featureUnit": "features",
+          "formats": [
+            "CSV",
+            "TXT"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "enrich-existing-election",
+          "proposedPlacement": "Elections/source provenance",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "TXT"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/shannon-airport-daily-data",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/shannon-airport-daily-data",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "election-model-merge-and-provenance-review: election staging action assigned",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link",
+        "Election provenance"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Irish election source/enrichment data",
+        "Republic of Ireland",
+        "election",
+        "Shannon Airport Daily Data"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/shannon-airport-daily-data",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/shannon-airport-daily-data",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Met Éireann, data.gov.ie, Shannon Airport Daily Data.",
+      "fullCitation": "Met Éireann, data.gov.ie. Shannon Airport Daily Data. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/shannon-airport-daily-data. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/shannon-airport-daily-data.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:2-irish-election-source-enrichment-data:shannon-airport-daily-data:02299",
+        "sourceRowNumber": 2300,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish election source/provenance enrichment",
+        "proposedAction": "enrich-existing-election",
+        "proposedPlacement": "Elections/source provenance",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV",
+            "TXT"
+          ]
+        },
+        "confidence": 60,
+        "resolvedBlockers": [
+          "election-model-merge-and-provenance-review: election staging action assigned",
+          "needs-provider-context-review: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Elections/source provenance",
+      "relationship": "election-source-enrichment",
+      "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-shannon-airport-daily-data-02299",
+      "rawMetadata": {
+        "id": "medium-priority:2-irish-election-source-enrichment-data:shannon-airport-daily-data:02299",
+        "slug": "medium-priority-2-irish-election-source-enrichment-data-shannon-airport-daily-data-02299",
+        "type": "approved-medium-priority-source",
+        "title": "Shannon Airport Daily Data",
+        "subtitle": "Irish election source/enrichment data / Met Éireann, data.gov.ie / Republic of Ireland / CSV, TXT / Approved source record",
+        "category": "Medium-priority: Irish election source/enrichment data",
+        "provider": [
+          "Met Éireann",
+          "data.gov.ie"
+        ],
+        "description": "Shannon Airport Daily Data is published as a medium-priority Civgraph source/provenance record from Met Éireann, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/shannon-airport-daily-data",
+        "references": [
+          {
+            "label": "Shannon Airport Daily Data provider page",
+            "url": "https://data.gov.ie/dataset/shannon-airport-daily-data",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "Shannon Airport Daily Data Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/shannon-airport-daily-data",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/shannon-airport-daily-data",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link",
+          "Election provenance"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Irish election source/enrichment data",
+          "Republic of Ireland",
+          "election",
+          "Shannon Airport Daily Data"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/shannon-airport-daily-data",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/shannon-airport-daily-data",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Met Éireann, data.gov.ie, Shannon Airport Daily Data.",
+        "fullCitation": "Met Éireann, data.gov.ie. Shannon Airport Daily Data. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/shannon-airport-daily-data. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/shannon-airport-daily-data.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 2300,
+            "stagingId": "medium-prep:2-irish-election-source-enrichment-data:shannon-airport-daily-data:02299",
+            "title": "Shannon Airport Daily Data",
+            "cleanTitle": "Shannon Airport Daily Data",
+            "provider": "data.gov.ie",
+            "organisation": "Met Éireann",
+            "category": "tabular",
+            "roiGroup": "2. Irish election source/enrichment data",
+            "groupTitle": "Irish election source/enrichment data",
+            "jurisdiction": "Republic of Ireland",
+            "topic": "election",
+            "featureUnit": "features",
+            "formats": [
+              "CSV",
+              "TXT"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "enrich-existing-election",
+            "proposedPlacement": "Elections/source provenance",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV",
+                "TXT"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/shannon-airport-daily-data",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/shannon-airport-daily-data",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "election-model-merge-and-provenance-review: election staging action assigned",
+              "needs-provider-context-review: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:shannon-airport-daily-data:02299",
+          "sourceRowNumber": 2300,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish election source/provenance enrichment",
+          "proposedAction": "enrich-existing-election",
+          "proposedPlacement": "Elections/source provenance",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "TXT"
+            ]
+          },
+          "confidence": 60,
+          "resolvedBlockers": [
+            "election-model-merge-and-provenance-review: election staging action assigned",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Elections/source provenance",
+        "relationship": "election-source-enrichment",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Irish election source/enrichment data",
+          "election",
+          "features",
+          "Republic of Ireland",
+          "enrich-existing-election",
+          "CSV",
+          "TXT"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-shannon-airport-daily-data-02299"
+      }
+    },
+    {
+      "id": "medium-priority:2-irish-election-source-enrichment-data:sherkin-island-daily-data:02301",
+      "slug": "medium-priority-2-irish-election-source-enrichment-data-sherkin-island-daily-data-02301",
+      "type": "approved-medium-priority-source",
+      "title": "Sherkin Island Daily Data",
+      "subtitle": "Irish election source/enrichment data / Met Éireann, data.gov.ie / Republic of Ireland / CSV, TXT / Approved source record",
+      "category": "Medium-priority: Irish election source/enrichment data",
+      "provider": [
+        "Met Éireann",
+        "data.gov.ie"
+      ],
+      "description": "Sherkin Island Daily Data is published as a medium-priority Civgraph source/provenance record from Met Éireann, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/sherkin-island-daily-data",
+      "references": [
+        {
+          "label": "Sherkin Island Daily Data provider page",
+          "url": "https://data.gov.ie/dataset/sherkin-island-daily-data",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "Sherkin Island Daily Data Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/sherkin-island-daily-data",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/sherkin-island-daily-data",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Irish election source/enrichment data",
+        "election",
+        "features",
+        "Republic of Ireland",
+        "enrich-existing-election",
+        "CSV",
+        "TXT"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 2302,
+          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:sherkin-island-daily-data:02301",
+          "title": "Sherkin Island Daily Data",
+          "cleanTitle": "Sherkin Island Daily Data",
+          "provider": "data.gov.ie",
+          "organisation": "Met Éireann",
+          "category": "tabular",
+          "roiGroup": "2. Irish election source/enrichment data",
+          "groupTitle": "Irish election source/enrichment data",
+          "jurisdiction": "Republic of Ireland",
+          "topic": "election",
+          "featureUnit": "features",
+          "formats": [
+            "CSV",
+            "TXT"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "enrich-existing-election",
+          "proposedPlacement": "Elections/source provenance",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "TXT"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/sherkin-island-daily-data",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/sherkin-island-daily-data",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "election-model-merge-and-provenance-review: election staging action assigned",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link",
+        "Election provenance"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Irish election source/enrichment data",
+        "Republic of Ireland",
+        "election",
+        "Sherkin Island Daily Data"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/sherkin-island-daily-data",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/sherkin-island-daily-data",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Met Éireann, data.gov.ie, Sherkin Island Daily Data.",
+      "fullCitation": "Met Éireann, data.gov.ie. Sherkin Island Daily Data. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/sherkin-island-daily-data. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/sherkin-island-daily-data.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:2-irish-election-source-enrichment-data:sherkin-island-daily-data:02301",
+        "sourceRowNumber": 2302,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish election source/provenance enrichment",
+        "proposedAction": "enrich-existing-election",
+        "proposedPlacement": "Elections/source provenance",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV",
+            "TXT"
+          ]
+        },
+        "confidence": 60,
+        "resolvedBlockers": [
+          "election-model-merge-and-provenance-review: election staging action assigned",
+          "needs-provider-context-review: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Elections/source provenance",
+      "relationship": "election-source-enrichment",
+      "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-sherkin-island-daily-data-02301",
+      "rawMetadata": {
+        "id": "medium-priority:2-irish-election-source-enrichment-data:sherkin-island-daily-data:02301",
+        "slug": "medium-priority-2-irish-election-source-enrichment-data-sherkin-island-daily-data-02301",
+        "type": "approved-medium-priority-source",
+        "title": "Sherkin Island Daily Data",
+        "subtitle": "Irish election source/enrichment data / Met Éireann, data.gov.ie / Republic of Ireland / CSV, TXT / Approved source record",
+        "category": "Medium-priority: Irish election source/enrichment data",
+        "provider": [
+          "Met Éireann",
+          "data.gov.ie"
+        ],
+        "description": "Sherkin Island Daily Data is published as a medium-priority Civgraph source/provenance record from Met Éireann, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/sherkin-island-daily-data",
+        "references": [
+          {
+            "label": "Sherkin Island Daily Data provider page",
+            "url": "https://data.gov.ie/dataset/sherkin-island-daily-data",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "Sherkin Island Daily Data Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/sherkin-island-daily-data",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/sherkin-island-daily-data",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link",
+          "Election provenance"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Irish election source/enrichment data",
+          "Republic of Ireland",
+          "election",
+          "Sherkin Island Daily Data"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/sherkin-island-daily-data",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/sherkin-island-daily-data",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Met Éireann, data.gov.ie, Sherkin Island Daily Data.",
+        "fullCitation": "Met Éireann, data.gov.ie. Sherkin Island Daily Data. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/sherkin-island-daily-data. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/sherkin-island-daily-data.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 2302,
+            "stagingId": "medium-prep:2-irish-election-source-enrichment-data:sherkin-island-daily-data:02301",
+            "title": "Sherkin Island Daily Data",
+            "cleanTitle": "Sherkin Island Daily Data",
+            "provider": "data.gov.ie",
+            "organisation": "Met Éireann",
+            "category": "tabular",
+            "roiGroup": "2. Irish election source/enrichment data",
+            "groupTitle": "Irish election source/enrichment data",
+            "jurisdiction": "Republic of Ireland",
+            "topic": "election",
+            "featureUnit": "features",
+            "formats": [
+              "CSV",
+              "TXT"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "enrich-existing-election",
+            "proposedPlacement": "Elections/source provenance",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV",
+                "TXT"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/sherkin-island-daily-data",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/sherkin-island-daily-data",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "election-model-merge-and-provenance-review: election staging action assigned",
+              "needs-provider-context-review: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:sherkin-island-daily-data:02301",
+          "sourceRowNumber": 2302,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish election source/provenance enrichment",
+          "proposedAction": "enrich-existing-election",
+          "proposedPlacement": "Elections/source provenance",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "TXT"
+            ]
+          },
+          "confidence": 60,
+          "resolvedBlockers": [
+            "election-model-merge-and-provenance-review: election staging action assigned",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Elections/source provenance",
+        "relationship": "election-source-enrichment",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Irish election source/enrichment data",
+          "election",
+          "features",
+          "Republic of Ireland",
+          "enrich-existing-election",
+          "CSV",
+          "TXT"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-sherkin-island-daily-data-02301"
+      }
+    },
+    {
+      "id": "medium-priority:2-irish-election-source-enrichment-data:the-first-count-of-the-presidential-election-of-1945:00981",
+      "slug": "medium-priority-2-irish-election-source-enrichment-data-the-first-count-of-the-presidential-election-of-1945-00981",
+      "type": "approved-medium-priority-source",
+      "title": "The first count of the presidential election of 1945",
+      "subtitle": "Irish election source/enrichment data / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV / Approved source record",
+      "category": "Medium-priority: Irish election source/enrichment data",
+      "date": "1945",
+      "provider": [
+        "Department of Housing, Local Government and Heritage",
+        "data.gov.ie"
+      ],
+      "description": "The first count of the presidential election of 1945 is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1945",
+      "references": [
+        {
+          "label": "The first count of the presidential election of 1945 provider page",
+          "url": "https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1945",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "The first count of the presidential election of 1945 Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1945",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1945",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Irish election source/enrichment data",
+        "election",
+        "features",
+        "Ireland / unspecified",
+        "enrich-existing-election",
+        "CSV"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 982,
+          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:the-first-count-of-the-presidential-election-of-1945:00981",
+          "title": "The first count of the presidential election of 1945",
+          "cleanTitle": "The first count of the presidential election of 1945",
+          "provider": "data.gov.ie",
+          "organisation": "Department of Housing, Local Government and Heritage",
+          "category": "tabular",
+          "roiGroup": "2. Irish election source/enrichment data",
+          "groupTitle": "Irish election source/enrichment data",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "election",
+          "featureUnit": "features",
+          "formats": [
+            "CSV"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "enrich-existing-election",
+          "proposedPlacement": "Elections/source provenance",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1945",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1945",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "election-model-merge-and-provenance-review: election staging action assigned",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link",
+        "Election provenance"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Irish election source/enrichment data",
+        "Ireland / unspecified",
+        "election",
+        "The first count of the presidential election of 1945"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1945",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1945",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, The first count of the presidential election of 1945.",
+      "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. The first count of the presidential election of 1945. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1945. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1945.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:2-irish-election-source-enrichment-data:the-first-count-of-the-presidential-election-of-1945:00981",
+        "sourceRowNumber": 982,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish election source/provenance enrichment",
+        "proposedAction": "enrich-existing-election",
+        "proposedPlacement": "Elections/source provenance",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV"
+          ]
+        },
+        "confidence": 60,
+        "resolvedBlockers": [
+          "election-model-merge-and-provenance-review: election staging action assigned",
+          "needs-provider-context-review: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Elections/source provenance",
+      "relationship": "election-source-enrichment",
+      "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-the-first-count-of-the-presidential-election-of-1945-00981",
+      "rawMetadata": {
+        "id": "medium-priority:2-irish-election-source-enrichment-data:the-first-count-of-the-presidential-election-of-1945:00981",
+        "slug": "medium-priority-2-irish-election-source-enrichment-data-the-first-count-of-the-presidential-election-of-1945-00981",
+        "type": "approved-medium-priority-source",
+        "title": "The first count of the presidential election of 1945",
+        "subtitle": "Irish election source/enrichment data / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV / Approved source record",
+        "category": "Medium-priority: Irish election source/enrichment data",
+        "date": "1945",
+        "provider": [
+          "Department of Housing, Local Government and Heritage",
+          "data.gov.ie"
+        ],
+        "description": "The first count of the presidential election of 1945 is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1945",
+        "references": [
+          {
+            "label": "The first count of the presidential election of 1945 provider page",
+            "url": "https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1945",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "The first count of the presidential election of 1945 Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1945",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1945",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link",
+          "Election provenance"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Irish election source/enrichment data",
+          "Ireland / unspecified",
+          "election",
+          "The first count of the presidential election of 1945"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1945",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1945",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, The first count of the presidential election of 1945.",
+        "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. The first count of the presidential election of 1945. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1945. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1945.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 982,
+            "stagingId": "medium-prep:2-irish-election-source-enrichment-data:the-first-count-of-the-presidential-election-of-1945:00981",
+            "title": "The first count of the presidential election of 1945",
+            "cleanTitle": "The first count of the presidential election of 1945",
+            "provider": "data.gov.ie",
+            "organisation": "Department of Housing, Local Government and Heritage",
+            "category": "tabular",
+            "roiGroup": "2. Irish election source/enrichment data",
+            "groupTitle": "Irish election source/enrichment data",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "election",
+            "featureUnit": "features",
+            "formats": [
+              "CSV"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "enrich-existing-election",
+            "proposedPlacement": "Elections/source provenance",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1945",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1945",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "election-model-merge-and-provenance-review: election staging action assigned",
+              "needs-provider-context-review: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:the-first-count-of-the-presidential-election-of-1945:00981",
+          "sourceRowNumber": 982,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish election source/provenance enrichment",
+          "proposedAction": "enrich-existing-election",
+          "proposedPlacement": "Elections/source provenance",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV"
+            ]
+          },
+          "confidence": 60,
+          "resolvedBlockers": [
+            "election-model-merge-and-provenance-review: election staging action assigned",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Elections/source provenance",
+        "relationship": "election-source-enrichment",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Irish election source/enrichment data",
+          "election",
+          "features",
+          "Ireland / unspecified",
+          "enrich-existing-election",
+          "CSV"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-the-first-count-of-the-presidential-election-of-1945-00981"
+      }
+    },
+    {
+      "id": "medium-priority:2-irish-election-source-enrichment-data:the-first-count-of-the-presidential-election-of-1990:00982",
+      "slug": "medium-priority-2-irish-election-source-enrichment-data-the-first-count-of-the-presidential-election-of-1990-00982",
+      "type": "approved-medium-priority-source",
+      "title": "The first count of the presidential election of 1990",
+      "subtitle": "Irish election source/enrichment data / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV / Approved source record",
+      "category": "Medium-priority: Irish election source/enrichment data",
+      "date": "1990",
+      "provider": [
+        "Department of Housing, Local Government and Heritage",
+        "data.gov.ie"
+      ],
+      "description": "The first count of the presidential election of 1990 is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1990",
+      "references": [
+        {
+          "label": "The first count of the presidential election of 1990 provider page",
+          "url": "https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1990",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "The first count of the presidential election of 1990 Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1990",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1990",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Irish election source/enrichment data",
+        "election",
+        "features",
+        "Ireland / unspecified",
+        "enrich-existing-election",
+        "CSV"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 983,
+          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:the-first-count-of-the-presidential-election-of-1990:00982",
+          "title": "The first count of the presidential election of 1990",
+          "cleanTitle": "The first count of the presidential election of 1990",
+          "provider": "data.gov.ie",
+          "organisation": "Department of Housing, Local Government and Heritage",
+          "category": "tabular",
+          "roiGroup": "2. Irish election source/enrichment data",
+          "groupTitle": "Irish election source/enrichment data",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "election",
+          "featureUnit": "features",
+          "formats": [
+            "CSV"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "enrich-existing-election",
+          "proposedPlacement": "Elections/source provenance",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1990",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1990",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "election-model-merge-and-provenance-review: election staging action assigned",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link",
+        "Election provenance"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Irish election source/enrichment data",
+        "Ireland / unspecified",
+        "election",
+        "The first count of the presidential election of 1990"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1990",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1990",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, The first count of the presidential election of 1990.",
+      "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. The first count of the presidential election of 1990. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1990. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1990.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:2-irish-election-source-enrichment-data:the-first-count-of-the-presidential-election-of-1990:00982",
+        "sourceRowNumber": 983,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish election source/provenance enrichment",
+        "proposedAction": "enrich-existing-election",
+        "proposedPlacement": "Elections/source provenance",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV"
+          ]
+        },
+        "confidence": 60,
+        "resolvedBlockers": [
+          "election-model-merge-and-provenance-review: election staging action assigned",
+          "needs-provider-context-review: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Elections/source provenance",
+      "relationship": "election-source-enrichment",
+      "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-the-first-count-of-the-presidential-election-of-1990-00982",
+      "rawMetadata": {
+        "id": "medium-priority:2-irish-election-source-enrichment-data:the-first-count-of-the-presidential-election-of-1990:00982",
+        "slug": "medium-priority-2-irish-election-source-enrichment-data-the-first-count-of-the-presidential-election-of-1990-00982",
+        "type": "approved-medium-priority-source",
+        "title": "The first count of the presidential election of 1990",
+        "subtitle": "Irish election source/enrichment data / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV / Approved source record",
+        "category": "Medium-priority: Irish election source/enrichment data",
+        "date": "1990",
+        "provider": [
+          "Department of Housing, Local Government and Heritage",
+          "data.gov.ie"
+        ],
+        "description": "The first count of the presidential election of 1990 is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1990",
+        "references": [
+          {
+            "label": "The first count of the presidential election of 1990 provider page",
+            "url": "https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1990",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "The first count of the presidential election of 1990 Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1990",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1990",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link",
+          "Election provenance"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Irish election source/enrichment data",
+          "Ireland / unspecified",
+          "election",
+          "The first count of the presidential election of 1990"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1990",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1990",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, The first count of the presidential election of 1990.",
+        "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. The first count of the presidential election of 1990. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1990. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1990.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 983,
+            "stagingId": "medium-prep:2-irish-election-source-enrichment-data:the-first-count-of-the-presidential-election-of-1990:00982",
+            "title": "The first count of the presidential election of 1990",
+            "cleanTitle": "The first count of the presidential election of 1990",
+            "provider": "data.gov.ie",
+            "organisation": "Department of Housing, Local Government and Heritage",
+            "category": "tabular",
+            "roiGroup": "2. Irish election source/enrichment data",
+            "groupTitle": "Irish election source/enrichment data",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "election",
+            "featureUnit": "features",
+            "formats": [
+              "CSV"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "enrich-existing-election",
+            "proposedPlacement": "Elections/source provenance",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1990",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/the-first-count-of-the-presidential-election-of-1990",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "election-model-merge-and-provenance-review: election staging action assigned",
+              "needs-provider-context-review: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:the-first-count-of-the-presidential-election-of-1990:00982",
+          "sourceRowNumber": 983,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish election source/provenance enrichment",
+          "proposedAction": "enrich-existing-election",
+          "proposedPlacement": "Elections/source provenance",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV"
+            ]
+          },
+          "confidence": 60,
+          "resolvedBlockers": [
+            "election-model-merge-and-provenance-review: election staging action assigned",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Elections/source provenance",
+        "relationship": "election-source-enrichment",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Irish election source/enrichment data",
+          "election",
+          "features",
+          "Ireland / unspecified",
+          "enrich-existing-election",
+          "CSV"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-the-first-count-of-the-presidential-election-of-1990-00982"
+      }
+    },
     {
       "id": "medium-priority:2-irish-election-source-enrichment-data:the-first-count-of-the-presidential-election-of-1997:00983",
       "slug": "medium-priority-2-irish-election-source-enrichment-data-the-first-count-of-the-presidential-election-of-1997-00983",
@@ -79707,1338 +81011,6 @@
           "JSON"
         ],
         "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-no-of-family-support-providers-commissioned-that-provided-data-2022-02262"
-      }
-    },
-    {
-      "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:no-of-family-support-providers-commissioned-that-provided-data-2023:02263",
-      "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-no-of-family-support-providers-commissioned-that-provided-data-2023-02263",
-      "type": "approved-medium-priority-source",
-      "title": "No. of Family Support Providers Commissioned that Provided Data 2023",
-      "subtitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA / Tusla, data.gov.ie / Ireland / unspecified / CSV, JSON / Approved source record",
-      "category": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-      "date": "2023",
-      "provider": [
-        "Tusla",
-        "data.gov.ie"
-      ],
-      "description": "No. of Family Support Providers Commissioned that Provided Data 2023 is published as a medium-priority Civgraph source/provenance record from Tusla, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2023",
-      "references": [
-        {
-          "label": "No. of Family Support Providers Commissioned that Provided Data 2023 provider page",
-          "url": "https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2023",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "No. of Family Support Providers Commissioned that Provided Data 2023 Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2023",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2023",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "boundary",
-        "Electoral Divisions",
-        "Ireland / unspecified",
-        "source-download-only",
-        "CSV",
-        "JSON"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 2264,
-          "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:no-of-family-support-providers-commissioned-that-provided-data-2023:02263",
-          "title": "No. of Family Support Providers Commissioned that Provided Data 2023",
-          "cleanTitle": "No. of Family Support Providers Commissioned that Provided Data 2023",
-          "provider": "data.gov.ie",
-          "organisation": "Tusla",
-          "category": "tabular",
-          "roiGroup": "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "groupTitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "boundary",
-          "featureUnit": "Electoral Divisions",
-          "formats": [
-            "CSV",
-            "JSON"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "source-download-only",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "JSON"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2023",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2023",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "geography-crosswalk-and-versioning: geography family inferred",
-            "geography-matching: geography family inferred",
-            "source-page-and-ia-viewport-decision: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Prepare boundary variant review; prefer child/variant records over duplicate parent maps.",
-          "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "Ireland / unspecified",
-        "boundary",
-        "No. of Family Support Providers Commissioned that Provided Data 2023"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2023",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2023",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Tusla, data.gov.ie, No. of Family Support Providers Commissioned that Provided Data 2023.",
-      "fullCitation": "Tusla, data.gov.ie. No. of Family Support Providers Commissioned that Provided Data 2023. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2023. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2023.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:no-of-family-support-providers-commissioned-that-provided-data-2023:02263",
-        "sourceRowNumber": 2264,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish as source/download record",
-        "proposedAction": "source-download-only",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "CSV",
-            "JSON"
-          ]
-        },
-        "confidence": 60,
-        "resolvedBlockers": [
-          "geography-crosswalk-and-versioning: geography family inferred",
-          "geography-matching: geography family inferred",
-          "source-page-and-ia-viewport-decision: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Prepare boundary variant review; prefer child/variant records over duplicate parent maps.",
-        "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
-        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-no-of-family-support-providers-commissioned-that-provided-data-2023-02263",
-      "rawMetadata": {
-        "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:no-of-family-support-providers-commissioned-that-provided-data-2023:02263",
-        "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-no-of-family-support-providers-commissioned-that-provided-data-2023-02263",
-        "type": "approved-medium-priority-source",
-        "title": "No. of Family Support Providers Commissioned that Provided Data 2023",
-        "subtitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA / Tusla, data.gov.ie / Ireland / unspecified / CSV, JSON / Approved source record",
-        "category": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "date": "2023",
-        "provider": [
-          "Tusla",
-          "data.gov.ie"
-        ],
-        "description": "No. of Family Support Providers Commissioned that Provided Data 2023 is published as a medium-priority Civgraph source/provenance record from Tusla, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2023",
-        "references": [
-          {
-            "label": "No. of Family Support Providers Commissioned that Provided Data 2023 provider page",
-            "url": "https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2023",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "No. of Family Support Providers Commissioned that Provided Data 2023 Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2023",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2023",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "Ireland / unspecified",
-          "boundary",
-          "No. of Family Support Providers Commissioned that Provided Data 2023"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2023",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2023",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Tusla, data.gov.ie, No. of Family Support Providers Commissioned that Provided Data 2023.",
-        "fullCitation": "Tusla, data.gov.ie. No. of Family Support Providers Commissioned that Provided Data 2023. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2023. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2023.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 2264,
-            "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:no-of-family-support-providers-commissioned-that-provided-data-2023:02263",
-            "title": "No. of Family Support Providers Commissioned that Provided Data 2023",
-            "cleanTitle": "No. of Family Support Providers Commissioned that Provided Data 2023",
-            "provider": "data.gov.ie",
-            "organisation": "Tusla",
-            "category": "tabular",
-            "roiGroup": "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-            "groupTitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "boundary",
-            "featureUnit": "Electoral Divisions",
-            "formats": [
-              "CSV",
-              "JSON"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "source-download-only",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "CSV",
-                "JSON"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2023",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2023",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "geography-crosswalk-and-versioning: geography family inferred",
-              "geography-matching: geography family inferred",
-              "source-page-and-ia-viewport-decision: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Prepare boundary variant review; prefer child/variant records over duplicate parent maps.",
-            "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
-            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:no-of-family-support-providers-commissioned-that-provided-data-2023:02263",
-          "sourceRowNumber": 2264,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish as source/download record",
-          "proposedAction": "source-download-only",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "JSON"
-            ]
-          },
-          "confidence": 60,
-          "resolvedBlockers": [
-            "geography-crosswalk-and-versioning: geography family inferred",
-            "geography-matching: geography family inferred",
-            "source-page-and-ia-viewport-decision: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Prepare boundary variant review; prefer child/variant records over duplicate parent maps.",
-          "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "boundary",
-          "Electoral Divisions",
-          "Ireland / unspecified",
-          "source-download-only",
-          "CSV",
-          "JSON"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-no-of-family-support-providers-commissioned-that-provided-data-2023-02263"
-      }
-    },
-    {
-      "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:no-of-family-support-providers-commissioned-that-provided-data-2024:02264",
-      "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-no-of-family-support-providers-commissioned-that-provided-data-2024-02264",
-      "type": "approved-medium-priority-source",
-      "title": "No. of Family Support Providers Commissioned that Provided Data 2024",
-      "subtitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA / Tusla, data.gov.ie / Ireland / unspecified / CSV, JSON / Approved source record",
-      "category": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-      "date": "2024",
-      "provider": [
-        "Tusla",
-        "data.gov.ie"
-      ],
-      "description": "No. of Family Support Providers Commissioned that Provided Data 2024 is published as a medium-priority Civgraph source/provenance record from Tusla, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2024",
-      "references": [
-        {
-          "label": "No. of Family Support Providers Commissioned that Provided Data 2024 provider page",
-          "url": "https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2024",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "No. of Family Support Providers Commissioned that Provided Data 2024 Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2024",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2024",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "boundary",
-        "Electoral Divisions",
-        "Ireland / unspecified",
-        "source-download-only",
-        "CSV",
-        "JSON"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 2265,
-          "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:no-of-family-support-providers-commissioned-that-provided-data-2024:02264",
-          "title": "No. of Family Support Providers Commissioned that Provided Data 2024",
-          "cleanTitle": "No. of Family Support Providers Commissioned that Provided Data 2024",
-          "provider": "data.gov.ie",
-          "organisation": "Tusla",
-          "category": "tabular",
-          "roiGroup": "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "groupTitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "boundary",
-          "featureUnit": "Electoral Divisions",
-          "formats": [
-            "CSV",
-            "JSON"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "source-download-only",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "JSON"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2024",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2024",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "geography-crosswalk-and-versioning: geography family inferred",
-            "geography-matching: geography family inferred",
-            "source-page-and-ia-viewport-decision: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Prepare boundary variant review; prefer child/variant records over duplicate parent maps.",
-          "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "Ireland / unspecified",
-        "boundary",
-        "No. of Family Support Providers Commissioned that Provided Data 2024"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2024",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2024",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Tusla, data.gov.ie, No. of Family Support Providers Commissioned that Provided Data 2024.",
-      "fullCitation": "Tusla, data.gov.ie. No. of Family Support Providers Commissioned that Provided Data 2024. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2024. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2024.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:no-of-family-support-providers-commissioned-that-provided-data-2024:02264",
-        "sourceRowNumber": 2265,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish as source/download record",
-        "proposedAction": "source-download-only",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "CSV",
-            "JSON"
-          ]
-        },
-        "confidence": 60,
-        "resolvedBlockers": [
-          "geography-crosswalk-and-versioning: geography family inferred",
-          "geography-matching: geography family inferred",
-          "source-page-and-ia-viewport-decision: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Prepare boundary variant review; prefer child/variant records over duplicate parent maps.",
-        "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
-        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-no-of-family-support-providers-commissioned-that-provided-data-2024-02264",
-      "rawMetadata": {
-        "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:no-of-family-support-providers-commissioned-that-provided-data-2024:02264",
-        "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-no-of-family-support-providers-commissioned-that-provided-data-2024-02264",
-        "type": "approved-medium-priority-source",
-        "title": "No. of Family Support Providers Commissioned that Provided Data 2024",
-        "subtitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA / Tusla, data.gov.ie / Ireland / unspecified / CSV, JSON / Approved source record",
-        "category": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "date": "2024",
-        "provider": [
-          "Tusla",
-          "data.gov.ie"
-        ],
-        "description": "No. of Family Support Providers Commissioned that Provided Data 2024 is published as a medium-priority Civgraph source/provenance record from Tusla, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2024",
-        "references": [
-          {
-            "label": "No. of Family Support Providers Commissioned that Provided Data 2024 provider page",
-            "url": "https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2024",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "No. of Family Support Providers Commissioned that Provided Data 2024 Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2024",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2024",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "Ireland / unspecified",
-          "boundary",
-          "No. of Family Support Providers Commissioned that Provided Data 2024"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2024",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2024",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Tusla, data.gov.ie, No. of Family Support Providers Commissioned that Provided Data 2024.",
-        "fullCitation": "Tusla, data.gov.ie. No. of Family Support Providers Commissioned that Provided Data 2024. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2024. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2024.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 2265,
-            "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:no-of-family-support-providers-commissioned-that-provided-data-2024:02264",
-            "title": "No. of Family Support Providers Commissioned that Provided Data 2024",
-            "cleanTitle": "No. of Family Support Providers Commissioned that Provided Data 2024",
-            "provider": "data.gov.ie",
-            "organisation": "Tusla",
-            "category": "tabular",
-            "roiGroup": "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-            "groupTitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "boundary",
-            "featureUnit": "Electoral Divisions",
-            "formats": [
-              "CSV",
-              "JSON"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "source-download-only",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "CSV",
-                "JSON"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2024",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2024",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "geography-crosswalk-and-versioning: geography family inferred",
-              "geography-matching: geography family inferred",
-              "source-page-and-ia-viewport-decision: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Prepare boundary variant review; prefer child/variant records over duplicate parent maps.",
-            "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
-            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:no-of-family-support-providers-commissioned-that-provided-data-2024:02264",
-          "sourceRowNumber": 2265,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish as source/download record",
-          "proposedAction": "source-download-only",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "JSON"
-            ]
-          },
-          "confidence": 60,
-          "resolvedBlockers": [
-            "geography-crosswalk-and-versioning: geography family inferred",
-            "geography-matching: geography family inferred",
-            "source-page-and-ia-viewport-decision: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Prepare boundary variant review; prefer child/variant records over duplicate parent maps.",
-          "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "boundary",
-          "Electoral Divisions",
-          "Ireland / unspecified",
-          "source-download-only",
-          "CSV",
-          "JSON"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-no-of-family-support-providers-commissioned-that-provided-data-2024-02264"
-      }
-    },
-    {
-      "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:no-of-family-support-providers-commissioned-that-provided-data-2025:02265",
-      "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-no-of-family-support-providers-commissioned-that-provided-data-2025-02265",
-      "type": "approved-medium-priority-source",
-      "title": "No. of Family Support Providers Commissioned that Provided Data 2025",
-      "subtitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA / Tusla, data.gov.ie / Ireland / unspecified / CSV, JSON / Approved source record",
-      "category": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-      "date": "2025",
-      "provider": [
-        "Tusla",
-        "data.gov.ie"
-      ],
-      "description": "No. of Family Support Providers Commissioned that Provided Data 2025 is published as a medium-priority Civgraph source/provenance record from Tusla, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2025",
-      "references": [
-        {
-          "label": "No. of Family Support Providers Commissioned that Provided Data 2025 provider page",
-          "url": "https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2025",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "No. of Family Support Providers Commissioned that Provided Data 2025 Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2025",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2025",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "boundary",
-        "Electoral Divisions",
-        "Ireland / unspecified",
-        "source-download-only",
-        "CSV",
-        "JSON"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 2266,
-          "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:no-of-family-support-providers-commissioned-that-provided-data-2025:02265",
-          "title": "No. of Family Support Providers Commissioned that Provided Data 2025",
-          "cleanTitle": "No. of Family Support Providers Commissioned that Provided Data 2025",
-          "provider": "data.gov.ie",
-          "organisation": "Tusla",
-          "category": "tabular",
-          "roiGroup": "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "groupTitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "boundary",
-          "featureUnit": "Electoral Divisions",
-          "formats": [
-            "CSV",
-            "JSON"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "source-download-only",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "JSON"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2025",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2025",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "geography-crosswalk-and-versioning: geography family inferred",
-            "geography-matching: geography family inferred",
-            "source-page-and-ia-viewport-decision: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Prepare boundary variant review; prefer child/variant records over duplicate parent maps.",
-          "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "Ireland / unspecified",
-        "boundary",
-        "No. of Family Support Providers Commissioned that Provided Data 2025"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2025",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2025",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Tusla, data.gov.ie, No. of Family Support Providers Commissioned that Provided Data 2025.",
-      "fullCitation": "Tusla, data.gov.ie. No. of Family Support Providers Commissioned that Provided Data 2025. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2025. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2025.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:no-of-family-support-providers-commissioned-that-provided-data-2025:02265",
-        "sourceRowNumber": 2266,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish as source/download record",
-        "proposedAction": "source-download-only",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "CSV",
-            "JSON"
-          ]
-        },
-        "confidence": 60,
-        "resolvedBlockers": [
-          "geography-crosswalk-and-versioning: geography family inferred",
-          "geography-matching: geography family inferred",
-          "source-page-and-ia-viewport-decision: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Prepare boundary variant review; prefer child/variant records over duplicate parent maps.",
-        "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
-        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-no-of-family-support-providers-commissioned-that-provided-data-2025-02265",
-      "rawMetadata": {
-        "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:no-of-family-support-providers-commissioned-that-provided-data-2025:02265",
-        "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-no-of-family-support-providers-commissioned-that-provided-data-2025-02265",
-        "type": "approved-medium-priority-source",
-        "title": "No. of Family Support Providers Commissioned that Provided Data 2025",
-        "subtitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA / Tusla, data.gov.ie / Ireland / unspecified / CSV, JSON / Approved source record",
-        "category": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "date": "2025",
-        "provider": [
-          "Tusla",
-          "data.gov.ie"
-        ],
-        "description": "No. of Family Support Providers Commissioned that Provided Data 2025 is published as a medium-priority Civgraph source/provenance record from Tusla, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2025",
-        "references": [
-          {
-            "label": "No. of Family Support Providers Commissioned that Provided Data 2025 provider page",
-            "url": "https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2025",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "No. of Family Support Providers Commissioned that Provided Data 2025 Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2025",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2025",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "Ireland / unspecified",
-          "boundary",
-          "No. of Family Support Providers Commissioned that Provided Data 2025"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2025",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2025",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Tusla, data.gov.ie, No. of Family Support Providers Commissioned that Provided Data 2025.",
-        "fullCitation": "Tusla, data.gov.ie. No. of Family Support Providers Commissioned that Provided Data 2025. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2025. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2025.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 2266,
-            "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:no-of-family-support-providers-commissioned-that-provided-data-2025:02265",
-            "title": "No. of Family Support Providers Commissioned that Provided Data 2025",
-            "cleanTitle": "No. of Family Support Providers Commissioned that Provided Data 2025",
-            "provider": "data.gov.ie",
-            "organisation": "Tusla",
-            "category": "tabular",
-            "roiGroup": "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-            "groupTitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "boundary",
-            "featureUnit": "Electoral Divisions",
-            "formats": [
-              "CSV",
-              "JSON"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "source-download-only",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "CSV",
-                "JSON"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2025",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2025",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "geography-crosswalk-and-versioning: geography family inferred",
-              "geography-matching: geography family inferred",
-              "source-page-and-ia-viewport-decision: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Prepare boundary variant review; prefer child/variant records over duplicate parent maps.",
-            "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
-            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:no-of-family-support-providers-commissioned-that-provided-data-2025:02265",
-          "sourceRowNumber": 2266,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish as source/download record",
-          "proposedAction": "source-download-only",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "JSON"
-            ]
-          },
-          "confidence": 60,
-          "resolvedBlockers": [
-            "geography-crosswalk-and-versioning: geography family inferred",
-            "geography-matching: geography family inferred",
-            "source-page-and-ia-viewport-decision: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Prepare boundary variant review; prefer child/variant records over duplicate parent maps.",
-          "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "boundary",
-          "Electoral Divisions",
-          "Ireland / unspecified",
-          "source-download-only",
-          "CSV",
-          "JSON"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-no-of-family-support-providers-commissioned-that-provided-data-2025-02265"
-      }
-    },
-    {
-      "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:no-of-other-court-cases-where-educational-welfare-officers-attended-in-support-2016:02266",
-      "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-no-of-other-court-cases-where-educational-welfare-officers-attended-in-support-2016-02266",
-      "type": "approved-medium-priority-source",
-      "title": "No. of Other Court Cases where Educational Welfare Officers Attended in Support 2016",
-      "subtitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA / Tusla, data.gov.ie / Ireland / unspecified / CSV, JSON / Approved source record",
-      "category": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-      "date": "2016",
-      "provider": [
-        "Tusla",
-        "data.gov.ie"
-      ],
-      "description": "No. of Other Court Cases where Educational Welfare Officers Attended in Support 2016 is published as a medium-priority Civgraph source/provenance record from Tusla, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/no-of-other-court-cases-where-educational-welfare-officers-attended-in-support-2016",
-      "references": [
-        {
-          "label": "No. of Other Court Cases where Educational Welfare Officers Attended in Support 2016 provider page",
-          "url": "https://data.gov.ie/dataset/no-of-other-court-cases-where-educational-welfare-officers-attended-in-support-2016",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "No. of Other Court Cases where Educational Welfare Officers Attended in Support 2016 Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/no-of-other-court-cases-where-educational-welfare-officers-attended-in-support-2016",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/no-of-other-court-cases-where-educational-welfare-officers-attended-in-support-2016",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "boundary",
-        "Electoral Divisions",
-        "Ireland / unspecified",
-        "source-download-only",
-        "CSV",
-        "JSON"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 2267,
-          "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:no-of-other-court-cases-where-educational-welfare-officers-attended-in-support-2016:02266",
-          "title": "No. of Other Court Cases where Educational Welfare Officers Attended in Support 2016",
-          "cleanTitle": "No. of Other Court Cases where Educational Welfare Officers Attended in Support 2016",
-          "provider": "data.gov.ie",
-          "organisation": "Tusla",
-          "category": "tabular",
-          "roiGroup": "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "groupTitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "boundary",
-          "featureUnit": "Electoral Divisions",
-          "formats": [
-            "CSV",
-            "JSON"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "source-download-only",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "JSON"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/no-of-other-court-cases-where-educational-welfare-officers-attended-in-support-2016",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/no-of-other-court-cases-where-educational-welfare-officers-attended-in-support-2016",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "geography-crosswalk-and-versioning: geography family inferred",
-            "geography-matching: geography family inferred",
-            "source-page-and-ia-viewport-decision: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Prepare boundary variant review; prefer child/variant records over duplicate parent maps.",
-          "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "Ireland / unspecified",
-        "boundary",
-        "No. of Other Court Cases where Educational Welfare Officers Attended in Support 2016"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/no-of-other-court-cases-where-educational-welfare-officers-attended-in-support-2016",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/no-of-other-court-cases-where-educational-welfare-officers-attended-in-support-2016",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Tusla, data.gov.ie, No. of Other Court Cases where Educational Welfare Officers Attended in Support 2016.",
-      "fullCitation": "Tusla, data.gov.ie. No. of Other Court Cases where Educational Welfare Officers Attended in Support 2016. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/no-of-other-court-cases-where-educational-welfare-officers-attended-in-support-2016. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/no-of-other-court-cases-where-educational-welfare-officers-attended-in-support-2016.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:no-of-other-court-cases-where-educational-welfare-officers-attended-in-support-2016:02266",
-        "sourceRowNumber": 2267,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish as source/download record",
-        "proposedAction": "source-download-only",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "CSV",
-            "JSON"
-          ]
-        },
-        "confidence": 60,
-        "resolvedBlockers": [
-          "geography-crosswalk-and-versioning: geography family inferred",
-          "geography-matching: geography family inferred",
-          "source-page-and-ia-viewport-decision: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Prepare boundary variant review; prefer child/variant records over duplicate parent maps.",
-        "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
-        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-no-of-other-court-cases-where-educational-welfare-officers-attended-in-support-2016-02266",
-      "rawMetadata": {
-        "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:no-of-other-court-cases-where-educational-welfare-officers-attended-in-support-2016:02266",
-        "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-no-of-other-court-cases-where-educational-welfare-officers-attended-in-support-2016-02266",
-        "type": "approved-medium-priority-source",
-        "title": "No. of Other Court Cases where Educational Welfare Officers Attended in Support 2016",
-        "subtitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA / Tusla, data.gov.ie / Ireland / unspecified / CSV, JSON / Approved source record",
-        "category": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "date": "2016",
-        "provider": [
-          "Tusla",
-          "data.gov.ie"
-        ],
-        "description": "No. of Other Court Cases where Educational Welfare Officers Attended in Support 2016 is published as a medium-priority Civgraph source/provenance record from Tusla, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/no-of-other-court-cases-where-educational-welfare-officers-attended-in-support-2016",
-        "references": [
-          {
-            "label": "No. of Other Court Cases where Educational Welfare Officers Attended in Support 2016 provider page",
-            "url": "https://data.gov.ie/dataset/no-of-other-court-cases-where-educational-welfare-officers-attended-in-support-2016",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "No. of Other Court Cases where Educational Welfare Officers Attended in Support 2016 Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/no-of-other-court-cases-where-educational-welfare-officers-attended-in-support-2016",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/no-of-other-court-cases-where-educational-welfare-officers-attended-in-support-2016",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "Ireland / unspecified",
-          "boundary",
-          "No. of Other Court Cases where Educational Welfare Officers Attended in Support 2016"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/no-of-other-court-cases-where-educational-welfare-officers-attended-in-support-2016",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/no-of-other-court-cases-where-educational-welfare-officers-attended-in-support-2016",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Tusla, data.gov.ie, No. of Other Court Cases where Educational Welfare Officers Attended in Support 2016.",
-        "fullCitation": "Tusla, data.gov.ie. No. of Other Court Cases where Educational Welfare Officers Attended in Support 2016. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/no-of-other-court-cases-where-educational-welfare-officers-attended-in-support-2016. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/no-of-other-court-cases-where-educational-welfare-officers-attended-in-support-2016.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 2267,
-            "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:no-of-other-court-cases-where-educational-welfare-officers-attended-in-support-2016:02266",
-            "title": "No. of Other Court Cases where Educational Welfare Officers Attended in Support 2016",
-            "cleanTitle": "No. of Other Court Cases where Educational Welfare Officers Attended in Support 2016",
-            "provider": "data.gov.ie",
-            "organisation": "Tusla",
-            "category": "tabular",
-            "roiGroup": "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-            "groupTitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "boundary",
-            "featureUnit": "Electoral Divisions",
-            "formats": [
-              "CSV",
-              "JSON"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "source-download-only",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "CSV",
-                "JSON"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/no-of-other-court-cases-where-educational-welfare-officers-attended-in-support-2016",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/no-of-other-court-cases-where-educational-welfare-officers-attended-in-support-2016",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "geography-crosswalk-and-versioning: geography family inferred",
-              "geography-matching: geography family inferred",
-              "source-page-and-ia-viewport-decision: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Prepare boundary variant review; prefer child/variant records over duplicate parent maps.",
-            "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
-            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:no-of-other-court-cases-where-educational-welfare-officers-attended-in-support-2016:02266",
-          "sourceRowNumber": 2267,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish as source/download record",
-          "proposedAction": "source-download-only",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "JSON"
-            ]
-          },
-          "confidence": 60,
-          "resolvedBlockers": [
-            "geography-crosswalk-and-versioning: geography family inferred",
-            "geography-matching: geography family inferred",
-            "source-page-and-ia-viewport-decision: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Prepare boundary variant review; prefer child/variant records over duplicate parent maps.",
-          "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "boundary",
-          "Electoral Divisions",
-          "Ireland / unspecified",
-          "source-download-only",
-          "CSV",
-          "JSON"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-no-of-other-court-cases-where-educational-welfare-officers-attended-in-support-2016-02266"
       }
     }
   ]
