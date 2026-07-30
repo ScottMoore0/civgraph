@@ -6,7 +6,12 @@
  * cache status, and stale-cache cleanup.
  */
 
-const VERSION = 'root-maplibre-sw-89163ee6758d';
+// Bump this on any change that must invalidate client caches, not only on a bundle
+// rebuild. activate() deletes every cache whose name does not derive from VERSION, so
+// changing it is what flushes stale entries already sitting in visitors' browsers --
+// necessary here because the browse indexes cached under the previous routing rule
+// would otherwise outlive the fix below.
+const VERSION = 'root-maplibre-sw-89163ee6758d-r2';
 const STATIC_CACHE = `civgraph-root-maplibre-${VERSION}-static`;
 const RUNTIME_CACHE = `civgraph-root-maplibre-${VERSION}-runtime`;
 const CACHE_PREFIX = 'civgraph-root-maplibre-';
@@ -160,8 +165,24 @@ function matchesPath(url, paths) {
 }
 
 function isRuntimeJson(url) {
+  // Catalogue and discovery JSON must be network-first, because it is regenerated on
+  // every data change while the app bundle stays put.
+  //
+  // /data/browse/ was missing here and that is a real bug, not a tidy-up: it fell
+  // through to staleWhileRevalidate, which returns `cached || networkPromise`. So a
+  // returning visitor was served the browse index AS IT WAS ON THEIR LAST VISIT and only
+  // picked up new layers on a subsequent load. Since VERSION is tied to the app bundle
+  // hash, a data-only deploy never bumped it, so activate() never purged the runtime
+  // cache and the stale entry survived indefinitely. Net effect: newly published map
+  // layers were invisible in Browse to anyone who had used the site before, while
+  // appearing correctly for a first-time visitor -- which is exactly how it was reported.
+  //
+  // /data/graph/ is included for the same reason: it is rebuilt whenever the browse
+  // indexes are.
   return url.pathname.endsWith('.json') && (
     url.pathname.startsWith('/data/database/') ||
+    url.pathname.startsWith('/data/browse/') ||
+    url.pathname.startsWith('/data/graph/') ||
     url.pathname.startsWith('/test/metadata/')
   );
 }
