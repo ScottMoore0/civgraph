@@ -6803,8 +6803,7 @@
    ],
    "cloneOf": "provinces-1955",
    "irishLabelProperty": "CUIGE",
-   "description": "Current provinces layer using the 2019 OSI statutory province geometry. The boundaries match the 1955/enriched province layer, so the MapLibre layer reuses that converted geometry to retain the Irish province-name field (CUIGE) instead of dropping the translation.",
-   "hidden": true
+   "description": "Current provinces layer using the 2019 OSI statutory province geometry. The boundaries match the 1955/enriched province layer, so the MapLibre layer reuses that converted geometry to retain the Irish province-name field (CUIGE) instead of dropping the translation."
   },
   {
    "id": "provinces-1899",
@@ -9341,7 +9340,9 @@
     "Dublin",
     "Limerick",
     "placeholder"
-   ]
+   ],
+   "hidden": true,
+   "hiddenReason": "Empty placeholder: no files and no variants. The live eds-1971 serves this same 1971-04-15 card with four working province variants, so this record would render nothing. Hidden rather than deleted pending a decision on merging the two."
   },
   {
    "id": "eds-1926",
@@ -15849,7 +15850,7 @@
    ],
    "labelProperty": "ENGLISH",
    "date": 2019,
-   "description": "Connacht electoral divisions for 2019. Per the IDB boundary-change log, Connacht ED boundaries were unchanged from the 1986 redrawing (when the Galway county borough was established) through to 2019, so this file is the same as the 1986 dataset."
+   "description": "Connacht electoral divisions for 2019. Per the IDB boundary-change log, Connacht ED boundaries were unchanged from the 1986 redrawing (when the Galway county borough was established) through to 2019, so this file is the same as the 1986 dataset. Vintage note: the id says 2019 but this record serves Wards_DEDs_Connacht_1986.fgb, the vintage the spec cards call for at that date. The id/file mismatch is expected, not a bug -- do not 'correct' it."
   },
   {
    "id": "eds-leinster-2019",
@@ -15875,7 +15876,8 @@
     "2019"
    ],
    "labelProperty": "ENGLISH",
-   "date": 2019
+   "date": 2019,
+   "description": "Vintage note: the id says 2019 but this record serves EDs_Leinster_1997.fgb, the vintage the spec cards call for at that date. The id/file mismatch is expected, not a bug -- do not 'correct' it."
   },
   {
    "id": "eds-munster-2019",
@@ -15928,7 +15930,7 @@
    ],
    "labelProperty": "ENGLISH",
    "date": 2019,
-   "description": "Electoral divisions for the three Ulster counties in the Republic of Ireland (Cavan, Donegal, Monaghan), 2019. Per the IDB boundary-change log, no DED changes are recorded for these three counties from 1921 onwards, so this file is the canonical ROI Ulster ED dataset.",
+   "description": "Electoral divisions for the three Ulster counties in the Republic of Ireland (Cavan, Donegal, Monaghan), 2019. Per the IDB boundary-change log, no DED changes are recorded for these three counties from 1921 onwards, so this file is the canonical ROI Ulster ED dataset. Vintage note: the id says 2019 but this record serves DEDs_Ulster_1921.fgb, the vintage the spec cards call for at that date. The id/file mismatch is expected, not a bug -- do not 'correct' it.",
    "useLOD": true
   },
   {
@@ -15955,7 +15957,7 @@
    ],
    "labelProperty": "ENGLISH",
    "date": 1997,
-   "description": "Connacht electoral divisions for 1997. Per the IDB boundary-change log, Connacht ED boundaries were unchanged from the 1986 redrawing (when the Galway county borough was established) through to 2019, so this file is the same as the 1986 dataset."
+   "description": "Connacht electoral divisions for 1997. Per the IDB boundary-change log, Connacht ED boundaries were unchanged from the 1986 redrawing (when the Galway county borough was established) through to 2019, so this file is the same as the 1986 dataset. Vintage note: the id says 1997 but this record serves Wards_DEDs_Connacht_1986.fgb, the vintage the spec cards call for at that date. The id/file mismatch is expected, not a bug -- do not 'correct' it."
   },
   {
    "id": "eds-leinster-1997",
@@ -16005,7 +16007,8 @@
     "1997"
    ],
    "labelProperty": "ENGLISH",
-   "date": 1997
+   "date": 1997,
+   "description": "Vintage note: the id says 1997 but this record serves EDs_Munster_pre_2019.fgb, the vintage the spec cards call for at that date. The id/file mismatch is expected, not a bug -- do not 'correct' it."
   },
   {
    "id": "eds-ulster-1997",
@@ -16031,7 +16034,7 @@
    ],
    "labelProperty": "ENGLISH",
    "date": 1997,
-   "description": "Electoral divisions for the three Ulster counties in the Republic of Ireland (Cavan, Donegal, Monaghan), 1997. Per the IDB boundary-change log, no DED changes are recorded for these three counties from 1921 onwards, so this file is the canonical ROI Ulster ED dataset.",
+   "description": "Electoral divisions for the three Ulster counties in the Republic of Ireland (Cavan, Donegal, Monaghan), 1997. Per the IDB boundary-change log, no DED changes are recorded for these three counties from 1921 onwards, so this file is the canonical ROI Ulster ED dataset. Vintage note: the id says 1997 but this record serves DEDs_Ulster_1921.fgb, the vintage the spec cards call for at that date. The id/file mismatch is expected, not a bug -- do not 'correct' it.",
    "useLOD": true
   },
   {
@@ -16058,7 +16061,7 @@
    ],
    "labelProperty": "ENGLISH",
    "date": 1994,
-   "description": "Connacht electoral divisions for 1994. Per the IDB boundary-change log, Connacht ED boundaries were unchanged from the 1986 redrawing (when the Galway county borough was established) through to 2019, so this file is the same as the 1986 dataset."
+   "description": "Connacht electoral divisions for 1994. Per the IDB boundary-change log, Connacht ED boundaries were unchanged from the 1986 redrawing (when the Galway county borough was established) through to 2019, so this file is the same as the 1986 dataset. Vintage note: the id says 1994 but this record serves Wards_DEDs_Connacht_1986.fgb, the vintage the spec cards call for at that date. The id/file mismatch is expected, not a bug -- do not 'correct' it."
   },
   {
    "id": "eds-leinster-1994",
@@ -16108,7 +16111,8 @@
     "1994"
    ],
    "labelProperty": "ENGLISH",
-   "date": 1994
+   "date": 1994,
+   "description": "Vintage note: the id says 1994 but this record serves EDs_Munster_pre_2019.fgb, the vintage the spec cards call for at that date. The id/file mismatch is expected, not a bug -- do not 'correct' it."
   },
   {
    "id": "eds-ulster-1994",
@@ -16134,7 +16138,7 @@
    ],
    "labelProperty": "ENGLISH",
    "date": 1994,
-   "description": "Electoral divisions for the three Ulster counties in the Republic of Ireland (Cavan, Donegal, Monaghan), 1994. Per the IDB boundary-change log, no DED changes are recorded for these three counties from 1921 onwards, so this file is the canonical ROI Ulster ED dataset.",
+   "description": "Electoral divisions for the three Ulster counties in the Republic of Ireland (Cavan, Donegal, Monaghan), 1994. Per the IDB boundary-change log, no DED changes are recorded for these three counties from 1921 onwards, so this file is the canonical ROI Ulster ED dataset. Vintage note: the id says 1994 but this record serves DEDs_Ulster_1921.fgb, the vintage the spec cards call for at that date. The id/file mismatch is expected, not a bug -- do not 'correct' it.",
    "useLOD": true
   },
   {
@@ -16482,7 +16486,8 @@
     "1986"
    ],
    "labelProperty": "ENGLISH",
-   "date": 1986
+   "date": 1986,
+   "description": "Vintage note: the id says 1986 but this record serves EDs_Munster_pre_2019.fgb, the vintage the spec cards call for at that date. The id/file mismatch is expected, not a bug -- do not 'correct' it."
   },
   {
    "id": "eds-ulster-1986",
@@ -16508,7 +16513,7 @@
    ],
    "labelProperty": "ENGLISH",
    "date": 1986,
-   "description": "Electoral divisions for the three Ulster counties in the Republic of Ireland (Cavan, Donegal, Monaghan), 1986. Per the IDB boundary-change log, no DED changes are recorded for these three counties from 1921 onwards, so this file is the canonical ROI Ulster ED dataset.",
+   "description": "Electoral divisions for the three Ulster counties in the Republic of Ireland (Cavan, Donegal, Monaghan), 1986. Per the IDB boundary-change log, no DED changes are recorded for these three counties from 1921 onwards, so this file is the canonical ROI Ulster ED dataset. Vintage note: the id says 1986 but this record serves DEDs_Ulster_1921.fgb, the vintage the spec cards call for at that date. The id/file mismatch is expected, not a bug -- do not 'correct' it.",
    "useLOD": true
   },
   {

@@ -1,10 +1,427 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-30T21:17:00.109Z",
+  "generatedAt": "2026-07-30T22:23:49.110Z",
   "kind": "sources",
   "shard": "sources-189.json",
   "total": 200,
   "items": [
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:4dublin-pipeline-all:00205",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-4dublin-pipeline-all-00205",
+      "type": "approved-medium-priority-source",
+      "title": "4Dublin Pipeline All",
+      "subtitle": "Local authority planning/property/open-data layers / Department of Housing, Local Government and Heritage, data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, GDB, GEOJSON, GPKG, HTML, KML, TXT, XLSX, ZIP / Source record; runtime review pending",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "provider": [
+        "Department of Housing, Local Government and Heritage",
+        "data.gov.ie"
+      ],
+      "description": "4Dublin Pipeline All is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; large-or-special-format-review: size/format decision remains before runtime publication.",
+      "url": "https://data.gov.ie/dataset/4dublin-pipeline-all",
+      "references": [
+        {
+          "label": "4Dublin Pipeline All provider page",
+          "url": "https://data.gov.ie/dataset/4dublin-pipeline-all",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "4Dublin Pipeline All Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/4dublin-pipeline-all",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/4dublin-pipeline-all",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "source-record-with-runtime-review",
+        "Local authority planning/property/open-data layers",
+        "source-data",
+        "features",
+        "Republic of Ireland",
+        "hold-special-format",
+        "ARCGIS GEOSERVICES REST API",
+        "CSV",
+        "GDB",
+        "GEOJSON",
+        "GPKG",
+        "HTML",
+        "KML",
+        "TXT",
+        "XLSX",
+        "ZIP",
+        "review:duplicate-or-variant-review-no-existing-match-candidate",
+        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 206,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:4dublin-pipeline-all:00205",
+          "title": "4Dublin Pipeline All",
+          "cleanTitle": "4Dublin Pipeline All",
+          "provider": "data.gov.ie",
+          "organisation": "Department of Housing, Local Government and Heritage",
+          "category": "spatial",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Republic of Ireland",
+          "topic": "source-data",
+          "featureUnit": "features",
+          "formats": [
+            "ARCGIS GEOSERVICES REST API",
+            "CSV",
+            "GDB",
+            "GEOJSON",
+            "GPKG",
+            "HTML",
+            "KML",
+            "TXT",
+            "XLSX",
+            "ZIP"
+          ],
+          "isSpatial": true,
+          "isLargeOrSpecial": true,
+          "proposedAction": "hold-special-format",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "download/source viewport first",
+            "conversion": "Do not convert until size/format review approves an interactive derivative.",
+            "sourceFormats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GDB",
+              "GEOJSON",
+              "GPKG",
+              "HTML",
+              "KML",
+              "TXT",
+              "XLSX",
+              "ZIP"
+            ]
+          },
+          "approvalState": "ready-with-residual-review",
+          "sourcePublicationState": "public source record with runtime/semantic review still pending",
+          "confidence": 45,
+          "currentProviderUrl": "https://data.gov.ie/dataset/4dublin-pipeline-all",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/4dublin-pipeline-all",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate",
+            "large-or-special-format-review: size/format decision remains before runtime publication"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        }
+      ],
+      "status": "Source only",
+      "statusChips": [
+        "Source record",
+        "Runtime review pending",
+        "Spatial source",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Republic of Ireland",
+        "source-data",
+        "4Dublin Pipeline All"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text",
+          "spreadsheet",
+          "download-only"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/4dublin-pipeline-all",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/4dublin-pipeline-all",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "Do not convert until size/format review approves an interactive derivative."
+      },
+      "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, 4Dublin Pipeline All.",
+      "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. 4Dublin Pipeline All. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/4dublin-pipeline-all. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/4dublin-pipeline-all.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:4dublin-pipeline-all:00205",
+        "sourceRowNumber": 206,
+        "approvalState": "ready-with-residual-review",
+        "recommendedAction": "publish source record; hold runtime conversion pending size/format review",
+        "proposedAction": "hold-special-format",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "download/source viewport first",
+          "conversion": "Do not convert until size/format review approves an interactive derivative.",
+          "sourceFormats": [
+            "ARCGIS GEOSERVICES REST API",
+            "CSV",
+            "GDB",
+            "GEOJSON",
+            "GPKG",
+            "HTML",
+            "KML",
+            "TXT",
+            "XLSX",
+            "ZIP"
+          ]
+        },
+        "confidence": 45,
+        "residualBlockers": [
+          "duplicate-or-variant-review: no existing match candidate",
+          "large-or-special-format-review: size/format decision remains before runtime publication"
+        ],
+        "resolvedBlockers": [
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+        ],
+        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+      },
+      "publicationStatus": "source-record-with-runtime-review",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-4dublin-pipeline-all-00205",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:4dublin-pipeline-all:00205",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-4dublin-pipeline-all-00205",
+        "type": "approved-medium-priority-source",
+        "title": "4Dublin Pipeline All",
+        "subtitle": "Local authority planning/property/open-data layers / Department of Housing, Local Government and Heritage, data.gov.ie / Republic of Ireland / ARCGIS GEOSERVICES REST API, CSV, GDB, GEOJSON, GPKG, HTML, KML, TXT, XLSX, ZIP / Source record; runtime review pending",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "provider": [
+          "Department of Housing, Local Government and Heritage",
+          "data.gov.ie"
+        ],
+        "description": "4Dublin Pipeline All is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; large-or-special-format-review: size/format decision remains before runtime publication.",
+        "url": "https://data.gov.ie/dataset/4dublin-pipeline-all",
+        "references": [
+          {
+            "label": "4Dublin Pipeline All provider page",
+            "url": "https://data.gov.ie/dataset/4dublin-pipeline-all",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "4Dublin Pipeline All Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/4dublin-pipeline-all",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/4dublin-pipeline-all",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source only",
+        "statusChips": [
+          "Source record",
+          "Runtime review pending",
+          "Spatial source",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Republic of Ireland",
+          "source-data",
+          "4Dublin Pipeline All"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text",
+            "spreadsheet",
+            "download-only"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/4dublin-pipeline-all",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/4dublin-pipeline-all",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "Do not convert until size/format review approves an interactive derivative."
+        },
+        "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, 4Dublin Pipeline All.",
+        "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. 4Dublin Pipeline All. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/4dublin-pipeline-all. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/4dublin-pipeline-all.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 206,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:4dublin-pipeline-all:00205",
+            "title": "4Dublin Pipeline All",
+            "cleanTitle": "4Dublin Pipeline All",
+            "provider": "data.gov.ie",
+            "organisation": "Department of Housing, Local Government and Heritage",
+            "category": "spatial",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Republic of Ireland",
+            "topic": "source-data",
+            "featureUnit": "features",
+            "formats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GDB",
+              "GEOJSON",
+              "GPKG",
+              "HTML",
+              "KML",
+              "TXT",
+              "XLSX",
+              "ZIP"
+            ],
+            "isSpatial": true,
+            "isLargeOrSpecial": true,
+            "proposedAction": "hold-special-format",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "download/source viewport first",
+              "conversion": "Do not convert until size/format review approves an interactive derivative.",
+              "sourceFormats": [
+                "ARCGIS GEOSERVICES REST API",
+                "CSV",
+                "GDB",
+                "GEOJSON",
+                "GPKG",
+                "HTML",
+                "KML",
+                "TXT",
+                "XLSX",
+                "ZIP"
+              ]
+            },
+            "approvalState": "ready-with-residual-review",
+            "sourcePublicationState": "public source record with runtime/semantic review still pending",
+            "confidence": 45,
+            "currentProviderUrl": "https://data.gov.ie/dataset/4dublin-pipeline-all",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/4dublin-pipeline-all",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+            ],
+            "residualBlockers": [
+              "duplicate-or-variant-review: no existing match candidate",
+              "large-or-special-format-review: size/format decision remains before runtime publication"
+            ],
+            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:4dublin-pipeline-all:00205",
+          "sourceRowNumber": 206,
+          "approvalState": "ready-with-residual-review",
+          "recommendedAction": "publish source record; hold runtime conversion pending size/format review",
+          "proposedAction": "hold-special-format",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "download/source viewport first",
+            "conversion": "Do not convert until size/format review approves an interactive derivative.",
+            "sourceFormats": [
+              "ARCGIS GEOSERVICES REST API",
+              "CSV",
+              "GDB",
+              "GEOJSON",
+              "GPKG",
+              "HTML",
+              "KML",
+              "TXT",
+              "XLSX",
+              "ZIP"
+            ]
+          },
+          "confidence": 45,
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate",
+            "large-or-special-format-review: size/format decision remains before runtime publication"
+          ],
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
+        },
+        "publicationStatus": "source-record-with-runtime-review",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "source-record-with-runtime-review",
+          "Local authority planning/property/open-data layers",
+          "source-data",
+          "features",
+          "Republic of Ireland",
+          "hold-special-format",
+          "ARCGIS GEOSERVICES REST API",
+          "CSV",
+          "GDB",
+          "GEOJSON",
+          "GPKG",
+          "HTML",
+          "KML",
+          "TXT",
+          "XLSX",
+          "ZIP",
+          "review:duplicate-or-variant-review-no-existing-match-candidate",
+          "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-4dublin-pipeline-all-00205"
+      }
+    },
     {
       "id": "medium-priority:5-local-authority-planning-property-open-data-layers:aca-2014:00444",
       "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-aca-2014-00444",
@@ -72148,333 +72565,6 @@
           "review:duplicate-or-variant-review-no-existing-match-candidate"
         ],
         "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-bluebadgeparkingopendata3-01053"
-      }
-    },
-    {
-      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:bme-humidity-gorey:01774",
-      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-bme-humidity-gorey-01774",
-      "type": "approved-medium-priority-source",
-      "title": "BME - Humidity in Gorey, Co. Wexford",
-      "subtitle": "Local authority planning/property/open-data layers / Wexford County Council, data.gov.ie / Ireland / unspecified / CSV, ESRI REST SERVICE / Approved source record",
-      "category": "Medium-priority: Local authority planning/property/open-data layers",
-      "provider": [
-        "Wexford County Council",
-        "data.gov.ie"
-      ],
-      "description": "BME - Humidity in Gorey, Co. Wexford is published as a medium-priority Civgraph source/provenance record from Wexford County Council, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/bme-humidity-gorey",
-      "references": [
-        {
-          "label": "BME - Humidity in Gorey, Co. Wexford provider page",
-          "url": "https://data.gov.ie/dataset/bme-humidity-gorey",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "BME - Humidity in Gorey, Co. Wexford Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/bme-humidity-gorey",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/bme-humidity-gorey",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Local authority planning/property/open-data layers",
-        "source-data",
-        "features",
-        "Ireland / unspecified",
-        "local-authority-batch-review",
-        "CSV",
-        "ESRI REST SERVICE"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 1775,
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:bme-humidity-gorey:01774",
-          "title": "BME - Humidity in Gorey, Co. Wexford",
-          "cleanTitle": "BME - Humidity in Gorey, Co. Wexford",
-          "provider": "data.gov.ie",
-          "organisation": "Wexford County Council",
-          "category": "tabular",
-          "roiGroup": "5. Local authority planning/property/open-data layers",
-          "groupTitle": "Local authority planning/property/open-data layers",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "source-data",
-          "featureUnit": "features",
-          "formats": [
-            "CSV",
-            "ESRI REST SERVICE"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "ESRI REST SERVICE"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 55,
-          "currentProviderUrl": "https://data.gov.ie/dataset/bme-humidity-gorey",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/bme-humidity-gorey",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Local authority planning/property/open-data layers",
-        "Ireland / unspecified",
-        "source-data",
-        "BME - Humidity in Gorey, Co. Wexford"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/bme-humidity-gorey",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/bme-humidity-gorey",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Wexford County Council, data.gov.ie, BME - Humidity in Gorey, Co. Wexford.",
-      "fullCitation": "Wexford County Council, data.gov.ie. BME - Humidity in Gorey, Co. Wexford. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/bme-humidity-gorey. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/bme-humidity-gorey.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:bme-humidity-gorey:01774",
-        "sourceRowNumber": 1775,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-        "proposedAction": "local-authority-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "CSV",
-            "ESRI REST SERVICE"
-          ]
-        },
-        "confidence": 55,
-        "resolvedBlockers": [
-          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-          "needs-provider-context-review: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-bme-humidity-gorey-01774",
-      "rawMetadata": {
-        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:bme-humidity-gorey:01774",
-        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-bme-humidity-gorey-01774",
-        "type": "approved-medium-priority-source",
-        "title": "BME - Humidity in Gorey, Co. Wexford",
-        "subtitle": "Local authority planning/property/open-data layers / Wexford County Council, data.gov.ie / Ireland / unspecified / CSV, ESRI REST SERVICE / Approved source record",
-        "category": "Medium-priority: Local authority planning/property/open-data layers",
-        "provider": [
-          "Wexford County Council",
-          "data.gov.ie"
-        ],
-        "description": "BME - Humidity in Gorey, Co. Wexford is published as a medium-priority Civgraph source/provenance record from Wexford County Council, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/bme-humidity-gorey",
-        "references": [
-          {
-            "label": "BME - Humidity in Gorey, Co. Wexford provider page",
-            "url": "https://data.gov.ie/dataset/bme-humidity-gorey",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "BME - Humidity in Gorey, Co. Wexford Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/bme-humidity-gorey",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/bme-humidity-gorey",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Local authority planning/property/open-data layers",
-          "Ireland / unspecified",
-          "source-data",
-          "BME - Humidity in Gorey, Co. Wexford"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/bme-humidity-gorey",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/bme-humidity-gorey",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Wexford County Council, data.gov.ie, BME - Humidity in Gorey, Co. Wexford.",
-        "fullCitation": "Wexford County Council, data.gov.ie. BME - Humidity in Gorey, Co. Wexford. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/bme-humidity-gorey. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/bme-humidity-gorey.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 1775,
-            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:bme-humidity-gorey:01774",
-            "title": "BME - Humidity in Gorey, Co. Wexford",
-            "cleanTitle": "BME - Humidity in Gorey, Co. Wexford",
-            "provider": "data.gov.ie",
-            "organisation": "Wexford County Council",
-            "category": "tabular",
-            "roiGroup": "5. Local authority planning/property/open-data layers",
-            "groupTitle": "Local authority planning/property/open-data layers",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "source-data",
-            "featureUnit": "features",
-            "formats": [
-              "CSV",
-              "ESRI REST SERVICE"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "local-authority-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "CSV",
-                "ESRI REST SERVICE"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 55,
-            "currentProviderUrl": "https://data.gov.ie/dataset/bme-humidity-gorey",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/bme-humidity-gorey",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-              "needs-provider-context-review: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:bme-humidity-gorey:01774",
-          "sourceRowNumber": 1775,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "ESRI REST SERVICE"
-            ]
-          },
-          "confidence": 55,
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Local authority planning/property/open-data layers",
-          "source-data",
-          "features",
-          "Ireland / unspecified",
-          "local-authority-batch-review",
-          "CSV",
-          "ESRI REST SERVICE"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-bme-humidity-gorey-01774"
       }
     }
   ]

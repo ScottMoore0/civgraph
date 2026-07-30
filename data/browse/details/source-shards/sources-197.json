@@ -1,10 +1,377 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-30T21:17:00.109Z",
+  "generatedAt": "2026-07-30T22:23:49.110Z",
   "kind": "sources",
   "shard": "sources-197.json",
   "total": 200,
   "items": [
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:wicklow-playgrounds:00850",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-wicklow-playgrounds-00850",
+      "type": "approved-medium-priority-source",
+      "title": "Wicklow Playgrounds",
+      "subtitle": "Local authority planning/property/open-data layers / Wicklow County Council, data.gov.ie / Ireland / unspecified / CSV, ESRI REST, GEOJSON, KML, SHAPE FILE / Source record; runtime review pending",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "provider": [
+        "Wicklow County Council",
+        "data.gov.ie"
+      ],
+      "description": "Wicklow Playgrounds is published as a medium-priority Civgraph source/provenance record from Wicklow County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
+      "url": "https://data.gov.ie/dataset/wicklow-playgrounds",
+      "references": [
+        {
+          "label": "Wicklow Playgrounds provider page",
+          "url": "https://data.gov.ie/dataset/wicklow-playgrounds",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "Wicklow Playgrounds Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/wicklow-playgrounds",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/wicklow-playgrounds",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "source-record-with-runtime-review",
+        "Local authority planning/property/open-data layers",
+        "source-data",
+        "features",
+        "Ireland / unspecified",
+        "local-authority-batch-review",
+        "CSV",
+        "ESRI REST",
+        "GEOJSON",
+        "KML",
+        "SHAPE FILE",
+        "review:duplicate-or-variant-review-no-existing-match-candidate"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 851,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:wicklow-playgrounds:00850",
+          "title": "Wicklow Playgrounds",
+          "cleanTitle": "Wicklow Playgrounds",
+          "provider": "data.gov.ie",
+          "organisation": "Wicklow County Council",
+          "category": "spatial",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "source-data",
+          "featureUnit": "features",
+          "formats": [
+            "CSV",
+            "ESRI REST",
+            "GEOJSON",
+            "KML",
+            "SHAPE FILE"
+          ],
+          "isSpatial": true,
+          "isLargeOrSpecial": false,
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "ESRI REST",
+              "GEOJSON",
+              "KML",
+              "SHAPE FILE"
+            ]
+          },
+          "approvalState": "ready-with-residual-review",
+          "sourcePublicationState": "public source record with runtime/semantic review still pending",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/wicklow-playgrounds",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/wicklow-playgrounds",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
+        }
+      ],
+      "status": "Source only",
+      "statusChips": [
+        "Source record",
+        "Runtime review pending",
+        "Spatial source",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Ireland / unspecified",
+        "source-data",
+        "Wicklow Playgrounds"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/wicklow-playgrounds",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/wicklow-playgrounds",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Wicklow County Council, data.gov.ie, Wicklow Playgrounds.",
+      "fullCitation": "Wicklow County Council, data.gov.ie. Wicklow Playgrounds. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/wicklow-playgrounds. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/wicklow-playgrounds.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:wicklow-playgrounds:00850",
+        "sourceRowNumber": 851,
+        "approvalState": "ready-with-residual-review",
+        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+        "proposedAction": "local-authority-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV",
+            "ESRI REST",
+            "GEOJSON",
+            "KML",
+            "SHAPE FILE"
+          ]
+        },
+        "confidence": 60,
+        "residualBlockers": [
+          "duplicate-or-variant-review: no existing match candidate"
+        ],
+        "resolvedBlockers": [
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+        ],
+        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
+      },
+      "publicationStatus": "source-record-with-runtime-review",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-wicklow-playgrounds-00850",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:wicklow-playgrounds:00850",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-wicklow-playgrounds-00850",
+        "type": "approved-medium-priority-source",
+        "title": "Wicklow Playgrounds",
+        "subtitle": "Local authority planning/property/open-data layers / Wicklow County Council, data.gov.ie / Ireland / unspecified / CSV, ESRI REST, GEOJSON, KML, SHAPE FILE / Source record; runtime review pending",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "provider": [
+          "Wicklow County Council",
+          "data.gov.ie"
+        ],
+        "description": "Wicklow Playgrounds is published as a medium-priority Civgraph source/provenance record from Wicklow County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
+        "url": "https://data.gov.ie/dataset/wicklow-playgrounds",
+        "references": [
+          {
+            "label": "Wicklow Playgrounds provider page",
+            "url": "https://data.gov.ie/dataset/wicklow-playgrounds",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "Wicklow Playgrounds Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/wicklow-playgrounds",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/wicklow-playgrounds",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source only",
+        "statusChips": [
+          "Source record",
+          "Runtime review pending",
+          "Spatial source",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Ireland / unspecified",
+          "source-data",
+          "Wicklow Playgrounds"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/wicklow-playgrounds",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/wicklow-playgrounds",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Wicklow County Council, data.gov.ie, Wicklow Playgrounds.",
+        "fullCitation": "Wicklow County Council, data.gov.ie. Wicklow Playgrounds. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/wicklow-playgrounds. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/wicklow-playgrounds.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 851,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:wicklow-playgrounds:00850",
+            "title": "Wicklow Playgrounds",
+            "cleanTitle": "Wicklow Playgrounds",
+            "provider": "data.gov.ie",
+            "organisation": "Wicklow County Council",
+            "category": "spatial",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "source-data",
+            "featureUnit": "features",
+            "formats": [
+              "CSV",
+              "ESRI REST",
+              "GEOJSON",
+              "KML",
+              "SHAPE FILE"
+            ],
+            "isSpatial": true,
+            "isLargeOrSpecial": false,
+            "proposedAction": "local-authority-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV",
+                "ESRI REST",
+                "GEOJSON",
+                "KML",
+                "SHAPE FILE"
+              ]
+            },
+            "approvalState": "ready-with-residual-review",
+            "sourcePublicationState": "public source record with runtime/semantic review still pending",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/wicklow-playgrounds",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/wicklow-playgrounds",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+            ],
+            "residualBlockers": [
+              "duplicate-or-variant-review: no existing match candidate"
+            ],
+            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:wicklow-playgrounds:00850",
+          "sourceRowNumber": 851,
+          "approvalState": "ready-with-residual-review",
+          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "ESRI REST",
+              "GEOJSON",
+              "KML",
+              "SHAPE FILE"
+            ]
+          },
+          "confidence": 60,
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate"
+          ],
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
+        },
+        "publicationStatus": "source-record-with-runtime-review",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "source-record-with-runtime-review",
+          "Local authority planning/property/open-data layers",
+          "source-data",
+          "features",
+          "Ireland / unspecified",
+          "local-authority-batch-review",
+          "CSV",
+          "ESRI REST",
+          "GEOJSON",
+          "KML",
+          "SHAPE FILE",
+          "review:duplicate-or-variant-review-no-existing-match-candidate"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-wicklow-playgrounds-00850"
+      }
+    },
     {
       "id": "medium-priority:5-local-authority-planning-property-open-data-layers:wicklow-prompt-payment-return-q1-2017:01682",
       "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-wicklow-prompt-payment-return-q1-2017-01682",
@@ -65664,139 +66031,6 @@
             "bytes": 341577,
             "sha256": "54a40f2887b480fb29ba5fe256fde7c06588adc54d77064a4b47ce0aa74daaf8",
             "providerUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/15-january-2014/"
-          }
-        ]
-      }
-    },
-    {
-      "id": "ni-register:assembly:html:aa164354cdb98bb8",
-      "slug": "ni-register-assembly-html-ni-assembly-register-of-members-interests-16-december-2011-7224202a",
-      "type": "register-source-document",
-      "title": "NI Assembly Register of Members Interests (16 December 2011)",
-      "subtitle": "Current / html / 16 December 2011",
-      "category": "Registers of interests",
-      "date": "2011-12-16",
-      "provider": [
-        "Northern Ireland Assembly"
-      ],
-      "description": "NI Assembly register of interests html. edition dated 16 December 2011. content type text/html; charset=utf-8",
-      "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/16-december-2011/",
-      "references": [
-        {
-          "label": "Current register landing page",
-          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
-        },
-        {
-          "label": "Provider source URL",
-          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/16-december-2011/"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "html source",
-          "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/16-december-2011/",
-          "type": "html"
-        }
-      ],
-      "keywords": [
-        "register of interests",
-        "MLA",
-        "Northern Ireland Assembly",
-        "html",
-        "current"
-      ],
-      "sourceItems": [
-        {
-          "sourcePageId": "current",
-          "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
-          "title": "16 December 2011",
-          "linkText": "16 December 2011",
-          "kind": "html",
-          "contentType": "text/html; charset=utf-8",
-          "httpStatus": 200,
-          "bytes": 340098,
-          "sha256": "e3620f7b5fae033c34d6c7c310712d5f68dcff27e340148f890a1ce4eb3cc8ab",
-          "providerUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/16-december-2011/"
-        }
-      ],
-      "status": "Available",
-      "statusChips": [
-        "html",
-        "HTTP 200",
-        "current"
-      ],
-      "sourceHierarchy": [
-        "Browse",
-        "Registers of interests",
-        "Northern Ireland Assembly",
-        "Current"
-      ],
-      "parentId": "ni-register:assembly:collection",
-      "parentTitle": "Northern Ireland Assembly Register of Members Interests",
-      "browseUrl": "/browse/sources/ni-register-assembly-html-ni-assembly-register-of-members-interests-16-december-2011-7224202a",
-      "rawMetadata": {
-        "id": "ni-register:assembly:html:aa164354cdb98bb8",
-        "slug": "ni-register-assembly-html-ni-assembly-register-of-members-interests-16-december-2011-7224202a",
-        "type": "register-source-document",
-        "title": "NI Assembly Register of Members Interests (16 December 2011)",
-        "subtitle": "Current / html / 16 December 2011",
-        "category": "Registers of interests",
-        "date": "2011-12-16",
-        "provider": [
-          "Northern Ireland Assembly"
-        ],
-        "description": "NI Assembly register of interests html. edition dated 16 December 2011. content type text/html; charset=utf-8",
-        "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/16-december-2011/",
-        "references": [
-          {
-            "label": "Current register landing page",
-            "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/"
-          },
-          {
-            "label": "Provider source URL",
-            "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/16-december-2011/"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "html source",
-            "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/16-december-2011/",
-            "type": "html"
-          }
-        ],
-        "keywords": [
-          "register of interests",
-          "MLA",
-          "Northern Ireland Assembly",
-          "html",
-          "current"
-        ],
-        "sourceHierarchy": [
-          "Browse",
-          "Registers of interests",
-          "Northern Ireland Assembly",
-          "Current"
-        ],
-        "status": "Available",
-        "statusChips": [
-          "html",
-          "HTTP 200",
-          "current"
-        ],
-        "parentId": "ni-register:assembly:collection",
-        "parentTitle": "Northern Ireland Assembly Register of Members Interests",
-        "sourceItems": [
-          {
-            "sourcePageId": "current",
-            "sourcePageUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
-            "title": "16 December 2011",
-            "linkText": "16 December 2011",
-            "kind": "html",
-            "contentType": "text/html; charset=utf-8",
-            "httpStatus": 200,
-            "bytes": 340098,
-            "sha256": "e3620f7b5fae033c34d6c7c310712d5f68dcff27e340148f890a1ce4eb3cc8ab",
-            "providerUrl": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/16-december-2011/"
           }
         ]
       }

@@ -1,10 +1,339 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-30T21:17:00.109Z",
+  "generatedAt": "2026-07-30T22:23:49.110Z",
   "kind": "sources",
   "shard": "sources-187.json",
   "total": 200,
   "items": [
+    {
+      "id": "medium-priority:2-irish-election-source-enrichment-data:rosslare-daily-data:02296",
+      "slug": "medium-priority-2-irish-election-source-enrichment-data-rosslare-daily-data-02296",
+      "type": "approved-medium-priority-source",
+      "title": "Rosslare Daily Data",
+      "subtitle": "Irish election source/enrichment data / Met Éireann, data.gov.ie / Republic of Ireland / CSV, TXT / Approved source record",
+      "category": "Medium-priority: Irish election source/enrichment data",
+      "provider": [
+        "Met Éireann",
+        "data.gov.ie"
+      ],
+      "description": "Rosslare Daily Data is published as a medium-priority Civgraph source/provenance record from Met Éireann, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/rosslare-daily-data",
+      "references": [
+        {
+          "label": "Rosslare Daily Data provider page",
+          "url": "https://data.gov.ie/dataset/rosslare-daily-data",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "Rosslare Daily Data Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/rosslare-daily-data",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/rosslare-daily-data",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Irish election source/enrichment data",
+        "election",
+        "features",
+        "Republic of Ireland",
+        "enrich-existing-election",
+        "CSV",
+        "TXT"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 2297,
+          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:rosslare-daily-data:02296",
+          "title": "Rosslare Daily Data",
+          "cleanTitle": "Rosslare Daily Data",
+          "provider": "data.gov.ie",
+          "organisation": "Met Éireann",
+          "category": "tabular",
+          "roiGroup": "2. Irish election source/enrichment data",
+          "groupTitle": "Irish election source/enrichment data",
+          "jurisdiction": "Republic of Ireland",
+          "topic": "election",
+          "featureUnit": "features",
+          "formats": [
+            "CSV",
+            "TXT"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "enrich-existing-election",
+          "proposedPlacement": "Elections/source provenance",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "TXT"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/rosslare-daily-data",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/rosslare-daily-data",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "election-model-merge-and-provenance-review: election staging action assigned",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link",
+        "Election provenance"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Irish election source/enrichment data",
+        "Republic of Ireland",
+        "election",
+        "Rosslare Daily Data"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/rosslare-daily-data",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/rosslare-daily-data",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Met Éireann, data.gov.ie, Rosslare Daily Data.",
+      "fullCitation": "Met Éireann, data.gov.ie. Rosslare Daily Data. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/rosslare-daily-data. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/rosslare-daily-data.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:2-irish-election-source-enrichment-data:rosslare-daily-data:02296",
+        "sourceRowNumber": 2297,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish election source/provenance enrichment",
+        "proposedAction": "enrich-existing-election",
+        "proposedPlacement": "Elections/source provenance",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV",
+            "TXT"
+          ]
+        },
+        "confidence": 60,
+        "resolvedBlockers": [
+          "election-model-merge-and-provenance-review: election staging action assigned",
+          "needs-provider-context-review: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Elections/source provenance",
+      "relationship": "election-source-enrichment",
+      "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-rosslare-daily-data-02296",
+      "rawMetadata": {
+        "id": "medium-priority:2-irish-election-source-enrichment-data:rosslare-daily-data:02296",
+        "slug": "medium-priority-2-irish-election-source-enrichment-data-rosslare-daily-data-02296",
+        "type": "approved-medium-priority-source",
+        "title": "Rosslare Daily Data",
+        "subtitle": "Irish election source/enrichment data / Met Éireann, data.gov.ie / Republic of Ireland / CSV, TXT / Approved source record",
+        "category": "Medium-priority: Irish election source/enrichment data",
+        "provider": [
+          "Met Éireann",
+          "data.gov.ie"
+        ],
+        "description": "Rosslare Daily Data is published as a medium-priority Civgraph source/provenance record from Met Éireann, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/rosslare-daily-data",
+        "references": [
+          {
+            "label": "Rosslare Daily Data provider page",
+            "url": "https://data.gov.ie/dataset/rosslare-daily-data",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "Rosslare Daily Data Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/rosslare-daily-data",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/rosslare-daily-data",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link",
+          "Election provenance"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Irish election source/enrichment data",
+          "Republic of Ireland",
+          "election",
+          "Rosslare Daily Data"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/rosslare-daily-data",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/rosslare-daily-data",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Met Éireann, data.gov.ie, Rosslare Daily Data.",
+        "fullCitation": "Met Éireann, data.gov.ie. Rosslare Daily Data. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/rosslare-daily-data. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/rosslare-daily-data.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 2297,
+            "stagingId": "medium-prep:2-irish-election-source-enrichment-data:rosslare-daily-data:02296",
+            "title": "Rosslare Daily Data",
+            "cleanTitle": "Rosslare Daily Data",
+            "provider": "data.gov.ie",
+            "organisation": "Met Éireann",
+            "category": "tabular",
+            "roiGroup": "2. Irish election source/enrichment data",
+            "groupTitle": "Irish election source/enrichment data",
+            "jurisdiction": "Republic of Ireland",
+            "topic": "election",
+            "featureUnit": "features",
+            "formats": [
+              "CSV",
+              "TXT"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "enrich-existing-election",
+            "proposedPlacement": "Elections/source provenance",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV",
+                "TXT"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/rosslare-daily-data",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/rosslare-daily-data",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "election-model-merge-and-provenance-review: election staging action assigned",
+              "needs-provider-context-review: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:2-irish-election-source-enrichment-data:rosslare-daily-data:02296",
+          "sourceRowNumber": 2297,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish election source/provenance enrichment",
+          "proposedAction": "enrich-existing-election",
+          "proposedPlacement": "Elections/source provenance",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "TXT"
+            ]
+          },
+          "confidence": 60,
+          "resolvedBlockers": [
+            "election-model-merge-and-provenance-review: election staging action assigned",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Merge into existing election/election-source model only after exact election-kind/geography/person/party matching.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Elections/source provenance",
+        "relationship": "election-source-enrichment",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Irish election source/enrichment data",
+          "election",
+          "features",
+          "Republic of Ireland",
+          "enrich-existing-election",
+          "CSV",
+          "TXT"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-2-irish-election-source-enrichment-data-rosslare-daily-data-02296"
+      }
+    },
     {
       "id": "medium-priority:2-irish-election-source-enrichment-data:sentinel-vessel-programme-svp-daily-fishing-operations:02346",
       "slug": "medium-priority-2-irish-election-source-enrichment-data-sentinel-vessel-programme-svp-daily-fishing-operations-02346",
@@ -80666,339 +80995,6 @@
           "JSON"
         ],
         "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-no-of-family-support-providers-commissioned-that-provided-data-2020-02260"
-      }
-    },
-    {
-      "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:no-of-family-support-providers-commissioned-that-provided-data-2021:02261",
-      "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-no-of-family-support-providers-commissioned-that-provided-data-2021-02261",
-      "type": "approved-medium-priority-source",
-      "title": "No. of Family Support Providers Commissioned that Provided Data 2021",
-      "subtitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA / Tusla, data.gov.ie / Ireland / unspecified / CSV, JSON / Approved source record",
-      "category": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-      "date": "2021",
-      "provider": [
-        "Tusla",
-        "data.gov.ie"
-      ],
-      "description": "No. of Family Support Providers Commissioned that Provided Data 2021 is published as a medium-priority Civgraph source/provenance record from Tusla, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2021",
-      "references": [
-        {
-          "label": "No. of Family Support Providers Commissioned that Provided Data 2021 provider page",
-          "url": "https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2021",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "No. of Family Support Providers Commissioned that Provided Data 2021 Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2021",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2021",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "boundary",
-        "Electoral Divisions",
-        "Ireland / unspecified",
-        "source-download-only",
-        "CSV",
-        "JSON"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 2262,
-          "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:no-of-family-support-providers-commissioned-that-provided-data-2021:02261",
-          "title": "No. of Family Support Providers Commissioned that Provided Data 2021",
-          "cleanTitle": "No. of Family Support Providers Commissioned that Provided Data 2021",
-          "provider": "data.gov.ie",
-          "organisation": "Tusla",
-          "category": "tabular",
-          "roiGroup": "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "groupTitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "boundary",
-          "featureUnit": "Electoral Divisions",
-          "formats": [
-            "CSV",
-            "JSON"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "source-download-only",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "JSON"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2021",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2021",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "geography-crosswalk-and-versioning: geography family inferred",
-            "geography-matching: geography family inferred",
-            "source-page-and-ia-viewport-decision: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Prepare boundary variant review; prefer child/variant records over duplicate parent maps.",
-          "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "Ireland / unspecified",
-        "boundary",
-        "No. of Family Support Providers Commissioned that Provided Data 2021"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2021",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2021",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Tusla, data.gov.ie, No. of Family Support Providers Commissioned that Provided Data 2021.",
-      "fullCitation": "Tusla, data.gov.ie. No. of Family Support Providers Commissioned that Provided Data 2021. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2021. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2021.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:no-of-family-support-providers-commissioned-that-provided-data-2021:02261",
-        "sourceRowNumber": 2262,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish as source/download record",
-        "proposedAction": "source-download-only",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "CSV",
-            "JSON"
-          ]
-        },
-        "confidence": 60,
-        "resolvedBlockers": [
-          "geography-crosswalk-and-versioning: geography family inferred",
-          "geography-matching: geography family inferred",
-          "source-page-and-ia-viewport-decision: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Prepare boundary variant review; prefer child/variant records over duplicate parent maps.",
-        "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
-        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-no-of-family-support-providers-commissioned-that-provided-data-2021-02261",
-      "rawMetadata": {
-        "id": "medium-priority:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:no-of-family-support-providers-commissioned-that-provided-data-2021:02261",
-        "slug": "medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-no-of-family-support-providers-commissioned-that-provided-data-2021-02261",
-        "type": "approved-medium-priority-source",
-        "title": "No. of Family Support Providers Commissioned that Provided Data 2021",
-        "subtitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA / Tusla, data.gov.ie / Ireland / unspecified / CSV, JSON / Approved source record",
-        "category": "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-        "date": "2021",
-        "provider": [
-          "Tusla",
-          "data.gov.ie"
-        ],
-        "description": "No. of Family Support Providers Commissioned that Provided Data 2021 is published as a medium-priority Civgraph source/provenance record from Tusla, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2021",
-        "references": [
-          {
-            "label": "No. of Family Support Providers Commissioned that Provided Data 2021 provider page",
-            "url": "https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2021",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "No. of Family Support Providers Commissioned that Provided Data 2021 Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2021",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2021",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "Ireland / unspecified",
-          "boundary",
-          "No. of Family Support Providers Commissioned that Provided Data 2021"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2021",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2021",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Tusla, data.gov.ie, No. of Family Support Providers Commissioned that Provided Data 2021.",
-        "fullCitation": "Tusla, data.gov.ie. No. of Family Support Providers Commissioned that Provided Data 2021. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2021. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2021.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 2262,
-            "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:no-of-family-support-providers-commissioned-that-provided-data-2021:02261",
-            "title": "No. of Family Support Providers Commissioned that Provided Data 2021",
-            "cleanTitle": "No. of Family Support Providers Commissioned that Provided Data 2021",
-            "provider": "data.gov.ie",
-            "organisation": "Tusla",
-            "category": "tabular",
-            "roiGroup": "3. Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-            "groupTitle": "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "boundary",
-            "featureUnit": "Electoral Divisions",
-            "formats": [
-              "CSV",
-              "JSON"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "source-download-only",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "CSV",
-                "JSON"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2021",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/no-of-family-support-providers-commissioned-that-provided-data-2021",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "geography-crosswalk-and-versioning: geography family inferred",
-              "geography-matching: geography family inferred",
-              "source-page-and-ia-viewport-decision: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Prepare boundary variant review; prefer child/variant records over duplicate parent maps.",
-            "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
-            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra:no-of-family-support-providers-commissioned-that-provided-data-2021:02261",
-          "sourceRowNumber": 2262,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish as source/download record",
-          "proposedAction": "source-download-only",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "JSON"
-            ]
-          },
-          "confidence": 60,
-          "resolvedBlockers": [
-            "geography-crosswalk-and-versioning: geography family inferred",
-            "geography-matching: geography family inferred",
-            "source-page-and-ia-viewport-decision: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Prepare boundary variant review; prefer child/variant records over duplicate parent maps.",
-          "geographyRecommendation": "Match to ROI ED/DED generation and province child entries; avoid duplicating existing ED time-series maps.",
-          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Authoritative boundary variants from Tailte/OSI/Open Data NI/NISRA",
-          "boundary",
-          "Electoral Divisions",
-          "Ireland / unspecified",
-          "source-download-only",
-          "CSV",
-          "JSON"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-3-authoritative-boundary-variants-from-tailte-osi-open-data-ni-nisra-no-of-family-support-providers-commissioned-that-provided-data-2021-02261"
       }
     }
   ]

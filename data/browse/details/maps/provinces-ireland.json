@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-19T14:02:07.245Z",
+  "generatedAt": "2026-07-30T22:23:49.110Z",
   "item": {
     "id": "provinces",
     "slug": "provinces-ireland",
@@ -29,7 +29,7 @@
       "cuige",
       "irish names"
     ],
-    "status": "hidden",
+    "status": "available",
     "featured": true,
     "loadable": true,
     "labelProperty": "PROVINCE",
@@ -88,6 +88,18 @@
       {
         "label": "file",
         "url": "https://opendata.arcgis.com/datasets/559bc3300384413aa0fe93f0772cb7f1_0.zip"
+      },
+      {
+        "label": "Internet Archive: Provinces.fgb",
+        "url": "https://archive.org/download/civgraph-osi-maps/provinces/Provinces.fgb"
+      },
+      {
+        "label": "Internet Archive: 559bc3300384413aa0fe93f0772cb7f1_0.geojson",
+        "url": "https://archive.org/download/civgraph-osi-maps/provinces/559bc3300384413aa0fe93f0772cb7f1_0.geojson"
+      },
+      {
+        "label": "Internet Archive: 559bc3300384413aa0fe93f0772cb7f1_0.kml",
+        "url": "https://archive.org/download/civgraph-osi-maps/provinces/559bc3300384413aa0fe93f0772cb7f1_0.kml"
       }
     ],
     "interactiveUrl": "/#layers=provinces",
@@ -160,8 +172,7 @@
       ],
       "cloneOf": "provinces-1955",
       "irishLabelProperty": "CUIGE",
-      "description": "Current provinces layer using the 2019 OSI statutory province geometry. The boundaries match the 1955/enriched province layer, so the MapLibre layer reuses that converted geometry to retain the Irish province-name field (CUIGE) instead of dropping the translation.",
-      "hidden": true
+      "description": "Current provinces layer using the 2019 OSI statutory province geometry. The boundaries match the 1955/enriched province layer, so the MapLibre layer reuses that converted geometry to retain the Irish province-name field (CUIGE) instead of dropping the translation."
     }
   }
 }

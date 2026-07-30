@@ -1,43 +1,8 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-30T21:17:00.109Z",
+  "generatedAt": "2026-07-30T22:23:49.110Z",
   "total": 993,
   "items": [
-    {
-      "id": "eds-roi-1971-04-15",
-      "slug": "eds-roi-1971-04-15",
-      "type": "map",
-      "title": "15 April 1971",
-      "subtitle": "1971",
-      "categoryId": "electoral-divisions",
-      "category": "Electoral Divisions",
-      "group": "Built Environment",
-      "description": "Historic electoral division boundaries",
-      "date": "1971-04-15",
-      "years": [
-        1971
-      ],
-      "keywords": [
-        "electoral",
-        "division",
-        "ED",
-        "1971",
-        "Cork",
-        "Dublin",
-        "Limerick",
-        "placeholder"
-      ],
-      "status": "not yet converted",
-      "featured": true,
-      "loadable": false,
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "1A",
-        "type": "map"
-      },
-      "interactiveUrl": "/#layers=eds-roi-1971-04-15",
-      "browseUrl": "/browse/maps/eds-roi-1971-04-15"
-    },
     {
       "id": "stormont-1920",
       "slug": "stormont-1920",
@@ -44698,6 +44663,110 @@
       ],
       "interactiveUrl": "/#layers=provinces-1955",
       "browseUrl": "/browse/maps/provinces-1955"
+    },
+    {
+      "id": "provinces",
+      "slug": "provinces-ireland",
+      "type": "map",
+      "title": "Provinces of Ireland 2019",
+      "subtitle": "2019",
+      "categoryId": "counties",
+      "category": "Counties",
+      "group": "History",
+      "description": "Current provinces layer using the 2019 OSI statutory province geometry. The boundaries match the 1955/enriched province layer, so the MapLibre layer reuses that converted geometry to retain the Irish province-name field (CUIGE) instead of dropping the translation.",
+      "date": "2019",
+      "years": [
+        2019
+      ],
+      "provider": [
+        "OSI",
+        "Phelim Birch"
+      ],
+      "keywords": [
+        "province",
+        "ulster",
+        "munster",
+        "leinster",
+        "connacht",
+        "2019",
+        "cuige",
+        "irish names"
+      ],
+      "status": "available",
+      "featured": true,
+      "loadable": true,
+      "labelProperty": "PROVINCE",
+      "thumbnail": {
+        "kind": "asset",
+        "id": "provinces",
+        "url": "/assets/thumbnails/provinces.webp",
+        "smallUrl": "/assets/thumbnails/provinces-60.webp",
+        "alt": "Provinces of Ireland 2019"
+      },
+      "sourceFiles": [
+        {
+          "label": "fgb",
+          "url": "https://data.civgraph.net/data/maps/baronies-parishes/Provinces.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "Provinces - National Statutory Boundaries - 2019 (data-osi.opendata.arcgis.com)",
+          "url": "https://data-osi.opendata.arcgis.com/datasets/osi::provinces-national-statutory-boundaries-2019/about"
+        },
+        {
+          "label": "Provinces of Ireland — GeoJSON download",
+          "url": "https://opendata.arcgis.com/datasets/559bc3300384413aa0fe93f0772cb7f1_0.geojson"
+        },
+        {
+          "label": "Provinces of Ireland — KML download",
+          "url": "https://opendata.arcgis.com/datasets/559bc3300384413aa0fe93f0772cb7f1_0.kml"
+        },
+        {
+          "label": "Provinces of Ireland — Shapefile (ZIP) download",
+          "url": "https://opendata.arcgis.com/datasets/559bc3300384413aa0fe93f0772cb7f1_0.zip"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "label",
+          "url": "GeoJSON"
+        },
+        {
+          "label": "file",
+          "url": "https://opendata.arcgis.com/datasets/559bc3300384413aa0fe93f0772cb7f1_0.geojson"
+        },
+        {
+          "label": "label",
+          "url": "KML"
+        },
+        {
+          "label": "file",
+          "url": "https://opendata.arcgis.com/datasets/559bc3300384413aa0fe93f0772cb7f1_0.kml"
+        },
+        {
+          "label": "label",
+          "url": "Shapefile (ZIP)"
+        },
+        {
+          "label": "file",
+          "url": "https://opendata.arcgis.com/datasets/559bc3300384413aa0fe93f0772cb7f1_0.zip"
+        },
+        {
+          "label": "Internet Archive: Provinces.fgb",
+          "url": "https://archive.org/download/civgraph-osi-maps/provinces/Provinces.fgb"
+        },
+        {
+          "label": "Internet Archive: 559bc3300384413aa0fe93f0772cb7f1_0.geojson",
+          "url": "https://archive.org/download/civgraph-osi-maps/provinces/559bc3300384413aa0fe93f0772cb7f1_0.geojson"
+        },
+        {
+          "label": "Internet Archive: 559bc3300384413aa0fe93f0772cb7f1_0.kml",
+          "url": "https://archive.org/download/civgraph-osi-maps/provinces/559bc3300384413aa0fe93f0772cb7f1_0.kml"
+        }
+      ],
+      "interactiveUrl": "/#layers=provinces",
+      "browseUrl": "/browse/maps/provinces"
     },
     {
       "id": "psni-collisions-2013",

@@ -39,13 +39,35 @@ def fgb_url(name):
 
 
 def _load_urls():
+    """Load the upload plan that maps a provincial file name to its real R2 key.
+
+    REFUSES TO RUN WITHOUT IT. The fallback in fgb_url() assumes a flat path, but a
+    number of objects live under 'Electoral Divisions 1986-2019/'. With the plan absent
+    the script silently rewrites those URLs to the flat form and reports "22 updated"
+    as though nothing were wrong -- and every one of them then 404s. That happened: a
+    run without the plan rewrote 46 URLs, and
+    .../electoral-divisions/Wards_DEDs_Leinster_1957.fgb returns 404 where
+    .../electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Leinster_1957.fgb
+    returns 200.
+
+    Since the plan lives in a job-scoped temp directory it is gone in any later session,
+    which makes the dangerous path the DEFAULT one. So absence is a hard error rather
+    than a silent degrade. Point CIVGRAPH_R2_PLAN at a copy of the plan to re-run.
+    """
+    plan = os.environ.get('CIVGRAPH_R2_PLAN') or os.path.join(
+        os.environ.get('CLAUDE_JOB_DIR', ''), 'tmp', 'r2_plan.json')
+    if not os.path.exists(plan):
+        sys.exit(
+            'REFUSING TO RUN: the R2 upload plan is missing.\n'
+            f'  looked for: {plan}\n'
+            '  Without it the provincial URLs under "Electoral Divisions 1986-2019/" are\n'
+            '  rewritten to a flat path that 404s, silently breaking 46 layers.\n'
+            '  Set CIVGRAPH_R2_PLAN to a copy of r2_plan.json, or leave maps.json alone.')
     out = {}
-    plan = os.path.join(os.environ.get('CLAUDE_JOB_DIR', ''), 'tmp', 'r2_plan.json')
-    if os.path.exists(plan):
-        for r in json.load(open(plan, encoding='utf-8')):
-            k = r['key']
-            if k.endswith('.fgb'):
-                out[os.path.basename(k)[:-4]] = 'https://data.civgraph.net/' + k
+    for r in json.load(open(plan, encoding='utf-8')):
+        k = r['key']
+        if k.endswith('.fgb'):
+            out[os.path.basename(k)[:-4]] = 'https://data.civgraph.net/' + k
     return out
 
 

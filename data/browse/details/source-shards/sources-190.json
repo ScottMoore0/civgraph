@@ -1,10 +1,337 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-30T21:17:00.109Z",
+  "generatedAt": "2026-07-30T22:23:49.110Z",
   "kind": "sources",
   "shard": "sources-190.json",
   "total": 200,
   "items": [
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:bme-humidity-gorey:01774",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-bme-humidity-gorey-01774",
+      "type": "approved-medium-priority-source",
+      "title": "BME - Humidity in Gorey, Co. Wexford",
+      "subtitle": "Local authority planning/property/open-data layers / Wexford County Council, data.gov.ie / Ireland / unspecified / CSV, ESRI REST SERVICE / Approved source record",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "provider": [
+        "Wexford County Council",
+        "data.gov.ie"
+      ],
+      "description": "BME - Humidity in Gorey, Co. Wexford is published as a medium-priority Civgraph source/provenance record from Wexford County Council, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://data.gov.ie/dataset/bme-humidity-gorey",
+      "references": [
+        {
+          "label": "BME - Humidity in Gorey, Co. Wexford provider page",
+          "url": "https://data.gov.ie/dataset/bme-humidity-gorey",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "BME - Humidity in Gorey, Co. Wexford Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/bme-humidity-gorey",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/bme-humidity-gorey",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Local authority planning/property/open-data layers",
+        "source-data",
+        "features",
+        "Ireland / unspecified",
+        "local-authority-batch-review",
+        "CSV",
+        "ESRI REST SERVICE"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 1775,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:bme-humidity-gorey:01774",
+          "title": "BME - Humidity in Gorey, Co. Wexford",
+          "cleanTitle": "BME - Humidity in Gorey, Co. Wexford",
+          "provider": "data.gov.ie",
+          "organisation": "Wexford County Council",
+          "category": "tabular",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "source-data",
+          "featureUnit": "features",
+          "formats": [
+            "CSV",
+            "ESRI REST SERVICE"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "ESRI REST SERVICE"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 55,
+          "currentProviderUrl": "https://data.gov.ie/dataset/bme-humidity-gorey",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/bme-humidity-gorey",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Ireland / unspecified",
+        "source-data",
+        "BME - Humidity in Gorey, Co. Wexford"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/bme-humidity-gorey",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/bme-humidity-gorey",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Wexford County Council, data.gov.ie, BME - Humidity in Gorey, Co. Wexford.",
+      "fullCitation": "Wexford County Council, data.gov.ie. BME - Humidity in Gorey, Co. Wexford. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/bme-humidity-gorey. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/bme-humidity-gorey.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:bme-humidity-gorey:01774",
+        "sourceRowNumber": 1775,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+        "proposedAction": "local-authority-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV",
+            "ESRI REST SERVICE"
+          ]
+        },
+        "confidence": 55,
+        "resolvedBlockers": [
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+          "needs-provider-context-review: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-bme-humidity-gorey-01774",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:bme-humidity-gorey:01774",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-bme-humidity-gorey-01774",
+        "type": "approved-medium-priority-source",
+        "title": "BME - Humidity in Gorey, Co. Wexford",
+        "subtitle": "Local authority planning/property/open-data layers / Wexford County Council, data.gov.ie / Ireland / unspecified / CSV, ESRI REST SERVICE / Approved source record",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "provider": [
+          "Wexford County Council",
+          "data.gov.ie"
+        ],
+        "description": "BME - Humidity in Gorey, Co. Wexford is published as a medium-priority Civgraph source/provenance record from Wexford County Council, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://data.gov.ie/dataset/bme-humidity-gorey",
+        "references": [
+          {
+            "label": "BME - Humidity in Gorey, Co. Wexford provider page",
+            "url": "https://data.gov.ie/dataset/bme-humidity-gorey",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "BME - Humidity in Gorey, Co. Wexford Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/bme-humidity-gorey",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/bme-humidity-gorey",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Ireland / unspecified",
+          "source-data",
+          "BME - Humidity in Gorey, Co. Wexford"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/bme-humidity-gorey",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/bme-humidity-gorey",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Wexford County Council, data.gov.ie, BME - Humidity in Gorey, Co. Wexford.",
+        "fullCitation": "Wexford County Council, data.gov.ie. BME - Humidity in Gorey, Co. Wexford. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/bme-humidity-gorey. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/bme-humidity-gorey.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 1775,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:bme-humidity-gorey:01774",
+            "title": "BME - Humidity in Gorey, Co. Wexford",
+            "cleanTitle": "BME - Humidity in Gorey, Co. Wexford",
+            "provider": "data.gov.ie",
+            "organisation": "Wexford County Council",
+            "category": "tabular",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "source-data",
+            "featureUnit": "features",
+            "formats": [
+              "CSV",
+              "ESRI REST SERVICE"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "local-authority-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV",
+                "ESRI REST SERVICE"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 55,
+            "currentProviderUrl": "https://data.gov.ie/dataset/bme-humidity-gorey",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/bme-humidity-gorey",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+              "needs-provider-context-review: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:bme-humidity-gorey:01774",
+          "sourceRowNumber": 1775,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV",
+              "ESRI REST SERVICE"
+            ]
+          },
+          "confidence": 55,
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Local authority planning/property/open-data layers",
+          "source-data",
+          "features",
+          "Ireland / unspecified",
+          "local-authority-batch-review",
+          "CSV",
+          "ESRI REST SERVICE"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-bme-humidity-gorey-01774"
+      }
+    },
     {
       "id": "medium-priority:5-local-authority-planning-property-open-data-layers:bme-pressure-gorey:01775",
       "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-bme-pressure-gorey-01775",
@@ -71394,327 +71721,6 @@
           "CSV"
         ],
         "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-details-of-licences-related-to-fire-safety-in-2016-for-oil-jetties-01326"
-      }
-    },
-    {
-      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:details-of-licences-related-to-fire-safety-in-2016-for-retail-and-private-petroleum-stores:01327",
-      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-details-of-licences-related-to-fire-safety-in-2016-for-retail-and-private-petroleum-stores-01327",
-      "type": "approved-medium-priority-source",
-      "title": "DETAILS OF LICENCES RELATED TO FIRE SAFETY IN 2016 for Retail and Private Petroleum Stores",
-      "subtitle": "Local authority planning/property/open-data layers / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV / Approved source record",
-      "category": "Medium-priority: Local authority planning/property/open-data layers",
-      "date": "2016",
-      "provider": [
-        "Department of Housing, Local Government and Heritage",
-        "data.gov.ie"
-      ],
-      "description": "DETAILS OF LICENCES RELATED TO FIRE SAFETY IN 2016 for Retail and Private Petroleum Stores is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-      "url": "https://data.gov.ie/dataset/details-of-licences-related-to-fire-safety-in-2016-for-retail-and-private-petroleum-stores",
-      "references": [
-        {
-          "label": "DETAILS OF LICENCES RELATED TO FIRE SAFETY IN 2016 for Retail and Private Petroleum Stores provider page",
-          "url": "https://data.gov.ie/dataset/details-of-licences-related-to-fire-safety-in-2016-for-retail-and-private-petroleum-stores",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "DETAILS OF LICENCES RELATED TO FIRE SAFETY IN 2016 for Retail and Private Petroleum Stores Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/details-of-licences-related-to-fire-safety-in-2016-for-retail-and-private-petroleum-stores",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/details-of-licences-related-to-fire-safety-in-2016-for-retail-and-private-petroleum-stores",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "approved-source-record",
-        "Local authority planning/property/open-data layers",
-        "source-data",
-        "features",
-        "Ireland / unspecified",
-        "local-authority-batch-review",
-        "CSV"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 1328,
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:details-of-licences-related-to-fire-safety-in-2016-for-retail-and-private-petroleum-stores:01327",
-          "title": "DETAILS OF LICENCES RELATED TO FIRE SAFETY IN 2016 for Retail and Private Petroleum Stores",
-          "cleanTitle": "DETAILS OF LICENCES RELATED TO FIRE SAFETY IN 2016 for Retail and Private Petroleum Stores",
-          "provider": "data.gov.ie",
-          "organisation": "Department of Housing, Local Government and Heritage",
-          "category": "tabular",
-          "roiGroup": "5. Local authority planning/property/open-data layers",
-          "groupTitle": "Local authority planning/property/open-data layers",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "source-data",
-          "featureUnit": "features",
-          "formats": [
-            "CSV"
-          ],
-          "isSpatial": false,
-          "isLargeOrSpecial": false,
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV"
-            ]
-          },
-          "approvalState": "ready-for-approval",
-          "sourcePublicationState": "approved public source record",
-          "confidence": 55,
-          "currentProviderUrl": "https://data.gov.ie/dataset/details-of-licences-related-to-fire-safety-in-2016-for-retail-and-private-petroleum-stores",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/details-of-licences-related-to-fire-safety-in-2016-for-retail-and-private-petroleum-stores",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        }
-      ],
-      "status": "Source ready",
-      "statusChips": [
-        "Source record",
-        "Approved",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Local authority planning/property/open-data layers",
-        "Ireland / unspecified",
-        "source-data",
-        "DETAILS OF LICENCES RELATED TO FIRE SAFETY IN 2016 for Retail and Private Petroleum Stores"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/details-of-licences-related-to-fire-safety-in-2016-for-retail-and-private-petroleum-stores",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/details-of-licences-related-to-fire-safety-in-2016-for-retail-and-private-petroleum-stores",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, DETAILS OF LICENCES RELATED TO FIRE SAFETY IN 2016 for Retail and Private Petroleum Stores.",
-      "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. DETAILS OF LICENCES RELATED TO FIRE SAFETY IN 2016 for Retail and Private Petroleum Stores. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/details-of-licences-related-to-fire-safety-in-2016-for-retail-and-private-petroleum-stores. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/details-of-licences-related-to-fire-safety-in-2016-for-retail-and-private-petroleum-stores.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:details-of-licences-related-to-fire-safety-in-2016-for-retail-and-private-petroleum-stores:01327",
-        "sourceRowNumber": 1328,
-        "approvalState": "ready-for-approval",
-        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-        "proposedAction": "local-authority-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "CSV"
-          ]
-        },
-        "confidence": 55,
-        "resolvedBlockers": [
-          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-          "needs-provider-context-review: publication policy assigned"
-        ],
-        "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-      },
-      "publicationStatus": "approved-source-record",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-details-of-licences-related-to-fire-safety-in-2016-for-retail-and-private-petroleum-stores-01327",
-      "rawMetadata": {
-        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:details-of-licences-related-to-fire-safety-in-2016-for-retail-and-private-petroleum-stores:01327",
-        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-details-of-licences-related-to-fire-safety-in-2016-for-retail-and-private-petroleum-stores-01327",
-        "type": "approved-medium-priority-source",
-        "title": "DETAILS OF LICENCES RELATED TO FIRE SAFETY IN 2016 for Retail and Private Petroleum Stores",
-        "subtitle": "Local authority planning/property/open-data layers / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / CSV / Approved source record",
-        "category": "Medium-priority: Local authority planning/property/open-data layers",
-        "date": "2016",
-        "provider": [
-          "Department of Housing, Local Government and Heritage",
-          "data.gov.ie"
-        ],
-        "description": "DETAILS OF LICENCES RELATED TO FIRE SAFETY IN 2016 for Retail and Private Petroleum Stores is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
-        "url": "https://data.gov.ie/dataset/details-of-licences-related-to-fire-safety-in-2016-for-retail-and-private-petroleum-stores",
-        "references": [
-          {
-            "label": "DETAILS OF LICENCES RELATED TO FIRE SAFETY IN 2016 for Retail and Private Petroleum Stores provider page",
-            "url": "https://data.gov.ie/dataset/details-of-licences-related-to-fire-safety-in-2016-for-retail-and-private-petroleum-stores",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "DETAILS OF LICENCES RELATED TO FIRE SAFETY IN 2016 for Retail and Private Petroleum Stores Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/details-of-licences-related-to-fire-safety-in-2016-for-retail-and-private-petroleum-stores",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/details-of-licences-related-to-fire-safety-in-2016-for-retail-and-private-petroleum-stores",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source ready",
-        "statusChips": [
-          "Source record",
-          "Approved",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Local authority planning/property/open-data layers",
-          "Ireland / unspecified",
-          "source-data",
-          "DETAILS OF LICENCES RELATED TO FIRE SAFETY IN 2016 for Retail and Private Petroleum Stores"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/details-of-licences-related-to-fire-safety-in-2016-for-retail-and-private-petroleum-stores",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/details-of-licences-related-to-fire-safety-in-2016-for-retail-and-private-petroleum-stores",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, DETAILS OF LICENCES RELATED TO FIRE SAFETY IN 2016 for Retail and Private Petroleum Stores.",
-        "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. DETAILS OF LICENCES RELATED TO FIRE SAFETY IN 2016 for Retail and Private Petroleum Stores. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/details-of-licences-related-to-fire-safety-in-2016-for-retail-and-private-petroleum-stores. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/details-of-licences-related-to-fire-safety-in-2016-for-retail-and-private-petroleum-stores.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 1328,
-            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:details-of-licences-related-to-fire-safety-in-2016-for-retail-and-private-petroleum-stores:01327",
-            "title": "DETAILS OF LICENCES RELATED TO FIRE SAFETY IN 2016 for Retail and Private Petroleum Stores",
-            "cleanTitle": "DETAILS OF LICENCES RELATED TO FIRE SAFETY IN 2016 for Retail and Private Petroleum Stores",
-            "provider": "data.gov.ie",
-            "organisation": "Department of Housing, Local Government and Heritage",
-            "category": "tabular",
-            "roiGroup": "5. Local authority planning/property/open-data layers",
-            "groupTitle": "Local authority planning/property/open-data layers",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "source-data",
-            "featureUnit": "features",
-            "formats": [
-              "CSV"
-            ],
-            "isSpatial": false,
-            "isLargeOrSpecial": false,
-            "proposedAction": "local-authority-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "CSV"
-              ]
-            },
-            "approvalState": "ready-for-approval",
-            "sourcePublicationState": "approved public source record",
-            "confidence": 55,
-            "currentProviderUrl": "https://data.gov.ie/dataset/details-of-licences-related-to-fire-safety-in-2016-for-retail-and-private-petroleum-stores",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/details-of-licences-related-to-fire-safety-in-2016-for-retail-and-private-petroleum-stores",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-              "needs-provider-context-review: publication policy assigned"
-            ],
-            "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:details-of-licences-related-to-fire-safety-in-2016-for-retail-and-private-petroleum-stores:01327",
-          "sourceRowNumber": 1328,
-          "approvalState": "ready-for-approval",
-          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV"
-            ]
-          },
-          "confidence": 55,
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "needs-provider-context-review: publication policy assigned"
-          ],
-          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
-        },
-        "publicationStatus": "approved-source-record",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "approved-source-record",
-          "Local authority planning/property/open-data layers",
-          "source-data",
-          "features",
-          "Ireland / unspecified",
-          "local-authority-batch-review",
-          "CSV"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-details-of-licences-related-to-fire-safety-in-2016-for-retail-and-private-petroleum-stores-01327"
       }
     }
   ]
