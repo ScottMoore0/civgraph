@@ -25,9 +25,25 @@ five censuses, landed on every 2021 Data Zone and 2011 Small Area.
   "Other and not stated" column. NI **274,584**, Belfast **60,672**. Validated three ways:
   totals match Table 8, males+females match persons, and both areas reproduce the RG's printed
   non-response rates (18.5% NI, 20.6% Belfast).
-- `religion-1971-counts.csv` — 1971 County Report counts. **Tyrone only.** 1 of 7 reports survives
-  parsing, confirming the verdict recorded above; no national row is written, because a partial
-  sum labelled "NORTHERN IRELAND" would be treated downstream as a control total.
+- `religion-1971-counts.csv` — 1971 County Report counts, in the same six categories as 1981.
+  **5 of 7 reports** — Tyrone, Fermanagh, Down, Armagh, Antrim — covering 982,280 people, 65% of
+  Table 8's 1,519,640 base. This supersedes the "only 2 of ~7 area blocks validate" verdict above.
+  Two are read sequentially with all six sex checks passing; three need the sum identity, where the
+  evidence is the uniqueness of the solution plus whichever sexes proved themselves. Each row
+  records its `method` and `sex_checks`.
+
+  Londonderry and Belfast County Borough are **not** recoverable: their religion columns are broken
+  up past the point of safe reading (Londonderry's Roman Catholic figure, 82,040, never reaches the
+  candidate stream). Their *population* totals do survive, and all seven sum to 1,519,640 —
+  16,425 below the enumerated 1,536,065, exactly as Table 8's note about excluded persons implies.
+  No national row is written: a partial sum labelled "NORTHERN IRELAND" would be read downstream as
+  a control total, so NI-level 1971 figures still come from CAIN.
+
+  The 1971 **not-stated** is still not split out. Each report's analysis block has a locatable
+  TOTAL, but the candidate "Not stated" beneath it does not reconcile with the denomination
+  components (Tyrone: 57 + 7,232 + ~4,000 against a total of 19,179), so it is left out rather than
+  shipped on positional evidence alone. Until that closes, 1971 cannot be put on the stated basis
+  and the common-basis table keeps CAIN as its 1971 endpoint.
 - `religion-common-basis-{ni,lgd}.csv` — the three years on the stated-religion basis
   (equivalently, the pro-rata community basis), plus the residual.
 
