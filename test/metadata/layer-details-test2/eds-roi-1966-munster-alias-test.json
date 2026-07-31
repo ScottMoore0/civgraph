@@ -1,9 +1,9 @@
 {
   "id": "eds-roi-1966-munster-alias-test",
   "sourceMapId": "eds-roi-1966-munster",
-  "name": "Munster 1966",
-  "category": "wards",
-  "group": "Built Environment",
+  "name": "District Electoral Divisions/Wards 1966",
+  "category": "Electoral Areas",
+  "group": "Elections and Government",
   "date": "1966-04-01",
   "dateAdded": null,
   "dateEffective": null,
@@ -11,7 +11,7 @@
     "Phelim Birch",
     "Paddy Matthews"
   ],
-  "description": "Republic of Ireland District Electoral Divisions/Wards as at 1 April 1966, assembled from Connacht 1919, Leinster 1957 (reused; no later Leinster file is present in the supplied archive), Munster 1966, and the unchanged Ulster ROI DED component. The source notes describe this as a modified version of the 1970 boundaries before Waterford's five wards were replaced with twenty-four new wards.",
+  "description": "Republic of Ireland District Electoral Divisions/Wards as at 1966-04-01, assembled from Connacht (= 1957 boundaries), Leinster (= 1963 boundaries), Munster 1966, Ulster (= 1963 boundaries). Modified version of District Electoral Divisions/Wards 1970. In 1970, Waterford's 5 wards were replaced with 24 new wards to make the job of splitting up the county borough into electoral areas easier.",
   "renderer": "maplibre",
   "sourceType": "pmtiles",
   "geometryType": "polygon",
@@ -33,19 +33,19 @@
     ]
   ],
   "style": {
-    "color": "#247D36",
-    "weight": 2,
-    "fillColor": "#247D36",
-    "fillOpacity": 0.18
+    "color": "#1B5E20",
+    "fillColor": "#1B5E20",
+    "fillOpacity": 0.18,
+    "weight": 2
   },
   "references": [
     {
       "label": "District Electoral Divisions/Wards 1966 source notes",
-      "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/District Electoral Divisions Wards 1966.txt",
-      "note": "Sidecar notes supplied in Irish Digitised Boundaries archive."
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1966.txt",
+      "note": "Sidecar notes supplied in the Irish Digitised Boundaries archive."
     },
     {
-      "label": "Paddy Matthews 1921 Wards/DEDs map"
+      "label": "Paddy's 1921 Wards/DEDs map"
     }
   ],
   "sourceDownloads": [
@@ -72,8 +72,9 @@
     "Built Environment",
     "maplibre",
     "vector tiles",
-    "Munster 1966",
     "District Electoral Divisions/Wards 1966",
+    "Electoral Areas",
+    "Elections and Government",
     "eds-roi-1966-munster",
     "eds-munster-1966",
     "clone alias"
@@ -86,7 +87,7 @@
   "labelMinZoom": 0,
   "labelMaxZoom": null,
   "labelStyle": {
-    "color": "#247D36",
+    "color": "#1B5E20",
     "hoverColor": "#ff7a1a",
     "selectedColor": "#111827",
     "haloColor": "#ffffff",
@@ -211,7 +212,7 @@
     ]
   },
   "status": "converted-alias",
-  "notes": "Munster 1966 reuses the converted geometry from Munster District Electoral Divisions/Wards 1966.",
+  "notes": "District Electoral Divisions/Wards 1966 reuses the converted geometry from Munster District Electoral Divisions/Wards 1966.",
   "generatedFrom": {
     "pipeline": "promote-test-clone-alias",
     "sourceMapId": "eds-roi-1966-munster",
@@ -230,14 +231,13 @@
     "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-munster-1966-vector-test.pmtiles",
     "r2Key": "data/maps/test/pmtiles/generated/eds-munster-1966-vector-test.pmtiles",
     "localUrl": "/test/pmtiles/generated/eds-munster-1966-vector-test.pmtiles",
-    "byteRangeVerifiedAt": "2026-06-12T19:42:33.886Z"
+    "byteRangeVerifiedAt": "2026-06-23T21:03:59.095Z"
   },
-  "parentId": "eds-roi-1966",
-  "categoryId": null,
+  "promoteId": "civ_fid",
+  "idProperty": "civ_fid",
+  "categoryId": "wards",
   "conversionStatus": "convertedAlias",
   "aliasOf": "eds-munster-1966",
   "cloneOf": "eds-munster-1966",
-  "aliasTargetLayerId": "eds-munster-1966-vector-test",
-  "promoteId": "civ_fid",
-  "idProperty": "civ_fid"
+  "aliasTargetLayerId": "eds-munster-1966-vector-test"
 }

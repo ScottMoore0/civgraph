@@ -1,9 +1,9 @@
 {
   "id": "eds-roi-1965-ulster-alias-test",
   "sourceMapId": "eds-roi-1965-ulster",
-  "name": "Ulster (ROI: Cavan/Donegal/Monaghan; 1921 boundaries)",
-  "category": "wards",
-  "group": "Built Environment",
+  "name": "District Electoral Divisions/Wards 1965",
+  "category": "Electoral Areas",
+  "group": "Elections and Government",
   "date": "1965-07-01",
   "dateAdded": null,
   "dateEffective": null,
@@ -11,16 +11,15 @@
     "Phelim Birch",
     "Paddy Matthews"
   ],
-  "description": "Republic of Ireland District Electoral Divisions/Wards as at 1 July 1965, assembled from Connacht 1919, Leinster 1957 (reused; no later Leinster file is present in the supplied archive), Munster 1965, and the unchanged Ulster ROI DED component. The source notes describe this as a modified version of the 1966 boundaries before Waterford county borough expanded further into Waterford Rural.",
+  "description": "Republic of Ireland District Electoral Divisions/Wards as at 1965-07-01, assembled from Connacht (= 1957 boundaries), Leinster (= 1963 boundaries), Munster 1965, Ulster (= 1963 boundaries). Modified version of District Electoral Divisions/Wards 1966. In 1966, Waterford county borough's boundary expanded further into the DED of Waterford Rural. Also relevant is the renaming of the following DEDs between 1956 Census Reports Volume 1 (published 1957) and 1961 Census Reports Volume 1 (published 1963): Frankford to Kilcormac (Offaly), Mountcharles to Tantallon (Donegal)",
   "renderer": "maplibre",
   "sourceType": "pmtiles",
   "geometryType": "polygon",
-  "tiles": "/test/tiles/generated/eds-ulster-1921/{z}/{x}/{y}.pbf",
-  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-ulster-1921-vector-test.pmtiles",
-  "tilesFallback": "/test/tiles/generated/eds-ulster-1921/{z}/{x}/{y}.pbf",
-  "metadataUrl": "/test/tiles/generated/eds-ulster-1921/metadata.json",
-  "sourceLayer": "eds_ulster_1921",
-  "promoteId": "GUID",
+  "tiles": "/test/tiles/generated/eds-ulster-1963/{z}/{x}/{y}.pbf",
+  "tileUrl": "/test/pmtiles/generated/eds-ulster-1963-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/eds-ulster-1963/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/eds-ulster-1963/metadata.json",
+  "sourceLayer": "eds_ulster_1963",
   "minzoom": 0,
   "maxzoom": 12,
   "bounds": [
@@ -34,25 +33,31 @@
     ]
   ],
   "style": {
-    "color": "#226C32",
-    "weight": 2,
-    "fillColor": "#226C32",
-    "fillOpacity": 0.18
+    "color": "#1B5E20",
+    "fillColor": "#1B5E20",
+    "fillOpacity": 0.18,
+    "weight": 2
   },
   "references": [
     {
       "label": "District Electoral Divisions/Wards 1965 source notes",
-      "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/District Electoral Divisions Wards 1965.txt",
-      "note": "Sidecar notes supplied in Irish Digitised Boundaries archive."
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1965.txt",
+      "note": "Sidecar notes supplied in the Irish Digitised Boundaries archive."
     },
     {
       "label": "Local Government Provisional Order Confirmation Act, 1966"
+    },
+    {
+      "label": "1956 Census Reports Volume 1"
+    },
+    {
+      "label": "1961 Census Reports Volume 1"
     }
   ],
   "sourceDownloads": [
     {
       "label": "Source file used for /test conversion",
-      "file": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Files already on the site/DEDs_Ulster_1921.fgb"
+      "file": "test/source-cache/vector-intake/eds-ulster-1963.fgb"
     }
   ],
   "sourceCredits": [
@@ -60,24 +65,27 @@
     "Paddy Matthews"
   ],
   "keywords": [
-    "electoral division",
-    "district electoral division",
+    "ulster",
+    "ED",
     "DED",
     "ward",
-    "1970",
-    "republic of ireland",
-    "historic",
-    "small electoral units",
-    "Ulster (ROI) Electoral Divisions 1921 (Cavan/Donegal/Monaghan)",
+    "1963",
+    "Ulster District Electoral Divisions/Wards 1963",
     "Electoral Divisions",
     "Built Environment",
     "maplibre",
     "vector tiles",
+    "electoral division",
+    "district electoral division",
     "1965",
-    "Ulster (ROI: Cavan/Donegal/Monaghan; 1921 boundaries)",
+    "republic of ireland",
+    "historic",
+    "small electoral units",
     "District Electoral Divisions/Wards 1965",
+    "Electoral Areas",
+    "Elections and Government",
     "eds-roi-1965-ulster",
-    "eds-ulster-1921",
+    "eds-ulster-1963",
     "clone alias"
   ],
   "labelProperty": "ENGLISH",
@@ -88,7 +96,7 @@
   "labelMinZoom": 0,
   "labelMaxZoom": null,
   "labelStyle": {
-    "color": "#226C32",
+    "color": "#1B5E20",
     "hoverColor": "#ff7a1a",
     "selectedColor": "#111827",
     "haloColor": "#ffffff",
@@ -99,72 +107,27 @@
     "maxWidth": 14,
     "lineHeight": 1.25
   },
-  "featureIndexUrl": "/test/metadata/feature-indexes/eds-ulster-1921-vector-test.json",
-  "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Files already on the site/DEDs_Ulster_1921.fgb",
+  "featureIndexUrl": "/test/metadata/feature-indexes/eds-ulster-1963-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/eds-ulster-1963.fgb",
   "sourceDatasetLayer": "DEDs_Ulster_1921",
-  "idProperty": "GUID",
   "popupProperties": [
     "ENGLISH",
-    "GUID",
-    "ESRI_OID",
-    "ED_ID",
     "GAEILGE",
     "CONTAE",
     "COUNTY",
     "PROVINCE",
-    "CENTROID_X",
-    "CENTROID_Y"
+    "WARDORDED"
   ],
-  "numericProperties": [
-    "ESRI_OID",
-    "CENTROID_X",
-    "CENTROID_Y",
-    "AREA"
-  ],
+  "numericProperties": [],
   "categoricalProperties": [
-    "ED_ID",
     "ENGLISH",
     "GAEILGE",
     "CONTAE",
     "COUNTY",
     "PROVINCE",
-    "GUID"
+    "WARDORDED"
   ],
   "categoricalValues": {
-    "ED_ID": [
-      "177001",
-      "177002",
-      "177003",
-      "177004",
-      "177005",
-      "177008",
-      "177010",
-      "177016",
-      "177019",
-      "177020",
-      "177021",
-      "177023",
-      "177025",
-      "177027",
-      "177029",
-      "177030",
-      "177031",
-      "177035",
-      "177036",
-      "177038",
-      "177039",
-      "177041",
-      "177042",
-      "177044",
-      "177045",
-      "177047",
-      "177050",
-      "177052",
-      "177053",
-      "177057",
-      "177058",
-      "177061"
-    ],
     "ENGLISH": [
       "AGHABOG",
       "ANNY",
@@ -197,7 +160,7 @@
       "KILDERRY",
       "KILMORE",
       "KILMURRY",
-      "MALIN"
+      "MILLTOWN"
     ],
     "GAEILGE": [
       "An Bac",
@@ -208,9 +171,9 @@
       "Deinn",
       "Drong",
       "Gradam",
-      "Málainn",
       "Searcóg",
       "Achadh Bog",
+      "Achadh an Iúir",
       "An Bábhún Buí",
       "An Cabhán (Tuath)",
       "An Caisleán Nua",
@@ -220,6 +183,7 @@
       "An Dúgharraí",
       "An Ghreallaigh",
       "An Ghréach",
+      "An Mullach",
       "An Screabach",
       "An Seanmhullach",
       "An Seisceann",
@@ -230,8 +194,7 @@
       "Ard an Chrainn",
       "Baile Chainín",
       "Baile Mhic Aodha",
-      "Baile Shéamais Dhuibh",
-      "Baile an Mhuilinn"
+      "Baile Shéamais Dhuibh"
     ],
     "CONTAE": [
       "An Cabhán",
@@ -246,67 +209,30 @@
     "PROVINCE": [
       "Ulster"
     ],
-    "GUID": [
-      "2ae19629-1a3c-13a3-e055-000000000001",
-      "2ae19629-1a3d-13a3-e055-000000000001",
-      "2ae19629-1a4b-13a3-e055-000000000001",
-      "2ae19629-1a4c-13a3-e055-000000000001",
-      "2ae19629-1a5a-13a3-e055-000000000001",
-      "2ae19629-1a5b-13a3-e055-000000000001",
-      "2ae19629-1a63-13a3-e055-000000000001",
-      "2ae19629-1a64-13a3-e055-000000000001",
-      "2ae19629-1a65-13a3-e055-000000000001",
-      "2ae19629-1a67-13a3-e055-000000000001",
-      "2ae19629-1a6e-13a3-e055-000000000001",
-      "2ae19629-1a6f-13a3-e055-000000000001",
-      "2ae19629-1a7c-13a3-e055-000000000001",
-      "2ae19629-1a7e-13a3-e055-000000000001",
-      "2ae19629-1a80-13a3-e055-000000000001",
-      "2ae19629-1a88-13a3-e055-000000000001",
-      "2ae19629-1a8b-13a3-e055-000000000001",
-      "2ae19629-1a98-13a3-e055-000000000001",
-      "2ae19629-1a9e-13a3-e055-000000000001",
-      "2ae19629-1aa1-13a3-e055-000000000001",
-      "2ae19629-1aaa-13a3-e055-000000000001",
-      "2ae19629-1aab-13a3-e055-000000000001",
-      "2ae19629-1aac-13a3-e055-000000000001",
-      "2ae19629-1aad-13a3-e055-000000000001",
-      "2ae19629-1ab4-13a3-e055-000000000001",
-      "2ae19629-1ab6-13a3-e055-000000000001",
-      "2ae19629-1ab8-13a3-e055-000000000001",
-      "2ae19629-1abf-13a3-e055-000000000001",
-      "2ae19629-1ac1-13a3-e055-000000000001",
-      "2ae19629-1ac2-13a3-e055-000000000001",
-      "2ae19629-1ac3-13a3-e055-000000000001",
-      "2ae19629-1ac5-13a3-e055-000000000001"
+    "WARDORDED": [
+      "DED"
     ]
   },
   "status": "converted-alias",
-  "notes": "Ulster (ROI: Cavan/Donegal/Monaghan; 1921 boundaries) reuses the converted geometry from Ulster (ROI) Electoral Divisions 1921 (Cavan/Donegal/Monaghan).",
+  "notes": "District Electoral Divisions/Wards 1965 reuses the converted geometry from Ulster District Electoral Divisions/Wards 1963.",
   "generatedFrom": {
     "pipeline": "promote-test-clone-alias",
     "sourceMapId": "eds-roi-1965-ulster",
-    "cloneOf": "eds-ulster-1921",
-    "aliasOf": "eds-ulster-1921",
-    "targetLayerId": "eds-ulster-1921-vector-test"
+    "cloneOf": "eds-ulster-1963",
+    "aliasOf": "eds-ulster-1963",
+    "targetLayerId": "eds-ulster-1963-vector-test"
   },
   "tilePackage": {
     "preferred": true,
-    "localPath": "test/pmtiles/generated/eds-ulster-1921-vector-test.pmtiles",
-    "url": "/test/pmtiles/generated/eds-ulster-1921-vector-test.pmtiles",
-    "bytes": 2807221,
+    "localPath": "test/pmtiles/generated/eds-ulster-1963-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/eds-ulster-1963-vector-test.pmtiles",
+    "bytes": 2498840,
     "maxGithubBytes": 99614720,
-    "fallback": "/test/tiles/generated/eds-ulster-1921/{z}/{x}/{y}.pbf",
-    "serving": "cdn",
-    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-ulster-1921-vector-test.pmtiles",
-    "r2Key": "data/maps/test/pmtiles/generated/eds-ulster-1921-vector-test.pmtiles",
-    "localUrl": "/test/pmtiles/generated/eds-ulster-1921-vector-test.pmtiles",
-    "byteRangeVerifiedAt": "2026-06-12T19:42:33.886Z"
+    "fallback": "/test/tiles/generated/eds-ulster-1963/{z}/{x}/{y}.pbf"
   },
-  "parentId": "eds-roi-1965",
-  "categoryId": null,
+  "categoryId": "wards",
   "conversionStatus": "convertedAlias",
-  "aliasOf": "eds-ulster-1921",
-  "cloneOf": "eds-ulster-1921",
-  "aliasTargetLayerId": "eds-ulster-1921-vector-test"
+  "aliasOf": "eds-ulster-1963",
+  "cloneOf": "eds-ulster-1963",
+  "aliasTargetLayerId": "eds-ulster-1963-vector-test"
 }

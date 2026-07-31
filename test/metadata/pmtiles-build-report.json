@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-07-20T22:50:13.609Z",
+  "generatedAt": "2026-07-31T15:04:19.131Z",
   "mode": "execute",
   "tools": {
     "ogr2ogr": "C:\\Program Files\\GDAL\\ogr2ogr.exe",
@@ -12,19 +12,19 @@
   "outputDirectory": "test/pmtiles/generated",
   "maxGithubBytes": 99614720,
   "totals": {
-    "candidates": 5,
-    "converted": 5,
+    "candidates": 3,
+    "converted": 3,
     "skipped": 0,
     "failed": 0,
-    "metadataPreferred": 5,
+    "metadataPreferred": 3,
     "oversizedArchives": 0
   },
   "converted": [
     {
-      "layerId": "eds-leinster-1946-vector-test",
-      "sourceMapId": "eds-leinster-1946",
-      "name": "Leinster District Electoral Divisions/Wards 1946",
-      "sourceType": "pmtiles",
+      "layerId": "roi-local-authorities-1920-06-19-vector-test",
+      "sourceMapId": "roi-local-authorities-1920-06-19",
+      "name": "Republic of Ireland Local Authorities 19/06/1920",
+      "sourceType": "mvt",
       "status": "converted",
       "profile": {
         "maxSize": "10000000",
@@ -33,15 +33,15 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "output": "test/pmtiles/generated/eds-leinster-1946-vector-test.pmtiles",
-      "bytes": 5313143,
+      "output": "test/pmtiles/generated/roi-local-authorities-1920-06-19-vector-test.pmtiles",
+      "bytes": 2419720,
       "exceedsGithubBudget": false
     },
     {
-      "layerId": "eds-leinster-1953-vector-test",
-      "sourceMapId": "eds-leinster-1953",
-      "name": "Leinster District Electoral Divisions/Wards 1953",
-      "sourceType": "pmtiles",
+      "layerId": "roi-local-authorities-1920-06-25-vector-test",
+      "sourceMapId": "roi-local-authorities-1920-06-25",
+      "name": "Republic of Ireland Local Authorities 25/06/1920",
+      "sourceType": "mvt",
       "status": "converted",
       "profile": {
         "maxSize": "10000000",
@@ -50,15 +50,15 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "output": "test/pmtiles/generated/eds-leinster-1953-vector-test.pmtiles",
-      "bytes": 5328445,
+      "output": "test/pmtiles/generated/roi-local-authorities-1920-06-25-vector-test.pmtiles",
+      "bytes": 2423757,
       "exceedsGithubBudget": false
     },
     {
-      "layerId": "eds-leinster-1954-vector-test",
-      "sourceMapId": "eds-leinster-1954",
-      "name": "Leinster District Electoral Divisions/Wards 1954",
-      "sourceType": "pmtiles",
+      "layerId": "roi-local-authorities-1920-10-04-vector-test",
+      "sourceMapId": "roi-local-authorities-1920-10-04",
+      "name": "Republic of Ireland Local Authorities 04/10/1920",
+      "sourceType": "mvt",
       "status": "converted",
       "profile": {
         "maxSize": "10000000",
@@ -67,42 +67,8 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "output": "test/pmtiles/generated/eds-leinster-1954-vector-test.pmtiles",
-      "bytes": 5327347,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "eds-munster-1944-vector-test",
-      "sourceMapId": "eds-munster-1944",
-      "name": "Munster District Electoral Divisions/Wards 1944",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "test/pmtiles/generated/eds-munster-1944-vector-test.pmtiles",
-      "bytes": 7161458,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "eds-munster-1950-vector-test",
-      "sourceMapId": "eds-munster-1950",
-      "name": "Munster District Electoral Divisions/Wards 1950",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "test/pmtiles/generated/eds-munster-1950-vector-test.pmtiles",
-      "bytes": 7167796,
+      "output": "test/pmtiles/generated/roi-local-authorities-1920-10-04-vector-test.pmtiles",
+      "bytes": 2422600,
       "exceedsGithubBudget": false
     }
   ],

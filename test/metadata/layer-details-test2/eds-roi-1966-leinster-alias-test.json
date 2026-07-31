@@ -1,9 +1,9 @@
 {
   "id": "eds-roi-1966-leinster-alias-test",
   "sourceMapId": "eds-roi-1966-leinster",
-  "name": "Leinster (= 1957 boundaries)",
-  "category": "wards",
-  "group": "Built Environment",
+  "name": "District Electoral Divisions/Wards 1966",
+  "category": "Electoral Areas",
+  "group": "Elections and Government",
   "date": "1966-04-01",
   "dateAdded": null,
   "dateEffective": null,
@@ -11,15 +11,15 @@
     "Phelim Birch",
     "Paddy Matthews"
   ],
-  "description": "Republic of Ireland District Electoral Divisions/Wards as at 1 April 1966, assembled from Connacht 1919, Leinster 1957 (reused; no later Leinster file is present in the supplied archive), Munster 1966, and the unchanged Ulster ROI DED component. The source notes describe this as a modified version of the 1970 boundaries before Waterford's five wards were replaced with twenty-four new wards.",
+  "description": "Republic of Ireland District Electoral Divisions/Wards as at 1966-04-01, assembled from Connacht (= 1957 boundaries), Leinster (= 1963 boundaries), Munster 1966, Ulster (= 1963 boundaries). Modified version of District Electoral Divisions/Wards 1970. In 1970, Waterford's 5 wards were replaced with 24 new wards to make the job of splitting up the county borough into electoral areas easier.",
   "renderer": "maplibre",
   "sourceType": "pmtiles",
   "geometryType": "polygon",
-  "tiles": "/test/tiles/generated/eds-leinster-1957/{z}/{x}/{y}.pbf",
-  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-leinster-1957-vector-test.pmtiles?v=civfid1",
-  "tilesFallback": "/test/tiles/generated/eds-leinster-1957/{z}/{x}/{y}.pbf",
-  "metadataUrl": "/test/tiles/generated/eds-leinster-1957/metadata.json",
-  "sourceLayer": "eds_leinster_1957",
+  "tiles": "/test/tiles/generated/eds-leinster-1963/{z}/{x}/{y}.pbf",
+  "tileUrl": "/test/pmtiles/generated/eds-leinster-1963-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/eds-leinster-1963/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/eds-leinster-1963/metadata.json",
+  "sourceLayer": "eds_leinster_1963",
   "minzoom": 0,
   "maxzoom": 12,
   "bounds": [
@@ -33,25 +33,25 @@
     ]
   ],
   "style": {
-    "color": "#247D36",
-    "weight": 2,
-    "fillColor": "#247D36",
-    "fillOpacity": 0.18
+    "color": "#1B5E20",
+    "fillColor": "#1B5E20",
+    "fillOpacity": 0.18,
+    "weight": 2
   },
   "references": [
     {
       "label": "District Electoral Divisions/Wards 1966 source notes",
-      "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/District Electoral Divisions Wards 1966.txt",
-      "note": "Sidecar notes supplied in Irish Digitised Boundaries archive."
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1966.txt",
+      "note": "Sidecar notes supplied in the Irish Digitised Boundaries archive."
     },
     {
-      "label": "Paddy Matthews 1921 Wards/DEDs map"
+      "label": "Paddy's 1921 Wards/DEDs map"
     }
   ],
   "sourceDownloads": [
     {
       "label": "Source file used for /test conversion",
-      "file": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Leinster_1957.fgb"
+      "file": "test/source-cache/vector-intake/eds-leinster-1963.fgb"
     }
   ],
   "sourceCredits": [
@@ -59,24 +59,27 @@
     "Paddy Matthews"
   ],
   "keywords": [
-    "electoral division",
-    "district electoral division",
+    "leinster",
+    "ED",
     "DED",
     "ward",
-    "1970",
-    "republic of ireland",
-    "historic",
-    "small electoral units",
-    "Leinster District Electoral Divisions/Wards 1957",
+    "1963",
+    "Leinster District Electoral Divisions/Wards 1963",
     "Electoral Divisions",
     "Built Environment",
     "maplibre",
     "vector tiles",
+    "electoral division",
+    "district electoral division",
     "1966",
-    "Leinster (= 1957 boundaries)",
+    "republic of ireland",
+    "historic",
+    "small electoral units",
     "District Electoral Divisions/Wards 1966",
+    "Electoral Areas",
+    "Elections and Government",
     "eds-roi-1966-leinster",
-    "eds-leinster-1957",
+    "eds-leinster-1963",
     "clone alias"
   ],
   "labelProperty": "ENGLISH",
@@ -87,7 +90,7 @@
   "labelMinZoom": 0,
   "labelMaxZoom": null,
   "labelStyle": {
-    "color": "#247D36",
+    "color": "#1B5E20",
     "hoverColor": "#ff7a1a",
     "selectedColor": "#111827",
     "haloColor": "#ffffff",
@@ -98,9 +101,9 @@
     "maxWidth": 14,
     "lineHeight": 1.25
   },
-  "featureIndexUrl": "/test/metadata/feature-indexes/eds-leinster-1957-vector-test.json",
-  "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Leinster_1957.fgb",
-  "sourceDatasetLayer": "Wards_DEDs_Leinster_1957",
+  "featureIndexUrl": "/test/metadata/feature-indexes/eds-leinster-1963-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/eds-leinster-1963.fgb",
+  "sourceDatasetLayer": "Wards_DEDs_Leinster_1963",
   "popupProperties": [
     "ENGLISH",
     "GAEILGE",
@@ -224,33 +227,25 @@
     ]
   },
   "status": "converted-alias",
-  "notes": "Leinster (= 1957 boundaries) reuses the converted geometry from Leinster District Electoral Divisions/Wards 1957.",
+  "notes": "District Electoral Divisions/Wards 1966 reuses the converted geometry from Leinster District Electoral Divisions/Wards 1963.",
   "generatedFrom": {
     "pipeline": "promote-test-clone-alias",
     "sourceMapId": "eds-roi-1966-leinster",
-    "cloneOf": "eds-leinster-1957",
-    "aliasOf": "eds-leinster-1957",
-    "targetLayerId": "eds-leinster-1957-vector-test"
+    "cloneOf": "eds-leinster-1963",
+    "aliasOf": "eds-leinster-1963",
+    "targetLayerId": "eds-leinster-1963-vector-test"
   },
   "tilePackage": {
     "preferred": true,
-    "localPath": "test/pmtiles/generated/eds-leinster-1957-vector-test.pmtiles",
-    "url": "/test/pmtiles/generated/eds-leinster-1957-vector-test.pmtiles",
-    "bytes": 5220201,
+    "localPath": "test/pmtiles/generated/eds-leinster-1963-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/eds-leinster-1963-vector-test.pmtiles",
+    "bytes": 5325563,
     "maxGithubBytes": 99614720,
-    "fallback": "/test/tiles/generated/eds-leinster-1957/{z}/{x}/{y}.pbf",
-    "serving": "cdn",
-    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-leinster-1957-vector-test.pmtiles",
-    "r2Key": "data/maps/test/pmtiles/generated/eds-leinster-1957-vector-test.pmtiles",
-    "localUrl": "/test/pmtiles/generated/eds-leinster-1957-vector-test.pmtiles",
-    "byteRangeVerifiedAt": "2026-06-12T19:42:33.886Z"
+    "fallback": "/test/tiles/generated/eds-leinster-1963/{z}/{x}/{y}.pbf"
   },
-  "parentId": "eds-roi-1966",
-  "categoryId": null,
+  "categoryId": "wards",
   "conversionStatus": "convertedAlias",
-  "aliasOf": "eds-leinster-1957",
-  "cloneOf": "eds-leinster-1957",
-  "aliasTargetLayerId": "eds-leinster-1957-vector-test",
-  "promoteId": "civ_fid",
-  "idProperty": "civ_fid"
+  "aliasOf": "eds-leinster-1963",
+  "cloneOf": "eds-leinster-1963",
+  "aliasTargetLayerId": "eds-leinster-1963-vector-test"
 }

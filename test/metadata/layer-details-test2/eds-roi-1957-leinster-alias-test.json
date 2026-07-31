@@ -1,9 +1,9 @@
 {
   "id": "eds-roi-1957-leinster-alias-test",
   "sourceMapId": "eds-roi-1957-leinster",
-  "name": "Leinster 1957",
-  "category": "wards",
-  "group": "Built Environment",
+  "name": "District Electoral Divisions/Wards 1957",
+  "category": "Electoral Areas",
+  "group": "Elections and Government",
   "date": "1957-11-01",
   "dateAdded": null,
   "dateEffective": null,
@@ -11,7 +11,7 @@
     "Phelim Birch",
     "Paddy Matthews"
   ],
-  "description": "Republic of Ireland District Electoral Divisions/Wards as at 1 November 1957, assembled from Connacht 1919, Leinster 1957, Munster 1955, and the unchanged Ulster ROI DED component. The source notes describe this as a modified version of the 1965 boundaries before Cork county borough expanded further into Bishopstown, St. Mary's, and Blackrock.",
+  "description": "Republic of Ireland District Electoral Divisions/Wards as at 1957-11-01, assembled from Connacht 1957, Leinster 1957, Munster 1957, Ulster (= 1921 boundaries). Modified version of District Electoral Divisions/Wards 1965. In 1965, Cork county borough's boundary expanded further into the DEDs of Bishopstown, St. Mary's and Blackrock (the last of which it fully absorbed). Also relevant is the renaming of the following DEDs between 1951 Census Reports Volume 1 (published 1952) and 1956 Census Reports Volume 1 (published 1957): Bagenalstown Rural to Muinebeag Rural (Carlow), Bagenalstown Urban to Muinebeag Urban (Carlow), Newbridge Rural to Droichead Nua Rural (Kildare), Newbridge Urban to Droichead Nua Urban (Kildare), Maryborough Rural to Portlaoighise Rural (Laois), Maryborough Urban to Portlaoighise Urban (Laois), Navan Rural to An Uaimh Rural (Meath), Navan Urban to An Uaimh Urban (Meath), WKells Rural to Ceanannas Mór Rural (Meath), Kells Urban to Ceanannas Mór Urban (Meath), Drumconrath to Drumcondra (Meath), Rosbercon to Rosbercon Urban (Wexford), Shanballymore Town to Shanballymore (Cork), Binghamstown North to An Geata Mór Thuaidh (Mayo), Binghamstown South to An Geata Mór Theas (Mayo)",
   "renderer": "maplibre",
   "sourceType": "pmtiles",
   "geometryType": "polygon",
@@ -34,24 +34,30 @@
   ],
   "style": {
     "color": "#1B5E20",
-    "weight": 2,
     "fillColor": "#1B5E20",
-    "fillOpacity": 0.18
+    "fillOpacity": 0.18,
+    "weight": 2
   },
   "references": [
     {
       "label": "District Electoral Divisions/Wards 1957 source notes",
-      "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/District Electoral Divisions Wards 1957.txt",
-      "note": "Sidecar notes supplied in Irish Digitised Boundaries archive."
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1957.txt",
+      "note": "Sidecar notes supplied in the Irish Digitised Boundaries archive."
     },
     {
       "label": "Local Government Provisional Orders Confirmation Act, 1955"
     },
     {
-      "label": "Irish Townland and Historical Map Viewer, 6 Inch Last Edition basemap"
+      "label": "Irish Townland and Historical Map Viewer (6 Inch Last Edition basemap)"
     },
     {
       "label": "Cork City Council Boundary Map Viewer"
+    },
+    {
+      "label": "1951 Census Reports Volume 1"
+    },
+    {
+      "label": "1956 Census Reports Volume 1"
     }
   ],
   "sourceDownloads": [
@@ -79,8 +85,9 @@
     "maplibre",
     "vector tiles",
     "1957",
-    "Leinster 1957",
     "District Electoral Divisions/Wards 1957",
+    "Electoral Areas",
+    "Elections and Government",
     "eds-roi-1957-leinster",
     "eds-leinster-1957",
     "clone alias"
@@ -230,7 +237,7 @@
     ]
   },
   "status": "converted-alias",
-  "notes": "Leinster 1957 reuses the converted geometry from Leinster District Electoral Divisions/Wards 1957.",
+  "notes": "District Electoral Divisions/Wards 1957 reuses the converted geometry from Leinster District Electoral Divisions/Wards 1957.",
   "generatedFrom": {
     "pipeline": "promote-test-clone-alias",
     "sourceMapId": "eds-roi-1957-leinster",
@@ -249,14 +256,13 @@
     "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-leinster-1957-vector-test.pmtiles",
     "r2Key": "data/maps/test/pmtiles/generated/eds-leinster-1957-vector-test.pmtiles",
     "localUrl": "/test/pmtiles/generated/eds-leinster-1957-vector-test.pmtiles",
-    "byteRangeVerifiedAt": "2026-06-12T19:42:33.886Z"
+    "byteRangeVerifiedAt": "2026-06-23T21:03:59.095Z"
   },
-  "parentId": "eds-roi-1957",
-  "categoryId": null,
+  "promoteId": "civ_fid",
+  "idProperty": "civ_fid",
+  "categoryId": "wards",
   "conversionStatus": "convertedAlias",
   "aliasOf": "eds-leinster-1957",
   "cloneOf": "eds-leinster-1957",
-  "aliasTargetLayerId": "eds-leinster-1957-vector-test",
-  "promoteId": "civ_fid",
-  "idProperty": "civ_fid"
+  "aliasTargetLayerId": "eds-leinster-1957-vector-test"
 }

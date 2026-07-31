@@ -1,12 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-05-29T22:34:46.619Z",
+  "generatedAt": "2026-07-31T14:53:55.341Z",
   "source": "test\\metadata\\main-site-port-plan.json",
   "conversionReport": "test\\metadata\\vector-conversion-report.json",
   "totals": {
-    "total": 47,
-    "download-remote-source": 46,
-    "locate-local-source": 1
+    "total": 125,
+    "download-remote-source": 125
   },
   "notes": [
     "This is the intake queue for vector candidates that cannot currently be converted from local files.",
@@ -16,68 +15,28 @@
   ],
   "items": [
     {
-      "sourceMapId": "britain-ireland-seas",
+      "sourceMapId": "streetnames-gazetteer",
       "parentId": null,
-      "name": "Seas",
-      "category": "Physical Geography",
+      "name": "Street Names Gazetteer",
+      "category": "Settlements",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/physical/Britain_Ireland_Seas.fgb"
-        }
-      ],
-      "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids britain-ireland-seas",
-        "npm run build:test:promote",
-        "npm run build:test:feature-indexes",
-        "npm run build:test:metadata",
-        "npm run check:test"
-      ],
-      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
-    },
-    {
-      "sourceMapId": "ireland-island",
-      "parentId": null,
-      "name": "Island of Ireland",
-      "category": "Physical Geography",
-      "recommendedTarget": "mvt-or-pmtiles",
-      "action": "download-remote-source",
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/physical/Ireland.fgb"
-        }
-      ],
-      "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids ireland-island",
-        "npm run build:test:promote",
-        "npm run build:test:feature-indexes",
-        "npm run build:test:metadata",
-        "npm run check:test"
-      ],
-      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
-    },
-    {
-      "sourceMapId": "ni-townlands-1844",
-      "parentId": null,
-      "name": "Townlands 1844",
-      "category": "Townlands",
-      "recommendedTarget": "mvt-or-pmtiles",
-      "action": "download-remote-source",
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/townlands/Townlands_AllIreland.fgb"
+          "file": "https://data.civgraph.net/data/maps/communities/OSNI_Streetnames.fgb"
         },
         {
-          "kind": "fgb",
-          "file": "https://archive.org/download/civgraph-townlands-allireland-fgb/Townlands_AllIreland.fgb"
+          "kind": "GeoJSON",
+          "file": "https://admin.opendatani.gov.uk/dataset/8b3953f1-da42-4d98-b2b9-311e7c9c8075/resource/ce3e70dc-92f3-4107-87eb-aaa89f2690ce/download/osni_open_data_-_gazetteer_-_streetnames.geojson"
+        },
+        {
+          "kind": "Shapefile (ZIP)",
+          "file": "https://admin.opendatani.gov.uk/dataset/8b3953f1-da42-4d98-b2b9-311e7c9c8075/resource/8ed80001-5c96-4574-afeb-851f34446b0b/download/osni_open_data_-_gazetteer_-_streetnames.zip"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids ni-townlands-1844",
+        "npm run build:test:batch-vectors -- --execute --ids streetnames-gazetteer",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -86,24 +45,20 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "all-ireland-townlands",
-      "parentId": null,
-      "name": "Ireland",
-      "category": "Townlands",
+      "sourceMapId": "eds-roi-1944-leinster",
+      "parentId": "eds-roi-1944",
+      "name": "District Electoral Divisions/Wards 1944",
+      "category": "Electoral Divisions",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "data/maps/townlands/Townlands_AllIreland.fgb"
-        },
-        {
-          "kind": "fgb",
-          "file": "https://archive.org/download/civgraph-townlands-allireland-fgb/Townlands_AllIreland.fgb"
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1943.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids all-ireland-townlands",
+        "npm run build:test:batch-vectors -- --execute --ids eds-roi-1944-leinster",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -112,28 +67,20 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "wards-2012-full",
-      "parentId": "wards-2012",
-      "name": "Wards 2012",
+      "sourceMapId": "eds-2019-connacht",
+      "parentId": "eds-2019",
+      "name": "Electoral Divisions 2019",
       "category": "Electoral Areas",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/local-government/Wards_2012_FullRes.fgb"
-        },
-        {
-          "kind": "GeoJSON",
-          "file": "https://admin.opendatani.gov.uk/dataset/987e16f4-19bb-4765-807c-abee92ee3439/resource/44160d85-47bd-452d-b846-0c7dcc14c932/download/osni_open_data_largescale_boundaries_wards_2012.geojson"
-        },
-        {
-          "kind": "ZIP",
-          "file": "https://admin.opendatani.gov.uk/dataset/987e16f4-19bb-4765-807c-abee92ee3439/resource/e6e5fa2a-7a74-439a-847a-d74dad7583ee/download/osni_open_data_largescale_boundaries_wards_2012.zip"
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/EDs_Connacht_1996.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids wards-2012-full",
+        "npm run build:test:batch-vectors -- --execute --ids eds-2019-connacht",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -142,28 +89,20 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "wards-1993-50k",
-      "parentId": "wards-1993",
-      "name": "Wards 1993",
+      "sourceMapId": "eds-2019-ulster",
+      "parentId": "eds-2019",
+      "name": "Electoral Divisions 2019",
       "category": "Electoral Areas",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "data/maps/local-government/Wards_1993_50k.fgb"
-        },
-        {
-          "kind": "GeoJSON",
-          "file": "https://admin.opendatani.gov.uk/dataset/aa140654-cbd8-45b9-82ed-4aeb05725929/resource/1c67d5ef-4882-4567-8a86-295f39e25fde/download/osni_open_data_largescale_boundaries_wards_1993.geojson"
-        },
-        {
-          "kind": "ZIP",
-          "file": "https://admin.opendatani.gov.uk/dataset/aa140654-cbd8-45b9-82ed-4aeb05725929/resource/989150bf-8933-47b7-9dce-063205491507/download/osni_open_data_largescale_boundaries_wards_1993.zip"
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/EDs_Ulster_1996.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids wards-1993-50k",
+        "npm run build:test:batch-vectors -- --execute --ids eds-2019-ulster",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -172,20 +111,130 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "pc-1995",
+      "sourceMapId": "eds-1997-connacht",
+      "parentId": "eds-1997",
+      "name": "Electoral Divisions 1997",
+      "category": "Electoral Areas",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/EDs_Connacht_1996.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids eds-1997-connacht",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "eds-1997-munster",
+      "parentId": "eds-1997",
+      "name": "Electoral Divisions 1997",
+      "category": "Electoral Areas",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/EDs_Munster_1996.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids eds-1997-munster",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "eds-1997-ulster",
+      "parentId": "eds-1997",
+      "name": "Electoral Divisions 1997",
+      "category": "Electoral Areas",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/EDs_Ulster_1996.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids eds-1997-ulster",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "eds-1994-ulster",
+      "parentId": "eds-1994",
+      "name": "District Electoral Divisions/Wards 1994",
+      "category": "Electoral Areas",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1963.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids eds-1994-ulster",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "eds-1986-ulster",
+      "parentId": "eds-1986",
+      "name": "District Electoral Divisions/Wards 1986",
+      "category": "Electoral Areas",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1963.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids eds-1986-ulster",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "bcni2018",
       "parentId": null,
-      "name": "Parliamentary Constituencies 1995",
+      "name": "Parliamentary Constituencies — Provisional Proposals (BCNI 2018)",
       "category": "Parliamentary Constituencies",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/parliamentary/PC1995.fgb"
+          "file": "https://data.civgraph.net/data/maps/parliamentary/bcni2018.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids pc-1995",
+        "npm run build:test:batch-vectors -- --execute --ids bcni2018",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -194,46 +243,20 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "roi-counties-2011",
-      "parentId": "counties-ireland",
-      "name": "Counties of Ireland",
-      "category": "Counties",
-      "recommendedTarget": "mvt-or-pmtiles",
-      "action": "locate-local-source",
-      "sourceFiles": [
-        {
-          "kind": "geojson",
-          "file": "data/maps/baronies-parishes/ROI_Counties_2011.geojson"
-        },
-        {
-          "kind": "fgb",
-          "file": "data/maps/baronies-parishes/ROI_Counties_2011.fgb"
-        }
-      ],
-      "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids roi-counties-2011",
-        "npm run build:test:promote",
-        "npm run build:test:feature-indexes",
-        "npm run build:test:metadata",
-        "npm run check:test"
-      ],
-      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
-    },
-    {
-      "sourceMapId": "ni-1921",
+      "sourceMapId": "mid-ulster-council-district-electoral-areas2",
       "parentId": null,
-      "name": "Northern Ireland 1921",
-      "category": "Polities",
+      "name": "Mid Ulster District Electoral Areas",
+      "category": "District Electoral Areas",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/physical/NorthernIreland.fgb"
+          "file": "https://data.civgraph.net/data/maps/deas/mid-ulster-council-district-electoral-areas2.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids ni-1921",
+        "npm run build:test:batch-vectors -- --execute --ids mid-ulster-council-district-electoral-areas2",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -242,20 +265,20 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "roi-1938",
+      "sourceMapId": "osni-open-data-50k-boundaries-district-electoral-areas-1993",
       "parentId": null,
-      "name": "Republic of Ireland 1921",
-      "category": "Polities",
+      "name": "District Electoral Areas (1993) — OSNI 50k",
+      "category": "District Electoral Areas",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/physical/RepublicOfIreland.fgb"
+          "file": "https://data.civgraph.net/data/maps/deas/osni-open-data-50k-boundaries-district-electoral-areas-1993.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids roi-1938",
+        "npm run build:test:batch-vectors -- --execute --ids osni-open-data-50k-boundaries-district-electoral-areas-1993",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -264,24 +287,20 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "historic-bullaun-stones",
+      "sourceMapId": "osni-open-data-50k-boundaries-local-government-districts-1993",
       "parentId": null,
-      "name": "Bullaun Stones",
-      "category": "Historic Boundaries",
+      "name": "Local Government Districts (1993) — OSNI 50k",
+      "category": "Local Government Districts",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/historic-sites/Bullaun_Stones.fgb"
-        },
-        {
-          "kind": "geojson",
-          "file": "https://data.civgraph.net/data/maps/historic-sites/originals/Bullaun_Stones.geojson"
+          "file": "https://data.civgraph.net/data/maps/local-government/osni-open-data-50k-boundaries-local-government-districts-1993.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids historic-bullaun-stones",
+        "npm run build:test:batch-vectors -- --execute --ids osni-open-data-50k-boundaries-local-government-districts-1993",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -290,24 +309,20 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "historic-crannog",
+      "sourceMapId": "osni-open-data-50k-boundaries-parliamentary-constituencies",
       "parentId": null,
-      "name": "Crannog",
-      "category": "Historic Boundaries",
+      "name": "Parliamentary Constituencies — OSNI 50k",
+      "category": "Parliamentary Constituencies",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/historic-sites/Crannog.fgb"
-        },
-        {
-          "kind": "geojson",
-          "file": "https://data.civgraph.net/data/maps/historic-sites/originals/Crannog.geojson"
+          "file": "https://data.civgraph.net/data/maps/parliamentary/osni-open-data-50k-boundaries-parliamentary-constituencies.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids historic-crannog",
+        "npm run build:test:batch-vectors -- --execute --ids osni-open-data-50k-boundaries-parliamentary-constituencies",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -316,24 +331,20 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "historic-ringfort-cashel",
+      "sourceMapId": "osni-open-data-50k-boundaries-townlands",
       "parentId": null,
-      "name": "Ringfort - Cashel",
-      "category": "Historic Boundaries",
+      "name": "Townlands — OSNI 50k",
+      "category": "Townlands",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/historic-sites/Ringfort_Cashel.fgb"
-        },
-        {
-          "kind": "geojson",
-          "file": "https://data.civgraph.net/data/maps/historic-sites/originals/Ringfort_Cashel.geojson"
+          "file": "https://data.civgraph.net/data/maps/townlands/osni-open-data-50k-boundaries-townlands.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids historic-ringfort-cashel",
+        "npm run build:test:batch-vectors -- --execute --ids osni-open-data-50k-boundaries-townlands",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -342,24 +353,20 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "historic-ringfort-rath",
+      "sourceMapId": "osni-open-data-50k-boundaries-wards-1993",
       "parentId": null,
-      "name": "Ringfort - Rath",
-      "category": "Historic Boundaries",
+      "name": "Wards (1993) — OSNI 50k",
+      "category": "Electoral Areas",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/historic-sites/Ringfort_Rath.fgb"
-        },
-        {
-          "kind": "geojson",
-          "file": "https://data.civgraph.net/data/maps/historic-sites/originals/Ringfort_Rath.geojson"
+          "file": "https://data.civgraph.net/data/maps/wards/osni-open-data-50k-boundaries-wards-1993.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids historic-ringfort-rath",
+        "npm run build:test:batch-vectors -- --execute --ids osni-open-data-50k-boundaries-wards-1993",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -368,24 +375,20 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "historic-ringfort-unclassified",
+      "sourceMapId": "osni-open-data-largescale-boundaries-local-government-districts-1993",
       "parentId": null,
-      "name": "Ringfort - Unclassified",
-      "category": "Historic Boundaries",
+      "name": "Local Government Districts (1993) — OSNI Largescale",
+      "category": "Local Government Districts",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/historic-sites/Ringfort_Unclassified.fgb"
-        },
-        {
-          "kind": "geojson",
-          "file": "https://data.civgraph.net/data/maps/historic-sites/originals/Ringfort_Unclassified.geojson"
+          "file": "https://data.civgraph.net/data/maps/local-government/osni-open-data-largescale-boundaries-local-government-districts-1993.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids historic-ringfort-unclassified",
+        "npm run build:test:batch-vectors -- --execute --ids osni-open-data-largescale-boundaries-local-government-districts-1993",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -394,24 +397,20 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "historic-rock-scribing",
+      "sourceMapId": "district-electoral-divisions-boundaries",
       "parentId": null,
-      "name": "Rock Scribing",
-      "category": "Historic Boundaries",
+      "name": "Electoral Divisions — Monaghan",
+      "category": "Electoral Divisions",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/historic-sites/Rock_Scribing.fgb"
-        },
-        {
-          "kind": "geojson",
-          "file": "https://data.civgraph.net/data/maps/historic-sites/originals/Rock_Scribing.geojson"
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/district-electoral-divisions-boundaries.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids historic-rock-scribing",
+        "npm run build:test:batch-vectors -- --execute --ids district-electoral-divisions-boundaries",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -420,24 +419,20 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "historic-standing-stones",
+      "sourceMapId": "ed-boundaries-dlr",
       "parentId": null,
-      "name": "Standing Stones",
-      "category": "Historic Boundaries",
+      "name": "Electoral Divisions — Dún Laoghaire-Rathdown",
+      "category": "Electoral Divisions",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/historic-sites/Standing_Stones.fgb"
-        },
-        {
-          "kind": "geojson",
-          "file": "https://data.civgraph.net/data/maps/historic-sites/originals/Standing_Stones.geojson"
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/ed-boundaries-dlr.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids historic-standing-stones",
+        "npm run build:test:batch-vectors -- --execute --ids ed-boundaries-dlr",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -446,24 +441,20 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "historic-wedge-tomb",
+      "sourceMapId": "townland-boundaries",
       "parentId": null,
-      "name": "Wedge Tomb",
-      "category": "Historic Boundaries",
+      "name": "Townlands — Monaghan",
+      "category": "Townlands",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/historic-sites/Wedge_Tomb.fgb"
-        },
-        {
-          "kind": "geojson",
-          "file": "https://data.civgraph.net/data/maps/historic-sites/originals/Wedge_Tomb.geojson"
+          "file": "https://data.civgraph.net/data/maps/townlands/townland-boundaries.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids historic-wedge-tomb",
+        "npm run build:test:batch-vectors -- --execute --ids townland-boundaries",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -472,32 +463,20 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "transport-lines-road-rail",
+      "sourceMapId": "townlands-2015-sdcc1",
       "parentId": null,
-      "name": "Transport Lines (Roads and Railways)",
-      "category": "Built Environment",
+      "name": "Townlands (2015) — South Dublin",
+      "category": "Townlands",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/transport/Transport_Lines_Road_Rail.fgb"
-        },
-        {
-          "kind": "geojson",
-          "file": "https://data.civgraph.net/data/maps/transport/Transport_Lines_Road_Rail.geojson"
-        },
-        {
-          "kind": "ZIP",
-          "file": "https://admin.opendatani.gov.uk/dataset/bdcc2953-ed72-4f21-b012-43cbd5bbc395/resource/c576a4c4-67d1-45cc-89bf-0f6025ad133e/download/osni_open_data_50k_transport_transport_lines.zip"
-        },
-        {
-          "kind": "GeoJSON",
-          "file": "https://admin.opendatani.gov.uk/dataset/bdcc2953-ed72-4f21-b012-43cbd5bbc395/resource/d09e7052-6390-4953-92da-ec3479100a7b/download/osni_open_data_50k_transport_transport_lines.geojson"
+          "file": "https://data.civgraph.net/data/maps/townlands/townlands-2015-sdcc1.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids transport-lines-road-rail",
+        "npm run build:test:batch-vectors -- --execute --ids townlands-2015-sdcc1",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -506,20 +485,20 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "wq-agricultural-critical-risk",
+      "sourceMapId": "townlands-in-fcc3",
       "parentId": null,
-      "name": "Agricultural Critical Risk Areas (DAERA)",
-      "category": "Water Quality",
+      "name": "Townlands — Fingal",
+      "category": "Townlands",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/water-quality/agricultural-critical-risk-areas.fgb"
+          "file": "https://data.civgraph.net/data/maps/townlands/townlands-in-fcc3.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids wq-agricultural-critical-risk",
+        "npm run build:test:batch-vectors -- --execute --ids townlands-in-fcc3",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -528,20 +507,86 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "transport-carriageway-defects-2021",
+      "sourceMapId": "electoral-divisions-fcc2",
       "parentId": null,
-      "name": "Carriageway and Footway Surface Defects 2021",
+      "name": "Electoral Divisions — Fingal",
+      "category": "Electoral Divisions",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/electoral-divisions-fcc2.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids electoral-divisions-fcc2",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "mid-ulster-council-townlands2",
+      "parentId": null,
+      "name": "Townlands — Mid Ulster",
+      "category": "Townlands",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/townlands/mid-ulster-council-townlands2.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids mid-ulster-council-townlands2",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "mid-ulster-council-wards2",
+      "parentId": null,
+      "name": "Wards — Mid Ulster",
+      "category": "Electoral Areas",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/wards/mid-ulster-council-wards2.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids mid-ulster-council-wards2",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "osni-open-data-50k-transport-text-labelling",
+      "parentId": null,
+      "name": "Transport Text Labelling — OSNI 50k",
       "category": "Transport",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/transport/carriageway-footway-defects-2021.fgb"
+          "file": "https://data.civgraph.net/data/maps/transport/osni-open-data-50k-transport-text-labelling.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids transport-carriageway-defects-2021",
+        "npm run build:test:batch-vectors -- --execute --ids osni-open-data-50k-transport-text-labelling",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -550,20 +595,20 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "wq-rwq-ammonia",
+      "sourceMapId": "osni-open-data-50k-transport-transport-points",
       "parentId": null,
-      "name": "River Water Quality 1990–2018 — Total ammonia (as N)",
-      "category": "Water Quality",
+      "name": "Transport Points — OSNI 50k",
+      "category": "Transport",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/water-quality/rwq-ammonia.fgb"
+          "file": "https://data.civgraph.net/data/maps/transport/osni-open-data-50k-transport-transport-points.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids wq-rwq-ammonia",
+        "npm run build:test:batch-vectors -- --execute --ids osni-open-data-50k-transport-transport-points",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -572,20 +617,20 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "wq-rwq-dissolved-copper",
+      "sourceMapId": "bedrock-geology-11000000-ireland-roini-itm",
       "parentId": null,
-      "name": "River Water Quality 1990–2018 — Dissolved copper",
-      "category": "Water Quality",
+      "name": "Bedrock Geology 1:1,000,000 Ireland (ROI/NI) ITM",
+      "category": "geology",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/water-quality/rwq-dissolved-copper.fgb"
+          "file": "https://data.civgraph.net/data/maps/geology/bedrock-geology-11000000-ireland-roini-itm.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids wq-rwq-dissolved-copper",
+        "npm run build:test:batch-vectors -- --execute --ids bedrock-geology-11000000-ireland-roini-itm",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -594,20 +639,20 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "wq-rwq-dissolved-zinc",
+      "sourceMapId": "wicklow-county-council-tree-preservation-orders",
       "parentId": null,
-      "name": "River Water Quality 1990–2018 — Dissolved zinc",
-      "category": "Water Quality",
+      "name": "Wicklow County Council - Tree Preservation Orders",
+      "category": "trees",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/water-quality/rwq-dissolved-zinc.fgb"
+          "file": "https://data.civgraph.net/data/maps/trees/wicklow-county-council-tree-preservation-orders.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids wq-rwq-dissolved-zinc",
+        "npm run build:test:batch-vectors -- --execute --ids wicklow-county-council-tree-preservation-orders",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -616,20 +661,20 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "wq-rwq-conductivity",
+      "sourceMapId": "wicklow-county-council-tree-preservation-orders-bray",
       "parentId": null,
-      "name": "River Water Quality 1990–2018 — Conductivity",
-      "category": "Water Quality",
+      "name": "Wicklow County Council - Tree Preservation Orders Bray",
+      "category": "trees",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/water-quality/rwq-conductivity.fgb"
+          "file": "https://data.civgraph.net/data/maps/trees/wicklow-county-council-tree-preservation-orders-bray.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids wq-rwq-conductivity",
+        "npm run build:test:batch-vectors -- --execute --ids wicklow-county-council-tree-preservation-orders-bray",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -638,20 +683,20 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "wq-rwq-alkalinity",
+      "sourceMapId": "community-scale-coastal-flood-extents-high-end-future-scenario",
       "parentId": null,
-      "name": "River Water Quality 1990–2018 — Alkalinity",
-      "category": "Water Quality",
+      "name": "Community-Scale Coastal Flood Extents - High-End Future Scenario",
+      "category": "flood",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/water-quality/rwq-alkalinity.fgb"
+          "file": "https://data.civgraph.net/data/maps/flood/community-scale-coastal-flood-extents-high-end-future-scenario.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids wq-rwq-alkalinity",
+        "npm run build:test:batch-vectors -- --execute --ids community-scale-coastal-flood-extents-high-end-future-scenario",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -660,20 +705,20 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "wq-rwq-soluble-phosphorus",
+      "sourceMapId": "community-scale-coastal-flood-extents-mid-range-future-scenario",
       "parentId": null,
-      "name": "River Water Quality 1990–2018 — Soluble reactive phosphorus",
-      "category": "Water Quality",
+      "name": "Community-Scale Coastal Flood Extents - Mid-Range Future Scenario",
+      "category": "flood",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/water-quality/rwq-soluble-phosphorus.fgb"
+          "file": "https://data.civgraph.net/data/maps/flood/community-scale-coastal-flood-extents-mid-range-future-scenario.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids wq-rwq-soluble-phosphorus",
+        "npm run build:test:batch-vectors -- --execute --ids community-scale-coastal-flood-extents-mid-range-future-scenario",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -682,20 +727,20 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "habitat-deciduous-woodland",
+      "sourceMapId": "accessible-parking-spaces-sdcc3",
       "parentId": null,
-      "name": "Habitat Network — Deciduous Woodland",
-      "category": "Biodiversity & Habitats",
+      "name": "Accessible Parking Spaces SDCC",
+      "category": "parking",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/biodiversity/habitat-deciduous-woodland.fgb"
+          "file": "https://data.civgraph.net/data/maps/parking/accessible-parking-spaces-sdcc3.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids habitat-deciduous-woodland",
+        "npm run build:test:batch-vectors -- --execute --ids accessible-parking-spaces-sdcc3",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -704,20 +749,20 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "habitat-river",
+      "sourceMapId": "community-scale-flood-model-nodes-current-scenario",
       "parentId": null,
-      "name": "Habitat Network — River",
-      "category": "Biodiversity & Habitats",
+      "name": "Community-Scale Flood Model Nodes - Current Scenario",
+      "category": "flood",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/biodiversity/habitat-river.fgb"
+          "file": "https://data.civgraph.net/data/maps/flood/community-scale-flood-model-nodes-current-scenario.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids habitat-river",
+        "npm run build:test:batch-vectors -- --execute --ids community-scale-flood-model-nodes-current-scenario",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -726,20 +771,20 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "habitat-woodland-grouped",
+      "sourceMapId": "river-and-lake-monitoring-points-2024",
       "parentId": null,
-      "name": "Habitat Network — Woodland Habitat Networks (grouped)",
-      "category": "Biodiversity & Habitats",
+      "name": "River and Lake Monitoring Points 2024",
+      "category": "water",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/biodiversity/habitat-woodland-grouped.fgb"
+          "file": "https://data.civgraph.net/data/maps/water/river-and-lake-monitoring-points-2024.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids habitat-woodland-grouped",
+        "npm run build:test:batch-vectors -- --execute --ids river-and-lake-monitoring-points-2024",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -748,20 +793,350 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "opw-nifm-river-flood-extents-current",
+      "sourceMapId": "water-framework-directive-2nd-cycle-interim-status1",
       "parentId": null,
-      "name": "NIFM River Flood Extents — Current Scenario",
+      "name": "Water Framework Directive 2nd Cycle Interim Status",
+      "category": "water",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/water/water-framework-directive-2nd-cycle-interim-status1.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids water-framework-directive-2nd-cycle-interim-status1",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "bedrock-boreholes-150000-ireland-roi-itm-unverified",
+      "parentId": null,
+      "name": "Bedrock Boreholes 1:100,000 Ireland (ROI) ITM (Unverified)",
+      "category": "geology",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/geology/bedrock-boreholes-150000-ireland-roi-itm-unverified.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids bedrock-boreholes-150000-ireland-roi-itm-unverified",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "cycle-network-survey",
+      "parentId": null,
+      "name": "GDA Cycle Network Survey 2013",
+      "category": "cycle",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/cycle/cycle-network-survey.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids cycle-network-survey",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "co-wicklow-polling-stations",
+      "parentId": null,
+      "name": "Co. Wicklow Polling Stations",
+      "category": "Polling & Voting",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/polling/co-wicklow-polling-stations.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids co-wicklow-polling-stations",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "co-wicklow-protected-structures",
+      "parentId": null,
+      "name": "Co. Wicklow Protected Structures",
+      "category": "heritage",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/heritage/co-wicklow-protected-structures.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids co-wicklow-protected-structures",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "landscape-character-types",
+      "parentId": null,
+      "name": "Landscape Character Types",
+      "category": "landscape",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/landscape/landscape-character-types.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids landscape-character-types",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "museums-collections-archives",
+      "parentId": null,
+      "name": "Museums Collections Archives",
+      "category": "museums",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/museums/museums-collections-archives.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids museums-collections-archives",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "wicklow-fire-stations",
+      "parentId": null,
+      "name": "Wicklow Fire Stations",
+      "category": "fire-stations",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/fire-stations/wicklow-fire-stations.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids wicklow-fire-stations",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "greater-dublin-area-cycle-infrastructure-nta",
+      "parentId": null,
+      "name": "Greater Dublin Area Cycle Infrastructure",
+      "category": "cycle",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/cycle/greater-dublin-area-cycle-infrastructure-nta.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids greater-dublin-area-cycle-infrastructure-nta",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "art-in-the-parks-a-guide-to-sculpture-in-dublin-city-council-parks",
+      "parentId": null,
+      "name": "Art in the Parks - A Guide to Sculpture in Parks DCC",
+      "category": "parks",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/parks/art-in-the-parks-a-guide-to-sculpture-in-dublin-city-council-parks.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids art-in-the-parks-a-guide-to-sculpture-in-dublin-city-council-parks",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "use-zoning-objectives1",
+      "parentId": null,
+      "name": "Use Zoning Objectives",
+      "category": "planning",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/planning/use-zoning-objectives1.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids use-zoning-objectives1",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "cork-city-parks",
+      "parentId": null,
+      "name": "Cork City Parks",
+      "category": "parks",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/parks/cork-city-parks.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids cork-city-parks",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "tailte-airfield-area",
+      "parentId": null,
+      "name": "Airfield Area (Tailte Éireann)",
+      "category": "Transport",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/tailte/airfield_area.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids tailte-airfield-area",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "tailte-airports",
+      "parentId": null,
+      "name": "Airports (Tailte Éireann)",
+      "category": "Transport",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/tailte/airports.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids tailte-airports",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "tailte-border-exits-entrances",
+      "parentId": null,
+      "name": "Border Exits & Entrances (Tailte Éireann)",
+      "category": "Transport",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/tailte/border_exits_entrances.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids tailte-border-exits-entrances",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "tailte-boundaries-seawater-area",
+      "parentId": null,
+      "name": "Boundaries Seawater Area (Tailte Éireann)",
       "category": "Physical Geography",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/environment/opw-nifm-river-flood-extents-current.fgb"
+          "file": "https://data.civgraph.net/data/maps/tailte/boundaries_seawater_area.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids opw-nifm-river-flood-extents-current",
+        "npm run build:test:batch-vectors -- --execute --ids tailte-boundaries-seawater-area",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -770,20 +1145,174 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "roi-national-planning-applications",
+      "sourceMapId": "tailte-boundaries-seawater-line",
       "parentId": null,
-      "name": "ROI National Planning Applications",
+      "name": "Boundaries Seawater Line (Tailte Éireann)",
+      "category": "Physical Geography",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/tailte/boundaries_seawater_line.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids tailte-boundaries-seawater-line",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "tailte-centres-of-population",
+      "parentId": null,
+      "name": "Centres of Population (Tailte Éireann)",
+      "category": "Settlements",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/tailte/centres_of_population.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids tailte-centres-of-population",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "tailte-coast",
+      "parentId": null,
+      "name": "Coast (Tailte Éireann)",
+      "category": "Physical Geography",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/tailte/coast.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids tailte-coast",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "tailte-ferry-crossing",
+      "parentId": null,
+      "name": "Ferry Crossing (Tailte Éireann)",
+      "category": "Transport",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/tailte/ferry_crossing.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids tailte-ferry-crossing",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "tailte-gaeltacht-boundaries-generalised-20m",
+      "parentId": null,
+      "name": "Gaeltacht Boundaries Generalised 20m (Tailte Éireann)",
+      "category": "Regional Divides",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/tailte/gaeltacht_boundaries_generalised_20m.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids tailte-gaeltacht-boundaries-generalised-20m",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "tailte-gaeltacht-language-planning-area-boundaries-generalised-20m",
+      "parentId": null,
+      "name": "Gaeltacht Language Planning Area Boundaries Generalised 20m (Tailte Éireann)",
+      "category": "Regional Divides",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/tailte/gaeltacht_language_planning_area_boundaries_generalised_20m.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids tailte-gaeltacht-language-planning-area-boundaries-generalised-20m",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "tailte-geographical-names",
+      "parentId": null,
+      "name": "Geographical Names (Tailte Éireann)",
+      "category": "Settlements",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/tailte/geographical_names.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids tailte-geographical-names",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "tailte-heritage",
+      "parentId": null,
+      "name": "Heritage (Tailte Éireann)",
       "category": "Built Environment",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/roi-planning/roi-national-planning-applications.fgb"
+          "file": "https://data.civgraph.net/data/maps/tailte/heritage.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids roi-national-planning-applications",
+        "npm run build:test:batch-vectors -- --execute --ids tailte-heritage",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -792,20 +1321,218 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "dcc-dcc-public-cycle-parking-stands",
+      "sourceMapId": "tailte-high-water-mark",
       "parentId": null,
-      "name": "Dcc Public Cycle Parking Stands (DCC)",
+      "name": "High Water Mark (Tailte Éireann)",
+      "category": "Physical Geography",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/tailte/high_water_mark.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids tailte-high-water-mark",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "tailte-hydro-nodes",
+      "parentId": null,
+      "name": "Hydro Nodes (Tailte Éireann)",
+      "category": "Physical Geography",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/tailte/hydro_nodes.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids tailte-hydro-nodes",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "tailte-lakes-reservoirs",
+      "parentId": null,
+      "name": "Lakes & Reservoirs (Tailte Éireann)",
+      "category": "Physical Geography",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/tailte/lakes_reservoirs.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids tailte-lakes-reservoirs",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "tailte-main-harbours",
+      "parentId": null,
+      "name": "Main Harbours (Tailte Éireann)",
+      "category": "Transport",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/tailte/main_harbours.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids tailte-main-harbours",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "tailte-motorway-access-exit-points",
+      "parentId": null,
+      "name": "Motorway Access Exit Points (Tailte Éireann)",
+      "category": "Transport",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/tailte/motorway_access_exit_points.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids tailte-motorway-access-exit-points",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "tailte-mountains",
+      "parentId": null,
+      "name": "Mountains (Tailte Éireann)",
+      "category": "Hills and Mountains",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/tailte/mountains.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids tailte-mountains",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "tailte-nuts2-boundaries-ungeneralised",
+      "parentId": null,
+      "name": "NUTS2 Boundaries Ungeneralised (Tailte Éireann)",
+      "category": "Regional Divides",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/tailte/nuts2_boundaries_ungeneralised.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids tailte-nuts2-boundaries-ungeneralised",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "tailte-nuts3-boundaries-generalised-20m",
+      "parentId": null,
+      "name": "NUTS3 Boundaries Generalised 20m (Tailte Éireann)",
+      "category": "Regional Divides",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/tailte/nuts3_boundaries_generalised_20m.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids tailte-nuts3-boundaries-generalised-20m",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "tailte-other-harbours",
+      "parentId": null,
+      "name": "Other Harbours (Tailte Éireann)",
+      "category": "Transport",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/tailte/other_harbours.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids tailte-other-harbours",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "tailte-power-plant",
+      "parentId": null,
+      "name": "Power Plant (Tailte Éireann)",
       "category": "Built Environment",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/roi-dcc/dcc-dcc-public-cycle-parking-stands.fgb"
+          "file": "https://data.civgraph.net/data/maps/tailte/power_plant.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids dcc-dcc-public-cycle-parking-stands",
+        "npm run build:test:batch-vectors -- --execute --ids tailte-power-plant",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -814,24 +1541,460 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "dcc-dublin-metropolitan-area-existing-protected-cycle-infrastructure-2025",
+      "sourceMapId": "tailte-province-boundaries-generalised-20m",
       "parentId": null,
-      "name": "Dublin Metropolitan Area Existing Protected Cycle Infrastructure 2025 (DCC)",
+      "name": "Province Boundaries Generalised 20m (Tailte Éireann)",
+      "category": "Regional Divides",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/tailte/province_boundaries_generalised_20m.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids tailte-province-boundaries-generalised-20m",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "tailte-rail-network",
+      "parentId": null,
+      "name": "Rail Network (Tailte Éireann)",
+      "category": "Transport",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/tailte/rail_network.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids tailte-rail-network",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "tailte-railway-stations",
+      "parentId": null,
+      "name": "Railway Stations (Tailte Éireann)",
+      "category": "Transport",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/tailte/railway_stations.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids tailte-railway-stations",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "tailte-reservoirs",
+      "parentId": null,
+      "name": "Reservoirs (Tailte Éireann)",
+      "category": "Physical Geography",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/tailte/reservoirs.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids tailte-reservoirs",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "tailte-road-rail-intersections",
+      "parentId": null,
+      "name": "Road & Rail Intersections (Tailte Éireann)",
+      "category": "Transport",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/tailte/road_rail_intersections.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids tailte-road-rail-intersections",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "tailte-road-interchanges",
+      "parentId": null,
+      "name": "Road Interchanges (Tailte Éireann)",
+      "category": "Transport",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/tailte/road_interchanges.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids tailte-road-interchanges",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "tailte-road-intersections",
+      "parentId": null,
+      "name": "Road Intersections (Tailte Éireann)",
+      "category": "Transport",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/tailte/road_intersections.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids tailte-road-intersections",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "tailte-roads",
+      "parentId": null,
+      "name": "Roads (Tailte Éireann)",
+      "category": "Transport",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/tailte/roads.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids tailte-roads",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "tailte-runways",
+      "parentId": null,
+      "name": "Runways (Tailte Éireann)",
+      "category": "Transport",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/tailte/runways.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids tailte-runways",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "tailte-rural-areas",
+      "parentId": null,
+      "name": "Rural Areas (Tailte Éireann)",
+      "category": "Regional Divides",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/tailte/rural_areas.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids tailte-rural-areas",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "tailte-settlements-generalised-20m",
+      "parentId": null,
+      "name": "Settlements Generalised 20m (Tailte Éireann)",
+      "category": "Settlements",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/tailte/settlements_generalised_20m.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids tailte-settlements-generalised-20m",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "tailte-shore",
+      "parentId": null,
+      "name": "Shore (Tailte Éireann)",
+      "category": "Physical Geography",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/tailte/shore.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids tailte-shore",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "tailte-vegetation-areas",
+      "parentId": null,
+      "name": "Vegetation Areas (Tailte Éireann)",
+      "category": "Physical Geography",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/tailte/vegetation_areas.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids tailte-vegetation-areas",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "tailte-water",
+      "parentId": null,
+      "name": "Water (Tailte Éireann)",
+      "category": "Physical Geography",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/tailte/water.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids tailte-water",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "tailte-watercourse-start-end-points",
+      "parentId": null,
+      "name": "Watercourse Start End Points (Tailte Éireann)",
+      "category": "Physical Geography",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/tailte/watercourse_start_end_points.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids tailte-watercourse-start-end-points",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "tailte-waterfalls",
+      "parentId": null,
+      "name": "Waterfalls (Tailte Éireann)",
+      "category": "Physical Geography",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/tailte/waterfalls.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids tailte-waterfalls",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "tailte-ferry-station",
+      "parentId": null,
+      "name": "Ferry Station (Tailte Éireann)",
+      "category": "Transport",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/tailte/ferry_station.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids tailte-ferry-station",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "tailte-low-water-mark",
+      "parentId": null,
+      "name": "Low Water Mark (Tailte Éireann)",
+      "category": "Physical Geography",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/tailte/low_water_mark.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids tailte-low-water-mark",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "tailte-hvd-rail-points",
+      "parentId": null,
+      "name": "Rail Points (Tailte Éireann HVD)",
+      "category": "Transport",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_rail_points.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids tailte-hvd-rail-points",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "tailte-hvd-water-single-stream",
+      "parentId": null,
+      "name": "Water Single Stream (Tailte Éireann HVD)",
+      "category": "Physical Geography",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_water_single_stream.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids tailte-hvd-water-single-stream",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "tailte-hvd-locales",
+      "parentId": null,
+      "name": "Locales (Tailte Éireann HVD)",
       "category": "Built Environment",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/roi-dcc/dcc-dublin-metropolitan-area-existing-protected-cycle-infrastructure-2025.fgb"
-        },
-        {
-          "kind": "geojson",
-          "file": "https://data.civgraph.net/data/maps/roi-dcc/dcc-dublin-metropolitan-area-existing-protected-cycle-infrastructure-2025.geojson"
+          "file": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_locales.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids dcc-dublin-metropolitan-area-existing-protected-cycle-infrastructure-2025",
+        "npm run build:test:batch-vectors -- --execute --ids tailte-hvd-locales",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -840,24 +2003,20 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "dfi-surface-defects-2008",
+      "sourceMapId": "tailte-hvd-building-groups",
       "parentId": null,
-      "name": "NI Road Surface Defects 2008",
-      "category": "Transport",
+      "name": "Building Groups (Tailte Éireann HVD)",
+      "category": "Built Environment",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/transport-infra/dfi-surface-defects-2008.fgb"
-        },
-        {
-          "kind": "geojson",
-          "file": "https://data.civgraph.net/data/maps/transport-infra/dfi-surface-defects-2008.geojson"
+          "file": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_building_groups.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids dfi-surface-defects-2008",
+        "npm run build:test:batch-vectors -- --execute --ids tailte-hvd-building-groups",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -866,24 +2025,20 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "dfi-surface-defects-2011",
+      "sourceMapId": "tailte-hvd-rail-network-segment",
       "parentId": null,
-      "name": "NI Road Surface Defects 2011",
+      "name": "Rail Network Segment (Tailte Éireann HVD)",
       "category": "Transport",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/transport-infra/dfi-surface-defects-2011.fgb"
-        },
-        {
-          "kind": "geojson",
-          "file": "https://data.civgraph.net/data/maps/transport-infra/dfi-surface-defects-2011.geojson"
+          "file": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_rail_network_segment.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids dfi-surface-defects-2011",
+        "npm run build:test:batch-vectors -- --execute --ids tailte-hvd-rail-network-segment",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -892,24 +2047,20 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "dfi-surface-defects-2012",
+      "sourceMapId": "tailte-hvd-way-points",
       "parentId": null,
-      "name": "NI Road Surface Defects 2012",
+      "name": "Way Points (Tailte Éireann HVD)",
       "category": "Transport",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/transport-infra/dfi-surface-defects-2012.fgb"
-        },
-        {
-          "kind": "geojson",
-          "file": "https://data.civgraph.net/data/maps/transport-infra/dfi-surface-defects-2012.geojson"
+          "file": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_way_points.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids dfi-surface-defects-2012",
+        "npm run build:test:batch-vectors -- --execute --ids tailte-hvd-way-points",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -918,24 +2069,20 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "dfi-surface-defects-2013",
+      "sourceMapId": "tailte-hvd-way-gdf2",
       "parentId": null,
-      "name": "NI Road Surface Defects 2013",
+      "name": "Way GDF2 (Tailte Éireann HVD)",
       "category": "Transport",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/transport-infra/dfi-surface-defects-2013.fgb"
-        },
-        {
-          "kind": "geojson",
-          "file": "https://data.civgraph.net/data/maps/transport-infra/dfi-surface-defects-2013.geojson"
+          "file": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_way_gdf2.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids dfi-surface-defects-2013",
+        "npm run build:test:batch-vectors -- --execute --ids tailte-hvd-way-gdf2",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -944,24 +2091,20 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "dfi-surface-defects-2014",
+      "sourceMapId": "tailte-hvd-sites",
       "parentId": null,
-      "name": "NI Road Surface Defects 2014",
-      "category": "Transport",
+      "name": "Sites (Tailte Éireann HVD)",
+      "category": "Built Environment",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/transport-infra/dfi-surface-defects-2014.fgb"
-        },
-        {
-          "kind": "geojson",
-          "file": "https://data.civgraph.net/data/maps/transport-infra/dfi-surface-defects-2014.geojson"
+          "file": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_sites.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids dfi-surface-defects-2014",
+        "npm run build:test:batch-vectors -- --execute --ids tailte-hvd-sites",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -970,24 +2113,20 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "dfi-surface-defects-2015",
+      "sourceMapId": "tailte-hvd-cadastral-parcels-leasehold",
       "parentId": null,
-      "name": "NI Road Surface Defects 2015",
-      "category": "Transport",
+      "name": "Cadastral Parcels Leasehold (Tailte Éireann HVD)",
+      "category": "Government Land and Property Register",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/transport-infra/dfi-surface-defects-2015.fgb"
-        },
-        {
-          "kind": "geojson",
-          "file": "https://data.civgraph.net/data/maps/transport-infra/dfi-surface-defects-2015.geojson"
+          "file": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_cadastral_parcels_leasehold.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids dfi-surface-defects-2015",
+        "npm run build:test:batch-vectors -- --execute --ids tailte-hvd-cadastral-parcels-leasehold",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -996,24 +2135,20 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "dfi-surface-defects-2016",
+      "sourceMapId": "tailte-hvd-water-points",
       "parentId": null,
-      "name": "NI Road Surface Defects 2016",
-      "category": "Transport",
+      "name": "water points (Tailte Éireann HVD)",
+      "category": "Physical Geography",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/transport-infra/dfi-surface-defects-2016.fgb"
-        },
-        {
-          "kind": "geojson",
-          "file": "https://data.civgraph.net/data/maps/transport-infra/dfi-surface-defects-2016.geojson"
+          "file": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_water_points.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids dfi-surface-defects-2016",
+        "npm run build:test:batch-vectors -- --execute --ids tailte-hvd-water-points",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -1022,24 +2157,20 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "dfi-surface-defects-2017",
+      "sourceMapId": "eds-leinster-1941",
       "parentId": null,
-      "name": "NI Road Surface Defects 2017",
-      "category": "Transport",
+      "name": "Leinster District Electoral Divisions/Wards 1941",
+      "category": "Electoral Divisions",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/transport-infra/dfi-surface-defects-2017.fgb"
-        },
-        {
-          "kind": "geojson",
-          "file": "https://data.civgraph.net/data/maps/transport-infra/dfi-surface-defects-2017.geojson"
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1941.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids dfi-surface-defects-2017",
+        "npm run build:test:batch-vectors -- --execute --ids eds-leinster-1941",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -1048,24 +2179,20 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "dfi-surface-defects-2018",
+      "sourceMapId": "eds-munster-1921",
       "parentId": null,
-      "name": "NI Road Surface Defects 2018",
-      "category": "Transport",
+      "name": "Munster District Electoral Divisions/Wards 1921",
+      "category": "Electoral Divisions",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/transport-infra/dfi-surface-defects-2018.fgb"
-        },
-        {
-          "kind": "geojson",
-          "file": "https://data.civgraph.net/data/maps/transport-infra/dfi-surface-defects-2018.geojson"
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1921.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids dfi-surface-defects-2018",
+        "npm run build:test:batch-vectors -- --execute --ids eds-munster-1921",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -1074,24 +2201,20 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "dfi-surface-defects-2019",
-      "parentId": null,
-      "name": "NI Road Surface Defects 2019",
-      "category": "Transport",
+      "sourceMapId": "eds-roi-1941-leinster",
+      "parentId": "eds-roi-1941",
+      "name": "District Electoral Divisions/Wards 1941",
+      "category": "Electoral Areas",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/transport-infra/dfi-surface-defects-2019.fgb"
-        },
-        {
-          "kind": "geojson",
-          "file": "https://data.civgraph.net/data/maps/transport-infra/dfi-surface-defects-2019.geojson"
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1941.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids dfi-surface-defects-2019",
+        "npm run build:test:batch-vectors -- --execute --ids eds-roi-1941-leinster",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -1100,24 +2223,20 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "dfi-surface-defects-2020",
-      "parentId": null,
-      "name": "NI Road Surface Defects 2020",
-      "category": "Transport",
+      "sourceMapId": "eds-roi-1941-munster",
+      "parentId": "eds-roi-1941",
+      "name": "District Electoral Divisions/Wards 1941",
+      "category": "Electoral Areas",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/transport-infra/dfi-surface-defects-2020.fgb"
-        },
-        {
-          "kind": "geojson",
-          "file": "https://data.civgraph.net/data/maps/transport-infra/dfi-surface-defects-2020.geojson"
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1921.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids dfi-surface-defects-2020",
+        "npm run build:test:batch-vectors -- --execute --ids eds-roi-1941-munster",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -1126,24 +2245,20 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "dfi-surface-defects-2021",
+      "sourceMapId": "eds-leinster-1942",
       "parentId": null,
-      "name": "NI Road Surface Defects 2021",
-      "category": "Transport",
+      "name": "Leinster District Electoral Divisions/Wards 1942",
+      "category": "Electoral Divisions",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/transport-infra/dfi-surface-defects-2021.fgb"
-        },
-        {
-          "kind": "geojson",
-          "file": "https://data.civgraph.net/data/maps/transport-infra/dfi-surface-defects-2021.geojson"
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1942.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids dfi-surface-defects-2021",
+        "npm run build:test:batch-vectors -- --execute --ids eds-leinster-1942",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",
@@ -1152,24 +2267,504 @@
       "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
     },
     {
-      "sourceMapId": "dfi-surface-defects-2010",
-      "parentId": null,
-      "name": "NI Road Surface Defects 2010",
-      "category": "Transport",
+      "sourceMapId": "eds-roi-1942-leinster",
+      "parentId": "eds-roi-1942",
+      "name": "District Electoral Divisions/Wards 1942",
+      "category": "Electoral Areas",
       "recommendedTarget": "mvt-or-pmtiles",
       "action": "download-remote-source",
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/transport-infra/dfi-surface-defects-2010.fgb"
-        },
-        {
-          "kind": "geojson",
-          "file": "https://data.civgraph.net/data/maps/transport-infra/dfi-surface-defects-2010.geojson"
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1942.fgb"
         }
       ],
       "postIntakeCommands": [
-        "npm run build:test:batch-vectors -- --execute --ids dfi-surface-defects-2010",
+        "npm run build:test:batch-vectors -- --execute --ids eds-roi-1942-leinster",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "eds-roi-1942-munster",
+      "parentId": "eds-roi-1942",
+      "name": "District Electoral Divisions/Wards 1942",
+      "category": "Electoral Areas",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1921.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids eds-roi-1942-munster",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "eds-leinster-1943",
+      "parentId": null,
+      "name": "Leinster District Electoral Divisions/Wards 1943",
+      "category": "Electoral Divisions",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1943.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids eds-leinster-1943",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "eds-roi-1943-leinster",
+      "parentId": "eds-roi-1943",
+      "name": "District Electoral Divisions/Wards 1943",
+      "category": "Electoral Areas",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1943.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids eds-roi-1943-leinster",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "eds-roi-1943-munster",
+      "parentId": "eds-roi-1943",
+      "name": "District Electoral Divisions/Wards 1943",
+      "category": "Electoral Areas",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1921.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids eds-roi-1943-munster",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "eds-leinster-1949",
+      "parentId": null,
+      "name": "Leinster District Electoral Divisions/Wards 1949",
+      "category": "Electoral Divisions",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1949.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids eds-leinster-1949",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "eds-connacht-1957",
+      "parentId": null,
+      "name": "Connacht District Electoral Divisions/Wards 1957",
+      "category": "Electoral Divisions",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1957.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids eds-connacht-1957",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "eds-munster-1957",
+      "parentId": null,
+      "name": "Munster District Electoral Divisions/Wards 1957",
+      "category": "Electoral Divisions",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1957.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids eds-munster-1957",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "eds-leinster-1963",
+      "parentId": null,
+      "name": "Leinster District Electoral Divisions/Wards 1963",
+      "category": "Electoral Divisions",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1963.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids eds-leinster-1963",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "eds-ulster-1963",
+      "parentId": null,
+      "name": "Ulster District Electoral Divisions/Wards 1963",
+      "category": "Electoral Divisions",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1963.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids eds-ulster-1963",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "eds-leinster-1985",
+      "parentId": null,
+      "name": "Leinster District Electoral Divisions/Wards 1985",
+      "category": "Electoral Divisions",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1985.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids eds-leinster-1985",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "eds-roi-1985-connacht",
+      "parentId": "eds-roi-1985",
+      "name": "District Electoral Divisions/Wards 1985",
+      "category": "Electoral Areas",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1957.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids eds-roi-1985-connacht",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "eds-roi-1985-leinster",
+      "parentId": "eds-roi-1985",
+      "name": "District Electoral Divisions/Wards 1985",
+      "category": "Electoral Areas",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1985.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids eds-roi-1985-leinster",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "eds-roi-1985-ulster",
+      "parentId": "eds-roi-1985",
+      "name": "District Electoral Divisions/Wards 1985",
+      "category": "Electoral Areas",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1963.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids eds-roi-1985-ulster",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "eds-connacht-1996",
+      "parentId": null,
+      "name": "Connacht District Electoral Divisions/Wards 1996",
+      "category": "Electoral Divisions",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/EDs_Connacht_1996.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids eds-connacht-1996",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "eds-munster-1996",
+      "parentId": null,
+      "name": "Munster District Electoral Divisions/Wards 1996",
+      "category": "Electoral Divisions",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/EDs_Munster_1996.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids eds-munster-1996",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "eds-ulster-1996",
+      "parentId": null,
+      "name": "Ulster District Electoral Divisions/Wards 1996",
+      "category": "Electoral Divisions",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/EDs_Ulster_1996.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids eds-ulster-1996",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "roi-local-authorities-1915",
+      "parentId": null,
+      "name": "Republic of Ireland Local Authorities 1915",
+      "category": "Local Government Districts",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1915.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids roi-local-authorities-1915",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "roi-local-authorities-1920-06-19",
+      "parentId": null,
+      "name": "Republic of Ireland Local Authorities 19/06/1920",
+      "category": "Local Government Districts",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1920-06-19.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids roi-local-authorities-1920-06-19",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "roi-local-authorities-1920-06-25",
+      "parentId": null,
+      "name": "Republic of Ireland Local Authorities 25/06/1920",
+      "category": "Local Government Districts",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1920-06-25.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids roi-local-authorities-1920-06-25",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "roi-local-authorities-1920-10-04",
+      "parentId": null,
+      "name": "Republic of Ireland Local Authorities 04/10/1920",
+      "category": "Local Government Districts",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1920-10-04.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids roi-local-authorities-1920-10-04",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "roi-local-authorities-1921",
+      "parentId": null,
+      "name": "Republic of Ireland Local Authorities 1921",
+      "category": "Local Government Districts",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1921.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids roi-local-authorities-1921",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "roi-local-authorities-1927",
+      "parentId": null,
+      "name": "Republic of Ireland Local Authorities 1927",
+      "category": "Local Government Districts",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1927.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids roi-local-authorities-1927",
         "npm run build:test:promote",
         "npm run build:test:feature-indexes",
         "npm run build:test:metadata",

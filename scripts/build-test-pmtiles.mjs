@@ -449,8 +449,17 @@ function getSourceQueryOptions(sourceMapId) {
 function resolveSourceLayerName(sourcePath) {
   try {
     const r = spawnSync(tools.ogrinfo, ['-q', sourcePath], { cwd: ROOT, encoding: 'utf8' });
-    const m = /^\s*\d+:\s*(\S+)/m.exec(r.stdout || '');
-    return m ? m[1] : null;
+    // `ogrinfo -q` prints "1: <layer name> (<Geometry Type>)". The name can contain
+    // spaces -- the ROI local-authority sources are literally named "1920 06 19" -- so
+    // capturing \S+ stopped at the first space and produced the layer name "1920".
+    // sourceQueryOptions() then emitted SELECT ... FROM "1920", and ogr2ogr failed with
+    // `no such table/featureclass`, silently costing three layers in a 19-layer run.
+    // Take everything up to the trailing parenthesised geometry type instead.
+    const out = r.stdout || '';
+    const withGeom = /^\s*\d+:\s*(.+?)\s+\([^)]*\)\s*$/m.exec(out);
+    if (withGeom) return withGeom[1].trim();
+    const bare = /^\s*\d+:\s*(.+?)\s*$/m.exec(out);
+    return bare ? bare[1].trim() : null;
   } catch {
     return null;
   }

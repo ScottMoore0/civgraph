@@ -1,32 +1,1139 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-05-29T22:36:03.806Z",
+  "generatedAt": "2026-07-31T14:55:26.050Z",
   "intake": "test/metadata/vector-intake-report.json",
   "cacheManifest": "test/source-cache/vector-intake/manifest.json",
   "totals": {
-    "selected": 2,
-    "downloaded": 2,
+    "selected": 125,
+    "downloaded": 125,
     "skipped": 0,
     "failed": 0,
-    "cachedSources": 571
+    "cachedSources": 125
   },
   "downloaded": [
     {
-      "sourceMapId": "wards-2012-full",
-      "name": "Wards 2012",
-      "category": "Electoral Areas",
-      "url": "https://admin.opendatani.gov.uk/dataset/987e16f4-19bb-4765-807c-abee92ee3439/resource/44160d85-47bd-452d-b846-0c7dcc14c932/download/osni_open_data_largescale_boundaries_wards_2012.geojson",
-      "localPath": "test/source-cache/vector-intake/wards-2012-full.fgb",
-      "bytes": 34143570,
-      "contentType": "application/geo+json"
+      "sourceMapId": "streetnames-gazetteer",
+      "name": "Street Names Gazetteer",
+      "category": "Settlements",
+      "url": "https://data.civgraph.net/data/maps/communities/OSNI_Streetnames.fgb",
+      "localPath": "test/source-cache/vector-intake/streetnames-gazetteer.fgb",
+      "bytes": 4045928,
+      "contentType": "application/octet-stream"
     },
     {
-      "sourceMapId": "ni-townlands-1844",
-      "name": "Townlands 1844",
+      "sourceMapId": "eds-2019-ulster",
+      "name": "Electoral Divisions 2019",
+      "category": "Electoral Areas",
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/EDs_Ulster_1996.fgb",
+      "localPath": "test/source-cache/vector-intake/eds-2019-ulster.fgb",
+      "bytes": 14263432,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "eds-1997-connacht",
+      "name": "Electoral Divisions 1997",
+      "category": "Electoral Areas",
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/EDs_Connacht_1996.fgb",
+      "localPath": "test/source-cache/vector-intake/eds-1997-connacht.fgb",
+      "bytes": 25974968,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "eds-roi-1944-leinster",
+      "name": "District Electoral Divisions/Wards 1944",
+      "category": "Electoral Divisions",
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1943.fgb",
+      "localPath": "test/source-cache/vector-intake/eds-roi-1944-leinster.fgb",
+      "bytes": 29504864,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "eds-1997-ulster",
+      "name": "Electoral Divisions 1997",
+      "category": "Electoral Areas",
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/EDs_Ulster_1996.fgb",
+      "localPath": "test/source-cache/vector-intake/eds-1997-ulster.fgb",
+      "bytes": 14263432,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "eds-1997-munster",
+      "name": "Electoral Divisions 1997",
+      "category": "Electoral Areas",
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/EDs_Munster_1996.fgb",
+      "localPath": "test/source-cache/vector-intake/eds-1997-munster.fgb",
+      "bytes": 43224872,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "eds-1986-ulster",
+      "name": "District Electoral Divisions/Wards 1986",
+      "category": "Electoral Areas",
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1963.fgb",
+      "localPath": "test/source-cache/vector-intake/eds-1986-ulster.fgb",
+      "bytes": 14236936,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "mid-ulster-council-district-electoral-areas2",
+      "name": "Mid Ulster District Electoral Areas",
+      "category": "District Electoral Areas",
+      "url": "https://data.civgraph.net/data/maps/deas/mid-ulster-council-district-electoral-areas2.fgb",
+      "localPath": "test/source-cache/vector-intake/mid-ulster-council-district-electoral-areas2.fgb",
+      "bytes": 1719600,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "eds-1994-ulster",
+      "name": "District Electoral Divisions/Wards 1994",
+      "category": "Electoral Areas",
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1963.fgb",
+      "localPath": "test/source-cache/vector-intake/eds-1994-ulster.fgb",
+      "bytes": 14236936,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "osni-open-data-50k-boundaries-district-electoral-areas-1993",
+      "name": "District Electoral Areas (1993) — OSNI 50k",
+      "category": "District Electoral Areas",
+      "url": "https://data.civgraph.net/data/maps/deas/osni-open-data-50k-boundaries-district-electoral-areas-1993.fgb",
+      "localPath": "test/source-cache/vector-intake/osni-open-data-50k-boundaries-district-electoral-areas-1993.fgb",
+      "bytes": 1547624,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "bcni2018",
+      "name": "Parliamentary Constituencies — Provisional Proposals (BCNI 2018)",
+      "category": "Parliamentary Constituencies",
+      "url": "https://data.civgraph.net/data/maps/parliamentary/bcni2018.fgb",
+      "localPath": "test/source-cache/vector-intake/bcni2018.fgb",
+      "bytes": 7527760,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "osni-open-data-50k-boundaries-local-government-districts-1993",
+      "name": "Local Government Districts (1993) — OSNI 50k",
+      "category": "Local Government Districts",
+      "url": "https://data.civgraph.net/data/maps/local-government/osni-open-data-50k-boundaries-local-government-districts-1993.fgb",
+      "localPath": "test/source-cache/vector-intake/osni-open-data-50k-boundaries-local-government-districts-1993.fgb",
+      "bytes": 780024,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "osni-open-data-50k-boundaries-parliamentary-constituencies",
+      "name": "Parliamentary Constituencies — OSNI 50k",
+      "category": "Parliamentary Constituencies",
+      "url": "https://data.civgraph.net/data/maps/parliamentary/osni-open-data-50k-boundaries-parliamentary-constituencies.fgb",
+      "localPath": "test/source-cache/vector-intake/osni-open-data-50k-boundaries-parliamentary-constituencies.fgb",
+      "bytes": 537720,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "osni-open-data-50k-boundaries-wards-1993",
+      "name": "Wards (1993) — OSNI 50k",
+      "category": "Electoral Areas",
+      "url": "https://data.civgraph.net/data/maps/wards/osni-open-data-50k-boundaries-wards-1993.fgb",
+      "localPath": "test/source-cache/vector-intake/osni-open-data-50k-boundaries-wards-1993.fgb",
+      "bytes": 2385064,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "osni-open-data-50k-boundaries-townlands",
+      "name": "Townlands — OSNI 50k",
       "category": "Townlands",
-      "url": "https://archive.org/download/civgraph-townlands-allireland-fgb/Townlands_AllIreland.fgb",
-      "localPath": "test/source-cache/vector-intake/ni-townlands-1844.fgb",
-      "bytes": 614092616,
+      "url": "https://data.civgraph.net/data/maps/townlands/osni-open-data-50k-boundaries-townlands.fgb",
+      "localPath": "test/source-cache/vector-intake/osni-open-data-50k-boundaries-townlands.fgb",
+      "bytes": 13282168,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "district-electoral-divisions-boundaries",
+      "name": "Electoral Divisions — Monaghan",
+      "category": "Electoral Divisions",
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/district-electoral-divisions-boundaries.fgb",
+      "localPath": "test/source-cache/vector-intake/district-electoral-divisions-boundaries.fgb",
+      "bytes": 2223392,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "ed-boundaries-dlr",
+      "name": "Electoral Divisions — Dún Laoghaire-Rathdown",
+      "category": "Electoral Divisions",
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/ed-boundaries-dlr.fgb",
+      "localPath": "test/source-cache/vector-intake/ed-boundaries-dlr.fgb",
+      "bytes": 438856,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "osni-open-data-largescale-boundaries-local-government-districts-1993",
+      "name": "Local Government Districts (1993) — OSNI Largescale",
+      "category": "Local Government Districts",
+      "url": "https://data.civgraph.net/data/maps/local-government/osni-open-data-largescale-boundaries-local-government-districts-1993.fgb",
+      "localPath": "test/source-cache/vector-intake/osni-open-data-largescale-boundaries-local-government-districts-1993.fgb",
+      "bytes": 9047600,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "townlands-2015-sdcc1",
+      "name": "Townlands (2015) — South Dublin",
+      "category": "Townlands",
+      "url": "https://data.civgraph.net/data/maps/townlands/townlands-2015-sdcc1.fgb",
+      "localPath": "test/source-cache/vector-intake/townlands-2015-sdcc1.fgb",
+      "bytes": 1971680,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "townlands-in-fcc3",
+      "name": "Townlands — Fingal",
+      "category": "Townlands",
+      "url": "https://data.civgraph.net/data/maps/townlands/townlands-in-fcc3.fgb",
+      "localPath": "test/source-cache/vector-intake/townlands-in-fcc3.fgb",
+      "bytes": 4195136,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "electoral-divisions-fcc2",
+      "name": "Electoral Divisions — Fingal",
+      "category": "Electoral Divisions",
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/electoral-divisions-fcc2.fgb",
+      "localPath": "test/source-cache/vector-intake/electoral-divisions-fcc2.fgb",
+      "bytes": 2872160,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "eds-2019-connacht",
+      "name": "Electoral Divisions 2019",
+      "category": "Electoral Areas",
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/EDs_Connacht_1996.fgb",
+      "localPath": "test/source-cache/vector-intake/eds-2019-connacht.fgb",
+      "bytes": 25974968,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "osni-open-data-50k-transport-text-labelling",
+      "name": "Transport Text Labelling — OSNI 50k",
+      "category": "Transport",
+      "url": "https://data.civgraph.net/data/maps/transport/osni-open-data-50k-transport-text-labelling.fgb",
+      "localPath": "test/source-cache/vector-intake/osni-open-data-50k-transport-text-labelling.fgb",
+      "bytes": 113792,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "mid-ulster-council-wards2",
+      "name": "Wards — Mid Ulster",
+      "category": "Electoral Areas",
+      "url": "https://data.civgraph.net/data/maps/wards/mid-ulster-council-wards2.fgb",
+      "localPath": "test/source-cache/vector-intake/mid-ulster-council-wards2.fgb",
+      "bytes": 3251968,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "townland-boundaries",
+      "name": "Townlands — Monaghan",
+      "category": "Townlands",
+      "url": "https://data.civgraph.net/data/maps/townlands/townland-boundaries.fgb",
+      "localPath": "test/source-cache/vector-intake/townland-boundaries.fgb",
+      "bytes": 8791544,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "osni-open-data-50k-transport-transport-points",
+      "name": "Transport Points — OSNI 50k",
+      "category": "Transport",
+      "url": "https://data.civgraph.net/data/maps/transport/osni-open-data-50k-transport-transport-points.fgb",
+      "localPath": "test/source-cache/vector-intake/osni-open-data-50k-transport-transport-points.fgb",
+      "bytes": 11504,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "wicklow-county-council-tree-preservation-orders-bray",
+      "name": "Wicklow County Council - Tree Preservation Orders Bray",
+      "category": "trees",
+      "url": "https://data.civgraph.net/data/maps/trees/wicklow-county-council-tree-preservation-orders-bray.fgb",
+      "localPath": "test/source-cache/vector-intake/wicklow-county-council-tree-preservation-orders-bray.fgb",
+      "bytes": 11704,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "wicklow-county-council-tree-preservation-orders",
+      "name": "Wicklow County Council - Tree Preservation Orders",
+      "category": "trees",
+      "url": "https://data.civgraph.net/data/maps/trees/wicklow-county-council-tree-preservation-orders.fgb",
+      "localPath": "test/source-cache/vector-intake/wicklow-county-council-tree-preservation-orders.fgb",
+      "bytes": 10448,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "bedrock-geology-11000000-ireland-roini-itm",
+      "name": "Bedrock Geology 1:1,000,000 Ireland (ROI/NI) ITM",
+      "category": "geology",
+      "url": "https://data.civgraph.net/data/maps/geology/bedrock-geology-11000000-ireland-roini-itm.fgb",
+      "localPath": "test/source-cache/vector-intake/bedrock-geology-11000000-ireland-roini-itm.fgb",
+      "bytes": 5733888,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "mid-ulster-council-townlands2",
+      "name": "Townlands — Mid Ulster",
+      "category": "Townlands",
+      "url": "https://data.civgraph.net/data/maps/townlands/mid-ulster-council-townlands2.fgb",
+      "localPath": "test/source-cache/vector-intake/mid-ulster-council-townlands2.fgb",
+      "bytes": 18429192,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "accessible-parking-spaces-sdcc3",
+      "name": "Accessible Parking Spaces SDCC",
+      "category": "parking",
+      "url": "https://data.civgraph.net/data/maps/parking/accessible-parking-spaces-sdcc3.fgb",
+      "localPath": "test/source-cache/vector-intake/accessible-parking-spaces-sdcc3.fgb",
+      "bytes": 15488,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "river-and-lake-monitoring-points-2024",
+      "name": "River and Lake Monitoring Points 2024",
+      "category": "water",
+      "url": "https://data.civgraph.net/data/maps/water/river-and-lake-monitoring-points-2024.fgb",
+      "localPath": "test/source-cache/vector-intake/river-and-lake-monitoring-points-2024.fgb",
+      "bytes": 148168,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "community-scale-flood-model-nodes-current-scenario",
+      "name": "Community-Scale Flood Model Nodes - Current Scenario",
+      "category": "flood",
+      "url": "https://data.civgraph.net/data/maps/flood/community-scale-flood-model-nodes-current-scenario.fgb",
+      "localPath": "test/source-cache/vector-intake/community-scale-flood-model-nodes-current-scenario.fgb",
+      "bytes": 13868912,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "bedrock-boreholes-150000-ireland-roi-itm-unverified",
+      "name": "Bedrock Boreholes 1:100,000 Ireland (ROI) ITM (Unverified)",
+      "category": "geology",
+      "url": "https://data.civgraph.net/data/maps/geology/bedrock-boreholes-150000-ireland-roi-itm-unverified.fgb",
+      "localPath": "test/source-cache/vector-intake/bedrock-boreholes-150000-ireland-roi-itm-unverified.fgb",
+      "bytes": 1934792,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "water-framework-directive-2nd-cycle-interim-status1",
+      "name": "Water Framework Directive 2nd Cycle Interim Status",
+      "category": "water",
+      "url": "https://data.civgraph.net/data/maps/water/water-framework-directive-2nd-cycle-interim-status1.fgb",
+      "localPath": "test/source-cache/vector-intake/water-framework-directive-2nd-cycle-interim-status1.fgb",
+      "bytes": 16349768,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "co-wicklow-polling-stations",
+      "name": "Co. Wicklow Polling Stations",
+      "category": "Polling & Voting",
+      "url": "https://data.civgraph.net/data/maps/polling/co-wicklow-polling-stations.fgb",
+      "localPath": "test/source-cache/vector-intake/co-wicklow-polling-stations.fgb",
+      "bytes": 13944,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "cycle-network-survey",
+      "name": "GDA Cycle Network Survey 2013",
+      "category": "cycle",
+      "url": "https://data.civgraph.net/data/maps/cycle/cycle-network-survey.fgb",
+      "localPath": "test/source-cache/vector-intake/cycle-network-survey.fgb",
+      "bytes": 3081336,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "landscape-character-types",
+      "name": "Landscape Character Types",
+      "category": "landscape",
+      "url": "https://data.civgraph.net/data/maps/landscape/landscape-character-types.fgb",
+      "localPath": "test/source-cache/vector-intake/landscape-character-types.fgb",
+      "bytes": 191224,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "co-wicklow-protected-structures",
+      "name": "Co. Wicklow Protected Structures",
+      "category": "heritage",
+      "url": "https://data.civgraph.net/data/maps/heritage/co-wicklow-protected-structures.fgb",
+      "localPath": "test/source-cache/vector-intake/co-wicklow-protected-structures.fgb",
+      "bytes": 216432,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "museums-collections-archives",
+      "name": "Museums Collections Archives",
+      "category": "museums",
+      "url": "https://data.civgraph.net/data/maps/museums/museums-collections-archives.fgb",
+      "localPath": "test/source-cache/vector-intake/museums-collections-archives.fgb",
+      "bytes": 405224,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "community-scale-coastal-flood-extents-high-end-future-scenario",
+      "name": "Community-Scale Coastal Flood Extents - High-End Future Scenario",
+      "category": "flood",
+      "url": "https://data.civgraph.net/data/maps/flood/community-scale-coastal-flood-extents-high-end-future-scenario.fgb",
+      "localPath": "test/source-cache/vector-intake/community-scale-coastal-flood-extents-high-end-future-scenario.fgb",
+      "bytes": 31571136,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "wicklow-fire-stations",
+      "name": "Wicklow Fire Stations",
+      "category": "fire-stations",
+      "url": "https://data.civgraph.net/data/maps/fire-stations/wicklow-fire-stations.fgb",
+      "localPath": "test/source-cache/vector-intake/wicklow-fire-stations.fgb",
+      "bytes": 4800,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "art-in-the-parks-a-guide-to-sculpture-in-dublin-city-council-parks",
+      "name": "Art in the Parks - A Guide to Sculpture in Parks DCC",
+      "category": "parks",
+      "url": "https://data.civgraph.net/data/maps/parks/art-in-the-parks-a-guide-to-sculpture-in-dublin-city-council-parks.fgb",
+      "localPath": "test/source-cache/vector-intake/art-in-the-parks-a-guide-to-sculpture-in-dublin-city-council-parks.fgb",
+      "bytes": 19176,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "community-scale-coastal-flood-extents-mid-range-future-scenario",
+      "name": "Community-Scale Coastal Flood Extents - Mid-Range Future Scenario",
+      "category": "flood",
+      "url": "https://data.civgraph.net/data/maps/flood/community-scale-coastal-flood-extents-mid-range-future-scenario.fgb",
+      "localPath": "test/source-cache/vector-intake/community-scale-coastal-flood-extents-mid-range-future-scenario.fgb",
+      "bytes": 36858272,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "cork-city-parks",
+      "name": "Cork City Parks",
+      "category": "parks",
+      "url": "https://data.civgraph.net/data/maps/parks/cork-city-parks.fgb",
+      "localPath": "test/source-cache/vector-intake/cork-city-parks.fgb",
+      "bytes": 25064,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "greater-dublin-area-cycle-infrastructure-nta",
+      "name": "Greater Dublin Area Cycle Infrastructure",
+      "category": "cycle",
+      "url": "https://data.civgraph.net/data/maps/cycle/greater-dublin-area-cycle-infrastructure-nta.fgb",
+      "localPath": "test/source-cache/vector-intake/greater-dublin-area-cycle-infrastructure-nta.fgb",
+      "bytes": 3161016,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-airports",
+      "name": "Airports (Tailte Éireann)",
+      "category": "Transport",
+      "url": "https://data.civgraph.net/data/maps/tailte/airports.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-airports.fgb",
+      "bytes": 4136,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-border-exits-entrances",
+      "name": "Border Exits & Entrances (Tailte Éireann)",
+      "category": "Transport",
+      "url": "https://data.civgraph.net/data/maps/tailte/border_exits_entrances.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-border-exits-entrances.fgb",
+      "bytes": 6128,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-boundaries-seawater-area",
+      "name": "Boundaries Seawater Area (Tailte Éireann)",
+      "category": "Physical Geography",
+      "url": "https://data.civgraph.net/data/maps/tailte/boundaries_seawater_area.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-boundaries-seawater-area.fgb",
+      "bytes": 54784,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-airfield-area",
+      "name": "Airfield Area (Tailte Éireann)",
+      "category": "Transport",
+      "url": "https://data.civgraph.net/data/maps/tailte/airfield_area.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-airfield-area.fgb",
+      "bytes": 6592,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-boundaries-seawater-line",
+      "name": "Boundaries Seawater Line (Tailte Éireann)",
+      "category": "Physical Geography",
+      "url": "https://data.civgraph.net/data/maps/tailte/boundaries_seawater_line.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-boundaries-seawater-line.fgb",
+      "bytes": 56432,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "use-zoning-objectives1",
+      "name": "Use Zoning Objectives",
+      "category": "planning",
+      "url": "https://data.civgraph.net/data/maps/planning/use-zoning-objectives1.fgb",
+      "localPath": "test/source-cache/vector-intake/use-zoning-objectives1.fgb",
+      "bytes": 11228976,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-ferry-crossing",
+      "name": "Ferry Crossing (Tailte Éireann)",
+      "category": "Transport",
+      "url": "https://data.civgraph.net/data/maps/tailte/ferry_crossing.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-ferry-crossing.fgb",
+      "bytes": 13048,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-centres-of-population",
+      "name": "Centres of Population (Tailte Éireann)",
+      "category": "Settlements",
+      "url": "https://data.civgraph.net/data/maps/tailte/centres_of_population.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-centres-of-population.fgb",
+      "bytes": 651160,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-geographical-names",
+      "name": "Geographical Names (Tailte Éireann)",
+      "category": "Settlements",
+      "url": "https://data.civgraph.net/data/maps/tailte/geographical_names.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-geographical-names.fgb",
+      "bytes": 14408,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-gaeltacht-language-planning-area-boundaries-generalised-20m",
+      "name": "Gaeltacht Language Planning Area Boundaries Generalised 20m (Tailte Éireann)",
+      "category": "Regional Divides",
+      "url": "https://data.civgraph.net/data/maps/tailte/gaeltacht_language_planning_area_boundaries_generalised_20m.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-gaeltacht-language-planning-area-boundaries-generalised-20m.fgb",
+      "bytes": 377880,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-coast",
+      "name": "Coast (Tailte Éireann)",
+      "category": "Physical Geography",
+      "url": "https://data.civgraph.net/data/maps/tailte/coast.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-coast.fgb",
+      "bytes": 1126264,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-heritage",
+      "name": "Heritage (Tailte Éireann)",
+      "category": "Built Environment",
+      "url": "https://data.civgraph.net/data/maps/tailte/heritage.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-heritage.fgb",
+      "bytes": 14224,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-gaeltacht-boundaries-generalised-20m",
+      "name": "Gaeltacht Boundaries Generalised 20m (Tailte Éireann)",
+      "category": "Regional Divides",
+      "url": "https://data.civgraph.net/data/maps/tailte/gaeltacht_boundaries_generalised_20m.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-gaeltacht-boundaries-generalised-20m.fgb",
+      "bytes": 467440,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-hydro-nodes",
+      "name": "Hydro Nodes (Tailte Éireann)",
+      "category": "Physical Geography",
+      "url": "https://data.civgraph.net/data/maps/tailte/hydro_nodes.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-hydro-nodes.fgb",
+      "bytes": 139784,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-motorway-access-exit-points",
+      "name": "Motorway Access Exit Points (Tailte Éireann)",
+      "category": "Transport",
+      "url": "https://data.civgraph.net/data/maps/tailte/motorway_access_exit_points.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-motorway-access-exit-points.fgb",
+      "bytes": 15504,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-lakes-reservoirs",
+      "name": "Lakes & Reservoirs (Tailte Éireann)",
+      "category": "Physical Geography",
+      "url": "https://data.civgraph.net/data/maps/tailte/lakes_reservoirs.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-lakes-reservoirs.fgb",
+      "bytes": 913168,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-main-harbours",
+      "name": "Main Harbours (Tailte Éireann)",
+      "category": "Transport",
+      "url": "https://data.civgraph.net/data/maps/tailte/main_harbours.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-main-harbours.fgb",
+      "bytes": 2008,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-mountains",
+      "name": "Mountains (Tailte Éireann)",
+      "category": "Hills and Mountains",
+      "url": "https://data.civgraph.net/data/maps/tailte/mountains.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-mountains.fgb",
+      "bytes": 4456,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-other-harbours",
+      "name": "Other Harbours (Tailte Éireann)",
+      "category": "Transport",
+      "url": "https://data.civgraph.net/data/maps/tailte/other_harbours.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-other-harbours.fgb",
+      "bytes": 5392,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-nuts3-boundaries-generalised-20m",
+      "name": "NUTS3 Boundaries Generalised 20m (Tailte Éireann)",
+      "category": "Regional Divides",
+      "url": "https://data.civgraph.net/data/maps/tailte/nuts3_boundaries_generalised_20m.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-nuts3-boundaries-generalised-20m.fgb",
+      "bytes": 1455128,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-power-plant",
+      "name": "Power Plant (Tailte Éireann)",
+      "category": "Built Environment",
+      "url": "https://data.civgraph.net/data/maps/tailte/power_plant.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-power-plant.fgb",
+      "bytes": 3248,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-rail-network",
+      "name": "Rail Network (Tailte Éireann)",
+      "category": "Transport",
+      "url": "https://data.civgraph.net/data/maps/tailte/rail_network.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-rail-network.fgb",
+      "bytes": 93952,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-province-boundaries-generalised-20m",
+      "name": "Province Boundaries Generalised 20m (Tailte Éireann)",
+      "category": "Regional Divides",
+      "url": "https://data.civgraph.net/data/maps/tailte/province_boundaries_generalised_20m.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-province-boundaries-generalised-20m.fgb",
+      "bytes": 1769792,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-railway-stations",
+      "name": "Railway Stations (Tailte Éireann)",
+      "category": "Transport",
+      "url": "https://data.civgraph.net/data/maps/tailte/railway_stations.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-railway-stations.fgb",
+      "bytes": 13424,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-reservoirs",
+      "name": "Reservoirs (Tailte Éireann)",
+      "category": "Physical Geography",
+      "url": "https://data.civgraph.net/data/maps/tailte/reservoirs.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-reservoirs.fgb",
+      "bytes": 1456,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-road-rail-intersections",
+      "name": "Road & Rail Intersections (Tailte Éireann)",
+      "category": "Transport",
+      "url": "https://data.civgraph.net/data/maps/tailte/road_rail_intersections.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-road-rail-intersections.fgb",
+      "bytes": 390968,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-road-intersections",
+      "name": "Road Intersections (Tailte Éireann)",
+      "category": "Transport",
+      "url": "https://data.civgraph.net/data/maps/tailte/road_intersections.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-road-intersections.fgb",
+      "bytes": 279632,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-road-interchanges",
+      "name": "Road Interchanges (Tailte Éireann)",
+      "category": "Transport",
+      "url": "https://data.civgraph.net/data/maps/tailte/road_interchanges.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-road-interchanges.fgb",
+      "bytes": 6424,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-runways",
+      "name": "Runways (Tailte Éireann)",
+      "category": "Transport",
+      "url": "https://data.civgraph.net/data/maps/tailte/runways.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-runways.fgb",
+      "bytes": 4608,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-roads",
+      "name": "Roads (Tailte Éireann)",
+      "category": "Transport",
+      "url": "https://data.civgraph.net/data/maps/tailte/roads.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-roads.fgb",
+      "bytes": 2447728,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-nuts2-boundaries-ungeneralised",
+      "name": "NUTS2 Boundaries Ungeneralised (Tailte Éireann)",
+      "category": "Regional Divides",
+      "url": "https://data.civgraph.net/data/maps/tailte/nuts2_boundaries_ungeneralised.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-nuts2-boundaries-ungeneralised.fgb",
+      "bytes": 21103056,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-settlements-generalised-20m",
+      "name": "Settlements Generalised 20m (Tailte Éireann)",
+      "category": "Settlements",
+      "url": "https://data.civgraph.net/data/maps/tailte/settlements_generalised_20m.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-settlements-generalised-20m.fgb",
+      "bytes": 991984,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-rural-areas",
+      "name": "Rural Areas (Tailte Éireann)",
+      "category": "Regional Divides",
+      "url": "https://data.civgraph.net/data/maps/tailte/rural_areas.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-rural-areas.fgb",
+      "bytes": 2611200,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-shore",
+      "name": "Shore (Tailte Éireann)",
+      "category": "Physical Geography",
+      "url": "https://data.civgraph.net/data/maps/tailte/shore.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-shore.fgb",
+      "bytes": 907936,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-watercourse-start-end-points",
+      "name": "Watercourse Start End Points (Tailte Éireann)",
+      "category": "Physical Geography",
+      "url": "https://data.civgraph.net/data/maps/tailte/watercourse_start_end_points.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-watercourse-start-end-points.fgb",
+      "bytes": 14336,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-water",
+      "name": "Water (Tailte Éireann)",
+      "category": "Physical Geography",
+      "url": "https://data.civgraph.net/data/maps/tailte/water.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-water.fgb",
+      "bytes": 1961920,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-waterfalls",
+      "name": "Waterfalls (Tailte Éireann)",
+      "category": "Physical Geography",
+      "url": "https://data.civgraph.net/data/maps/tailte/waterfalls.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-waterfalls.fgb",
+      "bytes": 1616,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-vegetation-areas",
+      "name": "Vegetation Areas (Tailte Éireann)",
+      "category": "Physical Geography",
+      "url": "https://data.civgraph.net/data/maps/tailte/vegetation_areas.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-vegetation-areas.fgb",
+      "bytes": 1867320,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-ferry-station",
+      "name": "Ferry Station (Tailte Éireann)",
+      "category": "Transport",
+      "url": "https://data.civgraph.net/data/maps/tailte/ferry_station.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-ferry-station.fgb",
+      "bytes": 4464,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-hvd-rail-points",
+      "name": "Rail Points (Tailte Éireann HVD)",
+      "category": "Transport",
+      "url": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_rail_points.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-hvd-rail-points.fgb",
+      "bytes": 1345016,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-high-water-mark",
+      "name": "High Water Mark (Tailte Éireann)",
+      "category": "Physical Geography",
+      "url": "https://data.civgraph.net/data/maps/tailte/high_water_mark.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-high-water-mark.fgb",
+      "bytes": 119243136,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-hvd-building-groups",
+      "name": "Building Groups (Tailte Éireann HVD)",
+      "category": "Built Environment",
+      "url": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_building_groups.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-hvd-building-groups.fgb",
+      "bytes": 661808,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-hvd-rail-network-segment",
+      "name": "Rail Network Segment (Tailte Éireann HVD)",
+      "category": "Transport",
+      "url": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_rail_network_segment.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-hvd-rail-network-segment.fgb",
+      "bytes": 4713192,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-hvd-water-single-stream",
+      "name": "Water Single Stream (Tailte Éireann HVD)",
+      "category": "Physical Geography",
+      "url": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_water_single_stream.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-hvd-water-single-stream.fgb",
+      "bytes": 151834328,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-low-water-mark",
+      "name": "Low Water Mark (Tailte Éireann)",
+      "category": "Physical Geography",
+      "url": "https://data.civgraph.net/data/maps/tailte/low_water_mark.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-low-water-mark.fgb",
+      "bytes": 137312552,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-hvd-sites",
+      "name": "Sites (Tailte Éireann HVD)",
+      "category": "Built Environment",
+      "url": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_sites.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-hvd-sites.fgb",
+      "bytes": 271952,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-hvd-way-points",
+      "name": "Way Points (Tailte Éireann HVD)",
+      "category": "Transport",
+      "url": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_way_points.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-hvd-way-points.fgb",
+      "bytes": 50724096,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-hvd-cadastral-parcels-leasehold",
+      "name": "Cadastral Parcels Leasehold (Tailte Éireann HVD)",
+      "category": "Government Land and Property Register",
+      "url": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_cadastral_parcels_leasehold.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-hvd-cadastral-parcels-leasehold.fgb",
+      "bytes": 50989568,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-hvd-way-gdf2",
+      "name": "Way GDF2 (Tailte Éireann HVD)",
+      "category": "Transport",
+      "url": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_way_gdf2.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-hvd-way-gdf2.fgb",
+      "bytes": 147786336,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "eds-leinster-1941",
+      "name": "Leinster District Electoral Divisions/Wards 1941",
+      "category": "Electoral Divisions",
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1941.fgb",
+      "localPath": "test/source-cache/vector-intake/eds-leinster-1941.fgb",
+      "bytes": 29505080,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "eds-munster-1921",
+      "name": "Munster District Electoral Divisions/Wards 1921",
+      "category": "Electoral Divisions",
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1921.fgb",
+      "localPath": "test/source-cache/vector-intake/eds-munster-1921.fgb",
+      "bytes": 42785664,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-hvd-locales",
+      "name": "Locales (Tailte Éireann HVD)",
+      "category": "Built Environment",
+      "url": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_locales.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-hvd-locales.fgb",
+      "bytes": 90901912,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "eds-roi-1941-leinster",
+      "name": "District Electoral Divisions/Wards 1941",
+      "category": "Electoral Areas",
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1941.fgb",
+      "localPath": "test/source-cache/vector-intake/eds-roi-1941-leinster.fgb",
+      "bytes": 29505080,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "eds-roi-1941-munster",
+      "name": "District Electoral Divisions/Wards 1941",
+      "category": "Electoral Areas",
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1921.fgb",
+      "localPath": "test/source-cache/vector-intake/eds-roi-1941-munster.fgb",
+      "bytes": 42785664,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "eds-roi-1942-leinster",
+      "name": "District Electoral Divisions/Wards 1942",
+      "category": "Electoral Areas",
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1942.fgb",
+      "localPath": "test/source-cache/vector-intake/eds-roi-1942-leinster.fgb",
+      "bytes": 29504784,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "eds-leinster-1942",
+      "name": "Leinster District Electoral Divisions/Wards 1942",
+      "category": "Electoral Divisions",
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1942.fgb",
+      "localPath": "test/source-cache/vector-intake/eds-leinster-1942.fgb",
+      "bytes": 29504784,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "eds-roi-1942-munster",
+      "name": "District Electoral Divisions/Wards 1942",
+      "category": "Electoral Areas",
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1921.fgb",
+      "localPath": "test/source-cache/vector-intake/eds-roi-1942-munster.fgb",
+      "bytes": 42785664,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "tailte-hvd-water-points",
+      "name": "water points (Tailte Éireann HVD)",
+      "category": "Physical Geography",
+      "url": "https://data.civgraph.net/data/maps/tailte-hvd/HVD_water_points.fgb",
+      "localPath": "test/source-cache/vector-intake/tailte-hvd-water-points.fgb",
+      "bytes": 107959176,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "eds-leinster-1943",
+      "name": "Leinster District Electoral Divisions/Wards 1943",
+      "category": "Electoral Divisions",
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1943.fgb",
+      "localPath": "test/source-cache/vector-intake/eds-leinster-1943.fgb",
+      "bytes": 29504864,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "eds-roi-1943-munster",
+      "name": "District Electoral Divisions/Wards 1943",
+      "category": "Electoral Areas",
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1921.fgb",
+      "localPath": "test/source-cache/vector-intake/eds-roi-1943-munster.fgb",
+      "bytes": 42785664,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "eds-connacht-1957",
+      "name": "Connacht District Electoral Divisions/Wards 1957",
+      "category": "Electoral Divisions",
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1957.fgb",
+      "localPath": "test/source-cache/vector-intake/eds-connacht-1957.fgb",
+      "bytes": 25857816,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "eds-munster-1957",
+      "name": "Munster District Electoral Divisions/Wards 1957",
+      "category": "Electoral Divisions",
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1957.fgb",
+      "localPath": "test/source-cache/vector-intake/eds-munster-1957.fgb",
+      "bytes": 42857192,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "eds-leinster-1949",
+      "name": "Leinster District Electoral Divisions/Wards 1949",
+      "category": "Electoral Divisions",
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1949.fgb",
+      "localPath": "test/source-cache/vector-intake/eds-leinster-1949.fgb",
+      "bytes": 29432176,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "eds-ulster-1963",
+      "name": "Ulster District Electoral Divisions/Wards 1963",
+      "category": "Electoral Divisions",
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1963.fgb",
+      "localPath": "test/source-cache/vector-intake/eds-ulster-1963.fgb",
+      "bytes": 14236936,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "eds-roi-1943-leinster",
+      "name": "District Electoral Divisions/Wards 1943",
+      "category": "Electoral Areas",
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1943.fgb",
+      "localPath": "test/source-cache/vector-intake/eds-roi-1943-leinster.fgb",
+      "bytes": 29504864,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "eds-roi-1985-connacht",
+      "name": "District Electoral Divisions/Wards 1985",
+      "category": "Electoral Areas",
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1957.fgb",
+      "localPath": "test/source-cache/vector-intake/eds-roi-1985-connacht.fgb",
+      "bytes": 25857816,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "eds-leinster-1963",
+      "name": "Leinster District Electoral Divisions/Wards 1963",
+      "category": "Electoral Divisions",
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1963.fgb",
+      "localPath": "test/source-cache/vector-intake/eds-leinster-1963.fgb",
+      "bytes": 29469016,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "eds-roi-1985-ulster",
+      "name": "District Electoral Divisions/Wards 1985",
+      "category": "Electoral Areas",
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1963.fgb",
+      "localPath": "test/source-cache/vector-intake/eds-roi-1985-ulster.fgb",
+      "bytes": 14236936,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "eds-leinster-1985",
+      "name": "Leinster District Electoral Divisions/Wards 1985",
+      "category": "Electoral Divisions",
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1985.fgb",
+      "localPath": "test/source-cache/vector-intake/eds-leinster-1985.fgb",
+      "bytes": 29624128,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "eds-ulster-1996",
+      "name": "Ulster District Electoral Divisions/Wards 1996",
+      "category": "Electoral Divisions",
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/EDs_Ulster_1996.fgb",
+      "localPath": "test/source-cache/vector-intake/eds-ulster-1996.fgb",
+      "bytes": 14263432,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "eds-connacht-1996",
+      "name": "Connacht District Electoral Divisions/Wards 1996",
+      "category": "Electoral Divisions",
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/EDs_Connacht_1996.fgb",
+      "localPath": "test/source-cache/vector-intake/eds-connacht-1996.fgb",
+      "bytes": 25974968,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "roi-local-authorities-1920-06-19",
+      "name": "Republic of Ireland Local Authorities 19/06/1920",
+      "category": "Local Government Districts",
+      "url": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1920-06-19.fgb",
+      "localPath": "test/source-cache/vector-intake/roi-local-authorities-1920-06-19.fgb",
+      "bytes": 7966376,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "eds-roi-1985-leinster",
+      "name": "District Electoral Divisions/Wards 1985",
+      "category": "Electoral Areas",
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1985.fgb",
+      "localPath": "test/source-cache/vector-intake/eds-roi-1985-leinster.fgb",
+      "bytes": 29624128,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "roi-local-authorities-1915",
+      "name": "Republic of Ireland Local Authorities 1915",
+      "category": "Local Government Districts",
+      "url": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1915.fgb",
+      "localPath": "test/source-cache/vector-intake/roi-local-authorities-1915.fgb",
+      "bytes": 7966360,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "roi-local-authorities-1920-06-25",
+      "name": "Republic of Ireland Local Authorities 25/06/1920",
+      "category": "Local Government Districts",
+      "url": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1920-06-25.fgb",
+      "localPath": "test/source-cache/vector-intake/roi-local-authorities-1920-06-25.fgb",
+      "bytes": 7966376,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "roi-local-authorities-1921",
+      "name": "Republic of Ireland Local Authorities 1921",
+      "category": "Local Government Districts",
+      "url": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1921.fgb",
+      "localPath": "test/source-cache/vector-intake/roi-local-authorities-1921.fgb",
+      "bytes": 2810456,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "eds-munster-1996",
+      "name": "Munster District Electoral Divisions/Wards 1996",
+      "category": "Electoral Divisions",
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/EDs_Munster_1996.fgb",
+      "localPath": "test/source-cache/vector-intake/eds-munster-1996.fgb",
+      "bytes": 43224872,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "roi-local-authorities-1920-10-04",
+      "name": "Republic of Ireland Local Authorities 04/10/1920",
+      "category": "Local Government Districts",
+      "url": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1920-10-04.fgb",
+      "localPath": "test/source-cache/vector-intake/roi-local-authorities-1920-10-04.fgb",
+      "bytes": 7966368,
+      "contentType": "application/octet-stream"
+    },
+    {
+      "sourceMapId": "roi-local-authorities-1927",
+      "name": "Republic of Ireland Local Authorities 1927",
+      "category": "Local Government Districts",
+      "url": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1927.fgb",
+      "localPath": "test/source-cache/vector-intake/roi-local-authorities-1927.fgb",
+      "bytes": 2810456,
       "contentType": "application/octet-stream"
     }
   ],

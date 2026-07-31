@@ -1,9 +1,9 @@
 {
   "id": "eds-roi-1955-munster-alias-test",
   "sourceMapId": "eds-roi-1955-munster",
-  "name": "Munster 1955",
-  "category": "wards",
-  "group": "Built Environment",
+  "name": "District Electoral Divisions/Wards 1955",
+  "category": "Electoral Areas",
+  "group": "Elections and Government",
   "date": "1955-04-01",
   "dateAdded": null,
   "dateEffective": null,
@@ -11,7 +11,7 @@
     "Phelim Birch",
     "Paddy Matthews"
   ],
-  "description": "Republic of Ireland District Electoral Divisions/Wards as at 1 April 1955, assembled from Connacht 1919, Leinster 1954, Munster 1955, and the unchanged Ulster ROI DED component. In 1955 Cork county borough expanded into the DEDs of Bishopstown, St. Mary's and Blackrock, and Waterford county borough expanded into Ballynakill, Waterford Rural and the DED of Kilculliheen in County Kilkenny.",
+  "description": "Republic of Ireland District Electoral Divisions/Wards as at 1955-04-01, assembled from Connacht (= 1919 boundaries), Leinster (= 1954 boundaries), Munster 1955, Ulster (= 1921 boundaries). Modified version of District Electoral Divisions/Wards 1957. In 1957, due to the forthcoming expansion of Bray, part of the DED of Rathmichael was transferred from County Dublin to County Wicklow and became its own DED called Rathmichael (Bray).",
   "renderer": "maplibre",
   "sourceType": "pmtiles",
   "geometryType": "polygon",
@@ -40,18 +40,12 @@
   },
   "references": [
     {
-      "label": "District Electoral Divisions/Wards 1957 source notes",
-      "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/District Electoral Divisions Wards 1957.txt",
-      "note": "Sidecar notes supplied in Irish Digitised Boundaries archive."
+      "label": "District Electoral Divisions/Wards 1955 source notes",
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1955.txt",
+      "note": "Sidecar notes supplied in the Irish Digitised Boundaries archive."
     },
     {
-      "label": "Local Government Provisional Orders Confirmation Act, 1955"
-    },
-    {
-      "label": "Irish Townland and Historical Map Viewer, 6 Inch Last Edition basemap"
-    },
-    {
-      "label": "Cork City Council Boundary Map Viewer"
+      "label": "Wicklow County (District Electoral Divisions) Order, 1957"
     }
   ],
   "sourceDownloads": [
@@ -69,16 +63,22 @@
     "district electoral division",
     "DED",
     "ward",
-    "1955",
+    "1957",
     "republic of ireland",
     "historic",
     "small electoral units",
-    "1957",
     "Munster District Electoral Divisions/Wards 1955",
     "Electoral Divisions",
     "Built Environment",
     "maplibre",
-    "vector tiles"
+    "vector tiles",
+    "1955",
+    "District Electoral Divisions/Wards 1955",
+    "Electoral Areas",
+    "Elections and Government",
+    "eds-roi-1955-munster",
+    "eds-munster-1955",
+    "clone alias"
   ],
   "labelProperty": "ENGLISH",
   "labelPropertyFallbacks": [
@@ -212,15 +212,14 @@
       "WARD"
     ]
   },
-  "status": "converted",
-  "notes": "Generated from test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Munster_1955.fgb with GDAL MVT output.",
+  "status": "converted-alias",
+  "notes": "District Electoral Divisions/Wards 1955 reuses the converted geometry from Munster District Electoral Divisions/Wards 1955.",
   "generatedFrom": {
-    "pipeline": "build-test-vector-batch",
-    "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Munster_1955.fgb",
-    "bytes": 10690860,
-    "files": 1187,
-    "pbfFiles": 1186,
-    "maxTileBytes": 138031
+    "pipeline": "promote-test-clone-alias",
+    "sourceMapId": "eds-roi-1955-munster",
+    "cloneOf": "eds-munster-1955",
+    "aliasOf": "eds-munster-1955",
+    "targetLayerId": "eds-munster-1955-vector-test"
   },
   "tilePackage": {
     "preferred": true,
@@ -237,8 +236,7 @@
   },
   "promoteId": "civ_fid",
   "idProperty": "civ_fid",
-  "parentId": "eds-roi-1955",
-  "categoryId": null,
+  "categoryId": "wards",
   "conversionStatus": "convertedAlias",
   "aliasOf": "eds-munster-1955",
   "cloneOf": "eds-munster-1955",

@@ -1,9 +1,9 @@
 {
   "id": "eds-roi-1957-connacht-alias-test",
   "sourceMapId": "eds-roi-1957-connacht",
-  "name": "Connacht (= 1919 boundaries)",
-  "category": "Electoral Divisions",
-  "group": "Built Environment",
+  "name": "District Electoral Divisions/Wards 1957",
+  "category": "Electoral Areas",
+  "group": "Elections and Government",
   "date": "1957-11-01",
   "dateAdded": null,
   "dateEffective": null,
@@ -11,15 +11,15 @@
     "Phelim Birch",
     "Paddy Matthews"
   ],
-  "description": "Republic of Ireland District Electoral Divisions/Wards as at 1 November 1957, assembled from Connacht 1919, Leinster 1957, Munster 1955, and the unchanged Ulster ROI DED component. The source notes describe this as a modified version of the 1965 boundaries before Cork county borough expanded further into Bishopstown, St. Mary's, and Blackrock.",
+  "description": "Republic of Ireland District Electoral Divisions/Wards as at 1957-11-01, assembled from Connacht 1957, Leinster 1957, Munster 1957, Ulster (= 1921 boundaries). Modified version of District Electoral Divisions/Wards 1965. In 1965, Cork county borough's boundary expanded further into the DEDs of Bishopstown, St. Mary's and Blackrock (the last of which it fully absorbed). Also relevant is the renaming of the following DEDs between 1951 Census Reports Volume 1 (published 1952) and 1956 Census Reports Volume 1 (published 1957): Bagenalstown Rural to Muinebeag Rural (Carlow), Bagenalstown Urban to Muinebeag Urban (Carlow), Newbridge Rural to Droichead Nua Rural (Kildare), Newbridge Urban to Droichead Nua Urban (Kildare), Maryborough Rural to Portlaoighise Rural (Laois), Maryborough Urban to Portlaoighise Urban (Laois), Navan Rural to An Uaimh Rural (Meath), Navan Urban to An Uaimh Urban (Meath), WKells Rural to Ceanannas Mór Rural (Meath), Kells Urban to Ceanannas Mór Urban (Meath), Drumconrath to Drumcondra (Meath), Rosbercon to Rosbercon Urban (Wexford), Shanballymore Town to Shanballymore (Cork), Binghamstown North to An Geata Mór Thuaidh (Mayo), Binghamstown South to An Geata Mór Theas (Mayo)",
   "renderer": "maplibre",
   "sourceType": "pmtiles",
   "geometryType": "polygon",
-  "tiles": "/test/tiles/generated/eds-connacht-1919/{z}/{x}/{y}.pbf",
-  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-connacht-1919-vector-test.pmtiles?v=civfid1",
-  "tilesFallback": "/test/tiles/generated/eds-connacht-1919/{z}/{x}/{y}.pbf",
-  "metadataUrl": "/test/tiles/generated/eds-connacht-1919/metadata.json",
-  "sourceLayer": "eds_connacht_1919",
+  "tiles": "/test/tiles/generated/eds-connacht-1957/{z}/{x}/{y}.pbf",
+  "tileUrl": "/test/pmtiles/generated/eds-connacht-1957-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/eds-connacht-1957/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/eds-connacht-1957/metadata.json",
+  "sourceLayer": "eds_connacht_1957",
   "minzoom": 0,
   "maxzoom": 12,
   "bounds": [
@@ -34,47 +34,36 @@
   ],
   "style": {
     "color": "#1B5E20",
-    "fillColor": "#1B4332",
+    "fillColor": "#1B5E20",
     "fillOpacity": 0.18,
     "weight": 2
   },
   "references": [
     {
-      "label": "District Electoral Divisions/Wards 1970 source notes",
-      "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/District Electoral Divisions Wards 1970.txt",
-      "note": "Sidecar notes supplied in Irish Digitised Boundaries archive."
+      "label": "District Electoral Divisions/Wards 1957 source notes",
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1957.txt",
+      "note": "Sidecar notes supplied in the Irish Digitised Boundaries archive."
     },
     {
-      "label": "Minutes of Dublin City Council 1954 Item 144"
+      "label": "Local Government Provisional Orders Confirmation Act, 1955"
     },
     {
-      "label": "Dublin City Popular Edition, 1953"
+      "label": "Irish Townland and Historical Map Viewer (6 Inch Last Edition basemap)"
     },
     {
-      "label": "Irish Townland and Historical Map Viewer, 6 Inch Last Edition basemap"
+      "label": "Cork City Council Boundary Map Viewer"
     },
     {
-      "label": "1958 Geographia Plan of Dublin"
+      "label": "1951 Census Reports Volume 1"
     },
     {
-      "label": "1945 Geographia Plan of Dublin"
-    },
-    {
-      "label": "Paddy Matthews 1921 Wards/DEDs map"
-    },
-    {
-      "label": "National Archives 1926 census wards/DEDs map"
-    },
-    {
-      "label": "Dublin ward definitions 1954 PDF transcription",
-      "url": "https://data.civgraph.net/data/documents/dublin-electoral-history/Dublin%20Wards%2014-06-1954%20(Minutes%20of%20Dublin%20City%20Council%201954%20Item%20144).pdf",
-      "note": "Named in the 1970 source notes as a Dublin ward source."
+      "label": "1956 Census Reports Volume 1"
     }
   ],
   "sourceDownloads": [
     {
       "label": "Source file used for /test conversion",
-      "file": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Files already on the site/DEDs_Connacht_1919.fgb"
+      "file": "test/source-cache/vector-intake/eds-connacht-1957.fgb"
     }
   ],
   "sourceCredits": [
@@ -82,24 +71,26 @@
     "Paddy Matthews"
   ],
   "keywords": [
-    "electoral division",
-    "district electoral division",
+    "connacht",
+    "ED",
     "DED",
     "ward",
-    "1970",
-    "republic of ireland",
-    "historic",
-    "small electoral units",
-    "Connacht District Electoral Divisions 1919",
+    "1957",
+    "Connacht District Electoral Divisions/Wards 1957",
     "Electoral Divisions",
     "Built Environment",
     "maplibre",
     "vector tiles",
-    "1957",
-    "Connacht (= 1919 boundaries)",
+    "electoral division",
+    "district electoral division",
+    "republic of ireland",
+    "historic",
+    "small electoral units",
     "District Electoral Divisions/Wards 1957",
+    "Electoral Areas",
+    "Elections and Government",
     "eds-roi-1957-connacht",
-    "eds-connacht-1919",
+    "eds-connacht-1957",
     "clone alias"
   ],
   "labelProperty": "ENGLISH",
@@ -121,9 +112,9 @@
     "maxWidth": 14,
     "lineHeight": 1.25
   },
-  "featureIndexUrl": "/test/metadata/feature-indexes/eds-connacht-1919-vector-test.json",
-  "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Files already on the site/DEDs_Connacht_1919.fgb",
-  "sourceDatasetLayer": "DEDs_Connacht_1919",
+  "featureIndexUrl": "/test/metadata/feature-indexes/eds-connacht-1957-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/eds-connacht-1957.fgb",
+  "sourceDatasetLayer": "DEDs_Connacht_1963",
   "popupProperties": [
     "ENGLISH",
     "GAEILGE",
@@ -232,31 +223,25 @@
     ]
   },
   "status": "converted-alias",
-  "notes": "Connacht (= 1919 boundaries) reuses the converted geometry from Connacht District Electoral Divisions 1919.",
+  "notes": "District Electoral Divisions/Wards 1957 reuses the converted geometry from Connacht District Electoral Divisions/Wards 1957.",
   "generatedFrom": {
     "pipeline": "promote-test-clone-alias",
     "sourceMapId": "eds-roi-1957-connacht",
-    "cloneOf": "eds-connacht-1919",
-    "aliasOf": "eds-connacht-1919",
-    "targetLayerId": "eds-connacht-1919-vector-test"
+    "cloneOf": "eds-connacht-1957",
+    "aliasOf": "eds-connacht-1957",
+    "targetLayerId": "eds-connacht-1957-vector-test"
   },
   "tilePackage": {
     "preferred": true,
-    "localPath": "test/pmtiles/generated/eds-connacht-1919-vector-test.pmtiles",
-    "url": "/test/pmtiles/generated/eds-connacht-1919-vector-test.pmtiles",
-    "bytes": 4573422,
+    "localPath": "test/pmtiles/generated/eds-connacht-1957-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/eds-connacht-1957-vector-test.pmtiles",
+    "bytes": 4649446,
     "maxGithubBytes": 99614720,
-    "fallback": "/test/tiles/generated/eds-connacht-1919/{z}/{x}/{y}.pbf",
-    "serving": "cdn",
-    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-connacht-1919-vector-test.pmtiles",
-    "r2Key": "data/maps/test/pmtiles/generated/eds-connacht-1919-vector-test.pmtiles",
-    "localUrl": "/test/pmtiles/generated/eds-connacht-1919-vector-test.pmtiles",
-    "byteRangeVerifiedAt": "2026-06-12T19:42:33.886Z"
+    "fallback": "/test/tiles/generated/eds-connacht-1957/{z}/{x}/{y}.pbf"
   },
+  "categoryId": "wards",
   "conversionStatus": "convertedAlias",
-  "aliasOf": "eds-connacht-1919",
-  "cloneOf": "eds-connacht-1919",
-  "aliasTargetLayerId": "eds-connacht-1919-vector-test",
-  "promoteId": "civ_fid",
-  "idProperty": "civ_fid"
+  "aliasOf": "eds-connacht-1957",
+  "cloneOf": "eds-connacht-1957",
+  "aliasTargetLayerId": "eds-connacht-1957-vector-test"
 }

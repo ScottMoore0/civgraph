@@ -1,9 +1,9 @@
 {
   "id": "eds-roi-1965-munster-alias-test",
   "sourceMapId": "eds-roi-1965-munster",
-  "name": "Munster 1965",
-  "category": "wards",
-  "group": "Built Environment",
+  "name": "District Electoral Divisions/Wards 1965",
+  "category": "Electoral Areas",
+  "group": "Elections and Government",
   "date": "1965-07-01",
   "dateAdded": null,
   "dateEffective": null,
@@ -11,7 +11,7 @@
     "Phelim Birch",
     "Paddy Matthews"
   ],
-  "description": "Republic of Ireland District Electoral Divisions/Wards as at 1 July 1965, assembled from Connacht 1919, Leinster 1957 (reused; no later Leinster file is present in the supplied archive), Munster 1965, and the unchanged Ulster ROI DED component. The source notes describe this as a modified version of the 1966 boundaries before Waterford county borough expanded further into Waterford Rural.",
+  "description": "Republic of Ireland District Electoral Divisions/Wards as at 1965-07-01, assembled from Connacht (= 1957 boundaries), Leinster (= 1963 boundaries), Munster 1965, Ulster (= 1963 boundaries). Modified version of District Electoral Divisions/Wards 1966. In 1966, Waterford county borough's boundary expanded further into the DED of Waterford Rural. Also relevant is the renaming of the following DEDs between 1956 Census Reports Volume 1 (published 1957) and 1961 Census Reports Volume 1 (published 1963): Frankford to Kilcormac (Offaly), Mountcharles to Tantallon (Donegal)",
   "renderer": "maplibre",
   "sourceType": "pmtiles",
   "geometryType": "polygon",
@@ -33,19 +33,25 @@
     ]
   ],
   "style": {
-    "color": "#226C32",
-    "weight": 2,
-    "fillColor": "#226C32",
-    "fillOpacity": 0.18
+    "color": "#1B5E20",
+    "fillColor": "#1B5E20",
+    "fillOpacity": 0.18,
+    "weight": 2
   },
   "references": [
     {
       "label": "District Electoral Divisions/Wards 1965 source notes",
-      "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/District Electoral Divisions Wards 1965.txt",
-      "note": "Sidecar notes supplied in Irish Digitised Boundaries archive."
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1965.txt",
+      "note": "Sidecar notes supplied in the Irish Digitised Boundaries archive."
     },
     {
       "label": "Local Government Provisional Order Confirmation Act, 1966"
+    },
+    {
+      "label": "1956 Census Reports Volume 1"
+    },
+    {
+      "label": "1961 Census Reports Volume 1"
     }
   ],
   "sourceDownloads": [
@@ -72,8 +78,9 @@
     "Built Environment",
     "maplibre",
     "vector tiles",
-    "Munster 1965",
     "District Electoral Divisions/Wards 1965",
+    "Electoral Areas",
+    "Elections and Government",
     "eds-roi-1965-munster",
     "eds-munster-1965",
     "clone alias"
@@ -86,7 +93,7 @@
   "labelMinZoom": 0,
   "labelMaxZoom": null,
   "labelStyle": {
-    "color": "#226C32",
+    "color": "#1B5E20",
     "hoverColor": "#ff7a1a",
     "selectedColor": "#111827",
     "haloColor": "#ffffff",
@@ -211,7 +218,7 @@
     ]
   },
   "status": "converted-alias",
-  "notes": "Munster 1965 reuses the converted geometry from Munster District Electoral Divisions/Wards 1965.",
+  "notes": "District Electoral Divisions/Wards 1965 reuses the converted geometry from Munster District Electoral Divisions/Wards 1965.",
   "generatedFrom": {
     "pipeline": "promote-test-clone-alias",
     "sourceMapId": "eds-roi-1965-munster",
@@ -230,14 +237,13 @@
     "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-munster-1965-vector-test.pmtiles",
     "r2Key": "data/maps/test/pmtiles/generated/eds-munster-1965-vector-test.pmtiles",
     "localUrl": "/test/pmtiles/generated/eds-munster-1965-vector-test.pmtiles",
-    "byteRangeVerifiedAt": "2026-06-12T19:42:33.886Z"
+    "byteRangeVerifiedAt": "2026-06-23T21:03:59.095Z"
   },
-  "parentId": "eds-roi-1965",
-  "categoryId": null,
+  "promoteId": "civ_fid",
+  "idProperty": "civ_fid",
+  "categoryId": "wards",
   "conversionStatus": "convertedAlias",
   "aliasOf": "eds-munster-1965",
   "cloneOf": "eds-munster-1965",
-  "aliasTargetLayerId": "eds-munster-1965-vector-test",
-  "promoteId": "civ_fid",
-  "idProperty": "civ_fid"
+  "aliasTargetLayerId": "eds-munster-1965-vector-test"
 }

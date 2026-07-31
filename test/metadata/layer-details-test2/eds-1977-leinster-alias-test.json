@@ -1,17 +1,17 @@
 {
   "id": "eds-1977-leinster-alias-test",
   "sourceMapId": "eds-1977-leinster",
-  "name": "Leinster 1977",
-  "category": "wards",
-  "group": "Built Environment",
-  "date": 1977,
+  "name": "District Electoral Divisions/Wards 1977",
+  "category": "Electoral Areas",
+  "group": "Elections and Government",
+  "date": "1977-01-01",
   "dateAdded": null,
   "dateEffective": null,
   "provider": [
     "Phelim Birch",
     "Paddy Matthews"
   ],
-  "description": "",
+  "description": "Republic of Ireland District Electoral Divisions/Wards as at 1977-01-01, assembled from Connacht (= 1957 boundaries), Leinster 1977, Munster (= 1971 boundaries), Ulster (= 1963 boundaries). Modified version of District Electoral Divisions/Wards 1983. In 1983 (following the expansion of Waterford county borough in 1980), Waterford's existing 24 wards were replaced by 38 new ones. 1 DED (Waterford Rural) was replaced, and 3 more (Ballinakill, Faithlegg, Kilbarry) were reduced in size. The following sources were used:",
   "renderer": "maplibre",
   "sourceType": "pmtiles",
   "geometryType": "polygon",
@@ -31,12 +31,18 @@
     ]
   ],
   "style": {
-    "color": "#1F7333",
-    "weight": 2,
-    "fillColor": "#1F7333",
-    "fillOpacity": 0.18
+    "color": "#1B5E20",
+    "fillColor": "#1B5E20",
+    "fillOpacity": 0.18,
+    "weight": 2
   },
-  "references": [],
+  "references": [
+    {
+      "label": "District Electoral Divisions/Wards 1977 source notes",
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1977.txt",
+      "note": "Sidecar notes supplied in the Irish Digitised Boundaries archive."
+    }
+  ],
   "sourceDownloads": [
     {
       "label": "Source file used for /test conversion",
@@ -44,7 +50,8 @@
     }
   ],
   "sourceCredits": [
-    "Phelim Birch"
+    "Phelim Birch",
+    "Paddy Matthews"
   ],
   "keywords": [
     "leinster",
@@ -61,8 +68,9 @@
     "all ireland",
     "republic of ireland",
     "historic",
-    "Leinster 1977",
     "District Electoral Divisions/Wards 1977",
+    "Electoral Areas",
+    "Elections and Government",
     "eds-1977-leinster",
     "eds-leinster-1977",
     "clone alias"
@@ -75,7 +83,7 @@
   "labelMinZoom": 0,
   "labelMaxZoom": null,
   "labelStyle": {
-    "color": "#1F7333",
+    "color": "#1B5E20",
     "hoverColor": "#ff7a1a",
     "selectedColor": "#111827",
     "haloColor": "#ffffff",
@@ -212,7 +220,7 @@
     ]
   },
   "status": "converted-alias",
-  "notes": "Leinster 1977 reuses the converted geometry from Leinster District Electoral Divisions/Wards 1977.",
+  "notes": "District Electoral Divisions/Wards 1977 reuses the converted geometry from Leinster District Electoral Divisions/Wards 1977.",
   "generatedFrom": {
     "pipeline": "promote-test-clone-alias",
     "sourceMapId": "eds-1977-leinster",
@@ -234,13 +242,12 @@
     "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-leinster-1977-vector-test.pmtiles",
     "r2Key": "data/maps/test/pmtiles/generated/eds-leinster-1977-vector-test.pmtiles",
     "localUrl": "/test/pmtiles/generated/eds-leinster-1977-vector-test.pmtiles",
-    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+    "byteRangeVerifiedAt": "2026-06-23T21:03:59.095Z"
   },
-  "parentId": "eds-1977",
-  "categoryId": null,
+  "promoteId": "civ_fid",
+  "categoryId": "wards",
   "conversionStatus": "convertedAlias",
   "aliasOf": "eds-leinster-1977",
   "cloneOf": "eds-leinster-1977",
-  "aliasTargetLayerId": "eds-leinster-1977-vector-test",
-  "promoteId": "civ_fid"
+  "aliasTargetLayerId": "eds-leinster-1977-vector-test"
 }

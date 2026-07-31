@@ -1,17 +1,17 @@
 {
   "id": "eds-1983-leinster-alias-test",
   "sourceMapId": "eds-1983-leinster",
-  "name": "Leinster (= 1977 boundaries)",
-  "category": "wards",
-  "group": "Built Environment",
-  "date": 1983,
+  "name": "District Electoral Divisions/Wards 1983",
+  "category": "Electoral Areas",
+  "group": "Elections and Government",
+  "date": "1983",
   "dateAdded": null,
   "dateEffective": null,
   "provider": [
     "Phelim Birch",
-    "Paddy Matthews"
+    "Paddy Matthews (Paddy will be credited on all my ED maps from now on as I used his 1926 map for Galway)"
   ],
-  "description": "",
+  "description": "Republic of Ireland District Electoral Divisions/Wards as at 1983, assembled from Connacht (= 1957 boundaries), Leinster (= 1977 boundaries), Munster 1983, Ulster (= 1963 boundaries). Modified version of District Electoral Divisions/Wards 1985. In 1985, the DEDs of Blanchardstown, Coolock, Drumcondra Rural No. 1, Drumcondra Rural No. 2, Dundrum No. 1, Finglas and Palmerstown No. 1 and wards of Kimmage E, Pembroke East D and Rathfarnham D were split by the Dublin city boundary change.",
   "renderer": "maplibre",
   "sourceType": "pmtiles",
   "geometryType": "polygon",
@@ -31,12 +31,18 @@
     ]
   ],
   "style": {
-    "color": "#288239",
-    "weight": 2,
-    "fillColor": "#288239",
-    "fillOpacity": 0.18
+    "color": "#1B5E20",
+    "fillColor": "#1B5E20",
+    "fillOpacity": 0.18,
+    "weight": 2
   },
-  "references": [],
+  "references": [
+    {
+      "label": "District Electoral Divisions/Wards 1983 source notes",
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1983.txt",
+      "note": "Sidecar notes supplied in the Irish Digitised Boundaries archive."
+    }
+  ],
   "sourceDownloads": [
     {
       "label": "Source file used for /test conversion",
@@ -44,7 +50,8 @@
     }
   ],
   "sourceCredits": [
-    "Phelim Birch"
+    "Phelim Birch",
+    "Paddy Matthews (Paddy will be credited on all my ED maps from now on as I used his 1926 map for Galway)"
   ],
   "keywords": [
     "leinster",
@@ -62,8 +69,9 @@
     "all ireland",
     "republic of ireland",
     "historic",
-    "Leinster (= 1977 boundaries)",
     "District Electoral Divisions/Wards 1983",
+    "Electoral Areas",
+    "Elections and Government",
     "eds-1983-leinster",
     "eds-leinster-1977",
     "clone alias"
@@ -76,7 +84,7 @@
   "labelMinZoom": 0,
   "labelMaxZoom": null,
   "labelStyle": {
-    "color": "#288239",
+    "color": "#1B5E20",
     "hoverColor": "#ff7a1a",
     "selectedColor": "#111827",
     "haloColor": "#ffffff",
@@ -213,7 +221,7 @@
     ]
   },
   "status": "converted-alias",
-  "notes": "Leinster (= 1977 boundaries) reuses the converted geometry from Leinster District Electoral Divisions/Wards 1977.",
+  "notes": "District Electoral Divisions/Wards 1983 reuses the converted geometry from Leinster District Electoral Divisions/Wards 1977.",
   "generatedFrom": {
     "pipeline": "promote-test-clone-alias",
     "sourceMapId": "eds-1983-leinster",
@@ -235,13 +243,12 @@
     "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-leinster-1977-vector-test.pmtiles",
     "r2Key": "data/maps/test/pmtiles/generated/eds-leinster-1977-vector-test.pmtiles",
     "localUrl": "/test/pmtiles/generated/eds-leinster-1977-vector-test.pmtiles",
-    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+    "byteRangeVerifiedAt": "2026-06-23T21:03:59.095Z"
   },
-  "parentId": "eds-1983",
-  "categoryId": null,
+  "promoteId": "civ_fid",
+  "categoryId": "wards",
   "conversionStatus": "convertedAlias",
   "aliasOf": "eds-leinster-1977",
   "cloneOf": "eds-leinster-1977",
-  "aliasTargetLayerId": "eds-leinster-1977-vector-test",
-  "promoteId": "civ_fid"
+  "aliasTargetLayerId": "eds-leinster-1977-vector-test"
 }

@@ -1,9 +1,9 @@
 {
   "id": "eds-roi-1955-connacht-alias-test",
   "sourceMapId": "eds-roi-1955-connacht",
-  "name": "Connacht (= 1919 boundaries)",
-  "category": "wards",
-  "group": "Built Environment",
+  "name": "District Electoral Divisions/Wards 1955",
+  "category": "Electoral Areas",
+  "group": "Elections and Government",
   "date": "1955-04-01",
   "dateAdded": null,
   "dateEffective": null,
@@ -11,7 +11,7 @@
     "Phelim Birch",
     "Paddy Matthews"
   ],
-  "description": "Republic of Ireland District Electoral Divisions/Wards as at 1 April 1955, assembled from Connacht 1919, Leinster 1954, Munster 1955, and the unchanged Ulster ROI DED component. In 1955 Cork county borough expanded into the DEDs of Bishopstown, St. Mary's and Blackrock, and Waterford county borough expanded into Ballynakill, Waterford Rural and the DED of Kilculliheen in County Kilkenny.",
+  "description": "Republic of Ireland District Electoral Divisions/Wards as at 1955-04-01, assembled from Connacht (= 1919 boundaries), Leinster (= 1954 boundaries), Munster 1955, Ulster (= 1921 boundaries). Modified version of District Electoral Divisions/Wards 1957. In 1957, due to the forthcoming expansion of Bray, part of the DED of Rathmichael was transferred from County Dublin to County Wicklow and became its own DED called Rathmichael (Bray).",
   "renderer": "maplibre",
   "sourceType": "pmtiles",
   "geometryType": "polygon",
@@ -40,35 +40,12 @@
   },
   "references": [
     {
-      "label": "District Electoral Divisions/Wards 1970 source notes",
-      "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/District Electoral Divisions Wards 1970.txt",
-      "note": "Sidecar notes supplied in Irish Digitised Boundaries archive."
+      "label": "District Electoral Divisions/Wards 1955 source notes",
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1955.txt",
+      "note": "Sidecar notes supplied in the Irish Digitised Boundaries archive."
     },
     {
-      "label": "Minutes of Dublin City Council 1954 Item 144"
-    },
-    {
-      "label": "Dublin City Popular Edition, 1953"
-    },
-    {
-      "label": "Irish Townland and Historical Map Viewer, 6 Inch Last Edition basemap"
-    },
-    {
-      "label": "1958 Geographia Plan of Dublin"
-    },
-    {
-      "label": "1945 Geographia Plan of Dublin"
-    },
-    {
-      "label": "Paddy Matthews 1921 Wards/DEDs map"
-    },
-    {
-      "label": "National Archives 1926 census wards/DEDs map"
-    },
-    {
-      "label": "Dublin ward definitions 1954 PDF transcription",
-      "url": "https://data.civgraph.net/data/documents/dublin-electoral-history/Dublin%20Wards%2014-06-1954%20(Minutes%20of%20Dublin%20City%20Council%201954%20Item%20144).pdf",
-      "note": "Named in the 1970 source notes as a Dublin ward source."
+      "label": "Wicklow County (District Electoral Divisions) Order, 1957"
     }
   ],
   "sourceDownloads": [
@@ -86,16 +63,22 @@
     "district electoral division",
     "DED",
     "ward",
-    "1955",
+    "1970",
     "republic of ireland",
     "historic",
     "small electoral units",
-    "1970",
     "Connacht District Electoral Divisions 1919",
     "Electoral Divisions",
     "Built Environment",
     "maplibre",
-    "vector tiles"
+    "vector tiles",
+    "1955",
+    "District Electoral Divisions/Wards 1955",
+    "Electoral Areas",
+    "Elections and Government",
+    "eds-roi-1955-connacht",
+    "eds-connacht-1919",
+    "clone alias"
   ],
   "labelProperty": "ENGLISH",
   "labelPropertyFallbacks": [
@@ -226,15 +209,14 @@
       "DED"
     ]
   },
-  "status": "converted",
-  "notes": "Generated from test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Files already on the site/DEDs_Connacht_1919.fgb with GDAL MVT output.",
+  "status": "converted-alias",
+  "notes": "District Electoral Divisions/Wards 1955 reuses the converted geometry from Connacht District Electoral Divisions 1919.",
   "generatedFrom": {
-    "pipeline": "build-test-vector-batch",
-    "sourceFile": "test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Files already on the site/DEDs_Connacht_1919.fgb",
-    "bytes": 6704563,
-    "files": 949,
-    "pbfFiles": 948,
-    "maxTileBytes": 112386
+    "pipeline": "promote-test-clone-alias",
+    "sourceMapId": "eds-roi-1955-connacht",
+    "cloneOf": "eds-connacht-1919",
+    "aliasOf": "eds-connacht-1919",
+    "targetLayerId": "eds-connacht-1919-vector-test"
   },
   "tilePackage": {
     "preferred": true,
@@ -251,8 +233,7 @@
   },
   "promoteId": "civ_fid",
   "idProperty": "civ_fid",
-  "parentId": "eds-roi-1955",
-  "categoryId": null,
+  "categoryId": "wards",
   "conversionStatus": "convertedAlias",
   "aliasOf": "eds-connacht-1919",
   "cloneOf": "eds-connacht-1919",

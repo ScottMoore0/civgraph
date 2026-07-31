@@ -1,0 +1,208 @@
+{
+  "id": "eds-connacht-1996-vector-test",
+  "sourceMapId": "eds-connacht-1996",
+  "name": "Connacht District Electoral Divisions/Wards 1996",
+  "category": "Electoral Divisions",
+  "group": "Built Environment",
+  "date": 1996,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Phelim Birch",
+    "Paddy Matthews"
+  ],
+  "description": "Connacht component used by the 1997 Republic of Ireland District Electoral Divisions/Wards entry.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/eds-connacht-1996/{z}/{x}/{y}.pbf",
+  "tileUrl": "/test/pmtiles/generated/eds-connacht-1996-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/eds-connacht-1996/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/eds-connacht-1996/metadata.json",
+  "sourceLayer": "eds_connacht_1996",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      52.9681498,
+      -10.3207471
+    ],
+    [
+      54.4743682,
+      -7.584171
+    ]
+  ],
+  "style": {
+    "color": "#1B5E20",
+    "fillColor": "#1B5E20",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/eds-connacht-1996.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Phelim Birch",
+    "Paddy Matthews"
+  ],
+  "keywords": [
+    "connacht",
+    "ED",
+    "DED",
+    "ward",
+    "1996",
+    "Connacht District Electoral Divisions/Wards 1996",
+    "Electoral Divisions",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "ENGLISH",
+  "labelPropertyFallbacks": [
+    "GAEILGE",
+    "COUNTY"
+  ],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#1B5E20",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/eds-connacht-1996-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/eds-connacht-1996.fgb",
+  "sourceDatasetLayer": "EDs_Connacht_1996",
+  "popupProperties": [
+    "ENGLISH",
+    "GAEILGE",
+    "CONTAE",
+    "COUNTY",
+    "PROVINCE"
+  ],
+  "numericProperties": [],
+  "categoricalProperties": [
+    "ENGLISH",
+    "GAEILGE",
+    "CONTAE",
+    "COUNTY",
+    "PROVINCE"
+  ],
+  "categoricalValues": {
+    "ENGLISH": [
+      "ANNAGH",
+      "ARDRAHAN",
+      "ATHENRY",
+      "AUGHRIM",
+      "BALLYMOE",
+      "BEAGH",
+      "BELCLARE",
+      "BULLAUN",
+      "CARAUN",
+      "CARNMORE",
+      "CLONBERN",
+      "CLONFERT",
+      "COOS",
+      "CREAGH",
+      "CULLIAGH",
+      "DERREW",
+      "KILCROAN",
+      "KILLAAN",
+      "KILLEELY",
+      "KILLEEN",
+      "KILLIAN",
+      "KILLIMOR",
+      "KILLINNY",
+      "KILLURE",
+      "KILMEEN",
+      "KILQUAIN",
+      "KILVINE",
+      "LACKALEA",
+      "LEITRIM",
+      "LISMANNY",
+      "MILLTOWN",
+      "MOUNTAIN"
+    ],
+    "GAEILGE": [
+      "An Cuas",
+      "Liatroim",
+      "Maighin",
+      "An Ballán",
+      "An Bheitheach",
+      "An Bhreaclach",
+      "An Caisleán Buí",
+      "An Carn Mór",
+      "An Chathair Mhór",
+      "An Cheapach Loiscthe",
+      "An Cheathrú Riabhach",
+      "An Choilleach",
+      "An Chríoch",
+      "An Cillín",
+      "An Clochar",
+      "An Creagán",
+      "An Currach Mór",
+      "An Cárán",
+      "An Ghráig",
+      "An Mhainistir Thiar",
+      "An Mhainistir Thoir",
+      "An Ráithín",
+      "An Sceachánach",
+      "An Screig",
+      "An Tobar Rua",
+      "An tEanach",
+      "Ard Mhaolabháin",
+      "Ard Raithin",
+      "Baile Daighean",
+      "Baile Locha Riach (Tuath)",
+      "Baile Locha Riach (Uirbeach)",
+      "Baile Uí Chathaláin"
+    ],
+    "CONTAE": [
+      "Gaillimh",
+      "Liatroim",
+      "Maigh Eo",
+      "Sligeach",
+      "Ros Comáin"
+    ],
+    "COUNTY": [
+      "GALWAY",
+      "LEITRIM",
+      "MAYO",
+      "SLIGO",
+      "ROSCOMMON"
+    ],
+    "PROVINCE": [
+      "Connacht"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/eds-connacht-1996.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/eds-connacht-1996.fgb",
+    "bytes": 6700468,
+    "files": 949,
+    "pbfFiles": 948,
+    "maxTileBytes": 112287
+  },
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/eds-connacht-1996-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/eds-connacht-1996-vector-test.pmtiles",
+    "bytes": 4658001,
+    "maxGithubBytes": 99614720,
+    "fallback": "/test/tiles/generated/eds-connacht-1996/{z}/{x}/{y}.pbf"
+  },
+  "promoteId": "civ_fid",
+  "idProperty": "civ_fid"
+}

@@ -1,9 +1,9 @@
 {
   "id": "eds-1971-leinster-alias-test",
   "sourceMapId": "eds-1971-leinster",
-  "name": "Leinster 1971",
-  "category": "wards",
-  "group": "Built Environment",
+  "name": "District Electoral Divisions/Wards 1971",
+  "category": "Electoral Areas",
+  "group": "Elections and Government",
   "date": "1971-04-15",
   "dateAdded": null,
   "dateEffective": null,
@@ -11,7 +11,7 @@
     "Phelim Birch",
     "Paddy Matthews"
   ],
-  "description": "",
+  "description": "Republic of Ireland District Electoral Divisions/Wards as at 1971-04-15, assembled from Connacht (= 1957 boundaries), Leinster 1971, Munster 1971, Ulster (= 1963 boundaries). Modified version of District Electoral Divisions/Wards 1977. In 1977, due to the expansion of Drogheda, part of the DED of St. Mary’s was ceded to County Louth by County Meath. Details on this can be found in the Local Government Provisional Order Confirmation Act, 1976. Also relevant is the renaming of An Uaimh to Navan on 25/06/1971, as its corresponding DEDs were renamed by 1971 Census Reports Volume 1 (published July 1972).",
   "renderer": "maplibre",
   "sourceType": "pmtiles",
   "geometryType": "polygon",
@@ -31,12 +31,18 @@
     ]
   ],
   "style": {
-    "color": "#155A2B",
-    "weight": 2,
-    "fillColor": "#155A2B",
-    "fillOpacity": 0.18
+    "color": "#1B5E20",
+    "fillColor": "#1B5E20",
+    "fillOpacity": 0.18,
+    "weight": 2
   },
-  "references": [],
+  "references": [
+    {
+      "label": "District Electoral Divisions/Wards 1971 source notes",
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1971.txt",
+      "note": "Sidecar notes supplied in the Irish Digitised Boundaries archive."
+    }
+  ],
   "sourceDownloads": [
     {
       "label": "Source file used for /test conversion",
@@ -44,7 +50,8 @@
     }
   ],
   "sourceCredits": [
-    "Phelim Birch"
+    "Phelim Birch",
+    "Paddy Matthews"
   ],
   "keywords": [
     "leinster",
@@ -61,8 +68,9 @@
     "all ireland",
     "republic of ireland",
     "historic",
-    "Leinster 1971",
     "District Electoral Divisions/Wards 1971",
+    "Electoral Areas",
+    "Elections and Government",
     "eds-1971-leinster",
     "eds-leinster-1971",
     "clone alias"
@@ -75,7 +83,7 @@
   "labelMinZoom": 0,
   "labelMaxZoom": null,
   "labelStyle": {
-    "color": "#155A2B",
+    "color": "#1B5E20",
     "hoverColor": "#ff7a1a",
     "selectedColor": "#111827",
     "haloColor": "#ffffff",
@@ -212,7 +220,7 @@
     ]
   },
   "status": "converted-alias",
-  "notes": "Leinster 1971 reuses the converted geometry from Leinster District Electoral Divisions/Wards 1971.",
+  "notes": "District Electoral Divisions/Wards 1971 reuses the converted geometry from Leinster District Electoral Divisions/Wards 1971.",
   "generatedFrom": {
     "pipeline": "promote-test-clone-alias",
     "sourceMapId": "eds-1971-leinster",
@@ -234,13 +242,12 @@
     "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-leinster-1971-vector-test.pmtiles",
     "r2Key": "data/maps/test/pmtiles/generated/eds-leinster-1971-vector-test.pmtiles",
     "localUrl": "/test/pmtiles/generated/eds-leinster-1971-vector-test.pmtiles",
-    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+    "byteRangeVerifiedAt": "2026-06-23T21:03:59.095Z"
   },
-  "parentId": "eds-1971",
-  "categoryId": null,
+  "promoteId": "civ_fid",
+  "categoryId": "wards",
   "conversionStatus": "convertedAlias",
   "aliasOf": "eds-leinster-1971",
   "cloneOf": "eds-leinster-1971",
-  "aliasTargetLayerId": "eds-leinster-1971-vector-test",
-  "promoteId": "civ_fid"
+  "aliasTargetLayerId": "eds-leinster-1971-vector-test"
 }

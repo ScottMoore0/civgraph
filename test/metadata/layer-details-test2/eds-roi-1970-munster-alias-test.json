@@ -1,9 +1,9 @@
 {
   "id": "eds-roi-1970-munster-alias-test",
   "sourceMapId": "eds-roi-1970-munster",
-  "name": "Munster 1970",
-  "category": "wards",
-  "group": "Built Environment",
+  "name": "District Electoral Divisions/Wards 1970",
+  "category": "Electoral Areas",
+  "group": "Elections and Government",
   "date": "1970-01-05",
   "dateAdded": null,
   "dateEffective": null,
@@ -11,7 +11,7 @@
     "Phelim Birch",
     "Paddy Matthews"
   ],
-  "description": "Republic of Ireland District Electoral Divisions/Wards as at 5 January 1970, assembled from Connacht 1919, Leinster 1957 (reused; no later Leinster file is present in the supplied archive), Munster 1970, and the unchanged Ulster ROI DED component. The source notes describe this as the final pre-15 April 1971 layout, before major Dublin, Cork, and Limerick ward/DED reforms.",
+  "description": "Republic of Ireland District Electoral Divisions/Wards as at 1970-01-05, assembled from Connacht (= 1957 boundaries), Leinster (= 1963 boundaries), Munster 1970, Ulster (= 1963 boundaries). Modified version of District Electoral Divisions/Wards 1971. On April 15th 1971, the following changes came into effect:",
   "renderer": "maplibre",
   "sourceType": "pmtiles",
   "geometryType": "polygon",
@@ -33,25 +33,28 @@
     ]
   ],
   "style": {
-    "color": "#155A2B",
-    "weight": 2,
-    "fillColor": "#155A2B",
-    "fillOpacity": 0.18
+    "color": "#1B5E20",
+    "fillColor": "#1B5E20",
+    "fillOpacity": 0.18,
+    "weight": 2
   },
   "references": [
     {
       "label": "District Electoral Divisions/Wards 1970 source notes",
-      "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/District Electoral Divisions Wards 1970.txt",
-      "note": "Sidecar notes supplied in Irish Digitised Boundaries archive."
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1970.txt",
+      "note": "Sidecar notes supplied in the Irish Digitised Boundaries archive."
     },
     {
-      "label": "Minutes of Dublin City Council 1954 Item 144"
+      "label": "1) Dublin wards:"
     },
     {
-      "label": "Dublin City Popular Edition, 1953"
+      "label": "Minutes of Dublin City Council 1954 Item 144 (thank you to Dublin Historic Maps for alerting me to this source)"
     },
     {
-      "label": "Irish Townland and Historical Map Viewer, 6 Inch Last Edition basemap"
+      "label": "Dublin City Popular Edition (1953)"
+    },
+    {
+      "label": "Irish Townland and Historical Map Viewer (6 Inch Last Edition basemap)"
     },
     {
       "label": "1958 Geographia Plan of Dublin"
@@ -60,15 +63,7 @@
       "label": "1945 Geographia Plan of Dublin"
     },
     {
-      "label": "Paddy Matthews 1921 Wards/DEDs map"
-    },
-    {
-      "label": "National Archives 1926 census wards/DEDs map"
-    },
-    {
-      "label": "Dublin ward definitions 1954 PDF transcription",
-      "url": "https://data.civgraph.net/data/documents/dublin-electoral-history/Dublin%20Wards%2014-06-1954%20(Minutes%20of%20Dublin%20City%20Council%201954%20Item%20144).pdf",
-      "note": "Named in the 1970 source notes as a Dublin ward source."
+      "label": "2) Dublin DEDs, 3) Cork wards, 4) Limerick wards:"
     }
   ],
   "sourceDownloads": [
@@ -95,8 +90,9 @@
     "Built Environment",
     "maplibre",
     "vector tiles",
-    "Munster 1970",
     "District Electoral Divisions/Wards 1970",
+    "Electoral Areas",
+    "Elections and Government",
     "eds-roi-1970-munster",
     "eds-munster-1970",
     "clone alias"
@@ -109,7 +105,7 @@
   "labelMinZoom": 0,
   "labelMaxZoom": null,
   "labelStyle": {
-    "color": "#155A2B",
+    "color": "#1B5E20",
     "hoverColor": "#ff7a1a",
     "selectedColor": "#111827",
     "haloColor": "#ffffff",
@@ -234,7 +230,7 @@
     ]
   },
   "status": "converted-alias",
-  "notes": "Munster 1970 reuses the converted geometry from Munster District Electoral Divisions/Wards 1970.",
+  "notes": "District Electoral Divisions/Wards 1970 reuses the converted geometry from Munster District Electoral Divisions/Wards 1970.",
   "generatedFrom": {
     "pipeline": "promote-test-clone-alias",
     "sourceMapId": "eds-roi-1970-munster",
@@ -253,14 +249,13 @@
     "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-munster-1970-vector-test.pmtiles",
     "r2Key": "data/maps/test/pmtiles/generated/eds-munster-1970-vector-test.pmtiles",
     "localUrl": "/test/pmtiles/generated/eds-munster-1970-vector-test.pmtiles",
-    "byteRangeVerifiedAt": "2026-06-12T19:42:33.886Z"
+    "byteRangeVerifiedAt": "2026-06-23T21:03:59.095Z"
   },
-  "parentId": "eds-roi-1970",
-  "categoryId": null,
+  "promoteId": "civ_fid",
+  "idProperty": "civ_fid",
+  "categoryId": "wards",
   "conversionStatus": "convertedAlias",
   "aliasOf": "eds-munster-1970",
   "cloneOf": "eds-munster-1970",
-  "aliasTargetLayerId": "eds-munster-1970-vector-test",
-  "promoteId": "civ_fid",
-  "idProperty": "civ_fid"
+  "aliasTargetLayerId": "eds-munster-1970-vector-test"
 }
