@@ -5,6 +5,7 @@
 
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { isValidBounds } from './lib/layer-bounds.mjs';
 
 const ROOT = resolve(process.cwd());
 const METADATA_PATH = resolve(ROOT, 'test/metadata/maps-test.json');
@@ -43,36 +44,7 @@ function localPathFromUrlTemplate(value) {
     .replace('/{z}/{x}/{y}.mvt', '');
 }
 
-function isValidBounds(bounds, layer = null) {
-  if (!Array.isArray(bounds) || bounds.length !== 2) return false;
-  const [[south, west], [north, east]] = bounds;
-  if (![south, west, north, east].every(Number.isFinite) || south > north || west > east) return false;
-  // A degenerate bbox (min === max) is legitimate: a dataset whose features all sit at
-  // one location -- a single bicycle sign, a national COVID figure pinned to a centroid --
-  // has zero extent. Requiring strict inequality failed three real, correct layers.
-  const nearNullIsland = Math.max(Math.abs(south), Math.abs(west), Math.abs(north), Math.abs(east)) < 1;
-  if (nearNullIsland) return false;
-  if (String(layer?.sourceMapId || layer?.id || '').startsWith('dobih-v18-4')) {
-    return south >= 49
-      && north <= 61
-      && west >= -11
-      && east <= 2;
-  }
-  if (layer?.sourceMapId === 'britain-ireland-seas') {
-    return south >= 45
-      && north <= 63
-      && west >= -18
-      && east <= 14
-      && south < 57
-      && north > 49
-      && west < -4
-      && east > -12;
-  }
-  return south >= 49
-    && north <= 57
-    && west >= -12.5
-    && east <= -4;
-}
+
 
 // Source types that are not vector tiles. raster-dem (94 layers) and point-cloud (5)
 // were added to the site after this validator was written, so they were rejected as

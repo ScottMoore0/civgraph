@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-31T22:29:45.842Z",
+  "generatedAt": "2026-07-31T23:11:01.353Z",
   "cdnBase": "https://data.civgraph.net/data/maps/test",
   "r2Prefix": "data/maps/test",
   "assets": [
@@ -8040,6 +8040,24 @@
       "bytes": 2535906,
       "exists": false,
       "remoteVerified": true
+    },
+    {
+      "layerId": "tailte-ferry-crossing-vector-test",
+      "kind": "pmtiles",
+      "localPath": "test/pmtiles/generated/tailte-ferry-crossing-vector-test.pmtiles",
+      "targetKey": "data/maps/test/pmtiles/generated/tailte-ferry-crossing-vector-test.pmtiles",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tailte-ferry-crossing-vector-test.pmtiles",
+      "bytes": 131601,
+      "exists": true
+    },
+    {
+      "layerId": "tailte-hvd-water-points-vector-test",
+      "kind": "pmtiles",
+      "localPath": "test/pmtiles/generated/tailte-hvd-water-points-vector-test.pmtiles",
+      "targetKey": "data/maps/test/pmtiles/generated/tailte-hvd-water-points-vector-test.pmtiles",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tailte-hvd-water-points-vector-test.pmtiles",
+      "bytes": 223967858,
+      "exists": true
     }
   ],
   "commands": [
@@ -8153,6 +8171,8 @@
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/water-framework-directive-2nd-cycle-interim-status1-vector-test.pmtiles --file test/pmtiles/generated/water-framework-directive-2nd-cycle-interim-status1-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/wicklow-county-council-tree-preservation-orders-bray-vector-test.pmtiles --file test/pmtiles/generated/wicklow-county-council-tree-preservation-orders-bray-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/wicklow-county-council-tree-preservation-orders-vector-test.pmtiles --file test/pmtiles/generated/wicklow-county-council-tree-preservation-orders-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/wicklow-fire-stations-vector-test.pmtiles --file test/pmtiles/generated/wicklow-fire-stations-vector-test.pmtiles --remote --content-type application/octet-stream"
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/wicklow-fire-stations-vector-test.pmtiles --file test/pmtiles/generated/wicklow-fire-stations-vector-test.pmtiles --remote --content-type application/octet-stream",
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/tailte-ferry-crossing-vector-test.pmtiles --file test/pmtiles/generated/tailte-ferry-crossing-vector-test.pmtiles --remote --content-type application/octet-stream",
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/tailte-hvd-water-points-vector-test.pmtiles --file test/pmtiles/generated/tailte-hvd-water-points-vector-test.pmtiles --remote --content-type application/octet-stream"
   ]
 }

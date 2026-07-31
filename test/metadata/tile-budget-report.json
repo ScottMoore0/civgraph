@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-31T22:27:50.084Z",
+  "generatedAt": "2026-07-31T23:13:29.838Z",
   "budgets": {
     "warnTileBytes": 1572864,
     "failTileBytes": 4194304,
@@ -8,12 +8,12 @@
     "failLayerBytes": 524288000
   },
   "totals": {
-    "layers": 1136,
-    "loadableLayers": 1136,
-    "pmtilesLayers": 963,
+    "layers": 1138,
+    "loadableLayers": 1138,
+    "pmtilesLayers": 965,
     "suppressedDevFallbackWarnings": 51,
-    "warnings": 737,
-    "errors": 0
+    "warnings": 739,
+    "errors": 1
   },
   "suppressedDevFallbackWarnings": [
     "community-scale-flood-model-nodes-current-scenario-vector-test: dev fallback max tile 4.6 MB, dev fallback directory 66.1 MB",
@@ -805,7 +805,11 @@
     "wq-rwq-nitrite-vector-test: label layer has no feature-search index",
     "wq-rwq-ph-vector-test: label layer has no feature-search index",
     "wq-rwq-soluble-phosphorus-vector-test: label layer has no feature-search index",
-    "wq-rwq-suspended-solids-vector-test: label layer has no feature-search index"
+    "wq-rwq-suspended-solids-vector-test: label layer has no feature-search index",
+    "tailte-hvd-water-points-vector-test: max tile 9.9 MB exceeds warning budget",
+    "tailte-hvd-water-points-vector-test: generated tile directory 344.4 MB is large"
   ],
-  "errors": []
+  "errors": [
+    "tailte-hvd-water-points-vector-test: max tile 9.9 MB exceeds fail budget"
+  ]
 }

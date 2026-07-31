@@ -11,6 +11,7 @@ import { existsSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { basename, extname, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { writeArtefactJson, allowDeletionsFlag } from './lib/safe-artefact-write.mjs';
+import { isValidBounds } from './lib/layer-bounds.mjs';
 
 const ROOT = resolve(process.cwd());
 const MAIN_PATH = resolve(ROOT, 'data/database/maps.json');
@@ -286,7 +287,16 @@ function buildVectorLayer(converted, row, map) {
     bytes: statSize(pmtilesPath),
     localPath: `test/pmtiles/generated/${id}.pmtiles`
   } : null;
-  const sourceType = pmtiles && pmtiles.bytes < MAX_GITHUB_BYTES ? 'pmtiles' : 'mvt';
+  // SIZE DOES NOT DECIDE THIS ANY MORE. The 95 MB gate dates from when tile assets lived
+  // in the repo and GitHub's 100 MB file limit was the binding constraint. PMTiles
+  // archives are gitignored and served from R2 over HTTP range requests, which is what
+  // the format exists for, so a large archive is not a problem -- but being demoted to
+  // 'mvt' is: an mvt layer serves from /test/tiles/generated/..., a path excluded from the
+  // Pages deploy, and promotion leaves its tileUrl empty. That is the state
+  // tailte-hvd-cadastral-parcels-leasehold has been sitting in, and where the 224 MB
+  // tailte-hvd-water-points archive would have landed. switch-test-pmtiles-to-cdn.mjs
+  // keys off the CDN manifest rather than the file size and handles either happily.
+  const sourceType = pmtiles ? 'pmtiles' : 'mvt';
   const base = {
     id,
     sourceMapId: row.sourceMapId,
@@ -712,38 +722,7 @@ function findRasterTileTemplate(row) {
   }) || null;
 }
 
-function isValidBounds(bounds, row = null) {
-  if (!Array.isArray(bounds) || bounds.length !== 2) return false;
-  const [[south, west], [north, east]] = bounds;
-  if (![south, west, north, east].every(Number.isFinite) || south >= north || west >= east) return false;
-  const nearNullIsland = Math.max(Math.abs(south), Math.abs(west), Math.abs(north), Math.abs(east)) < 1;
-  if (nearNullIsland) return false;
-  if (row?.sourceMapId === 'britain-ireland-seas') {
-    return south >= 45
-      && north <= 63
-      && west >= -18
-      && east <= 14
-      && south < 57
-      && north > 49
-      && west < -4
-      && east > -12;
-  }
-  // SOME SUBJECTS ARE LEGITIMATELY WIDER THAN IRELAND. The envelope below is an Ireland
-  // bounding box, which is the right guard for a boundary layer with no business past the
-  // coast, and the wrong one for a layer whose subject crosses the sea. Ferry crossings run
-  // to Britain and France, so tailte-ferry-crossing extends east to -1.61 and south to
-  // 48.72. It failed the envelope on both, and buildVectorLayer returns null on a bounds
-  // failure, so the layer was converted, tiled to zoom 13, and then dropped in silence --
-  // no error, no warning, just absent from the metadata. It sat that way long enough to be
-  // reported as one of two layers that "will not convert", when in fact it had.
-  if (row?.sourceMapId === 'tailte-ferry-crossing') {
-    return south >= 47 && north <= 59 && west >= -13 && east <= 2;
-  }
-  return south >= 49
-    && north <= 57
-    && west >= -12.5
-    && east <= -4;
-}
+
 
 function chooseProperty(candidates, fields) {
   return candidates.find((candidate) => candidate && fields[candidate]) || null;

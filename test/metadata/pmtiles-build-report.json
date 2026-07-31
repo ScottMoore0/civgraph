@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-07-31T22:35:06.381Z",
+  "generatedAt": "2026-07-31T23:08:25.583Z",
   "mode": "execute",
   "tools": {
     "ogr2ogr": "C:\\Program Files\\GDAL\\ogr2ogr.exe",
@@ -16,14 +16,14 @@
     "converted": 1,
     "skipped": 0,
     "failed": 0,
-    "metadataPreferred": 1,
-    "oversizedArchives": 0
+    "metadataPreferred": 0,
+    "oversizedArchives": 1
   },
   "converted": [
     {
-      "layerId": "tailte-ferry-crossing-vector-test",
-      "sourceMapId": "tailte-ferry-crossing",
-      "name": "Ferry Crossing (Tailte Éireann)",
+      "layerId": "tailte-hvd-water-points-vector-test",
+      "sourceMapId": "tailte-hvd-water-points",
+      "name": "water points (Tailte Éireann HVD)",
       "sourceType": "mvt",
       "status": "converted",
       "profile": {
@@ -33,9 +33,9 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "output": "test/pmtiles/generated/tailte-ferry-crossing-vector-test.pmtiles",
-      "bytes": 131601,
-      "exceedsGithubBudget": false
+      "output": "test/pmtiles/generated/tailte-hvd-water-points-vector-test.pmtiles",
+      "bytes": 223967858,
+      "exceedsGithubBudget": true
     }
   ],
   "skipped": [],

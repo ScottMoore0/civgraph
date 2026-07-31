@@ -5,6 +5,7 @@
 
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { isValidBounds } from './lib/layer-bounds.mjs';
 import { writeStableGeneratedJson } from './lib/stable-generated-json.mjs';
 
 const ROOT = resolve(process.cwd());
@@ -116,39 +117,7 @@ if (errors.length) {
 }
 console.log('\nPASS: /test generated tile outputs are within hard budgets.');
 
-function isValidBounds(bounds, layer = null) {
-  if (!Array.isArray(bounds) || bounds.length !== 2) return false;
-  const [[south, west], [north, east]] = bounds;
-  // A DEGENERATE BOX IS NOT AN INVALID ONE. A layer holding a single point -- or several
-  // at one location -- has south == north and west == east, which is the correct extent
-  // for it, not a corrupt one. Rejecting equality flagged three real datasets: Fingal's
-  // bicycle warning signs, and the two HSE COVID vaccination series, which are national
-  // figures carried at one nominal point. An INVERTED box still fails, since that is a
-  // genuine defect. validate-test-app.mjs draws the same distinction.
-  if (![south, west, north, east].every(Number.isFinite) || south > north || west > east) return false;
-  const nearNullIsland = Math.max(Math.abs(south), Math.abs(west), Math.abs(north), Math.abs(east)) < 1;
-  if (nearNullIsland) return false;
-  if (String(layer?.sourceMapId || layer?.id || '').startsWith('dobih-v18-4')) {
-    return south >= 49
-      && north <= 61
-      && west >= -11
-      && east <= 2;
-  }
-  if (layer?.sourceMapId === 'britain-ireland-seas') {
-    return south >= 45
-      && north <= 63
-      && west >= -18
-      && east <= 14
-      && south < 57
-      && north > 49
-      && west < -4
-      && east > -12;
-  }
-  return south >= 49
-    && north <= 57
-    && west >= -12.5
-    && east <= -4;
-}
+
 
 function localPath(value) {
   if (typeof value !== 'string' || /^https?:\/\//i.test(value)) return null;
