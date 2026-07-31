@@ -46,7 +46,10 @@ function localPathFromUrlTemplate(value) {
 function isValidBounds(bounds, layer = null) {
   if (!Array.isArray(bounds) || bounds.length !== 2) return false;
   const [[south, west], [north, east]] = bounds;
-  if (![south, west, north, east].every(Number.isFinite) || south >= north || west >= east) return false;
+  if (![south, west, north, east].every(Number.isFinite) || south > north || west > east) return false;
+  // A degenerate bbox (min === max) is legitimate: a dataset whose features all sit at
+  // one location -- a single bicycle sign, a national COVID figure pinned to a centroid --
+  // has zero extent. Requiring strict inequality failed three real, correct layers.
   const nearNullIsland = Math.max(Math.abs(south), Math.abs(west), Math.abs(north), Math.abs(east)) < 1;
   if (nearNullIsland) return false;
   if (String(layer?.sourceMapId || layer?.id || '').startsWith('dobih-v18-4')) {

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "mode": "execute",
-  "generatedAt": "2026-07-31T16:48:31.119Z",
+  "generatedAt": "2026-07-31T17:03:31.342Z",
   "tool": "ogr2ogr GDAL MVT",
   "tippecanoeAvailable": false,
   "perLayerTimeoutMs": 900000,
@@ -12,7 +12,7 @@
     "selected": 89,
     "converted": 88,
     "skippedExisting": 0,
-    "failed": 0
+    "failed": 1
   },
   "notes": [
     "This report does not promote generated tile directories into maps-test.json automatically.",
@@ -3210,7 +3210,17 @@
       "maxTileBytes": 1198001
     }
   ],
-  "failed": [],
+  "failed": [
+    {
+      "sourceMapId": "tailte-hvd-water-points",
+      "name": "water points (Tailte Éireann HVD)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-hvd-water-points.fgb",
+      "sourceBytes": 107959176,
+      "outputDirectory": "test/tiles/generated/tailte-hvd-water-points",
+      "error": "spawnSync ogr2ogr ETIMEDOUT"
+    }
+  ],
   "skipped": [
     {
       "sourceMapId": "wards-2012",
